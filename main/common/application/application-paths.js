@@ -1,9 +1,10 @@
-const { FileAccess } = require('../io/file-access');
-const { WorkerProxy } = require('../../workers/worker-proxy');
-
 class ApplicationPaths {
-    static getCoverArtCacheFullPath() {
-        return FileAccess.combinePath([WorkerProxy.applicationDataDirectory(), 'Cache', 'CoverArt']);
+    constructor(fileAccess, workerProxy) {
+        this.fileAccess = fileAccess;
+        this.workerProxy = workerProxy;
+    }
+    getCoverArtCacheFullPath() {
+        return this.fileAccess.combinePath([this.workerProxy.applicationDataDirectory(), 'Cache', 'CoverArt']);
     }
 }
 

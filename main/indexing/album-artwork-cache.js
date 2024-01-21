@@ -1,12 +1,15 @@
-const { Logger } = require('../common/logger');
 const { Constants } = require('../common/application/constants');
-const { ImageProcessor } = require('../common/image-processor');
-const { FileAccess } = require('../common/io/file-access');
-const { ApplicationPaths } = require('../common/application/application-paths');
-const { AlbumArtworkCacheIdFactory } = require('./album-artwork-cache-id-factory');
 
 class AlbumArtworkCache {
-    static async addArtworkDataToCacheAsync(imageBuffer) {
+    constructor(albumArtworkCacheIdFactory, imageProcessor, applicationPaths, fileAccess, logger) {
+        this.albumArtworkCacheIdFactory = albumArtworkCacheIdFactory;
+        this.imageProcessor = imageProcessor;
+        this.applicationPaths = applicationPaths;
+        this.fileAccess = fileAccess;
+        this.logger = logger;
+    }
+
+    async addArtworkDataToCacheAsync(imageBuffer) {
         if (imageBuffer === undefined || imageBuffer === null) {
             return undefined;
         }
@@ -16,26 +19,26 @@ class AlbumArtworkCache {
         }
 
         try {
-            const albumArtworkCacheId = AlbumArtworkCacheIdFactory.create();
+            const albumArtworkCacheId = this.albumArtworkCacheIdFactory.create();
             const cachedArtworkFilePath = this.coverArtFullPath(albumArtworkCacheId.id);
-            const resizedImageBuffer = await ImageProcessor.resizeImageAsync(
+            const resizedImageBuffer = await this.imageProcessor.resizeImageAsync(
                 imageBuffer,
                 Constants.cachedCoverArtMaximumSize,
                 Constants.cachedCoverArtMaximumSize,
                 Constants.cachedCoverArtJpegQuality,
             );
-            await ImageProcessor.convertImageBufferToFileAsync(resizedImageBuffer, cachedArtworkFilePath);
+            await this.imageProcessor.convertImageBufferToFileAsync(resizedImageBuffer, cachedArtworkFilePath);
 
             return albumArtworkCacheId;
         } catch (e) {
-            Logger.error(e, 'Could not add artwork data to cache', 'AlbumArtworkCache', 'addArtworkDataToCacheAsync');
+            this.logger.error(e, 'Could not add artwork data to cache', 'AlbumArtworkCache', 'addArtworkDataToCacheAsync');
         }
 
         return undefined;
     }
 
-    static coverArtFullPath(artworkId) {
-        return FileAccess.combinePath([ApplicationPaths.getCoverArtCacheFullPath(), `${artworkId}.jpg`]);
+    coverArtFullPath(artworkId) {
+        return this.fileAccess.combinePath([this.applicationPaths.getCoverArtCacheFullPath(), `${artworkId}.jpg`]);
     }
 }
 

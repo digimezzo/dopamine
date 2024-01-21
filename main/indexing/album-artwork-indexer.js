@@ -1,23 +1,26 @@
-const { Logger } = require('../common/logger');
-const { AlbumArtworkRemover } = require('./album-artwork-remover');
-const { AlbumArtworkAdder } = require('./album-artwork-adder');
 const { Timer } = require('../common/scheduling/timer');
 
 class AlbumArtworkIndexer {
-    static async indexAlbumArtworkAsync() {
-        Logger.info('+++ STARTED INDEXING ALBUM ARTWORK +++', 'AlbumArtworkIndexer', 'indexAlbumArtworkAsync');
+    constructor(albumArtworkRemover, albumArtworkAdder, logger) {
+        this.albumArtworkRemover = albumArtworkRemover;
+        this.albumArtworkAdder = albumArtworkAdder;
+        this.logger = logger;
+    }
+
+    async indexAlbumArtworkAsync() {
+        this.logger.info('+++ STARTED INDEXING ALBUM ARTWORK +++', 'AlbumArtworkIndexer', 'indexAlbumArtworkAsync');
 
         const timer = new Timer();
         timer.start();
 
-        await AlbumArtworkRemover.removeAlbumArtworkThatHasNoTrackAsync();
-        await AlbumArtworkRemover.removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
-        await AlbumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
-        await AlbumArtworkRemover.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync();
+        await this.albumArtworkRemover.removeAlbumArtworkThatHasNoTrackAsync();
+        await this.albumArtworkRemover.removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
+        await this.albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
+        await this.albumArtworkRemover.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync();
 
         timer.stop();
 
-        Logger.info(
+        this.logger.info(
             `+++ FINISHED INDEXING ALBUM ARTWORK (Time required: ${timer.getElapsedMilliseconds()} ms) +++`,
             'AlbumArtworkIndexer',
             'indexAlbumArtworkAsync',

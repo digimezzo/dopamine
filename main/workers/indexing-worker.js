@@ -1,24 +1,26 @@
-const { Indexer } = require('../indexing/indexer');
-const { Logger } = require('../common/logger');
-const { WorkerProxy } = require('./worker-proxy');
 const { Ioc } = require('../ioc/ioc');
 
 async function performTaskAsync() {
     Ioc.registerAll();
 
+    const indexer = Ioc.get('Indexer');
+    const workerProxy = Ioc.get('WorkerProxy');
+    const logger = Ioc.get('Logger');
+
     try {
-        if (WorkerProxy.task() === 'outdated') {
-            await Indexer.indexCollectionIfOutdatedAsync();
-        } else if (WorkerProxy.task() === 'always') {
-            await Indexer.indexCollectionAlwaysAsync();
-        } else if (WorkerProxy.task() === 'albumArtwork') {
-            await Indexer.indexAlbumArtworkOnlyAsync();
+        if (workerProxy.task() === 'outdated') {
+            await indexer.indexCollectionIfOutdatedAsync();
+        } else if (workerProxy.task() === 'always') {
+            await indexer.indexCollectionAlwaysAsync();
+        } else if (workerProxy.task() === 'albumArtwork') {
+            await indexer.indexAlbumArtworkOnlyAsync();
         }
     } catch (e) {
-        Logger.error(e, 'Unexpected error', 'IndexingWorker', 'performTaskAsync');
+        logger.error(e, 'Unexpected error', 'IndexingWorker', 'performTaskAsync');
     }
 }
 
 performTaskAsync().then(() => {
-    WorkerProxy.postMessage('Done');
+    const workerProxy = Ioc.get('WorkerProxy');
+    workerProxy.postMessage('Done');
 });

@@ -1,33 +1,36 @@
-const { DatabaseFactory } = require('./database.factory');
 const { QueryParts } = require('./query-parts');
 
 class TrackRepository {
-    static getNumberOfTracksThatNeedIndexing() {
-        const database = DatabaseFactory.create();
+    constructor(databaseFactory) {
+        this.databaseFactory = databaseFactory;
+    }
+
+    getNumberOfTracksThatNeedIndexing() {
+        const database = this.databaseFactory.create();
         const statement = database.prepare(`SELECT COUNT(*) AS numberOfTracks FROM Track WHERE NeedsIndexing=?;`);
         const result = statement.get(1);
 
         return result.numberOfTracks;
     }
 
-    static getNumberOfTracks() {
-        const database = DatabaseFactory.create();
+    getNumberOfTracks() {
+        const database = this.databaseFactory.create();
         const statement = database.prepare('SELECT COUNT(*) AS numberOfTracks FROM Track;');
         const result = statement.get();
 
         return result.numberOfTracks;
     }
 
-    static getMaximumDateFileModified() {
-        const database = DatabaseFactory.create();
+    getMaximumDateFileModified() {
+        const database = this.databaseFactory.create();
         const statement = database.prepare('SELECT MAX(DateFileModified) AS maximumDateFileModified FROM Track;');
         const result = statement.get();
 
         return result.maximumDateFileModified;
     }
 
-    static getNumberOfTracksThatDoNotBelongFolders() {
-        const database = DatabaseFactory.create();
+    getNumberOfTracksThatDoNotBelongFolders() {
+        const database = this.databaseFactory.create();
 
         const statement = database.prepare(`SELECT COUNT(*) AS numberOfTracks
         FROM Track WHERE TrackID IN (
@@ -40,8 +43,8 @@ class TrackRepository {
         return result.numberOfTracks;
     }
 
-    static deleteTracksThatDoNotBelongFolders() {
-        const database = DatabaseFactory.create();
+    deleteTracksThatDoNotBelongFolders() {
+        const database = this.databaseFactory.create();
         const statement = database.prepare(
             `DELETE FROM Track WHERE TrackID IN (
                 SELECT TrackID
@@ -54,19 +57,19 @@ class TrackRepository {
         return info.changes;
     }
 
-    static getAllTracks() {
-        const database = DatabaseFactory.create();
+    getAllTracks() {
+        const database = this.databaseFactory.create();
         const statement = database.prepare(QueryParts.selectTracksQueryPart(false));
 
         return statement.all();
     }
 
-    static deleteTrack(trackId) {
-        const database = DatabaseFactory.create();
+    deleteTrack(trackId) {
+        const database = this.databaseFactory.create();
         database.prepare('DELETE FROM Track WHERE TrackID = ?;').run(trackId);
     }
 
-    static updateTrack(track) {
+    updateTrack(track) {
         const database = DatabaseFactory.create();
 
         const statement = database.prepare(
@@ -145,8 +148,8 @@ class TrackRepository {
         });
     }
 
-    static addTrack(track) {
-        const database = DatabaseFactory.create();
+    addTrack(track) {
+        const database = this.databaseFactory.create();
 
         const statement = database.prepare(
             `INSERT INTO Track(
@@ -257,26 +260,26 @@ class TrackRepository {
         });
     }
 
-    static getTrackByPath(path) {
-        const database = DatabaseFactory.create();
+    getTrackByPath(path) {
+        const database = this.databaseFactory.create();
         const statement = database.prepare(`${QueryParts.selectTracksQueryPart(false)} WHERE t.Path=?;`);
         return statement.get(path);
     }
 
-    static disableNeedsAlbumArtworkIndexing(albumKey) {
-        const database = DatabaseFactory.create();
+    disableNeedsAlbumArtworkIndexing(albumKey) {
+        const database = this.databaseFactory.create();
         const statement = database.prepare(`UPDATE Track SET NeedsAlbumArtworkIndexing=0 WHERE AlbumKey=?;`);
         statement.run(albumKey);
     }
 
-    static getLastModifiedTrackForAlbumKeyAsync(albumKey) {
-        const database = DatabaseFactory.create();
+    getLastModifiedTrackForAlbumKeyAsync(albumKey) {
+        const database = this.databaseFactory.create();
         const statement = database.prepare(`${QueryParts.selectTracksQueryPart(false)} WHERE t.AlbumKey=?;`);
         return statement.get(albumKey);
     }
 
-    static getAlbumDataThatNeedsIndexing() {
-        const database = DatabaseFactory.create();
+    getAlbumDataThatNeedsIndexing() {
+        const database = this.databaseFactory.create();
 
         const statement = database.prepare(
             `${QueryParts.selectAlbumDataQueryPart(false)}
@@ -288,8 +291,8 @@ class TrackRepository {
         return statement.all();
     }
 
-    static enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover) {
-        const database = DatabaseFactory.create();
+    enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover) {
+        const database = this.databaseFactory.create();
         let statement;
 
         if (onlyWhenHasNoCover) {

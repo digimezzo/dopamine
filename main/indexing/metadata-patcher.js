@@ -1,5 +1,5 @@
 class MetadataPatcher {
-    static joinUnsplittableMetadata(possiblySplittedMetadata) {
+    joinUnsplittableMetadata(possiblySplittedMetadata) {
         const unsplittableMetadata = ['AC/DC', 'De/Vision', 'Ghost/Light'];
 
         if (possiblySplittedMetadata === undefined) {

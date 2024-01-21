@@ -1,35 +1,38 @@
-const { Timer } = require('../common/scheduling/timer');
-const { TrackRepository } = require('../data/track-repository');
-const { Logger } = require('../common/logger');
-const { TrackVerifier } = require('./track-verifier');
-const { TrackFiller } = require('./track-filler');
 const { UpdatingTracksMessage } = require('./messages/updating-tracks-message');
-const { WorkerProxy } = require('../workers/worker-proxy');
+const { Timer } = require('../common/scheduling/timer');
 
 class TrackUpdater {
-    static async updateTracksThatAreOutOfDateAsync() {
+    constructor(trackRepository, trackVerifier, trackFiller, workerProxy, logger) {
+        this.trackRepository = trackRepository;
+        this.trackVerifier = trackVerifier;
+        this.trackFiller = trackFiller;
+        this.workerProxy = workerProxy;
+        this.logger = logger;
+    }
+
+    async updateTracksThatAreOutOfDateAsync() {
         const timer = new Timer();
         timer.start();
 
         try {
-            const tracks = TrackRepository.getAllTracks() ?? [];
+            const tracks = this.trackRepository.getAllTracks() ?? [];
 
             let numberOfUpdatedTracks = 0;
 
             for (const track of tracks) {
                 try {
-                    if (TrackVerifier.doesTrackNeedIndexing(track) || TrackVerifier.isTrackOutOfDate(track)) {
-                        const filledTrack = await TrackFiller.addFileMetadataToTrack(track, false);
-                        TrackRepository.updateTrack(filledTrack);
+                    if (this.trackVerifier.doesTrackNeedIndexing(track) || this.trackVerifier.isTrackOutOfDate(track)) {
+                        const filledTrack = await this.trackFiller.addFileMetadataToTrack(track, false);
+                        this.trackRepository.updateTrack(filledTrack);
                         numberOfUpdatedTracks++;
 
                         // Only send message once
                         if (numberOfUpdatedTracks === 1) {
-                            WorkerProxy.postMessage(new UpdatingTracksMessage());
+                            this.workerProxy.postMessage(new UpdatingTracksMessage());
                         }
                     }
                 } catch (e) {
-                    Logger.error(
+                    this.logger.error(
                         e,
                         `A problem occurred while updating track with path='${track.path}'`,
                         'TrackUpdater',
@@ -40,7 +43,7 @@ class TrackUpdater {
 
             timer.stop();
 
-            Logger.info(
+            this.logger.info(
                 `Updated tracks: ${numberOfUpdatedTracks}. Time required: ${timer.getElapsedMilliseconds()} ms`,
                 'TrackUpdater',
                 'updateTracksThatAreOutOfDateAsync',
@@ -48,7 +51,7 @@ class TrackUpdater {
         } catch (e) {
             timer.stop();
 
-            Logger.error(e, 'A problem occurred while updating tracks', 'TrackUpdater', 'updateTracksThatAreOutOfDateAsync');
+            this.logger.error(e, 'A problem occurred while updating tracks', 'TrackUpdater', 'updateTracksThatAreOutOfDateAsync');
         }
     }
 }

@@ -1,34 +1,37 @@
-const { Logger } = require('../common/logger');
 const { Timer } = require('../common/scheduling/timer');
-const { TrackRemover } = require('./track-remover');
-const { TrackUpdater } = require('./track-updater');
-const { TrackAdder } = require('./track-adder');
 const { RefreshingMessage } = require('./messages/refreshing-message');
-const { WorkerProxy } = require('../workers/worker-proxy');
 
 class TrackIndexer {
-    static async indexTracksAsync() {
-        Logger.info('+++ STARTED INDEXING TRACKS +++', 'TrackIndexer', 'indexTracksAsync');
+    constructor(trackAdder, trackUpdater, trackRemover, workerProxy, logger) {
+        this.trackAdder = trackAdder;
+        this.trackUpdater = trackUpdater;
+        this.trackRemover = trackRemover;
+        this.workerProxy = workerProxy;
+        this.logger = logger;
+    }
+
+    async indexTracksAsync() {
+        this.logger.info('+++ STARTED INDEXING TRACKS +++', 'TrackIndexer', 'indexTracksAsync');
 
         const timer = new Timer();
         timer.start();
 
-        WorkerProxy.postMessage(new RefreshingMessage());
+        this.workerProxy.postMessage(new RefreshingMessage());
 
         // Remove tracks
-        await TrackRemover.removeTracksThatDoNoNotBelongToFoldersAsync();
-        await TrackRemover.removeTracksThatAreNotFoundOnDiskAsync();
-        await TrackRemover.removeFolderTracksForInexistingTracksAsync();
+        await this.trackRemover.removeTracksThatDoNoNotBelongToFoldersAsync();
+        await this.trackRemover.removeTracksThatAreNotFoundOnDiskAsync();
+        await this.trackRemover.removeFolderTracksForInexistingTracksAsync();
 
         // Update tracks
-        await TrackUpdater.updateTracksThatAreOutOfDateAsync();
+        await this.trackUpdater.updateTracksThatAreOutOfDateAsync();
 
         // Add tracks
-        await TrackAdder.addTracksThatAreNotInTheDatabaseAsync();
+        await this.trackAdder.addTracksThatAreNotInTheDatabaseAsync();
 
         timer.stop();
 
-        Logger.info(
+        this.logger.info(
             `+++ FINISHED INDEXING TRACKS (Time required: ${timer.getElapsedMilliseconds()} ms) +++`,
             'TrackIndexer',
             'indexTracksAsync',

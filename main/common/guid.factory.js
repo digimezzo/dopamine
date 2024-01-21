@@ -1,7 +1,7 @@
 const uuid = require('uuid');
 
 class GuidFactory {
-    static create() {
+    create() {
         return uuid.v4();
     }
 }

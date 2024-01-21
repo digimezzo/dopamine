@@ -1,24 +1,26 @@
-const { EmbeddedAlbumArtworkGetter } = require('./embedded-album-artwork-getter');
-const { ExternalAlbumArtworkGetter } = require('./external-album-artwork-getter');
-const { OnlineAlbumArtworkGetter } = require('./online-album-artwork-getter');
-const { WorkerProxy } = require('../workers/worker-proxy');
-
 class AlbumArtworkGetter {
-    static async getAlbumArtworkAsync(fileMetadata, getOnlineArtwork) {
-        const embeddedArtwork = EmbeddedAlbumArtworkGetter.getEmbeddedArtwork(fileMetadata);
+    constructor(embeddedAlbumArtworkGetter, externalAlbumArtworkGetter, onlineAlbumArtworkGetter, workerProxy) {
+        this.embeddedAlbumArtworkGetter = embeddedAlbumArtworkGetter;
+        this.externalAlbumArtworkGetter = externalAlbumArtworkGetter;
+        this.onlineAlbumArtworkGetter = onlineAlbumArtworkGetter;
+        this.workerProxy = workerProxy;
+    }
+
+    async getAlbumArtworkAsync(fileMetadata, getOnlineArtwork) {
+        const embeddedArtwork = this.embeddedAlbumArtworkGetter.getEmbeddedArtwork(fileMetadata);
 
         if (embeddedArtwork !== undefined && embeddedArtwork !== null) {
             return embeddedArtwork;
         }
 
-        const externalArtwork = await ExternalAlbumArtworkGetter.getExternalArtworkAsync(fileMetadata);
+        const externalArtwork = await this.externalAlbumArtworkGetter.getExternalArtworkAsync(fileMetadata);
 
         if (externalArtwork !== undefined && externalArtwork !== null) {
             return externalArtwork;
         }
 
-        if (getOnlineArtwork && WorkerProxy.downloadMissingAlbumCovers()) {
-            const onlineArtwork = await OnlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetadata);
+        if (getOnlineArtwork && this.workerProxy.downloadMissingAlbumCovers()) {
+            const onlineArtwork = await this.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetadata);
 
             if (onlineArtwork !== undefined && onlineArtwork !== null) {
                 return onlineArtwork;

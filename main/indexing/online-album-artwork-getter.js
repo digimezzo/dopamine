@@ -1,10 +1,12 @@
 const { StringUtils } = require('../common/utils/string-utils');
-const { Logger } = require('../common/logger');
-const { ImageProcessor } = require('../common/image-processor');
-const { LastfmApi } = require('../common/api/lastfm.api');
 
 class OnlineAlbumArtworkGetter {
-    static async getOnlineArtworkAsync(fileMetadata) {
+    constructor(imageProcessor, lastfmApi, logger) {
+        this.imageProcessor = imageProcessor;
+        this.lastfmApi = lastfmApi;
+        this.logger = logger;
+    }
+    async getOnlineArtworkAsync(fileMetadata) {
         if (fileMetadata === undefined || fileMetadata === null) {
             return undefined;
         }
@@ -38,9 +40,9 @@ class OnlineAlbumArtworkGetter {
             let lastfmAlbum;
 
             try {
-                lastfmAlbum = await LastfmApi.getAlbumInfoAsync(artist, title, false, 'EN');
+                lastfmAlbum = await this.lastfmApi.getAlbumInfoAsync(artist, title, false, 'EN');
             } catch (e) {
-                Logger.error(
+                this.logger.error(
                     e,
                     `Could not get album info for artist='${artist}' and title='${title}'`,
                     'OnlineAlbumArtworkGetter',
@@ -53,9 +55,9 @@ class OnlineAlbumArtworkGetter {
                     let artworkData;
 
                     try {
-                        artworkData = await ImageProcessor.convertOnlineImageToBufferAsync(lastfmAlbum.largestImage());
+                        artworkData = await this.imageProcessor.convertOnlineImageToBufferAsync(lastfmAlbum.largestImage());
 
-                        Logger.info(
+                        this.logger.info(
                             `Downloaded online artwork for artist='${artist}' and title='${title}'`,
                             'OnlineAlbumArtworkGetter',
                             'getOnlineArtworkAsync',
@@ -63,7 +65,7 @@ class OnlineAlbumArtworkGetter {
 
                         return artworkData;
                     } catch (e) {
-                        Logger.error(
+                        this.logger.error(
                             e,
                             `Could not convert file '${lastfmAlbum.largestImage()}' to data`,
                             'OnlineAlbumArtworkGetter',

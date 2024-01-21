@@ -1,8 +1,10 @@
-﻿const { DatabaseFactory } = require('./database.factory');
+﻿class FolderRepository {
+    constructor(databaseFactory) {
+        this.databaseFactory = databaseFactory;
+    }
 
-class FolderRepository {
-    static getFolders() {
-        const database = DatabaseFactory.create();
+    getFolders() {
+        const database = this.databaseFactory.create();
         const statement = database.prepare(`SELECT FolderID as folderId, Path as path, ShowInCollection as showInCollection FROM Folder;`);
 
         return statement.all();

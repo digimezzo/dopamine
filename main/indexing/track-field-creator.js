@@ -1,8 +1,10 @@
 const { DataDelimiter } = require('./data-delimiter');
-const { MetadataPatcher } = require('./metadata-patcher');
 
 class TrackFieldCreator {
-    static createNumberField(value) {
+    constructor(metadataPatcher) {
+        this.metadataPatcher = metadataPatcher;
+    }
+    createNumberField(value) {
         if (value === undefined || Number.isNaN(value)) {
             return 0;
         }
@@ -10,7 +12,7 @@ class TrackFieldCreator {
         return value;
     }
 
-    static createTextField(value) {
+    createTextField(value) {
         if (value === undefined) {
             return '';
         }
@@ -18,12 +20,12 @@ class TrackFieldCreator {
         return value.trim();
     }
 
-    static createMultiTextField(valueArray) {
+    createMultiTextField(valueArray) {
         if (valueArray === undefined) {
             return '';
         }
 
-        return DataDelimiter.toDelimitedString(MetadataPatcher.joinUnsplittableMetadata(valueArray));
+        return DataDelimiter.toDelimitedString(this.metadataPatcher.joinUnsplittableMetadata(valueArray));
     }
 }
 

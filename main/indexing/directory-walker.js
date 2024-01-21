@@ -1,8 +1,10 @@
-﻿const { FileAccess } = require('../common/io/file-access');
-const { DirectoryWalkResult } = require('./directory-walk-result');
+﻿const { DirectoryWalkResult } = require('./directory-walk-result');
 
 class DirectoryWalker {
-    static async getFilesInDirectoryAsync(directoryPath) {
+    constructor(fileAccess) {
+        this.fileAccess = fileAccess;
+    }
+    async getFilesInDirectoryAsync(directoryPath) {
         const filePaths = [];
         const errors = [];
 
@@ -11,13 +13,13 @@ class DirectoryWalker {
         return new DirectoryWalkResult(filePaths, errors);
     }
 
-    static async recursivelyGetFilesInDirectoryAsync(directoryPath, filePaths, errors) {
+    async recursivelyGetFilesInDirectoryAsync(directoryPath, filePaths, errors) {
         try {
             // Process the files found in the directory
             let filePathsInDirectory = [];
 
             try {
-                filePathsInDirectory = await FileAccess.getFilesInDirectoryAsync(directoryPath, true, errors);
+                filePathsInDirectory = await this.fileAccess.getFilesInDirectoryAsync(directoryPath, true, errors);
             } catch (e) {
                 if (e instanceof Error) {
                     errors.push(e);
@@ -40,7 +42,7 @@ class DirectoryWalker {
             let subdirectoryPathsInDirectory = [];
 
             try {
-                subdirectoryPathsInDirectory = await FileAccess.getDirectoriesInDirectoryAsync(directoryPath, true, errors);
+                subdirectoryPathsInDirectory = await this.fileAccess.getDirectoriesInDirectoryAsync(directoryPath, true, errors);
             } catch (e) {
                 if (e instanceof Error) {
                     errors.push(e);

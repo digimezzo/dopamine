@@ -1,33 +1,36 @@
 ﻿const fs = require('fs-extra');
 const path = require('path');
-const { DateTime } = require('../date-time');
 
 class FileAccess {
-    static #pathSeparator = path.sep;
+    #pathSeparator = path.sep;
 
-    static pathExists(pathToCheck) {
+    constructor(dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    pathExists(pathToCheck) {
         return fs.existsSync(pathToCheck);
     }
 
-    static getFileExtension(fileNameOrPath) {
+    getFileExtension(fileNameOrPath) {
         return path.extname(fileNameOrPath);
     }
 
-    static getDateModifiedInTicks(fileOrDirectory) {
+    getDateModifiedInTicks(fileOrDirectory) {
         const stat = fs.statSync(fileOrDirectory);
         const dateModified = stat.mtime;
 
-        return DateTime.convertDateToTicks(dateModified);
+        return this.dateTime.convertDateToTicks(dateModified);
     }
 
-    static getDateCreatedInTicks(fileOrDirectory) {
+    getDateCreatedInTicks(fileOrDirectory) {
         const stat = fs.statSync(fileOrDirectory);
         const dateCreated = stat.birthtime;
 
-        return DateTime.convertDateToTicks(dateCreated);
+        return this.dateTime.convertDateToTicks(dateCreated);
     }
 
-    static combinePath(pathPieces) {
+    combinePath(pathPieces) {
         if (pathPieces === undefined || pathPieces === null || pathPieces.length === 0) {
             return '';
         }
@@ -39,7 +42,7 @@ class FileAccess {
         return pathPieces.join(this.#pathSeparator);
     }
 
-    static async getFilesInDirectoryAsync(directoryPath, continueOnError, errors) {
+    async getFilesInDirectoryAsync(directoryPath, continueOnError, errors) {
         const possibleFileNames = await fs.readdir(directoryPath);
         const confirmedFilePaths = [];
 
@@ -66,7 +69,7 @@ class FileAccess {
         return confirmedFilePaths;
     }
 
-    static async getDirectoriesInDirectoryAsync(directoryPath, continueOnError, errors) {
+    async getDirectoriesInDirectoryAsync(directoryPath, continueOnError, errors) {
         const possibleDirectoryNames = await fs.readdir(directoryPath);
         const confirmedDirectoryPaths = [];
 
@@ -93,31 +96,31 @@ class FileAccess {
         return confirmedDirectoryPaths;
     }
 
-    static getFileSizeInBytes(filePath) {
+    getFileSizeInBytes(filePath) {
         const stats = fs.statSync(filePath);
         return stats.size;
     }
 
-    static getFileName(fileNameOrPath) {
+    getFileName(fileNameOrPath) {
         return path.basename(fileNameOrPath);
     }
 
-    static getFileNameWithoutExtension(fileNameOrPath) {
+    getFileNameWithoutExtension(fileNameOrPath) {
         const extension = path.extname(fileNameOrPath);
         return path.basename(fileNameOrPath, extension);
     }
 
-    static async deleteFileIfExistsAsync(filePath) {
+    async deleteFileIfExistsAsync(filePath) {
         if (fs.existsSync(filePath)) {
             await fs.unlink(filePath);
         }
     }
 
-    static async getFileContentAsBufferAsync(filePath) {
+    async getFileContentAsBufferAsync(filePath) {
         return await fs.readFile(filePath);
     }
 
-    static getDirectoryPath(directoryOrFilePath) {
+    getDirectoryPath(directoryOrFilePath) {
         return path.dirname(directoryOrFilePath);
     }
 }

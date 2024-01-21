@@ -1,34 +1,37 @@
 const { Timer } = require('../common/scheduling/timer');
-const { TrackFiller } = require('./track-filler');
-const { Logger } = require('../common/logger');
-const { IndexablePathFetcher } = require('./indexable-path-fetcher');
-const { TrackRepository } = require('../data/track-repository');
 const { Track } = require('../data/entities/track');
-const { FolderTrackRepository } = require('../data/folder-track-repository');
-const { RemovedTrackRepository } = require('../data/removed-track-repository');
 const { FolderTrack } = require('../data/entities/folder-track');
 const { AddingTracksMessage } = require('./messages/adding-tracks-message');
-const { WorkerProxy } = require('../workers/worker-proxy');
 
 class TrackAdder {
-    static async addTracksThatAreNotInTheDatabaseAsync() {
+    constructor(removedTrackRepository, folderTrackRepository, trackRepository, indexablePathFetcher, trackFiller, workerProxy, logger) {
+        this.removedTrackRepository = removedTrackRepository;
+        this.folderTrackRepository = folderTrackRepository;
+        this.trackRepository = trackRepository;
+        this.indexablePathFetcher = indexablePathFetcher;
+        this.trackFiller = trackFiller;
+        this.workerProxy = workerProxy;
+        this.logger = logger;
+    }
+
+    async addTracksThatAreNotInTheDatabaseAsync() {
         const timer = new Timer();
         timer.start();
 
         try {
-            const indexablePaths = await this.#getIndexablePathsAsync(WorkerProxy.skipRemovedFilesDuringRefresh());
+            const indexablePaths = await this.#getIndexablePathsAsync(this.workerProxy.skipRemovedFilesDuringRefresh());
 
             let numberOfAddedTracks = 0;
 
             for (const indexablePath of indexablePaths) {
                 try {
                     const newTrack = new Track(indexablePath.path);
-                    TrackFiller.addFileMetadataToTrack(newTrack, false);
+                    this.trackFiller.addFileMetadataToTrack(newTrack, false);
 
-                    TrackRepository.addTrack(newTrack);
-                    const addedTrack = TrackRepository.getTrackByPath(newTrack.path);
+                    this.trackRepository.addTrack(newTrack);
+                    const addedTrack = this.trackRepository.getTrackByPath(newTrack.path);
 
-                    FolderTrackRepository.addFolderTrack(new FolderTrack(indexablePath.folderId, addedTrack.trackId));
+                    this.folderTrackRepository.addFolderTrack(new FolderTrack(indexablePath.folderId, addedTrack.trackId));
 
                     numberOfAddedTracks++;
 
@@ -36,10 +39,10 @@ class TrackAdder {
 
                     // Only send message once every 20 tracks or when all tracks have been added
                     if (numberOfAddedTracks % 20 === 0 || percentageOfAddedTracks === 100) {
-                        WorkerProxy.postMessage(new AddingTracksMessage(numberOfAddedTracks, percentageOfAddedTracks));
+                        this.workerProxy.postMessage(new AddingTracksMessage(numberOfAddedTracks, percentageOfAddedTracks));
                     }
                 } catch (e) {
-                    Logger.error(
+                    this.logger.error(
                         e,
                         `A problem occurred while adding track with path='${indexablePath.path}'`,
                         'TrackAdder',
@@ -50,7 +53,7 @@ class TrackAdder {
 
             timer.stop();
 
-            Logger.info(
+            this.logger.info(
                 `Added tracks: ${numberOfAddedTracks}. Time required: ${timer.getElapsedMilliseconds()} ms`,
                 'TrackAdder',
                 'addTracksThatAreNotInTheDatabaseAsync',
@@ -58,16 +61,16 @@ class TrackAdder {
         } catch (e) {
             timer.stop();
 
-            Logger.error(e, 'A problem occurred while adding tracks', 'TrackAdder', 'addTracksThatAreNotInTheDatabaseAsync');
+            this.logger.error(e, 'A problem occurred while adding tracks', 'TrackAdder', 'addTracksThatAreNotInTheDatabaseAsync');
         }
     }
 
-    static async #getIndexablePathsAsync(skipRemovedFiles) {
+    async #getIndexablePathsAsync(skipRemovedFiles) {
         const indexablePaths = [];
 
-        const allIndexablePaths = await IndexablePathFetcher.getIndexablePathsForAllFoldersAsync();
-        const trackPaths = (TrackRepository.getAllTracks() ?? []).map((x) => x.path);
-        const removedTrackPaths = (RemovedTrackRepository.getRemovedTracks() ?? []).map((x) => x.path);
+        const allIndexablePaths = await this.indexablePathFetcher.getIndexablePathsForAllFoldersAsync();
+        const trackPaths = (this.trackRepository.getAllTracks() ?? []).map((x) => x.path);
+        const removedTrackPaths = (this.removedTrackRepository.getRemovedTracks() ?? []).map((x) => x.path);
 
         for (const indexablePath of allIndexablePaths) {
             const isTrackInDatabase = trackPaths.includes(indexablePath.path);

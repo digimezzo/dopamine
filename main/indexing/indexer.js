@@ -1,48 +1,48 @@
-const { Logger } = require('../common/logger');
-const { CollectionChecker } = require('./collection-checker');
-const { TrackIndexer } = require('./track-indexer');
-const { AlbumArtworkIndexer } = require('./album-artwork-indexer');
-const { TrackRepository } = require('../data/track-repository');
 const { DismissMessage } = require('./messages/dismiss-message');
-const { WorkerProxy } = require('../workers/worker-proxy');
-const { Ioc } = require('../ioc/ioc');
 
 class Indexer {
-    static async indexCollectionIfOutdatedAsync() {
-        const parent = Ioc.get('Parent');
-        Logger.info(`Parent says: ${parent.getName()}`, 'Indexer', 'indexCollectionIfOutdatedAsync');
-        Logger.info('Indexing collection.', 'Indexer', 'indexCollectionIfOutdatedAsync');
+    constructor(collectionChecker, albumArtworkIndexer, trackIndexer, trackRepository, workerProxy, logger) {
+        this.collectionChecker = collectionChecker;
+        this.albumArtworkIndexer = albumArtworkIndexer;
+        this.trackIndexer = trackIndexer;
+        this.trackRepository = trackRepository;
+        this.workerProxy = workerProxy;
+        this.logger = logger;
+    }
 
-        const collectionIsOutdated = await CollectionChecker.isCollectionOutdatedAsync();
+    async indexCollectionIfOutdatedAsync() {
+        this.logger.info('Indexing collection.', 'Indexer', 'indexCollectionIfOutdatedAsync');
+
+        const collectionIsOutdated = await this.collectionChecker.isCollectionOutdatedAsync();
 
         if (collectionIsOutdated) {
-            Logger.info('Collection is outdated.', 'Indexer', 'indexCollectionIfOutdatedAsync');
-            await TrackIndexer.indexTracksAsync();
+            this.logger.info('Collection is outdated.', 'Indexer', 'indexCollectionIfOutdatedAsync');
+            await this.trackIndexer.indexTracksAsync();
         } else {
-            Logger.info('Collection is not outdated.', 'Indexer', 'indexCollectionIfOutdatedAsync');
+            this.logger.info('Collection is not outdated.', 'Indexer', 'indexCollectionIfOutdatedAsync');
         }
 
-        await AlbumArtworkIndexer.indexAlbumArtworkAsync();
+        await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 
-        WorkerProxy.postMessage(new DismissMessage());
+        this.workerProxy.postMessage(new DismissMessage());
     }
 
-    static async indexCollectionAlwaysAsync() {
-        Logger.info('Indexing collection.', 'Indexer', 'indexCollectionAlwaysAsync');
+    async indexCollectionAlwaysAsync() {
+        this.logger.info('Indexing collection.', 'Indexer', 'indexCollectionAlwaysAsync');
 
-        await TrackIndexer.indexTracksAsync();
-        await AlbumArtworkIndexer.indexAlbumArtworkAsync();
+        await this.trackIndexer.indexTracksAsync();
+        await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 
-        WorkerProxy.postMessage(new DismissMessage());
+        this.workerProxy.postMessage(new DismissMessage());
     }
 
-    static async indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover) {
-        Logger.info('Indexing collection.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
+    async indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover) {
+        this.logger.info('Indexing collection.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
 
-        TrackRepository.enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover);
-        await AlbumArtworkIndexer.indexAlbumArtworkAsync();
+        this.trackRepository.enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover);
+        await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 
-        WorkerProxy.postMessage(new DismissMessage());
+        this.workerProxy.postMessage(new DismissMessage());
     }
 }
 

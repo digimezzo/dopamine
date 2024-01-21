@@ -1,19 +1,21 @@
-const { FileAccess } = require('../common/io/file-access');
-
 class TrackVerifier {
-    static isTrackOutOfDate(track) {
+    constructor(fileAccess) {
+        this.fileAccess = fileAccess;
+    }
+
+    isTrackOutOfDate(track) {
         if (track.fileSize === 0) {
             return true;
         }
 
-        if (track.fileSize !== FileAccess.getFileSizeInBytes(track.path)) {
+        if (track.fileSize !== this.fileAccess.getFileSizeInBytes(track.path)) {
             return true;
         }
 
-        return track.dateFileModified !== FileAccess.getDateModifiedInTicks(track.path);
+        return track.dateFileModified !== this.fileAccess.getDateModifiedInTicks(track.path);
     }
 
-    static doesTrackNeedIndexing(track) {
+    doesTrackNeedIndexing(track) {
         if (track.needsIndexing === undefined || track.needsIndexing === null) {
             return true;
         }

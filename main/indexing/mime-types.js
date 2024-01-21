@@ -1,7 +1,7 @@
 const { FileFormats } = require('../common/application/file-formats');
 
 class MimeTypes {
-    static getMimeTypeForFileExtension(fileExtension) {
+    getMimeTypeForFileExtension(fileExtension) {
         switch (fileExtension.toLowerCase()) {
             case FileFormats.mp3:
                 return 'audio/mpeg';

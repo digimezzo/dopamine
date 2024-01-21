@@ -3,7 +3,7 @@ const { LastfmAlbum } = require('./lastfm-album');
 const { SensitiveInformation } = require('../application/sensitive-information');
 
 class LastfmApi {
-    static async getAlbumInfoAsync(artist, album, autoCorrect, languageCode) {
+    async getAlbumInfoAsync(artist, album, autoCorrect, languageCode) {
         const method = 'album.getInfo';
         const parameters = new Map([
             ['artist', artist],
@@ -34,11 +34,11 @@ class LastfmApi {
         return lastfmAlbum;
     }
 
-    static #isJsonResponseValid(jsonResponse) {
+    #isJsonResponseValid(jsonResponse) {
         return jsonResponse !== undefined && jsonResponse !== null && (jsonResponse.error === undefined || jsonResponse.error === null);
     }
 
-    static #getArtistImageOfSpecifiedSize(images, imageSize) {
+    #getArtistImageOfSpecifiedSize(images, imageSize) {
         for (let i = 0; i < images.length; i++) {
             const size = images[i].size;
 
@@ -50,7 +50,7 @@ class LastfmApi {
         return '';
     }
 
-    static async #performGetRequestAsync(method, parameters, isSecure) {
+    async #performGetRequestAsync(method, parameters, isSecure) {
         const searchParams = new URLSearchParams();
         parameters.forEach((value, key) => {
             searchParams.append(key, value);
@@ -67,7 +67,7 @@ class LastfmApi {
         return undefined;
     }
 
-    static async #getMethodUrl(method, isSecure) {
+    async #getMethodUrl(method, isSecure) {
         return `${isSecure ? 'https' : 'http'}://ws.audioscrobbler.com/2.0/?method=${method}`;
     }
 }

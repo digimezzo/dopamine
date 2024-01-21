@@ -1,8 +1,6 @@
-const { GuidFactory } = require('../common/guid.factory');
-
 class AlbumArtworkCacheId {
-    constructor() {
-        this.id = `album-${GuidFactory.create()}`;
+    constructor(guidFactory) {
+        this.id = `album-${guidFactory.create()}`;
     }
 }
 

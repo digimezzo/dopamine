@@ -2,23 +2,23 @@ const { workerData, parentPort } = require('worker_threads');
 const { arg } = workerData;
 
 class WorkerProxy {
-    static task() {
+    task() {
         return arg.task;
     }
 
-    static postMessage(message) {
+    postMessage(message) {
         parentPort?.postMessage(message);
     }
 
-    static applicationDataDirectory() {
+    applicationDataDirectory() {
         return arg.applicationDataDirectory;
     }
 
-    static downloadMissingAlbumCovers() {
+    downloadMissingAlbumCovers() {
         return arg.downloadMissingAlbumCovers;
     }
 
-    static skipRemovedFilesDuringRefresh() {
+    skipRemovedFilesDuringRefresh() {
         return arg.skipRemovedFilesDuringRefresh;
     }
 }

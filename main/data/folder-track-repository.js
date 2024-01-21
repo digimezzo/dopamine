@@ -1,14 +1,16 @@
-const { DatabaseFactory } = require('./database.factory');
-
 class FolderTrackRepository {
-    static addFolderTrack(folderTrack) {
-        const database = DatabaseFactory.create();
+    constructor(databaseFactory) {
+        this.databaseFactory = databaseFactory;
+    }
+
+    addFolderTrack(folderTrack) {
+        const database = this.databaseFactory.create();
         const statement = database.prepare('INSERT INTO FolderTrack (FolderID, TrackID) VALUES (?, ?);');
         statement.run(folderTrack.folderId, folderTrack.trackId);
     }
 
-    static getNumberOfFolderTracksForInexistingTracks() {
-        const database = DatabaseFactory.create();
+    getNumberOfFolderTracksForInexistingTracks() {
+        const database = this.databaseFactory.create();
 
         const statement = database.prepare(
             'SELECT COUNT(*) AS numberOfFolderTracks FROM FolderTrack WHERE TrackID NOT IN (SELECT TrackID FROM Track);',
@@ -19,8 +21,8 @@ class FolderTrackRepository {
         return result.numberOfFolderTracks;
     }
 
-    static deleteFolderTracksForInexistingTracks() {
-        const database = DatabaseFactory.create();
+    deleteFolderTracksForInexistingTracks() {
+        const database = this.databaseFactory.create();
         const statement = database.prepare('DELETE FROM FolderTrack WHERE TrackID NOT IN (SELECT TrackID FROM Track);');
         const info = statement.run();
 

@@ -1,23 +1,26 @@
-const { Logger } = require('../common/logger');
-const { FileAccess } = require('../common/io/file-access');
 const { Timer } = require('../common/scheduling/timer');
-const { AlbumArtworkRepository } = require('../data/entities/album-artwork-repository');
 const { UpdatingAlbumArtworkMessage } = require('./messages/updating-album-artwork-message');
-const { ApplicationPaths } = require('../common/application/application-paths');
-const { WorkerProxy } = require('../workers/worker-proxy');
 
 class AlbumArtworkRemover {
-    static async removeAlbumArtworkThatHasNoTrackAsync() {
+    constructor(albumArtworkRepository, applicationPaths, workerProxy, fileAccess, logger) {
+        this.albumArtworkRepository = albumArtworkRepository;
+        this.applicationPaths = applicationPaths;
+        this.workerProxy = workerProxy;
+        this.fileAccess = fileAccess;
+        this.logger = logger;
+    }
+
+    async removeAlbumArtworkThatHasNoTrackAsync() {
         const timer = new Timer();
         timer.start();
 
         try {
-            const numberOfAlbumArtworkToRemove = AlbumArtworkRepository.getNumberOfAlbumArtworkThatHasNoTrack();
+            const numberOfAlbumArtworkToRemove = this.albumArtworkRepository.getNumberOfAlbumArtworkThatHasNoTrack();
 
             if (numberOfAlbumArtworkToRemove === 0) {
                 timer.stop();
 
-                Logger.info(
+                this.logger.info(
                     `There is no album artwork to remove. Time required: ${timer.getElapsedMilliseconds()} ms.`,
                     'AlbumArtworkRemover',
                     'removeAlbumArtworkThatHasNoTrackAsync',
@@ -26,19 +29,19 @@ class AlbumArtworkRemover {
                 return;
             }
 
-            Logger.info(
+            this.logger.info(
                 `Found ${numberOfAlbumArtworkToRemove} album artwork.`,
                 'AlbumArtworkRemover',
                 'removeAlbumArtworkThatHasNoTrackAsync',
             );
 
-            WorkerProxy.postMessage(new UpdatingAlbumArtworkMessage());
+            this.workerProxy.postMessage(new UpdatingAlbumArtworkMessage());
 
-            const numberOfRemovedAlbumArtwork = AlbumArtworkRepository.deleteAlbumArtworkThatHasNoTrack();
+            const numberOfRemovedAlbumArtwork = this.albumArtworkRepository.deleteAlbumArtworkThatHasNoTrack();
 
             timer.stop();
 
-            Logger.info(
+            this.logger.info(
                 `Removed ${numberOfRemovedAlbumArtwork} album artwork. Time required: ${timer.getElapsedMilliseconds()} ms.`,
                 'AlbumArtworkRemover',
                 'removeAlbumArtworkThatHasNoTrackAsync',
@@ -46,21 +49,21 @@ class AlbumArtworkRemover {
         } catch (e) {
             timer.stop();
 
-            Logger.error(e, 'Could not remove album artwork', 'AlbumArtworkRemover', 'removeAlbumArtworkThatHasNoTrackAsync');
+            this.logger.error(e, 'Could not remove album artwork', 'AlbumArtworkRemover', 'removeAlbumArtworkThatHasNoTrackAsync');
         }
     }
 
-    static async removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync() {
+    async removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync() {
         const timer = new Timer();
         timer.start();
 
         try {
-            const numberOfAlbumArtworkToRemove = AlbumArtworkRepository.getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
+            const numberOfAlbumArtworkToRemove = this.albumArtworkRepository.getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
 
             if (numberOfAlbumArtworkToRemove === 0) {
                 timer.stop();
 
-                Logger.info(
+                this.logger.info(
                     `There is no album artwork to remove. Time required: ${timer.getElapsedMilliseconds()} ms.`,
                     'AlbumArtworkRemover',
                     'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
@@ -69,19 +72,19 @@ class AlbumArtworkRemover {
                 return;
             }
 
-            Logger.info(
+            this.logger.info(
                 `Found ${numberOfAlbumArtworkToRemove} album artwork.`,
                 'AlbumArtworkRemover',
                 'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
             );
 
-            WorkerProxy.postMessage(new UpdatingAlbumArtworkMessage());
+            this.workerProxy.postMessage(new UpdatingAlbumArtworkMessage());
 
-            const numberOfRemovedAlbumArtwork = AlbumArtworkRepository.deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
+            const numberOfRemovedAlbumArtwork = this.albumArtworkRepository.deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
 
             timer.stop();
 
-            Logger.info(
+            this.logger.info(
                 `Removed ${numberOfRemovedAlbumArtwork} album artwork. Time required: ${timer.getElapsedMilliseconds()} ms.`,
                 'AlbumArtworkRemover',
                 'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
@@ -89,7 +92,7 @@ class AlbumArtworkRemover {
         } catch (e) {
             timer.stop();
 
-            Logger.error(
+            this.logger.error(
                 e,
                 'Could not remove album artwork',
                 'AlbumArtworkRemover',
@@ -98,11 +101,11 @@ class AlbumArtworkRemover {
         }
     }
 
-    static async removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync() {
+    async removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync() {
         try {
-            const allAlbumArtworkInDatabase = AlbumArtworkRepository.getAllAlbumArtwork() ?? [];
+            const allAlbumArtworkInDatabase = this.albumArtworkRepository.getAllAlbumArtwork() ?? [];
 
-            Logger.info(
+            this.logger.info(
                 `Found ${allAlbumArtworkInDatabase.length} album artwork in the database`,
                 'AlbumArtworkRemover',
                 'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync',
@@ -110,16 +113,16 @@ class AlbumArtworkRemover {
 
             const allArtworkIdsInDatabase = allAlbumArtworkInDatabase.map((x) => x.artworkId);
 
-            Logger.info(
+            this.logger.info(
                 `Found ${allArtworkIdsInDatabase.length} artworkIds in the database`,
                 'AlbumArtworkRemover',
                 'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync',
             );
 
-            const coverArtCacheFullPath = ApplicationPaths.getCoverArtCacheFullPath();
-            const allAlbumArtworkFilePaths = await FileAccess.getFilesInDirectoryAsync(coverArtCacheFullPath);
+            const coverArtCacheFullPath = this.applicationPaths.getCoverArtCacheFullPath();
+            const allAlbumArtworkFilePaths = await this.fileAccess.getFilesInDirectoryAsync(coverArtCacheFullPath);
 
-            Logger.info(
+            this.logger.info(
                 `Found ${allAlbumArtworkFilePaths.length} artwork files on disk`,
                 'AlbumArtworkRemover',
                 'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync',
@@ -128,20 +131,20 @@ class AlbumArtworkRemover {
             let numberOfRemovedAlbumArtwork = 0;
 
             for (const albumArtworkFilePath of allAlbumArtworkFilePaths) {
-                const albumArtworkFileNameWithoutExtension = FileAccess.getFileNameWithoutExtension(albumArtworkFilePath);
+                const albumArtworkFileNameWithoutExtension = this.fileAccess.getFileNameWithoutExtension(albumArtworkFilePath);
 
                 if (!allArtworkIdsInDatabase.includes(albumArtworkFileNameWithoutExtension)) {
-                    await FileAccess.deleteFileIfExistsAsync(albumArtworkFilePath);
+                    await this.fileAccess.deleteFileIfExistsAsync(albumArtworkFilePath);
                     numberOfRemovedAlbumArtwork++;
                 }
 
                 // Only send message once
                 if (numberOfRemovedAlbumArtwork === 1) {
-                    WorkerProxy.postMessage(new UpdatingAlbumArtworkMessage());
+                    this.workerProxy.postMessage(new UpdatingAlbumArtworkMessage());
                 }
             }
         } catch (e) {
-            Logger.error(
+            this.logger.error(
                 e,
                 'Could not remove album artwork from disk',
                 'AlbumArtworkRemover',

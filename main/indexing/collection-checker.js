@@ -1,16 +1,18 @@
-const { Logger } = require('../common/logger');
-const { IndexablePathFetcher } = require('./indexable-path-fetcher');
-const { TrackRepository } = require('../data/track-repository');
-
 class CollectionChecker {
-    static async isCollectionOutdatedAsync() {
+    constructor(trackRepository, indexablePathFetcher, logger) {
+        this.trackRepository = trackRepository;
+        this.indexablePathFetcher = indexablePathFetcher;
+        this.logger = logger;
+    }
+
+    async isCollectionOutdatedAsync() {
         let collectionIsOutdated = false;
 
         try {
-            const numberOfDatabaseTracksThatNeedIndexing = TrackRepository.getNumberOfTracksThatNeedIndexing();
-            const indexablePathsOnDisk = await IndexablePathFetcher.getIndexablePathsForAllFoldersAsync();
-            const numberOfDatabaseTracks = TrackRepository.getNumberOfTracks();
-            const lastDateFileModifiedInDatabase = TrackRepository.getMaximumDateFileModified();
+            const numberOfDatabaseTracksThatNeedIndexing = this.trackRepository.getNumberOfTracksThatNeedIndexing();
+            const indexablePathsOnDisk = await this.indexablePathFetcher.getIndexablePathsForAllFoldersAsync();
+            const numberOfDatabaseTracks = this.trackRepository.getNumberOfTracks();
+            const lastDateFileModifiedInDatabase = this.trackRepository.getMaximumDateFileModified();
             const lastDateFileModifiedOnDisk = this.#getLastDateFileModifiedOnDisk(indexablePathsOnDisk);
 
             const tracksNeedIndexing = numberOfDatabaseTracksThatNeedIndexing > 0;
@@ -19,19 +21,24 @@ class CollectionChecker {
 
             collectionIsOutdated = tracksNeedIndexing || numberOfTracksHasChanged || lastDateModifiedHasChanged;
 
-            Logger.info(
+            this.logger.info(
                 `collectionIsOutdated=${collectionIsOutdated}, tracksNeedIndexing=${tracksNeedIndexing}, numberOfTracksHasChanged=${numberOfTracksHasChanged}, lastDateModifiedHasChanged=${lastDateModifiedHasChanged}`,
                 'CollectionChecker',
                 'isCollectionOutdatedAsync',
             );
         } catch (e) {
-            Logger.error(e, 'An error occurred while checking if collection is outdated', 'CollectionChecker', 'isCollectionOutdatedAsync');
+            this.logger.error(
+                e,
+                'An error occurred while checking if collection is outdated',
+                'CollectionChecker',
+                'isCollectionOutdatedAsync',
+            );
         }
 
         return collectionIsOutdated;
     }
 
-    static #getLastDateFileModifiedOnDisk(indexablePathsOnDisk) {
+    #getLastDateFileModifiedOnDisk(indexablePathsOnDisk) {
         if (indexablePathsOnDisk.length <= 1) {
             return 0;
         }

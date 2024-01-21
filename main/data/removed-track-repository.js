@@ -1,20 +1,22 @@
-const { DatabaseFactory } = require('./database.factory');
-
 class RemovedTrackRepository {
-    static addRemovedTrack(removedTrack) {
-        const database = DatabaseFactory.create();
+    constructor(databaseFactory) {
+        this.databaseFactory = databaseFactory;
+    }
+
+    addRemovedTrack(removedTrack) {
+        const database = this.databaseFactory.create();
         const statement = database.prepare('INSERT INTO RemovedTrack (TrackID, Path, SafePath, DateRemoved) VALUES (?, ?, ?, ?);');
         statement.run(removedTrack.trackId, removedTrack.path, removedTrack.path.toLowerCase(), removedTrack.dateRemoved);
     }
 
-    static deleteRemovedTrackByTrackId(trackId) {
-        const database = DatabaseFactory.create();
+    deleteRemovedTrackByTrackId(trackId) {
+        const database = this.databaseFactory.create();
         const statement = database.prepare('DELETE FROM RemovedTrack WHERE TrackID=?;');
         statement.run(trackId);
     }
 
-    static getRemovedTracks() {
-        const database = DatabaseFactory.create();
+    getRemovedTracks() {
+        const database = this.databaseFactory.create();
         const statement = database.prepare(`SELECT TrackID as trackId, Path as path, DateRemoved as dateRemoved FROM RemovedTrack;`);
         return statement.all();
     }

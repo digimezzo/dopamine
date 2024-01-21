@@ -1,7 +1,7 @@
 const { TagLibFileMetadata } = require('./tag-lib-file-metadata');
 
 class FileMetadataFactory {
-    static create(path) {
+    create(path) {
         return new TagLibFileMetadata(path);
     }
 }
