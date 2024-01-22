@@ -6,9 +6,9 @@ module.exports = {
     roots: ['<rootDir>/'],
     testMatch: ['<rootDir>/src/**/*(*.)+(spec).+(ts)', '<rootDir>/main/**/*(*.)+(spec).+(js)'],
     setupFilesAfterEnv: ['<rootDir>/src/test.ts'],
-    moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
-        prefix: '<rootDir>/',
-    }),
+    moduleNameMapper: {
+        sinon: '<rootDir>/node_modules/sinon/pkg/sinon.js',
+    },
     transform: {
         '^.+\\.{ts|tsx}?$': [
             'ts-jest',

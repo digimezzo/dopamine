@@ -106,6 +106,7 @@
         "node-html-parser": "6.1.11",
         "node-taglib-sharp": "5.2.3",
         "sanitize-filename": "1.6.3",
+        "sinon": "^17.0.1",
         "tinycolor2": "1.6.0",
         "tslib": "2.0.0",
         "uuid": "9.0.0"
