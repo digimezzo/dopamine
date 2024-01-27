@@ -1,16 +1,26 @@
 const { GuidFactory } = require('./guid.factory');
 
 describe('GuidFactory', () => {
+    function createSut() {
+        return new GuidFactory();
+    }
+
     describe('create', () => {
         it('should create id that has a length of 36 characters', () => {
-            // Arrange, Act, Assert
-            expect(GuidFactory.create().length).toEqual(36);
+            // Arrange
+            const sut = createSut();
+
+            // Act, Assert
+            expect(sut.create().length).toEqual(36);
         });
 
         it('should create unique ids', () => {
-            // Arrange, Act
-            const id1 = GuidFactory.create();
-            const id2 = GuidFactory.create();
+            // Arrange
+            const sut = createSut();
+
+            // Act
+            const id1 = sut.create();
+            const id2 = sut.create();
 
             // Assert
             expect(id1).not.toEqual(id2);

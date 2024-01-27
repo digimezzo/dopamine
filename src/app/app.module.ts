@@ -188,7 +188,6 @@ import { FolderService } from './services/folder/folder.service';
 import { GenreService } from './services/genre/genre.service';
 import { AlbumArtworkAdder } from './services/indexing/album-artwork-adder';
 import { AlbumArtworkGetter } from './services/indexing/album-artwork-getter';
-import { AlbumArtworkIndexer } from './services/indexing/album-artwork-indexer';
 import { AlbumArtworkRemover } from './services/indexing/album-artwork-remover';
 import { CollectionChecker } from './services/indexing/collection-checker';
 import { DirectoryWalker } from './services/indexing/directory-walker';
@@ -528,7 +527,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         EmbeddedAlbumArtworkGetter,
         OnlineAlbumArtworkGetter,
         CachedAlbumArtworkGetter,
-        AlbumArtworkIndexer,
         AlbumArtworkAdder,
         AlbumArtworkRemover,
         ExternalArtworkPathGetter,

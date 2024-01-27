@@ -1,9 +1,8 @@
 const { workerData, parentPort } = require('worker_threads');
-const { arg } = workerData;
 
 class WorkerProxy {
     task() {
-        return arg.task;
+        return workerData.arg.task;
     }
 
     postMessage(message) {
@@ -11,15 +10,15 @@ class WorkerProxy {
     }
 
     applicationDataDirectory() {
-        return arg.applicationDataDirectory;
+        return workerData.arg.applicationDataDirectory;
     }
 
     downloadMissingAlbumCovers() {
-        return arg.downloadMissingAlbumCovers;
+        return workerData.arg.downloadMissingAlbumCovers;
     }
 
     skipRemovedFilesDuringRefresh() {
-        return arg.skipRemovedFilesDuringRefresh;
+        return workerData.arg.skipRemovedFilesDuringRefresh;
     }
 }
 

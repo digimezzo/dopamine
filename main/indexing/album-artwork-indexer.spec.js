@@ -1,5 +1,7 @@
 const { AlbumArtworkIndexer } = require('./album-artwork-indexer');
-const sinon = require('sinon');
+const { AlbumArtworkRemoverMock } = require('../mocks/album-artwork-remover-mock');
+const { AlbumArtworkAdderMock } = require('../mocks/album-artwork-adder-mock');
+const { LoggerMock } = require('../mocks/logger-mock');
 
 describe('AlbumArtworkIndexer', () => {
     let albumArtworkRemoverMock;
@@ -7,25 +9,9 @@ describe('AlbumArtworkIndexer', () => {
     let loggerMock;
 
     beforeEach(() => {
-        albumArtworkRemoverMock = {
-            removeAlbumArtworkThatHasNoTrackAsync: sinon.stub().resolves(),
-            removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync: sinon.stub().resolves(),
-            removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync: sinon.stub().resolves(),
-        };
-
-        albumArtworkAdderMock = {
-            addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync: sinon.stub().resolves(),
-        };
-
-        loggerMock = {
-            info: sinon.stub().resolves(),
-            warn: sinon.stub().resolves(),
-            error: sinon.stub().resolves(),
-        };
-    });
-
-    afterEach(() => {
-        sinon.restore();
+        albumArtworkRemoverMock = new AlbumArtworkRemoverMock();
+        albumArtworkAdderMock = new AlbumArtworkAdderMock();
+        loggerMock = new LoggerMock();
     });
 
     function createSut() {
@@ -35,46 +21,46 @@ describe('AlbumArtworkIndexer', () => {
     describe('indexAlbumArtworkAsync', () => {
         it('should remove artwork that has no track', async () => {
             // Arrange
-            const albumArtworkIndexer = createSut();
+            const sut = createSut();
 
             // Act
-            await albumArtworkIndexer.indexAlbumArtworkAsync();
+            await sut.indexAlbumArtworkAsync();
 
             // Assert
-            expect(albumArtworkRemoverMock.removeAlbumArtworkThatHasNoTrackAsync.calledOnce).toBeTruthy();
+            expect(albumArtworkRemoverMock.removeAlbumArtworkThatHasNoTrackAsyncCalls.length).toEqual(1);
         });
 
         it('should remove artwork for tracks that need album artwork indexing', async () => {
             // Arrange
-            const albumArtworkIndexer = createSut();
+            const sut = createSut();
 
             // Act
-            await albumArtworkIndexer.indexAlbumArtworkAsync();
+            await sut.indexAlbumArtworkAsync();
 
             // Assert
-            expect(albumArtworkRemoverMock.removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync.calledOnce).toBeTruthy();
+            expect(albumArtworkRemoverMock.removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsyncCalls.length).toEqual(1);
         });
 
         it('should add artwork for tracks that need album artwork indexing', async () => {
             // Arrange
-            const albumArtworkIndexer = createSut();
+            const sut = createSut();
 
             // Act
-            await albumArtworkIndexer.indexAlbumArtworkAsync();
+            await sut.indexAlbumArtworkAsync();
 
             // Assert
-            expect(albumArtworkAdderMock.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync.calledOnce).toBeTruthy();
+            expect(albumArtworkAdderMock.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsyncCalls.length).toEqual(1);
         });
 
         it('should remove artwork that is not in the database from disk', async () => {
             // Arrange
-            const albumArtworkIndexer = createSut();
+            const sut = createSut();
 
             // Act
-            await albumArtworkIndexer.indexAlbumArtworkAsync();
+            await sut.indexAlbumArtworkAsync();
 
             // Assert
-            expect(albumArtworkRemoverMock.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync.calledOnce).toBeTruthy();
+            expect(albumArtworkRemoverMock.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsyncCalls.length).toEqual(1);
         });
     });
 });
