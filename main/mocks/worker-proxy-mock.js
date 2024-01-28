@@ -1,11 +1,15 @@
 class WorkerProxyMock {
     applicationDataDirectoryReturnValue = '';
 
+    postMessageCalls = [];
+
     task() {
         return '';
     }
 
-    postMessage(message) {}
+    postMessage(message) {
+        this.postMessageCalls.push(message);
+    }
 
     applicationDataDirectory() {
         return this.applicationDataDirectoryReturnValue;

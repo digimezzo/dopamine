@@ -18,8 +18,8 @@ class FileAccessMock {
         return 0;
     }
 
-    combinePath(...args) {
-        this.combinePathCalls.push(args);
+    combinePath(pathPieces) {
+        this.combinePathCalls.push(pathPieces);
         return this.combinePathReturnValue;
     }
 

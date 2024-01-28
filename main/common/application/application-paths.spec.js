@@ -28,7 +28,7 @@ describe('ApplicationPaths', () => {
 
             // Assert
             expect(fileAccessMock.combinePathCalls.length).toEqual(1);
-            expect(fileAccessMock.combinePathCalls[0]).toEqual([['C:\\Users\\User\\AppData\\Roaming\\Dopamine', 'Cache', 'CoverArt']]);
+            expect(fileAccessMock.combinePathCalls[0]).toEqual(['C:\\Users\\User\\AppData\\Roaming\\Dopamine', 'Cache', 'CoverArt']);
             expect(sut.getCoverArtCacheFullPath()).toEqual('C:\\Users\\User\\AppData\\Roaming\\Dopamine\\Cache\\CoverArt');
         });
     });

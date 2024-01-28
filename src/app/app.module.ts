@@ -199,7 +199,6 @@ import { IndexingService } from './services/indexing/indexing.service';
 import { OnlineAlbumArtworkGetter } from './services/indexing/online-album-artwork-getter';
 import { TrackAdder } from './services/indexing/track-adder';
 import { TrackFieldCreator } from './services/indexing/track-field-creator';
-import { TrackIndexer } from './services/indexing/track-indexer';
 import { TrackRemover } from './services/indexing/track-remover';
 import { TrackUpdater } from './services/indexing/track-updater';
 import { TrackVerifier } from './services/indexing/track-verifier';
@@ -510,7 +509,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         },
         ElectronService,
         DatabaseFactory,
-        TrackIndexer,
         DirectoryWalker,
         TrackRemover,
         TrackUpdater,
