@@ -1,6 +1,18 @@
 class FileAccessMock {
     combinePathCalls = [];
     combinePathReturnValue = '';
+    getFileNameReturnValues = {};
+    getDirectoryPathReturnValues = {};
+    getFilesInDirectoryAsyncReturnValues = {};
+    getFileNameWithoutExtensionReturnValues = {};
+
+    reset() {
+        this.combinePathCalls = [];
+        this.combinePathReturnValue = '';
+        this.getFileNameReturnValues = {};
+        this.getDirectoryPathReturnValues = {};
+        this.getFilesInDirectoryAsyncReturnValues = {};
+    }
 
     pathExists(pathToCheck) {
         return '';
@@ -24,7 +36,7 @@ class FileAccessMock {
     }
 
     async getFilesInDirectoryAsync(directoryPath, continueOnError, errors) {
-        return [];
+        return this.getFilesInDirectoryAsyncReturnValues[directoryPath];
     }
 
     async getDirectoriesInDirectoryAsync(directoryPath, continueOnError, errors) {
@@ -36,11 +48,11 @@ class FileAccessMock {
     }
 
     getFileName(fileNameOrPath) {
-        return '';
+        return this.getFileNameReturnValues[fileNameOrPath];
     }
 
     getFileNameWithoutExtension(fileNameOrPath) {
-        return '';
+        return this.getFileNameWithoutExtensionReturnValues[fileNameOrPath];
     }
 
     async deleteFileIfExistsAsync(filePath) {}
@@ -50,7 +62,7 @@ class FileAccessMock {
     }
 
     getDirectoryPath(directoryOrFilePath) {
-        return '';
+        return this.getDirectoryPathReturnValues[directoryOrFilePath];
     }
 }
 
