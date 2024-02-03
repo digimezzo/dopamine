@@ -4,11 +4,12 @@ import { Logger } from '../../common/logger';
 import { IndexingServiceBase } from './indexing.service.base';
 import { FolderServiceBase } from '../folder/folder.service.base';
 import { SettingsBase } from '../../common/settings/settings.base';
-import { FileAccessBase } from '../../common/io/file-access.base';
 import { ipcRenderer } from 'electron';
 import { PromiseUtils } from '../../common/utils/promise-utils';
 import { NotificationServiceBase } from '../notification/notification.service.base';
 import { DesktopBase } from '../../common/io/desktop.base';
+import { IIndexingMessage } from './messages/i-indexing-message';
+import { AddingTracksMessage } from './messages/adding-tracks-message';
 
 @Injectable()
 export class IndexingService implements IndexingServiceBase, OnDestroy {
@@ -70,7 +71,7 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
 
         ipcRenderer.send('indexing-worker', this.createWorkerArgs('albumArtwork', onlyWhenHasNoCover));
 
-        ipcRenderer.on('indexing-worker-message', (_: Electron.IpcRendererEvent, message: any): void => {
+        ipcRenderer.on('indexing-worker-message', (_: Electron.IpcRendererEvent, message: IIndexingMessage): void => {
             PromiseUtils.noAwait(this.showSnackBarMessage(message));
         });
 
@@ -90,30 +91,39 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
         };
     }
 
-    private async showSnackBarMessage(message: any): Promise<void> {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    private async showSnackBarMessage(message: IIndexingMessage): Promise<void> {
         switch (message.type) {
-            case 'refreshing':
+            case 'refreshing': {
                 await this.notificationService.refreshing();
                 break;
-            case 'addingTracks':
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-                await this.notificationService.addedTracksAsync(message.numberOfAddedTracks, message.percentageOfAddedTracks);
+            }
+            case 'addingTracks': {
+                const addingTracksMessage: AddingTracksMessage = <AddingTracksMessage>message;
+                await this.notificationService.addedTracksAsync(
+                    addingTracksMessage.numberOfAddedTracks,
+                    addingTracksMessage.percentageOfAddedTracks,
+                );
                 break;
-            case 'removingTracks':
+            }
+            case 'removingTracks': {
                 await this.notificationService.removingTracksAsync();
                 break;
-            case 'updatingTracks':
+            }
+            case 'updatingTracks': {
                 await this.notificationService.updatingTracksAsync();
                 break;
-            case 'updatingAlbumArtwork':
+            }
+            case 'updatingAlbumArtwork': {
                 await this.notificationService.updatingAlbumArtworkAsync();
                 break;
-            case 'dismiss':
+            }
+            case 'dismiss': {
                 await this.notificationService.dismissDelayedAsync();
                 break;
-            default:
+            }
+            default: {
                 break;
+            }
         }
     }
 
@@ -131,7 +141,7 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
 
         ipcRenderer.send('indexing-worker', this.createWorkerArgs(task, false));
 
-        ipcRenderer.on('indexing-worker-message', (_: Electron.IpcRendererEvent, message: any): void => {
+        ipcRenderer.on('indexing-worker-message', (_: Electron.IpcRendererEvent, message: IIndexingMessage): void => {
             PromiseUtils.noAwait(this.showSnackBarMessage(message));
         });
 
