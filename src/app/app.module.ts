@@ -186,17 +186,7 @@ import { ElectronService } from './services/electron.service';
 import { FileService } from './services/file/file.service';
 import { FolderService } from './services/folder/folder.service';
 import { GenreService } from './services/genre/genre.service';
-import { AlbumArtworkAdder } from './services/indexing/album-artwork-adder';
-import { AlbumArtworkRemover } from './services/indexing/album-artwork-remover';
-import { CollectionChecker } from './services/indexing/collection-checker';
-import { DirectoryWalker } from './services/indexing/directory-walker';
-import { IndexablePathFetcher } from './services/indexing/indexable-path-fetcher';
 import { IndexingService } from './services/indexing/indexing.service';
-import { TrackAdder } from './services/indexing/track-adder';
-import { TrackFieldCreator } from './services/indexing/track-field-creator';
-import { TrackRemover } from './services/indexing/track-remover';
-import { TrackUpdater } from './services/indexing/track-updater';
-import { TrackVerifier } from './services/indexing/track-verifier';
 import { MediaSessionService } from './services/media-session/media-session.service';
 import { CachedAlbumArtworkGetter } from './services/metadata/cached-album-artwork-getter';
 import { MetadataService } from './services/metadata/metadata.service';
@@ -311,10 +301,16 @@ import { IconTextButtonComponent } from './ui/components/controls/icon-text-butt
 import { BigIconButtonComponent } from './ui/components/controls/big-icon-button/big-icon-button.component';
 import { ToggleSwitchComponent } from './ui/components/controls/toggle-switch/toggle-switch.component';
 import { IconButtonComponent } from './ui/components/controls/icon-button/icon-button.component';
-import { TrackFiller } from './services/indexing/track-filler';
 import { NotificationBarComponent } from './ui/components/notification-bar/notification-bar.component';
 import { NotificationServiceBase } from './services/notification/notification.service.base';
 import { NotificationService } from './services/notification/notification.service';
+import { TrackFiller } from './services/indexing/track-filler';
+import { TrackFieldCreator } from './services/indexing/track-field-creator';
+import { AlbumArtworkGetter } from './services/indexing/album-artwork-getter';
+import { EmbeddedAlbumArtworkGetter } from './services/indexing/embedded-album-artwork-getter';
+import { OnlineAlbumArtworkGetter } from './services/indexing/online-album-artwork-getter';
+import { ExternalAlbumArtworkGetter } from './services/indexing/external-album-artwork-getter';
+import { ExternalArtworkPathGetter } from './services/indexing/external-artwork-path-getter';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -504,20 +500,12 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         },
         ElectronService,
         DatabaseFactory,
-        DirectoryWalker,
-        TrackRemover,
-        TrackUpdater,
-        TrackAdder,
-        TrackVerifier,
         FileMetadataFactory,
-        TrackFieldCreator,
         AlbumKeyGenerator,
         MimeTypes,
         AlbumArtworkCacheIdFactory,
         ImageProcessor,
         CachedAlbumArtworkGetter,
-        AlbumArtworkAdder,
-        AlbumArtworkRemover,
         LastfmApi,
         Logger,
         Hacks,
@@ -555,8 +543,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         FoldersPersister,
         PlaylistFoldersPersister,
         FolderTracksPersister,
-        CollectionChecker,
-        IndexablePathFetcher,
         TextSanitizer,
         ContextMenuOpener,
         PlaylistFolderModelFactory,
@@ -581,6 +567,12 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         AudioVisualizer,
         OnlineArtistImageGetter,
         TrackFiller,
+        TrackFieldCreator,
+        AlbumArtworkGetter,
+        EmbeddedAlbumArtworkGetter,
+        ExternalAlbumArtworkGetter,
+        OnlineAlbumArtworkGetter,
+        ExternalArtworkPathGetter,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: FileAccessBase, useClass: FileAccess },
         { provide: AlbumArtworkRepositoryBase, useClass: AlbumArtworkRepository },
