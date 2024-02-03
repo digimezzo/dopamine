@@ -187,16 +187,11 @@ import { FileService } from './services/file/file.service';
 import { FolderService } from './services/folder/folder.service';
 import { GenreService } from './services/genre/genre.service';
 import { AlbumArtworkAdder } from './services/indexing/album-artwork-adder';
-import { AlbumArtworkGetter } from './services/indexing/album-artwork-getter';
 import { AlbumArtworkRemover } from './services/indexing/album-artwork-remover';
 import { CollectionChecker } from './services/indexing/collection-checker';
 import { DirectoryWalker } from './services/indexing/directory-walker';
-import { EmbeddedAlbumArtworkGetter } from './services/indexing/embedded-album-artwork-getter';
-import { ExternalAlbumArtworkGetter } from './services/indexing/external-album-artwork-getter';
-import { ExternalArtworkPathGetter } from './services/indexing/external-artwork-path-getter';
 import { IndexablePathFetcher } from './services/indexing/indexable-path-fetcher';
 import { IndexingService } from './services/indexing/indexing.service';
-import { OnlineAlbumArtworkGetter } from './services/indexing/online-album-artwork-getter';
 import { TrackAdder } from './services/indexing/track-adder';
 import { TrackFieldCreator } from './services/indexing/track-field-creator';
 import { TrackRemover } from './services/indexing/track-remover';
@@ -520,14 +515,9 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         MimeTypes,
         AlbumArtworkCacheIdFactory,
         ImageProcessor,
-        AlbumArtworkGetter,
-        ExternalAlbumArtworkGetter,
-        EmbeddedAlbumArtworkGetter,
-        OnlineAlbumArtworkGetter,
         CachedAlbumArtworkGetter,
         AlbumArtworkAdder,
         AlbumArtworkRemover,
-        ExternalArtworkPathGetter,
         LastfmApi,
         Logger,
         Hacks,
