@@ -5,6 +5,9 @@ class FileAccessMock {
     getDirectoryPathReturnValues = {};
     getFilesInDirectoryAsyncReturnValues = {};
     getFileNameWithoutExtensionReturnValues = {};
+    getFileSizeInBytesReturnValues = {};
+    getDateModifiedInTicksReturnValues = {};
+    getDirectoriesInDirectoryAsyncReturnValues = {};
 
     reset() {
         this.combinePathCalls = [];
@@ -12,6 +15,10 @@ class FileAccessMock {
         this.getFileNameReturnValues = {};
         this.getDirectoryPathReturnValues = {};
         this.getFilesInDirectoryAsyncReturnValues = {};
+        this.getFileNameWithoutExtensionReturnValues = {};
+        this.getFileSizeInBytesReturnValues = {};
+        this.getDateModifiedInTicksReturnValues = {};
+        this.getDirectoriesInDirectoryAsyncReturnValues = {};
     }
 
     pathExists(pathToCheck) {
@@ -23,7 +30,7 @@ class FileAccessMock {
     }
 
     getDateModifiedInTicks(fileOrDirectory) {
-        return 0;
+        return this.getDateModifiedInTicksReturnValues[fileOrDirectory];
     }
 
     getDateCreatedInTicks(fileOrDirectory) {
@@ -36,15 +43,19 @@ class FileAccessMock {
     }
 
     async getFilesInDirectoryAsync(directoryPath, continueOnError, errors) {
+        if (this.getFilesInDirectoryAsyncReturnValues[directoryPath] === 'throw') {
+            throw new Error('Error');
+        }
+
         return this.getFilesInDirectoryAsyncReturnValues[directoryPath];
     }
 
     async getDirectoriesInDirectoryAsync(directoryPath, continueOnError, errors) {
-        return [];
+        return this.getDirectoriesInDirectoryAsyncReturnValues[directoryPath];
     }
 
     getFileSizeInBytes(filePath) {
-        return 0;
+        return this.getFileSizeInBytesReturnValues[filePath];
     }
 
     getFileName(fileNameOrPath) {
