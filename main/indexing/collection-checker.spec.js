@@ -1,23 +1,21 @@
-import { IMock, Mock } from 'typemoq';
-import { Logger } from '../../common/logger';
-import { CollectionChecker } from './collection-checker';
-import { IndexablePath } from './indexable-path';
-import { IndexablePathFetcher } from './indexable-path-fetcher';
-import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+const { TrackRepositoryMock } = require("../mocks/track-repository-mock");
+const { LoggerMock } = require("../mocks/logger-mock");
+const { IndexablePath } = require("./indexable-path");
+const { IndexablePathFetcherMock } = require("../mocks/indexable-path-fetcher-mock");
 
 describe('CollectionChecker', () => {
-    let indexablePathFetcherMock: IMock<IndexablePathFetcher>;
-    let trackRepositoryMock: IMock<TrackRepositoryBase>;
-    let loggerMock: IMock<Logger>;
-    let collectionChecker: CollectionChecker;
+    let indexablePathFetcherMock;
+    let trackRepositoryMock;
+    let loggerMock;
+    let collectionChecker;
 
     beforeEach(() => {
-        indexablePathFetcherMock = Mock.ofType<IndexablePathFetcher>();
-        trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
-        loggerMock = Mock.ofType<Logger>();
+        indexablePathFetcherMock = new IndexablePathFetcherMock();
+        trackRepositoryMock = new TrackRepositoryMock();
+        loggerMock = new LoggerMock();
 
-        const indexablePath1: IndexablePath = new IndexablePath('/home/user/Music/track1.mp3', 10, 1);
-        const indexablePath2: IndexablePath = new IndexablePath('/home/user/Music/track2.mp3', 20, 1);
+        const indexablePath1 = new IndexablePath('/home/user/Music/track1.mp3', 10, 1);
+        const indexablePath2 = new IndexablePath('/home/user/Music/track2.mp3', 20, 1);
 
         indexablePathFetcherMock
             .setup((x) => x.getIndexablePathsForAllFoldersAsync())

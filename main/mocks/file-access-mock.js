@@ -8,6 +8,8 @@ class FileAccessMock {
     getFileSizeInBytesReturnValues = {};
     getDateModifiedInTicksReturnValues = {};
     getDirectoriesInDirectoryAsyncReturnValues = {};
+    getFilesInDirectoryAsyncCalls = [];
+    deleteFileIfExistsAsyncCalls = [];
 
     reset() {
         this.combinePathCalls = [];
@@ -43,6 +45,8 @@ class FileAccessMock {
     }
 
     async getFilesInDirectoryAsync(directoryPath, continueOnError, errors) {
+        this.getFilesInDirectoryAsyncCalls.push(directoryPath);
+
         if (this.getFilesInDirectoryAsyncReturnValues[directoryPath] === 'throw') {
             throw new Error('Error');
         }
@@ -66,7 +70,9 @@ class FileAccessMock {
         return this.getFileNameWithoutExtensionReturnValues[fileNameOrPath];
     }
 
-    async deleteFileIfExistsAsync(filePath) {}
+    async deleteFileIfExistsAsync(filePath) {
+        this.deleteFileIfExistsAsyncCalls.push(filePath);
+    }
 
     async getFileContentAsBufferAsync(filePath) {
         return Buffer.from([]);

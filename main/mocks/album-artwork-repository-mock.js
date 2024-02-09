@@ -1,13 +1,23 @@
 class AlbumArtworkRepositoryMock {
     getNumberOfAlbumArtworkReturnValue = 0;
     addAlbumArtworkCalls = [];
+    getNumberOfAlbumArtworkThatHasNoTrackCalls = 0;
+    getNumberOfAlbumArtworkThatHasNoTrackReturnValue = 0;
+    deleteAlbumArtworkThatHasNoTrackCalls = 0;
+    getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexingCalls = 0;
+    getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexingReturnValue = 0;
+    deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexingCalls = 0;
+    deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexingReturnValue = 0;
+    getAllAlbumArtworkCalls = 0;
+    getAllAlbumArtworkReturnValue = [];
 
     addAlbumArtwork(albumArtwork) {
         this.addAlbumArtworkCalls.push(albumArtwork.artworkId);
     }
 
     getAllAlbumArtwork() {
-        return [];
+        this.getAllAlbumArtworkCalls++;
+        return this.getAllAlbumArtworkReturnValue;
     }
 
     getNumberOfAlbumArtwork() {
@@ -15,19 +25,25 @@ class AlbumArtworkRepositoryMock {
     }
 
     getNumberOfAlbumArtworkThatHasNoTrack() {
-        return 0;
+        this.getNumberOfAlbumArtworkThatHasNoTrackCalls++;
+
+        return this.getNumberOfAlbumArtworkThatHasNoTrackReturnValue;
     }
 
     deleteAlbumArtworkThatHasNoTrack() {
+        this.deleteAlbumArtworkThatHasNoTrackCalls++;
         return 0;
     }
 
     getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexing() {
-        return 0;
+        this.getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexingCalls++;
+
+        return this.getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexingReturnValue;
     }
 
     deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing() {
-        return 0;
+        this.deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexingCalls++;
+        return this.deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexingReturnValue;
     }
 }
 
