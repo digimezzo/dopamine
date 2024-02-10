@@ -1,12 +1,11 @@
-import { IndexablePath } from './indexable-path';
-
+const { IndexablePath } = require('./indexable-path');
 describe('IndexablePath', () => {
     describe('constructor', () => {
         it('should set path', () => {
             // Arrange
 
             // Act
-            const indexablePath: IndexablePath = new IndexablePath('/home/user/Music/Track.mp3', 123456789, 1);
+            const indexablePath = new IndexablePath('/home/user/Music/Track.mp3', 123456789, 1);
 
             // Assert
             expect(indexablePath.path).toEqual('/home/user/Music/Track.mp3');
@@ -16,7 +15,7 @@ describe('IndexablePath', () => {
             // Arrange
 
             // Act
-            const indexablePath: IndexablePath = new IndexablePath('/home/user/Music/Track.mp3', 123456789, 1);
+            const indexablePath = new IndexablePath('/home/user/Music/Track.mp3', 123456789, 1);
 
             // Assert
             expect(indexablePath.dateModifiedTicks).toEqual(123456789);
@@ -26,7 +25,7 @@ describe('IndexablePath', () => {
             // Arrange
 
             // Act
-            const indexablePath: IndexablePath = new IndexablePath('/home/user/Music/Track.mp3', 123456789, 1);
+            const indexablePath = new IndexablePath('/home/user/Music/Track.mp3', 123456789, 1);
 
             // Assert
             expect(indexablePath.folderId).toEqual(1);

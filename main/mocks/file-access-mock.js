@@ -10,6 +10,8 @@ class FileAccessMock {
     getDirectoriesInDirectoryAsyncReturnValues = {};
     getFilesInDirectoryAsyncCalls = [];
     deleteFileIfExistsAsyncCalls = [];
+    getFileExtensionReturnValues = {};
+    pathExistsReturnValues = {};
 
     reset() {
         this.combinePathCalls = [];
@@ -24,11 +26,11 @@ class FileAccessMock {
     }
 
     pathExists(pathToCheck) {
-        return '';
+        return this.pathExistsReturnValues[pathToCheck];
     }
 
     getFileExtension(fileNameOrPath) {
-        return '';
+        return this.getFileExtensionReturnValues[fileNameOrPath];
     }
 
     getDateModifiedInTicks(fileOrDirectory) {

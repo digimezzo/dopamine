@@ -1,14 +1,13 @@
-import { IMock, Mock, Times } from 'typemoq';
-import { MetadataPatcher } from '../../common/metadata/metadata-patcher';
-import { TrackFieldCreator } from './track-field-creator';
+const { TrackFieldCreator } = require('./track-field-creator');
+const { MetadataPatcherMock } = require('../mocks/metadata-patcher-mock');
 
 describe('TrackFieldCreator', () => {
-    let metadataPatcherMock: IMock<MetadataPatcher>;
-    let trackFieldCreator: TrackFieldCreator;
+    let metadataPatcherMock;
+    let trackFieldCreator;
 
     beforeEach(() => {
-        metadataPatcherMock = Mock.ofType<MetadataPatcher>();
-        trackFieldCreator = new TrackFieldCreator(metadataPatcherMock.object);
+        metadataPatcherMock = new MetadataPatcherMock();
+        trackFieldCreator = new TrackFieldCreator(metadataPatcherMock);
     });
 
     describe('createNumberField', () => {
@@ -16,7 +15,7 @@ describe('TrackFieldCreator', () => {
             // Arrange
 
             // Act
-            const field: number = trackFieldCreator.createNumberField(NaN);
+            const field = trackFieldCreator.createNumberField(NaN);
 
             // Assert
             expect(field).toEqual(0);
@@ -26,7 +25,7 @@ describe('TrackFieldCreator', () => {
             // Arrange
 
             // Act
-            const field: number = trackFieldCreator.createNumberField(undefined);
+            const field = trackFieldCreator.createNumberField(undefined);
 
             // Assert
             expect(field).toEqual(0);
@@ -36,7 +35,7 @@ describe('TrackFieldCreator', () => {
             // Arrange
 
             // Act
-            const field: number = trackFieldCreator.createNumberField(20);
+            const field = trackFieldCreator.createNumberField(20);
 
             // Assert
             expect(field).toEqual(20);
@@ -48,7 +47,7 @@ describe('TrackFieldCreator', () => {
             // Arrange
 
             // Act
-            const field: string = trackFieldCreator.createTextField(undefined);
+            const field = trackFieldCreator.createTextField(undefined);
 
             // Assert
             expect(field).toEqual('');
@@ -58,7 +57,7 @@ describe('TrackFieldCreator', () => {
             // Arrange
 
             // Act
-            const field: string = trackFieldCreator.createTextField('');
+            const field = trackFieldCreator.createTextField('');
 
             // Assert
             expect(field).toEqual('');
@@ -68,7 +67,7 @@ describe('TrackFieldCreator', () => {
             // Arrange
 
             // Act
-            const field: string = trackFieldCreator.createTextField('Valid value');
+            const field = trackFieldCreator.createTextField('Valid value');
 
             // Assert
             expect(field).toEqual('Valid value');
@@ -78,7 +77,7 @@ describe('TrackFieldCreator', () => {
             // Arrange
 
             // Act
-            const field: string = trackFieldCreator.createTextField('  Valid value ');
+            const field = trackFieldCreator.createTextField('  Valid value ');
 
             // Assert
             expect(field).toEqual('Valid value');
@@ -90,7 +89,7 @@ describe('TrackFieldCreator', () => {
             // Arrange
 
             // Act
-            const field: string = trackFieldCreator.createMultiTextField(undefined);
+            const field = trackFieldCreator.createMultiTextField(undefined);
 
             // Assert
             expect(field).toEqual('');
@@ -98,21 +97,25 @@ describe('TrackFieldCreator', () => {
 
         it('should join unsplittable metadata', () => {
             // Arrange
-            metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Item 1', 'Item 2'])).returns(() => ['Item 1', 'Item 2']);
+            metadataPatcherMock.joinUnsplittableMetadataReturnValues = {
+                'Item 1,Item 2': ['Item 1', 'Item 2'],
+            };
 
             // Act
             trackFieldCreator.createMultiTextField(['Item 1', 'Item 2']);
 
             // Assert
-            metadataPatcherMock.verify((x) => x.joinUnsplittableMetadata(['Item 1', 'Item 2']), Times.exactly(1));
+            expect(metadataPatcherMock.joinUnsplittableMetadataCalls).toEqual(1);
         });
 
         it('should convert to a delimited string', () => {
             // Arrange
-            metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Item 1', 'Item 2'])).returns(() => ['Item 1', 'Item 2']);
+            metadataPatcherMock.joinUnsplittableMetadataReturnValues = {
+                'Item 1,Item 2': ['Item 1', 'Item 2'],
+            };
 
             // Act
-            const field: string = trackFieldCreator.createMultiTextField(['Item 1', 'Item 2']);
+            const field = trackFieldCreator.createMultiTextField(['Item 1', 'Item 2']);
 
             // Assert
             expect(field).toEqual(';Item 1;;Item 2;');
