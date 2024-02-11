@@ -11,6 +11,7 @@ class FileAccessMock {
     getFilesInDirectoryAsyncCalls = [];
     deleteFileIfExistsAsyncCalls = [];
     getFileExtensionReturnValues = {};
+    pathExistsCalls = [];
     pathExistsReturnValues = {};
 
     reset() {
@@ -26,6 +27,7 @@ class FileAccessMock {
     }
 
     pathExists(pathToCheck) {
+        this.pathExistsCalls.push(pathToCheck);
         return this.pathExistsReturnValues[pathToCheck];
     }
 
