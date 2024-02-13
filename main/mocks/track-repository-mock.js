@@ -15,17 +15,20 @@ class TrackRepositoryMock {
     getTrackByPathReturnCalls = [];
     getTrackByPathReturnValues = {};
     updateTrackCalls = [];
+    getNumberOfTracksThatNeedIndexingReturnValue = 0;
+    getNumberOfTracksReturnValue = 0;
+    getMaximumDateFileModifiedReturnValue = 0;
 
     getNumberOfTracksThatNeedIndexing() {
-        return 0;
+        return this.getNumberOfTracksThatNeedIndexingReturnValue;
     }
 
     getNumberOfTracks() {
-        return 0;
+        return this.getNumberOfTracksReturnValue;
     }
 
     getMaximumDateFileModified() {
-        return 0;
+        return this.getMaximumDateFileModifiedReturnValue;
     }
 
     getNumberOfTracksThatDoNotBelongFolders() {
