@@ -14,6 +14,7 @@ class TrackRepositoryMock {
     addTrackCalls = [];
     getTrackByPathReturnCalls = [];
     getTrackByPathReturnValues = {};
+    updateTrackCalls = [];
 
     getNumberOfTracksThatNeedIndexing() {
         return 0;
@@ -46,7 +47,9 @@ class TrackRepositoryMock {
         this.deleteTrackCalls.push(trackId);
     }
 
-    updateTrack(track) {}
+    updateTrack(track) {
+        this.updateTrackCalls.push(track.path);
+    }
 
     addTrack(track) {
         this.addTrackCalls.push(track);
