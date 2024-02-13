@@ -2,6 +2,7 @@ class WorkerProxyMock {
     applicationDataDirectoryReturnValue = '';
     downloadMissingAlbumCoversReturnValue = false;
     postMessageCalls = [];
+    skipRemovedFilesDuringRefreshReturnValue = false;
 
     task() {
         return '';
@@ -20,7 +21,7 @@ class WorkerProxyMock {
     }
 
     skipRemovedFilesDuringRefresh() {
-        return false;
+        return this.skipRemovedFilesDuringRefreshReturnValue;
     }
 }
 

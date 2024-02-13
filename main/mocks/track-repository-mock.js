@@ -11,6 +11,9 @@ class TrackRepositoryMock {
     getAllTracksCalls = 0;
     getAllTracksReturnValue = [];
     deleteTrackCalls = [];
+    addTrackCalls = [];
+    getTrackByPathReturnCalls = [];
+    getTrackByPathReturnValues = {};
 
     getNumberOfTracksThatNeedIndexing() {
         return 0;
@@ -45,10 +48,13 @@ class TrackRepositoryMock {
 
     updateTrack(track) {}
 
-    addTrack(track) {}
+    addTrack(track) {
+        this.addTrackCalls.push(track);
+    }
 
     getTrackByPath(path) {
-        return undefined;
+        this.getTrackByPathReturnCalls.push(path);
+        return this.getTrackByPathReturnValues[path];
     }
 
     disableNeedsAlbumArtworkIndexing(albumKey) {

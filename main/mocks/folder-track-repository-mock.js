@@ -8,7 +8,7 @@ class FolderTrackRepositoryMock {
     deleteFolderTracksForInexistingTracksReturnValue = 0;
 
     addFolderTrack(folderTrack) {
-        this.addFolderTrackCalls.push(folderTrack);
+        this.addFolderTrackCalls.push(`${folderTrack.folderId};${folderTrack.trackId}`);
     }
 
     getNumberOfFolderTracksForInexistingTracks() {
