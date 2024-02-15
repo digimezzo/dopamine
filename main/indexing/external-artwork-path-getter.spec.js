@@ -74,6 +74,15 @@ describe('ExternalArtworkPathGetter', () => {
                 '/home/MyUser/Music/Folder.jpeg': 'Folder.jpeg',
                 '/home/MyUser/Music/Folder.JPEG': 'Folder.JPEG',
                 '/home/MyUser/Music/MyMusicFile.mp3': 'MyMusicFile.mp3',
+                '/home/MyUser/Music/mymusicfile.png': 'mymusicfile.png',
+                '/home/MyUser/Music/MyMusicFile.png': 'MyMusicFile.png',
+                '/home/MyUser/Music/MyMusicFile.PNG': 'MyMusicFile.PNG',
+                '/home/MyUser/Music/mymusicfile.jpg': 'mymusicfile.jpg',
+                '/home/MyUser/Music/MyMusicFile.jpg': 'MyMusicFile.jpg',
+                '/home/MyUser/Music/MyMusicFile.JPG': 'MyMusicFile.JPG',
+                '/home/MyUser/Music/mymusicfile.jpeg': 'mymusicfile.jpeg',
+                '/home/MyUser/Music/MyMusicFile.jpeg': 'MyMusicFile.jpeg',
+                '/home/MyUser/Music/MyMusicFile.JPEG': 'MyMusicFile.JPEG',
             };
 
             fileAccessMock.getDirectoryPathReturnValues = { '/home/MyUser/Music/MyMusicFile.mp3': '/home/MyUser/Music' };
