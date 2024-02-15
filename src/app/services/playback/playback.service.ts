@@ -18,9 +18,9 @@ import { Queue } from './queue';
 import { PlaybackServiceBase } from './playback.service.base';
 import { TrackServiceBase } from '../track/track.service.base';
 import { PlaylistServiceBase } from '../playlist/playlist.service.base';
-import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { AudioPlayerBase } from './audio-player.base';
 import { SettingsBase } from '../../common/settings/settings.base';
+import { NotificationServiceBase } from '../notification/notification.service.base';
 
 @Injectable()
 export class PlaybackService implements PlaybackServiceBase {
@@ -43,7 +43,7 @@ export class PlaybackService implements PlaybackServiceBase {
     public constructor(
         private trackService: TrackServiceBase,
         private playlistService: PlaylistServiceBase,
-        private snackBarService: SnackBarServiceBase,
+        private notificationService: NotificationServiceBase,
         private _audioPlayer: AudioPlayerBase,
         private trackOrdering: TrackOrdering,
         private queue: Queue,
@@ -485,9 +485,9 @@ export class PlaybackService implements PlaybackServiceBase {
 
     private async notifyOfTracksAddedToPlaybackQueueAsync(numberOfAddedTracks: number): Promise<void> {
         if (numberOfAddedTracks === 1) {
-            await this.snackBarService.singleTrackAddedToPlaybackQueueAsync();
+            await this.notificationService.singleTrackAddedToPlaybackQueueAsync();
         } else {
-            await this.snackBarService.multipleTracksAddedToPlaybackQueueAsync(numberOfAddedTracks);
+            await this.notificationService.multipleTracksAddedToPlaybackQueueAsync(numberOfAddedTracks);
         }
     }
 }

@@ -23,7 +23,7 @@ import { AlbumData } from '../../../../data/entities/album-data';
 import { TrackModel } from '../../../../services/track/track-model';
 import { Track } from '../../../../data/entities/track';
 import { TrackModels } from '../../../../services/track/track-models';
-import { Constants } from '../../../../common/application/constants';
+import { ApplicationPaths } from '../../../../common/application/application-paths';
 
 describe('CollectionGenresComponent', () => {
     let searchServiceMock: IMock<SearchServiceBase>;
@@ -38,6 +38,7 @@ describe('CollectionGenresComponent', () => {
     let settingsStub: any;
     let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
+    let applicationPathsMock: IMock<ApplicationPaths>;
 
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -58,7 +59,7 @@ describe('CollectionGenresComponent', () => {
     const flushPromises = () => new Promise(process.nextTick);
 
     function createComponent(): CollectionGenresComponent {
-        const component: CollectionGenresComponent = new CollectionGenresComponent(
+        return new CollectionGenresComponent(
             searchServiceMock.object,
             genresPersisterMock.object,
             albumsPersisterMock.object,
@@ -72,29 +73,21 @@ describe('CollectionGenresComponent', () => {
             schedulerMock.object,
             loggerMock.object,
         );
-
-        return component;
     }
 
     function createGenreModel(genreName: string): GenreModel {
-        const genreModel: GenreModel = new GenreModel(genreName, translatorServiceMock.object);
-
-        return genreModel;
+        return new GenreModel(genreName, translatorServiceMock.object);
     }
 
     function createAlbumModel(albumKey: string): AlbumModel {
         const albumData: AlbumData = new AlbumData();
         albumData.albumKey = albumKey;
-        const albumModel: AlbumModel = new AlbumModel(albumData, translatorServiceMock.object, fileAccessMock.object);
-
-        return albumModel;
+        return new AlbumModel(albumData, translatorServiceMock.object, applicationPathsMock.object);
     }
 
     function createTrackModel(path: string): TrackModel {
         const track: Track = new Track(path);
-        const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
-
-        return trackModel;
+        return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
     }
 
     function createTrackModels(tracks: TrackModel[]): TrackModels {
@@ -123,6 +116,7 @@ describe('CollectionGenresComponent', () => {
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         fileAccessMock = Mock.ofType<FileAccess>();
+        applicationPathsMock = Mock.ofType<ApplicationPaths>();
 
         selectedGenresChangedMock = new Subject();
         selectedGenresChangedMock$ = selectedGenresChangedMock.asObservable();
@@ -291,8 +285,7 @@ describe('CollectionGenresComponent', () => {
             // Arrange
             const component: CollectionGenresComponent = createComponent();
             const track: TrackModel = createTrackModel('path1');
-            const trackModels: TrackModels = createTrackModels([track]);
-            component.tracks = trackModels;
+            component.tracks = createTrackModels([track]);
 
             // Act
             component.ngOnDestroy();

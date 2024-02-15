@@ -4,13 +4,13 @@ import { AlbumData } from '../../data/entities/album-data';
 import { StringUtils } from '../../common/utils/string-utils';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { ISelectable } from '../../ui/interfaces/i-selectable';
-import { FileAccessBase } from '../../common/io/file-access.base';
+import { ApplicationPaths } from '../../common/application/application-paths';
 
 export class AlbumModel implements ISelectable {
     public constructor(
         private albumData: AlbumData,
         private translatorService: TranslatorServiceBase,
-        private fileAccess: FileAccessBase,
+        private applicationPaths: ApplicationPaths,
     ) {}
 
     public isSelected: boolean = false;
@@ -22,7 +22,7 @@ export class AlbumModel implements ISelectable {
             return Constants.emptyImage;
         }
 
-        return 'file:///' + this.fileAccess.coverArtFullPath(this.albumData.artworkId!);
+        return 'file:///' + this.applicationPaths.coverArtFullPath(this.albumData.artworkId!);
     }
 
     public get albumArtist(): string {

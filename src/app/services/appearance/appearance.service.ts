@@ -42,6 +42,7 @@ export class AppearanceService implements AppearanceServiceBase {
         private desktop: DesktopBase,
         private defaultThemesCreator: DefaultThemesCreator,
         private documentProxy: DocumentProxy,
+        private applicationPaths: ApplicationPaths,
     ) {
         this.initialize();
     }
@@ -152,7 +153,7 @@ export class AppearanceService implements AppearanceServiceBase {
     private initialize(): void {
         this._windowHasNativeTitleBar = this.application.getGlobal('windowHasFrame') as boolean;
 
-        this._themesDirectoryPath = this.getThemesDirectoryPath();
+        this._themesDirectoryPath = this.applicationPaths.themesDirectoryFullPath();
         this.ensureThemesDirectoryExists();
         this.ensureDefaultThemesExist();
         this._themes = this.getThemesFromThemesDirectory();
@@ -436,12 +437,5 @@ export class AppearanceService implements AppearanceServiceBase {
         }
 
         return themes;
-    }
-
-    private getThemesDirectoryPath(): string {
-        const applicationDirectory: string = this.fileAccess.applicationDataDirectory();
-        const themesDirectoryPath: string = this.fileAccess.combinePath([applicationDirectory, ApplicationPaths.themesFolder]);
-
-        return themesDirectoryPath;
     }
 }

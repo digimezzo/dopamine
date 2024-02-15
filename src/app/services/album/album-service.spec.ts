@@ -6,18 +6,19 @@ import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { AlbumData } from '../../data/entities/album-data';
+import { ApplicationPaths } from '../../common/application/application-paths';
 
 describe('AlbumService', () => {
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
-    let fileAccessMock: IMock<FileAccessBase>;
+    let applicationPathsMock: IMock<ApplicationPaths>;
     let service: AlbumService;
 
     beforeEach(() => {
         trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
-        fileAccessMock = Mock.ofType<FileAccessBase>();
-        service = new AlbumService(trackRepositoryMock.object, translatorServiceMock.object, fileAccessMock.object);
+        applicationPathsMock = Mock.ofType<ApplicationPaths>();
+        service = new AlbumService(trackRepositoryMock.object, translatorServiceMock.object, applicationPathsMock.object);
     });
 
     describe('constructor', () => {

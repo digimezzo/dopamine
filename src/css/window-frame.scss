@@ -44,3 +44,13 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+.window-frame__content__with__notification__bar {
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    max-height: calc(100vh - $titlebar-height - var(--notification-bar-correction));
+    width: 100vw;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

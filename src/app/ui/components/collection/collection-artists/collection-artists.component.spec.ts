@@ -24,7 +24,7 @@ import { TrackModel } from '../../../../services/track/track-model';
 import { AlbumData } from '../../../../data/entities/album-data';
 import { Track } from '../../../../data/entities/track';
 import { TrackModels } from '../../../../services/track/track-models';
-import { Constants } from '../../../../common/application/constants';
+import { ApplicationPaths } from '../../../../common/application/application-paths';
 
 describe('CollectionArtistsComponent', () => {
     let searchServiceMock: IMock<SearchServiceBase>;
@@ -43,6 +43,7 @@ describe('CollectionArtistsComponent', () => {
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let fileAccessMock: IMock<FileAccess>;
+    let applicationPathsMock: IMock<ApplicationPaths>;
 
     let selectedArtistsChangedMock: Subject<string[]>;
     let selectedArtistsChangedMock$: Observable<string[]>;
@@ -81,24 +82,18 @@ describe('CollectionArtistsComponent', () => {
     }
 
     function createArtistModel(artistName: string): ArtistModel {
-        const artistModel: ArtistModel = new ArtistModel(artistName, translatorServiceMock.object);
-
-        return artistModel;
+        return new ArtistModel(artistName, translatorServiceMock.object);
     }
 
     function createAlbumModel(albumKey: string): AlbumModel {
         const albumData: AlbumData = new AlbumData();
         albumData.albumKey = albumKey;
-        const albumModel: AlbumModel = new AlbumModel(albumData, translatorServiceMock.object, fileAccessMock.object);
-
-        return albumModel;
+        return new AlbumModel(albumData, translatorServiceMock.object, applicationPathsMock.object);
     }
 
     function createTrackModel(path: string): TrackModel {
         const track: Track = new Track(path);
-        const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
-
-        return trackModel;
+        return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
     }
 
     function createTrackModels(tracks: TrackModel[]): TrackModels {
@@ -124,6 +119,7 @@ describe('CollectionArtistsComponent', () => {
         settingsStub = { artistsLeftPaneWidthPercent: 25, artistsRightPaneWidthPercent: 25 };
         schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
+        applicationPathsMock = Mock.ofType<ApplicationPaths>();
 
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
@@ -300,8 +296,7 @@ describe('CollectionArtistsComponent', () => {
             // Arrange
             const component: CollectionArtistsComponent = createComponent();
             const track: TrackModel = createTrackModel('path1');
-            const trackModels: TrackModels = createTrackModels([track]);
-            component.tracks = trackModels;
+            component.tracks = createTrackModels([track]);
 
             // Act
             component.ngOnDestroy();

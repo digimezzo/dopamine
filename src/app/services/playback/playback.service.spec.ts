@@ -20,16 +20,17 @@ import { ProgressUpdater } from './progress-updater';
 import { Queue } from './queue';
 import { TrackServiceBase } from '../track/track.service.base';
 import { PlaylistServiceBase } from '../playlist/playlist.service.base';
-import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { AudioPlayerBase } from './audio-player.base';
 import { PlaybackServiceBase } from './playback.service.base';
 import { AlbumData } from '../../data/entities/album-data';
+import { NotificationServiceBase } from '../notification/notification.service.base';
+import { ApplicationPaths } from '../../common/application/application-paths';
 
 describe('PlaybackService', () => {
     let trackServiceMock: IMock<TrackServiceBase>;
     let playlistServiceMock: IMock<PlaylistServiceBase>;
-    let snackBarServiceMock: IMock<SnackBarServiceBase>;
+    let notificationServiceMock: IMock<NotificationServiceBase>;
     let audioPlayerMock: IMock<AudioPlayerBase>;
     let trackOrderingMock: IMock<TrackOrdering>;
     let fileAccessMock: IMock<FileAccess>;
@@ -43,6 +44,8 @@ describe('PlaybackService', () => {
     let subscription: Subscription;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+
+    let applicationPathsMock: IMock<ApplicationPaths>;
 
     const albumData1: AlbumData = new AlbumData();
     albumData1.albumKey = 'albumKey1';
@@ -67,7 +70,7 @@ describe('PlaybackService', () => {
     beforeEach(() => {
         trackServiceMock = Mock.ofType<TrackServiceBase>();
         playlistServiceMock = Mock.ofType<PlaylistServiceBase>();
-        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
+        notificationServiceMock = Mock.ofType<NotificationServiceBase>();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         audioPlayerMock = Mock.ofType<AudioPlayerBase>();
@@ -77,6 +80,9 @@ describe('PlaybackService', () => {
         queueMock = Mock.ofType<Queue>();
         progressUpdaterMock = Mock.ofType<ProgressUpdater>();
         mathExtensionsMock = Mock.ofType<MathExtensions>();
+
+        applicationPathsMock = Mock.ofType<ApplicationPaths>();
+
         settingsStub = { volume: 0.6 };
         playbackFinished = new Subject();
         progressUpdaterProgressChanged = new Subject();
@@ -88,7 +94,7 @@ describe('PlaybackService', () => {
 
         subscription = new Subscription();
 
-        album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileAccessMock.object);
+        album1 = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
 
         track1 = new Track('Path 1');
         track1.trackTitle = 'Title 1';
@@ -146,7 +152,7 @@ describe('PlaybackService', () => {
         return new PlaybackService(
             trackServiceMock.object,
             playlistServiceMock.object,
-            snackBarServiceMock.object,
+            notificationServiceMock.object,
             audioPlayerMock.object,
             trackOrderingMock.object,
             queueMock.object,
@@ -2146,8 +2152,8 @@ describe('PlaybackService', () => {
 
             // Assert
             queueMock.verify((x) => x.addTracks(It.isAny()), Times.never());
-            snackBarServiceMock.verify((x) => x.singleTrackAddedToPlaybackQueueAsync(), Times.never());
-            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(It.isAny()), Times.never());
+            notificationServiceMock.verify((x) => x.singleTrackAddedToPlaybackQueueAsync(), Times.never());
+            notificationServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(It.isAny()), Times.never());
         });
 
         it('should add tracks to the queue if tracksToAdd has tracks', async () => {
@@ -2159,7 +2165,7 @@ describe('PlaybackService', () => {
 
             // Assert
             queueMock.verify((x) => x.addTracks([trackModel1]), Times.once());
-            snackBarServiceMock.verify((x) => x.singleTrackAddedToPlaybackQueueAsync(), Times.exactly(1));
+            notificationServiceMock.verify((x) => x.singleTrackAddedToPlaybackQueueAsync(), Times.exactly(1));
         });
     });
 
@@ -2198,7 +2204,7 @@ describe('PlaybackService', () => {
 
             // Assert
             queueMock.verify((x) => x.addTracks(orderedTrackModels), Times.exactly(1));
-            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(4), Times.exactly(1));
+            notificationServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(4), Times.exactly(1));
         });
     });
 
@@ -2237,7 +2243,7 @@ describe('PlaybackService', () => {
 
             // Assert
             queueMock.verify((x) => x.addTracks(orderedTrackModels), Times.exactly(1));
-            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(4), Times.exactly(1));
+            notificationServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(4), Times.exactly(1));
         });
     });
 
@@ -2273,7 +2279,7 @@ describe('PlaybackService', () => {
 
             // Assert
             queueMock.verify((x) => x.addTracks(orderedTrackModels), Times.exactly(1));
-            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(4), Times.exactly(1));
+            notificationServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(4), Times.exactly(1));
         });
     });
 

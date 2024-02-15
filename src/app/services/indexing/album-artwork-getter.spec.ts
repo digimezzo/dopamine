@@ -21,7 +21,7 @@ describe('AlbumArtworkGetter', () => {
             embeddedAlbumArtworkGetterMock.object,
             externalAlbumArtworkGetterMock.object,
             onlineAlbumArtworkGetterMock.object,
-            settingsStub
+            settingsStub,
         );
     });
 

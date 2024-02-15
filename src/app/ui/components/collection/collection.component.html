@@ -26,7 +26,8 @@
         <app-main-menu class="main-menu"> </app-main-menu>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <div class="window-frame__content">
+    <app-notification-bar></app-notification-bar>
+    <div class="window-frame__content__with__notification__bar">
         <div *ngIf="this.collectionNavigationService.hasVisiblePages()">
             <!-- Artists -->
             <app-collection-artists *ngIf="this.leftToRight(0)" [@enterLeftToRight]></app-collection-artists>

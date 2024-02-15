@@ -1,9 +1,5 @@
 export abstract class FileAccessBase {
     public abstract combinePath(pathPieces: string[]): string;
-    public abstract applicationDataDirectory(): string;
-    public abstract musicDirectory(): string;
-    public abstract coverArtCacheFullPath(): string;
-    public abstract coverArtFullPath(artworkId: string): string;
     public abstract getFilesInDirectoryAsync(directoryPath: string, continueOnError?: boolean, errors?: Error[]): Promise<string[]>;
     public abstract getFilesInDirectory(directoryPath: string, continueOnError?: boolean, errors?: Error[]): string[];
     public abstract getDirectoriesInDirectoryAsync(directoryPath: string, continueOnError?: boolean, errors?: Error[]): Promise<string[]>;

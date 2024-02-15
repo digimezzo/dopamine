@@ -4,8 +4,8 @@ import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { SignInState } from '../../../../services/scrobbling/sign-in-state';
 import { DiscordServiceBase } from '../../../../services/discord/discord.service.base';
 import { ScrobblingServiceBase } from '../../../../services/scrobbling/scrobbling.service.base';
-import { SnackBarServiceBase } from '../../../../services/snack-bar/snack-bar.service.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
+import { NotificationServiceBase } from '../../../../services/notification/notification.service.base';
 
 @Component({
     selector: 'app-online-settings',
@@ -21,7 +21,7 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
     public constructor(
         private discordService: DiscordServiceBase,
         private scrobblingService: ScrobblingServiceBase,
-        private snackBarService: SnackBarServiceBase,
+        private notificationService: NotificationServiceBase,
         public settings: SettingsBase,
     ) {}
 
@@ -55,7 +55,7 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
                 this._signInState = signInState;
 
                 if (signInState === SignInState.Error) {
-                    PromiseUtils.noAwait(this.snackBarService.lastFmLoginFailedAsync());
+                    PromiseUtils.noAwait(this.notificationService.lastFmLoginFailedAsync());
                 }
             }),
         );

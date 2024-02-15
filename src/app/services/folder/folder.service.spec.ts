@@ -5,13 +5,13 @@ import { FolderModel } from './folder-model';
 import { FolderService } from './folder.service';
 import { SubfolderModel } from './subfolder-model';
 import { FolderRepositoryBase } from '../../data/repositories/folder-repository.base';
-import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { Folder } from '../../data/entities/folder';
+import { NotificationServiceBase } from '../notification/notification.service.base';
 
 describe('FolderService', () => {
     let folderRepositoryMock: IMock<FolderRepositoryBase>;
-    let snackBarServiceMock: IMock<SnackBarServiceBase>;
+    let notificationServiceMock: IMock<NotificationServiceBase>;
     let loggerMock: IMock<Logger>;
     let fileAccessMock: IMock<FileAccessBase>;
 
@@ -19,11 +19,11 @@ describe('FolderService', () => {
 
     beforeEach(() => {
         folderRepositoryMock = Mock.ofType<FolderRepositoryBase>();
-        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
+        notificationServiceMock = Mock.ofType<NotificationServiceBase>();
         loggerMock = Mock.ofType<Logger>();
         fileAccessMock = Mock.ofType<FileAccessBase>();
 
-        service = new FolderService(folderRepositoryMock.object, loggerMock.object, snackBarServiceMock.object, fileAccessMock.object);
+        service = new FolderService(folderRepositoryMock.object, loggerMock.object, notificationServiceMock.object, fileAccessMock.object);
     });
 
     describe('constructor', () => {
@@ -86,7 +86,7 @@ describe('FolderService', () => {
             await service.addFolderAsync('/home/me/Music');
 
             // Assert
-            snackBarServiceMock.verify((x) => x.folderAlreadyAddedAsync(), Times.exactly(1));
+            notificationServiceMock.verify((x) => x.folderAlreadyAddedAsync(), Times.exactly(1));
         });
 
         it('should notify that folders have changed when a folder is added', async () => {

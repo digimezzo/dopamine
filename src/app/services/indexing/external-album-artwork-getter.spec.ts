@@ -19,7 +19,7 @@ describe('ExternalAlbumArtworkGetter', () => {
         externalAlbumArtworkGetter = new ExternalAlbumArtworkGetter(
             externalArtworkPathGetterMock.object,
             imageProcessorMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
     });
 
