@@ -70,7 +70,7 @@ class TrackRepository {
     }
 
     updateTrack(track) {
-        const database = DatabaseFactory.create();
+        const database = this.databaseFactory.create();
 
         const statement = database.prepare(
             `UPDATE Track

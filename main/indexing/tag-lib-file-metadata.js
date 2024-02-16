@@ -1,6 +1,9 @@
-const { File, PictureType } = require('node-taglib-sharp');
+const { File, PictureType, TagTypes, Id3v2PopularimeterFrame, Id3v2FrameClassType } = require('node-taglib-sharp');
+const { RatingConverter } = require('./rating-converter');
 
 class TagLibFileMetadata {
+    #windowsPopMUser = 'Windows Media Player 9 Series';
+
     constructor(path) {
         this.path = path;
         this.bitRate = 0;
@@ -110,6 +113,29 @@ class TagLibFileMetadata {
                 this.sampleRate = tagLibFile.properties.audioSampleRate ?? 0;
             }
         }
+
+        try {
+            this.rating = this.#readRatingFromFile(tagLibFile) ?? 0;
+        } catch (error) {
+            // Intended suppression
+        }
+    }
+
+    #readRatingFromFile(tagLibFile) {
+        const id3v2Tag = tagLibFile.getTag(TagTypes.Id3v2, true);
+        const allPopularimeterFrames = id3v2Tag.getFramesByClassType(Id3v2FrameClassType.PopularimeterFrame);
+
+        if (allPopularimeterFrames.length === 0) {
+            return 0;
+        }
+
+        const popularimeterFramesForWindowsUser = allPopularimeterFrames.filter((x) => x.user === this.#windowsPopMUser);
+
+        if (popularimeterFramesForWindowsUser.length > 0) {
+            return RatingConverter.popM2StarRating(popularimeterFramesForWindowsUser[0].rating);
+        }
+
+        return RatingConverter.popM2StarRating(allPopularimeterFrames[0].rating);
     }
 }
 
