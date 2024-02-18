@@ -5,7 +5,7 @@
     <div class="d-flex flex-row align-items-center">
         <i *ngIf="!notificationData?.animateIcon" class="notification-bar__icon mr-2" [ngClass]="notificationData?.icon"></i>
         <i *ngIf="notificationData?.animateIcon" class="notification-bar__icon mr-2 rotation" [ngClass]="notificationData?.icon"></i>
-        <div>
+        <div class="notification-bar__text">
             {{ notificationData?.message }}
         </div>
     </div>

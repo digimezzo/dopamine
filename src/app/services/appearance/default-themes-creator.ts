@@ -282,7 +282,7 @@ export class DefaultThemesCreator {
 
     private defaultDarkColors(): ThemeNeutralColors {
         return new ThemeNeutralColors(
-            '#7e7e7e',
+            '#7f7f7f',
             'rgba(255, 255, 255, 0.05)',
             'rgba(255, 255, 255, 0.1)',
             '#666',
@@ -316,19 +316,19 @@ export class DefaultThemesCreator {
 
     private defaultLightColors(): ThemeNeutralColors {
         return new ThemeNeutralColors(
-            '#838383',
+            '#828282',
             'rgba(0, 0, 0, 0.05)',
             'rgba(0, 0, 0, 0.1)',
             '#909090',
             '#000',
-            '#f5f5f5',
-            '#fdfdfd',
-            '#fdfdfd',
-            '#efefef',
+            '#f7f7f7',
+            '#fefefe',
+            '#fefefe',
+            '#f0f0f0',
             '#000',
             '#838383',
             '#dedede',
-            '#000',
+            '#333',
             '#838383',
             '#cecece',
             'transparent',
@@ -336,7 +336,7 @@ export class DefaultThemesCreator {
             '#d7d7d7',
             '#d7d7d7',
             '#4883e0',
-            '#dfdfdf',
+            '#ededed',
             '#000',
             '#838383',
             '#fdfdfd',
