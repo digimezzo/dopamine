@@ -84,6 +84,7 @@ describe('AppearanceService', () => {
             '#0fffff',
             '#0fffff',
             '#0fffff',
+            '#0fffff',
         );
     }
 
@@ -103,6 +104,7 @@ describe('AppearanceService', () => {
             '#1ccccc',
             '#1ddddd',
             '#1eeeee',
+            '#1fffff',
             '#1fffff',
             '#1fffff',
             '#1fffff',
@@ -200,6 +202,7 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-slider-thumb-background')).toEqual('#0ddddd');
         expect(documentElementMock.style.getPropertyValue('--theme-album-cover-logo')).toEqual('#0eeeee');
         expect(documentElementMock.style.getPropertyValue('--theme-album-cover-background')).toEqual('#0fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-header-separator')).toEqual('#0fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-pane-separators')).toEqual('#0fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-settings-separators')).toEqual('#0fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-context-menu-separators')).toEqual('#0fffff');
@@ -231,6 +234,7 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-slider-thumb-background')).toEqual('#1ddddd');
         expect(documentElementMock.style.getPropertyValue('--theme-album-cover-logo')).toEqual('#1eeeee');
         expect(documentElementMock.style.getPropertyValue('--theme-album-cover-background')).toEqual('#1fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-header-separator')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-pane-separators')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-settings-separators')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-context-menu-separators')).toEqual('#1fffff');
