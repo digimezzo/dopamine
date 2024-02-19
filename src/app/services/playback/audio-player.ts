@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
 import { PromiseUtils } from '../../common/utils/promise-utils';
+import { StringUtils } from '../../common/utils/string-utils';
 import { AudioPlayerBase } from './audio-player.base';
 
 @Injectable()
@@ -58,7 +59,7 @@ export class AudioPlayer implements AudioPlayerBase {
 
     public play(audioFilePath: string): void {
         // HTMLAudioElement doesn't play paths which contain a #, so we escape it by replacing it with %23.
-        const playableAudioFilePath: string = audioFilePath.replace('#', '%23');
+        const playableAudioFilePath: string = StringUtils.replaceAll(audioFilePath, '#', '%23');
         this.audio.src = 'file:///' + playableAudioFilePath;
         PromiseUtils.noAwait(this.audio.play());
     }

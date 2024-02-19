@@ -18,6 +18,7 @@ describe('ThemeNeutralColors', () => {
             '#333',
             '#444',
             '#555',
+            '#667',
             '#666',
             '#777',
             '#770',
@@ -193,6 +194,16 @@ describe('ThemeNeutralColors', () => {
 
             // Assert
             expect(colors.albumCoverBackground).toEqual('#555');
+        });
+
+        it('should set headerSeparator', () => {
+            // Arrange
+
+            // Act
+            const colors: ThemeNeutralColors = createNeutralColors();
+
+            // Assert
+            expect(colors.headerSeparator).toEqual('#667');
         });
 
         it('should set paneSeparators', () => {

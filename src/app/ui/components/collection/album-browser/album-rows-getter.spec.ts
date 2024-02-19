@@ -8,11 +8,12 @@ import { FileAccess } from '../../../../common/io/file-access';
 import { Shuffler } from '../../../../common/shuffler';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { AlbumModel } from '../../../../services/album/album-model';
+import { ApplicationPaths } from '../../../../common/application/application-paths';
 
 describe('AlbumRowsGetter', () => {
     let itemSpaceCalculatorMock: IMock<ItemSpaceCalculator>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
-    let fileAccessMock: IMock<FileAccess>;
+    let applicationPathsMock: IMock<ApplicationPaths>;
     let shufflerMock: IMock<Shuffler>;
     let albumRowsGetter: AlbumRowsGetter;
 
@@ -69,19 +70,19 @@ describe('AlbumRowsGetter', () => {
     beforeEach(() => {
         itemSpaceCalculatorMock = Mock.ofType<ItemSpaceCalculator>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
-        fileAccessMock = Mock.ofType<FileAccess>();
+        applicationPathsMock = Mock.ofType<ApplicationPaths>();
         shufflerMock = Mock.ofType<Shuffler>();
 
         itemSpaceCalculatorMock.setup((x) => x.calculateNumberOfItemsPerRow(It.isAny(), It.isAny())).returns(() => 2);
         translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
         translatorServiceMock.setup((x) => x.get('unknown-title')).returns(() => 'Unknown title');
 
-        album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileAccessMock.object);
-        album2 = new AlbumModel(albumData2, translatorServiceMock.object, fileAccessMock.object);
-        album3 = new AlbumModel(albumData3, translatorServiceMock.object, fileAccessMock.object);
-        album4 = new AlbumModel(albumData4, translatorServiceMock.object, fileAccessMock.object);
-        album5 = new AlbumModel(albumData5, translatorServiceMock.object, fileAccessMock.object);
-        album6 = new AlbumModel(albumData6, translatorServiceMock.object, fileAccessMock.object);
+        album1 = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
+        album2 = new AlbumModel(albumData2, translatorServiceMock.object, applicationPathsMock.object);
+        album3 = new AlbumModel(albumData3, translatorServiceMock.object, applicationPathsMock.object);
+        album4 = new AlbumModel(albumData4, translatorServiceMock.object, applicationPathsMock.object);
+        album5 = new AlbumModel(albumData5, translatorServiceMock.object, applicationPathsMock.object);
+        album6 = new AlbumModel(albumData6, translatorServiceMock.object, applicationPathsMock.object);
 
         albums = [album1, album2, album3, album4, album5, album6];
 

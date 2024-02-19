@@ -10,6 +10,7 @@ import { PlaylistModelFactory } from './playlist-model-factory';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { CollectionUtils } from '../../common/utils/collections-utils';
 import { FileValidator } from '../../common/validation/file-validator';
+import { DesktopBase } from '../../common/io/desktop.base';
 
 @Injectable()
 export class PlaylistFileManager {
@@ -19,6 +20,7 @@ export class PlaylistFileManager {
         private playlistModelFactory: PlaylistModelFactory,
         private guidFactory: GuidFactory,
         private fileValidator: FileValidator,
+        private applicationPaths: ApplicationPaths,
         private fileAccess: FileAccessBase,
         private logger: Logger,
     ) {
@@ -38,8 +40,7 @@ export class PlaylistFileManager {
     }
 
     private initialize(): void {
-        const musicDirectory: string = this.fileAccess.musicDirectory();
-        this._playlistsParentFolderPath = this.fileAccess.combinePath([musicDirectory, 'Dopamine', ApplicationPaths.playlistsFolder]);
+        this._playlistsParentFolderPath = this.applicationPaths.playlistsDirectoryFullPath();
     }
 
     public async getPlaylistsInPathAsync(path: string): Promise<PlaylistModel[]> {

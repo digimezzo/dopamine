@@ -16,10 +16,10 @@ import { PlaylistFileManager } from './playlist-file-manager';
 import { PlaylistModel } from './playlist-model';
 import { PlaylistServiceBase } from './playlist.service.base';
 import { TrackServiceBase } from '../track/track.service.base';
-import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { CollectionUtils } from '../../common/utils/collections-utils';
 import { FileValidator } from '../../common/validation/file-validator';
+import { NotificationServiceBase } from "../notification/notification.service.base";
 @Injectable()
 export class PlaylistService implements PlaylistServiceBase {
     private _playlistsParentFolderPath: string = '';
@@ -29,7 +29,7 @@ export class PlaylistService implements PlaylistServiceBase {
 
     public constructor(
         private trackService: TrackServiceBase,
-        private snackBarService: SnackBarServiceBase,
+        private notificationService: NotificationServiceBase,
         private playlistFolderModelFactory: PlaylistFolderModelFactory,
         private playlistFileManager: PlaylistFileManager,
         private playlistDecoder: PlaylistDecoder,
@@ -113,9 +113,9 @@ export class PlaylistService implements PlaylistServiceBase {
             }
 
             if (tracksToAdd.length === 1) {
-                await this.snackBarService.singleTrackAddedToPlaylistAsync(playlistName);
+                await this.notificationService.singleTrackAddedToPlaylistAsync(playlistName);
             } else {
-                await this.snackBarService.multipleTracksAddedToPlaylistAsync(playlistName, tracksToAdd.length);
+                await this.notificationService.multipleTracksAddedToPlaylistAsync(playlistName, tracksToAdd.length);
             }
         } catch (e: unknown) {
             this.logger.error(e, `Could not add tracks to playlist '${playlistPath}'`, 'PlaylistService', 'addTracksToPlaylist');

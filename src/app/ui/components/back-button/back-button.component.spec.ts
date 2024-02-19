@@ -45,7 +45,7 @@ describe('BackButtonComponent', () => {
             await component.goBackToCollectionAsync();
 
             // Assert
-            indexingServiceMock.verify((x) => x.indexCollectionIfFoldersHaveChangedAsync(), Times.exactly(1));
+            indexingServiceMock.verify((x) => x.indexCollectionIfFoldersHaveChanged(), Times.exactly(1));
         });
     });
 });

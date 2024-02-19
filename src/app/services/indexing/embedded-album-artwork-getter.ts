@@ -20,7 +20,7 @@ export class EmbeddedAlbumArtworkGetter {
                 e,
                 `Could not get embedded artwork for track with path='${fileMetadata.path}'`,
                 'EmbeddedAlbumArtworkGetter',
-                'getEmbeddedArtwork'
+                'getEmbeddedArtwork',
             );
         }
 

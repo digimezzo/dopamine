@@ -1,0 +1,13 @@
+<div
+    [@expandCollapse]="isExpanded ? 'expanded' : 'collapsed'"
+    class="notification-bar__background d-flex flex-row justify-content-between align-items-center px-2"
+>
+    <div class="d-flex flex-row align-items-center">
+        <i *ngIf="!notificationData?.animateIcon" class="notification-bar__icon mr-2" [ngClass]="notificationData?.icon"></i>
+        <i *ngIf="notificationData?.animateIcon" class="notification-bar__icon mr-2 rotation" [ngClass]="notificationData?.icon"></i>
+        <div class="notification-bar__text">
+            {{ notificationData?.message }}
+        </div>
+    </div>
+    <i class="notification-bar__closebutton las la-times pl-4" *ngIf="notificationData?.showCloseButton" (click)="dismiss()"></i>
+</div>

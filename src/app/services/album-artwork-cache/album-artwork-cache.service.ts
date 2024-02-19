@@ -6,12 +6,14 @@ import { AlbumArtworkCacheId } from './album-artwork-cache-id';
 import { AlbumArtworkCacheIdFactory } from './album-artwork-cache-id-factory';
 import { AlbumArtworkCacheServiceBase } from './album-artwork-cache.service.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
+import { ApplicationPaths } from '../../common/application/application-paths';
 
 @Injectable()
 export class AlbumArtworkCacheService implements AlbumArtworkCacheServiceBase {
     public constructor(
         private albumArtworkCacheIdFactory: AlbumArtworkCacheIdFactory,
         private imageProcessor: ImageProcessor,
+        private applicationPaths: ApplicationPaths,
         private fileAccess: FileAccessBase,
         private logger: Logger,
     ) {
@@ -20,7 +22,7 @@ export class AlbumArtworkCacheService implements AlbumArtworkCacheServiceBase {
 
     public async removeArtworkDataFromCacheAsync(artworkId: string): Promise<void> {
         try {
-            const cachedArtworkFilePath: string = this.fileAccess.coverArtFullPath(artworkId);
+            const cachedArtworkFilePath: string = this.applicationPaths.coverArtFullPath(artworkId);
             await this.fileAccess.deleteFileIfExistsAsync(cachedArtworkFilePath);
         } catch (e: unknown) {
             this.logger.error(e, 'Could not remove artwork data from cache', 'AlbumArtworkCacheService', 'removeArtworkDataFromCacheAsync');
@@ -38,7 +40,7 @@ export class AlbumArtworkCacheService implements AlbumArtworkCacheServiceBase {
 
         try {
             const albumArtworkCacheId: AlbumArtworkCacheId = this.albumArtworkCacheIdFactory.create();
-            const cachedArtworkFilePath: string = this.fileAccess.coverArtFullPath(albumArtworkCacheId.id);
+            const cachedArtworkFilePath: string = this.applicationPaths.coverArtFullPath(albumArtworkCacheId.id);
             const resizedImageBuffer: Buffer = this.imageProcessor.resizeImage(
                 imageBuffer,
                 Constants.cachedCoverArtMaximumSize,
@@ -57,7 +59,7 @@ export class AlbumArtworkCacheService implements AlbumArtworkCacheServiceBase {
 
     private createCoverArtCacheOnDisk(): void {
         try {
-            this.fileAccess.createFullDirectoryPathIfDoesNotExist(this.fileAccess.coverArtCacheFullPath());
+            this.fileAccess.createFullDirectoryPathIfDoesNotExist(this.applicationPaths.coverArtCacheFullPath());
         } catch (e: unknown) {
             this.logger.error(e, 'Could not create artwork cache directory', 'AlbumArtworkCacheService', 'createDirectories');
 

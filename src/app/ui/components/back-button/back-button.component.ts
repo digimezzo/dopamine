@@ -17,6 +17,6 @@ export class BackButtonComponent {
 
     public async goBackToCollectionAsync(): Promise<void> {
         await this.navigationService.navigateToCollectionAsync();
-        await this.indexingService.indexCollectionIfFoldersHaveChangedAsync();
+        this.indexingService.indexCollectionIfFoldersHaveChanged();
     }
 }

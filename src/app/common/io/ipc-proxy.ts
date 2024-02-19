@@ -14,19 +14,17 @@ export class IpcProxy implements IpcProxyBase {
         ipcRenderer.send(channel, arg);
     }
 
-    public async sendToMainProcessAsync(channel: string, arg: unknown): Promise<any> {
+    public async sendToMainProcessAsync(channel: string, arg: unknown): Promise<void> {
         ipcRenderer.send(`${channel}-request`, arg);
 
-        let receivedMessage: any | undefined = undefined;
+        let hasExited: boolean = false;
 
-        ipcRenderer.on(`${channel}-response`, (_: Electron.IpcRendererEvent, message: any): void => {
-            receivedMessage = message;
+        ipcRenderer.on(`${channel}-exit`, (_: Electron.IpcRendererEvent, message: any): void => {
+            hasExited = true;
         });
 
-        while (receivedMessage === undefined) {
+        while (!hasExited) {
             await this.scheduler.sleepAsync(100);
         }
-
-        return receivedMessage;
     }
 }

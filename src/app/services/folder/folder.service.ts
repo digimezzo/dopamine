@@ -5,9 +5,9 @@ import { Logger } from '../../common/logger';
 import { FolderModel } from './folder-model';
 import { SubfolderModel } from './subfolder-model';
 import { FolderServiceBase } from './folder.service.base';
-import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { FolderRepositoryBase } from '../../data/repositories/folder-repository.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
+import { NotificationServiceBase } from '../notification/notification.service.base';
 
 @Injectable()
 export class FolderService implements FolderServiceBase {
@@ -18,7 +18,7 @@ export class FolderService implements FolderServiceBase {
     public constructor(
         private folderRepository: FolderRepositoryBase,
         private logger: Logger,
-        private snackBarService: SnackBarServiceBase,
+        private notificationService: NotificationServiceBase,
         private fileAccess: FileAccessBase,
     ) {}
 
@@ -47,7 +47,7 @@ export class FolderService implements FolderServiceBase {
             this.logger.info(`Added folder with path '${path}'`, 'FolderService', 'addNewFolderAsync');
             this.onFoldersChanged();
         } else {
-            await this.snackBarService.folderAlreadyAddedAsync();
+            await this.notificationService.folderAlreadyAddedAsync();
             this.logger.info(`Folder with path '${path}' was already added`, 'FolderService', 'addNewFolderAsync');
         }
     }

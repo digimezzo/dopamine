@@ -13,7 +13,7 @@ export class LogViewer {
     public viewLog(): void {
         // See: https://stackoverflow.com/questions/30381450/open-external-file-with-electron
         this.desktop.showFileInDirectory(
-            this.fileAccess.combinePath([this.fileAccess.applicationDataDirectory(), 'logs', Constants.logFileName]),
+            this.fileAccess.combinePath([this.desktop.getApplicationDataDirectory(), 'logs', Constants.logFileName]),
         );
     }
 }

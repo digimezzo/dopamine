@@ -15,11 +15,11 @@ export class ManageAlbumCoversComponent {
         private indexingService: IndexingServiceBase,
     ) {}
 
-    public async refreshAllCoversAsync(): Promise<void> {
-        await this.indexingService.indexAlbumArtworkOnlyAsync(false);
+    public refreshAllCovers(): void {
+        this.indexingService.indexAlbumArtworkOnly(false);
     }
 
-    public async refreshMissingCoversAsync(): Promise<void> {
-        await this.indexingService.indexAlbumArtworkOnlyAsync(true);
+    public refreshMissingCovers(): void {
+        this.indexingService.indexAlbumArtworkOnly(true);
     }
 }

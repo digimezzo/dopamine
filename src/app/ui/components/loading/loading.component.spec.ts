@@ -217,7 +217,7 @@ describe('LoadingComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            indexingServiceMock.verify((x) => x.indexCollectionIfOutdatedAsync(), Times.exactly(1));
+            indexingServiceMock.verify((x) => x.indexCollectionIfOutdated(), Times.exactly(1));
         });
 
         it('should trigger indexing when navigating to now playing and refresh collection automatically is enabled', async () => {
@@ -232,7 +232,7 @@ describe('LoadingComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            indexingServiceMock.verify((x) => x.indexCollectionIfOutdatedAsync(), Times.never());
+            indexingServiceMock.verify((x) => x.indexCollectionIfOutdated(), Times.never());
         });
 
         it('should not trigger indexing when navigating to collection and refresh collection automatically is disabled', async () => {
@@ -247,7 +247,7 @@ describe('LoadingComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            indexingServiceMock.verify((x) => x.indexCollectionIfOutdatedAsync(), Times.never());
+            indexingServiceMock.verify((x) => x.indexCollectionIfOutdated(), Times.never());
         });
     });
 });
