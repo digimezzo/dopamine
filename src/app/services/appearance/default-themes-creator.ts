@@ -100,7 +100,7 @@ export class DefaultThemesCreator {
             '#595959',
             '#fff',
             '#fff',
-            '#151515',
+            '#555',
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
@@ -170,7 +170,7 @@ export class DefaultThemesCreator {
             '#595959',
             '#fff',
             '#fff',
-            '#1b1b1b',
+            '#555',
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
@@ -240,7 +240,7 @@ export class DefaultThemesCreator {
             '#3a3f53',
             '#fff',
             '#fff',
-            '#282c3d',
+            '#53586f',
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
