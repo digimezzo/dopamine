@@ -1,4 +1,7 @@
 const { Ioc } = require('../ioc/ioc');
+const log = require('electron-log');
+const { app } = require('electron');
+const path = require('path');
 
 async function performTaskAsync() {
     Ioc.registerAll();
@@ -6,6 +9,8 @@ async function performTaskAsync() {
     const indexer = Ioc.get('Indexer');
     const workerProxy = Ioc.get('WorkerProxy');
     const logger = Ioc.get('Logger');
+
+    log.transports.file.resolvePath = () => path.join(workerProxy.applicationDataDirectory(), 'logs', 'Dopamine.log');
 
     try {
         if (workerProxy.task() === 'outdated') {
