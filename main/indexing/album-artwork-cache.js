@@ -7,6 +7,8 @@ class AlbumArtworkCache {
         this.applicationPaths = applicationPaths;
         this.fileAccess = fileAccess;
         this.logger = logger;
+
+        this.#createCoverArtCacheOnDisk();
     }
 
     async addArtworkDataToCacheAsync(imageBuffer) {
@@ -20,7 +22,7 @@ class AlbumArtworkCache {
 
         try {
             const albumArtworkCacheId = this.albumArtworkCacheIdFactory.create();
-            const cachedArtworkFilePath = this.coverArtFullPath(albumArtworkCacheId.id);
+            const cachedArtworkFilePath = this.#coverArtFullPath(albumArtworkCacheId.id);
             const resizedImageBuffer = await this.imageProcessor.resizeImageAsync(
                 imageBuffer,
                 Constants.cachedCoverArtMaximumSize,
@@ -37,8 +39,19 @@ class AlbumArtworkCache {
         return undefined;
     }
 
-    coverArtFullPath(artworkId) {
+    #coverArtFullPath(artworkId) {
         return this.fileAccess.combinePath([this.applicationPaths.getCoverArtCacheFullPath(), `${artworkId}.jpg`]);
+    }
+
+    #createCoverArtCacheOnDisk() {
+        try {
+            this.fileAccess.createFullDirectoryPathIfDoesNotExist(this.applicationPaths.getCoverArtCacheFullPath());
+        } catch (e) {
+            this.logger.error(e, 'Could not create artwork cache directory', 'AlbumArtworkCache', 'createCoverArtCacheOnDisk');
+
+            // We cannot proceed if the above fails
+            throw e;
+        }
     }
 }
 

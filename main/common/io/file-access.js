@@ -123,6 +123,12 @@ class FileAccess {
     getDirectoryPath(directoryOrFilePath) {
         return path.dirname(directoryOrFilePath);
     }
+
+    createFullDirectoryPathIfDoesNotExist(directoryPath) {
+        if (!fs.existsSync(directoryPath)) {
+            fs.mkdirSync(directoryPath, { recursive: true });
+        }
+    }
 }
 
 exports.FileAccess = FileAccess;
