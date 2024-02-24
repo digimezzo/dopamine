@@ -1,6 +1,5 @@
 const { Ioc } = require('../ioc/ioc');
 const log = require('electron-log');
-const { app } = require('electron');
 const path = require('path');
 
 async function performTaskAsync() {
