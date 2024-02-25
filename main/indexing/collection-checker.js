@@ -21,11 +21,15 @@ class CollectionChecker {
 
             collectionIsOutdated = tracksNeedIndexing || numberOfTracksHasChanged || lastDateModifiedHasChanged;
 
-            this.logger.info(
-                `collectionIsOutdated=${collectionIsOutdated}, tracksNeedIndexing=${tracksNeedIndexing}, numberOfTracksHasChanged=${numberOfTracksHasChanged}, lastDateModifiedHasChanged=${lastDateModifiedHasChanged}`,
-                'CollectionChecker',
-                'isCollectionOutdatedAsync',
-            );
+            if (collectionIsOutdated) {
+                this.logger.info(
+                    `Collection is outdated: tracksNeedIndexing=${tracksNeedIndexing}, numberOfTracksHasChanged=${numberOfTracksHasChanged}, lastDateModifiedHasChanged=${lastDateModifiedHasChanged}`,
+                    'CollectionChecker',
+                    'isCollectionOutdatedAsync',
+                );
+            } else {
+                this.logger.info('Collection is up to date', 'CollectionChecker', 'isCollectionOutdatedAsync');
+            }
         } catch (e) {
             this.logger.error(
                 e,
