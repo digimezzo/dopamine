@@ -6,24 +6,32 @@ import { DesktopBase } from '../io/desktop.base';
     providedIn: 'root',
 })
 export class ApplicationPaths {
+    private _coverArtCacheFullPath = '';
+    private _playlistsDirectoryFullPath = '';
+    private _themesDirectoryFullPath = '';
+
     public constructor(
         private fileAccess: FileAccessBase,
         private desktop: DesktopBase,
-    ) {}
+    ) {
+        this._coverArtCacheFullPath = this.fileAccess.combinePath([this.desktop.getApplicationDataDirectory(), 'Cache', 'CoverArt']);
+        this._playlistsDirectoryFullPath = this.fileAccess.combinePath([this.desktop.getMusicDirectory(), 'Dopamine', 'Playlists']);
+        this._themesDirectoryFullPath = this.fileAccess.combinePath([this.desktop.getApplicationDataDirectory(), 'Themes']);
+    }
 
     public coverArtCacheFullPath(): string {
-        return this.fileAccess.combinePath([this.desktop.getApplicationDataDirectory(), 'Cache', 'CoverArt']);
+        return this._coverArtCacheFullPath;
     }
 
     public coverArtFullPath(artworkId: string): string {
-        return this.fileAccess.combinePath([this.coverArtCacheFullPath(), `${artworkId}.jpg`]);
+        return this.fileAccess.combinePath([this._coverArtCacheFullPath, `${artworkId}.jpg`]);
     }
 
     public playlistsDirectoryFullPath(): string {
-        return this.fileAccess.combinePath([this.desktop.getMusicDirectory(), 'Dopamine', 'Playlists']);
+        return this._playlistsDirectoryFullPath;
     }
 
     public themesDirectoryFullPath(): string {
-        return this.fileAccess.combinePath([this.desktop.getApplicationDataDirectory(), 'Themes']);
+        return this._themesDirectoryFullPath;
     }
 }
