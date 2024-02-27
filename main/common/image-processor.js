@@ -15,18 +15,14 @@ class ImageProcessor {
         return await this.fileAccess.getFileContentAsBufferAsync(imagePath);
     }
 
-    async resizeImageAsync(imageBuffer, maxWidth, maxHeight, jpegQuality) {
+    async resizeAndWriteImageAsync(imageBuffer, imagePath, maxWidth, maxHeight, jpegQuality) {
         let image = await Jimp.read(imageBuffer);
 
         if (image.bitmap.width > maxWidth || image.bitmap.height > maxHeight) {
             await image.resize(maxWidth, maxHeight);
         }
 
-        return await image.getBufferAsync(Jimp.MIME_JPEG);
-    }
-
-    async convertImageBufferToFileAsync(imageBuffer, imagePath) {
-        await fs.writeFile(imagePath, imageBuffer);
+        await image.quality(jpegQuality).writeAsync(imagePath);
     }
 }
 
