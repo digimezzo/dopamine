@@ -18,6 +18,7 @@ const os = require("os");
 const path = require("path");
 const url = require("url");
 const worker_threads_1 = require("worker_threads");
+const sharp = require('sharp'); // required to use sharp in worker threads
 /**
  * Command line parameters
  */

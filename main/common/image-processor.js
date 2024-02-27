@@ -1,5 +1,5 @@
 const fs = require('fs-extra');
-const Jimp = require('jimp');
+const sharp = require('sharp');
 
 class ImageProcessor {
     constructor(fileAccess) {
@@ -16,13 +16,12 @@ class ImageProcessor {
     }
 
     async resizeAndWriteImageAsync(imageBuffer, imagePath, maxWidth, maxHeight, jpegQuality) {
-        let image = await Jimp.read(imageBuffer);
-
-        if (image.bitmap.width > maxWidth || image.bitmap.height > maxHeight) {
-            await image.resize(maxWidth, maxHeight);
-        }
-
-        await image.quality(jpegQuality).writeAsync(imagePath);
+        sharp(imageBuffer)
+            .resize(maxWidth, maxHeight)
+            .jpeg({
+                quality: jpegQuality,
+            })
+            .toFile(imagePath, (err, info) => {});
     }
 }
 
