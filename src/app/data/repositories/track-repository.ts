@@ -376,8 +376,8 @@ export class TrackRepository implements TrackRepositoryBase {
 
         const statement = database.prepare(
             `${QueryParts.selectAlbumDataQueryPart(false)}
-                AND t.AlbumKey IS NOT NULL AND t.AlbumKey <> ''
-                AND (t.AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork) OR NeedsAlbumArtworkIndexing=1)
+                WHERE (t.AlbumKey IS NOT NULL AND t.AlbumKey <> ''
+                AND t.AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork)) OR NeedsAlbumArtworkIndexing=1
                 GROUP BY t.AlbumKey;`,
         );
 
