@@ -101,11 +101,6 @@ export class NotificationService implements NotificationServiceBase {
         this.dismissNotification.next();
     }
 
-    public async dismissDelayedAsync(): Promise<void> {
-        await this.scheduler.sleepAsync(1000);
-        this.dismiss();
-    }
-
     private showDismissibleNotification(icon: string, message: string, animateIcon: boolean, showCloseButton: boolean): void {
         this._notificationData = new NotificationData(icon, message, animateIcon, showCloseButton);
         this.showNotification.next(this._notificationData);
