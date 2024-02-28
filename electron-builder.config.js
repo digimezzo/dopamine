@@ -73,6 +73,7 @@ const config = {
             Name: 'Dopamine 3',
             Terminal: 'false',
         },
+        asarUnpack: ['**/node_modules/sharp/**'],
     },
 };
 
