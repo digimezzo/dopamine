@@ -39,18 +39,21 @@ class AlbumArtworkAdder {
                 this.workerProxy.postMessage(new UpdatingAlbumArtworkMessage());
             }
 
+            const loggedPercentages = new Set();
+
             for (let i = 0; i < albumDataThatNeedsIndexing.length; i++) {
                 try {
                     await this.#addAlbumArtworkAsync(albumDataThatNeedsIndexing[i].albumKey);
 
                     const percentage = MathUtils.calculatePercentage(i + 1, albumDataThatNeedsIndexing.length);
 
-                    if (percentage % 10 === 0 || percentage === 100) {
+                    if ((percentage % 10 === 0 || percentage === 100) && !loggedPercentages.has(percentage)) {
                         this.logger.info(
                             `Added ${i + 1} album artwork`,
                             'AlbumArtworkAdder',
                             'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
                         );
+                        loggedPercentages.add(percentage);
                     }
                 } catch (e) {
                     this.logger.error(
