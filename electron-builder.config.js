@@ -73,7 +73,7 @@ const config = {
             Name: 'Dopamine 3',
             Terminal: 'false',
         },
-        asarUnpack: ['**/node_modules/sharp/**'],
+        asarUnpack: ['**/node_modules/sharp/**'], // Because ElectronBuilder ignores Linux. See: https://github.com/electron-userland/electron-builder/issues/6200
     },
 };
 
