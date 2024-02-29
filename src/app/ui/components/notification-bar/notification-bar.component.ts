@@ -4,8 +4,6 @@ import { Subscription } from 'rxjs';
 import { DocumentProxy } from '../../../common/io/document-proxy';
 import { NotificationData } from '../../../services/notification/notification-data';
 import { NotificationServiceBase } from '../../../services/notification/notification.service.base';
-import { PromiseUtils } from '../../../common/utils/promise-utils';
-import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 
 @Component({
     selector: 'app-notification-bar',
@@ -26,7 +24,6 @@ export class NotificationBarComponent implements OnInit {
     public constructor(
         private notificationService: NotificationServiceBase,
         private documentProxy: DocumentProxy,
-        private scheduler: SchedulerBase,
     ) {}
 
     public notificationData: NotificationData | undefined = undefined;
@@ -66,6 +63,5 @@ export class NotificationBarComponent implements OnInit {
         const element: HTMLElement = this.documentProxy.getDocumentElement();
         element.style.setProperty('--notification-bar-correction', '0px');
         this.isExpanded = false;
-        this.notificationData = undefined;
     }
 }
