@@ -3,6 +3,15 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0-preview.25] - 2024-03-01
+
+### Fixed
+
+-   Albums are indexed even if they have been indexed before
+-   Album artwork indexing is much slower since preview 24
+-   Right-clicking anywhere on the collection UI reacts slowly
+-   Indexing notification is not always displayed
+
 ## [3.0.0-preview.24] - 2024-02-23
 
 ### Added
