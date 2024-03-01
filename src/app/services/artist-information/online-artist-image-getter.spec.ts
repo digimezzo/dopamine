@@ -50,7 +50,9 @@ describe('OnlineArtistImageGetter', () => {
             imageProcessorMock
                 .setup((x) => x.convertOnlineImageToBufferAsync('thumbnailLink'))
                 .returns(() => Promise.resolve(artistImageAsBuffer));
-            imageProcessorMock.setup((x) => x.resizeImage(artistImageAsBuffer, 300, 300, 80)).returns(() => resizedArtistImageAsBuffer);
+            imageProcessorMock
+                .setup((x) => x.resizeImageAsync(artistImageAsBuffer, 300, 300, 80))
+                .returns(() => Promise.resolve(resizedArtistImageAsBuffer));
             imageProcessorMock.setup((x) => x.convertBufferToImageUrl(resizedArtistImageAsBuffer)).returns(() => 'imageUrl');
 
             const service: OnlineArtistImageGetter = createSut();
@@ -61,7 +63,7 @@ describe('OnlineArtistImageGetter', () => {
             // Assert
             fanartApiMock.verify((x) => x.getArtistThumbnailAsync('musicBrainzId'), Times.once());
             imageProcessorMock.verify((x) => x.convertOnlineImageToBufferAsync('thumbnailLink'), Times.once());
-            imageProcessorMock.verify((x) => x.resizeImage(artistImageAsBuffer, 300, 300, 80), Times.once());
+            imageProcessorMock.verify((x) => x.resizeImageAsync(artistImageAsBuffer, 300, 300, 80), Times.once());
             imageProcessorMock.verify((x) => x.convertBufferToImageUrl(resizedArtistImageAsBuffer), Times.once());
             expect(artistImage).toEqual('imageUrl');
         });

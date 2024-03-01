@@ -209,7 +209,7 @@ describe('MetadataService', () => {
             const imageUrl: string = await service.createImageUrlAsync(track, 0);
 
             // Assert
-            imageProcessorMock.verify((x) => x.resizeImage(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
+            imageProcessorMock.verify((x) => x.resizeImageAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
         it('should not resize cover art if maximumSize smaller than 0 is given', async () => {
@@ -226,7 +226,7 @@ describe('MetadataService', () => {
             const imageUrl: string = await service.createImageUrlAsync(track, -1);
 
             // Assert
-            imageProcessorMock.verify((x) => x.resizeImage(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
+            imageProcessorMock.verify((x) => x.resizeImageAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
         it('should resize cover art if maximumSize larger than 0 is given', async () => {
@@ -243,7 +243,7 @@ describe('MetadataService', () => {
             const imageUrl: string = await service.createImageUrlAsync(track, 500);
 
             // Assert
-            imageProcessorMock.verify((x) => x.resizeImage(coverArt, 500, 500, 80), Times.once());
+            imageProcessorMock.verify((x) => x.resizeImageAsync(coverArt, 500, 500, 80), Times.once());
         });
     });
 

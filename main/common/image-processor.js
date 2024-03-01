@@ -16,12 +16,12 @@ class ImageProcessor {
     }
 
     async resizeAndWriteImageAsync(imageBuffer, imagePath, maxWidth, maxHeight, jpegQuality) {
-        sharp(imageBuffer)
+        await sharp(imageBuffer)
             .resize(maxWidth, maxHeight)
             .jpeg({
                 quality: jpegQuality,
             })
-            .toFile(imagePath, (err, info) => {});
+            .toFile(imagePath);
     }
 }
 

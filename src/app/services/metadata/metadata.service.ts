@@ -47,7 +47,7 @@ export class MetadataService implements MetadataServiceBase {
 
                 if (coverArt != undefined && coverArt.length > 0) {
                     if (maximumSize > 0) {
-                        coverArt = this.imageProcessor.resizeImage(coverArt, maximumSize, maximumSize, 80);
+                        coverArt = await this.imageProcessor.resizeImageAsync(coverArt, maximumSize, maximumSize, 80);
                     }
 
                     return this.imageProcessor.convertBufferToImageUrl(coverArt);

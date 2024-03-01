@@ -169,8 +169,6 @@ import { SubfolderNamePipe } from './ui/pipes/subfolder-name.pipe';
 import { SubfoldersFilterPipe } from './ui/pipes/subfolders-filter.pipe';
 import { TracksFilterPipe } from './ui/pipes/tracks-filter.pipe';
 import { ZeroToBlankPipe } from './ui/pipes/zero-to-blank.pipe';
-import { AlbumArtworkCacheIdFactory } from './services/album-artwork-cache/album-artwork-cache-id-factory';
-import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-artwork-cache.service';
 import { AlbumService } from './services/album/album-service';
 import { AppearanceService } from './services/appearance/appearance.service';
 import { DefaultThemesCreator } from './services/appearance/default-themes-creator';
@@ -252,7 +250,6 @@ import { UpdateServiceBase } from './services/update/update.service.base';
 import { TranslatorServiceBase } from './services/translator/translator.service.base';
 import { IndexingServiceBase } from './services/indexing/indexing.service.base';
 import { NavigationServiceBase } from './services/navigation/navigation.service.base';
-import { AlbumArtworkCacheServiceBase } from './services/album-artwork-cache/album-artwork-cache.service.base';
 import { ApplicationServiceBase } from './services/application/application.service.base';
 import { AZLyricsApi } from './common/api/lyrics/a-z-lyrics.api';
 import { ChartLyricsApi } from './common/api/lyrics/chart-lyrics.api';
@@ -503,7 +500,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         FileMetadataFactory,
         AlbumKeyGenerator,
         MimeTypes,
-        AlbumArtworkCacheIdFactory,
         ImageProcessor,
         CachedAlbumArtworkGetter,
         LastfmApi,
@@ -581,7 +577,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: TrackRepositoryBase, useClass: TrackRepository },
         { provide: FolderRepositoryBase, useClass: FolderRepository },
         { provide: ApplicationServiceBase, useClass: ApplicationService },
-        { provide: AlbumArtworkCacheServiceBase, useClass: AlbumArtworkCacheService },
         { provide: NavigationServiceBase, useClass: NavigationService },
         { provide: IndexingServiceBase, useClass: IndexingService },
         { provide: TranslatorServiceBase, useClass: TranslatorService },
