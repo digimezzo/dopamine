@@ -5,6 +5,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.0.0-preview.25] - 2024-03-01
 
+### Changed
+
+-   Updated Russian translation
+
 ### Fixed
 
 -   Albums are indexed even if they have been indexed before
