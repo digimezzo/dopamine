@@ -15,7 +15,7 @@ class ImageProcessor {
         return await this.fileAccess.getFileContentAsBufferAsync(imagePath);
     }
 
-    async resizeAndWriteImageAsync(imageBuffer, imagePath, maxWidth, maxHeight, jpegQuality) {
+    async toResizedJpegFileAsync(imageBuffer, imagePath, maxWidth, maxHeight, jpegQuality) {
         await sharp(imageBuffer)
             .resize(maxWidth, maxHeight)
             .jpeg({

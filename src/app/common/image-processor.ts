@@ -19,12 +19,20 @@ export class ImageProcessor {
     }
 
     public convertBufferToImageUrl(imageBuffer: Buffer): string {
-        return 'data:image/png;base64,' + imageBuffer.toString('base64');
+        return 'data:image/jpg;base64,' + imageBuffer.toString('base64');
     }
 
-    public async resizeImageAsync(imageBuffer: Buffer, maxWidth: number, maxHeight: number, jpegQuality: number): Promise<Buffer> {
+    public async toResizedJpegBufferAsync(imageBuffer: Buffer, maxWidth: number, maxHeight: number, jpegQuality: number): Promise<Buffer> {
         return await sharp(imageBuffer)
             .resize(maxWidth, maxHeight)
+            .jpeg({
+                quality: jpegQuality,
+            })
+            .toBuffer();
+    }
+
+    public async toJpegBufferAsync(imageBuffer: Buffer, jpegQuality: number): Promise<Buffer> {
+        return await sharp(imageBuffer)
             .jpeg({
                 quality: jpegQuality,
             })

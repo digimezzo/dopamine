@@ -22,7 +22,7 @@ export class OnlineArtistImageGetter {
 
     private async resizeArtistImageAsync(artistImageUrl: string, maximumSize: number): Promise<string> {
         const artistImageAsBuffer: Buffer = await this.imageProcessor.convertOnlineImageToBufferAsync(artistImageUrl);
-        const resizedArtistImageAsBuffer: Buffer = await this.imageProcessor.resizeImageAsync(
+        const resizedArtistImageAsBuffer: Buffer = await this.imageProcessor.toResizedJpegBufferAsync(
             artistImageAsBuffer,
             maximumSize,
             maximumSize,
