@@ -36,7 +36,7 @@
 }
 
 .back-button:hover .back-button__icon {
-    color: #fff;
+    color: var(--theme-highlight-foreground);
 }
 
 .app-now-playing__content {

@@ -101,6 +101,7 @@ export class DefaultThemesCreator {
             '#fff',
             '#fff',
             '#555',
+            '#fff',
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
@@ -133,6 +134,7 @@ export class DefaultThemesCreator {
             '#000',
             '#fff',
             '#dadada',
+            '#fff',
         );
 
         const options: ThemeOptions = new ThemeOptions(true);
@@ -171,6 +173,7 @@ export class DefaultThemesCreator {
             '#fff',
             '#fff',
             '#555',
+            '#fff',
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
@@ -203,6 +206,7 @@ export class DefaultThemesCreator {
             '#000',
             '#fff',
             '#c7c7c7',
+            '#fff',
         );
 
         const options: ThemeOptions = new ThemeOptions(true);
@@ -241,6 +245,7 @@ export class DefaultThemesCreator {
             '#fff',
             '#fff',
             '#53586f',
+            '#fff',
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
@@ -273,6 +278,7 @@ export class DefaultThemesCreator {
             '#fff',
             '#fff',
             '#282c3d',
+            '#fff',
         );
 
         const options: ThemeOptions = new ThemeOptions(true);
@@ -311,6 +317,7 @@ export class DefaultThemesCreator {
             '#fff',
             '#fff',
             '#373737',
+            '#fff',
         );
     }
 
@@ -345,6 +352,7 @@ export class DefaultThemesCreator {
             '#000',
             '#fff',
             '#d7d7d7',
+            '#fff',
         );
     }
 }

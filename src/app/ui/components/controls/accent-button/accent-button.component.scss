@@ -15,6 +15,7 @@
     text-transform: uppercase;
     letter-spacing: 1.7px !important;
     background: var(--theme-accent-color);
+    color: var(--theme-highlight-foreground);
     border: none;
     border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -27,6 +28,6 @@
 .app-accent-button-button:hover {
     background-color: var(--theme-accent-color);
     box-shadow: 0 5px 15px rgba(var(--theme-rgb-accent), 0.4);
-    color: #fff;
+    color: var(--theme-highlight-foreground);
     transform: translateY(-3px);
 }

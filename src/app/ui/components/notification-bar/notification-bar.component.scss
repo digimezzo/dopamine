@@ -3,16 +3,16 @@
 }
 
 .notification-bar__icon {
-    color: white;
+    color: var(--theme-highlight-foreground);
     font-size: 18px;
 }
 
 .notification-bar__text {
-    color: white;
+    color: var(--theme-highlight-foreground);
 }
 
 .notification-bar__closebutton {
-    color: white;
+    color: var(--theme-highlight-foreground);
     font-size: 18px;
     cursor: pointer;
 }
