@@ -73,6 +73,7 @@ describe('ColorSchemeSwitcherComponent', () => {
                 '#fff',
                 '#fff',
                 '#fff',
+                '#fff',
             );
             const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
                 'red',
@@ -94,6 +95,7 @@ describe('ColorSchemeSwitcherComponent', () => {
                 '#ccc',
                 '#ddd',
                 '#eee',
+                '#fff',
                 '#fff',
                 '#fff',
                 '#fff',

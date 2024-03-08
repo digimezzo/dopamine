@@ -13,7 +13,7 @@
 
 .back-button-background__icon {
     font-size: 20px !important;
-    color: white;
+    color: var(--theme-highlight-foreground);
     -webkit-transition: font-size 0.15s;
 }
 

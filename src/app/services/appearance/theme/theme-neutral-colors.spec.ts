@@ -32,6 +32,7 @@ describe('ThemeNeutralColors', () => {
             '#ffa',
             '#ffb',
             '#ffc',
+            '#ffd',
         );
     }
 
@@ -334,6 +335,16 @@ describe('ThemeNeutralColors', () => {
 
             // Assert
             expect(colors.buttonBorder).toEqual('#ffc');
+        });
+
+        it('should set highlightForeground', () => {
+            // Arrange
+
+            // Act
+            const colors: ThemeNeutralColors = createNeutralColors();
+
+            // Assert
+            expect(colors.highlightForeground).toEqual('#ffd');
         });
     });
 });

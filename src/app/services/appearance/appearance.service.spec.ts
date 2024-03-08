@@ -85,6 +85,7 @@ describe('AppearanceService', () => {
             '#0fffff',
             '#0fffff',
             '#0fffff',
+            '#0fffff',
         );
     }
 
@@ -104,6 +105,7 @@ describe('AppearanceService', () => {
             '#1ccccc',
             '#1ddddd',
             '#1eeeee',
+            '#1fffff',
             '#1fffff',
             '#1fffff',
             '#1fffff',
@@ -216,6 +218,7 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-secondary-button-text')).toEqual('#0fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-tooltip-text')).toEqual('#0fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-button-border')).toEqual('#0fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-highlight-foreground')).toEqual('#0fffff');
     }
 
     function assertLightColorCssProperties(scrollBars: string): void {
@@ -248,6 +251,7 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-secondary-button-text')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-tooltip-text')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-button-border')).toEqual('#1fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-highlight-foreground')).toEqual('#1fffff');
     }
 
     function resetElements(): void {
