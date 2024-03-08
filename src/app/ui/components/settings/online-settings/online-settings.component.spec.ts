@@ -34,7 +34,7 @@ describe('OnlineSettingsComponent', () => {
         discordServiceMock = Mock.ofType<DiscordServiceBase>();
         scrobblingServiceMock = Mock.ofType<ScrobblingServiceBase>();
         notificationServiceMock = Mock.ofType<NotificationServiceBase>();
-        settingsStub = { enableDiscordRichPresence: true, enableLastFmScrobbling: true };
+        settingsStub = { enableDiscordRichPresence: true, enableLastFmScrobbling: true, downloadLyricsOnline: true };
 
         scrobblingServiceMock_signInStateChanged = new Subject();
         scrobblingServiceMock_signInStateChanged$ = scrobblingServiceMock_signInStateChanged.asObservable();
@@ -226,6 +226,30 @@ describe('OnlineSettingsComponent', () => {
 
             // Assert
             expect(settingsStub.enableDiscordRichPresence).toBeFalsy();
+        });
+    });
+
+    describe('downloadLyricsOnline', () => {
+        it('should get downloadLyricsOnline from the settings', () => {
+            // Arrange
+            const component: OnlineSettingsComponent = createComponent();
+
+            // Act
+            const downloadLyricsOnlineFromSettings: boolean = component.downloadLyricsOnline;
+
+            // Assert
+            expect(downloadLyricsOnlineFromSettings).toBeTruthy();
+        });
+
+        it('should save downloadLyricsOnline to the settings', () => {
+            // Arrange
+            const component: OnlineSettingsComponent = createComponent();
+
+            // Act
+            component.downloadLyricsOnline = false;
+
+            // Assert
+            expect(settingsStub.downloadLyricsOnline).toBeFalsy();
         });
     });
 

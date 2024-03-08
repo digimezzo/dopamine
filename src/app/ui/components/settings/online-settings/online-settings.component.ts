@@ -72,6 +72,14 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
         this.discordService.setRichPresence(v);
     }
 
+    public get downloadLyricsOnline(): boolean {
+        return this.settings.downloadLyricsOnline;
+    }
+
+    public set downloadLyricsOnline(v: boolean) {
+        this.settings.downloadLyricsOnline = v;
+    }
+
     public get enableLastFmScrobbling(): boolean {
         return this.settings.enableLastFmScrobbling;
     }
