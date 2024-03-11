@@ -21,8 +21,6 @@ export class DialogService implements DialogServiceBase {
         private playlistModelFactory: PlaylistModelFactory,
     ) {}
 
-    public isInputDialogOpened: boolean = false;
-
     public async showConfirmationDialogAsync(dialogTitle: string, dialogText: string): Promise<boolean> {
         const dialogRef: MatDialogRef<ConfirmationDialogComponent, boolean> = this.dialog.open(ConfirmationDialogComponent, {
             width: '450px',
@@ -39,8 +37,6 @@ export class DialogService implements DialogServiceBase {
     }
 
     public async showInputDialogAsync(dialogTitle: string, placeHolderText: string, inputText: string): Promise<string> {
-        this.isInputDialogOpened = true;
-
         const inputData: InputData = new InputData(dialogTitle, inputText, placeHolderText);
         const dialogRef: MatDialogRef<InputDialogComponent> = this.dialog.open(InputDialogComponent, {
             width: '450px',
@@ -48,8 +44,6 @@ export class DialogService implements DialogServiceBase {
         });
 
         await dialogRef.afterClosed().toPromise();
-
-        this.isInputDialogOpened = false;
 
         return inputData.inputText;
     }
@@ -68,8 +62,6 @@ export class DialogService implements DialogServiceBase {
     }
 
     public async showEditPlaylistDialogAsync(playlist: PlaylistModel): Promise<void> {
-        this.isInputDialogOpened = true;
-
         const playlistData = new PlaylistData(playlist);
         const dialogRef: MatDialogRef<EditPlaylistDialogComponent> = this.dialog.open(EditPlaylistDialogComponent, {
             width: '450px',
@@ -77,13 +69,9 @@ export class DialogService implements DialogServiceBase {
         });
 
         await dialogRef.afterClosed().toPromise();
-
-        this.isInputDialogOpened = false;
     }
 
     public async showCreatePlaylistDialogAsync(): Promise<void> {
-        this.isInputDialogOpened = true;
-
         const defaultPlaylist: PlaylistModel = this.playlistModelFactory.createDefault();
         const playlistData: PlaylistData = new PlaylistData(defaultPlaylist);
         const dialogRef: MatDialogRef<EditPlaylistDialogComponent> = this.dialog.open(EditPlaylistDialogComponent, {
@@ -92,8 +80,6 @@ export class DialogService implements DialogServiceBase {
         });
 
         await dialogRef.afterClosed().toPromise();
-
-        this.isInputDialogOpened = false;
     }
 
     public async showEditColumnsDialogAsync(): Promise<void> {

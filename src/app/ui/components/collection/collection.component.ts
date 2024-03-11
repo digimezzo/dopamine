@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, HostListener, ViewEncapsulation } from '@angular/core';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
-import { SearchServiceBase } from '../../../services/search/search.service.base';
 import { SettingsBase } from '../../../common/settings/settings.base';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 import { DocumentProxy } from '../../../common/io/document-proxy';
@@ -23,7 +22,6 @@ export class CollectionComponent extends AnimatedPage implements AfterViewInit {
         public collectionNavigationService: CollectionNavigationService,
         public settings: SettingsBase,
         private playbackService: PlaybackServiceBase,
-        private searchService: SearchServiceBase,
         private audioVisualizer: AudioVisualizer,
         private documentProxy: DocumentProxy,
     ) {
@@ -33,7 +31,7 @@ export class CollectionComponent extends AnimatedPage implements AfterViewInit {
 
     @HostListener('document:keyup', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
-        if (event.key === ' ' && !this.searchService.isSearching) {
+        if (event.key === ' ' && !(event.target instanceof HTMLInputElement)) {
             this.playbackService.togglePlayback();
         }
     }

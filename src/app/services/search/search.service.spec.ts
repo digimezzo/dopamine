@@ -44,15 +44,6 @@ describe('SearchService', () => {
             // Assert
             expect(service.hasSearchText).toBeFalsy();
         });
-
-        it('should initialize isSearching as false', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
-            expect(service.isSearching).toBeFalsy();
-        });
     });
 
     describe('hasSearchText', () => {
@@ -84,31 +75,6 @@ describe('SearchService', () => {
 
             // Assert
             expect(service.hasSearchText).toBeTruthy();
-        });
-    });
-
-    describe('startSearching', () => {
-        it('should set isSearching to true', () => {
-            // Arrange
-
-            // Act
-            service.startSearching();
-
-            // Assert
-            expect(service.isSearching).toBeTruthy();
-        });
-    });
-
-    describe('stopSearching', () => {
-        it('should set isSearching to false', () => {
-            // Arrange
-            service.startSearching();
-
-            // Act
-            service.stopSearching();
-
-            // Assert
-            expect(service.isSearching).toBeFalsy();
         });
     });
 

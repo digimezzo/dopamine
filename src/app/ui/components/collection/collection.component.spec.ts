@@ -114,12 +114,12 @@ describe('CollectionComponent', () => {
     });
 
     describe('handleKeyboardEvent', () => {
-        it('should toggle playback when space is pressed and while not searching', () => {
+        it('should toggle playback when space is pressed outside of an input element', () => {
             // Arrange
             const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
             keyboardEventMock.setup((x) => x.type).returns(() => 'keyup');
+            keyboardEventMock.setup((x) => x.target).returns(() => document.createElement('div'));
             keyboardEventMock.setup((x) => x.key).returns(() => ' ');
-            searchServiceMock.setup((x) => x.isSearching).returns(() => false);
             const component: CollectionComponent = createComponent();
 
             // Act
@@ -129,12 +129,12 @@ describe('CollectionComponent', () => {
             playbackServiceMock.verify((x) => x.togglePlayback(), Times.once());
         });
 
-        it('should not toggle playback when space is pressed and while searching', () => {
+        it('should not toggle playback when space is pressed inside an input element', () => {
             // Arrange
             const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
             keyboardEventMock.setup((x) => x.type).returns(() => 'keyup');
+            keyboardEventMock.setup((x) => x.target).returns(() => document.createElement('input'));
             keyboardEventMock.setup((x) => x.key).returns(() => ' ');
-            searchServiceMock.setup((x) => x.isSearching).returns(() => true);
             const component: CollectionComponent = createComponent();
 
             // Act
@@ -148,6 +148,7 @@ describe('CollectionComponent', () => {
             // Arrange
             const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
             keyboardEventMock.setup((x) => x.type).returns(() => 'keyup');
+            keyboardEventMock.setup((x) => x.target).returns(() => document.createElement('div'));
             keyboardEventMock.setup((x) => x.key).returns(() => 'a');
             const component: CollectionComponent = createComponent();
 

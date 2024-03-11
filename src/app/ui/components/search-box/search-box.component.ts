@@ -11,14 +11,6 @@ import { SearchServiceBase } from '../../../services/search/search.service.base'
 export class SearchBoxComponent {
     public constructor(public searchService: SearchServiceBase) {}
 
-    public onBlur(): void {
-        this.searchService.stopSearching();
-    }
-
-    public onFocus(): void {
-        this.searchService.startSearching();
-    }
-
     public clearSearchText(): void {
         this.searchService.searchText = '';
     }
