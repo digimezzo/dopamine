@@ -13,7 +13,6 @@ describe('CollectionComponent', () => {
     let collectionNavigationServiceMock: IMock<CollectionNavigationService>;
     let settingsMock: IMock<SettingsBase>;
     let playbackServiceMock: IMock<PlaybackServiceBase>;
-    let searchServiceMock: IMock<SearchServiceBase>;
     let audioVisualizerMock: IMock<AudioVisualizer>;
     let documentProxyMock: IMock<DocumentProxy>;
 
@@ -25,7 +24,6 @@ describe('CollectionComponent', () => {
             collectionNavigationServiceMock.object,
             settingsMock.object,
             playbackServiceMock.object,
-            searchServiceMock.object,
             audioVisualizerMock.object,
             documentProxyMock.object,
         );
@@ -37,7 +35,6 @@ describe('CollectionComponent', () => {
             collectionNavigationServiceStub,
             settingsMock.object,
             playbackServiceMock.object,
-            searchServiceMock.object,
             audioVisualizerMock.object,
             documentProxyMock.object,
         );
@@ -48,7 +45,6 @@ describe('CollectionComponent', () => {
         collectionNavigationServiceMock = Mock.ofType<CollectionNavigationService>();
         settingsMock = Mock.ofType<SettingsBase>();
         playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
-        searchServiceMock = Mock.ofType<SearchServiceBase>();
         audioVisualizerMock = Mock.ofType<AudioVisualizer>();
         documentProxyMock = Mock.ofType<DocumentProxy>();
     });
