@@ -8,7 +8,6 @@ import { SearchServiceBase } from './search.service.base';
 @Injectable()
 export class SearchService implements SearchServiceBase {
     private updateDelayedSearchText: Subject<string> = new Subject<string>();
-    private _isSearching: boolean = false;
     private _searchText: string = '';
     private _delayedSearchText: string = '';
 
@@ -35,18 +34,6 @@ export class SearchService implements SearchServiceBase {
 
     public get hasSearchText(): boolean {
         return !StringUtils.isNullOrWhiteSpace(this.searchText);
-    }
-
-    public get isSearching(): boolean {
-        return this._isSearching;
-    }
-
-    public startSearching(): void {
-        this._isSearching = true;
-    }
-
-    public stopSearching(): void {
-        this._isSearching = false;
     }
 
     public matchesSearchText(originalText: string, searchText: string): boolean {
