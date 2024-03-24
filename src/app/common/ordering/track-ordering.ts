@@ -15,21 +15,23 @@ export class TrackOrdering {
         return tracksToOrder.sort((a, b) => {
             if (a.albumKey > b.albumKey) {
                 return 1;
+            } else if (a.albumKey < b.albumKey) {
+                return -1;
             }
 
-            if (a.albumKey < b.albumKey) {
+            if (a.discNumber > b.discNumber) {
+                return 1;
+            } else if (a.discNumber < b.discNumber) {
                 return -1;
             }
 
             if (a.number > b.number) {
                 return 1;
-            }
-
-            if (a.number < b.number) {
+            } else if (a.number < b.number) {
                 return -1;
+            } else {
+                return 0;
             }
-
-            return 0;
         });
     }
 }
