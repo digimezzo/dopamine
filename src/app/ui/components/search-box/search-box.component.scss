@@ -11,6 +11,7 @@
     transition: all 0.25s ease 0s;
 }
 
+.app-search-box:focus-within,
 .app-search-box-highlight {
     transition: all 0.15s ease 0s;
     border: 1px solid var(--theme-accent-color);

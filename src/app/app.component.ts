@@ -11,11 +11,9 @@ import { AppConfig } from '../environments/environment';
 import { NavigationServiceBase } from './services/navigation/navigation.service.base';
 import { AppearanceServiceBase } from './services/appearance/appearance.service.base';
 import { TranslatorServiceBase } from './services/translator/translator.service.base';
-import { DialogServiceBase } from './services/dialog/dialog.service.base';
 import { DiscordServiceBase } from './services/discord/discord.service.base';
 import { ScrobblingServiceBase } from './services/scrobbling/scrobbling.service.base';
 import { TrayServiceBase } from './services/tray/tray.service.base';
-import { SearchServiceBase } from './services/search/search.service.base';
 import { MediaSessionServiceBase } from './services/media-session/media-session.service.base';
 import { EventListenerServiceBase } from './services/event-listener/event-listener.service.base';
 import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
@@ -34,11 +32,9 @@ export class AppComponent implements OnInit {
         private navigationService: NavigationServiceBase,
         private appearanceService: AppearanceServiceBase,
         private translatorService: TranslatorServiceBase,
-        private dialogService: DialogServiceBase,
         private discordService: DiscordServiceBase,
         private scrobblingService: ScrobblingServiceBase,
         private trayService: TrayServiceBase,
-        private searchService: SearchServiceBase,
         private mediaSessionService: MediaSessionServiceBase,
         private eventListenerService: EventListenerServiceBase,
         private addToPlaylistMenu: AddToPlaylistMenu,
@@ -55,7 +51,7 @@ export class AppComponent implements OnInit {
 
     @HostListener('document:keydown', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
-        if (event.key === ' ' && !this.searchService.isSearching && !this.dialogService.isInputDialogOpened) {
+        if (event.key === ' ' && !(event.target instanceof HTMLInputElement)) {
             // Prevents scrolling when pressing SPACE
             event.preventDefault();
         }
