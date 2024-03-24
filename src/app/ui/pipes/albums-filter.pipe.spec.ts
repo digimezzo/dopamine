@@ -1,4 +1,4 @@
-import { IMock, It, Mock } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { AlbumsFilterPipe } from './albums-filter.pipe';
 import { SearchServiceBase } from '../../services/search/search.service.base';
 import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
@@ -22,11 +22,13 @@ describe('AlbumsFilterPipe', () => {
         albumData1.albumTitle = 'album_title1';
         albumData1.albumArtists = ';album_artist1_1;;album_artist1_2;';
         albumData1.year = 2001;
+        albumData1.genres = ';genre1_1;genre1_2';
         const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
         const albumData2: AlbumData = new AlbumData();
         albumData2.albumTitle = 'album_title2';
         albumData2.albumArtists = ';album_artist2_1;;album_artist2_2;';
         albumData2.year = 2002;
+        albumData2.genres = ';genre2_1;genre2_2';
         const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, applicationPathsMock.object);
         return [album1, album2];
     }
@@ -75,34 +77,26 @@ describe('AlbumsFilterPipe', () => {
             expect(filteredAlbums).toEqual(albums);
         });
 
-        it('should return only albums with a title containing the search text', () => {
+        it('performs search once for each album, searching "title", "artist", "year" and "genres', () => {
             // Arrange
-            searchServiceMock.setup((x) => x.matchesSearchText('album_title1', It.isAny())).returns(() => true);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_title2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_artist1_1', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_artist2_1', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('2001', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('2002', It.isAny())).returns(() => false);
-
             const albums: AlbumModel[] = createAlbumModels();
             const pipe: AlbumsFilterPipe = createPipe();
 
             // Act
-            const filteredAlbums: AlbumModel[] = pipe.transform(albums, 'dummy');
+            pipe.transform(albums, 'dummy');
 
             // Assert
-            expect(filteredAlbums.length).toEqual(1);
-            expect(filteredAlbums[0]).toEqual(albums[0]);
+            const expectedTextToSearchAlbum1 = 'album_title1 album_artist1_1 2001 genre1_1 genre1_2';
+            const expectedTextToSearchAlbum2 = 'album_title2 album_artist2_1 2002 genre2_1 genre2_2';
+
+            searchServiceMock.verify((x) => x.matchesSearchText(expectedTextToSearchAlbum1, 'dummy'), Times.once());
+            searchServiceMock.verify((x) => x.matchesSearchText(expectedTextToSearchAlbum2, 'dummy'), Times.once());
         });
 
-        it('should return only albums with album artists containing the search text', () => {
+        it('should return only albums for which search returns true', () => {
             // Arrange
-            searchServiceMock.setup((x) => x.matchesSearchText('album_title1', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_title2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_artist1_1', It.isAny())).returns(() => true);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_artist2_1', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('2001', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('2002', It.isAny())).returns(() => false);
+            searchServiceMock.setup((x) => x.matchesSearchText(It.isAny(), It.isAny())).returns(() => false);
+            searchServiceMock.setup((x) => x.matchesSearchText(It.isAny(), It.isAny())).returns(() => true);
 
             const albums: AlbumModel[] = createAlbumModels();
             const pipe: AlbumsFilterPipe = createPipe();
@@ -112,27 +106,7 @@ describe('AlbumsFilterPipe', () => {
 
             // Assert
             expect(filteredAlbums.length).toEqual(1);
-            expect(filteredAlbums[0]).toEqual(filteredAlbums[0]);
-        });
-
-        it('should return only albums with a year containing the search text', () => {
-            // Arrange
-            searchServiceMock.setup((x) => x.matchesSearchText('album_title1', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_title2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_artist1_1', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_artist2_1', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('2001', It.isAny())).returns(() => true);
-            searchServiceMock.setup((x) => x.matchesSearchText('2002', It.isAny())).returns(() => false);
-
-            const albums: AlbumModel[] = createAlbumModels();
-            const pipe: AlbumsFilterPipe = createPipe();
-
-            // Act
-            const filteredAlbums: AlbumModel[] = pipe.transform(albums, 'dummy');
-
-            // Assert
-            expect(filteredAlbums.length).toEqual(1);
-            expect(filteredAlbums[0]).toEqual(filteredAlbums[0]);
+            expect(filteredAlbums[0]).toEqual(albums[1]);
         });
     });
 });

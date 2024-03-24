@@ -1,4 +1,4 @@
-import { IMock, It, Mock } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { TracksFilterPipe } from './tracks-filter.pipe';
 import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
 import { SearchServiceBase } from '../../services/search/search.service.base';
@@ -23,12 +23,14 @@ describe('TracksFilterPipe', () => {
         track1.albumArtists = ';album_artist1_1;;album_artist1_2;';
         track1.artists = ';artist1_1;;artist1_2;';
         track1.year = 2001;
+        track1.genres = ';genre1_1;;genre1_2';
         const track2: Track = new Track('/path2/file2.mp3');
         track2.fileName = 'file2.mp3';
         track2.trackTitle = 'title2';
         track2.albumArtists = ';album_artist2_1;;album_artist2_2;';
         track2.artists = ';artist2_1;;artist2_2;';
         track2.year = 2002;
+        track2.genres = ';genre2_1;;genre2_2;';
         const trackModel1: TrackModel = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
         const trackModel2: TrackModel = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object);
         const trackModels: TrackModels = new TrackModels();
@@ -81,42 +83,28 @@ describe('TracksFilterPipe', () => {
             expect(filteredTrackModels).toEqual(trackModels);
         });
 
-        it('should return only trackModels with a title containing the search text', () => {
+        it('performs search once for each track, searching "title", "album artists", "artists", "fileName", "year" and "genres', () => {
             // Arrange
-            searchServiceMock.setup((x) => x.matchesSearchText('title1', It.isAny())).returns(() => true);
-            searchServiceMock.setup((x) => x.matchesSearchText('title2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_artist1_1, album_artist1_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_artist2_1, album_artist2_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('artist1_1, artist1_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('artist2_1, artist2_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('file1.mp3', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('file2.mp3', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('2001', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('2002', It.isAny())).returns(() => false);
-
             const trackModels: TrackModels = createTrackModels();
             const pipe: TracksFilterPipe = createPipe();
 
             // Act
-            const filteredTrackModels: TrackModels = pipe.transform(trackModels, 'dummy');
+            pipe.transform(trackModels, 'dummy');
 
             // Assert
-            expect(filteredTrackModels.tracks.length).toEqual(1);
-            expect(filteredTrackModels.tracks[0]).toEqual(trackModels.tracks[0]);
+            const expectedTextToSearchTrack1 =
+                'title1 album_artist1_1, album_artist1_2 artist1_1, artist1_2 file1.mp3 2001 genre1_1, genre1_2';
+            const expectedTextToSearchTrack2 =
+                'title2 album_artist2_1, album_artist2_2 artist2_1, artist2_2 file2.mp3 2002 genre2_1, genre2_2';
+
+            searchServiceMock.verify((x) => x.matchesSearchText(expectedTextToSearchTrack1, 'dummy'), Times.once());
+            searchServiceMock.verify((x) => x.matchesSearchText(expectedTextToSearchTrack2, 'dummy'), Times.once());
         });
 
-        it('should return only trackModels with album artists containing the search text', () => {
+        it('should return only tracks for which search returns true', () => {
             // Arrange
-            searchServiceMock.setup((x) => x.matchesSearchText('title1', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('title2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_artist1_1, album_artist1_2', It.isAny())).returns(() => true);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_artist2_1, album_artist2_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('artist1_1, artist1_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('artist2_1, artist2_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('file1.mp3', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('file2.mp3', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('2001', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('2002', It.isAny())).returns(() => false);
+            searchServiceMock.setup((x) => x.matchesSearchText(It.isAny(), It.isAny())).returns(() => false);
+            searchServiceMock.setup((x) => x.matchesSearchText(It.isAny(), It.isAny())).returns(() => true);
 
             const trackModels: TrackModels = createTrackModels();
             const pipe: TracksFilterPipe = createPipe();
@@ -126,79 +114,7 @@ describe('TracksFilterPipe', () => {
 
             // Assert
             expect(filteredTrackModels.tracks.length).toEqual(1);
-            expect(filteredTrackModels.tracks[0]).toEqual(trackModels.tracks[0]);
-        });
-
-        it('should return only trackModels with artists containing the search text', () => {
-            // Arrange
-            searchServiceMock.setup((x) => x.matchesSearchText('title1', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('title2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_artist1_1, album_artist1_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_artist2_1, album_artist2_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('artist1_1, artist1_2', It.isAny())).returns(() => true);
-            searchServiceMock.setup((x) => x.matchesSearchText('artist2_1, artist2_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('file1.mp3', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('file2.mp3', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('2001', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('2002', It.isAny())).returns(() => false);
-
-            const trackModels: TrackModels = createTrackModels();
-            const pipe: TracksFilterPipe = createPipe();
-
-            // Act
-            const filteredTrackModels: TrackModels = pipe.transform(trackModels, 'dummy');
-
-            // Assert
-            expect(filteredTrackModels.tracks.length).toEqual(1);
-            expect(filteredTrackModels.tracks[0]).toEqual(trackModels.tracks[0]);
-        });
-
-        it('should return only trackModels with a file name containing the search text', () => {
-            // Arrange
-            searchServiceMock.setup((x) => x.matchesSearchText('title1', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('title2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_artist1_1, album_artist1_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_artist2_1, album_artist2_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('artist1_1, artist1_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('artist2_1, artist2_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('file1.mp3', It.isAny())).returns(() => true);
-            searchServiceMock.setup((x) => x.matchesSearchText('file2.mp3', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('2001', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('2002', It.isAny())).returns(() => false);
-
-            const trackModels: TrackModels = createTrackModels();
-            const pipe: TracksFilterPipe = createPipe();
-
-            // Act
-            const filteredTrackModels: TrackModels = pipe.transform(trackModels, 'dummy');
-
-            // Assert
-            expect(filteredTrackModels.tracks.length).toEqual(1);
-            expect(filteredTrackModels.tracks[0]).toEqual(trackModels.tracks[0]);
-        });
-
-        it('should return only trackModels with a year containing the search text', () => {
-            // Arrange
-            searchServiceMock.setup((x) => x.matchesSearchText('title1', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('title2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_artist1_1, album_artist1_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('album_artist2_1, album_artist2_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('artist1_1, artist1_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('artist2_1, artist2_2', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('file1.mp3', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('file2.mp3', It.isAny())).returns(() => false);
-            searchServiceMock.setup((x) => x.matchesSearchText('2001', It.isAny())).returns(() => true);
-            searchServiceMock.setup((x) => x.matchesSearchText('2002', It.isAny())).returns(() => false);
-
-            const trackModels: TrackModels = createTrackModels();
-            const pipe: TracksFilterPipe = createPipe();
-
-            // Act
-            const filteredTrackModels: TrackModels = pipe.transform(trackModels, 'dummy');
-
-            // Assert
-            expect(filteredTrackModels.tracks.length).toEqual(1);
-            expect(filteredTrackModels.tracks[0]).toEqual(trackModels.tracks[0]);
+            expect(filteredTrackModels.tracks[0]).toEqual(trackModels.tracks[1]);
         });
     });
 });

@@ -53,6 +53,10 @@ export class AlbumModel implements ISelectable {
         return this.albumData.year ?? 0;
     }
 
+    public get genres(): string[] {
+        return DataDelimiter.fromDelimitedString(this.albumData.genres);
+    }
+
     public get albumKey(): string {
         return this.albumData.albumKey ?? '';
     }

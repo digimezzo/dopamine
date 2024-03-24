@@ -36,6 +36,7 @@ export class QueryParts {
                                                        a.ArtworkID as artworkId,
                                                        MAX(t.Artists) AS artists,
                                                        MAX(t.Year) AS year,
+                                                       GROUP_CONCAT(distinct t.Genres) AS genres,
                                                        MAX(t.DateFileCreated) AS dateFileCreated,
                                                        MAX(t.DateAdded) AS dateAdded,
                                                        MAX(t.DateLastPlayed) AS dateLastPlayed FROM Track t
