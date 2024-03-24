@@ -13,31 +13,23 @@ export class TrackOrdering {
 
     public getTracksOrderedByAlbum(tracksToOrder: TrackModel[]): TrackModel[] {
         return tracksToOrder.sort((a, b) => {
-            if (a.sortableAlbumArtists > b.sortableAlbumArtists) {
+            if (a.albumKey > b.albumKey) {
                 return 1;
-            } else if (a.sortableAlbumArtists < b.sortableAlbumArtists) {
-                return -1;
             }
 
-            if (a.sortableAlbumTitle > b.sortableAlbumTitle) {
-                return 1;
-            } else if (a.sortableAlbumTitle < b.sortableAlbumTitle) {
-                return -1;
-            }
-
-            if (a.discNumber > b.discNumber) {
-                return 1;
-            } else if (a.discNumber < b.discNumber) {
+            if (a.albumKey < b.albumKey) {
                 return -1;
             }
 
             if (a.number > b.number) {
                 return 1;
-            } else if (a.number < b.number) {
-                return -1;
-            } else {
-                return 0;
             }
+
+            if (a.number < b.number) {
+                return -1;
+            }
+
+            return 0;
         });
     }
 }
