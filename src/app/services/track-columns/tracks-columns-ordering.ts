@@ -29,11 +29,17 @@ export class TracksColumnsOrdering {
     }
 
     public getTracksOrderedByAlbum(tracksToOrder: TrackModel[], tracksColumnsOrderDirection: TracksColumnsOrderDirection): TrackModel[] {
-        if (tracksColumnsOrderDirection === TracksColumnsOrderDirection.ascending) {
-            return tracksToOrder.sort((a, b) => (a.sortableAlbumTitle > b.sortableAlbumTitle ? 1 : -1));
-        } else {
-            return tracksToOrder.sort((a, b) => (a.sortableAlbumTitle < b.sortableAlbumTitle ? 1 : -1));
-        }
+        return tracksToOrder.sort((a, b) => {
+            if (a.sortableAlbumTitle === b.sortableAlbumTitle && a.discNumber === b.discNumber) {
+                return a.number > b.number ? 1 : -1;
+            }
+
+            if (tracksColumnsOrderDirection === TracksColumnsOrderDirection.ascending) {
+                return a.sortableAlbumTitle > b.sortableAlbumTitle ? 1 : -1;
+            } else {
+                return a.sortableAlbumTitle < b.sortableAlbumTitle ? 1 : -1;
+            }
+        });
     }
 
     public getTracksOrderedByGenres(tracksToOrder: TrackModel[], tracksColumnsOrderDirection: TracksColumnsOrderDirection): TrackModel[] {
@@ -54,7 +60,7 @@ export class TracksColumnsOrdering {
 
     public getTracksOrderedByTrackNumber(
         tracksToOrder: TrackModel[],
-        tracksColumnsOrderDirection: TracksColumnsOrderDirection
+        tracksColumnsOrderDirection: TracksColumnsOrderDirection,
     ): TrackModel[] {
         if (tracksColumnsOrderDirection === TracksColumnsOrderDirection.ascending) {
             return tracksToOrder.sort((a, b) => (a.number > b.number ? 1 : -1));
@@ -73,7 +79,7 @@ export class TracksColumnsOrdering {
 
     public getTracksOrderedByPlayCount(
         tracksToOrder: TrackModel[],
-        tracksColumnsOrderDirection: TracksColumnsOrderDirection
+        tracksColumnsOrderDirection: TracksColumnsOrderDirection,
     ): TrackModel[] {
         if (tracksColumnsOrderDirection === TracksColumnsOrderDirection.ascending) {
             return tracksToOrder.sort((a, b) => (a.playCount > b.playCount ? 1 : -1));
@@ -84,7 +90,7 @@ export class TracksColumnsOrdering {
 
     public getTracksOrderedBySkipCount(
         tracksToOrder: TrackModel[],
-        tracksColumnsOrderDirection: TracksColumnsOrderDirection
+        tracksColumnsOrderDirection: TracksColumnsOrderDirection,
     ): TrackModel[] {
         if (tracksColumnsOrderDirection === TracksColumnsOrderDirection.ascending) {
             return tracksToOrder.sort((a, b) => (a.skipCount > b.skipCount ? 1 : -1));
@@ -95,7 +101,7 @@ export class TracksColumnsOrdering {
 
     public getTracksOrderedByDateLastPlayed(
         tracksToOrder: TrackModel[],
-        tracksColumnsOrderDirection: TracksColumnsOrderDirection
+        tracksColumnsOrderDirection: TracksColumnsOrderDirection,
     ): TrackModel[] {
         if (tracksColumnsOrderDirection === TracksColumnsOrderDirection.ascending) {
             return tracksToOrder.sort((a, b) => (a.dateLastPlayed > b.dateLastPlayed ? 1 : -1));
@@ -106,7 +112,7 @@ export class TracksColumnsOrdering {
 
     public getTracksOrderedByDateAdded(
         tracksToOrder: TrackModel[],
-        tracksColumnsOrderDirection: TracksColumnsOrderDirection
+        tracksColumnsOrderDirection: TracksColumnsOrderDirection,
     ): TrackModel[] {
         if (tracksColumnsOrderDirection === TracksColumnsOrderDirection.ascending) {
             return tracksToOrder.sort((a, b) => (a.dateAdded > b.dateAdded ? 1 : -1));
