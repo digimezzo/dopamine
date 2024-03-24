@@ -25,6 +25,8 @@ export class TracksFilterPipe implements PipeTransform {
                 filteredTracks.addTrack(track);
             } else if (this.searchService.matchesSearchText(track.year.toString(), textToContain!)) {
                 filteredTracks.addTrack(track);
+            } else if (this.searchService.matchesSearchText(track.genres, textToContain!)) {
+                filteredTracks.addTrack(track);
             }
         }
 

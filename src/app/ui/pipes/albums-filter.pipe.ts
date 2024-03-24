@@ -21,6 +21,8 @@ export class AlbumsFilterPipe implements PipeTransform {
                 filteredAlbums.push(album);
             } else if (this.searchService.matchesSearchText(album.year.toString(), textToContain!)) {
                 filteredAlbums.push(album);
+            } else if (this.searchService.matchesSearchText(album.genres.join(' '), textToContain!)) {
+                filteredAlbums.push(album);
             }
         }
 
