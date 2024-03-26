@@ -6,11 +6,9 @@ import { Logger } from './common/logger';
 import { IntegrationTestRunner } from './testing/integration-test-runner';
 import { EventListenerServiceBase } from './services/event-listener/event-listener.service.base';
 import { MediaSessionServiceBase } from './services/media-session/media-session.service.base';
-import { SearchServiceBase } from './services/search/search.service.base';
 import { TrayServiceBase } from './services/tray/tray.service.base';
 import { ScrobblingServiceBase } from './services/scrobbling/scrobbling.service.base';
 import { DiscordServiceBase } from './services/discord/discord.service.base';
-import { DialogServiceBase } from './services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from './services/translator/translator.service.base';
 import { AppearanceServiceBase } from './services/appearance/appearance.service.base';
 import { NavigationServiceBase } from './services/navigation/navigation.service.base';
@@ -22,11 +20,9 @@ describe('AppComponent', () => {
     let navigationServiceMock: IMock<NavigationServiceBase>;
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
-    let dialogServiceMock: IMock<DialogServiceBase>;
     let discordServiceMock: IMock<DiscordServiceBase>;
     let scrobblingServiceMock: IMock<ScrobblingServiceBase>;
     let trayServiceMock: IMock<TrayServiceBase>;
-    let searchServiceMock: IMock<SearchServiceBase>;
     let mediaSessionServiceMock: IMock<MediaSessionServiceBase>;
     let eventListenerServiceMock: IMock<EventListenerServiceBase>;
     let audioVisualizerMock: IMock<AudioVisualizer>;
@@ -46,11 +42,9 @@ describe('AppComponent', () => {
             navigationServiceMock.object,
             appearanceServiceMock.object,
             translatorServiceMock.object,
-            dialogServiceMock.object,
             discordServiceMock.object,
             scrobblingServiceMock.object,
             trayServiceMock.object,
-            searchServiceMock.object,
             mediaSessionServiceMock.object,
             eventListenerServiceMock.object,
             addToPlaylistMenuMock.object,
@@ -65,11 +59,9 @@ describe('AppComponent', () => {
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
-        dialogServiceMock = Mock.ofType<DialogServiceBase>();
         discordServiceMock = Mock.ofType<DiscordServiceBase>();
         scrobblingServiceMock = Mock.ofType<ScrobblingServiceBase>();
         trayServiceMock = Mock.ofType<TrayServiceBase>();
-        searchServiceMock = Mock.ofType<SearchServiceBase>();
         mediaSessionServiceMock = Mock.ofType<MediaSessionServiceBase>();
         eventListenerServiceMock = Mock.ofType<EventListenerServiceBase>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
@@ -222,13 +214,12 @@ describe('AppComponent', () => {
     });
 
     describe('handleKeyboardEvent', () => {
-        it('should prevent the default action when space is pressed while not searching and no input dialog is opened', () => {
+        it('should prevent the default action when space is pressed outside of an input element', () => {
             // Arrange
             const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
             keyboardEventMock.setup((x) => x.type).returns(() => 'keydown');
+            keyboardEventMock.setup((x) => x.target).returns(() => document.createElement('div'));
             keyboardEventMock.setup((x) => x.key).returns(() => ' ');
-            searchServiceMock.setup((x) => x.isSearching).returns(() => false);
-            dialogServiceMock.setup((x) => x.isInputDialogOpened).returns(() => false);
             const app: AppComponent = createComponent();
 
             // Act
@@ -238,29 +229,12 @@ describe('AppComponent', () => {
             keyboardEventMock.verify((x) => x.preventDefault(), Times.once());
         });
 
-        it('should not prevent the default action when space is pressed while searching', () => {
+        it('should not prevent the default action when space is pressed inside an input element', () => {
             // Arrange
             const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
             keyboardEventMock.setup((x) => x.type).returns(() => 'keydown');
+            keyboardEventMock.setup((x) => x.target).returns(() => document.createElement('input'));
             keyboardEventMock.setup((x) => x.key).returns(() => ' ');
-            searchServiceMock.setup((x) => x.isSearching).returns(() => true);
-            dialogServiceMock.setup((x) => x.isInputDialogOpened).returns(() => false);
-            const app: AppComponent = createComponent();
-
-            // Act
-            app.handleKeyboardEvent(keyboardEventMock.object);
-
-            // Assert
-            keyboardEventMock.verify((x) => x.preventDefault(), Times.never());
-        });
-
-        it('should not prevent the default action when space is pressed while an input dialog is opened', () => {
-            // Arrange
-            const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
-            keyboardEventMock.setup((x) => x.type).returns(() => 'keydown');
-            keyboardEventMock.setup((x) => x.key).returns(() => ' ');
-            searchServiceMock.setup((x) => x.isSearching).returns(() => false);
-            dialogServiceMock.setup((x) => x.isInputDialogOpened).returns(() => true);
             const app: AppComponent = createComponent();
 
             // Act
@@ -274,6 +248,7 @@ describe('AppComponent', () => {
             // Arrange
             const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
             keyboardEventMock.setup((x) => x.type).returns(() => 'keydown');
+            keyboardEventMock.setup((x) => x.target).returns(() => document.createElement('div'));
             keyboardEventMock.setup((x) => x.key).returns(() => 'a');
             const app: AppComponent = createComponent();
 

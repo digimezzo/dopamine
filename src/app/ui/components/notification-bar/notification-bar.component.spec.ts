@@ -2,7 +2,6 @@ import { IMock, Mock, Times } from 'typemoq';
 import { NotificationBarComponent } from './notification-bar.component';
 import { NotificationServiceBase } from '../../../services/notification/notification.service.base';
 import { DocumentProxy } from '../../../common/io/document-proxy';
-import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { NotificationData } from '../../../services/notification/notification-data';
 import { Observable, Subject } from 'rxjs';
 
@@ -11,7 +10,6 @@ describe('NotificationBarComponent', () => {
 
     let notificationServiceMock: IMock<NotificationServiceBase>;
     let documentProxyMock: IMock<DocumentProxy>;
-    let schedulerMock: IMock<SchedulerBase>;
 
     let notificationService_showNotification: Subject<NotificationData>;
     let notificationService_dismissNotification: Subject<void>;
@@ -23,7 +21,6 @@ describe('NotificationBarComponent', () => {
     beforeEach(() => {
         notificationServiceMock = Mock.ofType<NotificationServiceBase>();
         documentProxyMock = Mock.ofType<DocumentProxy>();
-        schedulerMock = Mock.ofType<SchedulerBase>();
 
         divElementMock = document.createElement('div');
         documentProxyMock.setup((x) => x.getDocumentElement()).returns(() => divElementMock);
@@ -38,7 +35,7 @@ describe('NotificationBarComponent', () => {
     });
 
     function createSut(): NotificationBarComponent {
-        return new NotificationBarComponent(notificationServiceMock.object, documentProxyMock.object, schedulerMock.object);
+        return new NotificationBarComponent(notificationServiceMock.object, documentProxyMock.object);
     }
 
     describe('constructor', () => {
@@ -154,10 +151,9 @@ describe('NotificationBarComponent', () => {
             await flushPromises();
 
             // Assert
-            expect(sut.notificationData).toBeUndefined();
+            expect(sut.notificationData).toBe(notificationData);
             expect(sut.isExpanded).toBeFalsy();
             expect(divElementMock.style.getPropertyValue('--notification-bar-correction')).toBe('0px');
-            schedulerMock.verify((x) => x.sleepAsync(150), Times.once());
         });
     });
 });

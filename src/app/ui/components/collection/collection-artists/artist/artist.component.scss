@@ -8,7 +8,7 @@
     align-items: center;
     justify-content: center;
     background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%);
-    color: white;
+    color: var(--theme-highlight-foreground);
     width: 24px;
     height: 24px;
     border-radius: 12px 0px 12px 12px;

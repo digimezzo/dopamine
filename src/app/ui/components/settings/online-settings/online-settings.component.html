@@ -1,29 +1,36 @@
 <div class="p-4">
     <div class="title">{{ 'updates' | translate }}</div>
     <div>
-        <app-toggle-switch [(isChecked)]="this.settings.checkForUpdates"> {{ 'check-for-updates' | translate }}</app-toggle-switch>
+        <app-toggle-switch [(isChecked)]="this.settings.checkForUpdates"> {{ 'check-for-updates' | translate }} </app-toggle-switch>
     </div>
     <div>
         <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.checkForUpdatesIncludesPreReleases">
-            {{ 'also-check-for-pre-releases' | translate }}</app-toggle-switch
-        >
+            {{ 'also-check-for-pre-releases' | translate }}
+        </app-toggle-switch>
+    </div>
+    <mat-divider class="my-4"></mat-divider>
+    <div class="title">{{ 'lyrics' | translate }}</div>
+    <div>
+        <app-toggle-switch [(isChecked)]="this.downloadLyricsOnline">
+            {{ 'download-lyrics-online' | translate }}
+        </app-toggle-switch>
     </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'discord' | translate }}</div>
     <div>
         <app-toggle-switch [(isChecked)]="this.enableDiscordRichPresence">
-            {{ 'enable-discord-rich-presence' | translate }}</app-toggle-switch
-        >
+            {{ 'enable-discord-rich-presence' | translate }}
+        </app-toggle-switch>
     </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'last-fm' | translate }}</div>
     <div>
         <app-toggle-switch [(isChecked)]="this.settings.downloadArtistInformationFromLastFm">
-            {{ 'download-artist-information-from-lastfm' | translate }}</app-toggle-switch
-        >
+            {{ 'download-artist-information-from-lastfm' | translate }}
+        </app-toggle-switch>
     </div>
     <div class="mt-3">
-        <app-toggle-switch [(isChecked)]="this.enableLastFmScrobbling"> {{ 'enable-last-fm-scrobbling' | translate }}</app-toggle-switch>
+        <app-toggle-switch [(isChecked)]="this.enableLastFmScrobbling"> {{ 'enable-last-fm-scrobbling' | translate }} </app-toggle-switch>
     </div>
     <div class="d-flex flex-column" [ngClass]="{ inactive: !this.enableLastFmScrobbling }">
         <div class="mt-3">

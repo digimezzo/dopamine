@@ -8,5 +8,5 @@
 
 .window-controls .close-button:hover {
     background-color: var(--theme-accent-color);
-    fill: #fff;
+    fill: var(--theme-highlight-foreground);
 }

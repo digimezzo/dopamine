@@ -6,6 +6,7 @@ const { WorkerProxyMock } = require('../mocks/worker-proxy-mock');
 const { TrackIndexer } = require('./track-indexer');
 const { Times } = require('typemoq');
 const { RefreshingMessage } = require('./messages/refreshing-message');
+const { DismissMessage } = require('./messages/dismiss-message');
 
 describe('TrackIndexer', () => {
     let trackAdderMock;
@@ -35,8 +36,20 @@ describe('TrackIndexer', () => {
             await sut.indexTracksAsync();
 
             // Assert
-            expect(workerProxyMock.postMessageCalls.length).toEqual(1);
+            expect(workerProxyMock.postMessageCalls.length).toEqual(2);
             expect(workerProxyMock.postMessageCalls[0]).toEqual(new RefreshingMessage());
+        });
+
+        it('should notify that indexing has finished', async () => {
+            // Arrange
+            const sut = createSut();
+
+            // Act
+            await sut.indexTracksAsync();
+
+            // Assert
+            expect(workerProxyMock.postMessageCalls.length).toEqual(2);
+            expect(workerProxyMock.postMessageCalls[1]).toEqual(new DismissMessage());
         });
 
         it('should remove tracks that do not belong to folders', async () => {

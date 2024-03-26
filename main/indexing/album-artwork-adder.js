@@ -1,5 +1,6 @@
 const { AlbumArtwork } = require('../data/entities/album-artwork');
 const { UpdatingAlbumArtworkMessage } = require('./messages/updating-album-artwork-message');
+const { MathUtils } = require('../common/utils/math-utils');
 
 class AlbumArtworkAdder {
     constructor(trackRepository, albumArtworkRepository, albumArtworkGetter, fileMetadataFactory, albumArtworkCache, workerProxy, logger) {
@@ -33,18 +34,31 @@ class AlbumArtworkAdder {
 
             const numberOfAlbumArtwork = this.albumArtworkRepository.getNumberOfAlbumArtwork();
 
-            // Only show message the first time that album artwork is added
-            if (numberOfAlbumArtwork === 0) {
+            // Only show message the first time that album artwork is added or if there are more than 20 albums that need indexing
+            if (numberOfAlbumArtwork === 0 || albumDataThatNeedsIndexing.length > 20) {
                 this.workerProxy.postMessage(new UpdatingAlbumArtworkMessage());
             }
 
-            for (const albumData of albumDataThatNeedsIndexing) {
+            const loggedPercentages = new Set();
+
+            for (let i = 0; i < albumDataThatNeedsIndexing.length; i++) {
                 try {
-                    await this.#addAlbumArtworkAsync(albumData.albumKey);
+                    await this.#addAlbumArtworkAsync(albumDataThatNeedsIndexing[i].albumKey);
+
+                    const percentage = MathUtils.calculatePercentage(i + 1, albumDataThatNeedsIndexing.length);
+
+                    if ((percentage % 10 === 0 || percentage === 100) && !loggedPercentages.has(percentage)) {
+                        this.logger.info(
+                            `Added ${i + 1} album artwork`,
+                            'AlbumArtworkAdder',
+                            'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
+                        );
+                        loggedPercentages.add(percentage);
+                    }
                 } catch (e) {
                     this.logger.error(
                         e,
-                        `Could not add album artwork for albumKey=${albumData.albumKey}`,
+                        `Could not add album artwork for albumKey=${albumDataThatNeedsIndexing[i].albumKey}`,
                         'AlbumArtworkAdder',
                         'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
                     );

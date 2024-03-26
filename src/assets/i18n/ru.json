@@ -1,6 +1,6 @@
 {
     "language-name-english": "Russian",
-    "language-name-localized": "русский",
+    "language-name-localized": "Русский",
     "language-code": "RU",
     "hi": "Здравствуйте!",
     "welcome-to-dopamine": "Добро пожаловать в Dopamine, надеемся, он вам понравится! Для начала давайте всё подготовим.",
@@ -264,8 +264,9 @@
     "play-all": "Играть всё",
     "shuffle-all": "Перемешать все",
     "no-lyrics-found": "Текст песни не найден",
-    "no-biography-found": "No biography was found",
-    "show-welcome-screen-now": "Show welcome screen now",
-    "keep-playback-controls-visible-on-now-playing-page": "Keep playback controls visible on now playing page",
-    "open-folder": "Open folder"
+    "no-biography-found": "Биография не найдена",
+    "show-welcome-screen-now": "Показать экран приветствия",
+    "keep-playback-controls-visible-on-now-playing-page": "Сохранять элементы управления воспроизведением на странице воспроизведения",
+    "open-folder": "Открыть папку",
+    "download-lyrics-online": "Download lyrics online"
 }

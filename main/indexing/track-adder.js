@@ -2,6 +2,7 @@ const { Timer } = require('../common/scheduling/timer');
 const { Track } = require('../data/entities/track');
 const { FolderTrack } = require('../data/entities/folder-track');
 const { AddingTracksMessage } = require('./messages/adding-tracks-message');
+const { MathUtils } = require('../common/utils/math-utils');
 
 class TrackAdder {
     constructor(removedTrackRepository, folderTrackRepository, trackRepository, indexablePathFetcher, trackFiller, workerProxy, logger) {
@@ -23,19 +24,30 @@ class TrackAdder {
 
             let numberOfAddedTracks = 0;
 
-            for (const indexablePath of indexablePaths) {
+            const loggedPercentages = new Set();
+
+            for (let i = 0; i < indexablePaths.length; i++) {
                 try {
-                    const newTrack = new Track(indexablePath.path);
+                    const newTrack = new Track(indexablePaths[i].path);
                     this.trackFiller.addFileMetadataToTrack(newTrack, false);
 
                     this.trackRepository.addTrack(newTrack);
                     const addedTrack = this.trackRepository.getTrackByPath(newTrack.path);
 
-                    this.folderTrackRepository.addFolderTrack(new FolderTrack(indexablePath.folderId, addedTrack.trackId));
+                    this.folderTrackRepository.addFolderTrack(new FolderTrack(indexablePaths[i].folderId, addedTrack.trackId));
 
                     numberOfAddedTracks++;
 
                     const percentageOfAddedTracks = Math.round((numberOfAddedTracks / indexablePaths.length) * 100);
+                    const percentageOfProcessedTracks = MathUtils.calculatePercentage(i + 1, indexablePaths.length);
+
+                    if (
+                        (percentageOfProcessedTracks % 20 === 0 || percentageOfProcessedTracks === 100) &&
+                        !loggedPercentages.has(percentageOfProcessedTracks)
+                    ) {
+                        this.logger.info(`Processed ${i + 1} tracks`, 'TrackAdder', 'addTracksThatAreNotInTheDatabaseAsync');
+                        loggedPercentages.add(percentageOfProcessedTracks);
+                    }
 
                     // Only send message once every 20 tracks or when all tracks have been added
                     if (numberOfAddedTracks % 20 === 0 || percentageOfAddedTracks === 100) {
@@ -44,7 +56,7 @@ class TrackAdder {
                 } catch (e) {
                     this.logger.error(
                         e,
-                        `A problem occurred while adding track with path='${indexablePath.path}'`,
+                        `A problem occurred while adding track with path='${indexablePaths[i].path}'`,
                         'TrackAdder',
                         'addTracksThatAreNotInTheDatabaseAsync',
                     );

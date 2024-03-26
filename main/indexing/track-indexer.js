@@ -1,5 +1,6 @@
 const { Timer } = require('../common/scheduling/timer');
 const { RefreshingMessage } = require('./messages/refreshing-message');
+const { DismissMessage } = require('./messages/dismiss-message');
 
 class TrackIndexer {
     constructor(trackAdder, trackUpdater, trackRemover, workerProxy, logger) {
@@ -36,6 +37,8 @@ class TrackIndexer {
             'TrackIndexer',
             'indexTracksAsync',
         );
+
+        this.workerProxy.postMessage(new DismissMessage());
     }
 }
 

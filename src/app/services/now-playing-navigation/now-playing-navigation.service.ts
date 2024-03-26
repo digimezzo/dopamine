@@ -64,9 +64,9 @@ export class NowPlayingNavigationService implements NowPlayingNavigationServiceB
         const currentPlaybackInformation: PlaybackInformation = await this.playbackInformationService.getCurrentPlaybackInformationAsync();
 
         if (currentPlaybackInformation.track != undefined) {
-            this._currentNowPlayingPage = NowPlayingPage.showcase;
+            this.navigate(NowPlayingPage.showcase);
         } else {
-            this._currentNowPlayingPage = NowPlayingPage.nothingPlaying;
+            this.navigate(NowPlayingPage.nothingPlaying);
         }
     }
 }

@@ -36,6 +36,7 @@ describe('Theme', () => {
             '#eff',
             '#dff',
             '#eff',
+            '#eee',
         );
     }
 

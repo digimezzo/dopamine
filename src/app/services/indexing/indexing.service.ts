@@ -118,7 +118,7 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
                 break;
             }
             case 'dismiss': {
-                await this.notificationService.dismissDelayedAsync();
+                this.notificationService.dismiss();
                 break;
             }
             default: {

@@ -23,13 +23,13 @@ class AlbumArtworkCache {
         try {
             const albumArtworkCacheId = this.albumArtworkCacheIdFactory.create();
             const cachedArtworkFilePath = this.#coverArtFullPath(albumArtworkCacheId.id);
-            const resizedImageBuffer = await this.imageProcessor.resizeImageAsync(
+            await this.imageProcessor.toResizedJpegFileAsync(
                 imageBuffer,
+                cachedArtworkFilePath,
                 Constants.cachedCoverArtMaximumSize,
                 Constants.cachedCoverArtMaximumSize,
                 Constants.cachedCoverArtJpegQuality,
             );
-            await this.imageProcessor.convertImageBufferToFileAsync(resizedImageBuffer, cachedArtworkFilePath);
 
             return albumArtworkCacheId;
         } catch (e) {

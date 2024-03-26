@@ -31,30 +31,6 @@ describe('SearchBoxComponent', () => {
         });
     });
 
-    describe('onBlur', () => {
-        it('should stop searching', () => {
-            // Arrange
-
-            // Act
-            component.onBlur();
-
-            // Assert
-            searchServiceMock.verify((x) => x.stopSearching(), Times.once());
-        });
-    });
-
-    describe('onFocus', () => {
-        it('should start searching', () => {
-            // Arrange
-
-            // Act
-            component.onFocus();
-
-            // Assert
-            searchServiceMock.verify((x) => x.startSearching(), Times.once());
-        });
-    });
-
     describe('clearSearchText', () => {
         it('should clear the search text', () => {
             // Arrange

@@ -8,7 +8,6 @@ module.exports = {
         fs: 'commonjs fs',
         assert: 'commonjs assert',
         crypto: 'commonjs crypto',
-        fs: 'commonjs fs',
         http: 'commonjs http',
         https: 'commonjs https',
         os: 'commonjs os',
@@ -21,5 +20,6 @@ module.exports = {
         net: 'commonjs net',
         querystring: 'commonjs querystring',
         url: 'commonjs url',
+        sharp: 'commonjs sharp',
     },
 };

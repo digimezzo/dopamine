@@ -16,6 +16,7 @@ import * as os from 'os';
 import * as path from 'path';
 import * as url from 'url';
 import { Worker } from 'worker_threads';
+const sharp = require('sharp'); // required to use sharp in worker threads
 
 /**
  * Command line parameters

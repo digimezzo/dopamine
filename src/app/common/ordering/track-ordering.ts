@@ -13,15 +13,9 @@ export class TrackOrdering {
 
     public getTracksOrderedByAlbum(tracksToOrder: TrackModel[]): TrackModel[] {
         return tracksToOrder.sort((a, b) => {
-            if (a.sortableAlbumArtists > b.sortableAlbumArtists) {
+            if (a.albumKey > b.albumKey) {
                 return 1;
-            } else if (a.sortableAlbumArtists < b.sortableAlbumArtists) {
-                return -1;
-            }
-
-            if (a.sortableAlbumTitle > b.sortableAlbumTitle) {
-                return 1;
-            } else if (a.sortableAlbumTitle < b.sortableAlbumTitle) {
+            } else if (a.albumKey < b.albumKey) {
                 return -1;
             }
 

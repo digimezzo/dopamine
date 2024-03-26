@@ -41,6 +41,7 @@ export class AudioPlayer implements AudioPlayerBase {
     public get audio(): HTMLAudioElement {
         return this._audio;
     }
+
     public get progressSeconds(): number {
         if (isNaN(this.audio.currentTime)) {
             return 0;
@@ -58,8 +59,7 @@ export class AudioPlayer implements AudioPlayerBase {
     }
 
     public play(audioFilePath: string): void {
-        // HTMLAudioElement doesn't play paths which contain a #, so we escape it by replacing it with %23.
-        const playableAudioFilePath: string = StringUtils.replaceAll(audioFilePath, '#', '%23');
+        const playableAudioFilePath: string = this.replaceUnplayableCharacters(audioFilePath);
         this.audio.src = 'file:///' + playableAudioFilePath;
         PromiseUtils.noAwait(this.audio.play());
     }
@@ -85,11 +85,19 @@ export class AudioPlayer implements AudioPlayerBase {
     public mute(): void {
         this.audio.muted = true;
     }
+
     public unMute(): void {
         this.audio.muted = false;
     }
 
     public skipToSeconds(seconds: number): void {
         this.audio.currentTime = seconds;
+    }
+
+    private replaceUnplayableCharacters(audioFilePath: string): string {
+        // HTMLAudioElement doesn't play paths which contain # and ?, so we escape them.
+        let playableAudioFilePath: string = StringUtils.replaceAll(audioFilePath, '#', '%23');
+        playableAudioFilePath = StringUtils.replaceAll(playableAudioFilePath, '?', '%3F');
+        return playableAudioFilePath;
     }
 }
