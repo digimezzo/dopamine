@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   .tiff cover images don't load
 -   Pressing 'Space' key when editing Playlist toggles play
 -   Files don't play if they contain '?' in file name or path
+-   Sorting is not alphanumeric (1, 10, 2 instead of 1, 2, 10)
 
 ### Added
 
