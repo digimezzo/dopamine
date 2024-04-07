@@ -3,7 +3,6 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
 import { GuidFactory } from '../../../../common/guid.factory';
 import { Logger } from '../../../../common/logger';
-import { TrackOrdering } from '../../../../common/ordering/track-ordering';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
 import { TrackModel } from '../../../../services/track/track-model';
 import { TrackModels } from '../../../../services/track/track-models';
@@ -17,9 +16,10 @@ import { PlaybackIndicationServiceBase } from '../../../../services/playback-ind
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
-import {DesktopBase} from "../../../../common/io/desktop.base";
-import {MouseSelectionWatcher} from "../../mouse-selection-watcher";
-import {ContextMenuOpener} from "../../context-menu-opener";
+import { DesktopBase } from '../../../../common/io/desktop.base';
+import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import { ContextMenuOpener } from '../../context-menu-opener';
+import { TrackSorter } from '../../../../common/sorting/track-sorter';
 
 @Component({
     selector: 'app-track-browser',
@@ -42,7 +42,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
         private metadataService: MetadataServiceBase,
         private playbackIndicationService: PlaybackIndicationServiceBase,
         private guidFactory: GuidFactory,
-        private trackOrdering: TrackOrdering,
+        private trackSorter: TrackSorter,
         collectionService: CollectionServiceBase,
         translatorService: TranslatorServiceBase,
         dialogService: DialogServiceBase,
@@ -169,15 +169,15 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
         try {
             switch (this.selectedTrackOrder) {
                 case TrackOrder.byTrackTitleAscending:
-                    orderedTracks = this.trackOrdering.getTracksOrderedByTitleAscending(this.tracks.tracks);
+                    orderedTracks = this.trackSorter.sortByTitleAscending(this.tracks.tracks);
                     this.hideAllHeaders(orderedTracks);
                     break;
                 case TrackOrder.byTrackTitleDescending:
-                    orderedTracks = this.trackOrdering.getTracksOrderedByTitleDescending(this.tracks.tracks);
+                    orderedTracks = this.trackSorter.sortByTitleDescending(this.tracks.tracks);
                     this.hideAllHeaders(orderedTracks);
                     break;
                 case TrackOrder.byAlbum:
-                    orderedTracks = this.trackOrdering.getTracksOrderedByAlbum(this.tracks.tracks);
+                    orderedTracks = this.trackSorter.sortByAlbum(this.tracks.tracks);
                     this.showAlbumHeaders(orderedTracks);
                     break;
                 case TrackOrder.none:
@@ -185,7 +185,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
                     this.hideAllHeaders(orderedTracks);
                     break;
                 default: {
-                    orderedTracks = this.trackOrdering.getTracksOrderedByTitleAscending(this.tracks.tracks);
+                    orderedTracks = this.trackSorter.sortByTitleAscending(this.tracks.tracks);
                     this.hideAllHeaders(orderedTracks);
                     break;
                 }

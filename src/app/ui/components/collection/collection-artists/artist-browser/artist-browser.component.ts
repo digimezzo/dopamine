@@ -4,7 +4,6 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../../common/application/constants';
 import { Logger } from '../../../../../common/logger';
-import { ArtistOrdering } from '../../../../../common/ordering/artist-ordering';
 import { SemanticZoomHeaderAdder } from '../../../../../common/semantic-zoom-header-adder';
 import { PromiseUtils } from '../../../../../common/utils/promise-utils';
 import { ArtistModel } from '../../../../../services/artist/artist-model';
@@ -18,6 +17,7 @@ import { ApplicationServiceBase } from '../../../../../services/application/appl
 import { SchedulerBase } from '../../../../../common/scheduling/scheduler.base';
 import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
+import { ArtistSorter } from '../../../../../common/sorting/artist-sorter';
 
 @Component({
     selector: 'app-artist-browser',
@@ -40,7 +40,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         public addToPlaylistMenu: AddToPlaylistMenu,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         public contextMenuOpener: ContextMenuOpener,
-        private artistOrdering: ArtistOrdering,
+        private artistSorter: ArtistSorter,
         private semanticZoomHeaderAdder: SemanticZoomHeaderAdder,
         private scheduler: SchedulerBase,
         private logger: Logger,
@@ -169,13 +169,13 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         try {
             switch (this.selectedArtistOrder) {
                 case ArtistOrder.byArtistAscending:
-                    orderedArtists = this.artistOrdering.getArtistsOrderedAscending(this.artists);
+                    orderedArtists = this.artistSorter.sortAscending(this.artists);
                     break;
                 case ArtistOrder.byArtistDescending:
-                    orderedArtists = this.artistOrdering.getArtistsOrderedDescending(this.artists);
+                    orderedArtists = this.artistSorter.sortDescending(this.artists);
                     break;
                 default: {
-                    orderedArtists = this.artistOrdering.getArtistsOrderedAscending(this.artists);
+                    orderedArtists = this.artistSorter.sortAscending(this.artists);
                     break;
                 }
             }

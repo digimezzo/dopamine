@@ -13,7 +13,6 @@ import { ContextMenuOpener } from '../../context-menu-opener';
 import { PlaybackIndicationServiceBase } from '../../../../services/playback-indication/playback-indication.service.base';
 import { MetadataServiceBase } from '../../../../services/metadata/metadata.service.base';
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
-import { TrackOrdering } from '../../../../common/ordering/track-ordering';
 import { DesktopBase } from '../../../../common/io/desktop.base';
 import { Logger } from '../../../../common/logger';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
@@ -21,6 +20,7 @@ import { TranslatorServiceBase } from '../../../../services/translator/translato
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
 import { DateTime } from '../../../../common/date-time';
 import { GuidFactory } from '../../../../common/guid.factory';
+import { TrackSorter } from '../../../../common/sorting/track-sorter';
 
 describe('TrackBrowserComponent', () => {
     let playbackServiceMock: IMock<PlaybackServiceBase>;
@@ -29,7 +29,7 @@ describe('TrackBrowserComponent', () => {
     let playbackIndicationServiceMock: IMock<PlaybackIndicationServiceBase>;
     let metadataServiceMock: IMock<MetadataServiceBase>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
-    let trackOrderingMock: IMock<TrackOrdering>;
+    let trackSorterMock: IMock<TrackSorter>;
     let desktopMock: IMock<DesktopBase>;
     let loggerMock: IMock<Logger>;
     let tracksPersisterMock: IMock<BaseTracksPersister>;
@@ -68,7 +68,7 @@ describe('TrackBrowserComponent', () => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         dialogServiceMock = Mock.ofType<DialogServiceBase>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
-        trackOrderingMock = Mock.ofType<TrackOrdering>();
+        trackSorterMock = Mock.ofType<TrackSorter>();
         desktopMock = Mock.ofType<DesktopBase>();
         loggerMock = Mock.ofType<Logger>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
@@ -139,15 +139,13 @@ describe('TrackBrowserComponent', () => {
         tracks.addTrack(trackModel3);
         tracks.addTrack(trackModel4);
 
-        trackOrderingMock
-            .setup((x) => x.getTracksOrderedByTitleAscending(It.isAny()))
+        trackSorterMock
+            .setup((x) => x.sortByTitleAscending(It.isAny()))
             .returns(() => [trackModel1, trackModel2, trackModel3, trackModel4]);
-        trackOrderingMock
-            .setup((x) => x.getTracksOrderedByTitleDescending(It.isAny()))
+        trackSorterMock
+            .setup((x) => x.sortByTitleDescending(It.isAny()))
             .returns(() => [trackModel4, trackModel3, trackModel2, trackModel1]);
-        trackOrderingMock
-            .setup((x) => x.getTracksOrderedByAlbum(It.isAny()))
-            .returns(() => [trackModel1, trackModel2, trackModel3, trackModel4]);
+        trackSorterMock.setup((x) => x.sortByAlbum(It.isAny())).returns(() => [trackModel1, trackModel2, trackModel3, trackModel4]);
     });
 
     function createComponent(): TrackBrowserComponent {
@@ -159,7 +157,7 @@ describe('TrackBrowserComponent', () => {
             metadataServiceMock.object,
             playbackIndicationServiceMock.object,
             guidFactoryMock.object,
-            trackOrderingMock.object,
+            trackSorterMock.object,
             collectionServiceMock.object,
             translatorServiceMock.object,
             dialogServiceMock.object,

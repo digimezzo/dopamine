@@ -53,9 +53,6 @@ import { FileMetadataFactory } from './common/metadata/file-metadata.factory';
 import { MetadataPatcher } from './common/metadata/metadata-patcher';
 import { MimeTypes } from './common/metadata/mime-types';
 import { NativeElementProxy } from './common/native-element-proxy';
-import { ArtistOrdering } from './common/ordering/artist-ordering';
-import { GenreOrdering } from './common/ordering/genre-ordering';
-import { TrackOrdering } from './common/ordering/track-ordering';
 import { Scheduler } from './common/scheduling/scheduler';
 import { SemanticZoomHeaderAdder } from './common/semantic-zoom-header-adder';
 import { SettingsBase } from './common/settings/settings.base';
@@ -521,9 +518,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         WebSearchLyricsApi,
         WebSearchApi,
         MetadataPatcher,
-        ArtistOrdering,
-        GenreOrdering,
-        TrackOrdering,
         TracksColumnsOrdering,
         PresenceUpdater,
         SemanticZoomHeaderAdder,
