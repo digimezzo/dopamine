@@ -4,7 +4,6 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../../common/application/constants';
 import { Logger } from '../../../../../common/logger';
-import { GenreOrdering } from '../../../../../common/ordering/genre-ordering';
 import { SemanticZoomHeaderAdder } from '../../../../../common/semantic-zoom-header-adder';
 import { PromiseUtils } from '../../../../../common/utils/promise-utils';
 import { GenreModel } from '../../../../../services/genre/genre-model';
@@ -17,6 +16,7 @@ import { ApplicationServiceBase } from '../../../../../services/application/appl
 import { SchedulerBase } from '../../../../../common/scheduling/scheduler.base';
 import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
+import { GenreSorter } from '../../../../../common/sorting/genre-sorter';
 
 @Component({
     selector: 'app-genre-browser',
@@ -39,7 +39,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
-        private genreOrdering: GenreOrdering,
+        private genreSorter: GenreSorter,
         private semanticZoomHeaderAdder: SemanticZoomHeaderAdder,
         private scheduler: SchedulerBase,
         private logger: Logger,
@@ -144,13 +144,13 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         try {
             switch (this.selectedGenreOrder) {
                 case GenreOrder.byGenreAscending:
-                    orderedGenres = this.genreOrdering.getGenresOrderedAscending(this.genres);
+                    orderedGenres = this.genreSorter.sortAscending(this.genres);
                     break;
                 case GenreOrder.byGenreDescending:
-                    orderedGenres = this.genreOrdering.getGenresOrderedDescending(this.genres);
+                    orderedGenres = this.genreSorter.sortDescending(this.genres);
                     break;
                 default: {
-                    orderedGenres = this.genreOrdering.getGenresOrderedAscending(this.genres);
+                    orderedGenres = this.genreSorter.sortAscending(this.genres);
                     break;
                 }
             }

@@ -1,10 +1,8 @@
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ExpectedCallType, IMock, It, Mock, Times } from 'typemoq';
 import { DateTime } from '../../common/date-time';
-import { FileAccess } from '../../common/io/file-access';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
-import { TrackOrdering } from '../../common/ordering/track-ordering';
 import { Track } from '../../data/entities/track';
 import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
@@ -26,14 +24,14 @@ import { PlaybackServiceBase } from './playback.service.base';
 import { AlbumData } from '../../data/entities/album-data';
 import { NotificationServiceBase } from '../notification/notification.service.base';
 import { ApplicationPaths } from '../../common/application/application-paths';
+import { TrackSorter } from '../../common/sorting/track-sorter';
 
 describe('PlaybackService', () => {
     let trackServiceMock: IMock<TrackServiceBase>;
     let playlistServiceMock: IMock<PlaylistServiceBase>;
     let notificationServiceMock: IMock<NotificationServiceBase>;
     let audioPlayerMock: IMock<AudioPlayerBase>;
-    let trackOrderingMock: IMock<TrackOrdering>;
-    let fileAccessMock: IMock<FileAccess>;
+    let trackSorterMock: IMock<TrackSorter>;
     let loggerMock: IMock<Logger>;
     let queueMock: IMock<Queue>;
     let progressUpdaterMock: IMock<ProgressUpdater>;
@@ -74,8 +72,7 @@ describe('PlaybackService', () => {
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         audioPlayerMock = Mock.ofType<AudioPlayerBase>();
-        trackOrderingMock = Mock.ofType<TrackOrdering>();
-        fileAccessMock = Mock.ofType<FileAccess>();
+        trackSorterMock = Mock.ofType<TrackSorter>();
         loggerMock = Mock.ofType<Logger>();
         queueMock = Mock.ofType<Queue>();
         progressUpdaterMock = Mock.ofType<ProgressUpdater>();
@@ -141,7 +138,7 @@ describe('PlaybackService', () => {
         trackServiceMock.setup((x) => x.getTracksForAlbums([album1.albumKey])).returns(() => tracks);
         trackServiceMock.setup((x) => x.getTracksForArtists(It.isAny(), It.isAny())).returns(() => tracks);
         trackServiceMock.setup((x) => x.getTracksForGenres(It.isAny())).returns(() => tracks);
-        trackOrderingMock.setup((x) => x.getTracksOrderedByAlbum(tracks.tracks)).returns(() => orderedTrackModels);
+        trackSorterMock.setup((x) => x.sortByAlbum(tracks.tracks)).returns(() => orderedTrackModels);
     });
 
     afterEach(() => {
@@ -154,7 +151,7 @@ describe('PlaybackService', () => {
             playlistServiceMock.object,
             notificationServiceMock.object,
             audioPlayerMock.object,
-            trackOrderingMock.object,
+            trackSorterMock.object,
             queueMock.object,
             progressUpdaterMock.object,
             mathExtensionsMock.object,
@@ -962,7 +959,7 @@ describe('PlaybackService', () => {
             service.enqueueAndPlayArtist(artistToPlay, ArtistType.trackArtists);
 
             // Assert
-            trackOrderingMock.verify((x) => x.getTracksOrderedByAlbum(tracks.tracks), Times.exactly(1));
+            trackSorterMock.verify((x) => x.sortByAlbum(tracks.tracks), Times.exactly(1));
         });
 
         it('should add tracks to the queue ordered by album', () => {
@@ -1052,7 +1049,7 @@ describe('PlaybackService', () => {
             service.enqueueAndPlayGenre(genreToPlay);
 
             // Assert
-            trackOrderingMock.verify((x) => x.getTracksOrderedByAlbum(tracks.tracks), Times.exactly(1));
+            trackSorterMock.verify((x) => x.sortByAlbum(tracks.tracks), Times.exactly(1));
         });
 
         it('should add tracks to the queue ordered by album', () => {
@@ -1141,7 +1138,7 @@ describe('PlaybackService', () => {
             service.enqueueAndPlayAlbum(album1);
 
             // Assert
-            trackOrderingMock.verify((x) => x.getTracksOrderedByAlbum(tracks.tracks), Times.exactly(1));
+            trackSorterMock.verify((x) => x.sortByAlbum(tracks.tracks), Times.exactly(1));
         });
 
         it('should add tracks to the queue ordered by album', () => {
@@ -2191,7 +2188,7 @@ describe('PlaybackService', () => {
             await service.addArtistToQueueAsync(artistToAdd, ArtistType.trackArtists);
 
             // Assert
-            trackOrderingMock.verify((x) => x.getTracksOrderedByAlbum(tracks.tracks), Times.exactly(1));
+            trackSorterMock.verify((x) => x.sortByAlbum(tracks.tracks), Times.exactly(1));
         });
 
         it('should add tracks to the queue ordered by album', async () => {
@@ -2230,7 +2227,7 @@ describe('PlaybackService', () => {
             await service.addGenreToQueueAsync(genreToAdd);
 
             // Assert
-            trackOrderingMock.verify((x) => x.getTracksOrderedByAlbum(tracks.tracks), Times.exactly(1));
+            trackSorterMock.verify((x) => x.sortByAlbum(tracks.tracks), Times.exactly(1));
         });
 
         it('should add tracks to the queue ordered by album', async () => {
@@ -2267,7 +2264,7 @@ describe('PlaybackService', () => {
             await service.addAlbumToQueueAsync(album1);
 
             // Assert
-            trackOrderingMock.verify((x) => x.getTracksOrderedByAlbum(tracks.tracks), Times.exactly(1));
+            trackSorterMock.verify((x) => x.sortByAlbum(tracks.tracks), Times.exactly(1));
         });
 
         it('should add tracks to the queue ordered by album', async () => {

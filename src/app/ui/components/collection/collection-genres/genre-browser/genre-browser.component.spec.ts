@@ -9,7 +9,6 @@ import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/s
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
 import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
-import { GenreOrdering } from '../../../../../common/ordering/genre-ordering';
 import { SemanticZoomHeaderAdder } from '../../../../../common/semantic-zoom-header-adder';
 import { Logger } from '../../../../../common/logger';
 import { SchedulerBase } from '../../../../../common/scheduling/scheduler.base';
@@ -17,6 +16,7 @@ import { TranslatorServiceBase } from '../../../../../services/translator/transl
 import { GenreModel } from '../../../../../services/genre/genre-model';
 import { Constants } from '../../../../../common/application/constants';
 import { GuidFactory } from '../../../../../common/guid.factory';
+import { GenreSorter } from '../../../../../common/sorting/genre-sorter';
 
 export class CdkVirtualScrollViewportMock {
     private _scrollToIndexIndex: number = -1;
@@ -43,7 +43,7 @@ describe('GenreBrowserComponent', () => {
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
-    let genreOrderingMock: IMock<GenreOrdering>;
+    let genreSorterMock: IMock<GenreSorter>;
     let guidFactoryMock: IMock<GuidFactory>;
     let semanticZoomHeaderAdderMock: IMock<SemanticZoomHeaderAdder>;
     let schedulerMock: IMock<SchedulerBase>;
@@ -68,7 +68,7 @@ describe('GenreBrowserComponent', () => {
             addToPlaylistMenuMock.object,
             contextMenuOpenerMock.object,
             mouseSelectionWatcherMock.object,
-            genreOrderingMock.object,
+            genreSorterMock.object,
             semanticZoomHeaderAdder,
             schedulerMock.object,
             loggerMock.object,
@@ -83,7 +83,7 @@ describe('GenreBrowserComponent', () => {
             addToPlaylistMenuMock.object,
             contextMenuOpenerMock.object,
             mouseSelectionWatcherMock.object,
-            genreOrderingMock.object,
+            genreSorterMock.object,
             semanticZoomHeaderAdderMock.object,
             schedulerMock.object,
             loggerMock.object,
@@ -99,7 +99,7 @@ describe('GenreBrowserComponent', () => {
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
-        genreOrderingMock = Mock.ofType<GenreOrdering>();
+        genreSorterMock = Mock.ofType<GenreSorter>();
         semanticZoomHeaderAdderMock = Mock.ofType<SemanticZoomHeaderAdder>();
         guidFactoryMock = Mock.ofType<GuidFactory>();
         schedulerMock = Mock.ofType<SchedulerBase>();
@@ -124,10 +124,10 @@ describe('GenreBrowserComponent', () => {
         genre1 = new GenreModel('One genre', translatorServiceMock.object);
         genre2 = new GenreModel('Two genre', translatorServiceMock.object);
 
-        genreOrderingMock.setup((x) => x.getGenresOrderedAscending([])).returns(() => []);
-        genreOrderingMock.setup((x) => x.getGenresOrderedDescending([])).returns(() => []);
-        genreOrderingMock.setup((x) => x.getGenresOrderedAscending(It.isAny())).returns(() => [genre1, genre2]);
-        genreOrderingMock.setup((x) => x.getGenresOrderedDescending(It.isAny())).returns(() => [genre2, genre1]);
+        genreSorterMock.setup((x) => x.sortAscending([])).returns(() => []);
+        genreSorterMock.setup((x) => x.sortDescending([])).returns(() => []);
+        genreSorterMock.setup((x) => x.sortAscending(It.isAny())).returns(() => [genre1, genre2]);
+        genreSorterMock.setup((x) => x.sortDescending(It.isAny())).returns(() => [genre2, genre1]);
         translatorServiceMock.setup((x) => x.get('unknown-genre')).returns(() => 'Unknown genre');
         genresPersisterMock.setup((x) => x.getSelectedGenres([genre1, genre2])).returns(() => [genre2]);
         genresPersisterMock.setup((x) => x.getSelectedGenreOrder()).returns(() => GenreOrder.byGenreDescending);

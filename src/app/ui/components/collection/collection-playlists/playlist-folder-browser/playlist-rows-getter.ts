@@ -2,12 +2,16 @@ import { Injectable } from '@angular/core';
 import { ItemSpaceCalculator } from '../../item-space-calculator';
 import { PlaylistRow } from '../playlist-browser/playlist-row';
 import { PlaylistOrder } from '../playlist-order';
-import {Constants} from "../../../../../common/application/constants";
-import {PlaylistModel} from "../../../../../services/playlist/playlist-model";
+import { Constants } from '../../../../../common/application/constants';
+import { PlaylistModel } from '../../../../../services/playlist/playlist-model';
+import { PlaylistSorter } from '../../../../../common/sorting/playlist-sorter';
 
 @Injectable()
 export class PlaylistRowsGetter {
-    public constructor(private playlistSpaceCalculator: ItemSpaceCalculator) {}
+    public constructor(
+        private playlistSorter: PlaylistSorter,
+        private playlistSpaceCalculator: ItemSpaceCalculator,
+    ) {}
 
     public getPlaylistRows(availableWidthInPixels: number, playlists: PlaylistModel[], playlistOrder: PlaylistOrder): PlaylistRow[] {
         const playlistRows: PlaylistRow[] = [];
@@ -22,7 +26,7 @@ export class PlaylistRowsGetter {
 
         const numberOfPlaylistsPerRow: number = this.playlistSpaceCalculator.calculateNumberOfItemsPerRow(
             Constants.albumSizeInPixels,
-            availableWidthInPixels
+            availableWidthInPixels,
         );
 
         const sortedPlaylists: PlaylistModel[] = this.getSortedPlaylists(playlists, playlistOrder);
@@ -39,21 +43,22 @@ export class PlaylistRowsGetter {
     }
 
     private getSortedPlaylists(unsortedPlaylists: PlaylistModel[], playlistOrder: PlaylistOrder): PlaylistModel[] {
-        let sortedAlbums: PlaylistModel[] = [];
+        let sortedPlaylists: PlaylistModel[] = [];
 
         switch (playlistOrder) {
             case PlaylistOrder.byPlaylistNameAscending:
-                sortedAlbums = unsortedPlaylists.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
+                sortedPlaylists = unsortedPlaylists.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
+                sortedPlaylists = this.playlistSorter.sortAscending(unsortedPlaylists);
                 break;
             case PlaylistOrder.byPlaylistNameDescending:
-                sortedAlbums = unsortedPlaylists.sort((a, b) => (a.name.toLowerCase() < b.name.toLowerCase() ? 1 : -1));
+                sortedPlaylists = this.playlistSorter.sortDescending(unsortedPlaylists);
                 break;
             default: {
-                sortedAlbums = unsortedPlaylists.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
+                sortedPlaylists = this.playlistSorter.sortAscending(unsortedPlaylists);
                 break;
             }
         }
 
-        return sortedAlbums;
+        return sortedPlaylists;
     }
 }
