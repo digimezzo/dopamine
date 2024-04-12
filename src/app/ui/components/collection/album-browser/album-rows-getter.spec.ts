@@ -1,19 +1,20 @@
-import { IMock, It, Mock } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { AlbumData } from '../../../../data/entities/album-data';
 import { AlbumOrder } from '../album-order';
 import { ItemSpaceCalculator } from '../item-space-calculator';
 import { AlbumRow } from './album-row';
 import { AlbumRowsGetter } from './album-rows-getter';
-import { FileAccess } from '../../../../common/io/file-access';
 import { Shuffler } from '../../../../common/shuffler';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { AlbumModel } from '../../../../services/album/album-model';
 import { ApplicationPaths } from '../../../../common/application/application-paths';
+import { AlbumSorter } from '../../../../common/sorting/album-sorter';
 
 describe('AlbumRowsGetter', () => {
     let itemSpaceCalculatorMock: IMock<ItemSpaceCalculator>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let applicationPathsMock: IMock<ApplicationPaths>;
+    let albumSorterMock: IMock<AlbumSorter>;
     let shufflerMock: IMock<Shuffler>;
     let albumRowsGetter: AlbumRowsGetter;
 
@@ -71,6 +72,7 @@ describe('AlbumRowsGetter', () => {
         itemSpaceCalculatorMock = Mock.ofType<ItemSpaceCalculator>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         applicationPathsMock = Mock.ofType<ApplicationPaths>();
+        albumSorterMock = Mock.ofType<AlbumSorter>();
         shufflerMock = Mock.ofType<Shuffler>();
 
         itemSpaceCalculatorMock.setup((x) => x.calculateNumberOfItemsPerRow(It.isAny(), It.isAny())).returns(() => 2);
@@ -88,183 +90,139 @@ describe('AlbumRowsGetter', () => {
 
         shufflerMock.setup((x) => x.shuffle(albums)).returns(() => [album5, album3, album1, album6, album4, album2]);
 
-        albumRowsGetter = new AlbumRowsGetter(itemSpaceCalculatorMock.object, shufflerMock.object);
+        albumRowsGetter = new AlbumRowsGetter(itemSpaceCalculatorMock.object, albumSorterMock.object, shufflerMock.object);
     });
 
     describe('constructor', () => {
         it('should create', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
+            // Arrange, Act, Assert
             expect(albumRowsGetter).toBeDefined();
         });
     });
 
     describe('getAlbumRows', () => {
         it('should return empty album rows if albums is empty', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, [], AlbumOrder.byAlbumTitleAscending);
 
             // Assert
             expect(albumRows.length).toBe(0);
         });
 
-        it('should return album rows by album title ascending when provided AlbumOrder.byAlbumTitleAscending', () => {
+        it('should sort by album title ascending when provided AlbumOrder.byAlbumTitleAscending', () => {
             // Arrange
+            albumSorterMock.setup((x) => x.sortByAlbumTitleAscending(albums)).returns(() => albums);
 
             // Act
-            const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byAlbumTitleAscending);
+            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byAlbumTitleAscending);
 
             // Assert
-            expect(albumRows[0].albums[0]).toBe(album1);
-            expect(albumRows[0].albums[1]).toBe(album2);
-            expect(albumRows[1].albums[0]).toBe(album3);
-            expect(albumRows[1].albums[1]).toBe(album5);
-            expect(albumRows[2].albums[0]).toBe(album6);
-            expect(albumRows[2].albums[1]).toBe(album4);
+            albumSorterMock.verify((x) => x.sortByAlbumTitleAscending(albums), Times.once());
         });
 
-        it('should return album rows by album title descending when provided AlbumOrder.byAlbumTitleDescending', () => {
+        it('should sort by album title descending when provided AlbumOrder.byAlbumTitleDescending', () => {
             // Arrange
+            albumSorterMock.setup((x) => x.sortByAlbumTitleDescending(albums)).returns(() => albums);
 
             // Act
-            const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byAlbumTitleDescending);
+            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byAlbumTitleDescending);
 
             // Assert
-            expect(albumRows[0].albums[0]).toBe(album4);
-            expect(albumRows[0].albums[1]).toBe(album6);
-            expect(albumRows[1].albums[0]).toBe(album5);
-            expect(albumRows[1].albums[1]).toBe(album3);
-            expect(albumRows[2].albums[0]).toBe(album2);
-            expect(albumRows[2].albums[1]).toBe(album1);
+            albumSorterMock.verify((x) => x.sortByAlbumTitleDescending(albums), Times.once());
         });
 
-        it('should return album rows by date added descending when provided AlbumOrder.byDateAdded', () => {
+        it('should sort by date added descending when provided AlbumOrder.byDateAdded', () => {
             // Arrange
+            albumSorterMock.setup((x) => x.sortByDateAdded(albums)).returns(() => albums);
 
             // Act
-            const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byDateAdded);
+            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byDateAdded);
 
             // Assert
-            expect(albumRows[0].albums[0]).toBe(album5);
-            expect(albumRows[0].albums[1]).toBe(album2);
-            expect(albumRows[1].albums[0]).toBe(album4);
-            expect(albumRows[1].albums[1]).toBe(album6);
-            expect(albumRows[2].albums[0]).toBe(album1);
-            expect(albumRows[2].albums[1]).toBe(album3);
+            albumSorterMock.verify((x) => x.sortByDateAdded(albums), Times.once());
         });
 
-        it('should return album rows by date file created descending when provided AlbumOrder.byDateCreated', () => {
+        it('should sort by date file created descending when provided AlbumOrder.byDateCreated', () => {
             // Arrange
+            albumSorterMock.setup((x) => x.sortByDateCreated(albums)).returns(() => albums);
 
             // Act
-            const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byDateCreated);
+            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byDateCreated);
 
             // Assert
-            expect(albumRows[0].albums[0]).toBe(album3);
-            expect(albumRows[0].albums[1]).toBe(album2);
-            expect(albumRows[1].albums[0]).toBe(album4);
-            expect(albumRows[1].albums[1]).toBe(album1);
-            expect(albumRows[2].albums[0]).toBe(album5);
-            expect(albumRows[2].albums[1]).toBe(album6);
+            albumSorterMock.verify((x) => x.sortByDateCreated(albums), Times.once());
         });
 
-        it('should return album rows grouped by year ascending when provided AlbumOrder.byYearAscending', () => {
+        it('should sort by year ascending when provided AlbumOrder.byYearAscending', () => {
             // Arrange
+            albumSorterMock.setup((x) => x.sortByYearAscending(albums)).returns(() => albums);
 
             // Act
-            const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byYearAscending);
+            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byYearAscending);
 
             // Assert
-            expect(albumRows[0].albums[0]).toBe(album5);
-            expect(albumRows[0].albums[0].yearHeader).toEqual('?');
-            expect(albumRows[0].albums[0].showYear).toBeTruthy();
-
-            expect(albumRows[1].albums[0]).toBe(album4);
-            expect(albumRows[1].albums[0].yearHeader).toEqual('1980');
-            expect(albumRows[1].albums[0].showYear).toBeTruthy();
-
-            expect(albumRows[2].albums[0]).toBe(album6);
-            expect(albumRows[2].albums[0].yearHeader).toEqual('2001');
-            expect(albumRows[2].albums[0].showYear).toBeTruthy();
-
-            expect(albumRows[3].albums[0]).toBe(album2);
-            expect(albumRows[3].albums[0].yearHeader).toEqual('2020');
-            expect(albumRows[3].albums[0].showYear).toBeTruthy();
-
-            expect(albumRows[3].albums[1]).toBe(album1);
-            expect(albumRows[3].albums[1].yearHeader).toEqual('');
-            expect(albumRows[3].albums[1].showYear).toBeTruthy();
-
-            expect(albumRows[4].albums[0]).toBe(album3);
-            expect(albumRows[4].albums[0].yearHeader).toEqual('2021');
-            expect(albumRows[4].albums[0].showYear).toBeTruthy();
+            albumSorterMock.verify(
+                (x) =>
+                    x.sortByYearAscending(
+                        It.is<AlbumModel[]>(
+                            (albumModels: AlbumModel[]) =>
+                                albumModels[0].albumKey === albums[0].albumKey &&
+                                albumModels[1].albumKey === albums[1].albumKey &&
+                                albumModels[2].albumKey === albums[2].albumKey &&
+                                albumModels[3].albumKey === albums[3].albumKey &&
+                                albumModels[4].albumKey === albums[4].albumKey &&
+                                albumModels[5].albumKey === albums[5].albumKey,
+                        ),
+                    ),
+                Times.once(),
+            );
         });
 
-        it('should return album rows grouped by year descending when provided AlbumOrder.byYearDescending', () => {
+        it('should sort by year descending when provided AlbumOrder.byYearDescending', () => {
             // Arrange
+            albumSorterMock.setup((x) => x.sortByYearDescending(albums)).returns(() => albums);
 
             // Act
-            const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byYearDescending);
+            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byYearDescending);
 
             // Assert
-            expect(albumRows[0].albums[0]).toBe(album3);
-            expect(albumRows[0].albums[0].yearHeader).toEqual('2021');
-            expect(albumRows[0].albums[0].showYear).toBeTruthy();
-
-            expect(albumRows[1].albums[0]).toBe(album2);
-            expect(albumRows[1].albums[0].yearHeader).toEqual('2020');
-            expect(albumRows[1].albums[0].showYear).toBeTruthy();
-
-            expect(albumRows[1].albums[1]).toBe(album1);
-            expect(albumRows[1].albums[1].yearHeader).toEqual('');
-            expect(albumRows[1].albums[1].showYear).toBeTruthy();
-
-            expect(albumRows[2].albums[0]).toBe(album6);
-            expect(albumRows[2].albums[0].yearHeader).toEqual('2001');
-            expect(albumRows[2].albums[0].showYear).toBeTruthy();
-
-            expect(albumRows[3].albums[0]).toBe(album4);
-            expect(albumRows[3].albums[0].yearHeader).toEqual('1980');
-            expect(albumRows[3].albums[0].showYear).toBeTruthy();
-
-            expect(albumRows[4].albums[0]).toBe(album5);
-            expect(albumRows[4].albums[0].yearHeader).toEqual('?');
-            expect(albumRows[4].albums[0].showYear).toBeTruthy();
+            albumSorterMock.verify(
+                (x) =>
+                    x.sortByYearDescending(
+                        It.is<AlbumModel[]>(
+                            (albumModels: AlbumModel[]) =>
+                                albumModels[0].albumKey === albums[0].albumKey &&
+                                albumModels[1].albumKey === albums[1].albumKey &&
+                                albumModels[2].albumKey === albums[2].albumKey &&
+                                albumModels[3].albumKey === albums[3].albumKey &&
+                                albumModels[4].albumKey === albums[4].albumKey &&
+                                albumModels[5].albumKey === albums[5].albumKey,
+                        ),
+                    ),
+                Times.once(),
+            );
         });
 
         it('should return album rows by date last played descending when provided AlbumOrder.byLastPlayed', () => {
             // Arrange
+            albumSorterMock.setup((x) => x.sortByDateLastPlayed(albums)).returns(() => albums);
 
             // Act
-            const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byLastPlayed);
+            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byLastPlayed);
 
             // Assert
-            expect(albumRows[0].albums[0]).toBe(album6);
-            expect(albumRows[0].albums[1]).toBe(album1);
-            expect(albumRows[1].albums[0]).toBe(album5);
-            expect(albumRows[1].albums[1]).toBe(album2);
-            expect(albumRows[2].albums[0]).toBe(album4);
-            expect(albumRows[2].albums[1]).toBe(album3);
+            albumSorterMock.verify((x) => x.sortByDateLastPlayed(albums), Times.once());
         });
 
-        it('should return album rows in random order when provided AlbumOrder.random', () => {
+        it('should sort in random order when provided AlbumOrder.random', () => {
             // Arrange
+            shufflerMock.setup((x) => x.shuffle(albums)).returns(() => albums);
 
             // Act
             const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.random);
 
             // Assert
-            expect(albumRows[0].albums[0]).toBe(album5);
-            expect(albumRows[0].albums[1]).toBe(album3);
-            expect(albumRows[1].albums[0]).toBe(album1);
-            expect(albumRows[1].albums[1]).toBe(album6);
-            expect(albumRows[2].albums[0]).toBe(album4);
-            expect(albumRows[2].albums[1]).toBe(album2);
+            shufflerMock.verify((x) => x.shuffle(albums), Times.once());
         });
     });
 });

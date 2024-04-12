@@ -6,7 +6,6 @@ import { ArtistBrowserComponent } from './artist-browser.component';
 import { ArtistOrder } from './artist-order';
 import { ArtistModel } from '../../../../../services/artist/artist-model';
 import { Logger } from '../../../../../common/logger';
-import { ArtistOrdering } from '../../../../../common/ordering/artist-ordering';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { SemanticZoomHeaderAdder } from '../../../../../common/semantic-zoom-header-adder';
@@ -18,6 +17,7 @@ import { ApplicationServiceBase } from '../../../../../services/application/appl
 import { SchedulerBase } from '../../../../../common/scheduling/scheduler.base';
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
 import { GuidFactory } from '../../../../../common/guid.factory';
+import { ArtistSorter } from '../../../../../common/sorting/artist-sorter';
 
 export class CdkVirtualScrollViewportMock {
     private _scrollToIndexIndex: number = -1;
@@ -44,7 +44,7 @@ describe('ArtistBrowserComponent', () => {
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
-    let artistOrderingMock: IMock<ArtistOrdering>;
+    let artistSorterMock: IMock<ArtistSorter>;
     let guidFactoryMock: IMock<GuidFactory>;
     let schedulerMock: IMock<SchedulerBase>;
     let loggerMock: IMock<Logger>;
@@ -68,7 +68,7 @@ describe('ArtistBrowserComponent', () => {
             addToPlaylistMenuMock.object,
             mouseSelectionWatcherMock.object,
             contextMenuOpenerMock.object,
-            artistOrderingMock.object,
+            artistSorterMock.object,
             semanticZoomHeaderAdder,
             schedulerMock.object,
             loggerMock.object,
@@ -83,7 +83,7 @@ describe('ArtistBrowserComponent', () => {
             addToPlaylistMenuMock.object,
             mouseSelectionWatcherMock.object,
             contextMenuOpenerMock.object,
-            artistOrderingMock.object,
+            artistSorterMock.object,
             semanticZoomHeaderAdderMock.object,
             schedulerMock.object,
             loggerMock.object,
@@ -99,7 +99,7 @@ describe('ArtistBrowserComponent', () => {
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
-        artistOrderingMock = Mock.ofType<ArtistOrdering>();
+        artistSorterMock = Mock.ofType<ArtistSorter>();
         semanticZoomHeaderAdderMock = Mock.ofType<SemanticZoomHeaderAdder>();
         guidFactoryMock = Mock.ofType<GuidFactory>();
         schedulerMock = Mock.ofType<SchedulerBase>();
@@ -124,10 +124,10 @@ describe('ArtistBrowserComponent', () => {
         artist1 = new ArtistModel('One artist', translatorServiceMock.object);
         artist2 = new ArtistModel('Two artist', translatorServiceMock.object);
 
-        artistOrderingMock.setup((x) => x.getArtistsOrderedAscending([])).returns(() => []);
-        artistOrderingMock.setup((x) => x.getArtistsOrderedDescending([])).returns(() => []);
-        artistOrderingMock.setup((x) => x.getArtistsOrderedAscending(It.isAny())).returns(() => [artist1, artist2]);
-        artistOrderingMock.setup((x) => x.getArtistsOrderedDescending(It.isAny())).returns(() => [artist2, artist1]);
+        artistSorterMock.setup((x) => x.sortAscending([])).returns(() => []);
+        artistSorterMock.setup((x) => x.sortDescending([])).returns(() => []);
+        artistSorterMock.setup((x) => x.sortAscending(It.isAny())).returns(() => [artist1, artist2]);
+        artistSorterMock.setup((x) => x.sortDescending(It.isAny())).returns(() => [artist2, artist1]);
         translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
         artistsPersisterMock.setup((x) => x.getSelectedArtists([artist1, artist2])).returns(() => [artist2]);
         artistsPersisterMock.setup((x) => x.getSelectedArtistOrder()).returns(() => ArtistOrder.byArtistDescending);

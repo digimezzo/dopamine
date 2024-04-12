@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
-import { TrackOrdering } from '../../common/ordering/track-ordering';
 import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
 import { ArtistType } from '../artist/artist-type';
@@ -21,6 +20,7 @@ import { PlaylistServiceBase } from '../playlist/playlist.service.base';
 import { AudioPlayerBase } from './audio-player.base';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { NotificationServiceBase } from '../notification/notification.service.base';
+import { TrackSorter } from '../../common/sorting/track-sorter';
 
 @Injectable()
 export class PlaybackService implements PlaybackServiceBase {
@@ -45,7 +45,7 @@ export class PlaybackService implements PlaybackServiceBase {
         private playlistService: PlaylistServiceBase,
         private notificationService: NotificationServiceBase,
         private _audioPlayer: AudioPlayerBase,
-        private trackOrdering: TrackOrdering,
+        private trackSorter: TrackSorter,
         private queue: Queue,
         private progressUpdater: ProgressUpdater,
         private mathExtensions: MathExtensions,
@@ -149,19 +149,19 @@ export class PlaybackService implements PlaybackServiceBase {
 
     public enqueueAndPlayArtist(artistToPlay: ArtistModel, artistType: ArtistType): void {
         const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToPlay.displayName], artistType);
-        const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForArtists.tracks);
+        const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForArtists.tracks);
         this.enqueueAndPlayTracks(orderedTracks);
     }
 
     public enqueueAndPlayGenre(genreToPlay: GenreModel): void {
         const tracksForGenre: TrackModels = this.trackService.getTracksForGenres([genreToPlay.displayName]);
-        const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForGenre.tracks);
+        const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForGenre.tracks);
         this.enqueueAndPlayTracks(orderedTracks);
     }
 
     public enqueueAndPlayAlbum(albumToPlay: AlbumModel): void {
         const tracksForAlbum: TrackModels = this.trackService.getTracksForAlbums([albumToPlay.albumKey]);
-        const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForAlbum.tracks);
+        const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForAlbum.tracks);
         this.enqueueAndPlayTracks(orderedTracks);
     }
 
@@ -181,7 +181,7 @@ export class PlaybackService implements PlaybackServiceBase {
 
     public async addArtistToQueueAsync(artistToAdd: ArtistModel, artistType: ArtistType): Promise<void> {
         const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToAdd.displayName], artistType);
-        const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForArtists.tracks);
+        const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForArtists.tracks);
         this.queue.addTracks(orderedTracks);
         await this.notifyOfTracksAddedToPlaybackQueueAsync(orderedTracks.length);
     }
@@ -192,14 +192,14 @@ export class PlaybackService implements PlaybackServiceBase {
         }
 
         const tracksForGenre: TrackModels = this.trackService.getTracksForGenres([genreToAdd.displayName]);
-        const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForGenre.tracks);
+        const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForGenre.tracks);
         this.queue.addTracks(orderedTracks);
         await this.notifyOfTracksAddedToPlaybackQueueAsync(orderedTracks.length);
     }
 
     public async addAlbumToQueueAsync(albumToAdd: AlbumModel): Promise<void> {
         const tracksForAlbum: TrackModels = this.trackService.getTracksForAlbums([albumToAdd.albumKey]);
-        const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForAlbum.tracks);
+        const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForAlbum.tracks);
         this.queue.addTracks(orderedTracks);
         await this.notifyOfTracksAddedToPlaybackQueueAsync(orderedTracks.length);
     }
