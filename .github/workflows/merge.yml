@@ -57,7 +57,7 @@ jobs:
                   path: release/Dopamine-*.pacman
 
     merge_build_on_mac:
-        runs-on: macos-11
+        runs-on: macos-12
         if: github.event.pull_request.merged == true
         steps:
             - uses: actions/checkout@v2
