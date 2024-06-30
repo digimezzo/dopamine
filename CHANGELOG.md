@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0-preview.26] - 2024-03-24
+## [3.0.0-preview.26] - 2024-06-30
 
 ### Fixed
 
@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Pressing 'Space' key when editing Playlist toggles play
 -   Files don't play if they contain '?' in file name or path
 -   Sorting is not alphanumeric (1, 10, 2 instead of 1, 2, 10)
+-   Javascript error when closing Dopamine while it is indexing
+-   Search does not work in 'Genres' tab
 
 ### Added
 
