@@ -147,13 +147,15 @@ function createMainWindow() {
     // 'ready-to-show' doesn't fire on Windows in dev mode. In prod it seems to work.
     // See: https://github.com/electron/electron/issues/7779
     mainWindow.on('ready-to-show', () => {
-        mainWindow.show();
-        mainWindow.focus();
+        if (mainWindow) {
+            mainWindow.show();
+            mainWindow.focus();
+        }
     });
     // Makes links open in external browser
     const handleRedirect = (e, localUrl) => {
         // Check that the requested url is not the current page
-        if (localUrl !== mainWindow.webContents.getURL()) {
+        if (localUrl !== (mainWindow === null || mainWindow === void 0 ? void 0 : mainWindow.webContents.getURL())) {
             e.preventDefault();
             require('electron').shell.openExternal(localUrl);
         }
@@ -161,23 +163,27 @@ function createMainWindow() {
     mainWindow.webContents.on('will-navigate', handleRedirect);
     mainWindow.webContents.on('before-input-event', (event, input) => {
         if (input.key.toLowerCase() === 'f12') {
-            // if (serve) {
-            mainWindow.webContents.toggleDevTools();
-            // }
+            if (mainWindow) {
+                mainWindow.webContents.toggleDevTools();
+            }
             event.preventDefault();
         }
     });
     mainWindow.on('minimize', (event) => {
         if (shouldMinimizeToNotificationArea()) {
             event.preventDefault();
-            mainWindow.hide();
+            if (mainWindow) {
+                mainWindow.hide();
+            }
         }
     });
     mainWindow.on('close', (event) => {
         if (shouldCloseToNotificationArea()) {
             if (!isQuitting) {
                 event.preventDefault();
-                mainWindow.hide();
+                if (mainWindow) {
+                    mainWindow.hide();
+                }
             }
             return false;
         }
@@ -196,9 +202,9 @@ try {
     else {
         electron_1.app.on('second-instance', (event, argv, workingDirectory) => {
             electron_log_1.default.info('[Main] [Main] Attempt to run second instance. Showing existing window.');
-            mainWindow.webContents.send('arguments-received', argv);
-            // Someone tried to run a second instance, we should focus the existing window.
             if (mainWindow) {
+                mainWindow.webContents.send('arguments-received', argv);
+                // Someone tried to run a second instance, we should focus the existing window.
                 if (mainWindow.isMinimized()) {
                     mainWindow.restore();
                 }
@@ -253,8 +259,10 @@ try {
                 {
                     label: arg.showDopamineLabel,
                     click() {
-                        mainWindow.show();
-                        mainWindow.focus();
+                        if (mainWindow) {
+                            mainWindow.show();
+                            mainWindow.focus();
+                        }
                     },
                 },
                 {
@@ -277,10 +285,14 @@ try {
                 workerData: { arg },
             });
             workerThread.on('message', (message) => {
-                mainWindow.webContents.send('indexing-worker-message', message);
+                if (mainWindow) {
+                    mainWindow.webContents.send('indexing-worker-message', message);
+                }
             });
             workerThread.on('exit', () => {
-                mainWindow.webContents.send('indexing-worker-exit', 'Done');
+                if (mainWindow) {
+                    mainWindow.webContents.send('indexing-worker-exit', 'Done');
+                }
             });
         });
     }
