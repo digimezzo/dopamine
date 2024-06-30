@@ -5,6 +5,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.0.0-preview.26] - 2024-06-30
 
+### Added
+
+-   Added a setting to toggle downloading of online lyrics
+
+### Changed
+
+-   Updated Simplified Chinese translation
+
 ### Fixed
 
 -   .tiff cover images don't load
@@ -13,10 +21,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Sorting is not alphanumeric (1, 10, 2 instead of 1, 2, 10)
 -   Javascript error when closing Dopamine while it is indexing
 -   Search does not work in 'Genres' tab
-
-### Added
-
--   Added a setting to toggle downloading of online lyrics
 
 ## [3.0.0-preview.25] - 2024-03-01
 
