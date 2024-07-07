@@ -67,12 +67,12 @@ class TrackRepositoryMock {
         this.disableNeedsAlbumArtworkIndexingCalls.push(albumKey);
     }
 
-    getLastModifiedTrackForAlbumKeyAsync(albumKey) {
+    getLastModifiedTrackForAlbumKeyAsync(albumKeyIndex, albumKey) {
         this.getLastModifiedTrackForAlbumKeyAsyncCalls.push({});
         return this.getLastModifiedTrackForAlbumKeyAsyncReturnValues[albumKey];
     }
 
-    getAlbumDataThatNeedsIndexing() {
+    getAlbumDataThatNeedsIndexing(albumKeyIndex) {
         this.getAlbumDataThatNeedsIndexingCalls.push({});
         return this.getAlbumDataThatNeedsIndexingReturnValue;
     }
