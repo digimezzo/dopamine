@@ -29,17 +29,17 @@ class QueryParts {
         return selectGenresQueryPart;
     }
 
-    static selectAlbumDataQueryPart(onlyVisibleAlbumData) {
+    static selectAlbumDataQueryPart(albumKeyIndex, onlyVisibleAlbumData) {
         let selectAlbumDataQueryPart = `SELECT t.AlbumTitle AS albumTitle,
                                                        t.AlbumArtists AS albumArtists,
-                                                       t.AlbumKey AS albumKey,
+                                                       t.AlbumKey${albumKeyIndex} AS albumKey,
                                                        a.ArtworkID as artworkId,
                                                        MAX(t.Artists) AS artists,
                                                        MAX(t.Year) AS year,
                                                        MAX(t.DateFileCreated) AS dateFileCreated,
                                                        MAX(t.DateAdded) AS dateAdded,
                                                        MAX(t.DateLastPlayed) AS dateLastPlayed FROM Track t
-                                                       LEFT JOIN AlbumArtwork a ON t.AlbumKey=a.AlbumKey`;
+                                                       LEFT JOIN AlbumArtwork a ON t.AlbumKey${albumKeyIndex}=a.AlbumKey`;
 
         if (onlyVisibleAlbumData) {
             selectAlbumDataQueryPart += ' ' + this.#folderJoins();
@@ -55,6 +55,8 @@ class QueryParts {
                                                              t.AlbumTitle AS albumTitle,
                                                              t.AlbumArtists AS albumArtists,
                                                              t.AlbumKey AS albumKey,
+                                                             t.AlbumKey2 AS albumKey2,
+                                                             t.AlbumKey3 AS albumKey3,
                                                              t.Path AS path,
                                                              t.FileName AS fileName,
                                                              t.MimeType AS mimeType,

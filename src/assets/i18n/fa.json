@@ -63,7 +63,6 @@
     "thanks-to-developers": "به توسعه دهندگانی که مؤلفه هایی را که ما استفاده می کنیم ایجاد کرده اند.",
     "thanks-to-neowin": "به Neowin برای ایده های عالی، آزمایش ها و گزارش های اشکال.",
     "refresh": "تازه کردن",
-    "album-covers": "جلدهای آلبوم",
     "add-folders-with-your-music": "پوشه های حاوی موسیقی خود را به مجموعه خود اضافه کنید",
     "select-folder": "یک پوشه را انتخاب کنید",
     "delete-folder": "پوشه را حذف کنید",
@@ -268,5 +267,10 @@
     "show-welcome-screen-now": "اکنون صفحه خوش آمدگویی را نشان دهید",
     "keep-playback-controls-visible-on-now-playing-page": "کنترل‌های پخش را در صفحه در حال پخش قابل مشاهده نگه دارید",
     "open-folder": "پوشه را باز کنید",
-    "download-lyrics-online": "Download lyrics online"
+    "download-lyrics-online": "Download lyrics online",
+    "grouping": "Grouping",
+    "albums-defined-by-folders-on-computer": "Albums are defined by their folders on your computer",
+    "albums-defined-by-tag-album-title": "Albums are defined by the 'Album' tag",
+    "albums-defined-by-tags-album-title-and-album-artist": "Albums are defined by the 'Album' and 'Album Artist' tags",
+    "changing-will-trigger-album-cover-refresh": "Changing this option will trigger a refresh of your album covers"
 }

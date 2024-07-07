@@ -1,5 +1,6 @@
 export abstract class SettingsBase {
     public abstract get defaultLanguage(): string;
+    public abstract get albumKeyIndex(): string;
     public abstract language: string;
     public abstract checkForUpdates: boolean;
     public abstract checkForUpdatesIncludesPreReleases: boolean;
@@ -71,4 +72,7 @@ export abstract class SettingsBase {
     public abstract audioVisualizerStyle: string;
     public abstract audioVisualizerFrameRate: number;
     public abstract keepPlaybackControlsVisibleOnNowPlayingPage: boolean;
+    public abstract albumsDefinedByTitleAndArtist: boolean;
+    public abstract albumsDefinedByTitle: boolean;
+    public abstract albumsDefinedByFolders: boolean;
 }

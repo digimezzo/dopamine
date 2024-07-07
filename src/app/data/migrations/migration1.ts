@@ -18,8 +18,6 @@ export class Migration1 extends Migration {
                         AlbumTitle	                TEXT,
                         AlbumArtists	            TEXT,
                         AlbumKey	                TEXT,
-                        AlbumKey2	                TEXT,
-                        AlbumKey3	                TEXT,
                         Path	                    TEXT,
                         SafePath	                TEXT,
                         FileName	                TEXT,

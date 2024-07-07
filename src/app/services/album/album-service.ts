@@ -6,6 +6,7 @@ import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { AlbumServiceBase } from './album-service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { ApplicationPaths } from '../../common/application/application-paths';
+import { SettingsBase } from '../../common/settings/settings.base';
 
 @Injectable()
 export class AlbumService implements AlbumServiceBase {
@@ -13,10 +14,11 @@ export class AlbumService implements AlbumServiceBase {
         private trackRepository: TrackRepositoryBase,
         private translatorService: TranslatorServiceBase,
         private applicationPaths: ApplicationPaths,
+        private settings: SettingsBase,
     ) {}
 
     public getAllAlbums(): AlbumModel[] {
-        const albumDatas: AlbumData[] = this.trackRepository.getAllAlbumData() ?? [];
+        const albumDatas: AlbumData[] = this.trackRepository.getAllAlbumData(this.settings.albumKeyIndex) ?? [];
 
         return this.createAlbumsFromAlbumData(albumDatas);
     }
@@ -25,7 +27,8 @@ export class AlbumService implements AlbumServiceBase {
         const albumDatas: AlbumData[] = [];
 
         if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
-            const trackArtistsAlbumDatas: AlbumData[] = this.trackRepository.getAlbumDataForTrackArtists(artists) ?? [];
+            const trackArtistsAlbumDatas: AlbumData[] =
+                this.trackRepository.getAlbumDataForTrackArtists(this.settings.albumKeyIndex, artists) ?? [];
 
             for (const albumData of trackArtistsAlbumDatas) {
                 albumDatas.push(albumData);
@@ -33,7 +36,8 @@ export class AlbumService implements AlbumServiceBase {
         }
 
         if (artistType === ArtistType.albumArtists || artistType === ArtistType.allArtists) {
-            const albumArtistsAlbumDatas: AlbumData[] = this.trackRepository.getAlbumDataForAlbumArtists(artists) ?? [];
+            const albumArtistsAlbumDatas: AlbumData[] =
+                this.trackRepository.getAlbumDataForAlbumArtists(this.settings.albumKeyIndex, artists) ?? [];
 
             for (const albumData of albumArtistsAlbumDatas) {
                 // Avoid adding a track twice
@@ -48,7 +52,7 @@ export class AlbumService implements AlbumServiceBase {
     }
 
     public getAlbumsForGenres(genres: string[]): AlbumModel[] {
-        const albumDatas: AlbumData[] = this.trackRepository.getAlbumDataForGenres(genres) ?? [];
+        const albumDatas: AlbumData[] = this.trackRepository.getAlbumDataForGenres(this.settings.albumKeyIndex, genres) ?? [];
 
         return this.createAlbumsFromAlbumData(albumDatas);
     }

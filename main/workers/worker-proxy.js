@@ -20,6 +20,10 @@ class WorkerProxy {
     skipRemovedFilesDuringRefresh() {
         return workerData.arg.skipRemovedFilesDuringRefresh;
     }
+
+    albumKeyIndex() {
+        return workerData.arg.albumKeyIndex;
+    }
 }
 
 exports.WorkerProxy = WorkerProxy;

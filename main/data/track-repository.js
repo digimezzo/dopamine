@@ -282,20 +282,20 @@ class TrackRepository {
         statement.run(albumKey);
     }
 
-    getLastModifiedTrackForAlbumKeyAsync(albumKey) {
+    getLastModifiedTrackForAlbumKeyAsync(albumKeyIndex, albumKey) {
         const database = this.databaseFactory.create();
-        const statement = database.prepare(`${QueryParts.selectTracksQueryPart(false)} WHERE t.AlbumKey=?;`);
+        const statement = database.prepare(`${QueryParts.selectTracksQueryPart(false)} WHERE t.AlbumKey${albumKeyIndex}=?;`);
         return statement.get(albumKey);
     }
 
-    getAlbumDataThatNeedsIndexing() {
+    getAlbumDataThatNeedsIndexing(albumKeyIndex) {
         const database = this.databaseFactory.create();
 
         const statement = database.prepare(
-            `${QueryParts.selectAlbumDataQueryPart(false)}
-                WHERE (t.AlbumKey IS NOT NULL AND t.AlbumKey <> ''
-                AND t.AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork)) OR NeedsAlbumArtworkIndexing=1
-                GROUP BY t.AlbumKey;`,
+            `${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, false)}
+                WHERE (t.AlbumKey${albumKeyIndex} IS NOT NULL AND t.AlbumKey${albumKeyIndex} <> ''
+                AND t.AlbumKey${albumKeyIndex} NOT IN (SELECT AlbumKey FROM AlbumArtwork)) OR NeedsAlbumArtworkIndexing=1
+                GROUP BY t.AlbumKey${albumKeyIndex};`,
         );
 
         return statement.all();

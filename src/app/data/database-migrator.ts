@@ -31,7 +31,7 @@ export class DatabaseMigrator implements DatabaseMigratorBase {
         if (mostRecentMigration === databaseVersion) {
             this.logger.info('The database is up to date. No migrations to perform.', 'DatabaseMigrator', 'migrateAsync');
         } else if (mostRecentMigration > databaseVersion) {
-            this.logger.info('Database is too old. Applying migrations.', 'DatabaseMigrator', 'migrateAsync');
+            this.logger.info(`Database is too old (v${databaseVersion}). Applying migrations.`, 'DatabaseMigrator', 'migrateAsync');
             migrationsToApply = this.getMigrationsToApply(databaseVersion, false);
         } else if (mostRecentMigration < databaseVersion) {
             this.logger.info('Database is too new. Reverting migrations.', 'DatabaseMigrator', 'migrateAsync');
