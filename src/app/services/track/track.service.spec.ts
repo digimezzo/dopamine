@@ -9,12 +9,13 @@ import { TrackRepositoryBase } from '../../data/repositories/track-repository.ba
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
+import { SettingsMock } from '../../testing/settings-mock';
 
 describe('TrackService', () => {
     let trackModelFactoryMock: IMock<TrackModelFactory>;
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
     let fileAccessMock: IMock<FileAccessBase>;
-
+    let settingsMock: SettingsMock;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
 
@@ -29,7 +30,7 @@ describe('TrackService', () => {
         trackModelFactoryMock = Mock.ofType<TrackModelFactory>();
         trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
         fileAccessMock = Mock.ofType<FileAccessBase>();
-
+        settingsMock = new SettingsMock();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
@@ -44,9 +45,9 @@ describe('TrackService', () => {
         track3 = new Track('path3');
         track4 = new Track('path4');
 
-        trackRepositoryMock.setup((x) => x.getTracksForAlbums(['albumKey1', 'albumKey2'])).returns(() => [track1, track2]);
-        trackRepositoryMock.setup((x) => x.getTracksForAlbums(['unknownAlbumKey1', 'unknownAlbumKey2'])).returns(() => []);
-        trackRepositoryMock.setup((x) => x.getTracksForAlbums([])).returns(() => []);
+        trackRepositoryMock.setup((x) => x.getTracksForAlbums('', ['albumKey1', 'albumKey2'])).returns(() => [track1, track2]);
+        trackRepositoryMock.setup((x) => x.getTracksForAlbums('', ['unknownAlbumKey1', 'unknownAlbumKey2'])).returns(() => []);
+        trackRepositoryMock.setup((x) => x.getTracksForAlbums('', [])).returns(() => []);
 
         trackRepositoryMock.setup((x) => x.getTracksForGenres(['genre1', 'genre2'])).returns(() => [track1, track3]);
         trackRepositoryMock.setup((x) => x.getTracksForGenres(['unknownGenre1', 'unknownGenre2'])).returns(() => []);
@@ -77,7 +78,7 @@ describe('TrackService', () => {
 
         dateTimeMock.setup((x) => x.convertDateToTicks(It.isAny())).returns(() => 123456);
 
-        service = new TrackService(trackModelFactoryMock.object, trackRepositoryMock.object, fileAccessMock.object);
+        service = new TrackService(trackModelFactoryMock.object, trackRepositoryMock.object, fileAccessMock.object, settingsMock);
     });
 
     describe('constructor', () => {
@@ -199,7 +200,7 @@ describe('TrackService', () => {
             const tracksModels: TrackModels = service.getTracksForAlbums(albumKeys);
 
             // Assert
-            trackRepositoryMock.verify((x) => x.getTracksForAlbums(albumKeys), Times.never());
+            trackRepositoryMock.verify((x) => x.getTracksForAlbums('', albumKeys), Times.never());
             expect(tracksModels.tracks.length).toEqual(0);
         });
 
@@ -211,7 +212,7 @@ describe('TrackService', () => {
             const tracksModels: TrackModels = service.getTracksForAlbums(albumKeys);
 
             // Assert
-            trackRepositoryMock.verify((x) => x.getTracksForAlbums(albumKeys), Times.exactly(1));
+            trackRepositoryMock.verify((x) => x.getTracksForAlbums('', albumKeys), Times.exactly(1));
             expect(tracksModels.tracks.length).toEqual(2);
             expect(tracksModels.tracks[0].path).toEqual('path1');
             expect(tracksModels.tracks[1].path).toEqual('path2');
@@ -225,7 +226,7 @@ describe('TrackService', () => {
             const tracksModels: TrackModels = service.getTracksForAlbums(albumKeys);
 
             // Assert
-            trackRepositoryMock.verify((x) => x.getTracksForAlbums(albumKeys), Times.exactly(1));
+            trackRepositoryMock.verify((x) => x.getTracksForAlbums('', albumKeys), Times.exactly(1));
             expect(tracksModels.tracks.length).toEqual(0);
         });
     });
