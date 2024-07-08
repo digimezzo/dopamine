@@ -63,7 +63,6 @@
     "thanks-to-developers": "Dla deweloperów składników z których korzystamy.",
     "thanks-to-neowin": "Dla serwisu Neowin za ich wspaniałe pomysły, testowanie i raporty błędów.",
     "refresh": "Odśwież",
-    "album-covers": "Okładki albumu",
     "add-folders-with-your-music": "Dodaj foldery zawierające muzykę do swojej kolekcji",
     "select-folder": "Wybierz folder",
     "delete-folder": "Usuń folder",
@@ -268,5 +267,10 @@
     "show-welcome-screen-now": "Pokaż ekran powitalny teraz",
     "keep-playback-controls-visible-on-now-playing-page": "Zachowaj widoczność elementów sterujących odtwarzaniem podczas odtwarzania",
     "open-folder": "Otwórz folder",
-    "download-lyrics-online": "Download lyrics online"
+    "download-lyrics-online": "Download lyrics online",
+    "grouping": "Grouping",
+    "albums-defined-by-folders-on-computer": "Albums are defined by their folders on your computer",
+    "albums-defined-by-tag-album-title": "Albums are defined by the 'Album' tag",
+    "albums-defined-by-tags-album-title-and-album-artist": "Albums are defined by the 'Album' and 'Album Artist' tags",
+    "changing-will-trigger-album-cover-refresh": "Changing this option will trigger a refresh of your album covers"
 }

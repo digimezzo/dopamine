@@ -9,6 +9,7 @@ import { TrackModels } from './track-models';
 import { TrackServiceBase } from './track.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
+import { SettingsBase } from '../../common/settings/settings.base';
 
 @Injectable()
 export class TrackService implements TrackServiceBase {
@@ -16,6 +17,7 @@ export class TrackService implements TrackServiceBase {
         private trackModelFactory: TrackModelFactory,
         private trackRepository: TrackRepositoryBase,
         private fileAccess: FileAccessBase,
+        private settings: SettingsBase,
     ) {}
 
     public async getTracksInSubfolderAsync(subfolderPath: string): Promise<TrackModels> {
@@ -65,7 +67,7 @@ export class TrackService implements TrackServiceBase {
             return trackModels;
         }
 
-        const tracks: Track[] = this.trackRepository.getTracksForAlbums(albumKeys) ?? [];
+        const tracks: Track[] = this.trackRepository.getTracksForAlbums(this.settings.albumKeyIndex, albumKeys) ?? [];
 
         for (const track of tracks) {
             const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);

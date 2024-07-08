@@ -63,7 +63,6 @@
     "thanks-to-developers": "Các nhà phát triển đã tạo ra những thành phần mà ứng dụng này sử dụng.",
     "thanks-to-neowin": "Cộng đồng Neowin với các ý tưởng, kiểm thử và báo lỗi.",
     "refresh": "Làm mới",
-    "album-covers": "Ảnh bìa album",
     "add-folders-with-your-music": "Thêm thư mục nhạc của bạn vào thư viện nhạc.",
     "select-folder": "Chọn một thư mụcr",
     "delete-folder": "Xóa thư mục",
@@ -268,5 +267,10 @@
     "show-welcome-screen-now": "Hiện màn hình chào mừng",
     "keep-playback-controls-visible-on-now-playing-page": "Hiện các điều khiển phát lại trên trang đang phát",
     "open-folder": "Mở thư mục",
-    "download-lyrics-online": "Download lyrics online"
+    "download-lyrics-online": "Download lyrics online",
+    "grouping": "Grouping",
+    "albums-defined-by-folders-on-computer": "Albums are defined by their folders on your computer",
+    "albums-defined-by-tag-album-title": "Albums are defined by the 'Album' tag",
+    "albums-defined-by-tags-album-title-and-album-artist": "Albums are defined by the 'Album' and 'Album Artist' tags",
+    "changing-will-trigger-album-cover-refresh": "Changing this option will trigger a refresh of your album covers"
 }

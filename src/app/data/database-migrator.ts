@@ -11,10 +11,11 @@ import { Migration1 } from './migrations/migration1';
 import { Migration2 } from './migrations/migration2';
 import { Migration3 } from './migrations/migration3';
 import { DatabaseMigratorBase } from './database-migrator.base';
+import { Migration4 } from './migrations/migration4';
 
 @Injectable()
 export class DatabaseMigrator implements DatabaseMigratorBase {
-    private migrations: Migration[] = [new Migration1(), new Migration2(), new Migration3()];
+    private migrations: Migration[] = [new Migration1(), new Migration2(), new Migration3(), new Migration4()];
 
     public constructor(
         private databaseFactory: DatabaseFactory,
@@ -30,7 +31,7 @@ export class DatabaseMigrator implements DatabaseMigratorBase {
         if (mostRecentMigration === databaseVersion) {
             this.logger.info('The database is up to date. No migrations to perform.', 'DatabaseMigrator', 'migrateAsync');
         } else if (mostRecentMigration > databaseVersion) {
-            this.logger.info('Database is too old. Applying migrations.', 'DatabaseMigrator', 'migrateAsync');
+            this.logger.info(`Database is too old (v${databaseVersion}). Applying migrations.`, 'DatabaseMigrator', 'migrateAsync');
             migrationsToApply = this.getMigrationsToApply(databaseVersion, false);
         } else if (mostRecentMigration < databaseVersion) {
             this.logger.info('Database is too new. Reverting migrations.', 'DatabaseMigrator', 'migrateAsync');

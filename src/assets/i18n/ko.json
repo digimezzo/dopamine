@@ -63,7 +63,6 @@
     "thanks-to-developers": "우리가 사용하는 구성 요소를 만든 개발자에게.",
     "thanks-to-neowin": "훌륭한 아이디어, 테스트 및 버그 보고서를 제공한 Neowin 에게.",
     "refresh": "새로 고침",
-    "album-covers": "앨범 표지",
     "add-folders-with-your-music": "음악이 포함된 폴더를 컬렉션에 추가하십시오",
     "select-folder": "폴더 선택",
     "delete-folder": "폴더 삭제",
@@ -268,5 +267,10 @@
     "show-welcome-screen-now": "Show welcome screen now",
     "keep-playback-controls-visible-on-now-playing-page": "Keep playback controls visible on now playing page",
     "open-folder": "Open folder",
-    "download-lyrics-online": "Download lyrics online"
+    "download-lyrics-online": "Download lyrics online",
+    "grouping": "Grouping",
+    "albums-defined-by-folders-on-computer": "Albums are defined by their folders on your computer",
+    "albums-defined-by-tag-album-title": "Albums are defined by the 'Album' tag",
+    "albums-defined-by-tags-album-title-and-album-artist": "Albums are defined by the 'Album' and 'Album Artist' tags",
+    "changing-will-trigger-album-cover-refresh": "Changing this option will trigger a refresh of your album covers"
 }

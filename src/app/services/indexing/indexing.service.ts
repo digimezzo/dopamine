@@ -16,6 +16,7 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
     private indexingFinished: Subject<void> = new Subject();
     private subscription: Subscription = new Subscription();
     private foldersHaveChanged: boolean = false;
+    private albumGroupingHasChanged: boolean = false;
 
     public constructor(
         private notificationService: NotificationServiceBase,
@@ -43,18 +44,22 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
         this.indexCollection('outdated');
     }
 
-    public indexCollectionIfFoldersHaveChanged(): void {
-        if (!this.foldersHaveChanged) {
-            this.logger.info('Folders have not changed.', 'IndexingService', 'indexCollectionIfFoldersHaveChangedAsync');
-
-            return;
-        }
-
+    public indexCollectionAlways(): void {
         this.indexCollection('always');
     }
 
-    public indexCollectionAlways(): void {
-        this.indexCollection('always');
+    public indexCollectionIfOptionsHaveChanged(): void {
+        if (this.foldersHaveChanged) {
+            this.logger.info('Folders have changed. Indexing collection.', 'IndexingService', 'indexCollectionIfOptionsHaveChanged');
+            this.indexCollection('always');
+        } else if (this.albumGroupingHasChanged) {
+            this.logger.info(
+                'Album grouping has changed. Indexing album artwork.',
+                'IndexingService',
+                'indexCollectionIfOptionsHaveChanged',
+            );
+            this.indexAlbumArtworkOnly(false);
+        }
     }
 
     public indexAlbumArtworkOnly(onlyWhenHasNoCover: boolean): void {
@@ -81,12 +86,17 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
         });
     }
 
+    public onAlbumGroupingChanged(): void {
+        this.albumGroupingHasChanged = true;
+    }
+
     private createWorkerArgs(task: string, onlyWhenHasNoCover: boolean) {
         return {
             task: task,
             skipRemovedFilesDuringRefresh: this.settings.skipRemovedFilesDuringRefresh,
             downloadMissingAlbumCovers: this.settings.downloadMissingAlbumCovers,
             applicationDataDirectory: this.desktop.getApplicationDataDirectory(),
+            albumKeyIndex: this.settings.albumKeyIndex,
             onlyWhenHasNoCover: onlyWhenHasNoCover,
         };
     }

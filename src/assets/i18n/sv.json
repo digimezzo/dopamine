@@ -63,7 +63,6 @@
     "thanks-to-developers": "Till utvecklarna som skapade komponenterna som vi använder.",
     "thanks-to-neowin": "Till Neowin för deras fantastiska idéer, tester och felrapporter.",
     "refresh": "Uppdatera",
-    "album-covers": "Skivomslag",
     "add-folders-with-your-music": "Lägg till mappar innehållande din musik i din samling",
     "select-folder": "Välj en mapp",
     "delete-folder": "Radera mapp",
@@ -268,5 +267,10 @@
     "show-welcome-screen-now": "Show welcome screen now",
     "keep-playback-controls-visible-on-now-playing-page": "Keep playback controls visible on now playing page",
     "open-folder": "Open folder",
-    "download-lyrics-online": "Download lyrics online"
+    "download-lyrics-online": "Download lyrics online",
+    "grouping": "Grouping",
+    "albums-defined-by-folders-on-computer": "Albums are defined by their folders on your computer",
+    "albums-defined-by-tag-album-title": "Albums are defined by the 'Album' tag",
+    "albums-defined-by-tags-album-title-and-album-artist": "Albums are defined by the 'Album' and 'Album Artist' tags",
+    "changing-will-trigger-album-cover-refresh": "Changing this option will trigger a refresh of your album covers"
 }

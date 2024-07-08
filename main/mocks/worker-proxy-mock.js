@@ -1,8 +1,11 @@
+const { workerData } = require('worker_threads');
+
 class WorkerProxyMock {
     applicationDataDirectoryReturnValue = '';
     downloadMissingAlbumCoversReturnValue = false;
     postMessageCalls = [];
     skipRemovedFilesDuringRefreshReturnValue = false;
+    albumKeyIndexReturnValue = '';
 
     task() {
         return '';
@@ -22,6 +25,10 @@ class WorkerProxyMock {
 
     skipRemovedFilesDuringRefresh() {
         return this.skipRemovedFilesDuringRefreshReturnValue;
+    }
+
+    albumKeyIndex() {
+        return this.albumKeyIndexReturnValue;
     }
 }
 

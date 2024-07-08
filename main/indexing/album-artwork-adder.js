@@ -14,7 +14,13 @@ class AlbumArtworkAdder {
     }
     async addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync() {
         try {
-            const albumDataThatNeedsIndexing = this.trackRepository.getAlbumDataThatNeedsIndexing() ?? [];
+            this.logger.info(
+                `Adding album artwork for albumKeyIndex: '${this.workerProxy.albumKeyIndex()}'`,
+                'AlbumArtworkAdder',
+                'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
+            );
+
+            const albumDataThatNeedsIndexing = this.trackRepository.getAlbumDataThatNeedsIndexing(this.workerProxy.albumKeyIndex()) ?? [];
 
             if (albumDataThatNeedsIndexing.length === 0) {
                 this.logger.info(
@@ -43,7 +49,7 @@ class AlbumArtworkAdder {
 
             for (let i = 0; i < albumDataThatNeedsIndexing.length; i++) {
                 try {
-                    await this.#addAlbumArtworkAsync(albumDataThatNeedsIndexing[i].albumKey);
+                    await this.#addAlbumArtworkAsync(this.workerProxy.albumKeyIndex(), albumDataThatNeedsIndexing[i].albumKey);
 
                     const percentage = MathUtils.calculatePercentage(i + 1, albumDataThatNeedsIndexing.length);
 
@@ -74,8 +80,8 @@ class AlbumArtworkAdder {
         }
     }
 
-    async #addAlbumArtworkAsync(albumKey) {
-        const track = this.trackRepository.getLastModifiedTrackForAlbumKeyAsync(albumKey);
+    async #addAlbumArtworkAsync(albumKeyIndex, albumKey) {
+        const track = this.trackRepository.getLastModifiedTrackForAlbumKeyAsync(albumKeyIndex, albumKey);
 
         if (track === undefined || track === null) {
             return;

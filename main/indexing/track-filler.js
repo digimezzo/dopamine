@@ -1,5 +1,6 @@
 const { MimeTypes } = require('./mime-types');
 const { StringUtils } = require('../common/utils/string-utils');
+const { FileAccess } = require('../common/io/file-access');
 
 class TrackFiller {
     constructor(fileMetadataFactory, albumKeyGenerator, trackFieldCreator, mimeTypes, fileAccess, dateTime, logger) {
@@ -24,6 +25,8 @@ class TrackFiller {
             track.trackNumber = this.trackFieldCreator.createNumberField(fileMetadata.trackNumber);
             track.fileSize = this.fileAccess.getFileSizeInBytes(track.path);
             track.albumKey = this.albumKeyGenerator.generateAlbumKey(fileMetadata.album, fileMetadata.albumArtists);
+            track.albumKey2 = this.albumKeyGenerator.generateAlbumKey2(fileMetadata.album);
+            track.albumKey3 = this.albumKeyGenerator.generateAlbumKey3(this.fileAccess.getDirectoryPath(track.path));
 
             if (!fillOnlyEssentialMetadata) {
                 const dateNowTicks = this.dateTime.convertDateToTicks(new Date());
