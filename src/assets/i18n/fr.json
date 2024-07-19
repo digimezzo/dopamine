@@ -273,5 +273,6 @@
     "albums-defined-by-tag-album-title": "Les albums sont définis par la balise 'Album'",
     "albums-defined-by-tags-album-title-and-album-artist": "Les albums sont définis par les balises 'Album' et 'Album Artist'.",
     "changing-will-trigger-album-cover-refresh": "La modification de cette option déclenchera une actualisation des pochettes d'album",
-    "select-playlist-folder": "Veuillez sélectionner un dossier de playlist"
+    "select-playlist-folder": "Veuillez sélectionner un dossier de playlist",
+    "follow-album-cover-color": "Suivre la couleur de la pochette de l'album"
 }
