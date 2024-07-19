@@ -93,6 +93,15 @@ export class AppearanceService implements AppearanceServiceBase {
         this.safeApplyTheme();
     }
 
+    public get followAlbumCoverColor(): boolean {
+        return this.settings.followAlbumCoverColor;
+    }
+
+    public set followAlbumCoverColor(v: boolean) {
+        this.settings.followAlbumCoverColor = v;
+        this.safeApplyTheme();
+    }
+
     public get themes(): Theme[] {
         return this._themes;
     }
