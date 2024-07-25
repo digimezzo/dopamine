@@ -10,6 +10,7 @@ import { PlaybackServiceBase } from '../playback/playback.service.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
 import { CollectionServiceBase } from './collection.service.base';
+import { SettingsMock } from '../../testing/settings-mock';
 
 jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
 
@@ -18,6 +19,7 @@ describe('CollectionService', () => {
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
     let desktopMock: IMock<DesktopBase>;
     let loggerMock: IMock<Logger>;
+    let settingsMock: any;
 
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -36,19 +38,20 @@ describe('CollectionService', () => {
         trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
         desktopMock = Mock.ofType<DesktopBase>();
         loggerMock = Mock.ofType<Logger>();
+        settingsMock = new SettingsMock();
 
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
         track1 = new Track('path1');
         track1.trackId = 1;
-        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
+        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object, settingsMock);
         track2 = new Track('path2');
         track2.trackId = 2;
-        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object);
+        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object, settingsMock);
         track3 = new Track('path3');
         track3.trackId = 3;
-        trackModel3 = new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object);
+        trackModel3 = new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object, settingsMock);
 
         service = new CollectionService(playbackServiceMock.object, trackRepositoryMock.object, desktopMock.object, loggerMock.object);
     });

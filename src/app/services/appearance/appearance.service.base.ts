@@ -18,6 +18,6 @@ export abstract class AppearanceServiceBase {
     public abstract startWatchingThemesDirectory(): void;
     public abstract stopWatchingThemesDirectory(): void;
     public abstract refreshThemes(): void;
-    public abstract applyAppearance(): void;
+    public abstract applyAppearanceAsync(): Promise<void>;
     public abstract applyMargins(isSearchVisible: boolean): void;
 }

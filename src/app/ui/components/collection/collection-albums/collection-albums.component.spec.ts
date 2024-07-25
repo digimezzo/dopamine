@@ -21,6 +21,7 @@ import { Track } from '../../../../data/entities/track';
 import { TrackModel } from '../../../../services/track/track-model';
 import { TrackModels } from '../../../../services/track/track-models';
 import { ApplicationPaths } from '../../../../common/application/application-paths';
+import { SettingsMock } from '../../../../testing/settings-mock';
 
 describe('CollectionAlbumsComponent', () => {
     let searchServiceMock: IMock<SearchServiceBase>;
@@ -36,6 +37,7 @@ describe('CollectionAlbumsComponent', () => {
     let collectionServiceMock: IMock<CollectionServiceBase>;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let settingsMock: any;
 
     let selectedAlbumsChangedMock: Subject<string[]>;
     let selectedAlbumsChangedMock$: Observable<string[]>;
@@ -92,6 +94,7 @@ describe('CollectionAlbumsComponent', () => {
         settingsStub = { albumsRightPaneWidthPercent: 30 };
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        settingsMock = new SettingsMock();
 
         selectedAlbumsChangedMock = new Subject();
         selectedAlbumsChangedMock$ = selectedAlbumsChangedMock.asObservable();
@@ -112,8 +115,8 @@ describe('CollectionAlbumsComponent', () => {
         track1.duration = 1;
         track2 = new Track('Path2');
         track2.duration = 2;
-        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
-        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object);
+        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object, settingsMock);
+        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object, settingsMock);
         tracks = new TrackModels();
         tracks.addTrack(trackModel1);
         tracks.addTrack(trackModel2);

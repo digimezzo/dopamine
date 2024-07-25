@@ -119,7 +119,7 @@ describe('AppComponent', () => {
             await app.ngOnInit();
 
             // Assert
-            appearanceServiceMock.verify((x) => x.applyAppearance(), Times.once());
+            appearanceServiceMock.verify((x) => x.applyAppearanceAsync(), Times.once());
         });
 
         it('should apply language', async () => {

@@ -93,7 +93,7 @@ describe('CollectionArtistsComponent', () => {
 
     function createTrackModel(path: string): TrackModel {
         const track: Track = new Track(path);
-        return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
+        return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, settingsStub);
     }
 
     function createTrackModels(tracks: TrackModel[]): TrackModels {

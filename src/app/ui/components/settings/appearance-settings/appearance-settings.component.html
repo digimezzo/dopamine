@@ -24,7 +24,11 @@
             {{ 'follow-album-cover-color' | translate }}</app-toggle-switch
         >
     </div>
-    <app-theme-switcher class="mt-3" [ngClass]="{ inactive: appearanceService.followSystemColor }"> </app-theme-switcher>
+    <app-theme-switcher
+        class="mt-3"
+        [ngClass]="{ inactive: appearanceService.followSystemColor || appearanceService.followAlbumCoverColor }"
+    >
+    </app-theme-switcher>
     <div class="d-flex flex-row mt-3">
         <app-icon-text-button class="mr-2" (click)="this.appearanceService.refreshThemes()" icon="las la-sync">{{
             'refresh-themes' | translate

@@ -107,13 +107,13 @@ export class TrackRepository implements TrackRepositoryBase {
         return tracks;
     }
 
-    public getAlbumDataForAlbumKey(albumKey: string): AlbumData[] | undefined {
+    public getAlbumDataForAlbumKey(albumKeyIndex: string, albumKey: string): AlbumData[] | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
-            `${QueryParts.selectAlbumDataQueryPart('', false)}
-                WHERE t.AlbumKey = '${albumKey}'
-                GROUP BY t.AlbumKey;`,
+            `${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, false)}
+                WHERE t.AlbumKey${albumKeyIndex} = '${albumKey}'
+                GROUP BY t.AlbumKey${albumKeyIndex};`,
         );
 
         const albumData: AlbumData[] | undefined = statement.all();

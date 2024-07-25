@@ -12,6 +12,7 @@ import { DesktopBase } from '../../../../common/io/desktop.base';
 import { Track } from '../../../../data/entities/track';
 import { TrackModel } from '../../../../services/track/track-model';
 import { DateTime } from '../../../../common/date-time';
+import { SettingsMock } from '../../../../testing/settings-mock';
 
 describe('TrackBrowserBase', () => {
     let playbackServiceMock: IMock<PlaybackServiceBase>;
@@ -23,6 +24,7 @@ describe('TrackBrowserBase', () => {
     let collectionServiceMock: IMock<CollectionServiceBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let desktopMock: IMock<DesktopBase>;
+    let settingsMock: any;
 
     let track1: Track;
     let track2: Track;
@@ -39,6 +41,7 @@ describe('TrackBrowserBase', () => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         collectionServiceMock = Mock.ofType<CollectionServiceBase>();
         desktopMock = Mock.ofType<DesktopBase>();
+        settingsMock = new SettingsMock();
 
         translatorServiceMock.setup((x) => x.getAsync('delete-song')).returns(() => Promise.resolve('delete-song'));
         translatorServiceMock.setup((x) => x.getAsync('confirm-delete-song')).returns(() => Promise.resolve('confirm-delete-song'));
@@ -65,8 +68,8 @@ describe('TrackBrowserBase', () => {
 
         const dateTimeMock: IMock<DateTime> = Mock.ofType<DateTime>();
 
-        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
-        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object);
+        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object, settingsMock);
+        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object, settingsMock);
     });
 
     function create(): TrackBrowserBase {

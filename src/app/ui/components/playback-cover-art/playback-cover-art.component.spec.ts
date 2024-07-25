@@ -9,6 +9,7 @@ import { TrackModel } from '../../../services/track/track-model';
 import { Track } from '../../../data/entities/track';
 import { PlaybackInformation } from '../../../services/playback-information/playback-information';
 import { Constants } from '../../../common/application/constants';
+import { SettingsMock } from '../../../testing/settings-mock';
 
 describe('PlaybackInformationComponent', () => {
     let component: PlaybackCoverArtComponent;
@@ -16,6 +17,7 @@ describe('PlaybackInformationComponent', () => {
     let schedulerMock: IMock<Scheduler>;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let settingsMock: any;
 
     let playbackInformationService_PlayingNextTrack: Subject<PlaybackInformation>;
     let playbackInformationService_PlayingPreviousTrack: Subject<PlaybackInformation>;
@@ -33,8 +35,9 @@ describe('PlaybackInformationComponent', () => {
 
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        settingsMock = new SettingsMock();
 
-        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
+        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object, settingsMock);
 
         playbackInformationService_PlayingNextTrack = new Subject();
         const playbackInformationService_PlayingNextTrack$: Observable<PlaybackInformation> =

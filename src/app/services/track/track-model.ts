@@ -4,12 +4,14 @@ import { DateTime } from '../../common/date-time';
 import { StringUtils } from '../../common/utils/string-utils';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { ISelectable } from '../../ui/interfaces/i-selectable';
+import { SettingsBase } from '../../common/settings/settings.base';
 
 export class TrackModel implements ISelectable {
     public constructor(
         private track: Track,
         private dateTime: DateTime,
         private translatorService: TranslatorServiceBase,
+        private settings: SettingsBase,
     ) {}
 
     public isPlaying: boolean = false;
@@ -73,7 +75,10 @@ export class TrackModel implements ISelectable {
             return this.translatorService.get('unknown-artist');
         }
 
-        const commaSeparatedArtists: string = trackArtists.filter((x) => !StringUtils.isNullOrWhiteSpace(x)).map(x => x.trim()).join(', ');
+        const commaSeparatedArtists: string = trackArtists
+            .filter((x) => !StringUtils.isNullOrWhiteSpace(x))
+            .map((x) => x.trim())
+            .join(', ');
 
         if (commaSeparatedArtists.length === 0) {
             return this.translatorService.get('unknown-artist');
@@ -129,6 +134,14 @@ export class TrackModel implements ISelectable {
     }
 
     public get albumKey(): string {
+        if (this.settings.albumKeyIndex === '') {
+            return this.track.albumKey ?? '';
+        } else if (this.settings.albumKeyIndex === '2') {
+            return this.track.albumKey2 ?? '';
+        } else if (this.settings.albumKeyIndex === '3') {
+            return this.track.albumKey3 ?? '';
+        }
+
         return this.track.albumKey ?? '';
     }
 
@@ -191,6 +204,7 @@ export class TrackModel implements ISelectable {
     public get rating(): number {
         return this.track.rating ?? 0;
     }
+
     public set rating(v: number) {
         this.track.rating = v;
     }
@@ -198,6 +212,7 @@ export class TrackModel implements ISelectable {
     public get love(): number {
         return this.track.love ?? 0;
     }
+
     public set love(v: number) {
         this.track.love = v;
     }
@@ -228,6 +243,6 @@ export class TrackModel implements ISelectable {
     }
 
     public clone(): TrackModel {
-        return new TrackModel(this.track, this.dateTime, this.translatorService);
+        return new TrackModel(this.track, this.dateTime, this.translatorService, this.settings);
     }
 }
