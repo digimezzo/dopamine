@@ -21,7 +21,7 @@ export class AboutComponent {
     public applicationCopyright: string = ProductInformation.applicationCopyright;
     public websiteUrl: string = ContactInformation.websiteUrl;
     public mastodonUrl: string = ContactInformation.mastodonUrl;
-    public twitterUrl: string = ContactInformation.twitterUrl;
+    public blueskyUrl: string = ContactInformation.blueskyUrl;
     public githubUrl: string = ContactInformation.githubUrl;
 
     public showLicenseDialog(): void {

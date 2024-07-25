@@ -88,7 +88,7 @@
         "@angular/cdk": "16.2.12",
         "@angular/material": "16.2.12",
         "@electron/remote": "2.0.9",
-        "@fortawesome/fontawesome-free": "^6.5.1",
+        "@fortawesome/fontawesome-free": "^6.6.0",
         "angular-split": "14.1.0",
         "better-sqlite3": "8.7.0",
         "cheerio": "1.0.0-rc.12",

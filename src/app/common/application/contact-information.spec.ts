@@ -25,15 +25,15 @@ describe('ContactInformation', () => {
         });
     });
 
-    describe('twitterUrl', () => {
-        it('should provide twitterUrl', () => {
+    describe('blueskyUrl', () => {
+        it('should provide blueskyUrl', () => {
             // Arrange
 
             // Act
-            const twitterUrl: string = ContactInformation.twitterUrl;
+            const blueskyUrl: string = ContactInformation.blueskyUrl;
 
             // Assert
-            expect(twitterUrl).toEqual('https://twitter.com/digimezzo');
+            expect(blueskyUrl).toEqual('https://bsky.app/profile/digimezzo.bsky.social');
         });
     });
 
