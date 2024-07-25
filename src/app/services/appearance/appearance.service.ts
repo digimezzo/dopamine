@@ -17,6 +17,10 @@ import { ApplicationBase } from '../../common/io/application.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { DesktopBase } from '../../common/io/desktop.base';
 import { RgbColor } from '../../common/rgb-color';
+import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { PlaybackStarted } from '../playback/playback-started';
+import { AlbumAccentColorService } from '../album-accent-color/album-accent-color.service';
+import { PromiseUtils } from '../../common/utils/promise-utils';
 
 @Injectable()
 export class AppearanceService implements AppearanceServiceBase {
@@ -43,6 +47,8 @@ export class AppearanceService implements AppearanceServiceBase {
         private defaultThemesCreator: DefaultThemesCreator,
         private documentProxy: DocumentProxy,
         private applicationPaths: ApplicationPaths,
+        private playbackService: PlaybackServiceBase,
+        private albumAccentColorService: AlbumAccentColorService,
     ) {
         this.initialize();
     }
@@ -72,7 +78,7 @@ export class AppearanceService implements AppearanceServiceBase {
 
     public set followSystemTheme(v: boolean) {
         this.settings.followSystemTheme = v;
-        this.safeApplyTheme();
+        PromiseUtils.noAwait(this.safeApplyThemeAsync());
     }
 
     public get useLightBackgroundTheme(): boolean {
@@ -81,7 +87,7 @@ export class AppearanceService implements AppearanceServiceBase {
 
     public set useLightBackgroundTheme(v: boolean) {
         this.settings.useLightBackgroundTheme = v;
-        this.safeApplyTheme();
+        PromiseUtils.noAwait(this.safeApplyThemeAsync());
     }
 
     public get followSystemColor(): boolean {
@@ -90,7 +96,22 @@ export class AppearanceService implements AppearanceServiceBase {
 
     public set followSystemColor(v: boolean) {
         this.settings.followSystemColor = v;
-        this.safeApplyTheme();
+        if (v) {
+            this.settings.followAlbumCoverColor = false;
+        }
+        PromiseUtils.noAwait(this.safeApplyThemeAsync());
+    }
+
+    public get followAlbumCoverColor(): boolean {
+        return this.settings.followAlbumCoverColor;
+    }
+
+    public set followAlbumCoverColor(v: boolean) {
+        this.settings.followAlbumCoverColor = v;
+        if (v) {
+            this.settings.followSystemColor = false;
+        }
+        PromiseUtils.noAwait(this.safeApplyThemeAsync());
     }
 
     public get themes(): Theme[] {
@@ -108,7 +129,7 @@ export class AppearanceService implements AppearanceServiceBase {
     public set selectedTheme(v: Theme) {
         this._selectedTheme = v;
         this.settings.theme = v.name;
-        this.safeApplyTheme();
+        PromiseUtils.noAwait(this.safeApplyThemeAsync());
     }
 
     public fontSizes: number[] = Constants.fontSizes;
@@ -131,11 +152,11 @@ export class AppearanceService implements AppearanceServiceBase {
         this.ensureDefaultThemesExist();
         this._themes = this.getThemesFromThemesDirectory();
         this.setSelectedThemeFromSettings();
-        this.safeApplyTheme();
+        PromiseUtils.noAwait(this.safeApplyThemeAsync());
     }
 
-    public applyAppearance(): void {
-        this.safeApplyTheme();
+    public async applyAppearanceAsync(): Promise<void> {
+        await this.safeApplyThemeAsync();
         this.applyFontSize();
         this.applyMargins(true);
     }
@@ -199,26 +220,34 @@ export class AppearanceService implements AppearanceServiceBase {
     private addSubscriptions(): void {
         this.subscription.add(
             this.desktop.accentColorChanged$.subscribe(() => {
-                this.safeApplyTheme();
+                PromiseUtils.noAwait(this.safeApplyThemeAsync());
             }),
         );
         this.subscription.add(
             this.desktop.nativeThemeUpdated$.subscribe(() => {
-                this.safeApplyTheme();
+                PromiseUtils.noAwait(this.safeApplyThemeAsync());
+            }),
+        );
+
+        this.subscription.add(
+            this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
+                if (this.settings.followAlbumCoverColor) {
+                    PromiseUtils.noAwait(this.safeApplyThemeAsync());
+                }
             }),
         );
     }
 
-    private safeApplyTheme(): boolean {
+    private async safeApplyThemeAsync(): Promise<boolean> {
         const selectedThemeName: string = this.selectedTheme.name;
 
         try {
-            this.applyTheme();
+            await this.applyThemeAsync();
         } catch (e: unknown) {
             this.selectedTheme.isBroken = true;
             this.settings.theme = 'Dopamine';
             this.setSelectedThemeFromSettings();
-            this.applyTheme();
+            await this.applyThemeAsync();
 
             this.logger.warn(
                 `Could not apply theme '${selectedThemeName}'. Applying theme '${this.selectedTheme.name}' instead.`,
@@ -232,7 +261,7 @@ export class AppearanceService implements AppearanceServiceBase {
         return true;
     }
 
-    private applyTheme(): void {
+    private async applyThemeAsync(): Promise<void> {
         const element: HTMLElement = this.documentProxy.getDocumentElement();
 
         // Color
@@ -245,14 +274,22 @@ export class AppearanceService implements AppearanceServiceBase {
             scrollBarColorToApply = this.selectedTheme.lightColors.scrollBars;
         }
 
-        if (this.settings.followSystemColor) {
-            const systemAccentColor: string = this.getSystemAccentColor();
+        if (this.settings.followSystemColor || this.settings.followAlbumCoverColor) {
+            let customAccentColor: string = '';
 
-            if (!StringUtils.isNullOrWhiteSpace(systemAccentColor)) {
-                primaryColorToApply = systemAccentColor;
-                secondaryColorToApply = systemAccentColor;
-                accentColorToApply = systemAccentColor;
-                scrollBarColorToApply = systemAccentColor;
+            if (this.settings.followSystemColor) {
+                customAccentColor = this.getSystemAccentColor();
+            } else if (this.settings.followAlbumCoverColor) {
+                customAccentColor = await this.albumAccentColorService.getAlbumAccentColorAsync(
+                    this.playbackService.currentTrack?.albumKey ?? '',
+                );
+            }
+
+            if (!StringUtils.isNullOrWhiteSpace(customAccentColor)) {
+                primaryColorToApply = customAccentColor;
+                secondaryColorToApply = customAccentColor;
+                accentColorToApply = customAccentColor;
+                scrollBarColorToApply = customAccentColor;
             }
         }
 

@@ -21,6 +21,7 @@ import { DialogServiceBase } from '../../../../services/dialog/dialog.service.ba
 import { DateTime } from '../../../../common/date-time';
 import { GuidFactory } from '../../../../common/guid.factory';
 import { TrackSorter } from '../../../../common/sorting/track-sorter';
+import { SettingsMock } from '../../../../testing/settings-mock';
 
 describe('TrackBrowserComponent', () => {
     let playbackServiceMock: IMock<PlaybackServiceBase>;
@@ -38,6 +39,7 @@ describe('TrackBrowserComponent', () => {
     let dialogServiceMock: IMock<DialogServiceBase>;
     let dateTimeMock: IMock<DateTime>;
     let guidFactoryMock: IMock<GuidFactory>;
+    let settingsMock: any;
 
     let playbackStartedMock: Subject<PlaybackStarted>;
     let playbackStartedMock$: Observable<PlaybackStarted>;
@@ -75,6 +77,7 @@ describe('TrackBrowserComponent', () => {
         tracksPersisterMock = Mock.ofType<BaseTracksPersister>();
         dateTimeMock = Mock.ofType<DateTime>();
         guidFactoryMock = Mock.ofType<GuidFactory>();
+        settingsMock = new SettingsMock();
 
         playbackStartedMock = new Subject();
         playbackStartedMock$ = playbackStartedMock.asObservable();
@@ -129,10 +132,10 @@ describe('TrackBrowserComponent', () => {
         track4.rating = 4;
         track4.love = 0;
 
-        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
-        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object);
-        trackModel3 = new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object);
-        trackModel4 = new TrackModel(track4, dateTimeMock.object, translatorServiceMock.object);
+        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object, settingsMock);
+        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object, settingsMock);
+        trackModel3 = new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object, settingsMock);
+        trackModel4 = new TrackModel(track4, dateTimeMock.object, translatorServiceMock.object, settingsMock);
         tracks = new TrackModels();
         tracks.addTrack(trackModel1);
         tracks.addTrack(trackModel2);
@@ -347,7 +350,7 @@ describe('TrackBrowserComponent', () => {
             const track5 = new Track('Path 1');
             track5.rating = 5;
 
-            const trackModel5: TrackModel = new TrackModel(track5, dateTimeMock.object, translatorServiceMock.object);
+            const trackModel5: TrackModel = new TrackModel(track5, dateTimeMock.object, translatorServiceMock.object, settingsMock);
 
             // Act
             component.ngOnInit();
@@ -368,7 +371,7 @@ describe('TrackBrowserComponent', () => {
             const track5 = new Track('Path 1');
             track5.love = 1;
 
-            const trackModel5: TrackModel = new TrackModel(track5, dateTimeMock.object, translatorServiceMock.object);
+            const trackModel5: TrackModel = new TrackModel(track5, dateTimeMock.object, translatorServiceMock.object, settingsMock);
 
             // Act
             component.ngOnInit();

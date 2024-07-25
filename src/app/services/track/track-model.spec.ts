@@ -3,11 +3,13 @@ import { DateTime } from '../../common/date-time';
 import { TrackModel } from './track-model';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
+import { SettingsMock } from '../../testing/settings-mock';
 
 describe('TrackModel', () => {
     let track: Track;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let settingsMock: any;
 
     beforeEach(() => {
         track = new Track('/home/user/Music/Track1.mp3');
@@ -20,7 +22,9 @@ describe('TrackModel', () => {
         track.trackTitle = 'Track title';
         track.artists = ';Artist 1;;Artist 2;';
         track.genres = ';Genre 1;;Genre 2;';
-        track.albumKey = 'albumKey1';
+        track.albumKey = 'albumKey';
+        track.albumKey2 = 'albumKey2';
+        track.albumKey3 = 'albumKey3';
         track.albumTitle = 'Album title';
         track.albumArtists = ';Album artist 1;;Album artist 2;';
         track.duration = 45648713213;
@@ -34,13 +38,14 @@ describe('TrackModel', () => {
 
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        settingsMock = new SettingsMock();
         translatorServiceMock.setup((x) => x.get('unknown-album')).returns(() => 'Unknown album');
         translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
         translatorServiceMock.setup((x) => x.get('unknown-genre')).returns(() => 'Unknown genre');
     });
 
     function createTrackModel(): TrackModel {
-        return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
+        return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, settingsMock);
     }
 
     describe('constructor', () => {
@@ -333,7 +338,7 @@ describe('TrackModel', () => {
             // Assert
             expect(artists).toEqual('Artist 1, Artist 3');
         });
-        
+
         it('should return multiple artists without double space', () => {
             // Arrange
             track.artists = ';Artist 1; Artist 2;;Artist 3;';
@@ -642,16 +647,40 @@ describe('TrackModel', () => {
     });
 
     describe('albumKey', () => {
-        it('should return the track albumKey', () => {
+        it('should return the track albumKey if albumKeyIndex is ""', () => {
             // Arrange
-            const expectedAlbumKey: string = 'albumKey1';
+            settingsMock.albumKeyIndexMock = '';
             const trackModel: TrackModel = createTrackModel();
 
             // Act
             const albumKey: string = trackModel.albumKey;
 
             // Assert
-            expect(albumKey).toEqual(expectedAlbumKey);
+            expect(albumKey).toEqual('albumKey');
+        });
+
+        it('should return the track albumKey2 if albumKeyIndex is "2"', () => {
+            // Arrange
+            settingsMock.albumKeyIndexMock = '2';
+            const trackModel: TrackModel = createTrackModel();
+
+            // Act
+            const albumKey: string = trackModel.albumKey;
+
+            // Assert
+            expect(albumKey).toEqual('albumKey2');
+        });
+
+        it('should return the track albumKey3 if albumKeyIndex is "3"', () => {
+            // Arrange
+            settingsMock.albumKeyIndexMock = '3';
+            const trackModel: TrackModel = createTrackModel();
+
+            // Act
+            const albumKey: string = trackModel.albumKey;
+
+            // Assert
+            expect(albumKey).toEqual('albumKey3');
         });
     });
 

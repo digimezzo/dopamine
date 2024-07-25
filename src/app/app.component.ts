@@ -81,7 +81,7 @@ export class AppComponent implements OnInit {
 
         await this.addToPlaylistMenu.initializeAsync();
         this.discordService.setRichPresenceFromSettings();
-        this.appearanceService.applyAppearance();
+        await this.appearanceService.applyAppearanceAsync();
         this.translatorService.applyLanguage();
         this.trayService.updateTrayContextMenu();
         this.mediaSessionService.initialize();

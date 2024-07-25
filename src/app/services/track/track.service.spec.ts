@@ -58,21 +58,26 @@ describe('TrackService', () => {
 
         trackModelFactoryMock
             .setup((x) => x.createFromTrack(track1))
-            .returns(() => new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object));
+            .returns(() => new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object, settingsMock));
         trackModelFactoryMock
             .setup((x) => x.createFromTrack(track2))
-            .returns(() => new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object));
+            .returns(() => new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object, settingsMock));
         trackModelFactoryMock
             .setup((x) => x.createFromTrack(track3))
-            .returns(() => new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object));
+            .returns(() => new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object, settingsMock));
         trackModelFactoryMock
             .setup((x) => x.createFromTrack(track4))
-            .returns(() => new TrackModel(track4, dateTimeMock.object, translatorServiceMock.object));
+            .returns(() => new TrackModel(track4, dateTimeMock.object, translatorServiceMock.object, settingsMock));
         trackModelFactoryMock
             .setup((x) => x.createFromFileAsync('/home/user/Music/Subfolder1/track1.mp3'))
             .returns(() =>
                 Promise.resolve(
-                    new TrackModel(new Track('/home/user/Music/Subfolder1/track1.mp3'), dateTimeMock.object, translatorServiceMock.object),
+                    new TrackModel(
+                        new Track('/home/user/Music/Subfolder1/track1.mp3'),
+                        dateTimeMock.object,
+                        translatorServiceMock.object,
+                        settingsMock,
+                    ),
                 ),
             );
 
@@ -326,7 +331,7 @@ describe('TrackService', () => {
             // Arrange
             const track: Track = new Track('path');
             track.trackId = 9;
-            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, settingsMock);
             trackModel.increasePlayCountAndDateLastPlayed();
 
             // Act
@@ -343,7 +348,7 @@ describe('TrackService', () => {
             const track: Track = new Track('path');
             track.trackId = 9;
 
-            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, settingsMock);
             trackModel.increaseSkipCount();
 
             // Act

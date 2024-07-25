@@ -97,4 +97,8 @@ export class MetadataService implements MetadataServiceBase {
             throw new Error(e instanceof Error ? e.message : 'Unknown error');
         }
     }
+
+    public getAlbumArtworkPath(albumKey: string): string {
+        return this.cachedAlbumArtworkGetter.getCachedAlbumArtworkPath(albumKey);
+    }
 }

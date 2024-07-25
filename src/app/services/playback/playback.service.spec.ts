@@ -25,6 +25,7 @@ import { AlbumData } from '../../data/entities/album-data';
 import { NotificationServiceBase } from '../notification/notification.service.base';
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { TrackSorter } from '../../common/sorting/track-sorter';
+import { SettingsMock } from '../../testing/settings-mock';
 
 describe('PlaybackService', () => {
     let trackServiceMock: IMock<TrackServiceBase>;
@@ -42,6 +43,7 @@ describe('PlaybackService', () => {
     let subscription: Subscription;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let settingsMock: any;
 
     let applicationPathsMock: IMock<ApplicationPaths>;
 
@@ -77,7 +79,7 @@ describe('PlaybackService', () => {
         queueMock = Mock.ofType<Queue>();
         progressUpdaterMock = Mock.ofType<ProgressUpdater>();
         mathExtensionsMock = Mock.ofType<MathExtensions>();
-
+        settingsMock = new SettingsMock();
         applicationPathsMock = Mock.ofType<ApplicationPaths>();
 
         settingsStub = { volume: 0.6 };
@@ -121,10 +123,10 @@ describe('PlaybackService', () => {
         track4.trackNumber = 2;
         track4.discNumber = 1;
 
-        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
-        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object);
-        trackModel3 = new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object);
-        trackModel4 = new TrackModel(track4, dateTimeMock.object, translatorServiceMock.object);
+        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object, settingsMock);
+        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object, settingsMock);
+        trackModel3 = new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object, settingsMock);
+        trackModel4 = new TrackModel(track4, dateTimeMock.object, translatorServiceMock.object, settingsMock);
 
         trackModels = [trackModel1, trackModel2, trackModel3, trackModel4];
         orderedTrackModels = [trackModel2, trackModel1, trackModel3, trackModel4];

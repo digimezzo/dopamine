@@ -149,8 +149,8 @@ describe('CollectionFoldersComponent', () => {
         track1.rating = 1;
         track2 = new Track('track2');
         track2.rating = 2;
-        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
-        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object);
+        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object, settingsStub);
+        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object, settingsStub);
 
         tracks = new TrackModels();
         tracks.addTrack(trackModel1);

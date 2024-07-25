@@ -11,6 +11,7 @@ import { TranslatorServiceBase } from '../../../../services/translator/translato
 import { TrackModel } from '../../../../services/track/track-model';
 import { Track } from '../../../../data/entities/track';
 import { TrackModels } from '../../../../services/track/track-models';
+import { SettingsMock } from '../../../../testing/settings-mock';
 
 describe('CollectionTracksComponent', () => {
     let searchServiceMock: IMock<SearchServiceBase>;
@@ -20,6 +21,7 @@ describe('CollectionTracksComponent', () => {
     let loggerMock: IMock<Logger>;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let settingsMock: any;
 
     let collectionChangedMock: Subject<void>;
     let collectionChangedMock$: Observable<void>;
@@ -40,7 +42,7 @@ describe('CollectionTracksComponent', () => {
 
     function createTrackModel(path: string): TrackModel {
         const track: Track = new Track(path);
-        const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
+        const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, settingsMock);
 
         return trackModel;
     }
@@ -63,6 +65,7 @@ describe('CollectionTracksComponent', () => {
         loggerMock = Mock.ofType<Logger>();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        settingsMock = new SettingsMock();
 
         collectionChangedMock = new Subject();
         collectionChangedMock$ = collectionChangedMock.asObservable();

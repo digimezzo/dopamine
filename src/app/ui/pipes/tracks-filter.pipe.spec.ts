@@ -6,11 +6,13 @@ import { DateTime } from '../../common/date-time';
 import { TrackModels } from '../../services/track/track-models';
 import { Track } from '../../data/entities/track';
 import { TrackModel } from '../../services/track/track-model';
+import { SettingsMock } from '../../testing/settings-mock';
 
 describe('TracksFilterPipe', () => {
     let searchServiceMock: IMock<SearchServiceBase>;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let settingsMock: any;
 
     function createPipe(): TracksFilterPipe {
         return new TracksFilterPipe(searchServiceMock.object);
@@ -31,8 +33,8 @@ describe('TracksFilterPipe', () => {
         track2.artists = ';artist2_1;;artist2_2;';
         track2.year = 2002;
         track2.genres = ';genre2_1;;genre2_2;';
-        const trackModel1: TrackModel = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
-        const trackModel2: TrackModel = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object);
+        const trackModel1: TrackModel = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object, settingsMock);
+        const trackModel2: TrackModel = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object, settingsMock);
         const trackModels: TrackModels = new TrackModels();
         trackModels.addTrack(trackModel1);
         trackModels.addTrack(trackModel2);
@@ -44,6 +46,7 @@ describe('TracksFilterPipe', () => {
         searchServiceMock = Mock.ofType<SearchServiceBase>();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        settingsMock = new SettingsMock();
     });
 
     describe('transform', () => {

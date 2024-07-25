@@ -119,6 +119,15 @@ export class Settings implements SettingsBase {
         this.settings.set('followSystemColor', v);
     }
 
+    // followAlbumCoverColor
+    public get followAlbumCoverColor(): boolean {
+        return <boolean>this.settings.get('followAlbumCoverColor');
+    }
+
+    public set followAlbumCoverColor(v: boolean) {
+        this.settings.set('followAlbumCoverColor', v);
+    }
+
     // skipRemovedFilesDuringRefresh
     public get skipRemovedFilesDuringRefresh(): boolean {
         return <boolean>this.settings.get('skipRemovedFilesDuringRefresh');
@@ -736,6 +745,10 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('followSystemColor')) {
             this.settings.set('followSystemColor', false);
+        }
+
+        if (!this.settings.has('followAlbumCoverColor')) {
+            this.settings.set('followAlbumCoverColor', false);
         }
 
         if (!this.settings.has('skipRemovedFilesDuringRefresh')) {
