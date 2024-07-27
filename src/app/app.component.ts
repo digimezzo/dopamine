@@ -19,6 +19,8 @@ import { EventListenerServiceBase } from './services/event-listener/event-listen
 import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
 import { DesktopBase } from './common/io/desktop.base';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
+import { PlaybackService } from './services/playback/playback.service';
+import { PlaybackServiceBase } from './services/playback/playback.service.base';
 
 @Component({
     selector: 'app-root',
@@ -29,6 +31,7 @@ export class AppComponent implements OnInit {
     private subscription: Subscription = new Subscription();
 
     public constructor(
+        private playbackService: PlaybackServiceBase,
         private navigationService: NavigationServiceBase,
         private appearanceService: AppearanceServiceBase,
         private translatorService: TranslatorServiceBase,
@@ -88,5 +91,6 @@ export class AppComponent implements OnInit {
         this.scrobblingService.initialize();
         this.eventListenerService.listenToEvents();
         await this.navigationService.navigateToLoadingAsync();
+        this.playbackService.initialize();
     }
 }

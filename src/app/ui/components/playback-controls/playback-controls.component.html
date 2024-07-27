@@ -13,10 +13,13 @@
                 'app-playback-controls__accent': this.playbackService.loopMode === loopModeEnum.All
             }"
         ></i>
-        <i
+        <span
+            class="d-flex flex-row align-items-center app-playback-controls__loop-one"
             *ngIf="this.playbackService.loopMode === loopModeEnum.One"
-            class="app-playback-controls__icon app-playback-controls__accent las la-redo"
-        ></i>
+        >
+            <i class="app-playback-controls__icon app-playback-controls__accent las la-redo-alt"></i
+            ><span class="app-playback-controls__icon-one">1</span></span
+        >
     </div>
 
     <!-- Play previous -->

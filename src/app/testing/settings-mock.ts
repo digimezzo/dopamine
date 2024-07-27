@@ -78,6 +78,9 @@ export class SettingsMock implements SettingsBase {
     public useLightBackgroundTheme: boolean;
     public useSystemTitleBar: boolean;
     public volume: number;
+    public playbackControlsLoop: number;
+    public playbackControlsShuffle: number;
+    public rememberPlaybackControlsAfterRestart: boolean;
 
     public get albumKeyIndex(): string {
         return this.albumKeyIndexMock;

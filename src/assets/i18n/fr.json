@@ -100,7 +100,7 @@
     "pause": "Pause",
     "next": "Suivant",
     "previous": "Précédent",
-    "loop": "Répétition",
+    "loop": "Boucle",
     "shuffle": "Aléatoire",
     "confirm-delete-folder": "Supprimer dossier?",
     "confirm-delete-folder-long": "Voulez-vous vraiment supprimer le dossier '{{folderPath}}'?",
@@ -274,5 +274,7 @@
     "albums-defined-by-tags-album-title-and-album-artist": "Les albums sont définis par les balises 'Album' et 'Album Artist'.",
     "changing-will-trigger-album-cover-refresh": "La modification de cette option déclenchera une actualisation des pochettes d'album",
     "select-playlist-folder": "Veuillez sélectionner un dossier de playlist",
-    "follow-album-cover-color": "Suivre la couleur de la pochette de l'album"
+    "follow-album-cover-color": "Suivre la couleur de la pochette de l'album",
+    "playback-controls": "Commandes de lecture",
+    "remember-playback-controls-after-restart": "Mémoriser les commandes de lecture (boucle, aléatoire) après le redémarrage"
 }

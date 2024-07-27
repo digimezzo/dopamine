@@ -231,12 +231,13 @@ export class PlaybackService implements PlaybackServiceBase {
 
         if (this._loopMode === LoopMode.None) {
             this._loopMode = LoopMode.All;
+            this.settings.playbackControlsLoop = 2;
         } else if (this._loopMode === LoopMode.All) {
             this._loopMode = LoopMode.One;
-        } else if (this._loopMode === LoopMode.One) {
-            this._loopMode = LoopMode.None;
+            this.settings.playbackControlsLoop = 1;
         } else {
             this._loopMode = LoopMode.None;
+            this.settings.playbackControlsLoop = 0;
         }
 
         this.logger.info(`Toggled loopMode from ${oldLoopMode} to ${this._loopMode}`, 'PlaybackService', 'toggleLoopMode');
@@ -247,8 +248,10 @@ export class PlaybackService implements PlaybackServiceBase {
 
         if (this._isShuffled) {
             this.queue.shuffle();
+            this.settings.playbackControlsShuffle = 1;
         } else {
             this.queue.unShuffle();
+            this.settings.playbackControlsShuffle = 0;
         }
 
         this.logger.info(`Toggled isShuffled from ${!this._isShuffled} to ${this._isShuffled}`, 'PlaybackService', 'toggleIsShuffled');
@@ -488,6 +491,18 @@ export class PlaybackService implements PlaybackServiceBase {
             await this.notificationService.singleTrackAddedToPlaybackQueueAsync();
         } else {
             await this.notificationService.multipleTracksAddedToPlaybackQueueAsync(numberOfAddedTracks);
+        }
+    }
+
+    public initialize() {
+        if (this.settings.rememberPlaybackControlsAfterRestart) {
+            if (this.settings.playbackControlsLoop !== 0) {
+                this._loopMode = this.settings.playbackControlsLoop === 1 ? LoopMode.One : LoopMode.All;
+            }
+
+            if (this.settings.playbackControlsShuffle === 1) {
+                this._isShuffled = true;
+            }
         }
     }
 }

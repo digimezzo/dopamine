@@ -705,6 +705,33 @@ export class Settings implements SettingsBase {
         this.settings.set('albumsDefinedByFolders', v);
     }
 
+    // playbackControlsLoop
+    public get playbackControlsLoop(): number {
+        return <number>this.settings.get('playbackControlsLoop');
+    }
+
+    public set playbackControlsLoop(v: number) {
+        this.settings.set('playbackControlsLoop', v);
+    }
+
+    // playbackControlsShuffle
+    public get playbackControlsShuffle(): number {
+        return <number>this.settings.get('playbackControlsShuffle');
+    }
+
+    public set playbackControlsShuffle(v: number) {
+        this.settings.set('playbackControlsShuffle', v);
+    }
+
+    // rememberPlaybackControlsAfterRestart
+    public get rememberPlaybackControlsAfterRestart(): boolean {
+        return <boolean>this.settings.get('rememberPlaybackControlsAfterRestart');
+    }
+
+    public set rememberPlaybackControlsAfterRestart(v: boolean) {
+        this.settings.set('rememberPlaybackControlsAfterRestart', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -1001,6 +1028,18 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('albumsDefinedByFolders')) {
             this.settings.set('albumsDefinedByFolders', false);
+        }
+
+        if (!this.settings.has('playbackControlsLoop')) {
+            this.settings.set('playbackControlsLoop', false);
+        }
+
+        if (!this.settings.has('playbackControlsShuffle')) {
+            this.settings.set('playbackControlsShuffle', false);
+        }
+
+        if (!this.settings.has('rememberPlaybackControlsAfterRestart')) {
+            this.settings.set('rememberPlaybackControlsAfterRestart', true);
         }
     }
 }

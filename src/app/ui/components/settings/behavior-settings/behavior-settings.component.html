@@ -49,4 +49,11 @@
             {{ 'keep-playback-controls-visible-on-now-playing-page' | translate }}</app-toggle-switch
         >
     </div>
+    <mat-divider class="my-4"></mat-divider>
+    <div class="title">{{ 'playback-controls' | translate }}</div>
+    <div>
+        <app-toggle-switch [(isChecked)]="this.settings.rememberPlaybackControlsAfterRestart">
+            {{ 'remember-playback-controls-after-restart' | translate }}</app-toggle-switch
+        >
+    </div>
 </div>

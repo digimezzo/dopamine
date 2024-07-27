@@ -274,5 +274,7 @@
     "albums-defined-by-tags-album-title-and-album-artist": "Albums worden gedefinieerd door de tags 'Album' en 'Albumartiest'",
     "changing-will-trigger-album-cover-refresh": "Als je deze optie wijzigt, worden jouw albumhoezen ververst.",
     "select-playlist-folder": "Selecteer een afspeellijstmap",
-    "follow-album-cover-color": "Volg de kleur van de albumhoes"
+    "follow-album-cover-color": "Volg de kleur van de albumhoes",
+    "playback-controls": "Afspeelknoppen",
+    "remember-playback-controls-after-restart": "Onthoud de afspeelknoppen (loop, shuffle) na opnieuw opstarten"
 }

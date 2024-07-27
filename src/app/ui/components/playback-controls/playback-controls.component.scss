@@ -31,7 +31,18 @@
     transition: all 0.25s ease 0s;
 }
 
+.app-playback-controls__icon-one {
+    margin-left: 2px;
+    font-size: 11px;
+    color: var(--theme-accent-color);
+    transition: all 0.25s ease 0s;
+}
+
 .app-playback-controls__accent {
     color: var(--theme-accent-color);
     transition: all 0.25s ease 0s;
+}
+
+.app-playback-controls__loop-one {
+    margin-right: -8px;
 }

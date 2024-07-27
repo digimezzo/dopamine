@@ -15,8 +15,10 @@ import { NavigationServiceBase } from './services/navigation/navigation.service.
 import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
 import { DesktopBase } from './common/io/desktop.base';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
+import { PlaybackServiceBase } from './services/playback/playback.service.base';
 
 describe('AppComponent', () => {
+    let playbackServiceMock: IMock<PlaybackServiceBase>;
     let navigationServiceMock: IMock<NavigationServiceBase>;
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -39,6 +41,7 @@ describe('AppComponent', () => {
 
     function createComponent(): AppComponent {
         return new AppComponent(
+            playbackServiceMock.object,
             navigationServiceMock.object,
             appearanceServiceMock.object,
             translatorServiceMock.object,
@@ -56,6 +59,7 @@ describe('AppComponent', () => {
     }
 
     beforeEach(() => {
+        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
@@ -199,6 +203,17 @@ describe('AppComponent', () => {
 
             // Assert
             scrobblingServiceMock.verify((x) => x.initialize(), Times.once());
+        });
+
+        it('should initialize PlaybackService', async () => {
+            // Arrange
+            const app: AppComponent = createComponent();
+
+            // Act
+            await app.ngOnInit();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.initialize(), Times.once());
         });
 
         it('should connect audio visualizer audio element', async () => {
