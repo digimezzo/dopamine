@@ -1,9 +1,8 @@
 const { DismissMessage } = require('./messages/dismiss-message');
 
 class Indexer {
-    constructor(collectionChecker, albumArtworkIndexer, trackIndexer, trackRepository, workerProxy, logger) {
+    constructor(collectionChecker, trackIndexer, trackRepository, workerProxy, logger) {
         this.collectionChecker = collectionChecker;
-        this.albumArtworkIndexer = albumArtworkIndexer;
         this.trackIndexer = trackIndexer;
         this.trackRepository = trackRepository;
         this.workerProxy = workerProxy;
@@ -22,8 +21,6 @@ class Indexer {
             this.logger.info('Collection is not outdated.', 'Indexer', 'indexCollectionIfOutdatedAsync');
         }
 
-        await this.albumArtworkIndexer.indexAlbumArtworkAsync();
-
         this.workerProxy.postMessage(new DismissMessage());
     }
 
@@ -31,7 +28,6 @@ class Indexer {
         this.logger.info('Indexing collection.', 'Indexer', 'indexCollectionAlwaysAsync');
 
         await this.trackIndexer.indexTracksAsync();
-        await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 
         this.workerProxy.postMessage(new DismissMessage());
     }
@@ -40,7 +36,6 @@ class Indexer {
         this.logger.info('Indexing collection.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
 
         this.trackRepository.enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover);
-        await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 
         this.workerProxy.postMessage(new DismissMessage());
     }

@@ -8,16 +8,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import {app, BrowserWindow, ipcMain, Menu, nativeTheme, protocol, Tray} from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, nativeTheme, protocol, Tray } from 'electron';
 import log from 'electron-log';
 import * as Store from 'electron-store';
 import * as windowStateKeeper from 'electron-window-state';
 import * as os from 'os';
 import * as path from 'path';
 import * as url from 'url';
-import {Worker} from 'worker_threads';
-
-const sharp = require('sharp'); // required to use sharp in worker threads
+import { Worker } from 'worker_threads';
 
 /**
  * Command line parameters
@@ -332,7 +330,7 @@ try {
 
         ipcMain.on('indexing-worker', (event: any, arg: any) => {
             const workerThread = new Worker(path.join(__dirname, 'main/workers/indexing-worker.js'), {
-                workerData: {arg},
+                workerData: { arg },
             });
 
             workerThread.on('message', (message): void => {
