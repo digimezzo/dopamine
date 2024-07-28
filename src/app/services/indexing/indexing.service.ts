@@ -74,16 +74,7 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
 
         this.logger.info('Indexing collection.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
 
-        ipcRenderer.send('indexing-worker', this.createWorkerArgs('albumArtwork', onlyWhenHasNoCover));
-
-        ipcRenderer.on('indexing-worker-message', (_: Electron.IpcRendererEvent, message: IIndexingMessage): void => {
-            PromiseUtils.noAwait(this.showSnackBarMessage(message));
-        });
-
-        ipcRenderer.on('indexing-worker-exit', (): void => {
-            this.isIndexingCollection = false;
-            this.indexingFinished.next();
-        });
+        // TODO: launch album artwork indexing
     }
 
     public onAlbumGroupingChanged(): void {
@@ -156,6 +147,8 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
         });
 
         ipcRenderer.on('indexing-worker-exit', (): void => {
+            // TODO: launch album artwork indexing
+
             this.isIndexingCollection = false;
             this.indexingFinished.next();
         });

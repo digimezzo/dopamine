@@ -31,14 +31,6 @@ class Indexer {
 
         this.workerProxy.postMessage(new DismissMessage());
     }
-
-    async indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover) {
-        this.logger.info('Indexing collection.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
-
-        this.trackRepository.enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover);
-
-        this.workerProxy.postMessage(new DismissMessage());
-    }
 }
 
 exports.Indexer = Indexer;
