@@ -4,13 +4,13 @@ import { Logger } from '../../common/logger';
 import { IndexingServiceBase } from './indexing.service.base';
 import { FolderServiceBase } from '../folder/folder.service.base';
 import { SettingsBase } from '../../common/settings/settings.base';
-import { ipcRenderer } from 'electron';
 import { PromiseUtils } from '../../common/utils/promise-utils';
 import { NotificationServiceBase } from '../notification/notification.service.base';
 import { DesktopBase } from '../../common/io/desktop.base';
 import { IIndexingMessage } from './messages/i-indexing-message';
 import { AddingTracksMessage } from './messages/adding-tracks-message';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';
+import {IpcProxyBase} from "../../common/io/ipc-proxy.base";
 
 @Injectable()
 export class IndexingService implements IndexingServiceBase, OnDestroy {
@@ -25,6 +25,7 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
         private albumArtworkIndexer: AlbumArtworkIndexer,
         private desktop: DesktopBase,
         private settings: SettingsBase,
+        private ipcProxy: IpcProxyBase,
         private logger: Logger,
     ) {
         this.initializeSubscriptions();
@@ -53,11 +54,11 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
             }),
         );
 
-        ipcRenderer.on('indexing-worker-message', (_: Electron.IpcRendererEvent, message: IIndexingMessage): void => {
+        this.ipcProxy.onIndexingWorkerMessage$.subscribe((message: IIndexingMessage) => {
             PromiseUtils.noAwait(this.showNotification(message));
         });
 
-        ipcRenderer.on('indexing-worker-exit', async () => {
+        this.ipcProxy.onIndexingWorkerExit$.subscribe(async () => {
             await this.albumArtworkIndexer.indexAlbumArtworkAsync();
             this.isIndexingCollection = false;
             this.indexingFinished.next();
@@ -153,6 +154,6 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
 
         this.logger.info('Indexing collection.', 'IndexingService', 'indexCollection');
 
-        ipcRenderer.send('indexing-worker', this.createWorkerArgs(task, false));
+        this.ipcProxy.sendToMainProcess('indexing-worker', this.createWorkerArgs(task, false));
     }
 }
