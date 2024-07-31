@@ -78,12 +78,12 @@ export class ManageAlbumsComponent {
         });
     }
 
-    public refreshAllCovers(): void {
-        this.indexingService.indexAlbumArtworkOnly(false);
+    public async refreshAllCoversAsync(): Promise<void> {
+        await this.indexingService.indexAlbumArtworkOnlyAsync(false);
     }
 
-    public refreshMissingCovers(): void {
-        this.indexingService.indexAlbumArtworkOnly(true);
+    public async refreshMissingCoversAsync(): Promise<void> {
+        await this.indexingService.indexAlbumArtworkOnlyAsync(true);
     }
 
     private allAlbumGroupingSettingsAreDisabled(): boolean {

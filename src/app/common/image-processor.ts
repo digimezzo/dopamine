@@ -2,10 +2,15 @@ import { Injectable } from '@angular/core';
 import fetch from 'node-fetch';
 import { FileAccessBase } from './io/file-access.base';
 import { nativeImage, NativeImage, Size } from 'electron';
+import * as fs from 'fs-extra';
 
 @Injectable()
 export class ImageProcessor {
     public constructor(private fileAccess: FileAccessBase) {}
+
+    public async convertImageBufferToFileAsync(imageBuffer: Buffer, imagePath: string): Promise<void> {
+        await fs.writeFile(imagePath, imageBuffer);
+    }
 
     public async convertLocalImageToBufferAsync(imagePath: string): Promise<Buffer> {
         return await this.fileAccess.getFileContentAsBufferAsync(imagePath);

@@ -13,18 +13,4 @@ export class IpcProxy implements IpcProxyBase {
     public sendToMainProcess(channel: string, arg: unknown): void {
         ipcRenderer.send(channel, arg);
     }
-
-    public async sendToMainProcessAsync(channel: string, arg: unknown): Promise<void> {
-        ipcRenderer.send(`${channel}-request`, arg);
-
-        let hasExited: boolean = false;
-
-        ipcRenderer.on(`${channel}-exit`, (_: Electron.IpcRendererEvent, message: any): void => {
-            hasExited = true;
-        });
-
-        while (!hasExited) {
-            await this.scheduler.sleepAsync(100);
-        }
-    }
 }

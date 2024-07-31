@@ -7,10 +7,12 @@ import { IndexingService } from './indexing.service';
 import { IndexingServiceBase } from './indexing.service.base';
 import { Observable, Subject } from 'rxjs';
 import { DesktopBase } from '../../common/io/desktop.base';
+import { AlbumArtworkIndexer } from './album-artwork-indexer';
 
 describe('IndexingService', () => {
     let notificationServiceMock: IMock<NotificationServiceBase>;
     let folderServiceMock: IMock<FolderServiceBase>;
+    let albumArtworkIndexerMock: IMock<AlbumArtworkIndexer>;
     let desktopMock: IMock<DesktopBase>;
     let settingsMock: IMock<SettingsBase>;
     let loggerMock: IMock<Logger>;
@@ -21,6 +23,7 @@ describe('IndexingService', () => {
         notificationServiceMock = Mock.ofType<NotificationServiceBase>();
         folderServiceMock = Mock.ofType<FolderServiceBase>();
         desktopMock = Mock.ofType<DesktopBase>();
+        albumArtworkIndexerMock = Mock.ofType<AlbumArtworkIndexer>();
         settingsMock = Mock.ofType<SettingsBase>();
         loggerMock = Mock.ofType<Logger>();
 
@@ -33,6 +36,7 @@ describe('IndexingService', () => {
         return new IndexingService(
             notificationServiceMock.object,
             folderServiceMock.object,
+            albumArtworkIndexerMock.object,
             desktopMock.object,
             settingsMock.object,
             loggerMock.object,
