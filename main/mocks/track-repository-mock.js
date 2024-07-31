@@ -1,9 +1,4 @@
 class TrackRepositoryMock {
-    getAlbumDataThatNeedsIndexingCalls = [];
-    getAlbumDataThatNeedsIndexingReturnValue = [];
-    getLastModifiedTrackForAlbumKeyAsyncCalls = [];
-    getLastModifiedTrackForAlbumKeyAsyncReturnValues = {};
-    disableNeedsAlbumArtworkIndexingCalls = [];
     getNumberOfTracksThatDoNotBelongFoldersCalls = 0;
     getNumberOfTracksThatDoNotBelongFoldersReturnValue = 0;
     deleteTracksThatDoNotBelongFoldersCalls = 0;
@@ -62,22 +57,6 @@ class TrackRepositoryMock {
         this.getTrackByPathReturnCalls.push(path);
         return this.getTrackByPathReturnValues[path];
     }
-
-    disableNeedsAlbumArtworkIndexing(albumKey) {
-        this.disableNeedsAlbumArtworkIndexingCalls.push(albumKey);
-    }
-
-    getLastModifiedTrackForAlbumKeyAsync(albumKeyIndex, albumKey) {
-        this.getLastModifiedTrackForAlbumKeyAsyncCalls.push({});
-        return this.getLastModifiedTrackForAlbumKeyAsyncReturnValues[albumKey];
-    }
-
-    getAlbumDataThatNeedsIndexing(albumKeyIndex) {
-        this.getAlbumDataThatNeedsIndexingCalls.push({});
-        return this.getAlbumDataThatNeedsIndexingReturnValue;
-    }
-
-    enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover) {}
 }
 
 exports.TrackRepositoryMock = TrackRepositoryMock;

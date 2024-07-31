@@ -299,6 +299,10 @@ import { EmbeddedAlbumArtworkGetter } from './services/indexing/embedded-album-a
 import { OnlineAlbumArtworkGetter } from './services/indexing/online-album-artwork-getter';
 import { ExternalAlbumArtworkGetter } from './services/indexing/external-album-artwork-getter';
 import { ExternalArtworkPathGetter } from './services/indexing/external-artwork-path-getter';
+import { AlbumArtworkRepositoryBase } from './data/repositories/album-artwork-repository.base';
+import { AlbumArtworkRepository } from './data/repositories/album-artwork-repository';
+import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-artwork-cache.service';
+import { AlbumArtworkCacheServiceBase } from './services/album-artwork-cache/album-artwork-cache.service.base';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -561,9 +565,11 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: FileAccessBase, useClass: FileAccess },
         { provide: TrackRepositoryBase, useClass: TrackRepository },
         { provide: FolderRepositoryBase, useClass: FolderRepository },
+        { provide: AlbumArtworkRepositoryBase, useClass: AlbumArtworkRepository },
         { provide: ApplicationServiceBase, useClass: ApplicationService },
         { provide: NavigationServiceBase, useClass: NavigationService },
         { provide: IndexingServiceBase, useClass: IndexingService },
+        { provide: AlbumArtworkCacheServiceBase, useClass: AlbumArtworkCacheService },
         { provide: TranslatorServiceBase, useClass: TranslatorService },
         { provide: UpdateServiceBase, useClass: UpdateService },
         { provide: NotificationServiceBase, useClass: NotificationService },

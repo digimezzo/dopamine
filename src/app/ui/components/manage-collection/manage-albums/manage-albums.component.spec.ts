@@ -41,26 +41,22 @@ describe('ManageAlbumsComponent', () => {
     });
 
     describe('refreshAllCoversAsync', () => {
-        it('should index artwork only, for all albums', () => {
-            // Arrange
-
+        it('should index artwork only, for all albums', async () => {
             // Act
-            component.refreshAllCovers();
+            await component.refreshAllCoversAsync();
 
             // Assert
-            indexingServiceMock.verify((x) => x.indexAlbumArtworkOnly(false), Times.exactly(1));
+            indexingServiceMock.verify((x) => x.indexAlbumArtworkOnlyAsync(false), Times.exactly(1));
         });
     });
 
     describe('refreshMissingCoversAsync', () => {
-        it('should index artwork only, for albums with missing covers', () => {
-            // Arrange
-
+        it('should index artwork only, for albums with missing covers', async () => {
             // Act
-            component.refreshMissingCovers();
+            await component.refreshMissingCoversAsync();
 
             // Assert
-            indexingServiceMock.verify((x) => x.indexAlbumArtworkOnly(true), Times.exactly(1));
+            indexingServiceMock.verify((x) => x.indexAlbumArtworkOnlyAsync(true), Times.exactly(1));
         });
     });
 });

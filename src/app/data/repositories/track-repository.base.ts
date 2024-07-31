@@ -16,6 +16,7 @@ export abstract class TrackRepositoryBase {
     public abstract getAlbumDataForTrackArtists(albumKeyIndex: string, trackArtists: string[]): AlbumData[] | undefined;
     public abstract getAlbumDataForAlbumArtists(albumKeyIndex: string, albumArtists: string[]): AlbumData[] | undefined;
     public abstract getAlbumDataForGenres(albumKeyIndex: string, genres: string[]): AlbumData[] | undefined;
+    public abstract getAlbumDataThatNeedsIndexing(albumKeyIndex: string): AlbumData[] | undefined;
     public abstract getTrackArtistData(): ArtistData[] | undefined;
     public abstract getAlbumArtistData(): ArtistData[] | undefined;
     public abstract getGenreData(): GenreData[] | undefined;
@@ -23,4 +24,6 @@ export abstract class TrackRepositoryBase {
     public abstract updateSkipCount(trackId: number, skipCount: number): void;
     public abstract updateRating(trackId: number, rating: number): void;
     public abstract updateLove(trackId: number, love: number): void;
+    public abstract getLastModifiedTrackForAlbumKeyAsync(albumKeyIndex: string, albumKey: string): Track | undefined;
+    public abstract disableNeedsAlbumArtworkIndexing(albumKey: string): void;
 }

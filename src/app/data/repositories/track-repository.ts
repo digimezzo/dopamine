@@ -107,6 +107,19 @@ export class TrackRepository implements TrackRepositoryBase {
         return tracks;
     }
 
+    public getAlbumDataThatNeedsIndexing(albumKeyIndex: string): AlbumData[] | undefined {
+        const database = this.databaseFactory.create();
+
+        const statement = database.prepare(
+            `${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, false)}
+                WHERE (t.AlbumKey${albumKeyIndex} IS NOT NULL AND t.AlbumKey${albumKeyIndex} <> ''
+                AND t.AlbumKey${albumKeyIndex} NOT IN (SELECT AlbumKey FROM AlbumArtwork)) OR NeedsAlbumArtworkIndexing=1
+                GROUP BY t.AlbumKey${albumKeyIndex};`,
+        );
+
+        return statement.all();
+    }
+
     public getAlbumDataForAlbumKey(albumKeyIndex: string, albumKey: string): AlbumData[] | undefined {
         const database: any = this.databaseFactory.create();
 
@@ -264,5 +277,18 @@ export class TrackRepository implements TrackRepositoryBase {
             trackId: trackId,
             love: love,
         });
+    }
+
+    public getLastModifiedTrackForAlbumKeyAsync(albumKeyIndex: string, albumKey: string): Track | undefined {
+        const database: any = this.databaseFactory.create();
+        const statement = database.prepare(`${QueryParts.selectTracksQueryPart(false)} WHERE t.AlbumKey${albumKeyIndex}=?;`);
+        return statement.get(albumKey);
+    }
+
+    public disableNeedsAlbumArtworkIndexing(albumKey: string): void {
+        const database: any = this.databaseFactory.create();
+        const statement: any = database.prepare(`UPDATE Track SET NeedsAlbumArtworkIndexing=0 WHERE AlbumKey=?;`);
+
+        statement.run(albumKey);
     }
 }

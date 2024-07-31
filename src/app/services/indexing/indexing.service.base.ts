@@ -5,7 +5,7 @@ export abstract class IndexingServiceBase {
     public abstract isIndexingCollection: boolean;
     public abstract indexCollectionIfOutdated(): void;
     public abstract indexCollectionAlways(): void;
-    public abstract indexAlbumArtworkOnly(onlyWhenHasNoCover: boolean): void;
+    public abstract indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover: boolean): Promise<void>;
     public abstract onAlbumGroupingChanged(): void;
-    public abstract indexCollectionIfOptionsHaveChanged(): void;
+    public abstract indexCollectionIfOptionsHaveChangedAsync(): Promise<void>;
 }

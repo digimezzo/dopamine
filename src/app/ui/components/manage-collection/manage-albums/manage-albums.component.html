@@ -8,11 +8,11 @@
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'refresh' | translate }}</div>
     <div>{{ 'refresh-all-covers' | translate }}</div>
-    <app-transparent-button class="mt-3" (click)="this.refreshAllCovers()">
+    <app-transparent-button class="mt-3" (click)="this.refreshAllCoversAsync()">
         {{ 'refresh-all' | translate }}
     </app-transparent-button>
     <div class="mt-4">{{ 'refresh-missing-covers' | translate }}</div>
-    <app-transparent-button class="mt-3" (click)="this.refreshMissingCovers()">
+    <app-transparent-button class="mt-3" (click)="this.refreshMissingCoversAsync()">
         {{ 'refresh-missing' | translate }}
     </app-transparent-button>
     <mat-divider class="my-4"></mat-divider>
