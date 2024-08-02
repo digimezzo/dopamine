@@ -21,6 +21,7 @@ import { AudioPlayerBase } from './audio-player.base';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { NotificationServiceBase } from '../notification/notification.service.base';
 import { TrackSorter } from '../../common/sorting/track-sorter';
+import { QueuePersister } from './queue-persister';
 
 @Injectable()
 export class PlaybackService implements PlaybackServiceBase {
@@ -44,6 +45,7 @@ export class PlaybackService implements PlaybackServiceBase {
         private trackService: TrackServiceBase,
         private playlistService: PlaylistServiceBase,
         private notificationService: NotificationServiceBase,
+        private queuePersister: QueuePersister,
         private _audioPlayer: AudioPlayerBase,
         private trackSorter: TrackSorter,
         private queue: Queue,
@@ -182,8 +184,7 @@ export class PlaybackService implements PlaybackServiceBase {
     public async addArtistToQueueAsync(artistToAdd: ArtistModel, artistType: ArtistType): Promise<void> {
         const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToAdd.displayName], artistType);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForArtists.tracks);
-        this.queue.addTracks(orderedTracks);
-        await this.notifyOfTracksAddedToPlaybackQueueAsync(orderedTracks.length);
+        await this.addTracksToQueueAsync(orderedTracks);
     }
 
     public async addGenreToQueueAsync(genreToAdd: GenreModel): Promise<void> {
@@ -193,15 +194,13 @@ export class PlaybackService implements PlaybackServiceBase {
 
         const tracksForGenre: TrackModels = this.trackService.getTracksForGenres([genreToAdd.displayName]);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForGenre.tracks);
-        this.queue.addTracks(orderedTracks);
-        await this.notifyOfTracksAddedToPlaybackQueueAsync(orderedTracks.length);
+        await this.addTracksToQueueAsync(orderedTracks);
     }
 
     public async addAlbumToQueueAsync(albumToAdd: AlbumModel): Promise<void> {
         const tracksForAlbum: TrackModels = this.trackService.getTracksForAlbums([albumToAdd.albumKey]);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForAlbum.tracks);
-        this.queue.addTracks(orderedTracks);
-        await this.notifyOfTracksAddedToPlaybackQueueAsync(orderedTracks.length);
+        await this.addTracksToQueueAsync(orderedTracks);
     }
 
     public async addPlaylistToQueueAsync(playlistToAdd: PlaylistModel): Promise<void> {
@@ -210,8 +209,7 @@ export class PlaybackService implements PlaybackServiceBase {
         }
 
         const tracksForPlaylist: TrackModels = await this.playlistService.getTracksAsync([playlistToAdd]);
-        this.queue.addTracks(tracksForPlaylist.tracks);
-        await this.notifyOfTracksAddedToPlaybackQueueAsync(tracksForPlaylist.tracks.length);
+        await this.addTracksToQueueAsync(tracksForPlaylist.tracks);
     }
 
     public removeFromQueue(tracksToRemove: TrackModel[]): void {

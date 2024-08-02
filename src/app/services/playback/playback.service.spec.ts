@@ -26,12 +26,14 @@ import { NotificationServiceBase } from '../notification/notification.service.ba
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { TrackSorter } from '../../common/sorting/track-sorter';
 import { SettingsMock } from '../../testing/settings-mock';
+import { QueuePersister } from './queue-persister';
 
 describe('PlaybackService', () => {
     let trackServiceMock: IMock<TrackServiceBase>;
     let playlistServiceMock: IMock<PlaylistServiceBase>;
     let notificationServiceMock: IMock<NotificationServiceBase>;
     let audioPlayerMock: IMock<AudioPlayerBase>;
+    let queuePersisterMock: IMock<QueuePersister>;
     let trackSorterMock: IMock<TrackSorter>;
     let loggerMock: IMock<Logger>;
     let queueMock: IMock<Queue>;
@@ -73,6 +75,7 @@ describe('PlaybackService', () => {
         notificationServiceMock = Mock.ofType<NotificationServiceBase>();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        queuePersisterMock = Mock.ofType<QueuePersister>();
         audioPlayerMock = Mock.ofType<AudioPlayerBase>();
         trackSorterMock = Mock.ofType<TrackSorter>();
         loggerMock = Mock.ofType<Logger>();
@@ -152,6 +155,7 @@ describe('PlaybackService', () => {
             trackServiceMock.object,
             playlistServiceMock.object,
             notificationServiceMock.object,
+            queuePersisterMock.object,
             audioPlayerMock.object,
             trackSorterMock.object,
             queueMock.object,

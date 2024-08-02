@@ -303,6 +303,8 @@ import { AlbumArtworkRepositoryBase } from './data/repositories/album-artwork-re
 import { AlbumArtworkRepository } from './data/repositories/album-artwork-repository';
 import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-artwork-cache.service';
 import { AlbumArtworkCacheServiceBase } from './services/album-artwork-cache/album-artwork-cache.service.base';
+import { QueuedTrackRepositoryBase } from './data/repositories/queued-track-repository.base';
+import { QueuedTrackRepository } from './data/repositories/queued-track-repository';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -502,7 +504,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         Hacks,
         Shuffler,
         ProgressUpdater,
-        Queue,
         MathExtensions,
         PathValidator,
         AlbumRowsGetter,
@@ -566,6 +567,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: TrackRepositoryBase, useClass: TrackRepository },
         { provide: FolderRepositoryBase, useClass: FolderRepository },
         { provide: AlbumArtworkRepositoryBase, useClass: AlbumArtworkRepository },
+        { provide: QueuedTrackRepositoryBase, useClass: QueuedTrackRepository },
         { provide: ApplicationServiceBase, useClass: ApplicationService },
         { provide: NavigationServiceBase, useClass: NavigationService },
         { provide: IndexingServiceBase, useClass: IndexingService },
