@@ -3,7 +3,7 @@ import { Logger } from '../../common/logger';
 import { Shuffler } from '../../common/shuffler';
 import { TrackModel } from '../track/track-model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class Queue {
     private _tracks: TrackModel[] = [];
     private playbackOrder: number[] = [];
