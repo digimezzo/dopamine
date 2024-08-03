@@ -506,7 +506,11 @@ export class PlaybackService implements PlaybackServiceBase {
         this.restoreQueue();
     }
 
-    public async saveQueueAsync(): Promise<void> {}
+    public async saveQueueAsync(): Promise<void> {
+        this.queuePersister.save(this.queue, this.currentTrack, this.progress.progressSeconds);
+    }
 
-    private restoreQueue(): void {}
+    private restoreQueue(): void {
+        // TODO: implement this method
+    }
 }

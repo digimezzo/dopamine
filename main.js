@@ -184,7 +184,7 @@ function createMainWindow() {
                     mainWindow.hide();
                 }
                 else {
-                    mainWindow.webContents.send('application-close-requested');
+                    mainWindow.webContents.send('application-close');
                 }
             }
         }

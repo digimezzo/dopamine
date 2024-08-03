@@ -110,7 +110,7 @@ export class Queue {
             return this._tracks[this.playbackOrder[minimumIndex]];
         }
 
-        const currentIndex: number = this.findPlaybackOrderIndex(currentTrack);
+        const currentIndex: number = this.getPlaybackOrderIndex(currentTrack);
 
         if (currentIndex > minimumIndex) {
             return this._tracks[this.playbackOrder[currentIndex - 1]];
@@ -139,7 +139,7 @@ export class Queue {
             return this._tracks[this.playbackOrder[minimumIndex]];
         }
 
-        const currentIndex: number = this.findPlaybackOrderIndex(currentTrack);
+        const currentIndex: number = this.getPlaybackOrderIndex(currentTrack);
 
         if (currentIndex < maximumIndex) {
             return this._tracks[this.playbackOrder[currentIndex + 1]];
@@ -164,7 +164,7 @@ export class Queue {
         this.playbackOrder = this.shuffler.shuffle<number>(this.playbackOrder);
     }
 
-    private findPlaybackOrderIndex(track: TrackModel): number {
+    public getPlaybackOrderIndex(track: TrackModel): number {
         const queuedTracksIndex: number = this._tracks.indexOf(track);
 
         return this.playbackOrder.indexOf(queuedTracksIndex);
