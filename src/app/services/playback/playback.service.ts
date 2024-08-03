@@ -502,5 +502,11 @@ export class PlaybackService implements PlaybackServiceBase {
                 this._isShuffled = true;
             }
         }
+
+        this.restoreQueue();
     }
+
+    public async saveQueueAsync(): Promise<void> {}
+
+    private restoreQueue(): void {}
 }

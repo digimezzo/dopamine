@@ -1,9 +1,13 @@
 import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 import { Injectable } from '@angular/core';
+import { PlaybackServiceBase } from '../playback/playback.service.base';
 
 @Injectable({ providedIn: 'root' })
 export class LifetimeService {
-    public constructor(private ipcProxy: IpcProxyBase) {}
+    public constructor(
+        private playbackService: PlaybackServiceBase,
+        private ipcProxy: IpcProxyBase,
+    ) {}
 
     public initialize(): void {
         this.ipcProxy.onApplicationClose$.subscribe(async () => {
@@ -12,7 +16,7 @@ export class LifetimeService {
     }
 
     private async performClosingTasksAsync(): Promise<void> {
-        // Perform closing tasks here
+        await this.playbackService.saveQueueAsync();
 
         this.ipcProxy.sendToMainProcess('closing-tasks-performed', undefined);
     }

@@ -52,4 +52,5 @@ export abstract class PlaybackServiceBase {
     public abstract resume(): void;
     public abstract toggleMute(): void;
     public abstract initialize(): void;
+    public abstract saveQueueAsync(): Promise<void>;
 }
