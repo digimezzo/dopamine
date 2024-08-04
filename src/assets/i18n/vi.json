@@ -238,7 +238,7 @@
     "enable-multimedia-keys": "Bật sử dụng phím tắt",
     "log-file": "File log",
     "something-wrong-look-in-log-file": "Có lỗi xảy ra? Hãy xem vấn đề trong file log.",
-    "showcase": "Bìa đĩa",
+    "showcase": "Trình chiếu",
     "artist-information": "Thông tin nghệ sĩ",
     "download-artist-information-from-lastfm": "Tải thông tin nghệ sĩ từ Last.fm",
     "downloading-of-artist-information-from-lastfm-disabled": "Việc tải thông tin nghệ sĩ từ Last.fm đang bị tắt. Hãy bật lại nó trong cài đặt.",
@@ -252,7 +252,7 @@
     "mute": "Tắt tiếng",
     "unmute": "Mở tiếng",
     "audio-visualizer": "Sóng nhạc",
-    "show-audio-visualizer": "Hiện sóng nhac âm thanh",
+    "show-audio-visualizer": "Hiện đồ họa sóng nhạc",
     "style": "Kiểu",
     "frame-rate": "Tỷ lệ khung hình",
     "fps": "FPS",
@@ -275,6 +275,6 @@
     "changing-will-trigger-album-cover-refresh": "Chọn cách phân loại các album",
     "select-playlist-folder": "Chọn một thư mục danh sách phát",
     "follow-album-cover-color": "Theo màu ảnh bìa album",
-    "playback-state": "Playback state",
-    "remember-playback-state-after-restart": "Remember playback state (queue, progress, loop, shuffle) after restart"
+    "playback-state": "Trạng thái phát",
+    "remember-playback-state-after-restart": "Tiếp tục trạng thái phát (bài hát đang nghe, vị trí thời lượng, tùy chọn lặp lại, ngẫu nhiên) sau khi khởi động lại"
 }
