@@ -3,6 +3,16 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0-preview.29] - 2024-08-04
+
+### Added
+
+-   The playback state (queue, playing song, playback progress) are now remembered after a restart together with loop and shuffle state
+
+### Fixed
+
+-   Fixed a crash that can occur when indexing album covers on Linux
+
 ## [3.0.0-preview.28] - 2024-07-27
 
 ### Added
