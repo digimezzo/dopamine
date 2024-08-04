@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   The playback state (queue, playing song, playback progress) are now remembered after a restart together with loop and shuffle state
 
+### Changed
+
+-   Updated Croatian translation
+-   Updated Vietnamese translation
+
 ### Fixed
 
 -   Fixed a crash that can occur when indexing album covers on Linux
