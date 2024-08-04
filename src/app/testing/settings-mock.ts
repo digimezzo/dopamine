@@ -80,7 +80,7 @@ export class SettingsMock implements SettingsBase {
     public volume: number;
     public playbackControlsLoop: number;
     public playbackControlsShuffle: number;
-    public rememberPlaybackControlsAfterRestart: boolean;
+    public rememberPlaybackStateAfterRestart: boolean;
 
     public get albumKeyIndex(): string {
         return this.albumKeyIndexMock;

@@ -10,13 +10,13 @@ export class LifetimeService {
     ) {}
 
     public initialize(): void {
-        this.ipcProxy.onApplicationClose$.subscribe(async () => {
-            await this.performClosingTasksAsync();
+        this.ipcProxy.onApplicationClose$.subscribe(() => {
+            this.performClosingTasks();
         });
     }
 
-    private async performClosingTasksAsync(): Promise<void> {
-        await this.playbackService.saveQueueAsync();
+    private performClosingTasks(): void {
+        this.playbackService.saveQueue();
 
         this.ipcProxy.sendToMainProcess('closing-tasks-performed', undefined);
     }

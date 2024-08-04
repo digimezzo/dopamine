@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { PlaybackProgress } from './playback-progress';
-import {AudioPlayerBase} from "./audio-player.base";
+import { AudioPlayerBase } from './audio-player.base';
 
 @Injectable()
 export class ProgressUpdater {

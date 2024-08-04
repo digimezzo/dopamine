@@ -22,6 +22,7 @@ import { SettingsBase } from '../../common/settings/settings.base';
 import { NotificationServiceBase } from '../notification/notification.service.base';
 import { TrackSorter } from '../../common/sorting/track-sorter';
 import { QueuePersister } from './queue-persister';
+import { QueueRestoreInfo } from './queue-restore-info';
 
 @Injectable()
 export class PlaybackService implements PlaybackServiceBase {
@@ -339,6 +340,12 @@ export class PlaybackService implements PlaybackServiceBase {
         this.playbackSkipped.next();
     }
 
+    private skipToSeconds(seconds: number): void {
+        this.audioPlayer.skipToSeconds(seconds);
+        this._progress = this.progressUpdater.getCurrentProgress();
+        this.playbackSkipped.next();
+    }
+
     public togglePlayback(): void {
         if (this.canPause) {
             this.pause();
@@ -492,8 +499,8 @@ export class PlaybackService implements PlaybackServiceBase {
         }
     }
 
-    public initialize() {
-        if (this.settings.rememberPlaybackControlsAfterRestart) {
+    public async initializeAsync(): Promise<void> {
+        if (this.settings.rememberPlaybackStateAfterRestart) {
             if (this.settings.playbackControlsLoop !== 0) {
                 this._loopMode = this.settings.playbackControlsLoop === 1 ? LoopMode.One : LoopMode.All;
             }
@@ -501,16 +508,26 @@ export class PlaybackService implements PlaybackServiceBase {
             if (this.settings.playbackControlsShuffle === 1) {
                 this._isShuffled = true;
             }
+
+            await this.restoreQueueAsync();
         }
-
-        this.restoreQueue();
     }
 
-    public async saveQueueAsync(): Promise<void> {
-        this.queuePersister.save(this.queue, this.currentTrack, this.progress.progressSeconds);
+    public saveQueue(): void {
+        if (this.settings.rememberPlaybackStateAfterRestart) {
+            this.queuePersister.save(this.queue, this.currentTrack, this.progress.progressSeconds);
+        }
     }
 
-    private restoreQueue(): void {
-        // TODO: implement this method
+    private async restoreQueueAsync(): Promise<void> {
+        const info: QueueRestoreInfo = await this.queuePersister.restoreAsync();
+        this.queue.restoreTracks(info.tracks, info.playbackOrder);
+
+        if (info.playingTrack) {
+            this.play(info.playingTrack, false);
+            this.pause();
+            this.skipToSeconds(info.progressSeconds);
+            this.progressUpdater.startUpdatingProgress();
+        }
     }
 }

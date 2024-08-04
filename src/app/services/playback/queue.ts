@@ -54,6 +54,13 @@ export class Queue {
         this.logger.info(`Added '${tracksToAdd?.length}' tracks`, 'Queue', 'addTracks');
     }
 
+    public restoreTracks(tracks: TrackModel[], playbackOrder: number[]): void {
+        this._tracks = tracks;
+        this.playbackOrder = playbackOrder;
+
+        this.logger.info(`Restored '${tracks?.length}' tracks`, 'Queue', 'restoreTracks');
+    }
+
     public removeTracks(tracksToRemove: TrackModel[] | undefined): void {
         if (tracksToRemove == undefined) {
             return;

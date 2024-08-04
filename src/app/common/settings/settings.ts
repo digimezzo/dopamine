@@ -723,13 +723,13 @@ export class Settings implements SettingsBase {
         this.settings.set('playbackControlsShuffle', v);
     }
 
-    // rememberPlaybackControlsAfterRestart
-    public get rememberPlaybackControlsAfterRestart(): boolean {
-        return <boolean>this.settings.get('rememberPlaybackControlsAfterRestart');
+    // rememberPlaybackStateAfterRestart
+    public get rememberPlaybackStateAfterRestart(): boolean {
+        return <boolean>this.settings.get('rememberPlaybackStateAfterRestart');
     }
 
-    public set rememberPlaybackControlsAfterRestart(v: boolean) {
-        this.settings.set('rememberPlaybackControlsAfterRestart', v);
+    public set rememberPlaybackStateAfterRestart(v: boolean) {
+        this.settings.set('rememberPlaybackStateAfterRestart', v);
     }
 
     // Initialize
@@ -1038,8 +1038,8 @@ export class Settings implements SettingsBase {
             this.settings.set('playbackControlsShuffle', false);
         }
 
-        if (!this.settings.has('rememberPlaybackControlsAfterRestart')) {
-            this.settings.set('rememberPlaybackControlsAfterRestart', true);
+        if (!this.settings.has('rememberPlaybackStateAfterRestart')) {
+            this.settings.set('rememberPlaybackStateAfterRestart', true);
         }
     }
 }

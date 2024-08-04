@@ -92,7 +92,7 @@ export class AppComponent implements OnInit {
         this.scrobblingService.initialize();
         this.eventListenerService.listenToEvents();
         await this.navigationService.navigateToLoadingAsync();
-        this.playbackService.initialize();
+        await this.playbackService.initializeAsync();
         this.lifetimeService.initialize();
     }
 }

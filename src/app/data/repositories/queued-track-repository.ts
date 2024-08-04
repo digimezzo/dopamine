@@ -12,24 +12,6 @@ import { QueuedTrack } from '../entities/queued-track';
 export class QueuedTrackRepository implements QueuedTrackRepositoryBase {
     public constructor(private databaseFactory: DatabaseFactory) {}
 
-    public getPlayingTrack(): QueuedTrack | undefined {
-        const database: any = this.databaseFactory.create();
-
-        const statement = database.prepare(
-            `SELECT QueuedTrackID   as queuedTrackId,
-                    Path            as path,
-                    IsPlaying       as isPlaying,
-                    ProgressSeconds as progressSeconds,
-                    OrderID         as orderId
-             FROM QueuedTrack
-             WHERE IsPlaying = 1;`,
-        );
-
-        const queuedTrack: QueuedTrack | undefined = statement.get();
-
-        return queuedTrack;
-    }
-
     public getSavedQueuedTracks(): QueuedTrack[] | undefined {
         const database: any = this.databaseFactory.create();
 
@@ -40,7 +22,7 @@ export class QueuedTrackRepository implements QueuedTrackRepositoryBase {
                     ProgressSeconds as progressSeconds,
                     OrderID         as orderId
              FROM QueuedTrack
-             ORDER BY OrderID;`,
+             ORDER BY QueuedTrackID;`,
         );
 
         const queuedTracks: QueuedTrack[] | undefined = statement.all();
