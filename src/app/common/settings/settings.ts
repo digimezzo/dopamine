@@ -1031,7 +1031,7 @@ export class Settings implements SettingsBase {
         }
 
         if (!this.settings.has('playbackControlsLoop')) {
-            this.settings.set('playbackControlsLoop', false);
+            this.settings.set('playbackControlsLoop', 0);
         }
 
         if (!this.settings.has('playbackControlsShuffle')) {
