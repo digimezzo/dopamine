@@ -19,8 +19,8 @@ import { EventListenerServiceBase } from './services/event-listener/event-listen
 import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
 import { DesktopBase } from './common/io/desktop.base';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
-import { PlaybackService } from './services/playback/playback.service';
 import { PlaybackServiceBase } from './services/playback/playback.service.base';
+import { LifetimeService } from './services/lifetime/lifetime.service';
 
 @Component({
     selector: 'app-root',
@@ -40,6 +40,7 @@ export class AppComponent implements OnInit {
         private trayService: TrayServiceBase,
         private mediaSessionService: MediaSessionServiceBase,
         private eventListenerService: EventListenerServiceBase,
+        private lifetimeService: LifetimeService,
         private addToPlaylistMenu: AddToPlaylistMenu,
         private desktop: DesktopBase,
         private logger: Logger,
@@ -91,6 +92,7 @@ export class AppComponent implements OnInit {
         this.scrobblingService.initialize();
         this.eventListenerService.listenToEvents();
         await this.navigationService.navigateToLoadingAsync();
-        this.playbackService.initialize();
+        await this.playbackService.initializeAsync();
+        this.lifetimeService.initialize();
     }
 }

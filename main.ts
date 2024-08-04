@@ -205,16 +205,15 @@ function createMainWindow(): void {
     });
 
     mainWindow.on('close', (event: any) => {
-        if (shouldCloseToNotificationArea()) {
-            if (!isQuitting) {
-                event.preventDefault();
-
-                if (mainWindow) {
+        if (!isQuitting) {
+            event.preventDefault();
+            if (mainWindow) {
+                if (shouldCloseToNotificationArea()) {
                     mainWindow.hide();
+                } else {
+                    mainWindow.webContents.send('application-close');
                 }
             }
-
-            return false;
         }
     });
 }
@@ -312,7 +311,9 @@ try {
                 {
                     label: arg.exitLabel,
                     click(): void {
-                        app.quit();
+                        if (process.platform !== 'darwin') {
+                            app.quit();
+                        }
                     },
                 },
             ]);
@@ -344,6 +345,12 @@ try {
                     mainWindow.webContents.send('indexing-worker-exit', 'Done');
                 }
             });
+        });
+
+        ipcMain.on('closing-tasks-performed', (_) => {
+            if (process.platform !== 'darwin') {
+                app.quit();
+            }
         });
     }
 } catch (e) {

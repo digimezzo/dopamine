@@ -78,5 +78,5 @@ export abstract class SettingsBase {
     public abstract albumsDefinedByFolders: boolean;
     public abstract playbackControlsLoop: number;
     public abstract playbackControlsShuffle: number;
-    public abstract rememberPlaybackControlsAfterRestart: boolean;
+    public abstract rememberPlaybackStateAfterRestart: boolean;
 }

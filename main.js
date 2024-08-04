@@ -177,14 +177,16 @@ function createMainWindow() {
         }
     });
     mainWindow.on('close', (event) => {
-        if (shouldCloseToNotificationArea()) {
-            if (!isQuitting) {
-                event.preventDefault();
-                if (mainWindow) {
+        if (!isQuitting) {
+            event.preventDefault();
+            if (mainWindow) {
+                if (shouldCloseToNotificationArea()) {
                     mainWindow.hide();
                 }
+                else {
+                    mainWindow.webContents.send('application-close');
+                }
             }
-            return false;
         }
     });
 }
@@ -267,7 +269,9 @@ try {
                 {
                     label: arg.exitLabel,
                     click() {
-                        electron_1.app.quit();
+                        if (process.platform !== 'darwin') {
+                            electron_1.app.quit();
+                        }
                     },
                 },
             ]);
@@ -293,6 +297,11 @@ try {
                     mainWindow.webContents.send('indexing-worker-exit', 'Done');
                 }
             });
+        });
+        electron_1.ipcMain.on('closing-tasks-performed', (_) => {
+            if (process.platform !== 'darwin') {
+                electron_1.app.quit();
+            }
         });
     }
 }

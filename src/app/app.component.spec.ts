@@ -16,6 +16,7 @@ import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
 import { DesktopBase } from './common/io/desktop.base';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
 import { PlaybackServiceBase } from './services/playback/playback.service.base';
+import { LifetimeService } from './services/lifetime/lifetime.service';
 
 describe('AppComponent', () => {
     let playbackServiceMock: IMock<PlaybackServiceBase>;
@@ -27,6 +28,7 @@ describe('AppComponent', () => {
     let trayServiceMock: IMock<TrayServiceBase>;
     let mediaSessionServiceMock: IMock<MediaSessionServiceBase>;
     let eventListenerServiceMock: IMock<EventListenerServiceBase>;
+    let lifetimeServiceMock: IMock<LifetimeService>;
     let audioVisualizerMock: IMock<AudioVisualizer>;
 
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
@@ -50,6 +52,7 @@ describe('AppComponent', () => {
             trayServiceMock.object,
             mediaSessionServiceMock.object,
             eventListenerServiceMock.object,
+            lifetimeServiceMock.object,
             addToPlaylistMenuMock.object,
             desktopMock.object,
             loggerMock.object,
@@ -68,6 +71,7 @@ describe('AppComponent', () => {
         trayServiceMock = Mock.ofType<TrayServiceBase>();
         mediaSessionServiceMock = Mock.ofType<MediaSessionServiceBase>();
         eventListenerServiceMock = Mock.ofType<EventListenerServiceBase>();
+        lifetimeServiceMock = Mock.ofType<LifetimeService>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         desktopMock = Mock.ofType<DesktopBase>();
         loggerMock = Mock.ofType<Logger>();
@@ -213,7 +217,18 @@ describe('AppComponent', () => {
             await app.ngOnInit();
 
             // Assert
-            playbackServiceMock.verify((x) => x.initialize(), Times.once());
+            playbackServiceMock.verify((x) => x.initializeAsync(), Times.once());
+        });
+
+        it('should initialize LifetimeService', async () => {
+            // Arrange
+            const app: AppComponent = createComponent();
+
+            // Act
+            await app.ngOnInit();
+
+            // Assert
+            lifetimeServiceMock.verify((x) => x.initialize(), Times.once());
         });
 
         it('should connect audio visualizer audio element', async () => {
