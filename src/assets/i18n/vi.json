@@ -190,7 +190,7 @@
     "exit": "Thoát",
     "notification-area": "Khu vực thông báo",
     "show-icon-in-notification-area": "Hiện biểu tượng ở khu vực thông báo (yêu cầu khởi động lại)",
-    "minimize-to-notification-area": "Giữ ở khu vực thông báo khi thu nhỏ",
+    "minimize-to-notification-area": "Chuyển sang khu vực thông báo khi thu nhỏ",
     "close-to-notification-area": "Thoát khỏi khu vực thông báo khi đóng",
     "behavior": "Thao tác",
     "broken": "Hỏng",
