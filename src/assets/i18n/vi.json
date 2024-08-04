@@ -275,6 +275,6 @@
     "changing-will-trigger-album-cover-refresh": "Chọn cách phân loại các album",
     "select-playlist-folder": "Chọn một thư mục danh sách phát",
     "follow-album-cover-color": "Theo màu ảnh bìa album",
-    "playback-controls": "Các nút trình phát",
-    "remember-playback-controls-after-restart": "Lưu các nút trình phát (lặp lại, ngẫu nhiên) sau khi khởi động lại ứng dụng"
+    "playback-state": "Playback state",
+    "remember-playback-state-after-restart": "Remember playback state (queue, progress, loop, shuffle) after restart"
 }

@@ -275,6 +275,6 @@
     "changing-will-trigger-album-cover-refresh": "Als je deze optie wijzigt, worden jouw albumhoezen ververst.",
     "select-playlist-folder": "Selecteer een afspeellijstmap",
     "follow-album-cover-color": "Volg de kleur van de albumhoes",
-    "playback-controls": "Afspeelknoppen",
-    "remember-playback-controls-after-restart": "Onthoud de afspeelknoppen (loop, shuffle) na opnieuw opstarten"
+    "playback-state": "Afspeelstatus",
+    "remember-playback-state-after-restart": "Onthoud de afspeelstatus (Afspeelwachtrij, voortgang, lus, shuffle) na opnieuw opstarten"
 }

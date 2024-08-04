@@ -275,6 +275,6 @@
     "changing-will-trigger-album-cover-refresh": "Changing this option will trigger a refresh of your album covers",
     "select-playlist-folder": "Please select a playlist folder",
     "follow-album-cover-color": "Follow the album cover color",
-    "playback-controls": "Playback controls",
-    "remember-playback-controls-after-restart": "Remember playback controls (loop, shuffle) after restart"
+    "playback-state": "Playback state",
+    "remember-playback-state-after-restart": "Remember playback state (queue, progress, loop, shuffle) after restart"
 }

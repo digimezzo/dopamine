@@ -275,6 +275,6 @@
     "changing-will-trigger-album-cover-refresh": "Promjena ove opcije prouzročit će osvježavanje naslovnica albuma",
     "select-playlist-folder": "Odaberi mapu popisa za reprodukciju",
     "follow-album-cover-color": "Slijedi boju naslovnice albuma",
-    "playback-controls": "Kontrole reprodukcije",
-    "remember-playback-controls-after-restart": "Zapamti kontrole reprodukcije (ponavljanje, nasumično) nakon ponovnog pokretanja"
+    "playback-state": "Playback state",
+    "remember-playback-state-after-restart": "Remember playback state (queue, progress, loop, shuffle) after restart"
 }

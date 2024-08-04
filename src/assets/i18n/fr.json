@@ -275,6 +275,6 @@
     "changing-will-trigger-album-cover-refresh": "La modification de cette option déclenchera une actualisation des pochettes d'album",
     "select-playlist-folder": "Veuillez sélectionner un dossier de playlist",
     "follow-album-cover-color": "Suivre la couleur de la pochette de l'album",
-    "playback-controls": "Commandes de lecture",
-    "remember-playback-controls-after-restart": "Mémoriser les commandes de lecture (boucle, aléatoire) après le redémarrage"
+    "playback-state": "État de lecture",
+    "remember-playback-state-after-restart": "Mémoriser l'état de lecture (file d'attente de lecture, progression, boucle, lecture aléatoire) après le redémarrage"
 }
