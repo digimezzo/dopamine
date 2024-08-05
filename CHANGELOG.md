@@ -8,10 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 -   When moving songs inside playlists, the playlist song order is now remembered after a restart.
--
 
 ### Changed
 
+-   Updated Bulgarian translation
 -   Updated Vietnamese translation
 
 ## [3.0.0-preview.29] - 2024-08-04
