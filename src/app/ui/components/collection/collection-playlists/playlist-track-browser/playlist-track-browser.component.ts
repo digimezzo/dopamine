@@ -62,8 +62,8 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
     @Input()
     public set tracks(v: TrackModels) {
         this._tracks = v;
-        this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
         this.orderTracks();
+        this.mouseSelectionWatcher.initialize(this.orderedTracks, false);
     }
 
     public ngOnDestroy(): void {
@@ -141,13 +141,14 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
         this.playbackIndicationService.setPlayingTrack(this.orderedTracks, this.playbackService.currentTrack);
     }
 
-    public dropTrack(event: CdkDragDrop<TrackModel[]>): void {
+    public async dropTrackAsync(event: CdkDragDrop<TrackModel[]>): Promise<void> {
         moveItemInArray(this.orderedTracks, event.previousIndex, event.currentIndex);
 
         // HACK: required so that the dragged item does not snap back to its original place
         // See: https://github.com/angular/components/issues/14873
         this.orderedTracks = [...this.orderedTracks];
 
-        //  await this.playlistService.updatePlaylistOrderAsync(this.orderedTracks);
+        this.mouseSelectionWatcher.initialize(this.orderedTracks, false);
+        await this.playlistService.updatePlaylistOrderAsync(this.orderedTracks);
     }
 }

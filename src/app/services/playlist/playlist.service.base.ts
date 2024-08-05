@@ -8,6 +8,7 @@ import { TrackModels } from '../track/track-models';
 import { PlaylistModel } from './playlist-model';
 
 export abstract class PlaylistServiceBase {
+    public abstract isUpdatingPlaylistFile: boolean;
     public abstract hasActivePlaylistFolder: boolean;
     public abstract playlistsParentFolderPath: string;
     public abstract activePlaylistFolder: PlaylistFolderModel;

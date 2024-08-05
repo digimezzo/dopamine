@@ -105,6 +105,17 @@ describe('AppComponent', () => {
             // Assert
             expect(app.playbackQueueDrawer).toBeUndefined();
         });
+
+        it('should define LifetimeService', async () => {
+            // Arrange
+            const app: AppComponent = createComponent();
+
+            // Act
+            await app.ngOnInit();
+
+            // Assert
+            expect(app.lifetimeService).toBeDefined();
+        });
     });
 
     describe('ngOnInit', () => {

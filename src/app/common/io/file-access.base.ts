@@ -28,6 +28,6 @@ export abstract class FileAccessBase {
     public abstract generateFullPath(baseDirectoryPath: string, directoryOrFilePath: string): string;
     public abstract readLinesAsync(filePath: string): Promise<string[]>;
     public abstract appendTextToFileAsync(filePath: string, text: string): Promise<void>;
-    public abstract replaceTextInFileAsync(filePath: string, text: string): Promise<void>;
+    public abstract replaceMultiLineTextInFileAsync(filePath: string, textLines: string[]): Promise<void>;
     public abstract clearFileContentsAsync(filePath: string): Promise<void>;
 }

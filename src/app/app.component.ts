@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
         private trayService: TrayServiceBase,
         private mediaSessionService: MediaSessionServiceBase,
         private eventListenerService: EventListenerServiceBase,
-        private lifetimeService: LifetimeService,
+        public lifetimeService: LifetimeService,
         private addToPlaylistMenu: AddToPlaylistMenu,
         private desktop: DesktopBase,
         private logger: Logger,
