@@ -20,7 +20,7 @@ export class GlobalErrorHandler implements ErrorHandler {
         this.showGlobalErrorDialog();
     }
 
-    public showGlobalErrorDialog(): void {
+    private showGlobalErrorDialog(): void {
         this.logger.info('Showing global error dialog', 'GlobalErrorHandler', 'showGlobalErrorDialog');
 
         this.zone.run(() => {
