@@ -29,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Fixed a crash that can occur when indexing album covers on Linux
 
-## [3.0.0-preview.28] - 2024-07-27~~~~
+## [3.0.0-preview.28] - 2024-07-27
 
 ### Added
 
