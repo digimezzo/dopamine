@@ -38,7 +38,7 @@ export class ArtistService implements ArtistServiceBase {
 
                 if (!alreadyAddedArtists.includes(processedArtist)) {
                     alreadyAddedArtists.push(processedArtist);
-                    artistModels.push(new ArtistModel(artist, this.translatorService));
+                    artistModels.push(new ArtistModel(artist, artist, this.translatorService));
                 }
             }
         }

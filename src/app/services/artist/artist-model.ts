@@ -5,6 +5,7 @@ import { TranslatorServiceBase } from '../translator/translator.service.base';
 
 export class ArtistModel extends SemanticZoomable implements ISelectable {
     public constructor(
+        public originalName: string,
         public name: string,
         private translatorService: TranslatorServiceBase,
     ) {
