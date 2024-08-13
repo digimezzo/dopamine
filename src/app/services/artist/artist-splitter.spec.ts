@@ -7,8 +7,8 @@ describe('ArtistSplitter', () => {
 
     beforeEach(() => {
         settingsMock = new SettingsMock();
-        settingsMock.artistSplitSeparators = 'ft.;feat.';
-        settingsMock.artistSplitExceptions = 'Artist4 feat. Artist5';
+        settingsMock.artistSplitSeparators = 'ft.;feat.;&';
+        settingsMock.artistSplitExceptions = 'Artist2 & Artist3';
     });
 
     describe('constructor', () => {
@@ -40,10 +40,10 @@ describe('ArtistSplitter', () => {
             const splitter: ArtistSplitter = new ArtistSplitter(settingsMock);
 
             // Act
-            const splitArtist: string[] = splitter.splitArtist('Artist1 ft. Artist4 feat. Artist5');
+            const splitArtist: string[] = splitter.splitArtist('Artist1 ft. Artist2 & Artist3');
 
             // Assert
-            expect(splitArtist[0]).toEqual('Artist4 feat. Artist5');
+            expect(splitArtist[0]).toEqual('Artist2 & Artist3');
             expect(splitArtist[1]).toEqual('Artist1');
         });
     });
