@@ -6,11 +6,13 @@ import { ArtistType } from './artist-type';
 import { ArtistServiceBase } from './artist.service.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { ArtistSplitter } from './artist-splitter';
 
 @Injectable()
 export class ArtistService implements ArtistServiceBase {
     public constructor(
         private translatorService: TranslatorServiceBase,
+        private artistSplitter: ArtistSplitter,
         private trackRepository: TrackRepositoryBase,
     ) {}
 
@@ -38,7 +40,7 @@ export class ArtistService implements ArtistServiceBase {
 
                 if (!alreadyAddedArtists.includes(processedArtist)) {
                     alreadyAddedArtists.push(processedArtist);
-                    artistModels.push(new ArtistModel(artist, artist, this.translatorService));
+                    artistModels.push(...this.artistSplitter.splitArtist(artist));
                 }
             }
         }
