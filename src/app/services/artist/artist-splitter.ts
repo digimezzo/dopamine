@@ -54,6 +54,6 @@ export class ArtistSplitter {
         const regex: RegExp = new RegExp(this.separators.join('|'), 'i');
         artists.push(...artist.split(regex).map((a: string) => new ArtistModel(originalArtist, a.trim(), this.translatorService)));
 
-        return artists.filter((artist: ArtistModel): boolean => artist.name !== '');
+        return artists.filter((a: ArtistModel): boolean => a.name !== '');
     }
 }
