@@ -140,7 +140,11 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
 
     private getAlbums(): void {
         const selectedArtists: ArtistModel[] = this.artistsPersister.getSelectedArtists(this.artists);
-        this.getAlbumsForArtists(selectedArtists.map((x) => x.displayName));
+        const sourceArtists: string[] = selectedArtists.reduce<string[]>(
+            (acc, artist) => (artist.sourceNames ? acc.concat(artist.sourceNames) : acc),
+            [],
+        );
+        this.getAlbumsForArtists(sourceArtists);
     }
 
     private getTracks(): void {
@@ -150,7 +154,11 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
             this.getTracksForAlbumKeys(selectedAlbums.map((x) => x.albumKey));
         } else {
             const selectedArtists: ArtistModel[] = this.artistsPersister.getSelectedArtists(this.artists);
-            this.getTracksForArtists(selectedArtists.map((x) => x.displayName));
+            const sourceArtists: string[] = selectedArtists.reduce<string[]>(
+                (acc, artist) => (artist.sourceNames ? acc.concat(artist.sourceNames) : acc),
+                [],
+            );
+            this.getTracksForArtists(sourceArtists);
         }
     }
 
