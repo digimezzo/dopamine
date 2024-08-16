@@ -85,29 +85,37 @@ export class TrackService implements TrackServiceBase {
         }
 
         if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
-            const trackArtistTracks: Track[] = this.trackRepository.getTracksForTrackArtists(artists) ?? [];
-
-            for (const track of trackArtistTracks) {
-                const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);
-                trackModels.addTrack(trackModel);
-            }
+            this.addTracksForTrackOrAllArtists(artists, trackModels);
         }
 
         if (artistType === ArtistType.albumArtists || artistType === ArtistType.allArtists) {
-            const albumArtistTracks: Track[] = this.trackRepository.getTracksForAlbumArtists(artists) ?? [];
-
-            for (const track of albumArtistTracks) {
-                const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);
-
-                // Avoid adding a track twice
-                // TODO: can this be done better?
-                if (!trackModels.tracks.map((x) => x.path).includes(trackModel.path)) {
-                    trackModels.addTrack(trackModel);
-                }
-            }
+            this.addTracksForAlbumOrAllArtists(artists, trackModels);
         }
 
         return trackModels;
+    }
+
+    private addTracksForTrackOrAllArtists(artists: string[], trackModels: TrackModels): void {
+        const trackArtistTracks: Track[] = this.trackRepository.getTracksForTrackArtists(artists) ?? [];
+
+        for (const track of trackArtistTracks) {
+            const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);
+            trackModels.addTrack(trackModel);
+        }
+    }
+
+    private addTracksForAlbumOrAllArtists(artists: string[], trackModels: TrackModels): void {
+        const albumArtistTracks: Track[] = this.trackRepository.getTracksForAlbumArtists(artists) ?? [];
+
+        for (const track of albumArtistTracks) {
+            const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);
+
+            // Avoid adding a track twice
+            // TODO: can this be done better?
+            if (!trackModels.tracks.map((x) => x.path).includes(trackModel.path)) {
+                trackModels.addTrack(trackModel);
+            }
+        }
     }
 
     public getTracksForGenres(genres: string[]): TrackModels {
