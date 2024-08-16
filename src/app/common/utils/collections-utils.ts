@@ -1,3 +1,5 @@
+import { StringUtils } from './string-utils';
+
 export class CollectionUtils {
     public static groupBy<S, T>(list: T[], keyGetter: (T) => S): Map<S, T[]> {
         const map: Map<S, T[]> = new Map();
@@ -34,5 +36,9 @@ export class CollectionUtils {
         }
 
         return nextItem;
+    }
+
+    public static includesIgnoreCase(array: string[], value: string): boolean {
+        return array.some((item) => item.toLowerCase() === value.toLowerCase());
     }
 }

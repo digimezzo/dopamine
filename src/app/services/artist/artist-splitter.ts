@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { ArtistModel } from './artist-model';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
+import { StringUtils } from '../../common/utils/string-utils';
+import { CollectionUtils } from '../../common/utils/collections-utils';
 
 @Injectable({ providedIn: 'root' })
 export class ArtistSplitter {
@@ -19,9 +21,14 @@ export class ArtistSplitter {
         for (const artist of artists) {
             const splitArtists: ArtistModel[] = this.splitArtist(artist);
             for (const splitArtist of splitArtists) {
-                if (returnArtists.map((x) => x.displayName.toLowerCase()).includes(splitArtist.displayName.toLowerCase())) {
+                if (
+                    CollectionUtils.includesIgnoreCase(
+                        returnArtists.map((x) => x.displayName),
+                        splitArtist.displayName,
+                    )
+                ) {
                     returnArtists
-                        .find((x) => x.displayName.toLowerCase() === splitArtist.displayName.toLowerCase())
+                        .find((x) => StringUtils.equalsIgnoreCase(x.displayName, splitArtist.displayName))
                         ?.sourceNames.push(splitArtist.sourceNames[0]);
                 } else {
                     returnArtists.push(splitArtist);
