@@ -27,28 +27,36 @@ export class AlbumService implements AlbumServiceBase {
         const albumDatas: AlbumData[] = [];
 
         if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
-            const trackArtistsAlbumDatas: AlbumData[] =
-                this.trackRepository.getAlbumDataForTrackArtists(this.settings.albumKeyIndex, artists) ?? [];
-
-            for (const albumData of trackArtistsAlbumDatas) {
-                albumDatas.push(albumData);
-            }
+            this.addAlbumsForTrackOrAllArtists(artists, albumDatas);
         }
 
         if (artistType === ArtistType.albumArtists || artistType === ArtistType.allArtists) {
-            const albumArtistsAlbumDatas: AlbumData[] =
-                this.trackRepository.getAlbumDataForAlbumArtists(this.settings.albumKeyIndex, artists) ?? [];
-
-            for (const albumData of albumArtistsAlbumDatas) {
-                // Avoid adding a track twice
-                // TODO: can this be done better?
-                if (!albumDatas.map((x) => x.albumKey).includes(albumData.albumKey)) {
-                    albumDatas.push(albumData);
-                }
-            }
+            this.addAlbumsForAlbumOrAllArtists(artists, albumDatas);
         }
 
         return this.createAlbumsFromAlbumData(albumDatas);
+    }
+
+    private addAlbumsForTrackOrAllArtists(artists: string[], albumDatas: AlbumData[]): void {
+        const trackArtistsAlbumDatas: AlbumData[] =
+            this.trackRepository.getAlbumDataForTrackArtists(this.settings.albumKeyIndex, artists) ?? [];
+
+        for (const albumData of trackArtistsAlbumDatas) {
+            albumDatas.push(albumData);
+        }
+    }
+
+    private addAlbumsForAlbumOrAllArtists(artists: string[], albumDatas: AlbumData[]): void {
+        const albumArtistsAlbumDatas: AlbumData[] =
+            this.trackRepository.getAlbumDataForAlbumArtists(this.settings.albumKeyIndex, artists) ?? [];
+
+        for (const albumData of albumArtistsAlbumDatas) {
+            // Avoid adding a track twice
+            // TODO: can this be done better?
+            if (!albumDatas.map((x) => x.albumKey).includes(albumData.albumKey)) {
+                albumDatas.push(albumData);
+            }
+        }
     }
 
     public getAlbumsForGenres(genres: string[]): AlbumModel[] {
