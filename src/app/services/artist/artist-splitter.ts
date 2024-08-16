@@ -13,7 +13,26 @@ export class ArtistSplitter {
         private settings: SettingsBase,
     ) {}
 
-    public splitArtist(artist: string): ArtistModel[] {
+    public splitArtists(artists: string[]): ArtistModel[] {
+        const returnArtists: ArtistModel[] = [];
+
+        for (const artist of artists) {
+            const splitArtists: ArtistModel[] = this.splitArtist(artist);
+            for (const splitArtist of splitArtists) {
+                if (returnArtists.map((x) => x.displayName.toLowerCase()).includes(splitArtist.displayName.toLowerCase())) {
+                    returnArtists
+                        .find((x) => x.displayName.toLowerCase() === splitArtist.displayName.toLowerCase())
+                        ?.sourceNames.push(splitArtist.sourceNames[0]);
+                } else {
+                    returnArtists.push(splitArtist);
+                }
+            }
+        }
+
+        return returnArtists;
+    }
+
+    private splitArtist(artist: string): ArtistModel[] {
         const originalArtist: string = artist;
         const artists: ArtistModel[] = [];
 
