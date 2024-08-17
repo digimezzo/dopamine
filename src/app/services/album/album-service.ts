@@ -7,6 +7,7 @@ import { AlbumServiceBase } from './album-service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { SettingsBase } from '../../common/settings/settings.base';
+import { ArtistModel } from '../artist/artist-model';
 
 @Injectable()
 export class AlbumService implements AlbumServiceBase {
@@ -23,15 +24,20 @@ export class AlbumService implements AlbumServiceBase {
         return this.createAlbumsFromAlbumData(albumDatas);
     }
 
-    public getAlbumsForArtists(artists: string[], artistType: ArtistType): AlbumModel[] {
+    public getAlbumsForArtists(artists: ArtistModel[], artistType: ArtistType): AlbumModel[] {
         const albumDatas: AlbumData[] = [];
 
+        const sourceArtists: string[] = artists.reduce<string[]>(
+            (acc, artist) => (artist.sourceNames ? acc.concat(artist.sourceNames) : acc),
+            [],
+        );
+
         if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
-            this.addAlbumsForTrackOrAllArtists(artists, albumDatas);
+            this.addAlbumsForTrackOrAllArtists(sourceArtists, albumDatas);
         }
 
         if (artistType === ArtistType.albumArtists || artistType === ArtistType.allArtists) {
-            this.addAlbumsForAlbumOrAllArtists(artists, albumDatas);
+            this.addAlbumsForAlbumOrAllArtists(sourceArtists, albumDatas);
         }
 
         return this.createAlbumsFromAlbumData(albumDatas);

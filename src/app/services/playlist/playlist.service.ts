@@ -76,8 +76,7 @@ export class PlaylistService implements PlaylistServiceBase {
             throw new Error('artistsToAdd is undefined');
         }
 
-        const artistNames: string[] = artistsToAdd.map((x) => x.name);
-        const tracks: TrackModels = this.trackService.getTracksForArtists(artistNames, ArtistType.allArtists);
+        const tracks: TrackModels = this.trackService.getTracksForArtists(artistsToAdd, ArtistType.allArtists);
         await this.addTracksToPlaylistAsync(playlistPath, playlistName, tracks.tracks);
     }
 

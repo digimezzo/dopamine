@@ -10,6 +10,7 @@ import { TrackServiceBase } from './track.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { SettingsBase } from '../../common/settings/settings.base';
+import { ArtistModel } from '../artist/artist-model';
 
 @Injectable()
 export class TrackService implements TrackServiceBase {
@@ -77,19 +78,24 @@ export class TrackService implements TrackServiceBase {
         return trackModels;
     }
 
-    public getTracksForArtists(artists: string[], artistType: ArtistType): TrackModels {
+    public getTracksForArtists(artists: ArtistModel[], artistType: ArtistType): TrackModels {
         const trackModels: TrackModels = new TrackModels();
 
         if (artists.length === 0) {
             return trackModels;
         }
 
+        const sourceArtists: string[] = artists.reduce<string[]>(
+            (acc, artist) => (artist.sourceNames ? acc.concat(artist.sourceNames) : acc),
+            [],
+        );
+
         if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
-            this.addTracksForTrackOrAllArtists(artists, trackModels);
+            this.addTracksForTrackOrAllArtists(sourceArtists, trackModels);
         }
 
         if (artistType === ArtistType.albumArtists || artistType === ArtistType.allArtists) {
-            this.addTracksForAlbumOrAllArtists(artists, trackModels);
+            this.addTracksForAlbumOrAllArtists(sourceArtists, trackModels);
         }
 
         return trackModels;

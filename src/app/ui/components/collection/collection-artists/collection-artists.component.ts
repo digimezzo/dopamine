@@ -64,13 +64,15 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
+
         this.clearLists();
     }
 
     public async ngOnInit(): Promise<void> {
         this.subscription.add(
-            this.artistsPersister.selectedArtistsChanged$.subscribe((artists: string[]) => {
+            this.artistsPersister.selectedArtistsChanged$.subscribe((displayNames: string[]) => {
                 this.albumsPersister.resetSelectedAlbums();
+                const artists: ArtistModel[] = this.getArtistsByDisplayNames(displayNames);
                 this.getAlbumsForArtists(artists);
                 this.getTracksForArtists(artists);
             }),
@@ -140,11 +142,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
 
     private getAlbums(): void {
         const selectedArtists: ArtistModel[] = this.artistsPersister.getSelectedArtists(this.artists);
-        const sourceArtists: string[] = selectedArtists.reduce<string[]>(
-            (acc, artist) => (artist.sourceNames ? acc.concat(artist.sourceNames) : acc),
-            [],
-        );
-        this.getAlbumsForArtists(sourceArtists);
+        this.getAlbumsForArtists(selectedArtists);
     }
 
     private getTracks(): void {
@@ -154,15 +152,11 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
             this.getTracksForAlbumKeys(selectedAlbums.map((x) => x.albumKey));
         } else {
             const selectedArtists: ArtistModel[] = this.artistsPersister.getSelectedArtists(this.artists);
-            const sourceArtists: string[] = selectedArtists.reduce<string[]>(
-                (acc, artist) => (artist.sourceNames ? acc.concat(artist.sourceNames) : acc),
-                [],
-            );
-            this.getTracksForArtists(sourceArtists);
+            this.getTracksForArtists(selectedArtists);
         }
     }
 
-    private getTracksForArtists(artists: string[]): void {
+    private getTracksForArtists(artists: ArtistModel[]): void {
         if (artists.length > 0) {
             const artistType: ArtistType = this.artistsPersister.getSelectedArtistType();
             this.tracks = this.trackService.getTracksForArtists(artists, artistType);
@@ -179,12 +173,16 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         }
     }
 
-    private getAlbumsForArtists(artists: string[]): void {
+    private getAlbumsForArtists(artists: ArtistModel[]): void {
         if (artists.length > 0) {
             const selectedArtistType: ArtistType = this.artistsPersister.getSelectedArtistType();
             this.albums = this.albumService.getAlbumsForArtists(artists, selectedArtistType);
         } else {
             this.albums = this.albumService.getAllAlbums();
         }
+    }
+
+    private getArtistsByDisplayNames(displayNames: string[]): ArtistModel[] {
+        return this.artists.filter((artist) => displayNames.includes(artist.displayName));
     }
 }
