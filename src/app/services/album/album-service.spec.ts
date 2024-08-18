@@ -9,6 +9,7 @@ import { AlbumData } from '../../data/entities/album-data';
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { SettingsMock } from '../../testing/settings-mock';
+import { ArtistModel } from '../artist/artist-model';
 
 describe('AlbumService', () => {
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
@@ -80,8 +81,11 @@ describe('AlbumService', () => {
 
             trackRepositoryMock.setup((x) => x.getAlbumDataForTrackArtists('', ['Artist 1', 'Artist 2'])).returns(() => albumDatas);
 
+            const artist1: ArtistModel = new ArtistModel('Artist 1', 'Artist 1', translatorServiceMock.object);
+            const artist2: ArtistModel = new ArtistModel('Artist 2', 'Artist 2', translatorServiceMock.object);
+
             // Act
-            const returnedAlbums: AlbumModel[] = service.getAlbumsForArtists(['Artist 1', 'Artist 2'], ArtistType.trackArtists);
+            const returnedAlbums: AlbumModel[] = service.getAlbumsForArtists([artist1, artist2], ArtistType.trackArtists);
 
             // Assert
             trackRepositoryMock.verify((x) => x.getAlbumDataForTrackArtists('', ['Artist 1', 'Artist 2']), Times.exactly(1));
@@ -100,8 +104,11 @@ describe('AlbumService', () => {
 
             trackRepositoryMock.setup((x) => x.getAlbumDataForAlbumArtists('', ['Artist 1', 'Artist 2'])).returns(() => albumDatas);
 
+            const artist1: ArtistModel = new ArtistModel('Artist 1', 'Artist 1', translatorServiceMock.object);
+            const artist2: ArtistModel = new ArtistModel('Artist 2', 'Artist 2', translatorServiceMock.object);
+
             // Act
-            const returnedAlbums: AlbumModel[] = service.getAlbumsForArtists(['Artist 1', 'Artist 2'], ArtistType.albumArtists);
+            const returnedAlbums: AlbumModel[] = service.getAlbumsForArtists([artist1, artist2], ArtistType.albumArtists);
 
             // Assert
             trackRepositoryMock.verify((x) => x.getAlbumDataForAlbumArtists('', ['Artist 1', 'Artist 2']), Times.exactly(1));
@@ -120,8 +127,11 @@ describe('AlbumService', () => {
             trackRepositoryMock.setup((x) => x.getAlbumDataForTrackArtists('', ['Artist 1', 'Artist 2'])).returns(() => [albumData1]);
             trackRepositoryMock.setup((x) => x.getAlbumDataForAlbumArtists('', ['Artist 1', 'Artist 2'])).returns(() => [albumData2]);
 
+            const artist1: ArtistModel = new ArtistModel('Artist 1', 'Artist 1', translatorServiceMock.object);
+            const artist2: ArtistModel = new ArtistModel('Artist 2', 'Artist 2', translatorServiceMock.object);
+
             // Act
-            const returnedAlbums: AlbumModel[] = service.getAlbumsForArtists(['Artist 1', 'Artist 2'], ArtistType.allArtists);
+            const returnedAlbums: AlbumModel[] = service.getAlbumsForArtists([artist1, artist2], ArtistType.allArtists);
 
             // Assert
             trackRepositoryMock.verify((x) => x.getAlbumDataForTrackArtists('', ['Artist 1', 'Artist 2']), Times.exactly(1));

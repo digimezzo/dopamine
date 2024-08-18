@@ -20,8 +20,8 @@ export class ArtistSplitter {
 
         const returnArtists: ArtistModel[] = [];
 
-        if (separators.length > 0) {
-            for (const artist of artists) {
+        for (const artist of artists) {
+            if (separators.length > 0) {
                 const splitArtists: ArtistModel[] = this.splitArtist(artist, separators, exceptions);
                 for (const splitArtist of splitArtists) {
                     if (
@@ -30,16 +30,27 @@ export class ArtistSplitter {
                             splitArtist.displayName,
                         )
                     ) {
-                        returnArtists
-                            .find((x) => StringUtils.equalsIgnoreCase(x.displayName, splitArtist.displayName))
-                            ?.sourceNames.push(splitArtist.sourceNames[0]);
+                        const returnArtist: ArtistModel | undefined = returnArtists.find((x) =>
+                            StringUtils.equalsIgnoreCase(x.displayName, splitArtist.displayName),
+                        );
+
+                        if (returnArtist && !CollectionUtils.includesIgnoreCase(returnArtist.sourceNames, splitArtist.sourceNames[0])) {
+                            returnArtist.sourceNames.push(splitArtist.sourceNames[0]);
+                        }
                     } else {
                         returnArtists.push(splitArtist);
                     }
                 }
+            } else {
+                if (
+                    !CollectionUtils.includesIgnoreCase(
+                        returnArtists.map((x) => x.displayName),
+                        artist,
+                    )
+                ) {
+                    returnArtists.push(new ArtistModel(artist, artist, this.translatorService));
+                }
             }
-        } else {
-            returnArtists.push(...artists.map((a: string) => new ArtistModel(a, a, this.translatorService)));
         }
 
         return returnArtists;
@@ -50,9 +61,10 @@ export class ArtistSplitter {
         const artists: ArtistModel[] = [];
 
         for (const exception of exceptions) {
-            if (artist.includes(exception)) {
+            if (StringUtils.includesIgnoreCase(artist, exception)) {
                 artists.push(new ArtistModel(originalArtist, exception, this.translatorService));
-                artist = artist.replace(exception, '20384fb2-2042-4779-8fcf-7f24f3807314');
+                const regEx: RegExp = new RegExp(exception, 'ig');
+                artist = artist.replace(regEx, '20384fb2-2042-4779-8fcf-7f24f3807314');
             }
         }
 

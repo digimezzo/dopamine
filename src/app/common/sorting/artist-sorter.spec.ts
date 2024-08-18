@@ -23,16 +23,16 @@ describe('ArtistSorter', () => {
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
-        artistModel1 = new ArtistModel('Artist1', translatorServiceMock.object);
-        artistModel2 = new ArtistModel('Artist2', translatorServiceMock.object);
-        artistModel3 = new ArtistModel('Artist3', translatorServiceMock.object);
-        artistModel4 = new ArtistModel('Artist4', translatorServiceMock.object);
-        artistModel5 = new ArtistModel('Artist5', translatorServiceMock.object);
-        artistModel6 = new ArtistModel('Artist6', translatorServiceMock.object);
-        artistModel7 = new ArtistModel('Artist7', translatorServiceMock.object);
-        artistModel8 = new ArtistModel('Artist8', translatorServiceMock.object);
-        artistModel9 = new ArtistModel('Artist9', translatorServiceMock.object);
-        artistModel10 = new ArtistModel('Artist10', translatorServiceMock.object);
+        artistModel1 = new ArtistModel('Artist1', 'Artist1', translatorServiceMock.object);
+        artistModel2 = new ArtistModel('Artist2', 'Artist2', translatorServiceMock.object);
+        artistModel3 = new ArtistModel('Artist3', 'Artist3', translatorServiceMock.object);
+        artistModel4 = new ArtistModel('Artist4', 'Artist4', translatorServiceMock.object);
+        artistModel5 = new ArtistModel('Artist5', 'Artist5', translatorServiceMock.object);
+        artistModel6 = new ArtistModel('Artist6', 'Artist6', translatorServiceMock.object);
+        artistModel7 = new ArtistModel('Artist7', 'Artist7', translatorServiceMock.object);
+        artistModel8 = new ArtistModel('Artist8', 'Artist8', translatorServiceMock.object);
+        artistModel9 = new ArtistModel('Artist9', 'Artist9', translatorServiceMock.object);
+        artistModel10 = new ArtistModel('Artist10', 'Artist10', translatorServiceMock.object);
 
         artists = [
             artistModel2,

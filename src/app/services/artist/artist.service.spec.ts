@@ -6,18 +6,27 @@ import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { ArtistData } from '../../data/entities/artist-data';
 import { ArtistServiceBase } from './artist.service.base';
+import { ArtistSplitter } from './artist-splitter';
+import { SettingsBase } from '../../common/settings/settings.base';
+import { SettingsMock } from '../../testing/settings-mock';
 
 describe('ArtistService', () => {
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
-
+    let settingsMock: SettingsBase;
+    let artistSplitter: ArtistSplitter;
     let service: ArtistServiceBase;
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
+        settingsMock = new SettingsMock();
+        artistSplitter = new ArtistSplitter(translatorServiceMock.object, settingsMock);
 
-        service = new ArtistService(translatorServiceMock.object, trackRepositoryMock.object);
+        settingsMock.artistSplitSeparators = '';
+        settingsMock.artistSplitExceptions = '';
+
+        service = new ArtistService(artistSplitter, trackRepositoryMock.object);
     });
 
     describe('constructor', () => {
