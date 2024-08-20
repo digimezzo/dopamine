@@ -277,5 +277,8 @@
     "select-playlist-folder": "Моля, изберете папка с плейлист",
     "follow-album-cover-color": "Следвай цвета на корицата на албума",
     "playback-state": "Състояние на възпроизвеждане",
-    "remember-playback-state-after-restart": "Запомняне на състоянието на възпроизвеждане (опашка, напредък, цикъл, разбъркване) след рестартиране"
+    "remember-playback-state-after-restart": "Запомняне на състоянието на възпроизвеждане (опашка, напредък, цикъл, разбъркване) след рестартиране",
+    "split-artists": "Split artists",
+    "split-on-these-symbols": "Split on these symbols",
+    "texts-to-never-split": "Texts to never split"
 }

@@ -276,5 +276,8 @@
     "select-playlist-folder": "Odaberi mapu popisa za reprodukciju",
     "follow-album-cover-color": "Slijedi boju naslovnice albuma",
     "playback-state": "Playback state",
-    "remember-playback-state-after-restart": "Remember playback state (queue, progress, loop, shuffle) after restart"
+    "remember-playback-state-after-restart": "Remember playback state (queue, progress, loop, shuffle) after restart",
+    "split-artists": "Split artists",
+    "split-on-these-symbols": "Split on these symbols",
+    "texts-to-never-split": "Texts to never split"
 }
