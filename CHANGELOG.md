@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0-preview.32] - 2024-08-21
+
+### Fixed
+
+-   Fixes application crash caused by a bug when reading album artist from .wav files
+
 ## [3.0.0-preview.31] - 2024-08-11
 
 ### Fixed
