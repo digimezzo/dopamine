@@ -65,6 +65,7 @@ export class AudioPlayer implements AudioPlayerBase {
     }
 
     public stop(): void {
+        this.audio.currentTime = 0;
         this.audio.pause();
     }
 
