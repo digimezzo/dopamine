@@ -45,7 +45,15 @@ class TagLibFileMetadata {
             }
 
             if (tagLibFile.tag.albumArtists !== undefined) {
-                this.albumArtists = tagLibFile.tag.albumArtists ?? [];
+                if (this.path.toLowerCase().endsWith('.wav')) {
+                    // .wav files have limited tagging capabilities. RIFF INFO tags are used to store metadata in .wav files.
+                    // There seems to be no dedicated tag for album artists in the RIFF INFO tags. Artist is stored in the 'IART' tag.
+                    // node-taglib-sharp reads the album artist from the RIFF 'IART' tag, but adds a null character at the end of the string.
+                    // That is why we remove all null characters from all strings in the array here.
+                    this.albumArtists = (tagLibFile.tag.albumArtists ?? []).map((a) => a.replace(/\u0000/g, ''));
+                } else {
+                    this.albumArtists = tagLibFile.tag.albumArtists ?? [];
+                }
             }
 
             if (tagLibFile.tag.genres !== undefined) {
