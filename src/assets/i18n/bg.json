@@ -280,5 +280,6 @@
     "remember-playback-state-after-restart": "Запомняне на състоянието на възпроизвеждане (опашка, напредък, цикъл, разбъркване) след рестартиране",
     "split-artists": "Split artists",
     "split-on-these-symbols": "Split on these symbols",
-    "texts-to-never-split": "Texts to never split"
+    "texts-to-never-split": "Texts to never split",
+    "add": "Add"
 }

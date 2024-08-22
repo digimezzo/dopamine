@@ -16,4 +16,8 @@ export class BehaviorSettingsComponent {
         public mediaSessionService: MediaSessionServiceBase,
         public settings: SettingsBase,
     ) {}
+
+    public addSplitSeparator(): void {}
+
+    public addSplitException(): void {}
 }
