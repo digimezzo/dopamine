@@ -71,7 +71,7 @@ export class FileService implements FileServiceBase {
 
     private async enqueueGivenParameterFilesAsync(parameters: string[]): Promise<void> {
         const safeParameters: string[] = this.getSafeParameters(parameters);
-        this.logger.info(`Found parameters: ${safeParameters.join(', ')}`, 'FileService', 'enqueueParameterFilesAsync');
+        this.logger.info(`Found parameters: ${safeParameters.join(', ')}`, 'FileService', 'enqueueGivenParameterFilesAsync');
 
         try {
             const trackModels: TrackModel[] = [];
