@@ -1,0 +1,32 @@
+<div class="p-4">
+    <div class="title">{{ 'download' | translate }}</div>
+    <div>
+        <app-toggle-switch [(isChecked)]="settings.downloadMissingAlbumCovers">{{
+            'download-missing-album-covers' | translate
+        }}</app-toggle-switch>
+    </div>
+    <mat-divider class="my-4"></mat-divider>
+    <div class="title">{{ 'refresh' | translate }}</div>
+    <div>{{ 'refresh-all-covers' | translate }}</div>
+    <app-transparent-button class="mt-3" (click)="this.refreshAllCoversAsync()">
+        {{ 'refresh-all' | translate }}
+    </app-transparent-button>
+    <div class="mt-4">{{ 'refresh-missing-covers' | translate }}</div>
+    <app-transparent-button class="mt-3" (click)="this.refreshMissingCoversAsync()">
+        {{ 'refresh-missing' | translate }}
+    </app-transparent-button>
+    <mat-divider class="my-4"></mat-divider>
+    <div class="title">{{ 'grouping' | translate }}</div>
+    <div>
+        <div class="mb-3">{{ 'changing-will-trigger-album-cover-refresh' | translate }}</div>
+        <app-toggle-switch [(isChecked)]="this.albumsDefinedByTitleAndArtist">{{
+            'albums-defined-by-tags-album-title-and-album-artist' | translate
+        }}</app-toggle-switch>
+        <app-toggle-switch [(isChecked)]="this.albumsDefinedByTitle">{{
+            'albums-defined-by-tag-album-title' | translate
+        }}</app-toggle-switch>
+        <app-toggle-switch [(isChecked)]="this.albumsDefinedByFolders">{{
+            'albums-defined-by-folders-on-computer' | translate
+        }}</app-toggle-switch>
+    </div>
+</div>

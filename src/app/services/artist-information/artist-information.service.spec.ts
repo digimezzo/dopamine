@@ -15,6 +15,7 @@ import { Track } from '../../data/entities/track';
 import { DesktopBase } from '../../common/io/desktop.base';
 import { ImageProcessor } from '../../common/image-processor';
 import { OnlineArtistImageGetter } from './online-artist-image-getter';
+import { SettingsMock } from '../../testing/settings-mock';
 
 describe('ArtistInformationService', () => {
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -23,6 +24,7 @@ describe('ArtistInformationService', () => {
     let lastfmApiMock: IMock<LastfmApi>;
     let loggerMock: IMock<Logger>;
     let dateTimeMock: IMock<DateTime>;
+    let settingsMock: any;
 
     function createService(): ArtistInformationServiceBase {
         return new ArtistInformationService(
@@ -38,7 +40,7 @@ describe('ArtistInformationService', () => {
         const track: Track = new Track('path');
         track.artists = `;${artist};`;
 
-        return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
+        return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, settingsMock);
     }
 
     function createArtistWithoutBiography(): LastfmArtist {
@@ -119,6 +121,7 @@ describe('ArtistInformationService', () => {
         lastfmApiMock = Mock.ofType<LastfmApi>();
         loggerMock = Mock.ofType<Logger>();
         dateTimeMock = Mock.ofType<DateTime>();
+        settingsMock = new SettingsMock();
     });
 
     describe('constructor', () => {

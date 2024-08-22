@@ -21,6 +21,19 @@ export class Settings implements SettingsBase {
         return <string>this.settings.get('language');
     }
 
+    // albumKeyIndex
+    public get albumKeyIndex(): string {
+        if (this.albumsDefinedByFolders) {
+            return '3';
+        }
+
+        if (this.albumsDefinedByTitle) {
+            return '2';
+        }
+
+        return '';
+    }
+
     public set language(v: string) {
         this.settings.set('language', v);
     }
@@ -104,6 +117,15 @@ export class Settings implements SettingsBase {
 
     public set followSystemColor(v: boolean) {
         this.settings.set('followSystemColor', v);
+    }
+
+    // followAlbumCoverColor
+    public get followAlbumCoverColor(): boolean {
+        return <boolean>this.settings.get('followAlbumCoverColor');
+    }
+
+    public set followAlbumCoverColor(v: boolean) {
+        this.settings.set('followAlbumCoverColor', v);
     }
 
     // skipRemovedFilesDuringRefresh
@@ -656,6 +678,60 @@ export class Settings implements SettingsBase {
         this.settings.set('keepPlaybackControlsVisibleOnNowPlayingPage', v);
     }
 
+    // albumsDefinedByTitleAndArtist
+    public get albumsDefinedByTitleAndArtist(): boolean {
+        return <boolean>this.settings.get('albumsDefinedByTitleAndArtist');
+    }
+
+    public set albumsDefinedByTitleAndArtist(v: boolean) {
+        this.settings.set('albumsDefinedByTitleAndArtist', v);
+    }
+
+    // albumsDefinedByTitle
+    public get albumsDefinedByTitle(): boolean {
+        return <boolean>this.settings.get('albumsDefinedByTitle');
+    }
+
+    public set albumsDefinedByTitle(v: boolean) {
+        this.settings.set('albumsDefinedByTitle', v);
+    }
+
+    // albumsDefinedByFolders
+    public get albumsDefinedByFolders(): boolean {
+        return <boolean>this.settings.get('albumsDefinedByFolders');
+    }
+
+    public set albumsDefinedByFolders(v: boolean) {
+        this.settings.set('albumsDefinedByFolders', v);
+    }
+
+    // playbackControlsLoop
+    public get playbackControlsLoop(): number {
+        return <number>this.settings.get('playbackControlsLoop');
+    }
+
+    public set playbackControlsLoop(v: number) {
+        this.settings.set('playbackControlsLoop', v);
+    }
+
+    // playbackControlsShuffle
+    public get playbackControlsShuffle(): number {
+        return <number>this.settings.get('playbackControlsShuffle');
+    }
+
+    public set playbackControlsShuffle(v: number) {
+        this.settings.set('playbackControlsShuffle', v);
+    }
+
+    // rememberPlaybackStateAfterRestart
+    public get rememberPlaybackStateAfterRestart(): boolean {
+        return <boolean>this.settings.get('rememberPlaybackStateAfterRestart');
+    }
+
+    public set rememberPlaybackStateAfterRestart(v: boolean) {
+        this.settings.set('rememberPlaybackStateAfterRestart', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -696,6 +772,10 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('followSystemColor')) {
             this.settings.set('followSystemColor', false);
+        }
+
+        if (!this.settings.has('followAlbumCoverColor')) {
+            this.settings.set('followAlbumCoverColor', false);
         }
 
         if (!this.settings.has('skipRemovedFilesDuringRefresh')) {
@@ -936,6 +1016,30 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('keepPlaybackControlsVisibleOnNowPlayingPage')) {
             this.settings.set('keepPlaybackControlsVisibleOnNowPlayingPage', false);
+        }
+
+        if (!this.settings.has('albumsDefinedByTitleAndArtist')) {
+            this.settings.set('albumsDefinedByTitleAndArtist', true);
+        }
+
+        if (!this.settings.has('albumsDefinedByTitle')) {
+            this.settings.set('albumsDefinedByTitle', false);
+        }
+
+        if (!this.settings.has('albumsDefinedByFolders')) {
+            this.settings.set('albumsDefinedByFolders', false);
+        }
+
+        if (!this.settings.has('playbackControlsLoop')) {
+            this.settings.set('playbackControlsLoop', 0);
+        }
+
+        if (!this.settings.has('playbackControlsShuffle')) {
+            this.settings.set('playbackControlsShuffle', false);
+        }
+
+        if (!this.settings.has('rememberPlaybackStateAfterRestart')) {
+            this.settings.set('rememberPlaybackStateAfterRestart', true);
         }
     }
 }

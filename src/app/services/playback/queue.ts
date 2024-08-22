@@ -3,7 +3,7 @@ import { Logger } from '../../common/logger';
 import { Shuffler } from '../../common/shuffler';
 import { TrackModel } from '../track/track-model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class Queue {
     private _tracks: TrackModel[] = [];
     private playbackOrder: number[] = [];
@@ -52,6 +52,13 @@ export class Queue {
         }
 
         this.logger.info(`Added '${tracksToAdd?.length}' tracks`, 'Queue', 'addTracks');
+    }
+
+    public restoreTracks(tracks: TrackModel[], playbackOrder: number[]): void {
+        this._tracks = tracks;
+        this.playbackOrder = playbackOrder;
+
+        this.logger.info(`Restored '${tracks?.length}' tracks`, 'Queue', 'restoreTracks');
     }
 
     public removeTracks(tracksToRemove: TrackModel[] | undefined): void {
@@ -110,7 +117,7 @@ export class Queue {
             return this._tracks[this.playbackOrder[minimumIndex]];
         }
 
-        const currentIndex: number = this.findPlaybackOrderIndex(currentTrack);
+        const currentIndex: number = this.getPlaybackOrderIndex(currentTrack);
 
         if (currentIndex > minimumIndex) {
             return this._tracks[this.playbackOrder[currentIndex - 1]];
@@ -139,7 +146,7 @@ export class Queue {
             return this._tracks[this.playbackOrder[minimumIndex]];
         }
 
-        const currentIndex: number = this.findPlaybackOrderIndex(currentTrack);
+        const currentIndex: number = this.getPlaybackOrderIndex(currentTrack);
 
         if (currentIndex < maximumIndex) {
             return this._tracks[this.playbackOrder[currentIndex + 1]];
@@ -164,7 +171,7 @@ export class Queue {
         this.playbackOrder = this.shuffler.shuffle<number>(this.playbackOrder);
     }
 
-    private findPlaybackOrderIndex(track: TrackModel): number {
+    public getPlaybackOrderIndex(track: TrackModel): number {
         const queuedTracksIndex: number = this._tracks.indexOf(track);
 
         return this.playbackOrder.indexOf(queuedTracksIndex);

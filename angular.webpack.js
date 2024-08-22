@@ -20,6 +20,5 @@ module.exports = {
         net: 'commonjs net',
         querystring: 'commonjs querystring',
         url: 'commonjs url',
-        sharp: 'commonjs sharp',
     },
 };

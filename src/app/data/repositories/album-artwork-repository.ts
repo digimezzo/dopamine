@@ -42,13 +42,13 @@ export class AlbumArtworkRepository implements AlbumArtworkRepositoryBase {
         return result.numberOfAlbumArtwork;
     }
 
-    public getNumberOfAlbumArtworkThatHasNoTrack(): number {
+    public getNumberOfAlbumArtworkThatHasNoTrack(albumKeyIndex: string): number {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
             `SELECT COUNT(*) AS numberOfAlbumArtwork
             FROM AlbumArtwork
-            WHERE AlbumKey NOT IN (SELECT AlbumKey FROM Track);`,
+            WHERE AlbumKey NOT IN (SELECT AlbumKey${albumKeyIndex} FROM Track);`,
         );
 
         const result: any = statement.get();
@@ -56,32 +56,32 @@ export class AlbumArtworkRepository implements AlbumArtworkRepositoryBase {
         return result.numberOfAlbumArtwork;
     }
 
-    public deleteAlbumArtworkThatHasNoTrack(): number {
+    public deleteAlbumArtworkThatHasNoTrack(albumKeyIndex: string): number {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare('DELETE FROM AlbumArtwork WHERE AlbumKey NOT IN (SELECT AlbumKey FROM Track);');
+        const statement = database.prepare(`DELETE FROM AlbumArtwork WHERE AlbumKey NOT IN (SELECT AlbumKey${albumKeyIndex} FROM Track);`);
 
         const info = statement.run();
 
         return info.changes;
     }
 
-    public getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(): number {
+    public getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(albumKeyIndex: string): number {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(`SELECT COUNT(*) AS numberOfAlbumArtwork FROM AlbumArtwork
-        WHERE AlbumKey IN (SELECT AlbumKey FROM Track WHERE NeedsAlbumArtworkIndexing = 1);`);
+        WHERE AlbumKey IN (SELECT AlbumKey${albumKeyIndex} FROM Track WHERE NeedsAlbumArtworkIndexing = 1);`);
 
         const result: any = statement.get();
 
         return result.numberOfAlbumArtwork;
     }
 
-    public deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(): number {
+    public deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(albumKeyIndex: string): number {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(`DELETE FROM AlbumArtwork
-        WHERE AlbumKey IN (SELECT AlbumKey FROM Track WHERE NeedsAlbumArtworkIndexing = 1);`);
+        WHERE AlbumKey IN (SELECT AlbumKey${albumKeyIndex} FROM Track WHERE NeedsAlbumArtworkIndexing = 1);`);
 
         const info = statement.run();
 

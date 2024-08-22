@@ -63,7 +63,6 @@
     "thanks-to-developers": "Vývojářům, kteří vytvořili komponenty, které používáme.",
     "thanks-to-neowin": "Neowinu za jejich skvělé nápady, testování a nahlašování chyb.",
     "refresh": "Obnovit",
-    "album-covers": "Obaly alb",
     "add-folders-with-your-music": "Přidat složky obsahující vaší hudbu do vaší sbírky",
     "select-folder": "Vybrat složku",
     "delete-folder": "Odstranit složku",
@@ -268,5 +267,14 @@
     "show-welcome-screen-now": "Zobrazit uvítací obrazovku nyní",
     "keep-playback-controls-visible-on-now-playing-page": "Keep playback controls visible on now playing page",
     "open-folder": "Open folder",
-    "download-lyrics-online": "Download lyrics online"
+    "download-lyrics-online": "Download lyrics online",
+    "grouping": "Grouping",
+    "albums-defined-by-folders-on-computer": "Albums are defined by their folders on your computer",
+    "albums-defined-by-tag-album-title": "Albums are defined by the 'Album' tag",
+    "albums-defined-by-tags-album-title-and-album-artist": "Albums are defined by the 'Album' and 'Album Artist' tags",
+    "changing-will-trigger-album-cover-refresh": "Changing this option will trigger a refresh of your album covers",
+    "select-playlist-folder": "Please select a playlist folder",
+    "follow-album-cover-color": "Follow the album cover color",
+    "playback-state": "Playback state",
+    "remember-playback-state-after-restart": "Remember playback state (queue, progress, loop, shuffle) after restart"
 }

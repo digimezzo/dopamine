@@ -16,8 +16,6 @@ async function performTaskAsync() {
             await indexer.indexCollectionIfOutdatedAsync();
         } else if (workerProxy.task() === 'always') {
             await indexer.indexCollectionAlwaysAsync();
-        } else if (workerProxy.task() === 'albumArtwork') {
-            await indexer.indexAlbumArtworkOnlyAsync();
         }
     } catch (e) {
         logger.error(e, 'Unexpected error', 'IndexingWorker', 'performTaskAsync');

@@ -43,6 +43,7 @@ export class Constants {
     public static readonly semanticZoomInDelayMilliseconds: number = 100;
     public static readonly semanticZoomOutDelayMilliseconds: number = 100;
     public static readonly playbackInfoSwitchAnimationMilliseconds: number = 250;
+    public static readonly playlistsSaveDelayMilliseconds: number = 1000;
 
     public static readonly fontSizes: number[] = [12, 13, 14, 15];
 

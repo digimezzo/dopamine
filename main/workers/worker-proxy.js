@@ -13,10 +13,6 @@ class WorkerProxy {
         return workerData.arg.applicationDataDirectory;
     }
 
-    downloadMissingAlbumCovers() {
-        return workerData.arg.downloadMissingAlbumCovers;
-    }
-
     skipRemovedFilesDuringRefresh() {
         return workerData.arg.skipRemovedFilesDuringRefresh;
     }

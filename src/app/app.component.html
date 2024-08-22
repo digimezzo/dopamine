@@ -1,7 +1,10 @@
-<mat-drawer-container class="mat-drawer-container" hasBackdrop="true">
-    <mat-drawer class="mat-drawer-container__drawer" #playbackQueueDrawer mode="over" position="end"
-        ><app-playback-queue></app-playback-queue
-    ></mat-drawer>
+<div *ngIf="this.lifetimeService.isPerformingClosingTasks" class="d-flex w-100 h-100 align-items-center justify-content-center">
+    <mat-progress-spinner mode="indeterminate" [diameter]="70"></mat-progress-spinner>
+</div>
+<mat-drawer-container *ngIf="!this.lifetimeService.isPerformingClosingTasks" class="mat-drawer-container" hasBackdrop="true">
+    <mat-drawer class="mat-drawer-container__drawer" #playbackQueueDrawer mode="over" position="end">
+        <app-playback-queue></app-playback-queue>
+    </mat-drawer>
     <mat-drawer-content>
         <router-outlet></router-outlet>
     </mat-drawer-content>

@@ -1,5 +1,6 @@
 export abstract class SettingsBase {
     public abstract get defaultLanguage(): string;
+    public abstract get albumKeyIndex(): string;
     public abstract language: string;
     public abstract checkForUpdates: boolean;
     public abstract checkForUpdatesIncludesPreReleases: boolean;
@@ -10,6 +11,7 @@ export abstract class SettingsBase {
     public abstract followSystemTheme: boolean;
     public abstract useLightBackgroundTheme: boolean;
     public abstract followSystemColor: boolean;
+    public abstract followAlbumCoverColor: boolean;
     public abstract skipRemovedFilesDuringRefresh: boolean;
     public abstract downloadMissingAlbumCovers: boolean;
     public abstract showAllFoldersInCollection: boolean;
@@ -71,4 +73,10 @@ export abstract class SettingsBase {
     public abstract audioVisualizerStyle: string;
     public abstract audioVisualizerFrameRate: number;
     public abstract keepPlaybackControlsVisibleOnNowPlayingPage: boolean;
+    public abstract albumsDefinedByTitleAndArtist: boolean;
+    public abstract albumsDefinedByTitle: boolean;
+    public abstract albumsDefinedByFolders: boolean;
+    public abstract playbackControlsLoop: number;
+    public abstract playbackControlsShuffle: number;
+    public abstract rememberPlaybackStateAfterRestart: boolean;
 }

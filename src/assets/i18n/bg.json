@@ -264,9 +264,18 @@
     "play-all": "Пусни всички",
     "shuffle-all": "Разбъркайте всички",
     "no-lyrics-found": "Няма намерени текстове",
-    "no-biography-found": "No biography was found",
-    "show-welcome-screen-now": "Show welcome screen now",
-    "keep-playback-controls-visible-on-now-playing-page": "Keep playback controls visible on now playing page",
-    "open-folder": "Open folder",
-    "download-lyrics-online": "Download lyrics online"
+    "no-biography-found": "Няма открита биография",
+    "show-welcome-screen-now": "Покажете екрана за добре дошли сега",
+    "keep-playback-controls-visible-on-now-playing-page": "Показвайте контролите за възпроизвеждане на страницата Възпроизвеждани в момента",
+    "open-folder": "Отвори папка",
+    "download-lyrics-online": "Свали текстове онлайн",
+    "grouping": "Групиране",
+    "albums-defined-by-folders-on-computer": "Албумите се определят от техните папки на вашия компютър",
+    "albums-defined-by-tag-album-title": "Албумите се определят от етикета „Албум",
+    "albums-defined-by-tags-album-title-and-album-artist": "Албумите се определят от етикетите „Албум“ и „Изпълнител на албума",
+    "changing-will-trigger-album-cover-refresh": "Промяната на тази опция ще задейства опресняване на кориците на вашите албуми",
+    "select-playlist-folder": "Моля, изберете папка с плейлист",
+    "follow-album-cover-color": "Следвай цвета на корицата на албума",
+    "playback-state": "Състояние на възпроизвеждане",
+    "remember-playback-state-after-restart": "Запомняне на състоянието на възпроизвеждане (опашка, напредък, цикъл, разбъркване) след рестартиране"
 }

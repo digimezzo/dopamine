@@ -3,7 +3,80 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0-preview.26] - 2024-03-24
+## [3.0.0-preview.32] - 2024-08-22
+
+### Fixed
+
+-   Fixes application crash caused by a bug when reading album artist from .wav files
+-   Fixes incorrect start position when starting songs by double-click in file explorer
+
+## [3.0.0-preview.31] - 2024-08-11
+
+### Fixed
+
+-   Fixes application crash when using Bulgarian translation
+
+## [3.0.0-preview.30] - 2024-08-05
+
+### Added
+
+-   When moving songs inside playlists, the playlist song order is now remembered after a restart.
+
+### Changed
+
+-   Updated Bulgarian translation
+-   Updated Vietnamese translation
+
+## [3.0.0-preview.29] - 2024-08-04
+
+### Added
+
+-   The playback state (queue, playing song, playback progress) are now remembered after a restart together with loop and shuffle state
+
+### Changed
+
+-   Updated Croatian translation
+-   Updated Vietnamese translation
+
+### Fixed
+
+-   Fixed a crash that can occur when indexing album covers on Linux
+
+## [3.0.0-preview.28] - 2024-07-27
+
+### Added
+
+-   Added option to follow the album cover color
+-   Added option to remember playback controls (loop, shuffle) after a restart
+
+### Changed
+
+-   Improved loop one button
+
+## [3.0.0-preview.27] - 2024-07-08
+
+### Added
+
+-   Added album grouping settings
+
+### Changed
+
+-   Updated Swedish translation
+
+### Fixed
+
+-   When no playlist folder is selected, creating a playlist does nothing.
+
+## [3.0.0-preview.26] - 2024-06-30
+
+### Added
+
+-   Added a setting to toggle downloading of online lyrics
+
+### Changed
+
+-   Updated Simplified Chinese translation
+-   Updated Russian translation
 
 ### Fixed
 
@@ -11,10 +84,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Pressing 'Space' key when editing Playlist toggles play
 -   Files don't play if they contain '?' in file name or path
 -   Sorting is not alphanumeric (1, 10, 2 instead of 1, 2, 10)
-
-### Added
-
--   Added a setting to toggle downloading of online lyrics
+-   Javascript error when closing Dopamine while it is indexing
+-   Search does not work in 'Genres' tab
 
 ## [3.0.0-preview.25] - 2024-03-01
 

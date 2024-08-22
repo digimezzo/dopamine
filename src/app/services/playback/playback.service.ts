@@ -21,6 +21,8 @@ import { AudioPlayerBase } from './audio-player.base';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { NotificationServiceBase } from '../notification/notification.service.base';
 import { TrackSorter } from '../../common/sorting/track-sorter';
+import { QueuePersister } from './queue-persister';
+import { QueueRestoreInfo } from './queue-restore-info';
 
 @Injectable()
 export class PlaybackService implements PlaybackServiceBase {
@@ -44,6 +46,7 @@ export class PlaybackService implements PlaybackServiceBase {
         private trackService: TrackServiceBase,
         private playlistService: PlaylistServiceBase,
         private notificationService: NotificationServiceBase,
+        private queuePersister: QueuePersister,
         private _audioPlayer: AudioPlayerBase,
         private trackSorter: TrackSorter,
         private queue: Queue,
@@ -182,8 +185,7 @@ export class PlaybackService implements PlaybackServiceBase {
     public async addArtistToQueueAsync(artistToAdd: ArtistModel, artistType: ArtistType): Promise<void> {
         const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToAdd.displayName], artistType);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForArtists.tracks);
-        this.queue.addTracks(orderedTracks);
-        await this.notifyOfTracksAddedToPlaybackQueueAsync(orderedTracks.length);
+        await this.addTracksToQueueAsync(orderedTracks);
     }
 
     public async addGenreToQueueAsync(genreToAdd: GenreModel): Promise<void> {
@@ -193,15 +195,13 @@ export class PlaybackService implements PlaybackServiceBase {
 
         const tracksForGenre: TrackModels = this.trackService.getTracksForGenres([genreToAdd.displayName]);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForGenre.tracks);
-        this.queue.addTracks(orderedTracks);
-        await this.notifyOfTracksAddedToPlaybackQueueAsync(orderedTracks.length);
+        await this.addTracksToQueueAsync(orderedTracks);
     }
 
     public async addAlbumToQueueAsync(albumToAdd: AlbumModel): Promise<void> {
         const tracksForAlbum: TrackModels = this.trackService.getTracksForAlbums([albumToAdd.albumKey]);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForAlbum.tracks);
-        this.queue.addTracks(orderedTracks);
-        await this.notifyOfTracksAddedToPlaybackQueueAsync(orderedTracks.length);
+        await this.addTracksToQueueAsync(orderedTracks);
     }
 
     public async addPlaylistToQueueAsync(playlistToAdd: PlaylistModel): Promise<void> {
@@ -210,8 +210,7 @@ export class PlaybackService implements PlaybackServiceBase {
         }
 
         const tracksForPlaylist: TrackModels = await this.playlistService.getTracksAsync([playlistToAdd]);
-        this.queue.addTracks(tracksForPlaylist.tracks);
-        await this.notifyOfTracksAddedToPlaybackQueueAsync(tracksForPlaylist.tracks.length);
+        await this.addTracksToQueueAsync(tracksForPlaylist.tracks);
     }
 
     public removeFromQueue(tracksToRemove: TrackModel[]): void {
@@ -231,12 +230,13 @@ export class PlaybackService implements PlaybackServiceBase {
 
         if (this._loopMode === LoopMode.None) {
             this._loopMode = LoopMode.All;
+            this.settings.playbackControlsLoop = 2;
         } else if (this._loopMode === LoopMode.All) {
             this._loopMode = LoopMode.One;
-        } else if (this._loopMode === LoopMode.One) {
-            this._loopMode = LoopMode.None;
+            this.settings.playbackControlsLoop = 1;
         } else {
             this._loopMode = LoopMode.None;
+            this.settings.playbackControlsLoop = 0;
         }
 
         this.logger.info(`Toggled loopMode from ${oldLoopMode} to ${this._loopMode}`, 'PlaybackService', 'toggleLoopMode');
@@ -247,8 +247,10 @@ export class PlaybackService implements PlaybackServiceBase {
 
         if (this._isShuffled) {
             this.queue.shuffle();
+            this.settings.playbackControlsShuffle = 1;
         } else {
             this.queue.unShuffle();
+            this.settings.playbackControlsShuffle = 0;
         }
 
         this.logger.info(`Toggled isShuffled from ${!this._isShuffled} to ${this._isShuffled}`, 'PlaybackService', 'toggleIsShuffled');
@@ -333,6 +335,12 @@ export class PlaybackService implements PlaybackServiceBase {
 
     public skipByFractionOfTotalSeconds(fractionOfTotalSeconds: number): void {
         const seconds: number = fractionOfTotalSeconds * this.audioPlayer.totalSeconds;
+        this.audioPlayer.skipToSeconds(seconds);
+        this._progress = this.progressUpdater.getCurrentProgress();
+        this.playbackSkipped.next();
+    }
+
+    private skipToSeconds(seconds: number): void {
         this.audioPlayer.skipToSeconds(seconds);
         this._progress = this.progressUpdater.getCurrentProgress();
         this.playbackSkipped.next();
@@ -488,6 +496,38 @@ export class PlaybackService implements PlaybackServiceBase {
             await this.notificationService.singleTrackAddedToPlaybackQueueAsync();
         } else {
             await this.notificationService.multipleTracksAddedToPlaybackQueueAsync(numberOfAddedTracks);
+        }
+    }
+
+    public async initializeAsync(): Promise<void> {
+        if (this.settings.rememberPlaybackStateAfterRestart) {
+            if (this.settings.playbackControlsLoop !== 0) {
+                this._loopMode = this.settings.playbackControlsLoop === 1 ? LoopMode.One : LoopMode.All;
+            }
+
+            if (this.settings.playbackControlsShuffle === 1) {
+                this._isShuffled = true;
+            }
+
+            await this.restoreQueueAsync();
+        }
+    }
+
+    public saveQueue(): void {
+        if (this.settings.rememberPlaybackStateAfterRestart) {
+            this.queuePersister.save(this.queue, this.currentTrack, this.progress.progressSeconds);
+        }
+    }
+
+    private async restoreQueueAsync(): Promise<void> {
+        const info: QueueRestoreInfo = await this.queuePersister.restoreAsync();
+        this.queue.restoreTracks(info.tracks, info.playbackOrder);
+
+        if (info.playingTrack) {
+            this.play(info.playingTrack, false);
+            this.pause();
+            this.skipToSeconds(info.progressSeconds);
+            this.progressUpdater.startUpdatingProgress();
         }
     }
 }

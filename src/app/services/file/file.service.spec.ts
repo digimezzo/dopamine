@@ -12,6 +12,7 @@ import { ApplicationBase } from '../../common/io/application.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { FileServiceBase } from './file.service.base';
 import { Track } from '../../data/entities/track';
+import { SettingsMock } from '../../testing/settings-mock';
 
 describe('FileService', () => {
     let playbackServiceMock: IMock<PlaybackServiceBase>;
@@ -20,6 +21,7 @@ describe('FileService', () => {
     let fileValidatorMock: IMock<FileValidator>;
     let applicationMock: IMock<ApplicationBase>;
     let loggerMock: IMock<Logger>;
+    let settingsMock: any;
 
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -50,6 +52,7 @@ describe('FileService', () => {
         fileValidatorMock = Mock.ofType<FileValidator>();
         applicationMock = Mock.ofType<ApplicationBase>();
         loggerMock = Mock.ofType<Logger>();
+        settingsMock = new SettingsMock();
 
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
@@ -62,11 +65,15 @@ describe('FileService', () => {
 
         trackModelFactoryMock
             .setup((x) => x.createFromFileAsync('file 1.mp3'))
-            .returns(() => Promise.resolve(new TrackModel(new Track('file 1.mp3'), dateTimeMock.object, translatorServiceMock.object)));
+            .returns(() =>
+                Promise.resolve(new TrackModel(new Track('file 1.mp3'), dateTimeMock.object, translatorServiceMock.object, settingsMock)),
+            );
 
         trackModelFactoryMock
             .setup((x) => x.createFromFileAsync('file 2.ogg'))
-            .returns(() => Promise.resolve(new TrackModel(new Track('file 2.ogg'), dateTimeMock.object, translatorServiceMock.object)));
+            .returns(() =>
+                Promise.resolve(new TrackModel(new Track('file 2.ogg'), dateTimeMock.object, translatorServiceMock.object, settingsMock)),
+            );
 
         argumentsReceivedMock = new Subject();
         argumentsReceivedMock$ = argumentsReceivedMock.asObservable();

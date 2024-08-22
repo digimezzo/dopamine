@@ -15,6 +15,28 @@ class AlbumKeyGenerator {
 
         return '';
     }
+
+    generateAlbumKey2(albumTitle) {
+        if (albumTitle !== undefined && albumTitle.length > 0) {
+            const albumKeyItems = [];
+            albumKeyItems.push(albumTitle);
+
+            return DataDelimiter.toDelimitedString(albumKeyItems);
+        }
+
+        return '';
+    }
+
+    generateAlbumKey3(folder) {
+        if (folder !== undefined && folder.length > 0) {
+            const albumKeyItems = [];
+            albumKeyItems.push(folder);
+
+            return DataDelimiter.toDelimitedString(albumKeyItems);
+        }
+
+        return '';
+    }
 }
 
 exports.AlbumKeyGenerator = AlbumKeyGenerator;

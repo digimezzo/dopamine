@@ -9,7 +9,7 @@
                 {{ 'refresh' | translate }}
             </app-sub-menu-item>
             <app-sub-menu-item [page]="2" [selectedPage]="this.page" (click)="this.setPage(2)">
-                {{ 'album-covers' | translate }}
+                {{ 'albums' | translate }}
             </app-sub-menu-item>
         </app-sub-menu>
         <div class="window-frame__dragarea"></div>
@@ -25,7 +25,7 @@
         <app-manage-refresh *ngIf="this.leftToRight(1)" [@enterLeftToRight]></app-manage-refresh>
         <app-manage-refresh *ngIf="this.rightToLeft(1)" [@enterRightToLeft]></app-manage-refresh>
         <!-- Album-covers -->
-        <app-manage-album-covers *ngIf="this.leftToRight(2)" [@enterLeftToRight]></app-manage-album-covers>
-        <app-manage-album-covers *ngIf="this.rightToLeft(2)" [@enterRightToLeft]></app-manage-album-covers>
+        <app-manage-albums *ngIf="this.leftToRight(2)" [@enterLeftToRight]></app-manage-albums>
+        <app-manage-albums *ngIf="this.rightToLeft(2)" [@enterRightToLeft]></app-manage-albums>
     </div>
 </div>

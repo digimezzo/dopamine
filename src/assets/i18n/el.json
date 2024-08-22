@@ -63,7 +63,6 @@
     "thanks-to-developers": "Στους προγραμματιστές που έφτιαξαν components τα οποία χρησιμοποιούμε.",
     "thanks-to-neowin": "Στον Neowin για τις ωραίες του ιδέες, δοκιμές και bug reports.",
     "refresh": "Φρεσκάρισμα",
-    "album-covers": "Εξώφυλλα άλμπουμ",
     "add-folders-with-your-music": "Προσθήκη φακέλων με την μουσική σου στην συλλογή σου",
     "select-folder": "Επιλογή φακέλου",
     "delete-folder": "Διαγραφή φακέλου",
@@ -268,5 +267,14 @@
     "show-welcome-screen-now": "Show welcome screen now",
     "keep-playback-controls-visible-on-now-playing-page": "Keep playback controls visible on now playing page",
     "open-folder": "Open folder",
-    "download-lyrics-online": "Download lyrics online"
+    "download-lyrics-online": "Download lyrics online",
+    "grouping": "Grouping",
+    "albums-defined-by-folders-on-computer": "Albums are defined by their folders on your computer",
+    "albums-defined-by-tag-album-title": "Albums are defined by the 'Album' tag",
+    "albums-defined-by-tags-album-title-and-album-artist": "Albums are defined by the 'Album' and 'Album Artist' tags",
+    "changing-will-trigger-album-cover-refresh": "Changing this option will trigger a refresh of your album covers",
+    "select-playlist-folder": "Please select a playlist folder",
+    "follow-album-cover-color": "Follow the album cover color",
+    "playback-state": "Playback state",
+    "remember-playback-state-after-restart": "Remember playback state (queue, progress, loop, shuffle) after restart"
 }

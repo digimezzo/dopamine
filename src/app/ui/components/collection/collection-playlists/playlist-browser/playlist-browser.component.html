@@ -1,4 +1,7 @@
-<div class="h-100 w-100 d-flex flex-column" #playlistBrowserElement>
+<div class="h-100 w-100 d-flex align-items-center justify-content-center" *ngIf="!this.playlistService.hasActivePlaylistFolder">
+    {{ 'select-playlist-folder' | translate }}
+</div>
+<div class="h-100 w-100 d-flex flex-column" #playlistBrowserElement *ngIf="this.playlistService.hasActivePlaylistFolder">
     <div class="h-24px align-items-center justify-content-between d-flex flex-row m-1">
         <div class="d-flex flex-row align-items-center">
             <div class="mr-2 accent-color">{{ this.playlists.length }}</div>

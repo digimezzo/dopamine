@@ -63,7 +63,6 @@
     "thanks-to-developers": "Aan de ontwikkelaars die de componenten hebben gemaakt die we gebruiken.",
     "thanks-to-neowin": "Aan Neowin voor hun geweldige ideeën, testen en bugrapporten.",
     "refresh": "Verversen",
-    "album-covers": "Albumhoezen",
     "add-folders-with-your-music": "Voeg mappen met jouw muziek toe aan jouw collectie",
     "select-folder": "Map selecteren",
     "delete-folder": "Map verwijderen",
@@ -268,5 +267,14 @@
     "show-welcome-screen-now": "Toon nu het welkomstscherm",
     "keep-playback-controls-visible-on-now-playing-page": "Houd de afspeelknoppen zichtbaar op de 'Speel nu' pagina",
     "open-folder": "Open folder",
-    "download-lyrics-online": "Download songteksten online"
+    "download-lyrics-online": "Download songteksten online",
+    "grouping": "Groepering",
+    "albums-defined-by-folders-on-computer": "Albums worden gedefinieerd aan de hand van hun mappen op uw computer",
+    "albums-defined-by-tag-album-title": "Albums worden gedefinieerd door de tag 'Album'",
+    "albums-defined-by-tags-album-title-and-album-artist": "Albums worden gedefinieerd door de tags 'Album' en 'Albumartiest'",
+    "changing-will-trigger-album-cover-refresh": "Als je deze optie wijzigt, worden jouw albumhoezen ververst.",
+    "select-playlist-folder": "Selecteer een afspeellijstmap",
+    "follow-album-cover-color": "Volg de kleur van de albumhoes",
+    "playback-state": "Afspeelstatus",
+    "remember-playback-state-after-restart": "Onthoud de afspeelstatus (Afspeelwachtrij, voortgang, lus, shuffle) na opnieuw opstarten"
 }

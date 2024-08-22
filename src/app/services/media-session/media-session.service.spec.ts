@@ -51,7 +51,7 @@ describe('MediaSessionService', () => {
         const translatorServiceMock: IMock<TranslatorServiceBase> = Mock.ofType<TranslatorServiceBase>();
         const dateTimeMock: IMock<DateTime> = Mock.ofType<DateTime>();
 
-        const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
+        const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, settingsMock);
 
         const playbackInformation: PlaybackInformation = new PlaybackInformation(trackModel, 'image1');
 

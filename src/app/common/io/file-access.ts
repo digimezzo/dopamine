@@ -239,8 +239,9 @@ export class FileAccess implements FileAccessBase {
         await fs.outputFile(filePath, `${text}${os.EOL}`, { flag: 'a' });
     }
 
-    public async replaceTextInFileAsync(filePath: string, text: string): Promise<void> {
-        await fs.outputFile(filePath, `${text}${os.EOL}`);
+    public async replaceMultiLineTextInFileAsync(filePath: string, textLines: string[]): Promise<void> {
+        const multiLineText: string = textLines.join(os.EOL);
+        await fs.outputFile(filePath, `${multiLineText}${os.EOL}`);
     }
 
     public async clearFileContentsAsync(filePath: string): Promise<void> {

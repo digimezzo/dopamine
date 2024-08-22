@@ -18,34 +18,26 @@ describe('BackButtonComponent', () => {
 
     describe('constructor', () => {
         it('should create', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
+            // Arrange, Act, Assert
             expect(component).toBeDefined();
         });
     });
 
     describe('goBackToCollection', () => {
         it('should navigate to collection', async () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             await component.goBackToCollectionAsync();
 
             // Assert
             navigationServiceMock.verify((x) => x.navigateToCollectionAsync(), Times.exactly(1));
         });
 
-        it('should index collection if folders have changed', async () => {
-            // Arrange
-
-            // Act
+        it('should index collection if options have changed', async () => {
+            // Arrange, Act
             await component.goBackToCollectionAsync();
 
             // Assert
-            indexingServiceMock.verify((x) => x.indexCollectionIfFoldersHaveChanged(), Times.exactly(1));
+            indexingServiceMock.verify((x) => x.indexCollectionIfOptionsHaveChangedAsync(), Times.exactly(1));
         });
     });
 });

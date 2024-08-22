@@ -30,10 +30,7 @@ import { LastfmApi } from './common/api/lastfm/lastfm.api';
 import { AlbumKeyGenerator } from './data/album-key-generator';
 import { DatabaseFactory } from './data/database-factory';
 import { DatabaseMigrator } from './data/database-migrator';
-import { AlbumArtworkRepository } from './data/repositories/album-artwork-repository';
 import { FolderRepository } from './data/repositories/folder-repository';
-import { FolderTrackRepository } from './data/repositories/folder-track-repository';
-import { RemovedTrackRepository } from './data/repositories/removed-track-repository';
 import { TrackRepository } from './data/repositories/track-repository';
 import { DateTime } from './common/date-time';
 import { GuidFactory } from './common/guid.factory';
@@ -118,7 +115,7 @@ import { LogoFullComponent } from './ui/components/logo-full/logo-full.component
 import { LogoSmallComponent } from './ui/components/logo-small/logo-small.component';
 import { LoveComponent } from './ui/components/love/love.component';
 import { MainMenuComponent } from './ui/components/main-menu/main-menu.component';
-import { ManageAlbumCoversComponent } from './ui/components/manage-collection/manage-album-covers/manage-album-covers.component';
+import { ManageAlbumsComponent } from './ui/components/manage-collection/manage-albums/manage-albums.component';
 import { ManageCollectionComponent } from './ui/components/manage-collection/manage-collection.component';
 import { ManageMusicComponent } from './ui/components/manage-collection/manage-music/manage-music.component';
 import { ManageRefreshComponent } from './ui/components/manage-collection/manage-refresh/manage-refresh.component';
@@ -253,10 +250,7 @@ import { ChartLyricsApi } from './common/api/lyrics/chart-lyrics.api';
 import { WebSearchLyricsApi } from './common/api/lyrics/web-search-lyrics/web-search-lyrics.api';
 import { WebSearchApi } from './common/api/lyrics/web-search-lyrics/web-search.api';
 import { ArtistsFilterPipe } from './ui/pipes/artists-filter.pipe';
-import { AlbumArtworkRepositoryBase } from './data/repositories/album-artwork-repository.base';
-import { FolderTrackRepositoryBase } from './data/repositories/folder-track-repository.base';
 import { TrackRepositoryBase } from './data/repositories/track-repository.base';
-import { RemovedTrackRepositoryBase } from './data/repositories/removed-track-repository.base';
 import { FolderRepositoryBase } from './data/repositories/folder-repository.base';
 import { DatabaseMigratorBase } from './data/database-migrator.base';
 import { ApplicationBase } from './common/io/application.base';
@@ -305,6 +299,12 @@ import { EmbeddedAlbumArtworkGetter } from './services/indexing/embedded-album-a
 import { OnlineAlbumArtworkGetter } from './services/indexing/online-album-artwork-getter';
 import { ExternalAlbumArtworkGetter } from './services/indexing/external-album-artwork-getter';
 import { ExternalArtworkPathGetter } from './services/indexing/external-artwork-path-getter';
+import { AlbumArtworkRepositoryBase } from './data/repositories/album-artwork-repository.base';
+import { AlbumArtworkRepository } from './data/repositories/album-artwork-repository';
+import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-artwork-cache.service';
+import { AlbumArtworkCacheServiceBase } from './services/album-artwork-cache/album-artwork-cache.service.base';
+import { QueuedTrackRepositoryBase } from './data/repositories/queued-track-repository.base';
+import { QueuedTrackRepository } from './data/repositories/queued-track-repository';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -363,7 +363,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         ManageCollectionComponent,
         ManageMusicComponent,
         ManageRefreshComponent,
-        ManageAlbumCoversComponent,
+        ManageAlbumsComponent,
         LoadingComponent,
         MainMenuComponent,
         BackButtonComponent,
@@ -504,7 +504,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         Hacks,
         Shuffler,
         ProgressUpdater,
-        Queue,
         MathExtensions,
         PathValidator,
         AlbumRowsGetter,
@@ -565,14 +564,14 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         ExternalArtworkPathGetter,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: FileAccessBase, useClass: FileAccess },
-        { provide: AlbumArtworkRepositoryBase, useClass: AlbumArtworkRepository },
-        { provide: RemovedTrackRepositoryBase, useClass: RemovedTrackRepository },
-        { provide: FolderTrackRepositoryBase, useClass: FolderTrackRepository },
         { provide: TrackRepositoryBase, useClass: TrackRepository },
         { provide: FolderRepositoryBase, useClass: FolderRepository },
+        { provide: AlbumArtworkRepositoryBase, useClass: AlbumArtworkRepository },
+        { provide: QueuedTrackRepositoryBase, useClass: QueuedTrackRepository },
         { provide: ApplicationServiceBase, useClass: ApplicationService },
         { provide: NavigationServiceBase, useClass: NavigationService },
         { provide: IndexingServiceBase, useClass: IndexingService },
+        { provide: AlbumArtworkCacheServiceBase, useClass: AlbumArtworkCacheService },
         { provide: TranslatorServiceBase, useClass: TranslatorService },
         { provide: UpdateServiceBase, useClass: UpdateService },
         { provide: NotificationServiceBase, useClass: NotificationService },

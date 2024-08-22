@@ -79,6 +79,8 @@ class TrackRepository {
                 AlbumTitle=@albumTitle,
                 AlbumArtists=@albumArtists,
                 AlbumKey=@albumKey,
+                AlbumKey2=@albumKey2,
+                AlbumKey3=@albumKey3,
                 Path=@path,
                 SafePath=@safePath,
                 FileName=@fileName,
@@ -117,6 +119,8 @@ class TrackRepository {
             albumTitle: track.albumTitle,
             albumArtists: track.albumArtists,
             albumKey: track.albumKey,
+            albumKey2: track.albumKey2,
+            albumKey3: track.albumKey3,
             path: track.path,
             safePath: track.path.toLowerCase(),
             fileName: track.fileName,
@@ -158,6 +162,8 @@ class TrackRepository {
                     AlbumTitle,
                     AlbumArtists,
                     AlbumKey,
+                    AlbumKey2,
+                    AlbumKey3,
                     Path,
                     SafePath,
                     FileName,
@@ -192,6 +198,8 @@ class TrackRepository {
                     @albumTitle,
                     @albumArtists,
                     @albumKey,
+                    @albumKey2,
+                    @albumKey3,
                     @path,
                     @safePath,
                     @fileName,
@@ -229,6 +237,8 @@ class TrackRepository {
             albumTitle: track.albumTitle,
             albumArtists: track.albumArtists,
             albumKey: track.albumKey,
+            albumKey2: track.albumKey2,
+            albumKey3: track.albumKey3,
             path: track.path,
             safePath: track.path.toLowerCase(),
             fileName: track.fileName,
@@ -264,46 +274,6 @@ class TrackRepository {
         const database = this.databaseFactory.create();
         const statement = database.prepare(`${QueryParts.selectTracksQueryPart(false)} WHERE t.Path=?;`);
         return statement.get(path);
-    }
-
-    disableNeedsAlbumArtworkIndexing(albumKey) {
-        const database = this.databaseFactory.create();
-        const statement = database.prepare(`UPDATE Track SET NeedsAlbumArtworkIndexing=0 WHERE AlbumKey=?;`);
-        statement.run(albumKey);
-    }
-
-    getLastModifiedTrackForAlbumKeyAsync(albumKey) {
-        const database = this.databaseFactory.create();
-        const statement = database.prepare(`${QueryParts.selectTracksQueryPart(false)} WHERE t.AlbumKey=?;`);
-        return statement.get(albumKey);
-    }
-
-    getAlbumDataThatNeedsIndexing() {
-        const database = this.databaseFactory.create();
-
-        const statement = database.prepare(
-            `${QueryParts.selectAlbumDataQueryPart(false)}
-                WHERE (t.AlbumKey IS NOT NULL AND t.AlbumKey <> ''
-                AND t.AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork)) OR NeedsAlbumArtworkIndexing=1
-                GROUP BY t.AlbumKey;`,
-        );
-
-        return statement.all();
-    }
-
-    enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover) {
-        const database = this.databaseFactory.create();
-        let statement;
-
-        if (onlyWhenHasNoCover) {
-            statement = database.prepare(
-                `UPDATE Track SET NeedsAlbumArtworkIndexing=1 WHERE AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork);`,
-            );
-        } else {
-            statement = database.prepare(`UPDATE Track SET NeedsAlbumArtworkIndexing=1;`);
-        }
-
-        statement.run();
     }
 }
 

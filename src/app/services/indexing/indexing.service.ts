@@ -4,31 +4,31 @@ import { Logger } from '../../common/logger';
 import { IndexingServiceBase } from './indexing.service.base';
 import { FolderServiceBase } from '../folder/folder.service.base';
 import { SettingsBase } from '../../common/settings/settings.base';
-import { ipcRenderer } from 'electron';
 import { PromiseUtils } from '../../common/utils/promise-utils';
 import { NotificationServiceBase } from '../notification/notification.service.base';
 import { DesktopBase } from '../../common/io/desktop.base';
 import { IIndexingMessage } from './messages/i-indexing-message';
 import { AddingTracksMessage } from './messages/adding-tracks-message';
+import { AlbumArtworkIndexer } from './album-artwork-indexer';
+import {IpcProxyBase} from "../../common/io/ipc-proxy.base";
 
 @Injectable()
 export class IndexingService implements IndexingServiceBase, OnDestroy {
     private indexingFinished: Subject<void> = new Subject();
     private subscription: Subscription = new Subscription();
     private foldersHaveChanged: boolean = false;
+    private albumGroupingHasChanged: boolean = false;
 
     public constructor(
         private notificationService: NotificationServiceBase,
         private folderService: FolderServiceBase,
+        private albumArtworkIndexer: AlbumArtworkIndexer,
         private desktop: DesktopBase,
         private settings: SettingsBase,
+        private ipcProxy: IpcProxyBase,
         private logger: Logger,
     ) {
-        this.subscription.add(
-            this.folderService.foldersChanged$.subscribe(() => {
-                this.foldersHaveChanged = true;
-            }),
-        );
+        this.initializeSubscriptions();
     }
 
     public indexingFinished$: Observable<void> = this.indexingFinished.asObservable();
@@ -43,21 +43,43 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
         this.indexCollection('outdated');
     }
 
-    public indexCollectionIfFoldersHaveChanged(): void {
-        if (!this.foldersHaveChanged) {
-            this.logger.info('Folders have not changed.', 'IndexingService', 'indexCollectionIfFoldersHaveChangedAsync');
-
-            return;
-        }
-
-        this.indexCollection('always');
-    }
-
     public indexCollectionAlways(): void {
         this.indexCollection('always');
     }
 
-    public indexAlbumArtworkOnly(onlyWhenHasNoCover: boolean): void {
+    public initializeSubscriptions(): void {
+        this.subscription.add(
+            this.folderService.foldersChanged$.subscribe(() => {
+                this.foldersHaveChanged = true;
+            }),
+        );
+
+        this.ipcProxy.onIndexingWorkerMessage$.subscribe((message: IIndexingMessage) => {
+            PromiseUtils.noAwait(this.showNotification(message));
+        });
+
+        this.ipcProxy.onIndexingWorkerExit$.subscribe(async () => {
+            await this.albumArtworkIndexer.indexAlbumArtworkAsync();
+            this.isIndexingCollection = false;
+            this.indexingFinished.next();
+        });
+    }
+
+    public async indexCollectionIfOptionsHaveChangedAsync(): Promise<void> {
+        if (this.foldersHaveChanged) {
+            this.logger.info('Folders have changed. Indexing collection.', 'IndexingService', 'indexCollectionIfOptionsHaveChanged');
+            this.indexCollection('always');
+        } else if (this.albumGroupingHasChanged) {
+            this.logger.info(
+                'Album grouping has changed. Indexing album artwork.',
+                'IndexingService',
+                'indexCollectionIfOptionsHaveChanged',
+            );
+            await this.indexAlbumArtworkOnlyAsync(false);
+        }
+    }
+
+    public async indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover: boolean): Promise<void> {
         if (this.isIndexingCollection) {
             this.logger.info('Already indexing.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
 
@@ -69,29 +91,22 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
 
         this.logger.info('Indexing collection.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
 
-        ipcRenderer.send('indexing-worker', this.createWorkerArgs('albumArtwork', onlyWhenHasNoCover));
+        await this.albumArtworkIndexer.indexAlbumArtworkAsync();
+    }
 
-        ipcRenderer.on('indexing-worker-message', (_: Electron.IpcRendererEvent, message: IIndexingMessage): void => {
-            PromiseUtils.noAwait(this.showSnackBarMessage(message));
-        });
-
-        ipcRenderer.on('indexing-worker-exit', (): void => {
-            this.isIndexingCollection = false;
-            this.indexingFinished.next();
-        });
+    public onAlbumGroupingChanged(): void {
+        this.albumGroupingHasChanged = true;
     }
 
     private createWorkerArgs(task: string, onlyWhenHasNoCover: boolean) {
         return {
             task: task,
             skipRemovedFilesDuringRefresh: this.settings.skipRemovedFilesDuringRefresh,
-            downloadMissingAlbumCovers: this.settings.downloadMissingAlbumCovers,
             applicationDataDirectory: this.desktop.getApplicationDataDirectory(),
-            onlyWhenHasNoCover: onlyWhenHasNoCover,
         };
     }
 
-    private async showSnackBarMessage(message: IIndexingMessage): Promise<void> {
+    private async showNotification(message: IIndexingMessage): Promise<void> {
         switch (message.type) {
             case 'refreshing': {
                 await this.notificationService.refreshing();
@@ -139,15 +154,6 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
 
         this.logger.info('Indexing collection.', 'IndexingService', 'indexCollection');
 
-        ipcRenderer.send('indexing-worker', this.createWorkerArgs(task, false));
-
-        ipcRenderer.on('indexing-worker-message', (_: Electron.IpcRendererEvent, message: IIndexingMessage): void => {
-            PromiseUtils.noAwait(this.showSnackBarMessage(message));
-        });
-
-        ipcRenderer.on('indexing-worker-exit', (): void => {
-            this.isIndexingCollection = false;
-            this.indexingFinished.next();
-        });
+        this.ipcProxy.sendToMainProcess('indexing-worker', this.createWorkerArgs(task, false));
     }
 }
