@@ -49,7 +49,7 @@ describe('ArtistSplitter', () => {
     describe('splitArtist', () => {
         it('should split without duplicates on all configured separators for substrings that are not in the exception list', () => {
             // Arrange
-            settingsMock.artistSplitSeparators = 'ft.;feat.;&';
+            settingsMock.artistSplitSeparators = '[ft.][feat.][&]';
             settingsMock.artistSplitExceptions = 'Artist2 & Artist3';
 
             const splitter: ArtistSplitter = createArtistSplitter();

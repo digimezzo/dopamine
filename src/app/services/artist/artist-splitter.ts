@@ -13,10 +13,8 @@ export class ArtistSplitter {
     ) {}
 
     public splitArtists(artists: string[]): ArtistModel[] {
-        const separators: string[] =
-            this.settings.artistSplitSeparators.trim().length > 0 ? this.settings.artistSplitSeparators.split(';') : [];
-        const exceptions: string[] =
-            this.settings.artistSplitExceptions.trim().length > 0 ? this.settings.artistSplitExceptions.split(';') : [];
+        const separators: string[] = CollectionUtils.fromString(this.settings.artistSplitSeparators);
+        const exceptions: string[] = CollectionUtils.fromString(this.settings.artistSplitExceptions);
 
         const returnArtists: ArtistModel[] = [];
 
