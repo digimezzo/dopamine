@@ -278,7 +278,7 @@
     "playback-state": "Afspeelstatus",
     "remember-playback-state-after-restart": "Onthoud de afspeelstatus (Afspeelwachtrij, voortgang, lus, shuffle) na opnieuw opstarten",
     "split-artists": "Artiesten splitsen",
-    "split-on-these-symbols": "Splitsen op deze symbolen",
-    "texts-to-never-split": "Teksten die nooit mogen worden gesplitst",
+    "symbols-to-split-multiple-artists": "Symbolen om meerdere artiesten te splitsen",
+    "artists-to-never-split": "Artiesten die nooit mogen worden gesplitst",
     "add": "Toevoegen"
 }

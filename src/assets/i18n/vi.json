@@ -278,7 +278,7 @@
     "playback-state": "Trạng thái phát",
     "remember-playback-state-after-restart": "Tiếp tục trạng thái phát (bài hát đang nghe, vị trí thời lượng, tùy chọn lặp lại, ngẫu nhiên) sau khi khởi động lại",
     "split-artists": "Split artists",
-    "split-on-these-symbols": "Split on these symbols",
-    "texts-to-never-split": "Texts to never split",
+    "symbols-to-split-multiple-artists": "Symbols to split multiple artists",
+    "artists-to-never-split": "Artists to never split",
     "add": "Add"
 }

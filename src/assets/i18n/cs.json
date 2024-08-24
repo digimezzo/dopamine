@@ -278,7 +278,7 @@
     "playback-state": "Playback state",
     "remember-playback-state-after-restart": "Remember playback state (queue, progress, loop, shuffle) after restart",
     "split-artists": "Split artists",
-    "split-on-these-symbols": "Split on these symbols",
-    "texts-to-never-split": "Texts to never split",
+    "symbols-to-split-multiple-artists": "Symbols to split multiple artists",
+    "artists-to-never-split": "Artists to never split",
     "add": "Add"
 }

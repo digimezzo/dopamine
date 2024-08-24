@@ -278,7 +278,7 @@
     "playback-state": "État de lecture",
     "remember-playback-state-after-restart": "Mémoriser l'état de lecture (file d'attente de lecture, progression, boucle, lecture aléatoire) après le redémarrage",
     "split-artists": "Séparer les artistes",
-    "split-on-these-symbols": "Séparer sur ces symboles",
-    "texts-to-never-split": "Textes à ne jamais séparer",
+    "symbols-to-split-multiple-artists": "Symboles pour séparer plusieurs artistes",
+    "artists-to-never-split": "Artistes à ne jamais séparer",
     "add": "Ajouter"
 }

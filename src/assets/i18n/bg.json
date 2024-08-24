@@ -279,7 +279,7 @@
     "playback-state": "Състояние на възпроизвеждане",
     "remember-playback-state-after-restart": "Запомняне на състоянието на възпроизвеждане (опашка, напредък, цикъл, разбъркване) след рестартиране",
     "split-artists": "Split artists",
-    "split-on-these-symbols": "Split on these symbols",
-    "texts-to-never-split": "Texts to never split",
+    "symbols-to-split-multiple-artists": "Symbols to split multiple artists",
+    "artists-to-never-split": "Artists to never split",
     "add": "Add"
 }

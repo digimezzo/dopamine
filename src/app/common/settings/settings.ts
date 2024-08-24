@@ -1061,7 +1061,7 @@ export class Settings implements SettingsBase {
         }
 
         if (!this.settings.has('artistSplitSeparators')) {
-            this.settings.set('artistSplitSeparators', 'feat.;ft.');
+            this.settings.set('artistSplitSeparators', '[feat.][ft.]');
         }
 
         if (!this.settings.has('artistSplitExceptions')) {
