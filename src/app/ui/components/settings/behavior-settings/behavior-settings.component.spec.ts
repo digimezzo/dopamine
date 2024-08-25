@@ -5,6 +5,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
 import { TrayServiceBase } from '../../../../services/tray/tray.service.base';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { Logger } from '../../../../common/logger';
 
 describe('BehaviorSettingsComponent', () => {
     let component: BehaviorSettingsComponent;
@@ -13,6 +14,7 @@ describe('BehaviorSettingsComponent', () => {
     let dialogServiceMock: IMock<DialogServiceBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let settingsMock: IMock<SettingsBase>;
+    let loggerMock: IMock<Logger>;
 
     beforeEach(() => {
         settingsMock = Mock.ofType<SettingsBase>();
@@ -20,12 +22,15 @@ describe('BehaviorSettingsComponent', () => {
         mediaSessionServiceMock = Mock.ofType<MediaSessionServiceBase>();
         dialogServiceMock = Mock.ofType<DialogServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        loggerMock = Mock.ofType<Logger>();
+
         component = new BehaviorSettingsComponent(
             trayServiceMock.object,
             mediaSessionServiceMock.object,
             dialogServiceMock.object,
             translatorServiceMock.object,
             settingsMock.object,
+            loggerMock.object,
         );
     });
 
