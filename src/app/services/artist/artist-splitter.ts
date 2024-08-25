@@ -61,14 +61,16 @@ export class ArtistSplitter {
         for (const exception of exceptions) {
             if (StringUtils.includesIgnoreCase(artist, exception)) {
                 artists.push(new ArtistModel(originalArtist, exception, this.translatorService));
-                const regEx: RegExp = new RegExp(exception, 'ig');
-                artist = artist.replace(regEx, '20384fb2-2042-4779-8fcf-7f24f3807314');
+                const escapedException = exception.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const regEx: RegExp = new RegExp(escapedException, 'ig');
+                artist = artist.replace(regEx, '¨');
             }
         }
 
-        const regex: RegExp = new RegExp(separators.join('|'), 'i');
+        const escapedSeparators = separators.map((separator) => separator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+        const regex: RegExp = new RegExp(escapedSeparators.join('|'), 'i');
         artists.push(...artist.split(regex).map((a: string) => new ArtistModel(originalArtist, a.trim(), this.translatorService)));
 
-        return artists.filter((a: ArtistModel): boolean => a.name !== '20384fb2-2042-4779-8fcf-7f24f3807314');
+        return artists.filter((a: ArtistModel): boolean => a.name !== '¨');
     }
 }
