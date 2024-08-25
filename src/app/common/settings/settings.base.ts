@@ -79,4 +79,6 @@ export abstract class SettingsBase {
     public abstract playbackControlsLoop: number;
     public abstract playbackControlsShuffle: number;
     public abstract rememberPlaybackStateAfterRestart: boolean;
+    public abstract artistSplitSeparators: string;
+    public abstract artistSplitExceptions: string;
 }

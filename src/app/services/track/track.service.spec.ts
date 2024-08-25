@@ -10,6 +10,7 @@ import { FileAccessBase } from '../../common/io/file-access.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
 import { SettingsMock } from '../../testing/settings-mock';
+import { ArtistModel } from '../artist/artist-model';
 
 describe('TrackService', () => {
     let trackModelFactoryMock: IMock<TrackModelFactory>;
@@ -53,8 +54,8 @@ describe('TrackService', () => {
         trackRepositoryMock.setup((x) => x.getTracksForGenres(['unknownGenre1', 'unknownGenre2'])).returns(() => []);
         trackRepositoryMock.setup((x) => x.getTracksForGenres([])).returns(() => []);
 
-        trackRepositoryMock.setup((x) => x.getTracksForTrackArtists(['artist3', 'artist4'])).returns(() => [track2]);
-        trackRepositoryMock.setup((x) => x.getTracksForAlbumArtists(['artist3', 'artist4'])).returns(() => [track3]);
+        trackRepositoryMock.setup((x) => x.getTracksForTrackArtists(['Source artist3', 'Source artist4'])).returns(() => [track2]);
+        trackRepositoryMock.setup((x) => x.getTracksForAlbumArtists(['Source artist3', 'Source artist4'])).returns(() => [track3]);
 
         trackModelFactoryMock
             .setup((x) => x.createFromTrack(track1))
@@ -196,7 +197,7 @@ describe('TrackService', () => {
         test.todo('should write tests');
     });
 
-    describe('getAlbumTracks', () => {
+    describe('getTracksForAlbums', () => {
         it('should return a TrackModels containing no tracks if albumKeys empty', () => {
             // Arrange
             const albumKeys: string[] = [];
@@ -239,47 +240,57 @@ describe('TrackService', () => {
     describe('getTracksForArtists', () => {
         it('should return a TrackModels containing no tracks if artists is empty', () => {
             // Arrange
-            const artists: string[] = [];
+            const artists: ArtistModel[] = [];
             const artistType: ArtistType = ArtistType.albumArtists;
 
             // Act
             const tracksModels: TrackModels = service.getTracksForArtists(artists, artistType);
 
             // Assert
-            trackRepositoryMock.verify((x) => x.getTracksForTrackArtists(artists), Times.never());
-            trackRepositoryMock.verify((x) => x.getTracksForAlbumArtists(artists), Times.never());
+            trackRepositoryMock.verify((x) => x.getTracksForTrackArtists([]), Times.never());
+            trackRepositoryMock.verify((x) => x.getTracksForAlbumArtists([]), Times.never());
             expect(tracksModels.tracks.length).toEqual(0);
         });
 
         it('should return a TrackModels for track artists only if artistType is trackArtists', () => {
             // Arrange
+            const artist3: ArtistModel = new ArtistModel('Source artist3', 'artist3', translatorServiceMock.object);
+            const artist4: ArtistModel = new ArtistModel('Source artist4', 'artist4', translatorServiceMock.object);
 
             // Act
-            const tracksModels: TrackModels = service.getTracksForArtists(['artist3', 'artist4'], ArtistType.trackArtists);
+            const tracksModels: TrackModels = service.getTracksForArtists([artist3, artist4], ArtistType.trackArtists);
 
             // Assert
+            trackRepositoryMock.verify((x) => x.getTracksForTrackArtists(['Source artist3', 'Source artist4']), Times.once());
             expect(tracksModels.tracks.length).toEqual(1);
             expect(tracksModels.tracks[0].path).toEqual(track2.path);
         });
 
         it('should return a TrackModels for album artists only if artistType is albumArtists', () => {
             // Arrange
+            const artist3: ArtistModel = new ArtistModel('Source artist3', 'Artist3', translatorServiceMock.object);
+            const artist4: ArtistModel = new ArtistModel('Source artist4', 'Artist4', translatorServiceMock.object);
 
             // Act
-            const tracksModels: TrackModels = service.getTracksForArtists(['artist3', 'artist4'], ArtistType.albumArtists);
+            const tracksModels: TrackModels = service.getTracksForArtists([artist3, artist4], ArtistType.albumArtists);
 
             // Assert
+            trackRepositoryMock.verify((x) => x.getTracksForAlbumArtists(['Source artist3', 'Source artist4']), Times.once());
             expect(tracksModels.tracks.length).toEqual(1);
             expect(tracksModels.tracks[0].path).toEqual(track3.path);
         });
 
         it('should return a TrackModels for both track and album artists if artistType is allArtists', () => {
             // Arrange
+            const artist3: ArtistModel = new ArtistModel('Source artist3', 'Artist3', translatorServiceMock.object);
+            const artist4: ArtistModel = new ArtistModel('Source artist4', 'Artist4', translatorServiceMock.object);
 
             // Act
-            const tracksModels: TrackModels = service.getTracksForArtists(['artist3', 'artist4'], ArtistType.allArtists);
+            const tracksModels: TrackModels = service.getTracksForArtists([artist3, artist4], ArtistType.allArtists);
 
             // Assert
+            trackRepositoryMock.verify((x) => x.getTracksForTrackArtists(['Source artist3', 'Source artist4']), Times.once());
+            trackRepositoryMock.verify((x) => x.getTracksForAlbumArtists(['Source artist3', 'Source artist4']), Times.once());
             expect(tracksModels.tracks.length).toEqual(2);
             expect(tracksModels.tracks[0].path).toEqual(track2.path);
             expect(tracksModels.tracks[1].path).toEqual(track3.path);

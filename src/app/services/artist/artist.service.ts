@@ -6,11 +6,12 @@ import { ArtistType } from './artist-type';
 import { ArtistServiceBase } from './artist.service.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { ArtistSplitter } from './artist-splitter';
 
 @Injectable()
 export class ArtistService implements ArtistServiceBase {
     public constructor(
-        private translatorService: TranslatorServiceBase,
+        private artistSplitter: ArtistSplitter,
         private trackRepository: TrackRepositoryBase,
     ) {}
 
@@ -27,24 +28,12 @@ export class ArtistService implements ArtistServiceBase {
             artistDatas.push(...albumArtistDatas);
         }
 
-        const artistModels: ArtistModel[] = [];
-        let alreadyAddedArtists: string[] = [];
+        const artists: string[] = [];
 
         for (const artistData of artistDatas) {
-            const artists: string[] = DataDelimiter.fromDelimitedString(artistData.artists);
-
-            for (const artist of artists) {
-                const processedArtist: string = artist.toLowerCase().trim();
-
-                if (!alreadyAddedArtists.includes(processedArtist)) {
-                    alreadyAddedArtists.push(processedArtist);
-                    artistModels.push(new ArtistModel(artist, this.translatorService));
-                }
-            }
+            artists.push(...DataDelimiter.fromDelimitedString(artistData.artists));
         }
 
-        alreadyAddedArtists = [];
-
-        return artistModels;
+        return this.artistSplitter.splitArtists(artists);
     }
 }

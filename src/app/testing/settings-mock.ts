@@ -81,6 +81,8 @@ export class SettingsMock implements SettingsBase {
     public playbackControlsLoop: number;
     public playbackControlsShuffle: number;
     public rememberPlaybackStateAfterRestart: boolean;
+    public artistSplitSeparators: string;
+    public artistSplitExceptions: string;
 
     public get albumKeyIndex(): string {
         return this.albumKeyIndexMock;

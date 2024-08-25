@@ -732,6 +732,24 @@ export class Settings implements SettingsBase {
         this.settings.set('rememberPlaybackStateAfterRestart', v);
     }
 
+    // artistSplitSeparators
+    public get artistSplitSeparators(): string {
+        return <string>this.settings.get('artistSplitSeparators');
+    }
+
+    public set artistSplitSeparators(v: string) {
+        this.settings.set('artistSplitSeparators', v);
+    }
+
+    // artistSplitExceptions
+    public get artistSplitExceptions(): string {
+        return <string>this.settings.get('artistSplitExceptions');
+    }
+
+    public set artistSplitExceptions(v: string) {
+        this.settings.set('artistSplitExceptions', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -1040,6 +1058,14 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('rememberPlaybackStateAfterRestart')) {
             this.settings.set('rememberPlaybackStateAfterRestart', true);
+        }
+
+        if (!this.settings.has('artistSplitSeparators')) {
+            this.settings.set('artistSplitSeparators', '[feat.][ft.]');
+        }
+
+        if (!this.settings.has('artistSplitExceptions')) {
+            this.settings.set('artistSplitExceptions', '');
         }
     }
 }

@@ -21,6 +21,22 @@ export class StringUtils {
         return string1.toLowerCase() === string2.toLowerCase();
     }
 
+    public static includesIgnoreCase(sourceString: string | undefined, stringToCheck: string | undefined): boolean {
+        if (sourceString == undefined && stringToCheck == undefined) {
+            return false;
+        }
+
+        if (sourceString == undefined) {
+            return false;
+        }
+
+        if (stringToCheck == undefined) {
+            return false;
+        }
+
+        return sourceString.toLowerCase().includes(stringToCheck.toLowerCase());
+    }
+
     public static isNullOrWhiteSpace(stringToCheck: string | undefined): boolean {
         if (stringToCheck == undefined) {
             return true;
