@@ -305,6 +305,7 @@ import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-a
 import { AlbumArtworkCacheServiceBase } from './services/album-artwork-cache/album-artwork-cache.service.base';
 import { QueuedTrackRepositoryBase } from './data/repositories/queued-track-repository.base';
 import { QueuedTrackRepository } from './data/repositories/queued-track-repository';
+import { TextIconSecondaryButtonComponent } from './ui/components/controls/text-icon-secondary-button/text-icon-secondary-button.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -453,6 +454,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         BigIconButtonComponent,
         ToggleSwitchComponent,
         IconButtonComponent,
+        TextIconSecondaryButtonComponent,
         NotificationBarComponent,
     ],
     imports: [

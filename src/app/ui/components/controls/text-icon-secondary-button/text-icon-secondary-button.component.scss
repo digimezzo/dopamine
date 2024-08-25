@@ -1,27 +1,27 @@
-.app-big-icon-button-wrap {
+.app-text-icon-secondary-button-wrap {
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.app-big-icon-button-button {
+.app-text-icon-secondary-button-button {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 45px;
-    width: 45px;
-    background: transparent;
-    border: 1px solid var(--theme-button-border);
-    border-radius: 45px;
+    padding: 0 12px;
+    height: 30px;
+    background: var(--theme-secondary-button-background);
+    border: none;
+    border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.25s ease 0s;
     cursor: pointer;
     outline: none;
 }
 
-.app-big-icon-button-button:hover {
+.app-text-icon-secondary-button-button:hover {
     background-color: var(--theme-accent-color);
     box-shadow: 0 5px 15px rgba(var(--theme-rgb-accent), 0.4);
     color: var(--theme-highlight-foreground);
@@ -29,15 +29,11 @@
     border: 1px solid #00000000;
 }
 
-.app-big-icon-button-icon {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
+.app-text-icon-secondary-button-icon {
+    font-size: calc(var(--fontsize) * 1.2);
     color: var(--theme-accent-color);
 }
 
-.app-big-icon-button-button:hover .app-big-icon-button-icon {
+.app-text-icon-secondary-button-button:hover .app-text-icon-secondary-button-icon {
     color: var(--theme-highlight-foreground);
 }

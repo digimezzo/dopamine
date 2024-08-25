@@ -151,7 +151,7 @@ export class PlaybackService implements PlaybackServiceBase {
     }
 
     public enqueueAndPlayArtist(artistToPlay: ArtistModel, artistType: ArtistType): void {
-        const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToPlay.displayName], artistType);
+        const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToPlay], artistType);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForArtists.tracks);
         this.enqueueAndPlayTracks(orderedTracks);
     }
@@ -183,7 +183,7 @@ export class PlaybackService implements PlaybackServiceBase {
     }
 
     public async addArtistToQueueAsync(artistToAdd: ArtistModel, artistType: ArtistType): Promise<void> {
-        const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToAdd.displayName], artistType);
+        const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToAdd], artistType);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForArtists.tracks);
         await this.addTracksToQueueAsync(orderedTracks);
     }

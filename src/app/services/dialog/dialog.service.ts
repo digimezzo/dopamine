@@ -36,8 +36,13 @@ export class DialogService implements DialogServiceBase {
         return false;
     }
 
-    public async showInputDialogAsync(dialogTitle: string, placeHolderText: string, inputText: string): Promise<string> {
-        const inputData: InputData = new InputData(dialogTitle, inputText, placeHolderText);
+    public async showInputDialogAsync(
+        dialogTitle: string,
+        placeHolderText: string,
+        inputText: string,
+        invalidCharacters: string[],
+    ): Promise<string> {
+        const inputData: InputData = new InputData(dialogTitle, inputText, placeHolderText, invalidCharacters);
         const dialogRef: MatDialogRef<InputDialogComponent> = this.dialog.open(InputDialogComponent, {
             width: '450px',
             data: inputData,
