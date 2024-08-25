@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   It is now possible to split multiple artists by customizable symbols like "ft." or "feat."
 
+### Changed
+
+-   Updated Swedish translation
+
 ### Fixed
 
 -   Fixes application crash caused by a bug when reading album artist from .wav files
