@@ -14,7 +14,7 @@ describe('ArtistSplitter', () => {
         'artist1',
         'Artist2',
         'Artist1 ft. Artist2 feat. Artist3',
-        'artist1 ft. artist2 & Artist3',
+        'artist1 FT. artist2 & Artist3',
         'Artist2 ft. Artist3 & Artist4',
         'artist4',
         'Artist3 & Artist5',
@@ -64,7 +64,7 @@ describe('ArtistSplitter', () => {
             expect(splitArtists[0].sourceNames.length).toEqual(3);
             expect(splitArtists[0].sourceNames[0]).toEqual('Artist1');
             expect(splitArtists[0].sourceNames[1]).toEqual('Artist1 ft. Artist2 feat. Artist3');
-            expect(splitArtists[0].sourceNames[2]).toEqual('artist1 ft. artist2 & Artist3');
+            expect(splitArtists[0].sourceNames[2]).toEqual('artist1 FT. artist2 & Artist3');
 
             expect(splitArtists[1].displayName).toEqual('Artist2');
             expect(splitArtists[1].sourceNames.length).toEqual(3);
@@ -80,7 +80,7 @@ describe('ArtistSplitter', () => {
 
             expect(splitArtists[3].displayName).toEqual('Artist2 & Artist3');
             expect(splitArtists[3].sourceNames.length).toEqual(1);
-            expect(splitArtists[3].sourceNames[0]).toEqual('artist1 ft. artist2 & Artist3');
+            expect(splitArtists[3].sourceNames[0]).toEqual('artist1 FT. artist2 & Artist3');
 
             expect(splitArtists[4].displayName).toEqual('Artist4');
             expect(splitArtists[4].sourceNames.length).toEqual(2);
@@ -121,9 +121,9 @@ describe('ArtistSplitter', () => {
             expect(splitArtists[2].sourceNames.length).toEqual(1);
             expect(splitArtists[2].sourceNames[0]).toEqual('Artist1 ft. Artist2 feat. Artist3');
 
-            expect(splitArtists[3].displayName).toEqual('artist1 ft. artist2 & Artist3');
+            expect(splitArtists[3].displayName).toEqual('artist1 FT. artist2 & Artist3');
             expect(splitArtists[3].sourceNames.length).toEqual(1);
-            expect(splitArtists[3].sourceNames[0]).toEqual('artist1 ft. artist2 & Artist3');
+            expect(splitArtists[3].sourceNames[0]).toEqual('artist1 FT. artist2 & Artist3');
 
             expect(splitArtists[4].displayName).toEqual('Artist2 ft. Artist3 & Artist4');
             expect(splitArtists[4].sourceNames.length).toEqual(1);
