@@ -13,6 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const electron_1 = require("electron");
 const electron_log_1 = require("electron-log");
 const Store = require("electron-store");
+const windowStateKeeper = require("electron-window-state");
 const os = require("os");
 const path = require("path");
 const url = require("url");
@@ -96,24 +97,19 @@ function getTrayIcon() {
 function createMainWindow() {
     // Suppress the default menu
     electron_1.Menu.setApplicationMenu(null);
+    // Load the previous state with fallback to defaults
+    const windowState = windowStateKeeper({
+        defaultWidth: 1000,
+        defaultHeight: 650,
+    });
     const remoteMain = require('@electron/remote/main');
     remoteMain.initialize();
     // Create the browser window
-    let width = settings.get('fullPlayerWidth');
-    let height = settings.get('fullPlayerHeight');
-    let x = settings.get('fullPlayerX');
-    let y = settings.get('fullPlayerY');
-    if (settings.get('playerType') === 'cover') {
-        width = settings.get('coverPlayerWidth');
-        height = settings.get('coverPlayerHeight');
-        x = settings.get('coverPlayerX');
-        y = settings.get('coverPlayerY');
-    }
     mainWindow = new electron_1.BrowserWindow({
-        x: x,
-        y: y,
-        width: width,
-        height: height,
+        x: windowState.x,
+        y: windowState.y,
+        width: windowState.width,
+        height: windowState.height,
         backgroundColor: '#fff',
         frame: windowHasFrame(),
         icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
@@ -126,6 +122,7 @@ function createMainWindow() {
     });
     remoteMain.enable(mainWindow.webContents);
     globalAny.windowHasFrame = windowHasFrame();
+    windowState.manage(mainWindow);
     if (isServing) {
         require('electron-reload')(__dirname, {
             electron: require(`${__dirname}/node_modules/electron`),
@@ -189,34 +186,6 @@ function createMainWindow() {
                 else {
                     mainWindow.webContents.send('application-close');
                 }
-            }
-        }
-    });
-    mainWindow.on('resize', () => {
-        if (mainWindow) {
-            const size = mainWindow.getSize();
-            const width = size[0];
-            const height = size[1];
-            const playerType = settings.get('playerType');
-            if (playerType === 'full') {
-                settings.set('fullPlayerWidth', width);
-                settings.set('fullPlayerHeight', height);
-            }
-        }
-    });
-    mainWindow.on('move', () => {
-        if (mainWindow) {
-            const position = mainWindow.getPosition();
-            const x = position[0];
-            const y = position[1];
-            const playerType = settings.get('playerType');
-            if (playerType === 'full') {
-                settings.set('fullPlayerX', x);
-                settings.set('fullPlayerY', y);
-            }
-            else if (playerType === 'cover') {
-                settings.set('coverPlayerX', x);
-                settings.set('coverPlayerY', y);
             }
         }
     });
@@ -332,26 +301,6 @@ try {
         electron_1.ipcMain.on('closing-tasks-performed', (_) => {
             if (process.platform !== 'darwin') {
                 electron_1.app.quit();
-            }
-        });
-        electron_1.ipcMain.on('set-full-player', (event, arg) => {
-            if (mainWindow) {
-                const width = settings.get('fullPlayerWidth');
-                const height = settings.get('fullPlayerHeight');
-                const x = settings.get('fullPlayerX');
-                const y = settings.get('fullPlayerY');
-                mainWindow.setSize(width, height);
-                mainWindow.setPosition(x, y);
-            }
-        });
-        electron_1.ipcMain.on('set-cover-player', (event, arg) => {
-            if (mainWindow) {
-                const width = settings.get('coverPlayerWidth');
-                const height = settings.get('coverPlayerHeight');
-                const x = settings.get('coverPlayerX');
-                const y = settings.get('coverPlayerY');
-                mainWindow.setSize(width, height);
-                mainWindow.setPosition(x, y);
             }
         });
     }

@@ -307,6 +307,7 @@ import { QueuedTrackRepositoryBase } from './data/repositories/queued-track-repo
 import { QueuedTrackRepository } from './data/repositories/queued-track-repository';
 import { TextIconSecondaryButtonComponent } from './ui/components/controls/text-icon-secondary-button/text-icon-secondary-button.component';
 import { CoverPlayerComponent } from './ui/components/mini-players/cover-player/cover-player.component';
+import { MiniPlayerComponent } from './ui/components/mini-players/mini-player/mini-player.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -458,6 +459,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         TextIconSecondaryButtonComponent,
         NotificationBarComponent,
         CoverPlayerComponent,
+        MiniPlayerComponent,
     ],
     imports: [
         BrowserAnimationsModule,

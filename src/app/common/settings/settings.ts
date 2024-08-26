@@ -750,87 +750,6 @@ export class Settings implements SettingsBase {
         this.settings.set('artistSplitExceptions', v);
     }
 
-    // playerType
-    public get playerType(): string {
-        return <string>this.settings.get('playerType');
-    }
-
-    public set playerType(v: string) {
-        this.settings.set('playerType', v);
-    }
-
-    // fullPlayerX
-    public get fullPlayerX(): number {
-        return <number>this.settings.get('fullPlayerX');
-    }
-
-    public set fullPlayerX(v: number) {
-        this.settings.set('fullPlayerX', v);
-    }
-
-    // fullPlayerY
-    public get fullPlayerY(): number {
-        return <number>this.settings.get('fullPlayerY');
-    }
-
-    public set fullPlayerY(v: number) {
-        this.settings.set('fullPlayerY', v);
-    }
-
-    // fullPlayerWidth
-    public get fullPlayerWidth(): number {
-        return <number>this.settings.get('fullPlayerWidth');
-    }
-
-    public set fullPlayerWidth(v: number) {
-        this.settings.set('fullPlayerWidth', v);
-    }
-
-    // fullPlayerHeight
-    public get fullPlayerHeight(): number {
-        return <number>this.settings.get('fullPlayerHeight');
-    }
-
-    public set fullPlayerHeight(v: number) {
-        this.settings.set('fullPlayerHeight', v);
-    }
-
-    // coverPlayerX
-    public get coverPlayerX(): number {
-        return <number>this.settings.get('coverPlayerX');
-    }
-
-    public set coverPlayerX(v: number) {
-        this.settings.set('coverPlayerX', v);
-    }
-
-    // coverPlayerY
-    public get coverPlayerY(): number {
-        return <number>this.settings.get('coverPlayerY');
-    }
-
-    public set coverPlayerY(v: number) {
-        this.settings.set('coverPlayerY', v);
-    }
-
-    // coverPlayerWidth
-    public get coverPlayerWidth(): number {
-        return <number>this.settings.get('coverPlayerWidth');
-    }
-
-    public set coverPlayerWidth(v: number) {
-        this.settings.set('coverPlayerWidth', v);
-    }
-
-    // coverPlayerHeight
-    public get coverPlayerHeight(): number {
-        return <number>this.settings.get('coverPlayerHeight');
-    }
-
-    public set coverPlayerHeight(v: number) {
-        this.settings.set('coverPlayerHeight', v);
-    }
-
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -1147,42 +1066,6 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('artistSplitExceptions')) {
             this.settings.set('artistSplitExceptions', '');
-        }
-
-        if (!this.settings.has('playerType')) {
-            this.settings.set('playerType', 'full');
-        }
-
-        if (!this.settings.has('fullPlayerX')) {
-            this.settings.set('fullPlayerX', 50);
-        }
-
-        if (!this.settings.has('fullPlayerY')) {
-            this.settings.set('fullPlayerY', 50);
-        }
-
-        if (!this.settings.has('fullPlayerWidth')) {
-            this.settings.set('fullPlayerWidth', 1000);
-        }
-
-        if (!this.settings.has('fullPlayerHeight')) {
-            this.settings.set('fullPlayerHeight', 650);
-        }
-
-        if (!this.settings.has('coverPlayerX')) {
-            this.settings.set('coverPlayerX', 50);
-        }
-
-        if (!this.settings.has('coverPlayerY')) {
-            this.settings.set('coverPlayerY', 50);
-        }
-
-        if (!this.settings.has('coverPlayerWidth')) {
-            this.settings.set('coverPlayerWidth', 350);
-        }
-
-        if (!this.settings.has('coverPlayerHeight')) {
-            this.settings.set('coverPlayerHeight', 420);
         }
     }
 }
