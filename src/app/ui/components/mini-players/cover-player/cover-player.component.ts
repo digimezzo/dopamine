@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
 
 @Component({
     selector: 'app-cover-player',
@@ -8,5 +9,5 @@ import { Component, ViewEncapsulation } from '@angular/core';
     encapsulation: ViewEncapsulation.None,
 })
 export class CoverPlayerComponent {
-    public constructor() {}
+    public constructor(public appearanceService: AppearanceServiceBase) {}
 }

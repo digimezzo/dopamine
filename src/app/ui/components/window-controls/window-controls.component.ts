@@ -45,7 +45,7 @@ export class WindowControlsComponent implements OnInit {
         window.close();
     }
 
-    public switchPlayerButtonClick(): void {
-        this.playerSwitcherService.togglePlayer();
+    public async switchPlayerButtonClickAsync(): Promise<void> {
+        await this.playerSwitcherService.togglePlayerAsync();
     }
 }

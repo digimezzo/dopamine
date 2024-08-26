@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import {NavigationServiceBase} from "./navigation.service.base";
-import {AppearanceServiceBase} from "../appearance/appearance.service.base";
+import { NavigationServiceBase } from './navigation.service.base';
+import { AppearanceServiceBase } from '../appearance/appearance.service.base';
 
 @Injectable()
 export class NavigationService implements NavigationServiceBase {
     private showPlaybackQueueRequested: Subject<void> = new Subject();
 
-    public constructor(private appearanceService: AppearanceServiceBase, public router: Router) {}
+    public constructor(
+        private appearanceService: AppearanceServiceBase,
+        public router: Router,
+    ) {}
 
     public showPlaybackQueueRequested$: Observable<void> = this.showPlaybackQueueRequested.asObservable();
 
@@ -41,6 +44,11 @@ export class NavigationService implements NavigationServiceBase {
 
     public async navigateToNowPlayingAsync(): Promise<void> {
         await this.router.navigate(['/nowplaying']);
+    }
+
+    public async navigateToCoverPlayerAsync(): Promise<void> {
+        await this.router.navigate(['/coverplayer']);
+        // this.appearanceService.applyMargins(true);
     }
 
     public showPlaybackQueue(): void {

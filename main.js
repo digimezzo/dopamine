@@ -305,14 +305,17 @@ try {
         });
         electron_1.ipcMain.on('set-full-player', (event, arg) => {
             if (mainWindow) {
-                // TODO
-                console.log('FULL PLAYER');
+                mainWindow.resizable = true;
+                mainWindow.maximizable = true;
+                mainWindow.setSize(1000, 650);
             }
         });
         electron_1.ipcMain.on('set-cover-player', (event, arg) => {
             if (mainWindow) {
-                // TODO
-                console.log('COVER PLAYER');
+                mainWindow.unmaximize();
+                mainWindow.setSize(350, 420);
+                mainWindow.resizable = false;
+                mainWindow.maximizable = false;
             }
         });
     }
