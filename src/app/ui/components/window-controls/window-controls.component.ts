@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { BrowserWindow } from 'electron';
 import { ApplicationBase } from '../../../common/io/application.base';
+import { PlayerSwitcherService } from '../../../services/player-switcher/player-switcher.service';
 
 @Component({
     selector: 'app-window-controls',
@@ -10,7 +11,10 @@ import { ApplicationBase } from '../../../common/io/application.base';
     encapsulation: ViewEncapsulation.None,
 })
 export class WindowControlsComponent implements OnInit {
-    public constructor(private application: ApplicationBase) {}
+    public constructor(
+        private playerSwitcherService: PlayerSwitcherService,
+        private application: ApplicationBase,
+    ) {}
 
     public canMaximize: boolean = false;
 
@@ -41,5 +45,7 @@ export class WindowControlsComponent implements OnInit {
         window.close();
     }
 
-    public switchPlayerButtonClick(): void {}
+    public switchPlayerButtonClick(): void {
+        this.playerSwitcherService.togglePlayer();
+    }
 }

@@ -750,6 +750,15 @@ export class Settings implements SettingsBase {
         this.settings.set('artistSplitExceptions', v);
     }
 
+    // playerType
+    public get playerType(): string {
+        return <string>this.settings.get('playerType');
+    }
+
+    public set playerType(v: string) {
+        this.settings.set('playerType', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -1066,6 +1075,10 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('artistSplitExceptions')) {
             this.settings.set('artistSplitExceptions', '');
+        }
+
+        if (!this.settings.has('playerType')) {
+            this.settings.set('playerType', 'full');
         }
     }
 }

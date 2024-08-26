@@ -303,6 +303,18 @@ try {
                 electron_1.app.quit();
             }
         });
+        electron_1.ipcMain.on('set-full-player', (event, arg) => {
+            if (mainWindow) {
+                // TODO
+                console.log('FULL PLAYER');
+            }
+        });
+        electron_1.ipcMain.on('set-cover-player', (event, arg) => {
+            if (mainWindow) {
+                // TODO
+                console.log('COVER PLAYER');
+            }
+        });
     }
 }
 catch (e) {

@@ -352,6 +352,20 @@ try {
                 app.quit();
             }
         });
+
+        ipcMain.on('set-full-player', (event: any, arg: any) => {
+            if (mainWindow) {
+                // TODO
+                console.log('FULL PLAYER');
+            }
+        });
+
+        ipcMain.on('set-cover-player', (event: any, arg: any) => {
+            if (mainWindow) {
+                // TODO
+                console.log('COVER PLAYER');
+            }
+        });
     }
 } catch (e) {
     log.error(`[Main] [Main] Could not start. Error: ${e.message}`);
