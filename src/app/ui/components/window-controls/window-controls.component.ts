@@ -40,4 +40,6 @@ export class WindowControlsComponent implements OnInit {
         const window: BrowserWindow = this.application.getCurrentWindow();
         window.close();
     }
+
+    public switchPlayerButtonClick(): void {}
 }
