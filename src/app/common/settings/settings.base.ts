@@ -81,4 +81,13 @@ export abstract class SettingsBase {
     public abstract rememberPlaybackStateAfterRestart: boolean;
     public abstract artistSplitSeparators: string;
     public abstract artistSplitExceptions: string;
+    public abstract playerType: string;
+    public abstract fullPlayerX: number;
+    public abstract fullPlayerY: number;
+    public abstract fullPlayerWidth: number;
+    public abstract fullPlayerHeight: number;
+    public abstract coverPlayerX: number;
+    public abstract coverPlayerY: number;
+    public abstract coverPlayerWidth: number;
+    public abstract coverPlayerHeight: number;
 }

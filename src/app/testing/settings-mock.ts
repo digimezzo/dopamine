@@ -2,7 +2,6 @@ import { SettingsBase } from '../common/settings/settings.base';
 
 export class SettingsMock implements SettingsBase {
     public albumKeyIndexMock: string = '';
-
     public albumsDefinedByFolders: boolean;
     public albumsDefinedByTitle: boolean;
     public albumsDefinedByTitleAndArtist: boolean;
@@ -83,6 +82,15 @@ export class SettingsMock implements SettingsBase {
     public rememberPlaybackStateAfterRestart: boolean;
     public artistSplitSeparators: string;
     public artistSplitExceptions: string;
+    public playerType: string;
+    public fullPlayerX: number;
+    public fullPlayerY: number;
+    public fullPlayerWidth: number;
+    public fullPlayerHeight: number;
+    public coverPlayerX: number;
+    public coverPlayerY: number;
+    public coverPlayerWidth: number;
+    public coverPlayerHeight: number;
 
     public get albumKeyIndex(): string {
         return this.albumKeyIndexMock;
