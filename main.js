@@ -118,7 +118,7 @@ function setInitialWindowPositionAndSize(mainWindow) {
     }
     let windowPositionAndSizeAsString = settings.get('fullPlayerPositionAndSize');
     if (settings.get('playerType') === 'cover') {
-        windowPositionAndSizeAsString = `${settings.get('coverPlayerPosition')};350;420`;
+        windowPositionAndSizeAsString = `${settings.get('coverPlayerPosition')};350;430`;
     }
     const windowPositionAndSize = windowPositionAndSizeAsString.split(';').map(Number);
     mainWindow.setPosition(windowPositionAndSize[0], windowPositionAndSize[1]);
@@ -222,7 +222,7 @@ function createMainWindow() {
                 settings.set('fullPlayerPositionAndSize', `${position[0]};${position[1]};${size[0]};${size[1]}`);
             }
             else if (settings.get('playerType') === 'cover') {
-                settings.set('coverPlayerPosition', `${position[0]};${position[1]};350;420`);
+                settings.set('coverPlayerPosition', `${position[0]};${position[1]};350;430`);
             }
         }
     }, 300));
@@ -368,7 +368,7 @@ try {
                 const coverPlayerPosition = coverPlayerPositionAsString.split(';').map(Number);
                 mainWindow.unmaximize();
                 mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
-                mainWindow.setSize(350, 420);
+                mainWindow.setSize(350, 430);
                 mainWindow.resizable = false;
                 mainWindow.maximizable = false;
             }

@@ -1,12 +1,17 @@
 <div class="cover-player__titlebar draggable">
-    <div class="d-flex flex-grow">
-
-    </div>
+    <div class="d-flex flex-grow"></div>
     <div class="d-flex">
         <app-switch-player-button></app-switch-player-button>
-        <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"
-                             [showMaximize]="false"></app-window-controls>
+        <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar" [showMaximize]="false"></app-window-controls>
     </div>
 </div>
 <div class="cover-player__content">
+    <app-playback-cover-art [size]="350"></app-playback-cover-art>
+
+    <div class="cover-player__playback-pane">
+        <app-playback-progress class="cover-player__progressbar"></app-playback-progress>
+        <div class="cover-player__playback-controls">
+            <app-playback-controls></app-playback-controls>
+        </div>
+    </div>
 </div>

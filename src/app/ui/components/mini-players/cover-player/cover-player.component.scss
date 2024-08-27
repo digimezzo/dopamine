@@ -1,18 +1,39 @@
 @import 'variables';
 
 .cover-player__titlebar {
-  width: 100%;
-  height: $titlebar-height;
-  display: flex;
-  flex-direction: row;
-  top: 0;
-  z-index: 1000;
+    width: 100%;
+    height: $titlebar-height;
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
 }
 
 .cover-player__content {
-  width: 100%;
-  height: $titlebar-height;
-  display: flex;
-  flex-direction: column;
-  top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+}
+
+.cover-player__playback-pane {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cover-player__progressbar {
+    margin-top: -4px;
+    margin-bottom: -4px;
+}
+
+.cover-player__playback-controls {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }

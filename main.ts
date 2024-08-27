@@ -133,7 +133,7 @@ function setInitialWindowPositionAndSize(mainWindow: BrowserWindow): void {
 
     let windowPositionAndSizeAsString: string = settings.get('fullPlayerPositionAndSize');
     if (settings.get('playerType') === 'cover') {
-        windowPositionAndSizeAsString = `${settings.get('coverPlayerPosition')};350;420`;
+        windowPositionAndSizeAsString = `${settings.get('coverPlayerPosition')};350;430`;
     }
 
     const windowPositionAndSize: number[] = windowPositionAndSizeAsString.split(';').map(Number);
@@ -258,7 +258,7 @@ function createMainWindow(): void {
                 if (settings.get('playerType') === 'full') {
                     settings.set('fullPlayerPositionAndSize', `${position[0]};${position[1]};${size[0]};${size[1]}`);
                 } else if (settings.get('playerType') === 'cover') {
-                    settings.set('coverPlayerPosition', `${position[0]};${position[1]};350;420`);
+                    settings.set('coverPlayerPosition', `${position[0]};${position[1]};350;430`);
                 }
             }
         }, 300),
@@ -435,7 +435,7 @@ try {
 
                 mainWindow.unmaximize();
                 mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
-                mainWindow.setSize(350, 420);
+                mainWindow.setSize(350, 430);
                 mainWindow.resizable = false;
                 mainWindow.maximizable = false;
             }
