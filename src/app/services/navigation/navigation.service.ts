@@ -48,7 +48,6 @@ export class NavigationService implements NavigationServiceBase {
 
     public async navigateToCoverPlayerAsync(): Promise<void> {
         await this.router.navigate(['/coverplayer']);
-        // this.appearanceService.applyMargins(true);
     }
 
     public showPlaybackQueue(): void {

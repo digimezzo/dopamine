@@ -84,6 +84,8 @@ export class SettingsMock implements SettingsBase {
     public artistSplitSeparators: string;
     public artistSplitExceptions: string;
     public playerType: string;
+    public fullPlayerPositionAndSize: string;
+    public coverPlayerPosition: string;
 
     public get albumKeyIndex(): string {
         return this.albumKeyIndexMock;

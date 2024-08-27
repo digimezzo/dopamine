@@ -13,7 +13,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const electron_1 = require("electron");
 const electron_log_1 = require("electron-log");
 const Store = require("electron-store");
-const windowStateKeeper = require("electron-window-state");
 const os = require("os");
 const path = require("path");
 const url = require("url");
@@ -46,6 +45,19 @@ if (process.env.NODE_ENV !== 'development') {
 /**
  * Functions
  */
+function debounce(func, wait) {
+    let timeout;
+    return function (...args) {
+        const later = () => {
+            timeout = null;
+            func(...args);
+        };
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout(later, wait);
+    };
+}
 function windowHasFrame() {
     if (!settings.has('useSystemTitleBar')) {
         settings.set('useSystemTitleBar', false);
@@ -94,22 +106,34 @@ function getTrayIcon() {
         }
     }
 }
+function getInitialPlayerPositionAndSize() {
+    if (!settings.has('playerType')) {
+        settings.set('playerType', 'full');
+    }
+    if (!settings.has('fullPlayerPositionAndSize')) {
+        settings.set('fullPlayerPositionAndSize', '50;50;1000;650');
+    }
+    if (!settings.has('coverPlayerPosition')) {
+        settings.set('coverPlayerPosition', '50;50');
+    }
+    let playerPositionAndSizeAsString = settings.get('fullPlayerPositionAndSize');
+    if (settings.get('playerType') === 'cover') {
+        playerPositionAndSizeAsString = settings.get('coverPlayerPositionAndSize');
+    }
+    return playerPositionAndSizeAsString.split(';').map(Number);
+}
 function createMainWindow() {
     // Suppress the default menu
     electron_1.Menu.setApplicationMenu(null);
-    // Load the previous state with fallback to defaults
-    const windowState = windowStateKeeper({
-        defaultWidth: 1000,
-        defaultHeight: 650,
-    });
     const remoteMain = require('@electron/remote/main');
     remoteMain.initialize();
+    const initialPlayerPositionAndSize = getInitialPlayerPositionAndSize();
     // Create the browser window
     mainWindow = new electron_1.BrowserWindow({
-        x: windowState.x,
-        y: windowState.y,
-        width: windowState.width,
-        height: windowState.height,
+        x: initialPlayerPositionAndSize[0],
+        y: initialPlayerPositionAndSize[1],
+        width: initialPlayerPositionAndSize[2],
+        height: initialPlayerPositionAndSize[3],
         backgroundColor: '#fff',
         frame: windowHasFrame(),
         icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
@@ -120,9 +144,12 @@ function createMainWindow() {
         },
         show: false,
     });
+    if (settings.get('playerType') !== 'full') {
+        mainWindow.resizable = false;
+        mainWindow.maximizable = false;
+    }
     remoteMain.enable(mainWindow.webContents);
     globalAny.windowHasFrame = windowHasFrame();
-    windowState.manage(mainWindow);
     if (isServing) {
         require('electron-reload')(__dirname, {
             electron: require(`${__dirname}/node_modules/electron`),
@@ -189,6 +216,30 @@ function createMainWindow() {
             }
         }
     });
+    mainWindow.on('move', debounce(() => {
+        if (mainWindow) {
+            const position = mainWindow.getPosition();
+            const size = mainWindow.getSize();
+            if (settings.get('playerType') === 'full') {
+                settings.set('fullPlayerPositionAndSize', `${position[0]};${position[1]};${size[0]};${size[1]}`);
+            }
+            else if (settings.get('playerType') === 'cover') {
+                settings.set('coverPlayerPositionAndSize', `${position[0]};${position[1]};350;420`);
+            }
+        }
+    }, 300));
+    mainWindow.on('resize', debounce(() => {
+        if (mainWindow) {
+            const position = mainWindow.getPosition();
+            const size = mainWindow.getSize();
+            if (settings.get('playerType') === 'full') {
+                settings.set('fullPlayerPositionAndSize', `${position[0]};${position[1]};${size[0]};${size[1]}`);
+            }
+            else if (settings.get('playerType') === 'cover') {
+                settings.set('coverPlayerPositionAndSize', `${position[0]};${position[1]};350;420`);
+            }
+        }
+    }, 300));
 }
 /**
  * Main
@@ -305,14 +356,20 @@ try {
         });
         electron_1.ipcMain.on('set-full-player', (event, arg) => {
             if (mainWindow) {
+                const fullPlayerPositionAndSizeAsString = settings.get('fullPlayerPositionAndSize');
+                const fullPlayerPositionAndSize = fullPlayerPositionAndSizeAsString.split(';').map(Number);
                 mainWindow.resizable = true;
                 mainWindow.maximizable = true;
-                mainWindow.setSize(1000, 650);
+                mainWindow.setPosition(fullPlayerPositionAndSize[0], fullPlayerPositionAndSize[1]);
+                mainWindow.setSize(fullPlayerPositionAndSize[2], fullPlayerPositionAndSize[3]);
             }
         });
         electron_1.ipcMain.on('set-cover-player', (event, arg) => {
             if (mainWindow) {
+                const coverPlayerPositionAndSizeAsString = settings.get('coverPlayerPositionAndSize');
+                const coverPlayerPositionAndSize = coverPlayerPositionAndSizeAsString.split(';').map(Number);
                 mainWindow.unmaximize();
+                mainWindow.setPosition(coverPlayerPositionAndSize[0], coverPlayerPositionAndSize[1]);
                 mainWindow.setSize(350, 420);
                 mainWindow.resizable = false;
                 mainWindow.maximizable = false;

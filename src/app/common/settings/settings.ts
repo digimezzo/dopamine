@@ -759,6 +759,24 @@ export class Settings implements SettingsBase {
         this.settings.set('playerType', v);
     }
 
+    // fullPlayerPositionAndSize
+    public get fullPlayerPositionAndSize(): string {
+        return <string>this.settings.get('fullPlayerPositionAndSize');
+    }
+
+    public set fullPlayerPositionAndSize(v: string) {
+        this.settings.set('fullPlayerPositionAndSize', v);
+    }
+
+    // coverPlayerPosition
+    public get coverPlayerPosition(): string {
+        return <string>this.settings.get('coverPlayerPosition');
+    }
+
+    public set coverPlayerPositionAndSize(v: string) {
+        this.settings.set('coverPlayerPosition', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -1079,6 +1097,14 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('playerType')) {
             this.settings.set('playerType', 'full');
+        }
+
+        if (!this.settings.has('fullPlayerPositionAndSize')) {
+            this.settings.set('fullPlayerPositionAndSize', '50;50;1000;650');
+        }
+
+        if (!this.settings.has('coverPlayerPosition')) {
+            this.settings.set('coverPlayerPosition', '50;50');
         }
     }
 }
