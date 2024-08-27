@@ -118,7 +118,7 @@ function getTrayIcon(): string {
     }
 }
 
-function getInitialPlayerPositionAndSize(): number[] {
+function setInitialWindowPositionAndSize(mainWindow: BrowserWindow): void {
     if (!settings.has('playerType')) {
         settings.set('playerType', 'full');
     }
@@ -131,13 +131,19 @@ function getInitialPlayerPositionAndSize(): number[] {
         settings.set('coverPlayerPosition', '50;50');
     }
 
-    let playerPositionAndSizeAsString: string = settings.get('fullPlayerPositionAndSize');
-
+    let windowPositionAndSizeAsString: string = settings.get('fullPlayerPositionAndSize');
     if (settings.get('playerType') === 'cover') {
-        playerPositionAndSizeAsString = settings.get('coverPlayerPositionAndSize');
+        windowPositionAndSizeAsString = settings.get('coverPlayerPositionAndSize');
     }
 
-    return playerPositionAndSizeAsString.split(';').map(Number);
+    const windowPositionAndSize: number[] = windowPositionAndSizeAsString.split(';').map(Number);
+    mainWindow.setPosition(windowPositionAndSize[0], windowPositionAndSize[1]);
+    mainWindow.setSize(windowPositionAndSize[2], windowPositionAndSize[3]);
+
+    if (settings.get('playerType') !== 'full') {
+        mainWindow.resizable = false;
+        mainWindow.maximizable = false;
+    }
 }
 
 function createMainWindow(): void {
@@ -147,14 +153,8 @@ function createMainWindow(): void {
     const remoteMain = require('@electron/remote/main');
     remoteMain.initialize();
 
-    const initialPlayerPositionAndSize: number[] = getInitialPlayerPositionAndSize();
-
     // Create the browser window
     mainWindow = new BrowserWindow({
-        x: initialPlayerPositionAndSize[0],
-        y: initialPlayerPositionAndSize[1],
-        width: initialPlayerPositionAndSize[2],
-        height: initialPlayerPositionAndSize[3],
         backgroundColor: '#fff',
         frame: windowHasFrame(),
         icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
@@ -166,10 +166,7 @@ function createMainWindow(): void {
         show: false,
     });
 
-    if (settings.get('playerType') !== 'full') {
-        mainWindow.resizable = false;
-        mainWindow.maximizable = false;
-    }
+    setInitialWindowPositionAndSize(mainWindow);
 
     remoteMain.enable(mainWindow.webContents);
 

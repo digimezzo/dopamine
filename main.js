@@ -106,7 +106,7 @@ function getTrayIcon() {
         }
     }
 }
-function getInitialPlayerPositionAndSize() {
+function setInitialWindowPositionAndSize(mainWindow) {
     if (!settings.has('playerType')) {
         settings.set('playerType', 'full');
     }
@@ -116,24 +116,25 @@ function getInitialPlayerPositionAndSize() {
     if (!settings.has('coverPlayerPosition')) {
         settings.set('coverPlayerPosition', '50;50');
     }
-    let playerPositionAndSizeAsString = settings.get('fullPlayerPositionAndSize');
+    let windowPositionAndSizeAsString = settings.get('fullPlayerPositionAndSize');
     if (settings.get('playerType') === 'cover') {
-        playerPositionAndSizeAsString = settings.get('coverPlayerPositionAndSize');
+        windowPositionAndSizeAsString = settings.get('coverPlayerPositionAndSize');
     }
-    return playerPositionAndSizeAsString.split(';').map(Number);
+    const windowPositionAndSize = windowPositionAndSizeAsString.split(';').map(Number);
+    mainWindow.setPosition(windowPositionAndSize[0], windowPositionAndSize[1]);
+    mainWindow.setSize(windowPositionAndSize[2], windowPositionAndSize[3]);
+    if (settings.get('playerType') !== 'full') {
+        mainWindow.resizable = false;
+        mainWindow.maximizable = false;
+    }
 }
 function createMainWindow() {
     // Suppress the default menu
     electron_1.Menu.setApplicationMenu(null);
     const remoteMain = require('@electron/remote/main');
     remoteMain.initialize();
-    const initialPlayerPositionAndSize = getInitialPlayerPositionAndSize();
     // Create the browser window
     mainWindow = new electron_1.BrowserWindow({
-        x: initialPlayerPositionAndSize[0],
-        y: initialPlayerPositionAndSize[1],
-        width: initialPlayerPositionAndSize[2],
-        height: initialPlayerPositionAndSize[3],
         backgroundColor: '#fff',
         frame: windowHasFrame(),
         icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
@@ -144,10 +145,7 @@ function createMainWindow() {
         },
         show: false,
     });
-    if (settings.get('playerType') !== 'full') {
-        mainWindow.resizable = false;
-        mainWindow.maximizable = false;
-    }
+    setInitialWindowPositionAndSize(mainWindow);
     remoteMain.enable(mainWindow.webContents);
     globalAny.windowHasFrame = windowHasFrame();
     if (isServing) {
