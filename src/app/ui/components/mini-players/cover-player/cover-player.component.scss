@@ -1,0 +1,18 @@
+@import 'variables';
+
+.cover-player__titlebar {
+  width: 100%;
+  height: $titlebar-height;
+  display: flex;
+  flex-direction: row;
+  top: 0;
+  z-index: 1000;
+}
+
+.cover-player__content {
+  width: 100%;
+  height: $titlebar-height;
+  display: flex;
+  flex-direction: column;
+  top: 0;
+}

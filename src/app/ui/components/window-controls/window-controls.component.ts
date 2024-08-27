@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import { BrowserWindow } from 'electron';
 import { ApplicationBase } from '../../../common/io/application.base';
 
@@ -13,6 +13,9 @@ export class WindowControlsComponent implements OnInit {
     public constructor(private application: ApplicationBase) {}
 
     public canMaximize: boolean = false;
+    
+    @Input()
+    public showMaximize: boolean = true;
 
     public ngOnInit(): void {
         const window: BrowserWindow = this.application.getCurrentWindow();

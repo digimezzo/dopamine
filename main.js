@@ -118,7 +118,7 @@ function setInitialWindowPositionAndSize(mainWindow) {
     }
     let windowPositionAndSizeAsString = settings.get('fullPlayerPositionAndSize');
     if (settings.get('playerType') === 'cover') {
-        windowPositionAndSizeAsString = settings.get('coverPlayerPositionAndSize');
+        windowPositionAndSizeAsString = `${settings.get('coverPlayerPosition')};350;420`;
     }
     const windowPositionAndSize = windowPositionAndSizeAsString.split(';').map(Number);
     mainWindow.setPosition(windowPositionAndSize[0], windowPositionAndSize[1]);
@@ -222,7 +222,7 @@ function createMainWindow() {
                 settings.set('fullPlayerPositionAndSize', `${position[0]};${position[1]};${size[0]};${size[1]}`);
             }
             else if (settings.get('playerType') === 'cover') {
-                settings.set('coverPlayerPositionAndSize', `${position[0]};${position[1]};350;420`);
+                settings.set('coverPlayerPosition', `${position[0]};${position[1]};350;420`);
             }
         }
     }, 300));
@@ -234,7 +234,7 @@ function createMainWindow() {
                 settings.set('fullPlayerPositionAndSize', `${position[0]};${position[1]};${size[0]};${size[1]}`);
             }
             else if (settings.get('playerType') === 'cover') {
-                settings.set('coverPlayerPositionAndSize', `${position[0]};${position[1]};350;420`);
+                settings.set('coverPlayerPosition', `${position[0]};${position[1]}`);
             }
         }
     }, 300));
@@ -364,10 +364,10 @@ try {
         });
         electron_1.ipcMain.on('set-cover-player', (event, arg) => {
             if (mainWindow) {
-                const coverPlayerPositionAndSizeAsString = settings.get('coverPlayerPositionAndSize');
-                const coverPlayerPositionAndSize = coverPlayerPositionAndSizeAsString.split(';').map(Number);
+                const coverPlayerPositionAsString = settings.get('coverPlayerPosition');
+                const coverPlayerPosition = coverPlayerPositionAsString.split(';').map(Number);
                 mainWindow.unmaximize();
-                mainWindow.setPosition(coverPlayerPositionAndSize[0], coverPlayerPositionAndSize[1]);
+                mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
                 mainWindow.setSize(350, 420);
                 mainWindow.resizable = false;
                 mainWindow.maximizable = false;
