@@ -1,2 +1,4 @@
-<app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
-Hello cover player!
+<div class="d-flex flex-row">
+    <app-switch-player-button></app-switch-player-button>
+    <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
+</div>

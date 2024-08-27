@@ -21,7 +21,7 @@ import { DesktopBase } from './common/io/desktop.base';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
 import { PlaybackServiceBase } from './services/playback/playback.service.base';
 import { LifetimeService } from './services/lifetime/lifetime.service';
-import { PlayerSwitcherService } from './services/player-switcher/player-switcher.service';
+import { SwitchPlayerService } from './services/player-switcher/switch-player.service';
 
 @Component({
     selector: 'app-root',
@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        private playerSwitcherService: PlayerSwitcherService,
+        private playerSwitcherService: SwitchPlayerService,
         private playbackService: PlaybackServiceBase,
         private navigationService: NavigationServiceBase,
         private appearanceService: AppearanceServiceBase,

@@ -4,7 +4,7 @@ import { SettingsBase } from '../../common/settings/settings.base';
 import { NavigationServiceBase } from '../navigation/navigation.service.base';
 
 @Injectable({ providedIn: 'root' })
-export class PlayerSwitcherService {
+export class SwitchPlayerService {
     public constructor(
         private navigationService: NavigationServiceBase,
         private ipcProxy: IpcProxyBase,
