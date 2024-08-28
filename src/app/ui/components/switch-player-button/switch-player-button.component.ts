@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
 import { IndexingServiceBase } from '../../../services/indexing/indexing.service.base';
 import { SwitchPlayerService } from '../../../services/player-switcher/switch-player.service';
@@ -12,6 +12,9 @@ import { SwitchPlayerService } from '../../../services/player-switcher/switch-pl
 })
 export class SwitchPlayerButtonComponent {
     public constructor(public switchPlayerService: SwitchPlayerService) {}
+
+    @Input()
+    public highContrast: boolean = false;
 
     public async switchPlayerButtonClickAsync(): Promise<void> {
         await this.switchPlayerService.togglePlayerAsync();
