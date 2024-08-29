@@ -82,6 +82,6 @@ export abstract class SettingsBase {
     public abstract artistSplitSeparators: string;
     public abstract artistSplitExceptions: string;
     public abstract playerType: string;
-    public abstract fullPlayerPositionAndSize: string;
+    public abstract fullPlayerPositionSizeMaximized: string;
     public abstract coverPlayerPosition: string;
 }

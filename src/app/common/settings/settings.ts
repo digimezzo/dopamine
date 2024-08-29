@@ -759,13 +759,13 @@ export class Settings implements SettingsBase {
         this.settings.set('playerType', v);
     }
 
-    // fullPlayerPositionAndSize
-    public get fullPlayerPositionAndSize(): string {
-        return <string>this.settings.get('fullPlayerPositionAndSize');
+    // fullPlayerPositionSizeMaximized
+    public get fullPlayerPositionSizeMaximized(): string {
+        return <string>this.settings.get('fullPlayerPositionSizeMaximized');
     }
 
-    public set fullPlayerPositionAndSize(v: string) {
-        this.settings.set('fullPlayerPositionAndSize', v);
+    public set fullPlayerPositionSizeMaximized(v: string) {
+        this.settings.set('fullPlayerPositionSizeMaximized', v);
     }
 
     // coverPlayerPosition
@@ -1099,8 +1099,8 @@ export class Settings implements SettingsBase {
             this.settings.set('playerType', 'full');
         }
 
-        if (!this.settings.has('fullPlayerPositionAndSize')) {
-            this.settings.set('fullPlayerPositionAndSize', '50;50;1000;650');
+        if (!this.settings.has('fullPlayerPositionSizeMaximized')) {
+            this.settings.set('fullPlayerPositionSizeMaximized', '50;50;1000;650;0');
         }
 
         if (!this.settings.has('coverPlayerPosition')) {

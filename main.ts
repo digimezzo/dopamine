@@ -118,31 +118,46 @@ function getTrayIcon(): string {
     }
 }
 
-function setInitialWindowPositionAndSize(mainWindow: BrowserWindow): void {
-    if (!settings.has('playerType')) {
+function setInitialWindowState(mainWindow: BrowserWindow): void {
+    try {
+        if (!settings.has('playerType')) {
+            settings.set('playerType', 'full');
+        }
+
+        if (!settings.has('fullPlayerPositionSizeMaximized')) {
+            settings.set('fullPlayerPositionSizeMaximized', '50;50;1000;650;0');
+        }
+
+        if (!settings.has('coverPlayerPosition')) {
+            settings.set('coverPlayerPosition', '50;50');
+        }
+
+        let windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
+
+        if (settings.get('playerType') === 'cover') {
+            windowPositionSizeMaximizedAsString = `${settings.get('coverPlayerPosition')};350;430;0`;
+        }
+
+        const windowPositionSizeMaximized: number[] = windowPositionSizeMaximizedAsString.split(';').map(Number);
+        mainWindow.setPosition(windowPositionSizeMaximized[0], windowPositionSizeMaximized[1]);
+        mainWindow.setSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
+
+        if (settings.get('playerType') !== 'full') {
+            mainWindow.resizable = false;
+            mainWindow.maximizable = false;
+        } else if (windowPositionSizeMaximized[4] === 1) {
+            mainWindow.maximize();
+        }
+    } catch (e) {
+        log.error(`[Main] [setInitialWindowState] Could not set initial window state. Error: ${e.message}`);
+
         settings.set('playerType', 'full');
-    }
-
-    if (!settings.has('fullPlayerPositionAndSize')) {
-        settings.set('fullPlayerPositionAndSize', '50;50;1000;650');
-    }
-
-    if (!settings.has('coverPlayerPosition')) {
+        settings.set('fullPlayerPositionSizeMaximized', '50;50;1000;650;0');
         settings.set('coverPlayerPosition', '50;50');
-    }
-
-    let windowPositionAndSizeAsString: string = settings.get('fullPlayerPositionAndSize');
-    if (settings.get('playerType') === 'cover') {
-        windowPositionAndSizeAsString = `${settings.get('coverPlayerPosition')};350;430`;
-    }
-
-    const windowPositionAndSize: number[] = windowPositionAndSizeAsString.split(';').map(Number);
-    mainWindow.setPosition(windowPositionAndSize[0], windowPositionAndSize[1]);
-    mainWindow.setSize(windowPositionAndSize[2], windowPositionAndSize[3]);
-
-    if (settings.get('playerType') !== 'full') {
-        mainWindow.resizable = false;
-        mainWindow.maximizable = false;
+        let windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
+        const windowPositionSizeMaximized: number[] = windowPositionSizeMaximizedAsString.split(';').map(Number);
+        mainWindow.setPosition(windowPositionSizeMaximized[0], windowPositionSizeMaximized[1]);
+        mainWindow.setSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
     }
 }
 
@@ -166,7 +181,7 @@ function createMainWindow(): void {
         show: false,
     });
 
-    setInitialWindowPositionAndSize(mainWindow);
+    setInitialWindowState(mainWindow);
 
     remoteMain.enable(mainWindow.webContents);
 
@@ -251,12 +266,13 @@ function createMainWindow(): void {
     mainWindow.on(
         'move',
         debounce(() => {
-            if (mainWindow) {
+            if (mainWindow && !mainWindow.isMaximized()) {
                 const position: number[] = mainWindow.getPosition();
                 const size: number[] = mainWindow.getSize();
 
                 if (settings.get('playerType') === 'full') {
-                    settings.set('fullPlayerPositionAndSize', `${position[0]};${position[1]};${size[0]};${size[1]}`);
+                    const isMaximized: number = mainWindow.isMaximized() ? 1 : 0;
+                    settings.set('fullPlayerPositionSizeMaximized', `${position[0]};${position[1]};${size[0]};${size[1]};${isMaximized}`);
                 } else if (settings.get('playerType') === 'cover') {
                     settings.set('coverPlayerPosition', `${position[0]};${position[1]};350;430`);
                 }
@@ -267,18 +283,44 @@ function createMainWindow(): void {
     mainWindow.on(
         'resize',
         debounce(() => {
-            if (mainWindow) {
+            if (mainWindow && !mainWindow.isMaximized()) {
                 const position: number[] = mainWindow.getPosition();
                 const size: number[] = mainWindow.getSize();
 
                 if (settings.get('playerType') === 'full') {
-                    settings.set('fullPlayerPositionAndSize', `${position[0]};${position[1]};${size[0]};${size[1]}`);
+                    const isMaximized: number = mainWindow.isMaximized() ? 1 : 0;
+                    settings.set('fullPlayerPositionSizeMaximized', `${position[0]};${position[1]};${size[0]};${size[1]};${isMaximized}`);
                 } else if (settings.get('playerType') === 'cover') {
                     settings.set('coverPlayerPosition', `${position[0]};${position[1]}`);
                 }
             }
         }, 300),
     );
+
+    mainWindow.on('maximize', (event: any) => {
+        if (mainWindow) {
+            if (settings.get('playerType') === 'full') {
+                let windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
+                const windowPositionSizeMaximized: number[] = windowPositionSizeMaximizedAsString.split(';').map(Number);
+                console.log(windowPositionSizeMaximized);
+                settings.set(
+                    'fullPlayerPositionSizeMaximized',
+                    `${windowPositionSizeMaximized[0]};${windowPositionSizeMaximized[1]};${windowPositionSizeMaximized[2]};${windowPositionSizeMaximized[3]};1`,
+                );
+            }
+        }
+    });
+
+    mainWindow.on('unmaximize', (event: any) => {
+        if (mainWindow) {
+            if (settings.get('playerType') === 'full') {
+                settings.set(
+                    'fullPlayerPositionSizeMaximized',
+                    `${mainWindow.getPosition().join(';')};${mainWindow.getSize().join(';')};0`,
+                );
+            }
+        }
+    });
 }
 
 /**
@@ -417,18 +459,25 @@ try {
         });
 
         ipcMain.on('set-full-player', (event: any, arg: any) => {
+            settings.set('playerType', 'full');
             if (mainWindow) {
-                const fullPlayerPositionAndSizeAsString: string = settings.get('fullPlayerPositionAndSize');
-                const fullPlayerPositionAndSize: number[] = fullPlayerPositionAndSizeAsString.split(';').map(Number);
+                const fullPlayerPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
+                console.log(fullPlayerPositionSizeMaximizedAsString);
+                const fullPlayerPositionSizeMaximized: number[] = fullPlayerPositionSizeMaximizedAsString.split(';').map(Number);
 
                 mainWindow.resizable = true;
                 mainWindow.maximizable = true;
-                mainWindow.setPosition(fullPlayerPositionAndSize[0], fullPlayerPositionAndSize[1]);
-                mainWindow.setSize(fullPlayerPositionAndSize[2], fullPlayerPositionAndSize[3]);
+                mainWindow.setPosition(fullPlayerPositionSizeMaximized[0], fullPlayerPositionSizeMaximized[1]);
+                mainWindow.setSize(fullPlayerPositionSizeMaximized[2], fullPlayerPositionSizeMaximized[3]);
+
+                if (fullPlayerPositionSizeMaximized[4] === 1) {
+                    mainWindow.maximize();
+                }
             }
         });
 
         ipcMain.on('set-cover-player', (event: any, arg: any) => {
+            settings.set('playerType', 'cover');
             if (mainWindow) {
                 const coverPlayerPositionAsString: string = settings.get('coverPlayerPosition');
                 const coverPlayerPosition: number[] = coverPlayerPositionAsString.split(';').map(Number);
