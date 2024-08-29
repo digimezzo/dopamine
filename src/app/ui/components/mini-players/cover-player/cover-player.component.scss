@@ -38,3 +38,28 @@
     align-items: center;
     justify-content: center;
 }
+
+.cover-player__cover-pane {
+    position: relative;
+    width: 350px;
+    height: 350px;
+}
+
+.cover-player-cover-pane__cover {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    z-index: 0;
+    top: 0;
+    left: 0;
+}
+
+.cover-player-cover-pane__songinfo {
+    position: absolute;
+    width: 350px;
+    height: 100px;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
+}

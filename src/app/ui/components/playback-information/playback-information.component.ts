@@ -56,6 +56,9 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     ) {}
 
     @Input()
+    public highContrast: boolean = false;
+
+    @Input()
     public position: string = 'bottom';
 
     @Input()

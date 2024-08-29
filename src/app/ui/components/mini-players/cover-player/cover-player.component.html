@@ -10,8 +10,22 @@
     </div>
 </div>
 <div class="cover-player__content">
-    <app-playback-cover-art [size]="350"></app-playback-cover-art>
-
+    <div class="cover-player__cover-pane">
+        <app-playback-cover-art class="cover-player-cover-pane__cover" [size]="350"></app-playback-cover-art>
+        <div class="cover-player-cover-pane__songinfo">
+            <app-playback-information
+                class="mx-4"
+                [height]="80"
+                [largeFontSize]="28"
+                [smallFontSize]="14"
+                position="center"
+                [showRating]="false"
+                [showLove]="false"
+                [highContrast]="true"
+            >
+            </app-playback-information>
+        </div>
+    </div>
     <div class="cover-player__playback-pane">
         <app-playback-progress class="cover-player__progressbar"></app-playback-progress>
         <div class="cover-player__playback-controls">
