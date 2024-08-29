@@ -123,12 +123,13 @@ function setInitialWindowState(mainWindow) {
         }
         const windowPositionSizeMaximized = windowPositionSizeMaximizedAsString.split(';').map(Number);
         mainWindow.setPosition(windowPositionSizeMaximized[0], windowPositionSizeMaximized[1]);
-        mainWindow.setSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
         if (settings.get('playerType') !== 'full') {
             mainWindow.resizable = false;
             mainWindow.maximizable = false;
+            mainWindow.setContentSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
         }
         else if (windowPositionSizeMaximized[4] === 1) {
+            mainWindow.setSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
             mainWindow.maximize();
         }
     }
@@ -407,10 +408,10 @@ try {
                 const coverPlayerPositionAsString = settings.get('coverPlayerPosition');
                 const coverPlayerPosition = coverPlayerPositionAsString.split(';').map(Number);
                 mainWindow.unmaximize();
-                mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
-                mainWindow.setSize(350, 430);
                 mainWindow.resizable = false;
                 mainWindow.maximizable = false;
+                mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
+                mainWindow.setContentSize(350, 430);
             }
         });
     }
