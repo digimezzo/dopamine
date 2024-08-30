@@ -308,6 +308,10 @@ import { QueuedTrackRepository } from './data/repositories/queued-track-reposito
 import { TextIconSecondaryButtonComponent } from './ui/components/controls/text-icon-secondary-button/text-icon-secondary-button.component';
 import { CoverPlayerComponent } from './ui/components/mini-players/cover-player/cover-player.component';
 import { SwitchPlayerButtonComponent } from './ui/components/switch-player-button/switch-player-button.component';
+import { CoverPlayerPlaybackQueueComponent } from './ui/components/mini-players/cover-player/cover-player-playback-queue/cover-player-playback-queue.component';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { CoverPlayerVolumeControlComponent } from './ui/components/mini-players/cover-player/cover-player-volume-control/cover-player-volume-control.component';
+import { VolumeIconComponent } from './ui/components/volume-icon/volume-icon.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -460,6 +464,9 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         TextIconSecondaryButtonComponent,
         NotificationBarComponent,
         CoverPlayerComponent,
+        CoverPlayerPlaybackQueueComponent,
+        CoverPlayerVolumeControlComponent,
+        VolumeIconComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -475,6 +482,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         MatMenuModule,
         MatDividerModule,
         MatSortModule,
+        MatBottomSheetModule,
         DragDropModule,
         HammerModule,
         FormsModule,

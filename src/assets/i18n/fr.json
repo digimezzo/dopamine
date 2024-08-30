@@ -292,5 +292,6 @@
     "confirm-remove-symbol": "Êtes-vous sûr de vouloir supprimer le symbole '{{symbol}}'?",
     "remove-artist": "Supprimer l'artiste",
     "confirm-remove-artist": "Etes-vous sûr de vouloir supprimer l'artiste '{{artist}}'?",
-    "switch-player": "Changer de lecteur"
+    "switch-player": "Changer de lecteur",
+    "volume": "Volume"
 }

@@ -2,12 +2,12 @@ import { Component, Input } from '@angular/core';
 import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
 
 @Component({
-    selector: 'app-volume-control',
+    selector: 'app-volume-icon',
     host: { style: 'display: block' },
-    templateUrl: './volume-control.component.html',
-    styleUrls: ['./volume-control.component.scss'],
+    templateUrl: './volume-icon.component.html',
+    styleUrls: ['./volume-icon.component.scss'],
 })
-export class VolumeControlComponent {
+export class VolumeIconComponent {
     public constructor(private playbackService: PlaybackServiceBase) {}
 
     public get volume(): number {
@@ -16,9 +16,5 @@ export class VolumeControlComponent {
 
     public set volume(v: number) {
         this.playbackService.volume = v;
-    }
-
-    public toggleMute(): void {
-        this.playbackService.toggleMute();
     }
 }

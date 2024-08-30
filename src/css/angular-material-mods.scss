@@ -30,6 +30,10 @@
     background-color: rgba(var(--theme-rgb-base), 0.06) !important;
 }
 
+.mat-bottom-sheet-container {
+    background-color: var(--theme-main-background) !important;
+}
+
 // Text color
 // -----------------------------------------------------------------------------------------------------------------------------------------
 .mat-mdc-menu-item {
