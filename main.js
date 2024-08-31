@@ -121,6 +121,7 @@ function setInitialWindowState(mainWindow) {
         if (settings.get('playerType') === 'cover') {
             windowPositionSizeMaximizedAsString = `${settings.get('coverPlayerPosition')};350;430;0`;
         }
+        console.log(windowPositionSizeMaximizedAsString);
         const windowPositionSizeMaximized = windowPositionSizeMaximizedAsString.split(';').map(Number);
         mainWindow.setPosition(windowPositionSizeMaximized[0], windowPositionSizeMaximized[1]);
         if (settings.get('playerType') !== 'full') {
@@ -128,9 +129,11 @@ function setInitialWindowState(mainWindow) {
             mainWindow.maximizable = false;
             mainWindow.setContentSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
         }
-        else if (windowPositionSizeMaximized[4] === 1) {
+        else {
             mainWindow.setSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
-            mainWindow.maximize();
+            if (windowPositionSizeMaximized[4] === 1) {
+                mainWindow.maximize();
+            }
         }
     }
     catch (e) {

@@ -145,9 +145,11 @@ function setInitialWindowState(mainWindow: BrowserWindow): void {
             mainWindow.resizable = false;
             mainWindow.maximizable = false;
             mainWindow.setContentSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
-        } else if (windowPositionSizeMaximized[4] === 1) {
+        } else {
             mainWindow.setSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
-            mainWindow.maximize();
+            if (windowPositionSizeMaximized[4] === 1) {
+                mainWindow.maximize();
+            }
         }
     } catch (e) {
         log.error(`[Main] [setInitialWindowState] Could not set initial window state. Error: ${e.message}`);
