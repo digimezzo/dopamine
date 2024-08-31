@@ -7,6 +7,7 @@ import { AppearanceServiceBase } from '../appearance/appearance.service.base';
 @Injectable()
 export class NavigationService implements NavigationServiceBase {
     private showPlaybackQueueRequested: Subject<void> = new Subject();
+    private refreshPlaybackQueueListRequested: Subject<void> = new Subject();
 
     public constructor(
         private appearanceService: AppearanceServiceBase,
@@ -14,6 +15,7 @@ export class NavigationService implements NavigationServiceBase {
     ) {}
 
     public showPlaybackQueueRequested$: Observable<void> = this.showPlaybackQueueRequested.asObservable();
+    public refreshPlaybackQueueListRequested$: Observable<void> = this.refreshPlaybackQueueListRequested.asObservable();
 
     public async navigateToLoadingAsync(): Promise<void> {
         await this.router.navigate(['/loading']);
@@ -52,5 +54,10 @@ export class NavigationService implements NavigationServiceBase {
 
     public showPlaybackQueue(): void {
         this.showPlaybackQueueRequested.next();
+        this.refreshPlaybackQueueListRequested.next();
+    }
+
+    public refreshPlaybackQueueList(): void {
+        this.refreshPlaybackQueueListRequested.next();
     }
 }

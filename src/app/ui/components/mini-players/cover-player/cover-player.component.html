@@ -1,4 +1,4 @@
-<div class="cover-player__titlebar draggable">
+<div class="cover-player__titlebar" [ngClass]="{ draggable: !this.playbackQueueIsVisible }">
     <div class="d-flex flex-grow"></div>
     <div class="d-flex">
         <app-switch-player-button [highContrast]="true"></app-switch-player-button>

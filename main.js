@@ -121,7 +121,6 @@ function setInitialWindowState(mainWindow) {
         if (settings.get('playerType') === 'cover') {
             windowPositionSizeMaximizedAsString = `${settings.get('coverPlayerPosition')};350;430;0`;
         }
-        console.log(windowPositionSizeMaximizedAsString);
         const windowPositionSizeMaximized = windowPositionSizeMaximizedAsString.split(';').map(Number);
         mainWindow.setPosition(windowPositionSizeMaximized[0], windowPositionSizeMaximized[1]);
         if (settings.get('playerType') !== 'full') {
