@@ -17,8 +17,10 @@ import { DesktopBase } from './common/io/desktop.base';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
 import { PlaybackServiceBase } from './services/playback/playback.service.base';
 import { LifetimeService } from './services/lifetime/lifetime.service';
+import { SwitchPlayerService } from './services/player-switcher/switch-player.service';
 
 describe('AppComponent', () => {
+    let playerSwitcherServiceMock: IMock<SwitchPlayerService>;
     let playbackServiceMock: IMock<PlaybackServiceBase>;
     let navigationServiceMock: IMock<NavigationServiceBase>;
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
@@ -43,6 +45,7 @@ describe('AppComponent', () => {
 
     function createComponent(): AppComponent {
         return new AppComponent(
+            playerSwitcherServiceMock.object,
             playbackServiceMock.object,
             navigationServiceMock.object,
             appearanceServiceMock.object,
@@ -62,6 +65,7 @@ describe('AppComponent', () => {
     }
 
     beforeEach(() => {
+        playerSwitcherServiceMock = Mock.ofType<SwitchPlayerService>();
         playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
