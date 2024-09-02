@@ -145,12 +145,6 @@ export class Constants {
             'https://github.com/sindresorhus/electron-store/blob/master/license',
         ),
         new ExternalComponent(
-            'electron-window-state',
-            'A library to store and restore window sizes and positions for your Electron app.',
-            'https://github.com/mawie81/electron-window-state',
-            'https://github.com/mawie81/electron-window-state/blob/master/license',
-        ),
-        new ExternalComponent(
             'Fast HTML Parser',
             'A very fast HTML parser, generating a simplified DOM, with basic element query support. ',
             'https://github.com/taoqf/node-html-parser',
