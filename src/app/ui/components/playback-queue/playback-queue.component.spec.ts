@@ -25,6 +25,7 @@ describe('PlaybackQueueComponent', () => {
     let playbackQueue: TrackModels;
     let playbackServicePlaybackStarted: Subject<PlaybackStarted>;
     let navigationServiceShowPlaybackQueueRequested: Subject<void>;
+    let refreshPlaybackQueueListRequested: Subject<void>;
     let settingsMock: any;
 
     function createComponent(): PlaybackQueueComponent {
@@ -59,6 +60,10 @@ describe('PlaybackQueueComponent', () => {
         navigationServiceShowPlaybackQueueRequested = new Subject();
         const navigationServiceShowPlaybackQueueRequested$: Observable<void> = navigationServiceShowPlaybackQueueRequested.asObservable();
         navigationServiceMock.setup((x) => x.showPlaybackQueueRequested$).returns(() => navigationServiceShowPlaybackQueueRequested$);
+
+        refreshPlaybackQueueListRequested = new Subject();
+        const refreshPlaybackQueueListRequested$: Observable<void> = refreshPlaybackQueueListRequested.asObservable();
+        navigationServiceMock.setup((x) => x.refreshPlaybackQueueListRequested$).returns(() => refreshPlaybackQueueListRequested$);
     });
 
     describe('constructor', () => {
@@ -149,7 +154,7 @@ describe('PlaybackQueueComponent', () => {
 
             // Act
             component.ngOnInit();
-            navigationServiceShowPlaybackQueueRequested.next();
+            refreshPlaybackQueueListRequested.next();
 
             // Assert
             mouseSelectionWatcherMock.verify((x) => x.initialize(playbackQueue.tracks), Times.once());
@@ -163,7 +168,7 @@ describe('PlaybackQueueComponent', () => {
             component.ngOnInit();
             const shouldShowListBefore: boolean = component.shouldShowList;
             jest.useFakeTimers();
-            navigationServiceShowPlaybackQueueRequested.next();
+            refreshPlaybackQueueListRequested.next();
             jest.runAllTimers();
             const shouldShowListAfter: boolean = component.shouldShowList;
 

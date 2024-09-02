@@ -12,7 +12,14 @@
     -webkit-app-region: no-drag;
 }
 
-.window-button:hover {
-    background-color: var(--theme-hovered-item-background);
-    opacity: 1;
+.window-button:hover,
+.window-button:hover * {
+    background-color: var(--theme-accent-color) !important;
+    fill: var(--theme-highlight-foreground) !important;
+    color: var(--theme-highlight-foreground) !important;
+}
+
+.window-button__high-contrast {
+    fill: var(--theme-highlight-foreground) !important;
+    color: var(--theme-highlight-foreground) !important;
 }

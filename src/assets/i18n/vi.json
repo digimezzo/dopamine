@@ -292,4 +292,6 @@
     "confirm-remove-symbol": "Bạn có chắc muốn xóa ký hiệu '{{symbol}}'?",
     "remove-artist": "Xóa nghệ sĩ",
     "confirm-remove-artist": "Bạn có chắc muốn xóa nghệ sĩ '{{artist}}'?"
+    "switch-player": "Chuyển đổi trình phát",
+    "volume": "Âm lượng",
 }

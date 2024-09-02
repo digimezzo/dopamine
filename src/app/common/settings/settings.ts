@@ -750,6 +750,33 @@ export class Settings implements SettingsBase {
         this.settings.set('artistSplitExceptions', v);
     }
 
+    // playerType
+    public get playerType(): string {
+        return <string>this.settings.get('playerType');
+    }
+
+    public set playerType(v: string) {
+        this.settings.set('playerType', v);
+    }
+
+    // fullPlayerPositionSizeMaximized
+    public get fullPlayerPositionSizeMaximized(): string {
+        return <string>this.settings.get('fullPlayerPositionSizeMaximized');
+    }
+
+    public set fullPlayerPositionSizeMaximized(v: string) {
+        this.settings.set('fullPlayerPositionSizeMaximized', v);
+    }
+
+    // coverPlayerPosition
+    public get coverPlayerPosition(): string {
+        return <string>this.settings.get('coverPlayerPosition');
+    }
+
+    public set coverPlayerPositionAndSize(v: string) {
+        this.settings.set('coverPlayerPosition', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -1066,6 +1093,18 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('artistSplitExceptions')) {
             this.settings.set('artistSplitExceptions', '');
+        }
+
+        if (!this.settings.has('playerType')) {
+            this.settings.set('playerType', 'full');
+        }
+
+        if (!this.settings.has('fullPlayerPositionSizeMaximized')) {
+            this.settings.set('fullPlayerPositionSizeMaximized', '50;50;1000;650;0');
+        }
+
+        if (!this.settings.has('coverPlayerPosition')) {
+            this.settings.set('coverPlayerPosition', '50;50');
         }
     }
 }

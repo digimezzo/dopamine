@@ -11,7 +11,6 @@
 import { app, BrowserWindow, ipcMain, Menu, nativeTheme, protocol, Tray } from 'electron';
 import log from 'electron-log';
 import * as Store from 'electron-store';
-import * as windowStateKeeper from 'electron-window-state';
 import * as os from 'os';
 import * as path from 'path';
 import * as url from 'url';
@@ -49,6 +48,20 @@ if (process.env.NODE_ENV !== 'development') {
 /**
  * Functions
  */
+function debounce(func: Function, wait: number) {
+    let timeout: NodeJS.Timeout | null;
+    return function (...args: any[]) {
+        const later = () => {
+            timeout = null;
+            func(...args);
+        };
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout(later, wait);
+    };
+}
+
 function windowHasFrame(): boolean {
     if (!settings.has('useSystemTitleBar')) {
         settings.set('useSystemTitleBar', false);
@@ -105,25 +118,61 @@ function getTrayIcon(): string {
     }
 }
 
+function setInitialWindowState(mainWindow: BrowserWindow): void {
+    try {
+        if (!settings.has('playerType')) {
+            settings.set('playerType', 'full');
+        }
+
+        if (!settings.has('fullPlayerPositionSizeMaximized')) {
+            settings.set('fullPlayerPositionSizeMaximized', '50;50;1000;650;0');
+        }
+
+        if (!settings.has('coverPlayerPosition')) {
+            settings.set('coverPlayerPosition', '50;50');
+        }
+
+        let windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
+
+        if (settings.get('playerType') === 'cover') {
+            windowPositionSizeMaximizedAsString = `${settings.get('coverPlayerPosition')};350;430;0`;
+        }
+
+        const windowPositionSizeMaximized: number[] = windowPositionSizeMaximizedAsString.split(';').map(Number);
+        mainWindow.setPosition(windowPositionSizeMaximized[0], windowPositionSizeMaximized[1]);
+
+        if (settings.get('playerType') !== 'full') {
+            mainWindow.resizable = false;
+            mainWindow.maximizable = false;
+            mainWindow.setContentSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
+        } else {
+            mainWindow.setSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
+            if (windowPositionSizeMaximized[4] === 1) {
+                mainWindow.maximize();
+            }
+        }
+    } catch (e) {
+        log.error(`[Main] [setInitialWindowState] Could not set initial window state. Error: ${e.message}`);
+
+        settings.set('playerType', 'full');
+        settings.set('fullPlayerPositionSizeMaximized', '50;50;1000;650;0');
+        settings.set('coverPlayerPosition', '50;50');
+        let windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
+        const windowPositionSizeMaximized: number[] = windowPositionSizeMaximizedAsString.split(';').map(Number);
+        mainWindow.setPosition(windowPositionSizeMaximized[0], windowPositionSizeMaximized[1]);
+        mainWindow.setSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
+    }
+}
+
 function createMainWindow(): void {
     // Suppress the default menu
     Menu.setApplicationMenu(null);
-
-    // Load the previous state with fallback to defaults
-    const windowState = windowStateKeeper({
-        defaultWidth: 1000,
-        defaultHeight: 650,
-    });
 
     const remoteMain = require('@electron/remote/main');
     remoteMain.initialize();
 
     // Create the browser window
     mainWindow = new BrowserWindow({
-        x: windowState.x,
-        y: windowState.y,
-        width: windowState.width,
-        height: windowState.height,
         backgroundColor: '#fff',
         frame: windowHasFrame(),
         icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
@@ -135,11 +184,11 @@ function createMainWindow(): void {
         show: false,
     });
 
+    setInitialWindowState(mainWindow);
+
     remoteMain.enable(mainWindow.webContents);
 
     globalAny.windowHasFrame = windowHasFrame();
-
-    windowState.manage(mainWindow);
 
     if (isServing) {
         require('electron-reload')(__dirname, {
@@ -213,6 +262,65 @@ function createMainWindow(): void {
                 } else {
                     mainWindow.webContents.send('application-close');
                 }
+            }
+        }
+    });
+
+    mainWindow.on(
+        'move',
+        debounce(() => {
+            if (mainWindow && !mainWindow.isMaximized()) {
+                const position: number[] = mainWindow.getPosition();
+                const size: number[] = mainWindow.getSize();
+
+                if (settings.get('playerType') === 'full') {
+                    const isMaximized: number = mainWindow.isMaximized() ? 1 : 0;
+                    settings.set('fullPlayerPositionSizeMaximized', `${position[0]};${position[1]};${size[0]};${size[1]};${isMaximized}`);
+                } else if (settings.get('playerType') === 'cover') {
+                    settings.set('coverPlayerPosition', `${position[0]};${position[1]};350;430`);
+                }
+            }
+        }, 300),
+    );
+
+    mainWindow.on(
+        'resize',
+        debounce(() => {
+            if (mainWindow && !mainWindow.isMaximized()) {
+                const position: number[] = mainWindow.getPosition();
+                const size: number[] = mainWindow.getSize();
+
+                if (settings.get('playerType') === 'full') {
+                    const isMaximized: number = mainWindow.isMaximized() ? 1 : 0;
+                    settings.set('fullPlayerPositionSizeMaximized', `${position[0]};${position[1]};${size[0]};${size[1]};${isMaximized}`);
+                } else if (settings.get('playerType') === 'cover') {
+                    settings.set('coverPlayerPosition', `${position[0]};${position[1]}`);
+                }
+            }
+        }, 300),
+    );
+
+    mainWindow.on('maximize', (event: any) => {
+        if (mainWindow) {
+            if (settings.get('playerType') === 'full') {
+                let windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
+                const windowPositionSizeMaximized: number[] = windowPositionSizeMaximizedAsString.split(';').map(Number);
+                console.log(windowPositionSizeMaximized);
+                settings.set(
+                    'fullPlayerPositionSizeMaximized',
+                    `${windowPositionSizeMaximized[0]};${windowPositionSizeMaximized[1]};${windowPositionSizeMaximized[2]};${windowPositionSizeMaximized[3]};1`,
+                );
+            }
+        }
+    });
+
+    mainWindow.on('unmaximize', (event: any) => {
+        if (mainWindow) {
+            if (settings.get('playerType') === 'full') {
+                settings.set(
+                    'fullPlayerPositionSizeMaximized',
+                    `${mainWindow.getPosition().join(';')};${mainWindow.getSize().join(';')};0`,
+                );
             }
         }
     });
@@ -350,6 +458,38 @@ try {
         ipcMain.on('closing-tasks-performed', (_) => {
             if (process.platform !== 'darwin') {
                 app.quit();
+            }
+        });
+
+        ipcMain.on('set-full-player', (event: any, arg: any) => {
+            settings.set('playerType', 'full');
+            if (mainWindow) {
+                const fullPlayerPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
+                console.log(fullPlayerPositionSizeMaximizedAsString);
+                const fullPlayerPositionSizeMaximized: number[] = fullPlayerPositionSizeMaximizedAsString.split(';').map(Number);
+
+                mainWindow.resizable = true;
+                mainWindow.maximizable = true;
+                mainWindow.setPosition(fullPlayerPositionSizeMaximized[0], fullPlayerPositionSizeMaximized[1]);
+                mainWindow.setSize(fullPlayerPositionSizeMaximized[2], fullPlayerPositionSizeMaximized[3]);
+
+                if (fullPlayerPositionSizeMaximized[4] === 1) {
+                    mainWindow.maximize();
+                }
+            }
+        });
+
+        ipcMain.on('set-cover-player', (event: any, arg: any) => {
+            settings.set('playerType', 'cover');
+            if (mainWindow) {
+                const coverPlayerPositionAsString: string = settings.get('coverPlayerPosition');
+                const coverPlayerPosition: number[] = coverPlayerPositionAsString.split(';').map(Number);
+
+                mainWindow.unmaximize();
+                mainWindow.resizable = false;
+                mainWindow.maximizable = false;
+                mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
+                mainWindow.setContentSize(350, 430);
             }
         });
     }

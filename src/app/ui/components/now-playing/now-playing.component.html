@@ -15,6 +15,7 @@
                 <i class="back-button__icon las la-arrow-left"></i>
             </div>
             <div class="window-frame__dragarea"></div>
+            <app-switch-player-button [@controlsVisibility]="controlsVisibility"></app-switch-player-button>
             <app-window-controls
                 *ngIf="!appearanceService.windowHasNativeTitleBar"
                 [@controlsVisibility]="controlsVisibility"
