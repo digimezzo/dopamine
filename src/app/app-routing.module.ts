@@ -7,6 +7,7 @@ import { ManageCollectionComponent } from './ui/components/manage-collection/man
 import { NowPlayingComponent } from './ui/components/now-playing/now-playing.component';
 import { SettingsComponent } from './ui/components/settings/settings.component';
 import { WelcomeComponent } from './ui/components/welcome/welcome.component';
+import { CoverPlayerComponent } from './ui/components/mini-players/cover-player/cover-player.component';
 
 const routes: Routes = [
     {
@@ -20,6 +21,10 @@ const routes: Routes = [
     {
         path: 'collection',
         component: CollectionComponent,
+    },
+    {
+        path: 'coverplayer',
+        component: CoverPlayerComponent,
     },
     {
         path: 'nowplaying',

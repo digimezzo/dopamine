@@ -4,6 +4,16 @@
             {{ this.topContentTrack?.title }}
         </div>
         <div
+            *ngIf="this.highContrast"
+            class="ellipsis ml-1"
+            [ngClass]="this.smallFontClasses"
+            [style.font-size.px]="smallFontSize"
+            [style.line-height]="1.5"
+        >
+            {{ this.topContentTrack?.artists }}
+        </div>
+        <div
+            *ngIf="!this.highContrast"
             class="secondary-text ellipsis ml-1"
             [ngClass]="this.smallFontClasses"
             [style.font-size.px]="smallFontSize"
@@ -33,6 +43,16 @@
             {{ this.bottomContentTrack?.title }}
         </div>
         <div
+            *ngIf="this.highContrast"
+            class="ellipsis ml-1"
+            [ngClass]="this.smallFontClasses"
+            [style.font-size.px]="smallFontSize"
+            [style.line-height]="1.5"
+        >
+            {{ this.bottomContentTrack?.artists }}
+        </div>
+        <div
+            *ngIf="!this.highContrast"
             class="secondary-text ellipsis ml-1"
             [ngClass]="this.smallFontClasses"
             [style.font-size.px]="smallFontSize"

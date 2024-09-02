@@ -1,0 +1,5 @@
+<div class="app-volume-icon">
+    <i class="app-volume-icon__icon__alt las la-volume-mute" *ngIf="this.volume === 0"></i>
+    <i class="app-volume-icon__icon__alt las la-volume-down" *ngIf="this.volume > 0 && this.volume < 0.5"></i>
+    <i class="app-volume-icon__icon las la-volume-up" *ngIf="this.volume >= 0.5"></i>
+</div>
