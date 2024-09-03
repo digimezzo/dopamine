@@ -38,6 +38,7 @@ const isServing = args.some((val) => val === '--serve');
 let mainWindow;
 let tray;
 let isQuitting;
+let isQuit;
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
     globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
@@ -235,8 +236,12 @@ function createMainWindow() {
         if (!isQuitting) {
             event.preventDefault();
             if (mainWindow) {
+                if (isQuit) {
+                    mainWindow.webContents.send('application-close');
+                    isQuitting = true;
+                }
                 // on MacOS, close button never closed entire app
-                if (process.platform === 'darwin') {
+                else if (process.platform === 'darwin') {
                     mainWindow.hide();
                 }
                 else if (shouldCloseToNotificationArea()) {
@@ -244,6 +249,7 @@ function createMainWindow() {
                 }
                 else {
                     mainWindow.webContents.send('application-close');
+                    isQuitting = true;
                 }
             }
         }
@@ -323,11 +329,9 @@ try {
             electron_log_1.default.info('[App] [window-all-closed] +++ Stopping +++');
             // On OS X it is common for applications and their menu bar
             // to stay active until the user quits explicitly with Cmd + Q
-            //if (process.platform !== 'darwin') {
-            //    app.quit();
-            //}
-            // That is incorrect. window-all-closed emited even if user used Cmd + W
-            // This is the correct way to handle it
+            if (process.platform !== 'darwin') {
+                electron_1.app.quit();
+            }
         });
         electron_1.app.on('activate', () => {
             // On OS X it's common to re-create a window in the app when the
@@ -344,7 +348,7 @@ try {
             }
         });
         electron_1.app.on('before-quit', () => {
-            isQuitting = true;
+            isQuit = true;
         });
         electron_1.app.whenReady().then(() => {
             // See: https://github.com/electron/electron/issues/23757
@@ -380,9 +384,7 @@ try {
                 {
                     label: arg.exitLabel,
                     click() {
-                        if (process.platform !== 'darwin') {
-                            electron_1.app.quit();
-                        }
+                        electron_1.app.quit();
                     },
                 },
             ]);
@@ -410,9 +412,7 @@ try {
             });
         });
         electron_1.ipcMain.on('closing-tasks-performed', (_) => {
-            if (process.platform !== 'darwin') {
-                electron_1.app.quit();
-            }
+            electron_1.app.quit();
         });
         electron_1.ipcMain.on('set-full-player', (event, arg) => {
             settings.set('playerType', 'full');

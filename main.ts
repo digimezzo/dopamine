@@ -39,6 +39,7 @@ const isServing: boolean = args.some((val) => val === '--serve');
 let mainWindow: BrowserWindow | undefined;
 let tray: Tray;
 let isQuitting: boolean;
+let isQuit: boolean;
 
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
@@ -267,19 +268,26 @@ function createMainWindow(): void {
     });
 
     mainWindow.on('close', (event: any) => {
+
         if (!isQuitting) {
             event.preventDefault();
             if (mainWindow) {
+                if (isQuit) {
+                    mainWindow.webContents.send('application-close');
+                    isQuitting = true;
+                }
                 // on MacOS, close button never closed entire app
-                if (process.platform === 'darwin') {
+                else if (process.platform === 'darwin') {
                     mainWindow.hide();
                 } else if (shouldCloseToNotificationArea()) {
                     mainWindow.hide();
                 } else {
                    mainWindow.webContents.send('application-close');
+                   isQuitting = true;
                 }
             }
         }
+
     });
 
     mainWindow.on(
@@ -379,12 +387,9 @@ try {
             log.info('[App] [window-all-closed] +++ Stopping +++');
             // On OS X it is common for applications and their menu bar
             // to stay active until the user quits explicitly with Cmd + Q
-            //if (process.platform !== 'darwin') {
-            //    app.quit();
-            //}
-            // That is incorrect. window-all-closed emited even if user used Cmd + W
-            // This is the correct way to handle it
-            
+            if (process.platform !== 'darwin') {
+                app.quit();
+            }    
         });
 
         app.on('activate', () => {
@@ -404,7 +409,7 @@ try {
         });
 
         app.on('before-quit', () => {
-            isQuitting = true;
+            isQuit = true;
         });
 
         app.whenReady().then(() => {
@@ -446,9 +451,7 @@ try {
                 {
                     label: arg.exitLabel,
                     click(): void {
-                        if (process.platform !== 'darwin') {
-                            app.quit();
-                        }
+                        app.quit();      
                     },
                 },
             ]);
@@ -483,9 +486,7 @@ try {
         });
 
         ipcMain.on('closing-tasks-performed', (_) => {
-            if (process.platform !== 'darwin') {
-                app.quit();
-            }
+            app.quit();
         });
 
         ipcMain.on('set-full-player', (event: any, arg: any) => {
