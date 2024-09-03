@@ -3,7 +3,7 @@
     <div class="d-flex">
         <app-switch-player-button [highContrast]="true"></app-switch-player-button>
         <app-window-controls
-            *ngIf="!appearanceService.windowHasNativeTitleBar"
+            *ngIf="appearanceService.needsCustomWindowControls"
             [showMaximize]="false"
             [highContrast]="true"
         ></app-window-controls>

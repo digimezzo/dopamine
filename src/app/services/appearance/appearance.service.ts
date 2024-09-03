@@ -64,6 +64,14 @@ export class AppearanceService implements AppearanceServiceBase {
     public get windowHasNativeTitleBar(): boolean {
         return this._windowHasNativeTitleBar;
     }
+    
+    public get needsTrafficLightMargin(): boolean {
+        return !this.windowHasNativeTitleBar && this.desktop.isMacOS;
+    }
+
+    public get needsCustomWindowControls(): boolean {
+        return !this.windowHasNativeTitleBar && !this.desktop.isMacOS;
+    }
 
     public get isUsingLightTheme(): boolean {
         return (

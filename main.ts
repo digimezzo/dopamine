@@ -70,6 +70,17 @@ function windowHasFrame(): boolean {
     return settings.get('useSystemTitleBar');
 }
 
+function tittleBarStyle(): 'hiddenInset' | 'default' {
+    if (settings.get('useSystemTitleBar')) {
+        return 'default';
+    }
+    // makes traffic lights visible on macOS
+    if (process.platform === 'darwin') {
+        return 'hiddenInset';
+    }
+    return 'default';
+}
+
 function shouldShowIconInNotificationArea(): boolean {
     if (!settings.has('showIconInNotificationArea')) {
         settings.set('showIconInNotificationArea', true);
@@ -175,6 +186,8 @@ function createMainWindow(): void {
     mainWindow = new BrowserWindow({
         backgroundColor: '#fff',
         frame: windowHasFrame(),
+        titleBarStyle: tittleBarStyle(),
+        trafficLightPosition: process.platform === 'darwin' ? { x: 10, y: 15 } : undefined,
         icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
         webPreferences: {
             webSecurity: false,
@@ -257,10 +270,13 @@ function createMainWindow(): void {
         if (!isQuitting) {
             event.preventDefault();
             if (mainWindow) {
-                if (shouldCloseToNotificationArea()) {
+                // on MacOS, close button never closed entire app
+                if (process.platform === 'darwin') {
+                    mainWindow.hide();
+                } else if (shouldCloseToNotificationArea()) {
                     mainWindow.hide();
                 } else {
-                    mainWindow.webContents.send('application-close');
+                   mainWindow.webContents.send('application-close');
                 }
             }
         }
@@ -363,9 +379,12 @@ try {
             log.info('[App] [window-all-closed] +++ Stopping +++');
             // On OS X it is common for applications and their menu bar
             // to stay active until the user quits explicitly with Cmd + Q
-            if (process.platform !== 'darwin') {
-                app.quit();
-            }
+            //if (process.platform !== 'darwin') {
+            //    app.quit();
+            //}
+            // That is incorrect. window-all-closed emited even if user used Cmd + W
+            // This is the correct way to handle it
+            
         });
 
         app.on('activate', () => {
@@ -373,6 +392,14 @@ try {
             // dock icon is clicked and there are no other windows open.
             if (mainWindow == undefined) {
                 createMainWindow();
+            }
+
+            // on MacOS, clicking the dock icon should show the window
+            if (process.platform === 'darwin') {
+                if (mainWindow) {
+                    mainWindow.show();
+                    mainWindow.focus();
+                }
             }
         });
 
