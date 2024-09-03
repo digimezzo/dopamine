@@ -36,9 +36,18 @@ export class LoadingComponent implements OnInit {
         } else {
             if (this.fileService.hasPlayableFilesAsParameters()) {
                 await this.fileService.enqueueParameterFilesAsync();
-                await this.navigationService.navigateToNowPlayingAsync();
+
+                if (this.settings.playerType === 'cover') {
+                    await this.navigationService.navigateToCoverPlayerAsync();
+                } else {
+                    await this.navigationService.navigateToNowPlayingAsync();
+                }
             } else {
-                await this.navigationService.navigateToCollectionAsync();
+                if (this.settings.playerType === 'cover') {
+                    await this.navigationService.navigateToCoverPlayerAsync();
+                } else {
+                    await this.navigationService.navigateToCollectionAsync();
+                }
                 await this.initializeAsync();
             }
         }

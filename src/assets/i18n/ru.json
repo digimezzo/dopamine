@@ -292,4 +292,6 @@
     "confirm-remove-symbol": "Уверены, что хотите удалить символ «{{symbol}}»?",
     "remove-artist": "Удалить исполнителя",
     "confirm-remove-artist": "Уверены, что хотите удалить исполнителя «{{artist}}»?"
+    "switch-player": "Switch player",
+    "volume": "Volume"
 }

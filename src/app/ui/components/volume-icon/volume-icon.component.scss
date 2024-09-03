@@ -1,0 +1,17 @@
+.app-volume-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.app-volume-icon__icon {
+    display: flex;
+    flex-direction: row;
+    font-size: 18px;
+    width: 20px;
+}
+
+.app-volume-icon__icon__alt {
+    @extend .app-volume-icon__icon;
+    padding-left: 1px;
+}

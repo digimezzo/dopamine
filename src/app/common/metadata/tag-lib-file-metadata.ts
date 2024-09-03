@@ -183,18 +183,16 @@ export class TagLibFileMetadata implements IFileMetadata {
 
     private writeRatingToFile(tagLibFile: File, rating: number): void {
         const id3v2Tag: Id3v2Tag = <Id3v2Tag>tagLibFile.getTag(TagTypes.Id3v2, true);
-        const allPopularimeterFrames: Id3v2PopularimeterFrame[] = id3v2Tag.getFramesByClassType<Id3v2PopularimeterFrame>(
+        let allPopularimeterFrames: Id3v2PopularimeterFrame[] = id3v2Tag.getFramesByClassType<Id3v2PopularimeterFrame>(
             Id3v2FrameClassType.PopularimeterFrame,
         );
 
         if (allPopularimeterFrames.length === 0) {
-            const newPopularimeterFrame = Id3v2PopularimeterFrame.fromUser(this.windowsPopMUser);
-            newPopularimeterFrame.rating = rating;
             id3v2Tag.removeFrames(Id3v2FrameIdentifiers.POPM);
-            id3v2Tag.addFrame(newPopularimeterFrame);
-
-            return;
+            id3v2Tag.addFrame(Id3v2PopularimeterFrame.fromUser(this.windowsPopMUser));
         }
+
+        allPopularimeterFrames = id3v2Tag.getFramesByClassType<Id3v2PopularimeterFrame>(Id3v2FrameClassType.PopularimeterFrame);
 
         const popularimeterFramesForWindowsUser: Id3v2PopularimeterFrame[] = allPopularimeterFrames.filter(
             (x) => x.user === this.windowsPopMUser,
@@ -202,10 +200,6 @@ export class TagLibFileMetadata implements IFileMetadata {
 
         if (popularimeterFramesForWindowsUser.length > 0) {
             popularimeterFramesForWindowsUser[0].rating = RatingConverter.starToPopMRating(rating);
-
-            return;
         }
-
-        allPopularimeterFrames[0].rating = RatingConverter.starToPopMRating(rating);
     }
 }
