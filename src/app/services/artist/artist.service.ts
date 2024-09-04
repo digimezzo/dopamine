@@ -7,15 +7,21 @@ import { ArtistServiceBase } from './artist.service.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { ArtistSplitter } from './artist-splitter';
+import { Timer } from '../../common/scheduling/timer';
+import { Logger } from '../../common/logger';
 
 @Injectable()
 export class ArtistService implements ArtistServiceBase {
     public constructor(
         private artistSplitter: ArtistSplitter,
         private trackRepository: TrackRepositoryBase,
+        private logger: Logger,
     ) {}
 
     public getArtists(artistType: ArtistType): ArtistModel[] {
+        const timer = new Timer();
+        timer.start();
+
         const artistDatas: ArtistData[] = [];
 
         if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
@@ -34,6 +40,18 @@ export class ArtistService implements ArtistServiceBase {
             artists.push(...DataDelimiter.fromDelimitedString(artistData.artists));
         }
 
-        return this.artistSplitter.splitArtists(artists);
+        timer.stop();
+
+        this.logger.info(`Finished getting artists. Time required: ${timer.elapsedMilliseconds} ms`, 'ArtistService', 'getArtists');
+
+        timer.start();
+
+        const splitArtists: ArtistModel[] = this.artistSplitter.splitArtists(artists);
+
+        timer.stop();
+
+        this.logger.info(`Finished splitting artists. Time required: ${timer.elapsedMilliseconds} ms`, 'ArtistService', 'getArtists');
+
+        return splitArtists;
     }
 }

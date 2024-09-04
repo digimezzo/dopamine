@@ -20,6 +20,7 @@ import { DesktopBase } from '../../../../common/io/desktop.base';
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { TrackSorter } from '../../../../common/sorting/track-sorter';
+import { Timer } from '../../../../common/scheduling/timer';
 
 @Component({
     selector: 'app-track-browser',
@@ -166,6 +167,9 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
     private orderTracks(): void {
         let orderedTracks: TrackModel[] = [];
 
+        const timer = new Timer();
+        timer.start();
+
         try {
             switch (this.selectedTrackOrder) {
                 case TrackOrder.byTrackTitleAscending:
@@ -194,7 +198,15 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
             this.logger.error(e, 'Could not order tracks', 'TrackBrowserComponent', 'orderTracks');
         }
 
-        this.orderedTracks = [...orderedTracks];
+        this.orderedTracks = [...this.tracks.tracks];
+
+        timer.stop();
+
+        this.logger.info(
+            `Finished ordering tracks. Time required: ${timer.elapsedMilliseconds} ms`,
+            'TrackBrowserComponent',
+            'orderTracks',
+        );
 
         this.playbackIndicationService.setPlayingTrack(this.orderedTracks, this.playbackService.currentTrack);
     }

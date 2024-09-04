@@ -13,7 +13,8 @@ import { AlbumRowsGetter } from './album-rows-getter';
 import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
 import { ApplicationServiceBase } from '../../../../services/application/application.service.base';
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
-import {ContextMenuOpener} from "../../context-menu-opener";
+import { ContextMenuOpener } from '../../context-menu-opener';
+import { Timer } from '../../../../common/scheduling/timer';
 
 @Component({
     selector: 'app-album-browser',
@@ -154,8 +155,19 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
 
     private orderAlbums(): void {
         try {
+            const timer = new Timer();
+            timer.start();
+
             this.albumRows = this.albumRowsGetter.getAlbumRows(this.availableWidthInPixels, this.albums, this.selectedAlbumOrder);
             this.applySelectedAlbums();
+
+            timer.stop();
+
+            this.logger.info(
+                `Finished ordering albums. Time required: ${timer.elapsedMilliseconds} ms`,
+                'AlbumBrowserComponent',
+                'orderAlbums',
+            );
         } catch (e: unknown) {
             this.logger.error(e, 'Could not order albums', 'AlbumBrowserComponent', 'orderAlbums');
         }

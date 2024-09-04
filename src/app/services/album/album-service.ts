@@ -8,6 +8,8 @@ import { TrackRepositoryBase } from '../../data/repositories/track-repository.ba
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { ArtistModel } from '../artist/artist-model';
+import { Timer } from '../../common/scheduling/timer';
+import { Logger } from '../../common/logger';
 
 @Injectable()
 export class AlbumService implements AlbumServiceBase {
@@ -16,15 +18,27 @@ export class AlbumService implements AlbumServiceBase {
         private translatorService: TranslatorServiceBase,
         private applicationPaths: ApplicationPaths,
         private settings: SettingsBase,
+        private logger: Logger,
     ) {}
 
     public getAllAlbums(): AlbumModel[] {
-        const albumDatas: AlbumData[] = this.trackRepository.getAllAlbumData(this.settings.albumKeyIndex) ?? [];
+        const timer = new Timer();
+        timer.start();
 
-        return this.createAlbumsFromAlbumData(albumDatas);
+        const albumDatas: AlbumData[] = this.trackRepository.getAllAlbumData(this.settings.albumKeyIndex) ?? [];
+        const albums: AlbumModel[] = this.createAlbumsFromAlbumData(albumDatas);
+
+        timer.stop();
+
+        this.logger.info(`Finished getting all albums. Time required: ${timer.elapsedMilliseconds} ms`, 'AlbumService', 'getAllAlbums');
+
+        return albums;
     }
 
     public getAlbumsForArtists(artists: ArtistModel[], artistType: ArtistType): AlbumModel[] {
+        const timer = new Timer();
+        timer.start();
+
         const albumDatas: AlbumData[] = [];
 
         const sourceArtists: string[] = artists.reduce<string[]>(
@@ -40,7 +54,35 @@ export class AlbumService implements AlbumServiceBase {
             this.addAlbumsForAlbumOrAllArtists(sourceArtists, albumDatas);
         }
 
-        return this.createAlbumsFromAlbumData(albumDatas);
+        const albums: AlbumModel[] = this.createAlbumsFromAlbumData(albumDatas);
+
+        timer.stop();
+
+        this.logger.info(
+            `Finished getting albums for artists. Time required: ${timer.elapsedMilliseconds} ms`,
+            'AlbumService',
+            'getAlbumsForArtists',
+        );
+
+        return albums;
+    }
+
+    public getAlbumsForGenres(genres: string[]): AlbumModel[] {
+        const timer = new Timer();
+        timer.start();
+
+        const albumDatas: AlbumData[] = this.trackRepository.getAlbumDataForGenres(this.settings.albumKeyIndex, genres) ?? [];
+        const albums: AlbumModel[] = this.createAlbumsFromAlbumData(albumDatas);
+
+        timer.stop();
+
+        this.logger.info(
+            `Finished getting albums for genres. Time required: ${timer.elapsedMilliseconds} ms`,
+            'AlbumService',
+            'getAlbumsForGenres',
+        );
+
+        return albums;
     }
 
     private addAlbumsForTrackOrAllArtists(artists: string[], albumDatas: AlbumData[]): void {
@@ -63,12 +105,6 @@ export class AlbumService implements AlbumServiceBase {
                 albumDatas.push(albumData);
             }
         }
-    }
-
-    public getAlbumsForGenres(genres: string[]): AlbumModel[] {
-        const albumDatas: AlbumData[] = this.trackRepository.getAlbumDataForGenres(this.settings.albumKeyIndex, genres) ?? [];
-
-        return this.createAlbumsFromAlbumData(albumDatas);
     }
 
     private createAlbumsFromAlbumData(albumDatas: AlbumData[]): AlbumModel[] {
