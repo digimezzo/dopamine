@@ -224,7 +224,7 @@ describe('AlbumSorter', () => {
             expect(sortedAlbums.length).toEqual(0);
         });
 
-        it('should sort by date added', () => {
+        it('should sort by date created', () => {
             // Arrange
 
             // Act

@@ -68,7 +68,7 @@ export class AlbumSorter {
         const timer = new Timer();
         timer.start();
 
-        const sorted: AlbumModel[] = sort(albums).asc((a) => a.dateAddedInTicks);
+        const sorted: AlbumModel[] = sort(albums).desc((a) => a.dateAddedInTicks);
 
         timer.stop();
 
@@ -89,7 +89,7 @@ export class AlbumSorter {
         const timer = new Timer();
         timer.start();
 
-        const sorted: AlbumModel[] = sort(albums).asc((a) => a.dateFileCreatedInTicks);
+        const sorted: AlbumModel[] = sort(albums).desc((a) => a.dateFileCreatedInTicks);
 
         timer.stop();
 
@@ -178,7 +178,7 @@ export class AlbumSorter {
         const timer = new Timer();
         timer.start();
 
-        const sorted: AlbumModel[] = sort(albums).asc((a) => a.dateLastPlayedInTicks);
+        const sorted: AlbumModel[] = sort(albums).desc((a) => a.dateLastPlayedInTicks);
 
         timer.stop();
 

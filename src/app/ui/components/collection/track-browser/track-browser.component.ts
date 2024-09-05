@@ -198,7 +198,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
             this.logger.error(e, 'Could not order tracks', 'TrackBrowserComponent', 'orderTracks');
         }
 
-        this.orderedTracks = [...this.tracks.tracks];
+        this.orderedTracks = [...orderedTracks];
 
         timer.stop();
 
