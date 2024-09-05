@@ -4,6 +4,7 @@ import { AlbumData } from '../../data/entities/album-data';
 import { IMock, Mock } from 'typemoq';
 import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
 import { ApplicationPaths } from '../application/application-paths';
+import { Logger } from '../logger';
 
 describe('AlbumSorter', () => {
     let albumModel1: AlbumModel;
@@ -19,6 +20,7 @@ describe('AlbumSorter', () => {
 
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let applicationPathsMock: IMock<ApplicationPaths>;
+    let loggerMock: IMock<Logger>;
 
     let albumSorter: AlbumSorter;
     let albums: AlbumModel[];
@@ -49,6 +51,7 @@ describe('AlbumSorter', () => {
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         applicationPathsMock = Mock.ofType<ApplicationPaths>();
+        loggerMock = Mock.ofType<Logger>();
 
         albumModel1 = createAlbumModel('Album 1', ['Artist 10'], ['Artist 1'], 2001, 10, 1, 2);
         albumModel2 = createAlbumModel('Album 2', ['Artist 2'], ['Artist 2'], 2002, 9, 2, 1);
@@ -74,7 +77,7 @@ describe('AlbumSorter', () => {
             albumModel3,
         ];
 
-        albumSorter = new AlbumSorter();
+        albumSorter = new AlbumSorter(loggerMock.object);
     });
 
     describe('sortByAlbumTitleAscending', () => {

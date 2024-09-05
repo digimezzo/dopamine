@@ -7,6 +7,8 @@ export class Settings implements SettingsBase {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private settings: Store<any> = new Store();
 
+    private cachedAlbumKeyIndex: string = '-1';
+
     public constructor() {
         this.initialize();
     }
@@ -23,15 +25,23 @@ export class Settings implements SettingsBase {
 
     // albumKeyIndex
     public get albumKeyIndex(): string {
+        if (this.cachedAlbumKeyIndex === '-1') {
+            this.setCachedAlbumKeyIndex();
+        }
+
+        return this.cachedAlbumKeyIndex;
+    }
+
+    private setCachedAlbumKeyIndex(): void {
         if (this.albumsDefinedByFolders) {
-            return '3';
+            this.cachedAlbumKeyIndex = '3';
         }
 
         if (this.albumsDefinedByTitle) {
-            return '2';
+            this.cachedAlbumKeyIndex = '2';
         }
 
-        return '';
+        this.cachedAlbumKeyIndex = '';
     }
 
     public set language(v: string) {
@@ -685,6 +695,7 @@ export class Settings implements SettingsBase {
 
     public set albumsDefinedByTitleAndArtist(v: boolean) {
         this.settings.set('albumsDefinedByTitleAndArtist', v);
+        this.setCachedAlbumKeyIndex();
     }
 
     // albumsDefinedByTitle
@@ -694,6 +705,7 @@ export class Settings implements SettingsBase {
 
     public set albumsDefinedByTitle(v: boolean) {
         this.settings.set('albumsDefinedByTitle', v);
+        this.setCachedAlbumKeyIndex();
     }
 
     // albumsDefinedByFolders
@@ -703,6 +715,7 @@ export class Settings implements SettingsBase {
 
     public set albumsDefinedByFolders(v: boolean) {
         this.settings.set('albumsDefinedByFolders', v);
+        this.setCachedAlbumKeyIndex();
     }
 
     // playbackControlsLoop

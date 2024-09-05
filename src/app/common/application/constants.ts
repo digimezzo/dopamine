@@ -145,6 +145,12 @@ export class Constants {
             'https://github.com/sindresorhus/electron-store/blob/master/license',
         ),
         new ExternalComponent(
+            'fast-sort',
+            'Blazing fast array sorting with TypeScript support.',
+            'https://github.com/snovakovic/fast-sort',
+            'https://github.com/snovakovic/fast-sort/blob/master/LICENSE',
+        ),
+        new ExternalComponent(
             'Fast HTML Parser',
             'A very fast HTML parser, generating a simplified DOM, with basic element query support. ',
             'https://github.com/taoqf/node-html-parser',

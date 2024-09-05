@@ -10,12 +10,14 @@ import { ApplicationPaths } from '../../common/application/application-paths';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { SettingsMock } from '../../testing/settings-mock';
 import { ArtistModel } from '../artist/artist-model';
+import { Logger } from '../../common/logger';
 
 describe('AlbumService', () => {
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let applicationPathsMock: IMock<ApplicationPaths>;
     let settingsMock: SettingsMock;
+    let loggerMock: IMock<Logger>;
     let service: AlbumService;
 
     beforeEach(() => {
@@ -23,7 +25,14 @@ describe('AlbumService', () => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         applicationPathsMock = Mock.ofType<ApplicationPaths>();
         settingsMock = new SettingsMock();
-        service = new AlbumService(trackRepositoryMock.object, translatorServiceMock.object, applicationPathsMock.object, settingsMock);
+        loggerMock = Mock.ofType<Logger>();
+        service = new AlbumService(
+            trackRepositoryMock.object,
+            translatorServiceMock.object,
+            applicationPathsMock.object,
+            settingsMock,
+            loggerMock.object,
+        );
     });
 
     describe('constructor', () => {

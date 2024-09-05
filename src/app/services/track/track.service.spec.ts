@@ -11,6 +11,7 @@ import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
 import { SettingsMock } from '../../testing/settings-mock';
 import { ArtistModel } from '../artist/artist-model';
+import { Logger } from '../../common/logger';
 
 describe('TrackService', () => {
     let trackModelFactoryMock: IMock<TrackModelFactory>;
@@ -19,6 +20,7 @@ describe('TrackService', () => {
     let settingsMock: SettingsMock;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let loggerMock: IMock<Logger>;
 
     let track1: Track;
     let track2: Track;
@@ -34,6 +36,7 @@ describe('TrackService', () => {
         settingsMock = new SettingsMock();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        loggerMock = Mock.ofType<Logger>();
 
         fileAccessMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.mp3')).returns(() => '.mp3');
         fileAccessMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.png')).returns(() => '.png');
@@ -84,7 +87,13 @@ describe('TrackService', () => {
 
         dateTimeMock.setup((x) => x.convertDateToTicks(It.isAny())).returns(() => 123456);
 
-        service = new TrackService(trackModelFactoryMock.object, trackRepositoryMock.object, fileAccessMock.object, settingsMock);
+        service = new TrackService(
+            trackModelFactoryMock.object,
+            trackRepositoryMock.object,
+            fileAccessMock.object,
+            settingsMock,
+            loggerMock.object,
+        );
     });
 
     describe('constructor', () => {

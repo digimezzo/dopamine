@@ -9,6 +9,7 @@ import { ArtistServiceBase } from './artist.service.base';
 import { ArtistSplitter } from './artist-splitter';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { SettingsMock } from '../../testing/settings-mock';
+import { Logger } from '../../common/logger';
 
 describe('ArtistService', () => {
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -16,17 +17,19 @@ describe('ArtistService', () => {
     let settingsMock: SettingsBase;
     let artistSplitter: ArtistSplitter;
     let service: ArtistServiceBase;
+    let loggerMock: IMock<Logger>;
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
+        loggerMock = Mock.ofType<Logger>();
         settingsMock = new SettingsMock();
         artistSplitter = new ArtistSplitter(translatorServiceMock.object, settingsMock);
 
         settingsMock.artistSplitSeparators = '';
         settingsMock.artistSplitExceptions = '';
 
-        service = new ArtistService(artistSplitter, trackRepositoryMock.object);
+        service = new ArtistService(artistSplitter, trackRepositoryMock.object, loggerMock.object);
     });
 
     describe('constructor', () => {
