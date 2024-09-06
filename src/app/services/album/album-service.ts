@@ -45,13 +45,15 @@ export class AlbumService implements AlbumServiceBase {
             (acc, artist) => (artist.sourceNames ? acc.concat(artist.sourceNames) : acc),
             [],
         );
+        
+        const albumKeyIndex = this.settings.albumKeyIndex;
 
         if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
-            this.addAlbumsForTrackOrAllArtists(sourceArtists, albumDatas);
+            this.addAlbumsForTrackOrAllArtists(albumKeyIndex, sourceArtists, albumDatas);
         }
 
         if (artistType === ArtistType.albumArtists || artistType === ArtistType.allArtists) {
-            this.addAlbumsForAlbumOrAllArtists(sourceArtists, albumDatas);
+            this.addAlbumsForAlbumOrAllArtists(albumKeyIndex, sourceArtists, albumDatas);
         }
 
         const albums: AlbumModel[] = this.createAlbumsFromAlbumData(albumDatas);
@@ -85,18 +87,18 @@ export class AlbumService implements AlbumServiceBase {
         return albums;
     }
 
-    private addAlbumsForTrackOrAllArtists(artists: string[], albumDatas: AlbumData[]): void {
+    private addAlbumsForTrackOrAllArtists(albumKeyIndex: string, artists: string[], albumDatas: AlbumData[]): void {
         const trackArtistsAlbumDatas: AlbumData[] =
-            this.trackRepository.getAlbumDataForTrackArtists(this.settings.albumKeyIndex, artists) ?? [];
+            this.trackRepository.getAlbumDataForTrackArtists(albumKeyIndex, artists) ?? [];
 
         for (const albumData of trackArtistsAlbumDatas) {
             albumDatas.push(albumData);
         }
     }
 
-    private addAlbumsForAlbumOrAllArtists(artists: string[], albumDatas: AlbumData[]): void {
+    private addAlbumsForAlbumOrAllArtists(albumKeyIndex: string, artists: string[], albumDatas: AlbumData[]): void {
         const albumArtistsAlbumDatas: AlbumData[] =
-            this.trackRepository.getAlbumDataForAlbumArtists(this.settings.albumKeyIndex, artists) ?? [];
+            this.trackRepository.getAlbumDataForAlbumArtists(albumKeyIndex, artists) ?? [];
 
         for (const albumData of albumArtistsAlbumDatas) {
             // Avoid adding a track twice

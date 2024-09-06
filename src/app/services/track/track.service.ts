@@ -41,13 +41,15 @@ export class TrackService implements TrackServiceBase {
         const filesInDirectory: string[] = await this.fileAccess.getFilesInDirectoryAsync(subfolderPath);
 
         const trackModels: TrackModels = new TrackModels();
+        
+        const albumKeyIndex: string = this.settings.albumKeyIndex;
 
         for (const file of filesInDirectory) {
             const fileExtension: string = this.fileAccess.getFileExtension(file);
             const fileExtensionIsSupported: boolean = FileFormats.supportedAudioExtensions.includes(fileExtension.toLowerCase());
 
             if (fileExtensionIsSupported) {
-                const trackModel: TrackModel = await this.trackModelFactory.createFromFileAsync(file);
+                const trackModel: TrackModel = await this.trackModelFactory.createFromFileAsync(file, albumKeyIndex);
                 trackModels.addTrack(trackModel);
             }
         }
@@ -70,8 +72,10 @@ export class TrackService implements TrackServiceBase {
         const tracks: Track[] = this.trackRepository.getVisibleTracks() ?? [];
         const trackModels: TrackModels = new TrackModels();
 
+        const albumKeyIndex: string = this.settings.albumKeyIndex;
+
         for (const track of tracks) {
-            const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);
+            const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track, albumKeyIndex);
             trackModels.addTrack(trackModel);
         }
 
@@ -98,8 +102,10 @@ export class TrackService implements TrackServiceBase {
 
         const tracks: Track[] = this.trackRepository.getTracksForAlbums(this.settings.albumKeyIndex, albumKeys) ?? [];
 
+        const albumKeyIndex: string = this.settings.albumKeyIndex;
+
         for (const track of tracks) {
-            const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);
+            const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track, albumKeyIndex);
             trackModels.addTrack(trackModel);
         }
 
@@ -160,8 +166,10 @@ export class TrackService implements TrackServiceBase {
 
         const tracks: Track[] = this.trackRepository.getTracksForGenres(genres) ?? [];
 
+        const albumKeyIndex: string = this.settings.albumKeyIndex;
+
         for (const track of tracks) {
-            const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);
+            const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track, albumKeyIndex);
             trackModels.addTrack(trackModel);
         }
 
@@ -179,8 +187,10 @@ export class TrackService implements TrackServiceBase {
     private addTracksForTrackOrAllArtists(artists: string[], trackModels: TrackModels): void {
         const trackArtistTracks: Track[] = this.trackRepository.getTracksForTrackArtists(artists) ?? [];
 
+        const albumKeyIndex: string = this.settings.albumKeyIndex;
+
         for (const track of trackArtistTracks) {
-            const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);
+            const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track, albumKeyIndex);
             trackModels.addTrack(trackModel);
         }
     }
@@ -188,8 +198,10 @@ export class TrackService implements TrackServiceBase {
     private addTracksForAlbumOrAllArtists(artists: string[], trackModels: TrackModels): void {
         const albumArtistTracks: Track[] = this.trackRepository.getTracksForAlbumArtists(artists) ?? [];
 
+        const albumKeyIndex: string = this.settings.albumKeyIndex;
+
         for (const track of albumArtistTracks) {
-            const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);
+            const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track, albumKeyIndex);
 
             // Avoid adding a track twice
             // TODO: can this be done better?

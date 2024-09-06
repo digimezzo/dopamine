@@ -4,7 +4,6 @@ import { DateTime } from '../../common/date-time';
 import { StringUtils } from '../../common/utils/string-utils';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { ISelectable } from '../../ui/interfaces/i-selectable';
-import { SettingsBase } from '../../common/settings/settings.base';
 
 export class TrackModel implements ISelectable {
     private readonly _albumKeyIndex: string = '';
@@ -13,10 +12,8 @@ export class TrackModel implements ISelectable {
         private track: Track,
         private dateTime: DateTime,
         private translatorService: TranslatorServiceBase,
-        private settings: SettingsBase,
-    ) {
-        this._albumKeyIndex = this.settings.albumKeyIndex;
-    }
+        private albumKeyIndex: string,
+    ) {}
 
     public isPlaying: boolean = false;
     public isSelected: boolean = false;
@@ -98,9 +95,7 @@ export class TrackModel implements ISelectable {
             return [];
         }
 
-        const nonEmptyArtists: string[] = trackArtists.filter((x) => !StringUtils.isNullOrWhiteSpace(x));
-
-        return nonEmptyArtists;
+        return trackArtists.filter((x) => !StringUtils.isNullOrWhiteSpace(x));
     }
 
     public get rawFirstArtist(): string {
@@ -251,6 +246,6 @@ export class TrackModel implements ISelectable {
     }
 
     public clone(): TrackModel {
-        return new TrackModel(this.track, this.dateTime, this.translatorService, this.settings);
+        return new TrackModel(this.track, this.dateTime, this.translatorService, this.albumKeyIndex);
     }
 }
