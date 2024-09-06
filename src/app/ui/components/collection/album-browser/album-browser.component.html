@@ -37,7 +37,7 @@
         </div>
     </div>
     <!-- itemSize is just arbitrary here. Don't set it to 0 though or the album browser will not display anything when resizing from a very small window -->
-    <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="1">
+    <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="170">
         <div *cdkVirtualFor="let albumRow of this.albumRows">
             <div class="d-flex flex-row">
                 <app-album
