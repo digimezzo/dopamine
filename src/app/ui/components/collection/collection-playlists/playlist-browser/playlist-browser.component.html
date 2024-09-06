@@ -35,8 +35,7 @@
             }}</app-icon-text-button>
         </div>
     </div>
-    <!-- itemSize is just arbitrary here. Don't set it to 0 though or the album browser will not display anything when resizing from a very small window -->
-    <cdk-virtual-scroll-viewport class="mt-3 flex-grow" itemSize="1" *ngIf="this.hasPlaylists">
+    <cdk-virtual-scroll-viewport class="mt-3 flex-grow" itemSize="148" *ngIf="this.hasPlaylists">
         <div *cdkVirtualFor="let playlistRow of this.playlistRows">
             <div class="d-flex flex-row">
                 <app-playlist
