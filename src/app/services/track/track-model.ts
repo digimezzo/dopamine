@@ -7,12 +7,16 @@ import { ISelectable } from '../../ui/interfaces/i-selectable';
 import { SettingsBase } from '../../common/settings/settings.base';
 
 export class TrackModel implements ISelectable {
+    private readonly _albumKeyIndex: string = '';
+
     public constructor(
         private track: Track,
         private dateTime: DateTime,
         private translatorService: TranslatorServiceBase,
         private settings: SettingsBase,
-    ) {}
+    ) {
+        this._albumKeyIndex = this.settings.albumKeyIndex;
+    }
 
     public isPlaying: boolean = false;
     public isSelected: boolean = false;
@@ -134,11 +138,11 @@ export class TrackModel implements ISelectable {
     }
 
     public get albumKey(): string {
-        if (this.settings.albumKeyIndex === '') {
+        if (this._albumKeyIndex === '') {
             return this.track.albumKey ?? '';
-        } else if (this.settings.albumKeyIndex === '2') {
+        } else if (this._albumKeyIndex === '2') {
             return this.track.albumKey2 ?? '';
-        } else if (this.settings.albumKeyIndex === '3') {
+        } else if (this._albumKeyIndex === '3') {
             return this.track.albumKey3 ?? '';
         }
 
