@@ -61,26 +61,26 @@ describe('TrackService', () => {
         trackRepositoryMock.setup((x) => x.getTracksForAlbumArtists(['Source artist3', 'Source artist4'])).returns(() => [track3]);
 
         trackModelFactoryMock
-            .setup((x) => x.createFromTrack(track1))
-            .returns(() => new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object, settingsMock));
+            .setup((x) => x.createFromTrack(track1, ''))
+            .returns(() => new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object, ''));
         trackModelFactoryMock
-            .setup((x) => x.createFromTrack(track2))
-            .returns(() => new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object, settingsMock));
+            .setup((x) => x.createFromTrack(track2, ''))
+            .returns(() => new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object, ''));
         trackModelFactoryMock
-            .setup((x) => x.createFromTrack(track3))
-            .returns(() => new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object, settingsMock));
+            .setup((x) => x.createFromTrack(track3, ''))
+            .returns(() => new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object, ''));
         trackModelFactoryMock
-            .setup((x) => x.createFromTrack(track4))
-            .returns(() => new TrackModel(track4, dateTimeMock.object, translatorServiceMock.object, settingsMock));
+            .setup((x) => x.createFromTrack(track4, ''))
+            .returns(() => new TrackModel(track4, dateTimeMock.object, translatorServiceMock.object, ''));
         trackModelFactoryMock
-            .setup((x) => x.createFromFileAsync('/home/user/Music/Subfolder1/track1.mp3'))
+            .setup((x) => x.createFromFileAsync('/home/user/Music/Subfolder1/track1.mp3', ''))
             .returns(() =>
                 Promise.resolve(
                     new TrackModel(
                         new Track('/home/user/Music/Subfolder1/track1.mp3'),
                         dateTimeMock.object,
                         translatorServiceMock.object,
-                        settingsMock,
+                        '',
                     ),
                 ),
             );
@@ -198,7 +198,7 @@ describe('TrackService', () => {
             await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
-            trackModelFactoryMock.verify((x) => x.createFromFileAsync('/home/user/Music/Subfolder1/track1.mp3'), Times.once());
+            trackModelFactoryMock.verify((x) => x.createFromFileAsync('/home/user/Music/Subfolder1/track1.mp3', ''), Times.once());
         });
     });
 
@@ -351,7 +351,7 @@ describe('TrackService', () => {
             // Arrange
             const track: Track = new Track('path');
             track.trackId = 9;
-            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, settingsMock);
+            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, '');
             trackModel.increasePlayCountAndDateLastPlayed();
 
             // Act
@@ -368,7 +368,7 @@ describe('TrackService', () => {
             const track: Track = new Track('path');
             track.trackId = 9;
 
-            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, settingsMock);
+            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, '');
             trackModel.increaseSkipCount();
 
             // Act

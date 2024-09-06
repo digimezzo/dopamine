@@ -6,8 +6,6 @@ import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { ISelectable } from '../../ui/interfaces/i-selectable';
 
 export class TrackModel implements ISelectable {
-    private readonly _albumKeyIndex: string = '';
-
     public constructor(
         private track: Track,
         private dateTime: DateTime,
@@ -133,11 +131,11 @@ export class TrackModel implements ISelectable {
     }
 
     public get albumKey(): string {
-        if (this._albumKeyIndex === '') {
+        if (this.albumKeyIndex === '') {
             return this.track.albumKey ?? '';
-        } else if (this._albumKeyIndex === '2') {
+        } else if (this.albumKeyIndex === '2') {
             return this.track.albumKey2 ?? '';
-        } else if (this._albumKeyIndex === '3') {
+        } else if (this.albumKeyIndex === '3') {
             return this.track.albumKey3 ?? '';
         }
 
