@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Constants } from '../../../../common/application/constants';
 import { Logger } from '../../../../common/logger';
 import { NativeElementProxy } from '../../../../common/native-element-proxy';
@@ -15,6 +15,7 @@ import { ApplicationServiceBase } from '../../../../services/application/applica
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { Timer } from '../../../../common/scheduling/timer';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-album-browser',
@@ -23,10 +24,11 @@ import { Timer } from '../../../../common/scheduling/timer';
     styleUrls: ['./album-browser.component.scss'],
     providers: [MouseSelectionWatcher],
 })
-export class AlbumBrowserComponent implements OnInit, AfterViewInit {
+export class AlbumBrowserComponent implements AfterViewInit, OnChanges, OnDestroy {
     private _albums: AlbumModel[] = [];
     private _albumsPersister: BaseAlbumsPersister;
     private availableWidthInPixels: number = 0;
+    private destroy$ = new Subject<void>();
 
     public constructor(
         public playbackService: PlaybackServiceBase,
@@ -38,6 +40,19 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         public addToPlaylistMenu: AddToPlaylistMenu,
         private logger: Logger,
     ) {}
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes['albums'] || changes['albumsPersister']) {
+            if (this.albums && this.albums.length > 0 && this.albumsPersister) {
+                this.orderAlbums();
+            }
+        }
+    }
 
     @ViewChild('albumContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public albumContextMenu: MatMenuTrigger;
@@ -57,7 +72,6 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     public set albumsPersister(v: BaseAlbumsPersister) {
         this._albumsPersister = v;
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
-        this.orderAlbums();
     }
 
     public get albums(): AlbumModel[] {
@@ -68,32 +82,28 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     public set albums(v: AlbumModel[]) {
         this._albums = v;
         this.mouseSelectionWatcher.initialize(this.albums, false);
-
-        // When the component is first rendered, it happens that albumsPersister is undefined.
-        if (this.albumsPersister != undefined) {
-            this.orderAlbums();
-        }
-    }
-
-    public ngOnInit(): void {
-        this.applicationService.windowSizeChanged$.pipe(debounceTime(Constants.albumsRedrawDelayMilliseconds)).subscribe(() => {
-            if (this.hasAvailableWidthChanged()) {
-                this.orderAlbums();
-            }
-        });
-
-        this.applicationService.mouseButtonReleased$.pipe(debounceTime(Constants.albumsRedrawDelayMilliseconds)).subscribe(() => {
-            if (this.hasAvailableWidthChanged()) {
-                this.orderAlbums();
-            }
-        });
     }
 
     public ngAfterViewInit(): void {
         // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
         setTimeout(() => {
             this.initializeAvailableWidth();
-            this.orderAlbums();
+
+            this.applicationService.windowSizeChanged$
+                .pipe(debounceTime(Constants.albumsRedrawDelayMilliseconds), takeUntil(this.destroy$))
+                .subscribe(() => {
+                    if (this.hasAvailableWidthChanged()) {
+                        this.orderAlbums();
+                    }
+                });
+
+            this.applicationService.mouseButtonReleased$
+                .pipe(debounceTime(Constants.albumsRedrawDelayMilliseconds), takeUntil(this.destroy$))
+                .subscribe(() => {
+                    if (this.hasAvailableWidthChanged()) {
+                        this.orderAlbums();
+                    }
+                });
         }, 0);
     }
 
