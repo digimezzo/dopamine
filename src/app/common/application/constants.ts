@@ -38,6 +38,7 @@ export class Constants {
     public static readonly longListLoadDelayMilliseconds: number = 500;
     public static readonly shortListLoadDelayMilliseconds: number = 50;
     public static readonly albumsRedrawDelayMilliseconds: number = 150;
+    public static readonly playlistsRedrawDelayMilliseconds: number = 150;
     public static readonly searchDelayMilliseconds: number = 500;
     public static readonly semanticZoomOutAnimationMilliseconds: number = 250;
     public static readonly semanticZoomInDelayMilliseconds: number = 100;
