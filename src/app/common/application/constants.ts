@@ -31,7 +31,7 @@ export class Constants {
     public static readonly releaseCandidateApplicationTag: string = 'rc';
     public static readonly columnValueDelimiter: string = ';';
 
-    public static readonly albumSizeInPixels: number = 120;
+    public static readonly albumSizeInPixels: number = 124;
     public static readonly itemMarginInPixels: number = 8;
     public static readonly screenEaseMarginPixels: number = 50;
     public static readonly screenEaseSpeedMilliseconds: number = 350;
