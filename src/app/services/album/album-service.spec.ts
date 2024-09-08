@@ -11,35 +11,40 @@ import { SettingsBase } from '../../common/settings/settings.base';
 import { SettingsMock } from '../../testing/settings-mock';
 import { ArtistModel } from '../artist/artist-model';
 import { Logger } from '../../common/logger';
+import { ArtistServiceBase } from '../artist/artist.service.base';
 
 describe('AlbumService', () => {
+    let artistServiceMock: IMock<ArtistServiceBase>;
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let applicationPathsMock: IMock<ApplicationPaths>;
     let settingsMock: SettingsMock;
     let loggerMock: IMock<Logger>;
-    let service: AlbumService;
 
     beforeEach(() => {
+        artistServiceMock = Mock.ofType<ArtistServiceBase>();
         trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         applicationPathsMock = Mock.ofType<ApplicationPaths>();
         settingsMock = new SettingsMock();
         loggerMock = Mock.ofType<Logger>();
-        service = new AlbumService(
+    });
+
+    function createService(): AlbumService {
+        return new AlbumService(
+            artistServiceMock.object,
             trackRepositoryMock.object,
             translatorServiceMock.object,
             applicationPathsMock.object,
             settingsMock,
             loggerMock.object,
         );
-    });
+    }
 
     describe('constructor', () => {
         it('should create', () => {
-            // Arrange
-
             // Act
+            const service: AlbumService = createService();
 
             // Assert
             expect(service).toBeDefined();
@@ -50,6 +55,7 @@ describe('AlbumService', () => {
         it('should return an empty collection if no albumData is found in the database', () => {
             // Arrange
             trackRepositoryMock.setup((x) => x.getAllAlbumData('')).returns(() => undefined);
+            const service: AlbumService = createService();
 
             // Act
             const albums: AlbumModel[] = service.getAllAlbums();
@@ -67,6 +73,8 @@ describe('AlbumService', () => {
             const albumDatas: AlbumData[] = [albumData1, albumData2];
 
             trackRepositoryMock.setup((x) => x.getAllAlbumData('')).returns(() => albumDatas);
+
+            const service: AlbumService = createService();
 
             // Act
             const returnedAlbums: AlbumModel[] = service.getAllAlbums();
@@ -92,8 +100,12 @@ describe('AlbumService', () => {
                 .setup((x) => x.getAlbumDataForTrackArtists('', ['Source artist 1', 'Source artist 2']))
                 .returns(() => albumDatas);
 
-            const artist1: ArtistModel = new ArtistModel('Source artist 1', 'Artist 1', translatorServiceMock.object);
-            const artist2: ArtistModel = new ArtistModel('Source artist 2', 'Artist 2', translatorServiceMock.object);
+            const artist1: ArtistModel = new ArtistModel('Artist 1', translatorServiceMock.object);
+            const artist2: ArtistModel = new ArtistModel('Artist 2', translatorServiceMock.object);
+
+            artistServiceMock.setup((x) => x.getSourceArtists([artist1, artist2])).returns(() => ['Source artist 1', 'Source artist 2']);
+
+            const service: AlbumService = createService();
 
             // Act
             const returnedAlbums: AlbumModel[] = service.getAlbumsForArtists([artist1, artist2], ArtistType.trackArtists);
@@ -117,8 +129,12 @@ describe('AlbumService', () => {
                 .setup((x) => x.getAlbumDataForAlbumArtists('', ['Source artist 1', 'Source artist 2']))
                 .returns(() => albumDatas);
 
-            const artist1: ArtistModel = new ArtistModel('Source artist 1', 'Artist 1', translatorServiceMock.object);
-            const artist2: ArtistModel = new ArtistModel('Source artist 2', 'Artist 2', translatorServiceMock.object);
+            const artist1: ArtistModel = new ArtistModel('Artist 1', translatorServiceMock.object);
+            const artist2: ArtistModel = new ArtistModel('Artist 2', translatorServiceMock.object);
+
+            artistServiceMock.setup((x) => x.getSourceArtists([artist1, artist2])).returns(() => ['Source artist 1', 'Source artist 2']);
+
+            const service: AlbumService = createService();
 
             // Act
             const returnedAlbums: AlbumModel[] = service.getAlbumsForArtists([artist1, artist2], ArtistType.albumArtists);
@@ -144,8 +160,12 @@ describe('AlbumService', () => {
                 .setup((x) => x.getAlbumDataForAlbumArtists('', ['Source artist 1', 'Source artist 2']))
                 .returns(() => [albumData2]);
 
-            const artist1: ArtistModel = new ArtistModel('Source artist 1', 'Artist 1', translatorServiceMock.object);
-            const artist2: ArtistModel = new ArtistModel('Source artist 2', 'Artist 2', translatorServiceMock.object);
+            const artist1: ArtistModel = new ArtistModel('Artist 1', translatorServiceMock.object);
+            const artist2: ArtistModel = new ArtistModel('Artist 2', translatorServiceMock.object);
+
+            artistServiceMock.setup((x) => x.getSourceArtists([artist1, artist2])).returns(() => ['Source artist 1', 'Source artist 2']);
+
+            const service: AlbumService = createService();
 
             // Act
             const returnedAlbums: AlbumModel[] = service.getAlbumsForArtists([artist1, artist2], ArtistType.allArtists);
@@ -169,6 +189,8 @@ describe('AlbumService', () => {
             const albumDatas: AlbumData[] = [albumData1, albumData2];
 
             trackRepositoryMock.setup((x) => x.getAlbumDataForGenres('', ['Genre 1', 'Genre 2'])).returns(() => albumDatas);
+
+            const service: AlbumService = createService();
 
             // Act
             const returnedAlbums: AlbumModel[] = service.getAlbumsForGenres(['Genre 1', 'Genre 2']);

@@ -28,9 +28,9 @@ describe('ArtistsPersister', () => {
 
         subscription = new Subscription();
 
-        artist1 = new ArtistModel('artist 1', 'artist 1', translatorServiceMock.object);
-        artist2 = new ArtistModel('artist 2', 'artist 2', translatorServiceMock.object);
-        artist3 = new ArtistModel('artist 3', 'artist 3', translatorServiceMock.object);
+        artist1 = new ArtistModel('artist 1', translatorServiceMock.object);
+        artist2 = new ArtistModel('artist 2', translatorServiceMock.object);
+        artist3 = new ArtistModel('artist 3', translatorServiceMock.object);
     });
 
     describe('constructor', () => {

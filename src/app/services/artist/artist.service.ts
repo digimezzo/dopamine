@@ -9,9 +9,11 @@ import { TrackRepositoryBase } from '../../data/repositories/track-repository.ba
 import { ArtistSplitter } from './artist-splitter';
 import { Timer } from '../../common/scheduling/timer';
 import { Logger } from '../../common/logger';
+import { CollectionUtils } from '../../common/utils/collections-utils';
 
 @Injectable()
 export class ArtistService implements ArtistServiceBase {
+    private sourceArtists: string[] = [];
     public constructor(
         private artistSplitter: ArtistSplitter,
         private trackRepository: TrackRepositoryBase,
@@ -46,6 +48,7 @@ export class ArtistService implements ArtistServiceBase {
 
         timer.start();
 
+        this.sourceArtists = artists;
         const splitArtists: ArtistModel[] = this.artistSplitter.splitArtists(artists);
 
         timer.stop();
@@ -53,5 +56,18 @@ export class ArtistService implements ArtistServiceBase {
         this.logger.info(`Finished splitting artists. Time required: ${timer.elapsedMilliseconds} ms`, 'ArtistService', 'getArtists');
 
         return splitArtists;
+    }
+
+    public getSourceArtists(artists: ArtistModel[]): string[] {
+        const filteredSourceArtists: string[] = [];
+        const lowerCaseArtistNames = new Set(artists.map((artist) => artist.name.toLowerCase()));
+
+        for (const sourceArtist of this.sourceArtists) {
+            if ([...lowerCaseArtistNames].some((name) => sourceArtist.toLowerCase().includes(name))) {
+                filteredSourceArtists.push(sourceArtist);
+            }
+        }
+
+        return filteredSourceArtists;
     }
 }

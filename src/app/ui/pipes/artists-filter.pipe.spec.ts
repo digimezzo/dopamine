@@ -13,8 +13,8 @@ describe('ArtistFilterPipe', () => {
     }
 
     function createArtists(): ArtistModel[] {
-        const artist1: ArtistModel = new ArtistModel('artist1', 'artist1', translatorServiceMock.object);
-        const artist2: ArtistModel = new ArtistModel('artist2', 'artist2', translatorServiceMock.object);
+        const artist1: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+        const artist2: ArtistModel = new ArtistModel('artist2', translatorServiceMock.object);
 
         return [artist1, artist2];
     }

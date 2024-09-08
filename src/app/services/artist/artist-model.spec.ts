@@ -10,7 +10,7 @@ describe('ArtistModel', () => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
         translatorServiceMock.setup((x) => x.get('Artist.UnknownArtist')).returns(() => 'Unknown artist');
-        artistModel = new ArtistModel('My artist', 'My artist', translatorServiceMock.object);
+        artistModel = new ArtistModel('My artist', translatorServiceMock.object);
     });
 
     describe('constructor', () => {
@@ -73,7 +73,7 @@ describe('ArtistModel', () => {
         it('should return "Unknown artist" if artist is empty', () => {
             // Arrange
             const artist: string = '';
-            artistModel = new ArtistModel(artist, artist, translatorServiceMock.object);
+            artistModel = new ArtistModel(artist, translatorServiceMock.object);
 
             // Act
             const name: string = artistModel.displayName;
@@ -85,7 +85,7 @@ describe('ArtistModel', () => {
         it('should return "Unknown artist" if artist is space', () => {
             // Arrange
             const artist: string = ' ';
-            artistModel = new ArtistModel(artist, artist, translatorServiceMock.object);
+            artistModel = new ArtistModel(artist, translatorServiceMock.object);
 
             // Act
             const name: string = artistModel.displayName;
@@ -97,7 +97,7 @@ describe('ArtistModel', () => {
         it('should return the artist name if artist is not undefined, empty or space.', () => {
             // Arrange
             const artist: string = 'My artist';
-            artistModel = new ArtistModel(artist, artist, translatorServiceMock.object);
+            artistModel = new ArtistModel(artist, translatorServiceMock.object);
 
             // Act
             const name: string = artistModel.displayName;

@@ -10,10 +10,12 @@ import { SettingsBase } from '../../common/settings/settings.base';
 import { ArtistModel } from '../artist/artist-model';
 import { Timer } from '../../common/scheduling/timer';
 import { Logger } from '../../common/logger';
+import { ArtistServiceBase } from '../artist/artist.service.base';
 
 @Injectable()
 export class AlbumService implements AlbumServiceBase {
     public constructor(
+        private artistService: ArtistServiceBase,
         private trackRepository: TrackRepositoryBase,
         private translatorService: TranslatorServiceBase,
         private applicationPaths: ApplicationPaths,
@@ -41,11 +43,8 @@ export class AlbumService implements AlbumServiceBase {
 
         const albumDatas: AlbumData[] = [];
 
-        const sourceArtists: string[] = artists.reduce<string[]>(
-            (acc, artist) => (artist.sourceNames ? acc.concat(artist.sourceNames) : acc),
-            [],
-        );
-        
+        const sourceArtists: string[] = this.artistService.getSourceArtists(artists);
+
         const albumKeyIndex = this.settings.albumKeyIndex;
 
         if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
@@ -88,8 +87,7 @@ export class AlbumService implements AlbumServiceBase {
     }
 
     private addAlbumsForTrackOrAllArtists(albumKeyIndex: string, artists: string[], albumDatas: AlbumData[]): void {
-        const trackArtistsAlbumDatas: AlbumData[] =
-            this.trackRepository.getAlbumDataForTrackArtists(albumKeyIndex, artists) ?? [];
+        const trackArtistsAlbumDatas: AlbumData[] = this.trackRepository.getAlbumDataForTrackArtists(albumKeyIndex, artists) ?? [];
 
         for (const albumData of trackArtistsAlbumDatas) {
             albumDatas.push(albumData);
@@ -97,8 +95,7 @@ export class AlbumService implements AlbumServiceBase {
     }
 
     private addAlbumsForAlbumOrAllArtists(albumKeyIndex: string, artists: string[], albumDatas: AlbumData[]): void {
-        const albumArtistsAlbumDatas: AlbumData[] =
-            this.trackRepository.getAlbumDataForAlbumArtists(albumKeyIndex, artists) ?? [];
+        const albumArtistsAlbumDatas: AlbumData[] = this.trackRepository.getAlbumDataForAlbumArtists(albumKeyIndex, artists) ?? [];
 
         for (const albumData of albumArtistsAlbumDatas) {
             // Avoid adding a track twice

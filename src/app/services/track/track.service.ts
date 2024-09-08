@@ -13,10 +13,12 @@ import { SettingsBase } from '../../common/settings/settings.base';
 import { ArtistModel } from '../artist/artist-model';
 import { Timer } from '../../common/scheduling/timer';
 import { Logger } from '../../common/logger';
+import { ArtistServiceBase } from '../artist/artist.service.base';
 
 @Injectable()
 export class TrackService implements TrackServiceBase {
     public constructor(
+        private artistService: ArtistServiceBase,
         private trackModelFactory: TrackModelFactory,
         private trackRepository: TrackRepositoryBase,
         private fileAccess: FileAccessBase,
@@ -41,7 +43,7 @@ export class TrackService implements TrackServiceBase {
         const filesInDirectory: string[] = await this.fileAccess.getFilesInDirectoryAsync(subfolderPath);
 
         const trackModels: TrackModels = new TrackModels();
-        
+
         const albumKeyIndex: string = this.settings.albumKeyIndex;
 
         for (const file of filesInDirectory) {
@@ -130,10 +132,7 @@ export class TrackService implements TrackServiceBase {
             return trackModels;
         }
 
-        const sourceArtists: string[] = artists.reduce<string[]>(
-            (acc, artist) => (artist.sourceNames ? acc.concat(artist.sourceNames) : acc),
-            [],
-        );
+        const sourceArtists: string[] = this.artistService.getSourceArtists(artists);
 
         if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
             this.addTracksForTrackOrAllArtists(sourceArtists, trackModels);
