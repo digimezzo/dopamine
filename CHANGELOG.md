@@ -3,6 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0-preview.34] - 2024-09-09
+
+### Fixed
+
+- Loss of responsiveness when using large collections
+- Albums can break off mid-cover on specific window sizes
+- Playlists only wrap into multiple rows after a mouse click
+
 ## [3.0.0-preview.33] - 2024-09-03
 
 ### Added
