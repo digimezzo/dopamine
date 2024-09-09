@@ -7,9 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Loss of responsiveness when using large collections
-- Albums can break off mid-cover on specific window sizes
-- Playlists only wrap into multiple rows after a mouse click
+-   Loss of responsiveness when using large collections
+-   Albums can break off mid-cover on specific window sizes
+-   Playlists only wrap into multiple rows after a mouse click
+-   Artists and genres semantic scroll alignment is not always correct
 
 ## [3.0.0-preview.33] - 2024-09-03
 
