@@ -1,7 +1,11 @@
 ﻿import { PlaylistModel } from '../../services/playlist/playlist-model';
 import { PlaylistSorter } from './playlist-sorter';
+import { IMock, Mock } from 'typemoq';
+import { Logger } from '../logger';
 
 describe('PlaylistSorter', () => {
+    let loggerMock: IMock<Logger>;
+
     let playlistModel1: PlaylistModel;
     let playlistModel2: PlaylistModel;
     let playlistModel3: PlaylistModel;
@@ -17,6 +21,8 @@ describe('PlaylistSorter', () => {
     let playlists: PlaylistModel[];
 
     beforeEach(() => {
+        loggerMock = Mock.ofType<Logger>();
+
         playlistModel1 = new PlaylistModel('Playlist 1', 'Folder', 'Path 1', 'Image path 1');
         playlistModel2 = new PlaylistModel('Playlist 2', 'Folder', 'Path 2', 'Image path 2');
         playlistModel3 = new PlaylistModel('Playlist 3', 'Folder', 'Path 3', 'Image path 3');
@@ -41,7 +47,7 @@ describe('PlaylistSorter', () => {
             playlistModel3,
         ];
 
-        playlistSorter = new PlaylistSorter();
+        playlistSorter = new PlaylistSorter(loggerMock.object);
     });
 
     describe('sortAscending', () => {

@@ -31,13 +31,14 @@ export class Constants {
     public static readonly releaseCandidateApplicationTag: string = 'rc';
     public static readonly columnValueDelimiter: string = ';';
 
-    public static readonly albumSizeInPixels: number = 120;
+    public static readonly albumSizeInPixels: number = 124;
     public static readonly itemMarginInPixels: number = 8;
     public static readonly screenEaseMarginPixels: number = 50;
     public static readonly screenEaseSpeedMilliseconds: number = 350;
     public static readonly longListLoadDelayMilliseconds: number = 500;
     public static readonly shortListLoadDelayMilliseconds: number = 50;
     public static readonly albumsRedrawDelayMilliseconds: number = 150;
+    public static readonly playlistsRedrawDelayMilliseconds: number = 150;
     public static readonly searchDelayMilliseconds: number = 500;
     public static readonly semanticZoomOutAnimationMilliseconds: number = 250;
     public static readonly semanticZoomInDelayMilliseconds: number = 100;
@@ -143,6 +144,12 @@ export class Constants {
             'Simple data persistence for your Electron app or module - Save and load user preferences, app state, cache, etc.',
             'https://github.com/sindresorhus/electron-store',
             'https://github.com/sindresorhus/electron-store/blob/master/license',
+        ),
+        new ExternalComponent(
+            'fast-sort',
+            'Blazing fast array sorting with TypeScript support.',
+            'https://github.com/snovakovic/fast-sort',
+            'https://github.com/snovakovic/fast-sort/blob/master/LICENSE',
         ),
         new ExternalComponent(
             'Fast HTML Parser',

@@ -95,7 +95,7 @@ describe('ScrobblingService', () => {
         track.albumTitle = albumTitle;
         track.duration = durationInMilliseconds;
 
-        return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, settingsMock.object);
+        return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, '');
     }
 
     describe('constructor', () => {

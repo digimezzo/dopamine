@@ -41,6 +41,7 @@ describe('FileService', () => {
             trackModelFactoryMock.object,
             applicationMock.object,
             fileValidatorMock.object,
+            settingsMock,
             loggerMock.object,
         );
     }
@@ -64,13 +65,13 @@ describe('FileService', () => {
         fileValidatorMock.setup((x) => x.isPlayableAudioFile('file 3.bmp')).returns(() => false);
 
         trackModelFactoryMock
-            .setup((x) => x.createFromFileAsync('file 1.mp3'))
+            .setup((x) => x.createFromFileAsync('file 1.mp3', ''))
             .returns(() =>
                 Promise.resolve(new TrackModel(new Track('file 1.mp3'), dateTimeMock.object, translatorServiceMock.object, settingsMock)),
             );
 
         trackModelFactoryMock
-            .setup((x) => x.createFromFileAsync('file 2.ogg'))
+            .setup((x) => x.createFromFileAsync('file 2.ogg', ''))
             .returns(() =>
                 Promise.resolve(new TrackModel(new Track('file 2.ogg'), dateTimeMock.object, translatorServiceMock.object, settingsMock)),
             );

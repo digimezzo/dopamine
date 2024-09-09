@@ -2,6 +2,7 @@ import { IMock, Mock } from 'typemoq';
 import { GenreModel } from '../../services/genre/genre-model';
 import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
 import { GenreSorter } from './genre-sorter';
+import { Logger } from '../logger';
 
 describe('GenreSorter', () => {
     let genreModel1: GenreModel;
@@ -16,12 +17,14 @@ describe('GenreSorter', () => {
     let genreModel10: GenreModel;
 
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let loggerMock: IMock<Logger>;
 
     let genreSorter: GenreSorter;
     let genres: GenreModel[];
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        loggerMock = Mock.ofType<Logger>();
 
         genreModel1 = new GenreModel('Genre1', translatorServiceMock.object);
         genreModel2 = new GenreModel('Genre2', translatorServiceMock.object);
@@ -47,7 +50,7 @@ describe('GenreSorter', () => {
             genreModel3,
         ];
 
-        genreSorter = new GenreSorter();
+        genreSorter = new GenreSorter(loggerMock.object);
     });
 
     describe('sortAscending', () => {

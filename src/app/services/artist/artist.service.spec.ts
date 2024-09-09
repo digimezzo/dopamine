@@ -9,31 +9,38 @@ import { ArtistServiceBase } from './artist.service.base';
 import { ArtistSplitter } from './artist-splitter';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { SettingsMock } from '../../testing/settings-mock';
+import { Logger } from '../../common/logger';
 
 describe('ArtistService', () => {
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
     let settingsMock: SettingsBase;
     let artistSplitter: ArtistSplitter;
-    let service: ArtistServiceBase;
+    let loggerMock: IMock<Logger>;
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
+        loggerMock = Mock.ofType<Logger>();
         settingsMock = new SettingsMock();
-        artistSplitter = new ArtistSplitter(translatorServiceMock.object, settingsMock);
-
         settingsMock.artistSplitSeparators = '';
         settingsMock.artistSplitExceptions = '';
-
-        service = new ArtistService(artistSplitter, trackRepositoryMock.object);
     });
+
+    function createService(): ArtistService {
+        artistSplitter = new ArtistSplitter(translatorServiceMock.object, settingsMock);
+
+        return new ArtistService(artistSplitter, trackRepositoryMock.object, loggerMock.object);
+    }
+
+    function createArtistModel(artist: string): ArtistModel {
+        return new ArtistModel(artist, translatorServiceMock.object);
+    }
 
     describe('constructor', () => {
         it('should create', () => {
-            // Arrange
-
             // Act
+            const service: ArtistService = createService();
 
             // Assert
             expect(service).toBeDefined();
@@ -74,6 +81,8 @@ describe('ArtistService', () => {
 
             trackRepositoryMock.setup((x) => x.getTrackArtistData()).returns(() => trackArtistDatas);
             trackRepositoryMock.setup((x) => x.getAlbumArtistData()).returns(() => albumArtistDatas);
+
+            const service: ArtistService = createService();
 
             // Act
             const artists: ArtistModel[] = service.getArtists(ArtistType.trackArtists);
@@ -121,6 +130,8 @@ describe('ArtistService', () => {
 
             trackRepositoryMock.setup((x) => x.getTrackArtistData()).returns(() => trackArtistDatas);
             trackRepositoryMock.setup((x) => x.getAlbumArtistData()).returns(() => albumArtistDatas);
+
+            const service: ArtistService = createService();
 
             // Act
             const artists: ArtistModel[] = service.getArtists(ArtistType.albumArtists);
@@ -170,6 +181,8 @@ describe('ArtistService', () => {
             trackRepositoryMock.setup((x) => x.getTrackArtistData()).returns(() => trackArtistDatas);
             trackRepositoryMock.setup((x) => x.getAlbumArtistData()).returns(() => albumArtistDatas);
 
+            const service: ArtistService = createService();
+
             // Act
             const artists: ArtistModel[] = service.getArtists(ArtistType.allArtists);
 
@@ -184,6 +197,80 @@ describe('ArtistService', () => {
             expect(artists[6].displayName).toEqual('Megadeth');
             expect(artists[7].displayName).toEqual('Rihanna');
             expect(artists[8].displayName).toEqual('Jennifer Lopez');
+        });
+    });
+
+    describe('getSourceArtists', () => {
+        it('should get the source artists for a given list of artists', () => {
+            // Arrange
+            let artistDatas: ArtistData[] = [
+                new ArtistData(';Artist1;'),
+                new ArtistData(';artist1;'),
+                new ArtistData(';Artist2;'),
+                new ArtistData(';Artist1 ft. Artist2 feat. Artist3;'),
+                new ArtistData(';artist1 FT. artist2 & Artist3;'),
+                new ArtistData(';Artist2 ft. Artist3 & Artist4;'),
+                new ArtistData(';artist4;'),
+                new ArtistData(';Artist3 & Artist5;'),
+                new ArtistData(';Artist5 | Artist6;'),
+                new ArtistData(';Artist6 | Artist7;'),
+                new ArtistData(';;'),
+            ];
+
+            settingsMock.artistSplitSeparators = '[ft.][feat.][&][|]';
+            settingsMock.artistSplitExceptions = '[Artist2 & Artist3][Artist6 | Artist7]';
+            trackRepositoryMock.setup((x) => x.getTrackArtistData()).returns(() => artistDatas);
+
+            const service: ArtistService = createService();
+
+            const artists = service.getArtists(ArtistType.trackArtists);
+
+            // Act
+            const sourceArtists1: string[] = service.getSourceArtists([createArtistModel('Artist1')]);
+            const sourceArtists2: string[] = service.getSourceArtists([createArtistModel('Artist2')]);
+            const sourceArtists3: string[] = service.getSourceArtists([createArtistModel('Artist3')]);
+            const sourceArtists4: string[] = service.getSourceArtists([createArtistModel('Artist2 & Artist3')]);
+            const sourceArtists5: string[] = service.getSourceArtists([createArtistModel('Artist4')]);
+            const sourceArtists6: string[] = service.getSourceArtists([createArtistModel('Artist5')]);
+            const sourceArtists7: string[] = service.getSourceArtists([createArtistModel('Artist6')]);
+            const sourceArtists8: string[] = service.getSourceArtists([createArtistModel('Artist6 | Artist7')]);
+
+            // Assert
+            expect(sourceArtists1.length).toEqual(4);
+            expect(sourceArtists1[0]).toEqual('Artist1');
+            expect(sourceArtists1[1]).toEqual('artist1');
+            expect(sourceArtists1[2]).toEqual('Artist1 ft. Artist2 feat. Artist3');
+            expect(sourceArtists1[3]).toEqual('artist1 FT. artist2 & Artist3');
+
+            expect(sourceArtists2.length).toEqual(4);
+            expect(sourceArtists2[0]).toEqual('Artist2');
+            expect(sourceArtists2[1]).toEqual('Artist1 ft. Artist2 feat. Artist3');
+            expect(sourceArtists2[2]).toEqual('artist1 FT. artist2 & Artist3');
+            expect(sourceArtists2[3]).toEqual('Artist2 ft. Artist3 & Artist4');
+
+            expect(sourceArtists3.length).toEqual(4);
+            expect(sourceArtists3[0]).toEqual('Artist1 ft. Artist2 feat. Artist3');
+            expect(sourceArtists3[1]).toEqual('artist1 FT. artist2 & Artist3');
+            expect(sourceArtists3[2]).toEqual('Artist2 ft. Artist3 & Artist4');
+            expect(sourceArtists3[3]).toEqual('Artist3 & Artist5');
+
+            expect(sourceArtists4.length).toEqual(1);
+            expect(sourceArtists4[0]).toEqual('artist1 FT. artist2 & Artist3');
+
+            expect(sourceArtists5.length).toEqual(2);
+            expect(sourceArtists5[0]).toEqual('Artist2 ft. Artist3 & Artist4');
+            expect(sourceArtists5[1]).toEqual('artist4');
+
+            expect(sourceArtists6.length).toEqual(2);
+            expect(sourceArtists6[0]).toEqual('Artist3 & Artist5');
+            expect(sourceArtists6[1]).toEqual('Artist5 | Artist6');
+
+            expect(sourceArtists7.length).toEqual(2);
+            expect(sourceArtists7[0]).toEqual('Artist5 | Artist6');
+            expect(sourceArtists7[1]).toEqual('Artist6 | Artist7');
+
+            expect(sourceArtists8.length).toEqual(1);
+            expect(sourceArtists8[0]).toEqual('Artist6 | Artist7');
         });
     });
 });

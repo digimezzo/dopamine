@@ -17,36 +17,21 @@ export class ArtistSplitter {
         const exceptions: string[] = CollectionUtils.fromString(this.settings.artistSplitExceptions);
 
         const returnArtists: ArtistModel[] = [];
+        const uniqueArtistNames: Set<string> = new Set();
 
         for (const artist of artists) {
             if (separators.length > 0) {
-                const splitArtists: ArtistModel[] = this.splitArtist(artist, separators, exceptions);
+                const splitArtists = this.splitArtist(artist, separators, exceptions);
                 for (const splitArtist of splitArtists) {
-                    if (
-                        CollectionUtils.includesIgnoreCase(
-                            returnArtists.map((x) => x.displayName),
-                            splitArtist.displayName,
-                        )
-                    ) {
-                        const returnArtist: ArtistModel | undefined = returnArtists.find((x) =>
-                            StringUtils.equalsIgnoreCase(x.displayName, splitArtist.displayName),
-                        );
-
-                        if (returnArtist && !CollectionUtils.includesIgnoreCase(returnArtist.sourceNames, splitArtist.sourceNames[0])) {
-                            returnArtist.sourceNames.push(splitArtist.sourceNames[0]);
-                        }
-                    } else {
+                    if (!uniqueArtistNames.has(splitArtist.name.toLowerCase())) {
+                        uniqueArtistNames.add(splitArtist.name.toLowerCase());
                         returnArtists.push(splitArtist);
                     }
                 }
             } else {
-                if (
-                    !CollectionUtils.includesIgnoreCase(
-                        returnArtists.map((x) => x.displayName),
-                        artist,
-                    )
-                ) {
-                    returnArtists.push(new ArtistModel(artist, artist, this.translatorService));
+                if (!uniqueArtistNames.has(artist.toLowerCase())) {
+                    uniqueArtistNames.add(artist.toLowerCase());
+                    returnArtists.push(new ArtistModel(artist, this.translatorService));
                 }
             }
         }
@@ -60,7 +45,7 @@ export class ArtistSplitter {
 
         for (const exception of exceptions) {
             if (StringUtils.includesIgnoreCase(artist, exception)) {
-                artists.push(new ArtistModel(originalArtist, exception, this.translatorService));
+                artists.push(new ArtistModel(exception, this.translatorService));
                 const escapedException = exception.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                 const regEx: RegExp = new RegExp(escapedException, 'ig');
                 artist = artist.replace(regEx, '¨');
@@ -69,7 +54,7 @@ export class ArtistSplitter {
 
         const escapedSeparators = separators.map((separator) => separator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
         const regex: RegExp = new RegExp(escapedSeparators.join('|'), 'i');
-        artists.push(...artist.split(regex).map((a: string) => new ArtistModel(originalArtist, a.trim(), this.translatorService)));
+        artists.push(...artist.split(regex).map((a: string) => new ArtistModel(a.trim(), this.translatorService)));
 
         return artists.filter((a: ArtistModel): boolean => a.name !== '¨');
     }
