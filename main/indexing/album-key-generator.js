@@ -7,7 +7,7 @@ class AlbumKeyGenerator {
             albumKeyItems.push(albumTitle);
 
             if (albumArtists !== undefined && albumArtists.length > 0) {
-                albumKeyItems.push(...albumArtists);
+                albumKeyItems.push(...albumArtists.map((x) => x.toLowerCase()));
             }
 
             return DataDelimiter.toDelimitedString(albumKeyItems);
