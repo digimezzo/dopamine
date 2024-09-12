@@ -71,7 +71,7 @@ function windowHasFrame(): boolean {
     return settings.get('useSystemTitleBar');
 }
 
-function tittleBarStyle(): 'hiddenInset' | 'default' {
+function titleBarStyle(): 'hiddenInset' | 'default' {
     if (settings.get('useSystemTitleBar')) {
         return 'default';
     }
@@ -187,7 +187,7 @@ function createMainWindow(): void {
     mainWindow = new BrowserWindow({
         backgroundColor: '#fff',
         frame: windowHasFrame(),
-        titleBarStyle: tittleBarStyle(),
+        titleBarStyle: titleBarStyle(),
         trafficLightPosition: process.platform === 'darwin' ? { x: 10, y: 15 } : undefined,
         icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
         webPreferences: {
@@ -268,7 +268,6 @@ function createMainWindow(): void {
     });
 
     mainWindow.on('close', (event: any) => {
-
         if (!isQuitting) {
             event.preventDefault();
             if (mainWindow) {
@@ -282,12 +281,11 @@ function createMainWindow(): void {
                 } else if (shouldCloseToNotificationArea()) {
                     mainWindow.hide();
                 } else {
-                   mainWindow.webContents.send('application-close');
-                   isQuitting = true;
+                    mainWindow.webContents.send('application-close');
+                    isQuitting = true;
                 }
             }
         }
-
     });
 
     mainWindow.on(
@@ -389,7 +387,7 @@ try {
             // to stay active until the user quits explicitly with Cmd + Q
             if (process.platform !== 'darwin') {
                 app.quit();
-            }    
+            }
         });
 
         app.on('activate', () => {
@@ -451,7 +449,7 @@ try {
                 {
                     label: arg.exitLabel,
                     click(): void {
-                        app.quit();      
+                        app.quit();
                     },
                 },
             ]);

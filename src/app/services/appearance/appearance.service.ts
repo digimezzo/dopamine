@@ -37,6 +37,9 @@ export class AppearanceService implements AppearanceServiceBase {
     private _accentRgbColor: RgbColor = RgbColor.default();
     private _backgroundRgbColor: RgbColor = RgbColor.default();
 
+    private _isMacOS: boolean;
+    private _isFullScreen: boolean;
+
     public constructor(
         private settings: SettingsBase,
         private logger: Logger,
@@ -64,13 +67,13 @@ export class AppearanceService implements AppearanceServiceBase {
     public get windowHasNativeTitleBar(): boolean {
         return this._windowHasNativeTitleBar;
     }
-    
+
     public get needsTrafficLightMargin(): boolean {
-        return !this.windowHasNativeTitleBar && this.desktop.isMacOS;
+        return !this.windowHasNativeTitleBar && this._isMacOS && !this._isFullScreen;
     }
 
     public get needsCustomWindowControls(): boolean {
-        return !this.windowHasNativeTitleBar && !this.desktop.isMacOS;
+        return !this.windowHasNativeTitleBar && !this._isMacOS;
     }
 
     public get isUsingLightTheme(): boolean {
@@ -182,6 +185,8 @@ export class AppearanceService implements AppearanceServiceBase {
     private initialize(): void {
         this._windowHasNativeTitleBar = this.application.getGlobal('windowHasFrame') as boolean;
 
+        this._isMacOS = this.desktop.isMacOS();
+        this._isFullScreen = this.application.getCurrentWindow().isFullScreen();
         this._themesDirectoryPath = this.applicationPaths.themesDirectoryFullPath();
         this.ensureThemesDirectoryExists();
         this.ensureDefaultThemesExist();
@@ -242,6 +247,12 @@ export class AppearanceService implements AppearanceServiceBase {
                 if (this.settings.followAlbumCoverColor) {
                     PromiseUtils.noAwait(this.safeApplyThemeAsync());
                 }
+            }),
+        );
+
+        this.subscription.add(
+            this.application.fullScreenModeChanged$.subscribe(() => {
+                this._isFullScreen = this.application.getCurrentWindow().isFullScreen();
             }),
         );
     }

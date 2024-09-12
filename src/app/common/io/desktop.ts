@@ -22,10 +22,6 @@ export class Desktop implements DesktopBase {
     public accentColorChanged$: Observable<void> = this.accentColorChanged.asObservable();
     public nativeThemeUpdated$: Observable<void> = this.nativeThemeUpdated.asObservable();
 
-    public get isMacOS(): boolean {
-        return remote.process.platform === 'darwin';
-    }
-
     public async showSelectFolderDialogAsync(dialogTitle: string): Promise<string> {
         const openDialogReturnValue: OpenDialogReturnValue = await remote.dialog.showOpenDialog({
             title: dialogTitle,
@@ -90,5 +86,9 @@ export class Desktop implements DesktopBase {
 
     public getApplicationDataDirectory(): string {
         return remote.app.getPath('userData');
+    }
+
+    public isMacOS(): boolean {
+        return remote.process.platform === 'darwin';
     }
 }

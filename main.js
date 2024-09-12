@@ -65,7 +65,7 @@ function windowHasFrame() {
     }
     return settings.get('useSystemTitleBar');
 }
-function tittleBarStyle() {
+function titleBarStyle() {
     if (settings.get('useSystemTitleBar')) {
         return 'default';
     }
@@ -166,7 +166,7 @@ function createMainWindow() {
     mainWindow = new electron_1.BrowserWindow({
         backgroundColor: '#fff',
         frame: windowHasFrame(),
-        titleBarStyle: tittleBarStyle(),
+        titleBarStyle: titleBarStyle(),
         trafficLightPosition: process.platform === 'darwin' ? { x: 10, y: 15 } : undefined,
         icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
         webPreferences: {

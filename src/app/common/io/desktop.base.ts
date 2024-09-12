@@ -4,8 +4,6 @@ export abstract class DesktopBase {
     public abstract accentColorChanged$: Observable<void>;
     public abstract nativeThemeUpdated$: Observable<void>;
 
-    public abstract get isMacOS(): boolean;
-
     public abstract showSelectFolderDialogAsync(dialogTitle: string): Promise<string>;
     public abstract showSelectFileDialogAsync(dialogTitle: string): Promise<string>;
 
@@ -17,4 +15,5 @@ export abstract class DesktopBase {
     public abstract moveFileToTrashAsync(filePath: string): Promise<void>;
     public abstract getMusicDirectory(): string;
     public abstract getApplicationDataDirectory(): string;
+    public abstract isMacOS(): boolean;
 }
