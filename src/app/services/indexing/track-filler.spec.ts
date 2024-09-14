@@ -9,6 +9,7 @@ import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.fac
 import { AlbumKeyGenerator } from '../../data/album-key-generator';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { Track } from '../../data/entities/track';
+import { MetadataPatcher } from '../../common/metadata/metadata-patcher';
 
 class FileMetadataImplementation implements IFileMetadata {
     public path: string;
@@ -37,6 +38,7 @@ class FileMetadataImplementation implements IFileMetadata {
 describe('TrackFiller', () => {
     let fileMetadataFactoryMock: IMock<FileMetadataFactoryBase>;
     let trackFieldCreatorMock: IMock<TrackFieldCreator>;
+    let metadataPatcherMock: IMock<MetadataPatcher>;
     let albumKeyGeneratorMock: IMock<AlbumKeyGenerator>;
     let fileAccessMock: IMock<FileAccessBase>;
     let mimeTypesMock: IMock<MimeTypes>;
@@ -47,6 +49,7 @@ describe('TrackFiller', () => {
         return new TrackFiller(
             fileMetadataFactoryMock.object,
             trackFieldCreatorMock.object,
+            metadataPatcherMock.object,
             albumKeyGeneratorMock.object,
             fileAccessMock.object,
             mimeTypesMock.object,
@@ -58,6 +61,7 @@ describe('TrackFiller', () => {
     beforeEach(() => {
         fileMetadataFactoryMock = Mock.ofType<FileMetadataFactoryBase>();
         trackFieldCreatorMock = Mock.ofType<TrackFieldCreator>();
+        metadataPatcherMock = Mock.ofType<MetadataPatcher>();
         albumKeyGeneratorMock = Mock.ofType<AlbumKeyGenerator>();
         fileAccessMock = Mock.ofType<FileAccessBase>();
         mimeTypesMock = Mock.ofType<MimeTypes>();
@@ -106,10 +110,13 @@ describe('TrackFiller', () => {
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
+            metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Artist 1', 'Artist 2'])).returns(() => ['Artist 1', 'Artist 2']);
+
             // Act
             await trackFiller.addFileMetadataToTrackAsync(track, false);
 
             // Assert
+            metadataPatcherMock.verify((x) => x.joinUnsplittableMetadata(['Artist 1', 'Artist 2']), Times.exactly(1));
             trackFieldCreatorMock.verify((x) => x.createMultiTextField(['Artist 1', 'Artist 2']), Times.exactly(1));
             expect(track.artists).toEqual(';Artist 1;;Artist 2;');
         });
@@ -126,10 +133,13 @@ describe('TrackFiller', () => {
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
+            metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Genre 1', 'Genre 2'])).returns(() => ['Genre 1', 'Genre 2']);
+
             // Act
             await trackFiller.addFileMetadataToTrackAsync(track, false);
 
             // Assert
+            metadataPatcherMock.verify((x) => x.joinUnsplittableMetadata(['Genre 1', 'Genre 2']), Times.exactly(1));
             trackFieldCreatorMock.verify((x) => x.createMultiTextField(['Genre 1', 'Genre 2']), Times.exactly(1));
             expect(track.genres).toEqual(';Genre 1;;Genre 2;');
         });
@@ -166,10 +176,15 @@ describe('TrackFiller', () => {
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
+            metadataPatcherMock
+                .setup((x) => x.joinUnsplittableMetadata(['Album artist 1', 'Album artist 2']))
+                .returns(() => ['Album artist 1', 'Album artist 2']);
+
             // Act
             await trackFiller.addFileMetadataToTrackAsync(track, false);
 
             // Assert
+            metadataPatcherMock.verify((x) => x.joinUnsplittableMetadata(['Album artist 1', 'Album artist 2']), Times.exactly(2));
             trackFieldCreatorMock.verify((x) => x.createMultiTextField(['Album artist 1', 'Album artist 2']), Times.exactly(1));
             expect(track.albumArtists).toEqual(';Album artist 1;;Album artist 2;');
         });
@@ -187,10 +202,15 @@ describe('TrackFiller', () => {
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
+            metadataPatcherMock
+                .setup((x) => x.joinUnsplittableMetadata(['Album artist 1', 'Album artist 2']))
+                .returns(() => ['Album artist 1', 'Album artist 2']);
+
             // Act
             await trackFiller.addFileMetadataToTrackAsync(track, false);
 
             // Assert
+            metadataPatcherMock.verify((x) => x.joinUnsplittableMetadata(['Album artist 1', 'Album artist 2']), Times.exactly(2));
             albumKeyGeneratorMock.verify((x) => x.generateAlbumKey('Album title', ['Album artist 1', 'Album artist 2']), Times.exactly(1));
             expect(track.albumKey).toEqual(';Album title;;Album artist 1;;Album artist 2;');
         });
@@ -721,6 +741,12 @@ describe('TrackFiller', () => {
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
+            metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Artist 1', 'Artist 2'])).returns(() => ['Artist 1', 'Artist 2']);
+            metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Genre 1', 'Genre 2'])).returns(() => ['Genre 1', 'Genre 2']);
+            metadataPatcherMock
+                .setup((x) => x.joinUnsplittableMetadata(['Album artist 1', 'Album artist 2']))
+                .returns(() => ['Album artist 1', 'Album artist 2']);
+
             // Act
             await trackFiller.addFileMetadataToTrackAsync(track, false);
 
@@ -786,6 +812,11 @@ describe('TrackFiller', () => {
 
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
+
+            metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Artist 1', 'Artist 2'])).returns(() => ['Artist 1', 'Artist 2']);
+            metadataPatcherMock
+                .setup((x) => x.joinUnsplittableMetadata(['Album artist 1', 'Album artist 2']))
+                .returns(() => ['Album artist 1', 'Album artist 2']);
 
             // Act
             await trackFiller.addFileMetadataToTrackAsync(track, true);
