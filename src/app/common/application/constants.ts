@@ -183,8 +183,8 @@ export class Constants {
             'https://github.com/icons8/line-awesome/blob/master/LICENSE.md',
         ),
         new ExternalComponent(
-            'MacOS icon created by VisualisationExpo',
-            `Superb MacOS icon created by VisualisationExpo, extending the original icon to better match the MacOS look and feel.`,
+            'macOS icon created by VisualisationExpo',
+            `Superb macOS icon created by VisualisationExpo, extending the original icon to better match the macOS look and feel.`,
             'https://github.com/VisualisationExpo',
             '',
         ),

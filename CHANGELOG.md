@@ -7,8 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
--   Adds a new MacOS icon (Thank you https://github.com/VisualisationExpo)
--
+-   Adds a new macOS icon (Thank you https://github.com/VisualisationExpo)
 
 ### Changed
 
