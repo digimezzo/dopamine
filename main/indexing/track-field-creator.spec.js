@@ -1,13 +1,10 @@
 const { TrackFieldCreator } = require('./track-field-creator');
-const { MetadataPatcherMock } = require('../mocks/metadata-patcher-mock');
 
 describe('TrackFieldCreator', () => {
-    let metadataPatcherMock;
     let trackFieldCreator;
 
     beforeEach(() => {
-        metadataPatcherMock = new MetadataPatcherMock();
-        trackFieldCreator = new TrackFieldCreator(metadataPatcherMock);
+        trackFieldCreator = new TrackFieldCreator();
     });
 
     describe('createNumberField', () => {
@@ -95,24 +92,8 @@ describe('TrackFieldCreator', () => {
             expect(field).toEqual('');
         });
 
-        it('should join unsplittable metadata', () => {
-            // Arrange
-            metadataPatcherMock.joinUnsplittableMetadataReturnValues = {
-                'Item 1,Item 2': ['Item 1', 'Item 2'],
-            };
-
-            // Act
-            trackFieldCreator.createMultiTextField(['Item 1', 'Item 2']);
-
-            // Assert
-            expect(metadataPatcherMock.joinUnsplittableMetadataCalls).toEqual(1);
-        });
-
         it('should convert to a delimited string', () => {
             // Arrange
-            metadataPatcherMock.joinUnsplittableMetadataReturnValues = {
-                'Item 1,Item 2': ['Item 1', 'Item 2'],
-            };
 
             // Act
             const field = trackFieldCreator.createMultiTextField(['Item 1', 'Item 2']);
