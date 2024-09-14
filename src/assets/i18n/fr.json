@@ -293,5 +293,6 @@
     "remove-artist": "Supprimer l'artiste",
     "confirm-remove-artist": "Etes-vous sûr de vouloir supprimer l'artiste '{{artist}}'?",
     "switch-player": "Changer de lecteur",
-    "volume": "Volume"
+    "volume": "Volume",
+    "thanks-to-visualisationexpo": "À VisualisationExpo, pour la superbe icône MacOS!"
 }

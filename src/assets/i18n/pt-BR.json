@@ -293,5 +293,6 @@
     "remove-artist": "Remove artist",
     "confirm-remove-artist": "Are you sure you want to remove the artist '{{artist}}'?",
     "switch-player": "Switch player",
-    "volume": "Volume"
+    "volume": "Volume",
+    "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb MacOS icon!"
 }

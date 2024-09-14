@@ -183,6 +183,12 @@ export class Constants {
             'https://github.com/icons8/line-awesome/blob/master/LICENSE.md',
         ),
         new ExternalComponent(
+            'MacOS icon created by VisualisationExpo',
+            `Superb MacOS icon created by VisualisationExpo, extending the original icon to better match the MacOS look and feel.`,
+            'https://github.com/VisualisationExpo',
+            '',
+        ),
+        new ExternalComponent(
             'Material Design Color Generator',
             'A tool for generating a color palette for Material Design. Supports exporting to and importing from various Material Design frameworks and toolkits.',
             'https://github.com/mbitson/mcg',

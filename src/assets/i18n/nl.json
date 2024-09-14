@@ -293,5 +293,6 @@
     "remove-artist": "Artiest verwijderen",
     "confirm-remove-artist": "Weet u zeker dat u de artiest '{{artist}}' wilt verwijderen?",
     "switch-player": "Speler wisselen",
-    "volume": "Volume"
+    "volume": "Volume",
+    "thanks-to-visualisationexpo": "Aan VisualizationExpo, voor het fantastische MacOS icoon!"
 }
