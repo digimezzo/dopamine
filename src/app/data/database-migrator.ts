@@ -13,10 +13,18 @@ import { Migration3 } from './migrations/migration3';
 import { DatabaseMigratorBase } from './database-migrator.base';
 import { Migration4 } from './migrations/migration4';
 import { Migration5 } from './migrations/migration5';
+import { Migration6 } from './migrations/migration6';
 
 @Injectable()
 export class DatabaseMigrator implements DatabaseMigratorBase {
-    private migrations: Migration[] = [new Migration1(), new Migration2(), new Migration3(), new Migration4(), new Migration5()];
+    private migrations: Migration[] = [
+        new Migration1(),
+        new Migration2(),
+        new Migration3(),
+        new Migration4(),
+        new Migration5(),
+        new Migration6(),
+    ];
 
     public constructor(
         private databaseFactory: DatabaseFactory,

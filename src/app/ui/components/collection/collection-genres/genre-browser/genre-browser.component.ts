@@ -17,6 +17,7 @@ import { SchedulerBase } from '../../../../../common/scheduling/scheduler.base';
 import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { GenreSorter } from '../../../../../common/sorting/genre-sorter';
+import { Timer } from '../../../../../common/scheduling/timer';
 
 @Component({
     selector: 'app-genre-browser',
@@ -141,6 +142,9 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
     private orderGenres(): void {
         let orderedGenres: GenreModel[] = [];
 
+        const timer = new Timer();
+        timer.start();
+
         try {
             switch (this.selectedGenreOrder) {
                 case GenreOrder.byGenreAscending:
@@ -156,6 +160,15 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
             }
 
             orderedGenres = this.semanticZoomHeaderAdder.addZoomHeaders(orderedGenres) as GenreModel[];
+
+            timer.stop();
+
+            this.logger.info(
+                `Finished ordering genres. Time required: ${timer.elapsedMilliseconds} ms`,
+                'GenreBrowserComponent',
+                'orderGenres',
+            );
+
             this.applySelectedGenres();
         } catch (e: unknown) {
             this.logger.error(e, 'Could not order genres', 'GenreBrowserComponent', 'orderGenres');

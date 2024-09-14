@@ -12,17 +12,14 @@
     width: 24px;
     height: 24px;
     border-radius: 12px 0px 12px 12px;
-    margin-bottom: 4px;
-    margin-top: 6px;
-    line-height: 13px;
+    margin-top: 3px;
+    margin-bottom: 3px;
     padding-bottom: 2px; // HACK: this is a hack to make the text look centered
 }
 
 .app-genre__name {
     height: 30px;
     line-height: 30px;
-    margin-top: 2px;
-    padding-bottom: 2px;
 }
 
 .app-genre__name:hover {

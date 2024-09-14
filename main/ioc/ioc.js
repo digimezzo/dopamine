@@ -53,7 +53,7 @@ class Ioc {
         global.iocContainer.set('RemovedTrackRepository', new RemovedTrackRepository(Ioc.get('DatabaseFactory')));
         global.iocContainer.set('TrackRepository', new TrackRepository(Ioc.get('DatabaseFactory')));
 
-        global.iocContainer.set('TrackFieldCreator', new TrackFieldCreator(Ioc.get('MetadataPatcher')));
+        global.iocContainer.set('TrackFieldCreator', new TrackFieldCreator());
 
         global.iocContainer.set(
             'IndexablePathFetcher',
@@ -66,6 +66,7 @@ class Ioc {
                 Ioc.get('FileMetadataFactory'),
                 Ioc.get('AlbumKeyGenerator'),
                 Ioc.get('TrackFieldCreator'),
+                Ioc.get('MetadataPatcher'),
                 Ioc.get('MimeTypes'),
                 Ioc.get('FileAccess'),
                 Ioc.get('DateTime'),

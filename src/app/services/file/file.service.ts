@@ -9,6 +9,8 @@ import { PlaybackServiceBase } from '../playback/playback.service.base';
 import { EventListenerServiceBase } from '../event-listener/event-listener.service.base';
 import { ApplicationBase } from '../../common/io/application.base';
 import { FileValidator } from '../../common/validation/file-validator';
+import {SettingsBase} from "../../common/settings/settings.base";
+import {A} from "@angular/cdk/keycodes";
 
 @Injectable()
 export class FileService implements FileServiceBase {
@@ -20,6 +22,7 @@ export class FileService implements FileServiceBase {
         private trackModelFactory: TrackModelFactory,
         private application: ApplicationBase,
         private fileValidator: FileValidator,
+        private settings: SettingsBase,
         private logger: Logger,
     ) {
         this.subscription.add(
@@ -76,9 +79,11 @@ export class FileService implements FileServiceBase {
         try {
             const trackModels: TrackModel[] = [];
 
+            const albumKeyIndex = this.settings.albumKeyIndex;
+
             for (const safeParameter of safeParameters) {
                 if (this.fileValidator.isPlayableAudioFile(safeParameter)) {
-                    const trackModel: TrackModel = await this.trackModelFactory.createFromFileAsync(safeParameter);
+                    const trackModel: TrackModel = await this.trackModelFactory.createFromFileAsync(safeParameter, albumKeyIndex);
                     trackModels.push(trackModel);
                 }
             }

@@ -6,12 +6,14 @@ import { QueuedTrack } from '../../data/entities/queued-track';
 import { TrackModel } from '../track/track-model';
 import { QueueRestoreInfo } from './queue-restore-info';
 import { TrackModelFactory } from '../track/track-model-factory';
+import {SettingsBase} from "../../common/settings/settings.base";
 
 @Injectable({ providedIn: 'root' })
 export class QueuePersister {
     public constructor(
         private queuedTrackRepository: QueuedTrackRepositoryBase,
         private trackModelFactory: TrackModelFactory,
+        private settings: SettingsBase,
         private logger: Logger,
     ) {}
 
@@ -63,8 +65,10 @@ export class QueuePersister {
             let playingTrack: TrackModel | undefined = undefined;
             let progressSeconds: number = 0;
 
+            const albumKeyIndex = this.settings.albumKeyIndex;
+
             for (const savedQueuedTrack of savedQueuedTracks) {
-                const track: TrackModel = await this.trackModelFactory.createFromFileAsync(savedQueuedTrack.path);
+                const track: TrackModel = await this.trackModelFactory.createFromFileAsync(savedQueuedTrack.path, albumKeyIndex);
 
                 tracks.push(track);
                 playbackOrder[savedQueuedTrack.orderId] = tracks.length - 1;

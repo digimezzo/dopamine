@@ -18,6 +18,7 @@ import { SchedulerBase } from '../../../../../common/scheduling/scheduler.base';
 import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { ArtistSorter } from '../../../../../common/sorting/artist-sorter';
+import { Timer } from '../../../../../common/scheduling/timer';
 
 @Component({
     selector: 'app-artist-browser',
@@ -166,6 +167,9 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
     private orderArtists(): void {
         let orderedArtists: ArtistModel[] = [];
 
+        const timer = new Timer();
+        timer.start();
+
         try {
             switch (this.selectedArtistOrder) {
                 case ArtistOrder.byArtistAscending:
@@ -181,6 +185,15 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
             }
 
             orderedArtists = this.semanticZoomHeaderAdder.addZoomHeaders(orderedArtists) as ArtistModel[];
+
+            timer.stop();
+
+            this.logger.info(
+                `Finished ordering artists. Time required: ${timer.elapsedMilliseconds} ms`,
+                'ArtistBrowserComponent',
+                'orderArtists',
+            );
+
             this.applySelectedArtists();
         } catch (e: unknown) {
             this.logger.error(e, 'Could not order artists', 'ArtistBrowserComponent', 'orderArtists');

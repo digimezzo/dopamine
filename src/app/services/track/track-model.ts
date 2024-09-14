@@ -4,14 +4,13 @@ import { DateTime } from '../../common/date-time';
 import { StringUtils } from '../../common/utils/string-utils';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { ISelectable } from '../../ui/interfaces/i-selectable';
-import { SettingsBase } from '../../common/settings/settings.base';
 
 export class TrackModel implements ISelectable {
     public constructor(
         private track: Track,
         private dateTime: DateTime,
         private translatorService: TranslatorServiceBase,
-        private settings: SettingsBase,
+        private albumKeyIndex: string,
     ) {}
 
     public isPlaying: boolean = false;
@@ -94,9 +93,7 @@ export class TrackModel implements ISelectable {
             return [];
         }
 
-        const nonEmptyArtists: string[] = trackArtists.filter((x) => !StringUtils.isNullOrWhiteSpace(x));
-
-        return nonEmptyArtists;
+        return trackArtists.filter((x) => !StringUtils.isNullOrWhiteSpace(x));
     }
 
     public get rawFirstArtist(): string {
@@ -134,11 +131,11 @@ export class TrackModel implements ISelectable {
     }
 
     public get albumKey(): string {
-        if (this.settings.albumKeyIndex === '') {
+        if (this.albumKeyIndex === '') {
             return this.track.albumKey ?? '';
-        } else if (this.settings.albumKeyIndex === '2') {
+        } else if (this.albumKeyIndex === '2') {
             return this.track.albumKey2 ?? '';
-        } else if (this.settings.albumKeyIndex === '3') {
+        } else if (this.albumKeyIndex === '3') {
             return this.track.albumKey3 ?? '';
         }
 
@@ -183,6 +180,10 @@ export class TrackModel implements ISelectable {
 
     public get sortableAlbumTitle(): string {
         return StringUtils.getSortableString(this.albumTitle, false);
+    }
+
+    public get sortableAlbumProperties(): string {
+        return StringUtils.getSortableString(`${this.albumKey}${this.discNumber}${this.number}`, false);
     }
 
     public get durationInMilliseconds(): number {
@@ -243,6 +244,6 @@ export class TrackModel implements ISelectable {
     }
 
     public clone(): TrackModel {
-        return new TrackModel(this.track, this.dateTime, this.translatorService, this.settings);
+        return new TrackModel(this.track, this.dateTime, this.translatorService, this.albumKeyIndex);
     }
 }

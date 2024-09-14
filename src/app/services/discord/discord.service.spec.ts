@@ -46,7 +46,7 @@ describe('DiscordService', () => {
         const track: Track = new Track('path');
         track.trackTitle = 'title';
         track.artists = ';artist1;;artist2';
-        trackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, settingsMock.object);
+        trackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, '');
         track.duration = 200000;
 
         dateProxyMock.setup((x) => x.now()).returns(() => 10);
@@ -271,10 +271,7 @@ describe('DiscordService', () => {
             presenceUpdaterMock.reset();
 
             playbackServicePlaybackStartedMock.next(
-                new PlaybackStarted(
-                    new TrackModel(new Track('Path1'), dateTimeMock.object, translatorServiceMock.object, settingsMock.object),
-                    false,
-                ),
+                new PlaybackStarted(new TrackModel(new Track('Path1'), dateTimeMock.object, translatorServiceMock.object, ''), false),
             );
 
             // Assert
@@ -584,10 +581,7 @@ describe('DiscordService', () => {
             presenceUpdaterMock.reset();
 
             playbackServicePlaybackStartedMock.next(
-                new PlaybackStarted(
-                    new TrackModel(new Track('Path1'), dateTimeMock.object, translatorServiceMock.object, settingsMock.object),
-                    false,
-                ),
+                new PlaybackStarted(new TrackModel(new Track('Path1'), dateTimeMock.object, translatorServiceMock.object, ''), false),
             );
 
             // Assert

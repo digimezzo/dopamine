@@ -4,18 +4,20 @@ import { GenreService } from './genre.service';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { GenreData } from '../../data/entities/genre-data';
+import { Logger } from '../../common/logger';
 
 describe('GenreService', () => {
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
-
+    let loggerMock: IMock<Logger>;
     let service: GenreService;
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
+        loggerMock = Mock.ofType<Logger>();
 
-        service = new GenreService(translatorServiceMock.object, trackRepositoryMock.object);
+        service = new GenreService(translatorServiceMock.object, trackRepositoryMock.object, loggerMock.object);
     });
 
     describe('constructor', () => {

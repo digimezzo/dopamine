@@ -31,27 +31,27 @@ jobs:
                   path: 'package.json'
                   prop_path: 'version'
             - name: uploading rpm artifact
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                   name: dopamine-merge-rpm
                   path: release/Dopamine-*.rpm
             - name: upload deb artifact
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                   name: dopamine-merge-deb
                   path: release/Dopamine-*.deb
             - name: upload appimage artifact
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                   name: dopamine-merge-appimage
                   path: release/Dopamine-*.AppImage
             - name: upload snap artifact
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                   name: dopamine-merge-snap
                   path: release/Dopamine-*.snap
             - name: upload pacman artifact
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                   name: dopamine-merge-pacman
                   path: release/Dopamine-*.pacman
@@ -77,7 +77,7 @@ jobs:
                   path: 'package.json'
                   prop_path: 'version'
             - name: upload build artifacts
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                   name: dopamine-merge-macos
                   path: release/Dopamine-*.dmg
@@ -103,7 +103,7 @@ jobs:
                   path: 'package.json'
                   prop_path: 'version'
             - name: upload build artifacts
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                   name: dopamine-merge-win
                   path: release\Dopamine-*.exe
