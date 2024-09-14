@@ -31,27 +31,27 @@ jobs:
                   path: 'package.json'
                   prop_path: 'version'
             - name: uploading rpm artifact
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                   name: dopamine-nightly-rpm
                   path: release/Dopamine-*.rpm
             - name: upload deb artifact
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                   name: dopamine-nightly-deb
                   path: release/Dopamine-*.deb
             - name: upload appimage artifact
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                   name: dopamine-nightly-appimage
                   path: release/Dopamine-*.AppImage
             - name: upload snap artifact
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                   name: dopamine-nightly-snap
                   path: release/Dopamine-*.snap
             - name: upload pacman artifact
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                   name: dopamine-nightly-pacman
                   path: release/Dopamine-*.pacman
@@ -76,7 +76,7 @@ jobs:
                   path: 'package.json'
                   prop_path: 'version'
             - name: upload build artifacts
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                   name: dopamine-nightly-macos
                   path: release/Dopamine-*.dmg
@@ -101,7 +101,7 @@ jobs:
                   path: 'package.json'
                   prop_path: 'version'
             - name: upload build artifacts
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                   name: dopamine-nightly-win
                   path: release\Dopamine-*.exe
