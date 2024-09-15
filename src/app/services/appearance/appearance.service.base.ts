@@ -6,6 +6,8 @@ export abstract class AppearanceServiceBase {
     public abstract get backgroundRgbColor(): RgbColor;
     public abstract themesDirectoryPath: string;
     public abstract get windowHasNativeTitleBar(): boolean;
+    public abstract get needsTrafficLightMargin(): boolean;
+    public abstract get needsCustomWindowControls(): boolean;
     public abstract get isUsingLightTheme(): boolean;
     public abstract fontSizes: number[];
     public abstract themes: Theme[];

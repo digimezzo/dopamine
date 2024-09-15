@@ -39,6 +39,7 @@ const isServing: boolean = args.some((val) => val === '--serve');
 let mainWindow: BrowserWindow | undefined;
 let tray: Tray;
 let isQuitting: boolean;
+let isQuit: boolean;
 
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
@@ -68,6 +69,17 @@ function windowHasFrame(): boolean {
     }
 
     return settings.get('useSystemTitleBar');
+}
+
+function titleBarStyle(): 'hiddenInset' | 'default' {
+    if (settings.get('useSystemTitleBar')) {
+        return 'default';
+    }
+    // makes traffic lights visible on macOS
+    if (process.platform === 'darwin') {
+        return 'hiddenInset';
+    }
+    return 'default';
 }
 
 function shouldShowIconInNotificationArea(): boolean {
@@ -175,6 +187,8 @@ function createMainWindow(): void {
     mainWindow = new BrowserWindow({
         backgroundColor: '#fff',
         frame: windowHasFrame(),
+        titleBarStyle: titleBarStyle(),
+        trafficLightPosition: process.platform === 'darwin' ? { x: 10, y: 15 } : undefined,
         icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
         webPreferences: {
             webSecurity: false,
@@ -257,10 +271,18 @@ function createMainWindow(): void {
         if (!isQuitting) {
             event.preventDefault();
             if (mainWindow) {
-                if (shouldCloseToNotificationArea()) {
+                if (isQuit) {
+                    mainWindow.webContents.send('application-close');
+                    isQuitting = true;
+                }
+                // on MacOS, close button never closed entire app
+                else if (process.platform === 'darwin') {
+                    mainWindow.hide();
+                } else if (shouldCloseToNotificationArea()) {
                     mainWindow.hide();
                 } else {
                     mainWindow.webContents.send('application-close');
+                    isQuitting = true;
                 }
             }
         }
@@ -374,10 +396,18 @@ try {
             if (mainWindow == undefined) {
                 createMainWindow();
             }
+
+            // on MacOS, clicking the dock icon should show the window
+            if (process.platform === 'darwin') {
+                if (mainWindow) {
+                    mainWindow.show();
+                    mainWindow.focus();
+                }
+            }
         });
 
         app.on('before-quit', () => {
-            isQuitting = true;
+            isQuit = true;
         });
 
         app.whenReady().then(() => {
@@ -419,9 +449,7 @@ try {
                 {
                     label: arg.exitLabel,
                     click(): void {
-                        if (process.platform !== 'darwin') {
-                            app.quit();
-                        }
+                        app.quit();
                     },
                 },
             ]);
@@ -456,9 +484,7 @@ try {
         });
 
         ipcMain.on('closing-tasks-performed', (_) => {
-            if (process.platform !== 'darwin') {
-                app.quit();
-            }
+            app.quit();
         });
 
         ipcMain.on('set-full-player', (event: any, arg: any) => {

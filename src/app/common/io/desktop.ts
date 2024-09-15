@@ -87,4 +87,8 @@ export class Desktop implements DesktopBase {
     public getApplicationDataDirectory(): string {
         return remote.app.getPath('userData');
     }
+
+    public isMacOS(): boolean {
+        return remote.process.platform === 'darwin';
+    }
 }

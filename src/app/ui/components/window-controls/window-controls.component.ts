@@ -44,6 +44,11 @@ export class WindowControlsComponent implements OnInit {
 
     public closeButtonClick(): void {
         const window: BrowserWindow = this.application.getCurrentWindow();
-        window.close();
+        
+        if (process.platform === 'darwin') {
+            window.hide();
+        } else {
+            window.close();
+        }
     }
 }

@@ -38,6 +38,7 @@ const isServing = args.some((val) => val === '--serve');
 let mainWindow;
 let tray;
 let isQuitting;
+let isQuit;
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
     globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
@@ -63,6 +64,16 @@ function windowHasFrame() {
         settings.set('useSystemTitleBar', false);
     }
     return settings.get('useSystemTitleBar');
+}
+function titleBarStyle() {
+    if (settings.get('useSystemTitleBar')) {
+        return 'default';
+    }
+    // makes traffic lights visible on macOS
+    if (process.platform === 'darwin') {
+        return 'hiddenInset';
+    }
+    return 'default';
 }
 function shouldShowIconInNotificationArea() {
     if (!settings.has('showIconInNotificationArea')) {
@@ -155,6 +166,8 @@ function createMainWindow() {
     mainWindow = new electron_1.BrowserWindow({
         backgroundColor: '#fff',
         frame: windowHasFrame(),
+        titleBarStyle: titleBarStyle(),
+        trafficLightPosition: process.platform === 'darwin' ? { x: 10, y: 15 } : undefined,
         icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
         webPreferences: {
             webSecurity: false,
@@ -223,11 +236,20 @@ function createMainWindow() {
         if (!isQuitting) {
             event.preventDefault();
             if (mainWindow) {
-                if (shouldCloseToNotificationArea()) {
+                if (isQuit) {
+                    mainWindow.webContents.send('application-close');
+                    isQuitting = true;
+                }
+                // on MacOS, close button never closed entire app
+                else if (process.platform === 'darwin') {
+                    mainWindow.hide();
+                }
+                else if (shouldCloseToNotificationArea()) {
                     mainWindow.hide();
                 }
                 else {
                     mainWindow.webContents.send('application-close');
+                    isQuitting = true;
                 }
             }
         }
@@ -317,9 +339,16 @@ try {
             if (mainWindow == undefined) {
                 createMainWindow();
             }
+            // on MacOS, clicking the dock icon should show the window
+            if (process.platform === 'darwin') {
+                if (mainWindow) {
+                    mainWindow.show();
+                    mainWindow.focus();
+                }
+            }
         });
         electron_1.app.on('before-quit', () => {
-            isQuitting = true;
+            isQuit = true;
         });
         electron_1.app.whenReady().then(() => {
             // See: https://github.com/electron/electron/issues/23757
@@ -355,9 +384,7 @@ try {
                 {
                     label: arg.exitLabel,
                     click() {
-                        if (process.platform !== 'darwin') {
-                            electron_1.app.quit();
-                        }
+                        electron_1.app.quit();
                     },
                 },
             ]);
@@ -385,9 +412,7 @@ try {
             });
         });
         electron_1.ipcMain.on('closing-tasks-performed', (_) => {
-            if (process.platform !== 'darwin') {
-                electron_1.app.quit();
-            }
+            electron_1.app.quit();
         });
         electron_1.ipcMain.on('set-full-player', (event, arg) => {
             settings.set('playerType', 'full');
