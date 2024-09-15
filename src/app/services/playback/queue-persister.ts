@@ -76,24 +76,37 @@ export class QueuePersister {
                 return new QueueRestoreInfo([], [], undefined, 0);
             }
 
-            const albumKeyIndex = this.settings.albumKeyIndex;
-
             const timer = new Timer();
             timer.start();
 
-            for (const savedQueuedTrack of savedQueuedTracks) {
-                const trackFromTracks: Track | undefined = tracks.find((x) => x.path === savedQueuedTrack.path);
+            const albumKeyIndex = this.settings.albumKeyIndex;
 
-                if (trackFromTracks) {
-                    const trackModel: TrackModel = this.trackModelFactory.createFromTrack(trackFromTracks, albumKeyIndex);
+            const trackMap = new Map(savedQueuedTracks.map((track) => [track.path, track]));
+            const orderedTracks = tracks
+                .sort((a, b) => {
+                    const orderA = trackMap.get(a.path)?.orderId ?? 0;
+                    const orderB = trackMap.get(b.path)?.orderId ?? 0;
+                    return orderA - orderB;
+                })
+                .map((track) => {
+                    const savedTrack = trackMap.get(track.path);
+                    return {
+                        ...track,
+                        isPlaying: savedTrack?.isPlaying ?? 0,
+                        orderId: savedTrack?.orderId ?? 0,
+                        progressSeconds: savedTrack?.progressSeconds ?? 0,
+                    };
+                });
 
-                    tracksModels.push(trackModel);
-                    playbackOrder[savedQueuedTrack.orderId] = tracksModels.length - 1;
+            for (const orderedTrack of orderedTracks) {
+                const trackModel: TrackModel = this.trackModelFactory.createFromTrack(orderedTrack, albumKeyIndex);
 
-                    if (savedQueuedTrack.isPlaying) {
-                        playingTrack = trackModel;
-                        progressSeconds = savedQueuedTrack.progressSeconds;
-                    }
+                tracksModels.push(trackModel);
+                playbackOrder[orderedTrack.orderId] = tracksModels.length - 1;
+
+                if (orderedTrack.isPlaying) {
+                    playingTrack = trackModel;
+                    progressSeconds = orderedTrack.progressSeconds;
                 }
             }
 
