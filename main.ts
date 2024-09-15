@@ -71,12 +71,20 @@ function windowHasFrame(): boolean {
     return settings.get('useSystemTitleBar');
 }
 
+function isMacOS(): boolean {
+    return process.platform === 'darwin';
+}
+
+function isWindows(): boolean {
+    return process.platform === 'win32';
+}
+
 function titleBarStyle(): 'hiddenInset' | 'default' {
     if (settings.get('useSystemTitleBar')) {
         return 'default';
     }
     // makes traffic lights visible on macOS
-    if (process.platform === 'darwin') {
+    if (isMacOS()) {
         return 'hiddenInset';
     }
     return 'default';
@@ -107,13 +115,13 @@ function shouldCloseToNotificationArea(): boolean {
 }
 
 function getTrayIcon(): string {
-    if (os.platform() === 'darwin') {
+    if (isMacOS()) {
         return path.join(globalAny.__static, 'icons/trayTemplate.png');
     }
 
     const invertColor: boolean = settings.get('invertNotificationAreaIconColor');
 
-    if (os.platform() === 'win32') {
+    if (isWindows()) {
         if (!invertColor) {
             // Defaulting to black for Windows
             return path.join(globalAny.__static, 'icons/tray_black.ico');
@@ -188,8 +196,8 @@ function createMainWindow(): void {
         backgroundColor: '#fff',
         frame: windowHasFrame(),
         titleBarStyle: titleBarStyle(),
-        trafficLightPosition: process.platform === 'darwin' ? { x: 10, y: 15 } : undefined,
-        icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
+        trafficLightPosition: isMacOS() ? { x: 10, y: 15 } : undefined,
+        icon: path.join(globalAny.__static, isWindows() ? 'icons/icon.ico' : 'icons/64x64.png'),
         webPreferences: {
             webSecurity: false,
             nodeIntegration: true,
@@ -203,6 +211,7 @@ function createMainWindow(): void {
     remoteMain.enable(mainWindow.webContents);
 
     globalAny.windowHasFrame = windowHasFrame();
+    globalAny.isMacOS = isMacOS();
 
     if (isServing) {
         require('electron-reload')(__dirname, {
@@ -276,7 +285,7 @@ function createMainWindow(): void {
                     isQuitting = true;
                 }
                 // on MacOS, close button never closed entire app
-                else if (process.platform === 'darwin') {
+                else if (isMacOS()) {
                     mainWindow.hide();
                 } else if (shouldCloseToNotificationArea()) {
                     mainWindow.hide();
@@ -385,7 +394,7 @@ try {
             log.info('[App] [window-all-closed] +++ Stopping +++');
             // On OS X it is common for applications and their menu bar
             // to stay active until the user quits explicitly with Cmd + Q
-            if (process.platform !== 'darwin') {
+            if (!isMacOS()) {
                 app.quit();
             }
         });
@@ -398,7 +407,7 @@ try {
             }
 
             // on MacOS, clicking the dock icon should show the window
-            if (process.platform === 'darwin') {
+            if (isMacOS()) {
                 if (mainWindow) {
                     mainWindow.show();
                     mainWindow.focus();

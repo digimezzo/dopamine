@@ -11,7 +11,7 @@
     ></div>
     <div class="window-frame">
         <div class="window-frame__titlebar">
-            <app-empty-traffic-lights *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights" />
+            <div *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights"></div>
             <div class="window-button back-button" (click)="this.goBackToCollectionAsync()" [@controlsVisibility]="controlsVisibility">
                 <i class="back-button__icon las la-arrow-left"></i>
             </div>

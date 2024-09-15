@@ -184,9 +184,9 @@ export class AppearanceService implements AppearanceServiceBase {
 
     private initialize(): void {
         this._windowHasNativeTitleBar = this.application.getGlobal('windowHasFrame') as boolean;
+        this._isMacOS = this.application.getGlobal('isMacOS') as boolean;
 
-        this._isMacOS = this.desktop.isMacOS();
-        this._isFullScreen = this.application.getCurrentWindow().isFullScreen();
+        this._isFullScreen = this.application.isFullScreen();
         this._themesDirectoryPath = this.applicationPaths.themesDirectoryFullPath();
         this.ensureThemesDirectoryExists();
         this.ensureDefaultThemesExist();
@@ -251,8 +251,8 @@ export class AppearanceService implements AppearanceServiceBase {
         );
 
         this.subscription.add(
-            this.application.fullScreenModeChanged$.subscribe(() => {
-                this._isFullScreen = this.application.getCurrentWindow().isFullScreen();
+            this.application.fullScreenChanged$.subscribe((isFullScreen) => {
+                this._isFullScreen = isFullScreen;
             }),
         );
     }

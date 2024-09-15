@@ -1,6 +1,6 @@
 <div class="window-frame">
     <div class="window-frame__titlebar theme-header-background">
-        <app-empty-traffic-lights *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights" />
+        <div *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights"></div>
         <app-logo-small class="m-2 draggable"></app-logo-small>
         <app-sub-menu>
             <app-sub-menu-item *ngIf="settings.showArtistsPage" [page]="0" [selectedPage]="this.page" (click)="this.setPage(0)">

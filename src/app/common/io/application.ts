@@ -6,14 +6,14 @@ import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class Application implements ApplicationBase {
-    private fullScreenModeChanged: Subject<void> = new Subject();
+    private fullScreenChanged: Subject<boolean> = new Subject();
 
     public constructor() {
-        remote.getCurrentWindow().on('enter-full-screen', () => this.fullScreenModeChanged.next());
-        remote.getCurrentWindow().on('leave-full-screen', () => this.fullScreenModeChanged.next());
+        remote.getCurrentWindow().on('enter-full-screen', () => this.fullScreenChanged.next(true));
+        remote.getCurrentWindow().on('leave-full-screen', () => this.fullScreenChanged.next(false));
     }
 
-    public fullScreenModeChanged$: Observable<void> = this.fullScreenModeChanged.asObservable();
+    public fullScreenChanged$: Observable<boolean> = this.fullScreenChanged.asObservable();
 
     public getGlobal(name: string): unknown {
         return remote.getGlobal(name);
@@ -33,5 +33,9 @@ export class Application implements ApplicationBase {
         }
 
         return [];
+    }
+
+    public isFullScreen(): boolean {
+        return remote.getCurrentWindow().isFullScreen();
     }
 }

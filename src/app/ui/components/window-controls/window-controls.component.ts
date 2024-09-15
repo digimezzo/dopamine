@@ -44,8 +44,8 @@ export class WindowControlsComponent implements OnInit {
 
     public closeButtonClick(): void {
         const window: BrowserWindow = this.application.getCurrentWindow();
-        
-        if (process.platform === 'darwin') {
+
+        if (this.application.getGlobal('isMacOS')) {
             window.hide();
         } else {
             window.close();
