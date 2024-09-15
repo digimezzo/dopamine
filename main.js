@@ -13,7 +13,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const electron_1 = require("electron");
 const electron_log_1 = require("electron-log");
 const Store = require("electron-store");
-const os = require("os");
 const path = require("path");
 const url = require("url");
 const worker_threads_1 = require("worker_threads");
@@ -65,12 +64,18 @@ function windowHasFrame() {
     }
     return settings.get('useSystemTitleBar');
 }
+function isMacOS() {
+    return process.platform === 'darwin';
+}
+function isWindows() {
+    return process.platform === 'win32';
+}
 function titleBarStyle() {
     if (settings.get('useSystemTitleBar')) {
         return 'default';
     }
     // makes traffic lights visible on macOS
-    if (process.platform === 'darwin') {
+    if (isMacOS()) {
         return 'hiddenInset';
     }
     return 'default';
@@ -94,11 +99,11 @@ function shouldCloseToNotificationArea() {
     return settings.get('closeToNotificationArea');
 }
 function getTrayIcon() {
-    if (os.platform() === 'darwin') {
+    if (isMacOS()) {
         return path.join(globalAny.__static, 'icons/trayTemplate.png');
     }
     const invertColor = settings.get('invertNotificationAreaIconColor');
-    if (os.platform() === 'win32') {
+    if (isWindows()) {
         if (!invertColor) {
             // Defaulting to black for Windows
             return path.join(globalAny.__static, 'icons/tray_black.ico');
@@ -167,8 +172,8 @@ function createMainWindow() {
         backgroundColor: '#fff',
         frame: windowHasFrame(),
         titleBarStyle: titleBarStyle(),
-        trafficLightPosition: process.platform === 'darwin' ? { x: 10, y: 15 } : undefined,
-        icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
+        trafficLightPosition: isMacOS() ? { x: 10, y: 15 } : undefined,
+        icon: path.join(globalAny.__static, isWindows() ? 'icons/icon.ico' : 'icons/64x64.png'),
         webPreferences: {
             webSecurity: false,
             nodeIntegration: true,
@@ -179,6 +184,7 @@ function createMainWindow() {
     setInitialWindowState(mainWindow);
     remoteMain.enable(mainWindow.webContents);
     globalAny.windowHasFrame = windowHasFrame();
+    globalAny.isMacOS = isMacOS();
     if (isServing) {
         require('electron-reload')(__dirname, {
             electron: require(`${__dirname}/node_modules/electron`),
@@ -241,7 +247,7 @@ function createMainWindow() {
                     isQuitting = true;
                 }
                 // on MacOS, close button never closed entire app
-                else if (process.platform === 'darwin') {
+                else if (isMacOS()) {
                     mainWindow.hide();
                 }
                 else if (shouldCloseToNotificationArea()) {
@@ -329,7 +335,7 @@ try {
             electron_log_1.default.info('[App] [window-all-closed] +++ Stopping +++');
             // On OS X it is common for applications and their menu bar
             // to stay active until the user quits explicitly with Cmd + Q
-            if (process.platform !== 'darwin') {
+            if (!isMacOS()) {
                 electron_1.app.quit();
             }
         });
@@ -340,7 +346,7 @@ try {
                 createMainWindow();
             }
             // on MacOS, clicking the dock icon should show the window
-            if (process.platform === 'darwin') {
+            if (isMacOS()) {
                 if (mainWindow) {
                     mainWindow.show();
                     mainWindow.focus();
