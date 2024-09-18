@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0-preview.34] - 2024-09-15
+## [3.0.0-preview.34] - 2024-09-18
 
 ### Added
 
@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Artists and genres semantic scroll alignment is not always correct
 -   Multiple indexing issues (including unnecessary splitting of albums)
 -   Hanging of UI (white screen) at startup while loading persisted queue
+-   Missing newlines in lyrics
 
 ## [3.0.0-preview.33] - 2024-09-03
 
