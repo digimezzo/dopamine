@@ -49,6 +49,9 @@ describe('AppearanceService', () => {
     let desktopAccentColorChangedMock: Subject<void>;
     let desktopNativeThemeUpdatedMock: Subject<void>;
 
+    let applicationFullScreenChangedMock: Subject<boolean>;
+    let applicationFullScreenChangedMock$: Observable<boolean>;
+
     const flushPromises = () => new Promise(process.nextTick);
 
     function createService(): AppearanceServiceBase {
@@ -366,6 +369,10 @@ describe('AppearanceService', () => {
         desktopNativeThemeUpdatedMock = new Subject();
         const desktopNativeThemeUpdatedMock$: Observable<void> = desktopNativeThemeUpdatedMock.asObservable();
         desktopMock.setup((x) => x.nativeThemeUpdated$).returns(() => desktopNativeThemeUpdatedMock$);
+
+        applicationFullScreenChangedMock = new Subject();
+        applicationFullScreenChangedMock$ = applicationFullScreenChangedMock.asObservable();
+        applicationMock.setup((x) => x.fullScreenChanged$).returns(() => applicationFullScreenChangedMock$);
     });
 
     describe('constructor', () => {
@@ -407,6 +414,7 @@ describe('AppearanceService', () => {
             // Arrange
             applicationMock.reset();
             applicationMock.setup((x) => x.getGlobal('windowHasFrame')).returns(() => true);
+            applicationMock.setup((x) => x.fullScreenChanged$).returns(() => applicationFullScreenChangedMock$);
 
             // Act
             const service: AppearanceServiceBase = createService();
@@ -419,6 +427,7 @@ describe('AppearanceService', () => {
             // Arrange
             applicationMock.reset();
             applicationMock.setup((x) => x.getGlobal('windowHasFrame')).returns(() => false);
+            applicationMock.setup((x) => x.fullScreenChanged$).returns(() => applicationFullScreenChangedMock$);
 
             // Act
             const service: AppearanceServiceBase = createService();
@@ -531,6 +540,7 @@ describe('AppearanceService', () => {
             // Arrange
             applicationMock.reset();
             applicationMock.setup((x) => x.getGlobal('windowHasFrame')).returns(() => true);
+            applicationMock.setup((x) => x.fullScreenChanged$).returns(() => applicationFullScreenChangedMock$);
             const service: AppearanceServiceBase = createService();
 
             // Act
@@ -544,6 +554,7 @@ describe('AppearanceService', () => {
             // Arrange
             applicationMock.reset();
             applicationMock.setup((x) => x.getGlobal('windowHasFrame')).returns(() => false);
+            applicationMock.setup((x) => x.fullScreenChanged$).returns(() => applicationFullScreenChangedMock$);
             const service: AppearanceServiceBase = createService();
 
             // Act
