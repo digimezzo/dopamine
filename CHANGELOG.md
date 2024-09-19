@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Multiple indexing issues (including unnecessary splitting of albums)
 -   Hanging of UI (white screen) at startup while loading persisted queue
 -   Missing newlines in lyrics
+-   Application close behaviour on macOS has been improved
 
 ## [3.0.0-preview.33] - 2024-09-03
 
