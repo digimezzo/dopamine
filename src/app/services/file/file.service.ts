@@ -9,8 +9,9 @@ import { PlaybackServiceBase } from '../playback/playback.service.base';
 import { EventListenerServiceBase } from '../event-listener/event-listener.service.base';
 import { ApplicationBase } from '../../common/io/application.base';
 import { FileValidator } from '../../common/validation/file-validator';
-import {SettingsBase} from "../../common/settings/settings.base";
-import {A} from "@angular/cdk/keycodes";
+import { SettingsBase } from '../../common/settings/settings.base';
+import { A } from '@angular/cdk/keycodes';
+import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 
 @Injectable()
 export class FileService implements FileServiceBase {
@@ -22,6 +23,7 @@ export class FileService implements FileServiceBase {
         private trackModelFactory: TrackModelFactory,
         private application: ApplicationBase,
         private fileValidator: FileValidator,
+        private ipcProxy: IpcProxyBase,
         private settings: SettingsBase,
         private logger: Logger,
     ) {
@@ -42,6 +44,9 @@ export class FileService implements FileServiceBase {
 
     public hasPlayableFilesAsParameters(): boolean {
         const parameters: string[] = this.application.getParameters();
+        const macOOParameters: string[] = this.application.getGlobal('macOSOpenedFiles') as string[];
+        parameters.push(...macOOParameters);
+        this.ipcProxy.sendToMainProcess('clear-macOSOpenedFiles', null);
 
         return this.hasPlayableFilesAsGivenParameters(parameters);
     }

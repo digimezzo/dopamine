@@ -212,6 +212,7 @@ function createMainWindow(): void {
 
     globalAny.windowHasFrame = windowHasFrame();
     globalAny.isMacOS = isMacOS();
+    globalAny.macOSOpenedFiles = [];
 
     if (isServing) {
         require('electron-reload')(__dirname, {
@@ -433,11 +434,12 @@ try {
         });
 
         app.on('open-file', (event, path) => {
-            log.info('[App] [open-file] File opened: ' + path);
+            log.info('[App] [open-file] Detected file: ' + path);
             if (mainWindow) {
                 // On macOS, the path of a double-clicked file is not passed as argument. Instead, it is passed as open-file event.
                 // https://stackoverflow.com/questions/50935292/argv1-returns-unexpected-value-when-i-open-a-file-on-double-click-in-electron
                 event.preventDefault();
+                globalAny.macOSOpenedFiles.push(path);
                 mainWindow.webContents.send('arguments-received', [path]);
             }
         });
@@ -504,6 +506,10 @@ try {
 
         ipcMain.on('closing-tasks-performed', (_) => {
             app.quit();
+        });
+
+        ipcMain.on('clear-macOSOpenedFiles', (_) => {
+            globalAny.macOSOpenedFiles = [];
         });
 
         ipcMain.on('set-full-player', (event: any, arg: any) => {
