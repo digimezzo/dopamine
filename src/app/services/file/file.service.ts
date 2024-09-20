@@ -43,13 +43,13 @@ export class FileService implements FileServiceBase {
     }
 
     public hasPlayableFilesAsParameters(): boolean {
-        const parameters: string[] = this.getParameters();
+        const parameters: string[] = this.getAllParameters();
 
         return this.hasPlayableFilesAsGivenParameters(parameters);
     }
 
     public async enqueueParameterFilesAsync(): Promise<void> {
-        const parameters: string[] = this.getParameters();
+        const parameters: string[] = this.getAllParameters();
         this.ipcProxy.sendToMainProcess('clear-file-queue', undefined);
         await this.enqueueGivenParameterFilesAsync(parameters);
     }
@@ -64,7 +64,7 @@ export class FileService implements FileServiceBase {
 
     private hasPlayableFilesAsGivenParameters(parameters: string[]): boolean {
         const safeParameters: string[] = this.getSafeParameters(parameters);
-        this.logger.info(`Found parameters: ${safeParameters.join(', ')}`, 'FileService', 'hasPlayableFilesAsParameters');
+        this.logger.info(`Found parameters: ${safeParameters.join(', ')}`, 'FileService', 'hasPlayableFilesAsGivenParameters');
 
         for (const safeParameter of safeParameters) {
             if (this.fileValidator.isPlayableAudioFile(safeParameter)) {
@@ -99,9 +99,11 @@ export class FileService implements FileServiceBase {
         }
     }
 
-    private getParameters(): string[] {
+    private getAllParameters(): string[] {
         const parameters: string[] = this.application.getParameters();
+        this.logger.info(`Parameters: ${parameters.join(', ')}`, 'FileService', 'getAllParameters');
         const fileQueue: string[] = this.application.getGlobal('fileQueue') as string[];
+        this.logger.info(`Parameters: ${fileQueue.join(', ')}`, 'FileService', 'getAllParameters');
         parameters.push(...fileQueue);
 
         return parameters;

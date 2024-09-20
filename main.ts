@@ -388,6 +388,7 @@ try {
 
             if (mainWindow) {
                 globalAny.fileQueue.push(...argv);
+                log.info(`[App] [second-instance] File queue: ${globalAny.fileQueue}`);
                 clearTimeout(fileProcessingTimeout);
                 fileProcessingTimeout = setTimeout(processFileQueue, debounceDelay);
 
@@ -455,6 +456,7 @@ try {
                 // https://stackoverflow.com/questions/50935292/argv1-returns-unexpected-value-when-i-open-a-file-on-double-click-in-electron
                 event.preventDefault();
                 globalAny.fileQueue.push(path);
+                log.info(`[App] [open-file] File queue: ${globalAny.fileQueue}`);
                 clearTimeout(fileProcessingTimeout);
                 fileProcessingTimeout = setTimeout(processFileQueue, debounceDelay);
             }
