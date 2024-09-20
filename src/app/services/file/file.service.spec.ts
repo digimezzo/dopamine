@@ -13,12 +13,14 @@ import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { FileServiceBase } from './file.service.base';
 import { Track } from '../../data/entities/track';
 import { SettingsMock } from '../../testing/settings-mock';
+import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 
 describe('FileService', () => {
     let playbackServiceMock: IMock<PlaybackServiceBase>;
     let eventListenerServiceMock: IMock<EventListenerServiceBase>;
     let trackModelFactoryMock: IMock<TrackModelFactory>;
     let fileValidatorMock: IMock<FileValidator>;
+    let ipcProxyMock: IMock<IpcProxyBase>;
     let applicationMock: IMock<ApplicationBase>;
     let loggerMock: IMock<Logger>;
     let settingsMock: any;
@@ -41,6 +43,7 @@ describe('FileService', () => {
             trackModelFactoryMock.object,
             applicationMock.object,
             fileValidatorMock.object,
+            ipcProxyMock.object,
             settingsMock,
             loggerMock.object,
         );
@@ -51,6 +54,7 @@ describe('FileService', () => {
         eventListenerServiceMock = Mock.ofType<EventListenerServiceBase>();
         trackModelFactoryMock = Mock.ofType<TrackModelFactory>();
         fileValidatorMock = Mock.ofType<FileValidator>();
+        ipcProxyMock = Mock.ofType<IpcProxyBase>();
         applicationMock = Mock.ofType<ApplicationBase>();
         loggerMock = Mock.ofType<Logger>();
         settingsMock = new SettingsMock();
@@ -207,6 +211,7 @@ describe('FileService', () => {
         it('should enqueue all playable tracks found as parameters', async () => {
             // Arrange
             applicationMock.setup((x) => x.getParameters()).returns(() => ['file 1.mp3', 'file 2.ogg', 'file 3.bmp']);
+            applicationMock.setup((x) => x.getGlobal('fileQueue')).returns(() => []);
             const service: FileServiceBase = createService();
 
             // Act
@@ -228,6 +233,7 @@ describe('FileService', () => {
         it('should not enqueue anything if parameters are empty', async () => {
             // Arrange
             applicationMock.setup((x) => x.getParameters()).returns(() => []);
+            applicationMock.setup((x) => x.getGlobal('fileQueue')).returns(() => []);
             const service: FileServiceBase = createService();
 
             // Act
@@ -240,6 +246,7 @@ describe('FileService', () => {
         it('should not enqueue anything if there are no playable tracks found as parameters', async () => {
             // Arrange
             applicationMock.setup((x) => x.getParameters()).returns(() => ['file 1.png', 'file 2.mkv', 'file 3.bmp']);
+            applicationMock.setup((x) => x.getGlobal('fileQueue')).returns(() => []);
             const service: FileServiceBase = createService();
 
             // Act
