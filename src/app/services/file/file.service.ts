@@ -9,8 +9,9 @@ import { PlaybackServiceBase } from '../playback/playback.service.base';
 import { EventListenerServiceBase } from '../event-listener/event-listener.service.base';
 import { ApplicationBase } from '../../common/io/application.base';
 import { FileValidator } from '../../common/validation/file-validator';
-import {SettingsBase} from "../../common/settings/settings.base";
-import {A} from "@angular/cdk/keycodes";
+import { SettingsBase } from '../../common/settings/settings.base';
+import { A } from '@angular/cdk/keycodes';
+import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 
 @Injectable()
 export class FileService implements FileServiceBase {
@@ -22,11 +23,13 @@ export class FileService implements FileServiceBase {
         private trackModelFactory: TrackModelFactory,
         private application: ApplicationBase,
         private fileValidator: FileValidator,
+        private ipcProxy: IpcProxyBase,
         private settings: SettingsBase,
         private logger: Logger,
     ) {
         this.subscription.add(
             this.eventListenerService.argumentsReceived$.subscribe((argv: string[]) => {
+                this.ipcProxy.sendToMainProcess('arguments-processed', undefined);
                 if (this.hasPlayableFilesAsGivenParameters(argv)) {
                     PromiseUtils.noAwait(this.enqueueGivenParameterFilesAsync(argv));
                 }
@@ -48,6 +51,9 @@ export class FileService implements FileServiceBase {
 
     public async enqueueParameterFilesAsync(): Promise<void> {
         const parameters: string[] = this.application.getParameters();
+        const fileQueue: string[] = this.application.getGlobal('fileQueue') as string[];
+        parameters.push(...fileQueue);
+        this.ipcProxy.sendToMainProcess('arguments-processed', undefined);
         await this.enqueueGivenParameterFilesAsync(parameters);
     }
 
