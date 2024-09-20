@@ -42,6 +42,10 @@ let isQuit;
 if (process.env.NODE_ENV !== 'development') {
     globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
 }
+// Static variables
+globalAny.windowHasFrame = windowHasFrame();
+globalAny.isMacOS = isMacOS();
+globalAny.fileQueue = [];
 /**
  * Functions
  */
@@ -183,9 +187,6 @@ function createMainWindow() {
     });
     setInitialWindowState(mainWindow);
     remoteMain.enable(mainWindow.webContents);
-    globalAny.windowHasFrame = windowHasFrame();
-    globalAny.isMacOS = isMacOS();
-    globalAny.fileQueue = [];
     if (isServing) {
         require('electron-reload')(__dirname, {
             electron: require(`${__dirname}/node_modules/electron`),
@@ -306,6 +307,12 @@ function createMainWindow() {
     });
 }
 let fileProcessingTimeout;
+function pushFilesToQueue(files, functionName) {
+    globalAny.fileQueue.push(...files);
+    electron_log_1.default.info(`[App] [${functionName}] File queue: ${globalAny.fileQueue}`);
+    clearTimeout(fileProcessingTimeout);
+    fileProcessingTimeout = setTimeout(processFileQueue, debounceDelay);
+}
 function processFileQueue() {
     if (globalAny.fileQueue.length > 0) {
         electron_log_1.default.info(`[App] [processFileQueue] Processing files: ${globalAny.fileQueue}`);
@@ -330,10 +337,8 @@ try {
         electron_1.app.on('second-instance', (event, argv, workingDirectory) => {
             // First instance gets the arguments of the second instance and processes them
             electron_log_1.default.info('[App] [second-instance] Attempt to run second instance. Showing existing window.');
+            pushFilesToQueue(argv, 'second-instance');
             if (mainWindow) {
-                globalAny.fileQueue.push(...argv);
-                clearTimeout(fileProcessingTimeout);
-                fileProcessingTimeout = setTimeout(processFileQueue, debounceDelay);
                 // Someone tried to run a second instance, we should focus the existing window.
                 if (mainWindow.isMinimized()) {
                     mainWindow.restore();
@@ -384,14 +389,10 @@ try {
         });
         electron_1.app.on('open-file', (event, path) => {
             electron_log_1.default.info(`[App] [open-file] File opened: ${path}`);
-            if (mainWindow) {
-                // On macOS, the path of a double-clicked file is not passed as argument. Instead, it is passed as open-file event.
-                // https://stackoverflow.com/questions/50935292/argv1-returns-unexpected-value-when-i-open-a-file-on-double-click-in-electron
-                event.preventDefault();
-                globalAny.fileQueue.push(path);
-                clearTimeout(fileProcessingTimeout);
-                fileProcessingTimeout = setTimeout(processFileQueue, debounceDelay);
-            }
+            // On macOS, the path of a double-clicked file is not passed as argument. Instead, it is passed as open-file event.
+            // https://stackoverflow.com/questions/50935292/argv1-returns-unexpected-value-when-i-open-a-file-on-double-click-in-electron
+            event.preventDefault();
+            pushFilesToQueue([path], 'open-file');
         });
         electron_1.nativeTheme.on('updated', () => {
             if (tray == undefined) {
@@ -474,7 +475,7 @@ try {
             }
         });
         electron_1.ipcMain.on('clear-file-queue', (event, arg) => {
-            electron_log_1.default.error('[Main] [clear-file-queue] Clearing file queue');
+            electron_log_1.default.info('[Main] [clear-file-queue] Clearing file queue');
             globalAny.fileQueue = [];
         });
     }

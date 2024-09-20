@@ -45,6 +45,11 @@ if (process.env.NODE_ENV !== 'development') {
     globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
 }
 
+// Static variables
+globalAny.windowHasFrame = windowHasFrame();
+globalAny.isMacOS = isMacOS();
+globalAny.fileQueue = [];
+
 /**
  * Functions
  */
@@ -208,10 +213,6 @@ function createMainWindow(): void {
     setInitialWindowState(mainWindow);
 
     remoteMain.enable(mainWindow.webContents);
-
-    globalAny.windowHasFrame = windowHasFrame();
-    globalAny.isMacOS = isMacOS();
-    globalAny.fileQueue = [];
 
     if (isServing) {
         require('electron-reload')(__dirname, {
