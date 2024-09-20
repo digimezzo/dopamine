@@ -358,6 +358,14 @@ function createMainWindow(): void {
 }
 
 let fileProcessingTimeout;
+
+function pushFilesToQueue(files: string[], functionName: string): void {
+    globalAny.fileQueue.push(...files);
+    log.info(`[App] [${functionName}] File queue: ${globalAny.fileQueue}`);
+    clearTimeout(fileProcessingTimeout);
+    fileProcessingTimeout = setTimeout(processFileQueue, debounceDelay);
+}
+
 function processFileQueue(): void {
     if (globalAny.fileQueue.length > 0) {
         log.info(`[App] [processFileQueue] Processing files: ${globalAny.fileQueue}`);
@@ -385,13 +393,9 @@ try {
         app.on('second-instance', (event, argv, workingDirectory) => {
             // First instance gets the arguments of the second instance and processes them
             log.info('[App] [second-instance] Attempt to run second instance. Showing existing window.');
+            pushFilesToQueue(argv, 'second-instance');
 
             if (mainWindow) {
-                globalAny.fileQueue.push(...argv);
-                log.info(`[App] [second-instance] File queue: ${globalAny.fileQueue}`);
-                clearTimeout(fileProcessingTimeout);
-                fileProcessingTimeout = setTimeout(processFileQueue, debounceDelay);
-
                 // Someone tried to run a second instance, we should focus the existing window.
                 if (mainWindow.isMinimized()) {
                     mainWindow.restore();
@@ -451,15 +455,10 @@ try {
 
         app.on('open-file', (event, path) => {
             log.info(`[App] [open-file] File opened: ${path}`);
-            if (mainWindow) {
-                // On macOS, the path of a double-clicked file is not passed as argument. Instead, it is passed as open-file event.
-                // https://stackoverflow.com/questions/50935292/argv1-returns-unexpected-value-when-i-open-a-file-on-double-click-in-electron
-                event.preventDefault();
-                globalAny.fileQueue.push(path);
-                log.info(`[App] [open-file] File queue: ${globalAny.fileQueue}`);
-                clearTimeout(fileProcessingTimeout);
-                fileProcessingTimeout = setTimeout(processFileQueue, debounceDelay);
-            }
+            // On macOS, the path of a double-clicked file is not passed as argument. Instead, it is passed as open-file event.
+            // https://stackoverflow.com/questions/50935292/argv1-returns-unexpected-value-when-i-open-a-file-on-double-click-in-electron
+            event.preventDefault();
+            pushFilesToQueue([path], 'open-file');
         });
 
         nativeTheme.on('updated', () => {
@@ -559,7 +558,7 @@ try {
         });
 
         ipcMain.on('clear-file-queue', (event: any, arg: any) => {
-            log.error('[Main] [clear-file-queue] Clearing file queue');
+            log.info('[Main] [clear-file-queue] Clearing file queue');
             globalAny.fileQueue = [];
         });
     }

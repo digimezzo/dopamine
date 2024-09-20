@@ -103,7 +103,7 @@ export class FileService implements FileServiceBase {
         const parameters: string[] = this.application.getParameters();
         this.logger.info(`Parameters: ${parameters.join(', ')}`, 'FileService', 'getAllParameters');
         const fileQueue: string[] = this.application.getGlobal('fileQueue') as string[];
-        this.logger.info(`Parameters: ${fileQueue.join(', ')}`, 'FileService', 'getAllParameters');
+        this.logger.info(`File queue: ${fileQueue.join(', ')}`, 'FileService', 'getAllParameters');
         parameters.push(...fileQueue);
 
         return parameters;
