@@ -28,7 +28,7 @@ export class FileService implements FileServiceBase {
     ) {
         this.subscription.add(
             this.eventListenerService.argumentsReceived$.subscribe((argv: string[]) => {
-                this.ipcProxy.sendToMainProcess('arguments-processed', undefined);
+                this.ipcProxy.sendToMainProcess('clear-file-queue', undefined);
                 if (this.hasPlayableFilesAsGivenParameters(argv)) {
                     PromiseUtils.noAwait(this.enqueueGivenParameterFilesAsync(argv));
                 }
@@ -50,7 +50,7 @@ export class FileService implements FileServiceBase {
 
     public async enqueueParameterFilesAsync(): Promise<void> {
         const parameters: string[] = this.getParameters();
-        this.ipcProxy.sendToMainProcess('arguments-processed', undefined);
+        this.ipcProxy.sendToMainProcess('clear-file-queue', undefined);
         await this.enqueueGivenParameterFilesAsync(parameters);
     }
 

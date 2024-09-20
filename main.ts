@@ -556,8 +556,8 @@ try {
             }
         });
 
-        ipcMain.on('arguments-processed', (event: any, arg: any) => {
-            log.error('[Main] [arguments-processed] Clearing file queue');
+        ipcMain.on('clear-file-queue', (event: any, arg: any) => {
+            log.error('[Main] [clear-file-queue] Clearing file queue');
             globalAny.fileQueue = [];
         });
     }
