@@ -10,7 +10,6 @@ import { EventListenerServiceBase } from '../event-listener/event-listener.servi
 import { ApplicationBase } from '../../common/io/application.base';
 import { FileValidator } from '../../common/validation/file-validator';
 import { SettingsBase } from '../../common/settings/settings.base';
-import { A } from '@angular/cdk/keycodes';
 import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 
 @Injectable()
