@@ -211,7 +211,6 @@ function createMainWindow(): void {
 
     globalAny.windowHasFrame = windowHasFrame();
     globalAny.isMacOS = isMacOS();
-    globalAny.fileQueue = [];
 
     if (isServing) {
         require('electron-reload')(__dirname, {
@@ -357,12 +356,13 @@ function createMainWindow(): void {
     });
 }
 
+let fileQueue: string[] = [];
 let fileProcessingTimeout;
 function processFileQueue(): void {
-    if (globalAny.fileQueue.length > 0) {
-        log.info(`[App] [processFileQueue] Processing files: ${globalAny.fileQueue}`);
+    if (fileQueue.length > 0) {
+        log.info(`[App] [processFileQueue] Processing files: ${fileQueue}`);
         if (mainWindow) {
-            mainWindow.webContents.send('arguments-received', globalAny.fileQueue);
+            mainWindow.webContents.send('arguments-received', fileQueue);
         }
     }
 }
@@ -387,7 +387,7 @@ try {
             log.info('[App] [second-instance] Attempt to run second instance. Showing existing window.');
 
             if (mainWindow) {
-                globalAny.fileQueue.push(...argv);
+                fileQueue.push(...argv);
                 clearTimeout(fileProcessingTimeout);
                 fileProcessingTimeout = setTimeout(processFileQueue, debounceDelay);
 
@@ -454,7 +454,7 @@ try {
                 // On macOS, the path of a double-clicked file is not passed as argument. Instead, it is passed as open-file event.
                 // https://stackoverflow.com/questions/50935292/argv1-returns-unexpected-value-when-i-open-a-file-on-double-click-in-electron
                 event.preventDefault();
-                globalAny.fileQueue.push(path);
+                fileQueue.push(path);
                 clearTimeout(fileProcessingTimeout);
                 fileProcessingTimeout = setTimeout(processFileQueue, debounceDelay);
             }
@@ -558,7 +558,7 @@ try {
 
         ipcMain.on('clear-file-queue', (event: any, arg: any) => {
             log.error('[Main] [clear-file-queue] Clearing file queue');
-            globalAny.fileQueue = [];
+            fileQueue = [];
         });
     }
 } catch (e) {
