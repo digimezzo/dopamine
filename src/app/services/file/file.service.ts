@@ -51,7 +51,7 @@ export class FileService implements FileServiceBase {
 
     public async enqueueParameterFilesAsync(): Promise<void> {
         const parameters: string[] = this.getParameters();
-        this.ipcProxy.sendToMainProcess('clear-file-queue', undefined);
+        this.ipcProxy.sendToMainProcess('arguments-processed', undefined);
         await this.enqueueGivenParameterFilesAsync(parameters);
     }
 
