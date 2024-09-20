@@ -184,6 +184,7 @@ describe('FileService', () => {
         it('should return true if there is at least 1 playable file as parameter', () => {
             // Arrange
             applicationMock.setup((x) => x.getParameters()).returns(() => ['file 1.png', 'file 2.ogg', 'file 3.bmp']);
+            applicationMock.setup((x) => x.getGlobal('fileQueue')).returns(() => []);
             const service: FileServiceBase = createService();
 
             // Act
@@ -195,6 +196,7 @@ describe('FileService', () => {
 
         it('should return false if there are no playable files as parameters', () => {
             applicationMock.setup((x) => x.getParameters()).returns(() => ['file 1.png', 'file 2.mkv', 'file 3.bmp']);
+            applicationMock.setup((x) => x.getGlobal('fileQueue')).returns(() => []);
 
             // Arrange
             const service: FileServiceBase = createService();
