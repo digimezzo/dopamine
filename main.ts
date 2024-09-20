@@ -367,10 +367,12 @@ try {
 
     if (!gotTheLock) {
         log.info('[Main] [Main] There is already another instance running. Closing.');
+        // Quit second instance
         app.quit();
     } else {
         app.on('second-instance', (event, argv, workingDirectory) => {
-            log.info('[Main] [Main] Attempt to run second instance. Showing existing window.');
+            // First instance gets the arguments of the second instance and processes them
+            log.info('[App] [second-instance] Attempt to run second instance. Showing existing window.');
 
             if (mainWindow) {
                 mainWindow.webContents.send('arguments-received', argv);
