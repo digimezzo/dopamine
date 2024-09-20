@@ -185,7 +185,6 @@ function createMainWindow() {
     remoteMain.enable(mainWindow.webContents);
     globalAny.windowHasFrame = windowHasFrame();
     globalAny.isMacOS = isMacOS();
-    globalAny.fileQueue = [];
     if (isServing) {
         require('electron-reload')(__dirname, {
             electron: require(`${__dirname}/node_modules/electron`),
@@ -305,12 +304,13 @@ function createMainWindow() {
         }
     });
 }
+let fileQueue = [];
 let fileProcessingTimeout;
 function processFileQueue() {
-    if (globalAny.fileQueue.length > 0) {
-        electron_log_1.default.info(`[App] [processFileQueue] Processing files: ${globalAny.fileQueue}`);
+    if (fileQueue.length > 0) {
+        electron_log_1.default.info(`[App] [processFileQueue] Processing files: ${fileQueue}`);
         if (mainWindow) {
-            mainWindow.webContents.send('arguments-received', globalAny.fileQueue);
+            mainWindow.webContents.send('arguments-received', fileQueue);
         }
     }
 }
@@ -331,7 +331,7 @@ try {
             // First instance gets the arguments of the second instance and processes them
             electron_log_1.default.info('[App] [second-instance] Attempt to run second instance. Showing existing window.');
             if (mainWindow) {
-                globalAny.fileQueue.push(...argv);
+                fileQueue.push(...argv);
                 clearTimeout(fileProcessingTimeout);
                 fileProcessingTimeout = setTimeout(processFileQueue, debounceDelay);
                 // Someone tried to run a second instance, we should focus the existing window.
@@ -388,9 +388,7 @@ try {
                 // On macOS, the path of a double-clicked file is not passed as argument. Instead, it is passed as open-file event.
                 // https://stackoverflow.com/questions/50935292/argv1-returns-unexpected-value-when-i-open-a-file-on-double-click-in-electron
                 event.preventDefault();
-                globalAny.fileQueue.push(path);
-                clearTimeout(fileProcessingTimeout);
-                fileProcessingTimeout = setTimeout(processFileQueue, debounceDelay);
+                mainWindow.webContents.send('arguments-received', [path]);
             }
         });
         electron_1.nativeTheme.on('updated', () => {
@@ -473,9 +471,9 @@ try {
                 mainWindow.setContentSize(350, 430);
             }
         });
-        electron_1.ipcMain.on('clear-file-queue', (event, arg) => {
-            electron_log_1.default.error('[Main] [clear-file-queue] Clearing file queue');
-            globalAny.fileQueue = [];
+        electron_1.ipcMain.on('arguments-processed', (event, arg) => {
+            electron_log_1.default.error('[Main] [arguments-processed] Clearing file queue');
+            fileQueue = [];
         });
     }
 }
