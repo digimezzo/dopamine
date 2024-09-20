@@ -44,16 +44,14 @@ export class FileService implements FileServiceBase {
     }
 
     public hasPlayableFilesAsParameters(): boolean {
-        const parameters: string[] = this.application.getParameters();
+        const parameters: string[] = this.getParameters();
 
         return this.hasPlayableFilesAsGivenParameters(parameters);
     }
 
     public async enqueueParameterFilesAsync(): Promise<void> {
-        const parameters: string[] = this.application.getParameters();
-        const fileQueue: string[] = this.application.getGlobal('fileQueue') as string[];
-        parameters.push(...fileQueue);
-        this.ipcProxy.sendToMainProcess('arguments-processed', undefined);
+        const parameters: string[] = this.getParameters();
+        this.ipcProxy.sendToMainProcess('clear-file-queue', undefined);
         await this.enqueueGivenParameterFilesAsync(parameters);
     }
 
@@ -100,5 +98,13 @@ export class FileService implements FileServiceBase {
         } catch (e: unknown) {
             this.logger.error(e, 'Could not enqueue given parameter files', 'FileService', 'enqueueGivenParameterFilesAsync');
         }
+    }
+
+    private getParameters(): string[] {
+        const parameters: string[] = this.application.getParameters();
+        const fileQueue: string[] = this.application.getGlobal('fileQueue') as string[];
+        parameters.push(...fileQueue);
+
+        return parameters;
     }
 }
