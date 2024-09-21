@@ -14,12 +14,14 @@ import { FileServiceBase } from './file.service.base';
 import { Track } from '../../data/entities/track';
 import { SettingsMock } from '../../testing/settings-mock';
 import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 describe('FileService', () => {
     let playbackServiceMock: IMock<PlaybackServiceBase>;
     let eventListenerServiceMock: IMock<EventListenerServiceBase>;
     let trackModelFactoryMock: IMock<TrackModelFactory>;
     let fileValidatorMock: IMock<FileValidator>;
+    let fileAccessMock: IMock<FileAccessBase>;
     let ipcProxyMock: IMock<IpcProxyBase>;
     let applicationMock: IMock<ApplicationBase>;
     let loggerMock: IMock<Logger>;
@@ -43,6 +45,7 @@ describe('FileService', () => {
             trackModelFactoryMock.object,
             applicationMock.object,
             fileValidatorMock.object,
+            fileAccessMock.object,
             ipcProxyMock.object,
             settingsMock,
             loggerMock.object,
@@ -54,6 +57,7 @@ describe('FileService', () => {
         eventListenerServiceMock = Mock.ofType<EventListenerServiceBase>();
         trackModelFactoryMock = Mock.ofType<TrackModelFactory>();
         fileValidatorMock = Mock.ofType<FileValidator>();
+        fileAccessMock = Mock.ofType<FileAccessBase>();
         ipcProxyMock = Mock.ofType<IpcProxyBase>();
         applicationMock = Mock.ofType<ApplicationBase>();
         loggerMock = Mock.ofType<Logger>();
@@ -62,22 +66,26 @@ describe('FileService', () => {
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
-        fileValidatorMock.setup((x) => x.isPlayableAudioFile('file 1.mp3')).returns(() => true);
-        fileValidatorMock.setup((x) => x.isPlayableAudioFile('file 1.png')).returns(() => false);
-        fileValidatorMock.setup((x) => x.isPlayableAudioFile('file 2.ogg')).returns(() => true);
-        fileValidatorMock.setup((x) => x.isPlayableAudioFile('file 2.mkv')).returns(() => false);
-        fileValidatorMock.setup((x) => x.isPlayableAudioFile('file 3.bmp')).returns(() => false);
+        fileValidatorMock.setup((x) => x.isPlayableAudioFile('/my/directory/file 1.mp3')).returns(() => true);
+        fileValidatorMock.setup((x) => x.isPlayableAudioFile('/my/directory/file 1.png')).returns(() => false);
+        fileValidatorMock.setup((x) => x.isPlayableAudioFile('/my/directory/file 2.ogg')).returns(() => true);
+        fileValidatorMock.setup((x) => x.isPlayableAudioFile('/my/directory/file 2.mkv')).returns(() => false);
+        fileValidatorMock.setup((x) => x.isPlayableAudioFile('/my/directory/file 3.bmp')).returns(() => false);
 
         trackModelFactoryMock
-            .setup((x) => x.createFromFileAsync('file 1.mp3', ''))
+            .setup((x) => x.createFromFileAsync('/my/directory/file 1.mp3', ''))
             .returns(() =>
-                Promise.resolve(new TrackModel(new Track('file 1.mp3'), dateTimeMock.object, translatorServiceMock.object, settingsMock)),
+                Promise.resolve(
+                    new TrackModel(new Track('/my/directory/file 1.mp3'), dateTimeMock.object, translatorServiceMock.object, settingsMock),
+                ),
             );
 
         trackModelFactoryMock
-            .setup((x) => x.createFromFileAsync('file 2.ogg', ''))
+            .setup((x) => x.createFromFileAsync('/my/directory/file 2.ogg', ''))
             .returns(() =>
-                Promise.resolve(new TrackModel(new Track('file 2.ogg'), dateTimeMock.object, translatorServiceMock.object, settingsMock)),
+                Promise.resolve(
+                    new TrackModel(new Track('/my/directory/file 2.ogg'), dateTimeMock.object, translatorServiceMock.object, settingsMock),
+                ),
             );
 
         argumentsReceivedMock = new Subject();
@@ -103,10 +111,15 @@ describe('FileService', () => {
 
         it('should enqueue all playable tracks that are found as parameters', async () => {
             // Arrange
+            fileAccessMock.setup((x) => x.getDirectoryPath('/my/directory/file 2.ogg')).returns(() => '/my/directory');
+            fileAccessMock
+                .setup((x) => x.getFilesInDirectory('/my/directory'))
+                .returns(() => ['/my/directory/file 1.mp3', '/my/directory/file 2.ogg']);
+
             createService();
 
             // Act
-            argumentsReceivedMock.next(['file 1.mp3', 'file 2.ogg', 'file 3.bmp']);
+            argumentsReceivedMock.next(['/my/directory/file 2.ogg', '/my/directory/file 1.mp3', '/my/directory/file 3.bmp']);
             await flushPromises();
 
             // Assert
@@ -115,7 +128,9 @@ describe('FileService', () => {
                     x.enqueueAndPlayTracks(
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
-                                trackModels.length === 2 && trackModels[0].path === 'file 1.mp3' && trackModels[1].path === 'file 2.ogg',
+                                trackModels.length === 2 &&
+                                trackModels[0].path === '/my/directory/file 1.mp3' &&
+                                trackModels[1].path === '/my/directory/file 2.ogg',
                         ),
                     ),
                 Times.once(),
@@ -151,7 +166,7 @@ describe('FileService', () => {
             createService();
 
             // Act
-            argumentsReceivedMock.next(['file 1.png', 'file 2.mkv', 'file 3.bmp']);
+            argumentsReceivedMock.next(['/my/directory/file 1.png', '/my/directory/file 2.mkv', '/my/directory/file 3.bmp']);
             await flushPromises();
 
             // Assert
@@ -160,10 +175,15 @@ describe('FileService', () => {
 
         it('should enqueue all playable tracks that are dropped', async () => {
             // Arrange
+            fileAccessMock.setup((x) => x.getDirectoryPath('/my/directory/file 2.ogg')).returns(() => '/my/directory');
+            fileAccessMock
+                .setup((x) => x.getFilesInDirectory('/my/directory'))
+                .returns(() => ['/my/directory/file 1.mp3', '/my/directory/file 2.ogg']);
+
             createService();
 
             // Act
-            filesDroppedMock.next(['file 1.mp3', 'file 2.ogg', 'file 3.bmp']);
+            filesDroppedMock.next(['/my/directory/file 2.ogg', '/my/directory/file 1.mp3', '/my/directory/file 3.bmp']);
             await flushPromises();
 
             // Assert
@@ -172,7 +192,9 @@ describe('FileService', () => {
                     x.enqueueAndPlayTracks(
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
-                                trackModels.length === 2 && trackModels[0].path === 'file 1.mp3' && trackModels[1].path === 'file 2.ogg',
+                                trackModels.length === 2 &&
+                                trackModels[0].path === '/my/directory/file 1.mp3' &&
+                                trackModels[1].path === '/my/directory/file 2.ogg',
                         ),
                     ),
                 Times.once(),
@@ -183,7 +205,9 @@ describe('FileService', () => {
     describe('hasPlayableFilesAsParameters', () => {
         it('should return true if there is at least 1 playable file as parameter', () => {
             // Arrange
-            applicationMock.setup((x) => x.getParameters()).returns(() => ['file 1.png', 'file 2.ogg', 'file 3.bmp']);
+            applicationMock
+                .setup((x) => x.getParameters())
+                .returns(() => ['/my/directory/file 1.png', '/my/directory/file 2.ogg', '/my/directory/file 3.bmp']);
             applicationMock.setup((x) => x.getGlobal('fileQueue')).returns(() => []);
             const service: FileServiceBase = createService();
 
@@ -195,7 +219,9 @@ describe('FileService', () => {
         });
 
         it('should return false if there are no playable files as parameters', () => {
-            applicationMock.setup((x) => x.getParameters()).returns(() => ['file 1.png', 'file 2.mkv', 'file 3.bmp']);
+            applicationMock
+                .setup((x) => x.getParameters())
+                .returns(() => ['/my/directory/file 1.png', '/my/directory/file 2.mkv', '/my/directory/file 3.bmp']);
             applicationMock.setup((x) => x.getGlobal('fileQueue')).returns(() => []);
 
             // Arrange
@@ -212,8 +238,16 @@ describe('FileService', () => {
     describe('enqueueParameterFilesAsync', () => {
         it('should enqueue all playable tracks found as parameters', async () => {
             // Arrange
-            applicationMock.setup((x) => x.getParameters()).returns(() => ['file 1.mp3', 'file 2.ogg', 'file 3.bmp']);
+            applicationMock
+                .setup((x) => x.getParameters())
+                .returns(() => ['/my/directory/file 1.mp3', '/my/directory/file 2.ogg', '/my/directory/file 3.bmp']);
             applicationMock.setup((x) => x.getGlobal('fileQueue')).returns(() => []);
+
+            fileAccessMock.setup((x) => x.getDirectoryPath('/my/directory/file 1.mp3')).returns(() => '/my/directory');
+            fileAccessMock
+                .setup((x) => x.getFilesInDirectory('/my/directory'))
+                .returns(() => ['/my/directory/file 1.mp3', '/my/directory/file 2.ogg']);
+
             const service: FileServiceBase = createService();
 
             // Act
@@ -225,7 +259,9 @@ describe('FileService', () => {
                     x.enqueueAndPlayTracks(
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
-                                trackModels.length === 2 && trackModels[0].path === 'file 1.mp3' && trackModels[1].path === 'file 2.ogg',
+                                trackModels.length === 2 &&
+                                trackModels[0].path === '/my/directory/file 1.mp3' &&
+                                trackModels[1].path === '/my/directory/file 2.ogg',
                         ),
                     ),
                 Times.once(),
@@ -247,7 +283,9 @@ describe('FileService', () => {
 
         it('should not enqueue anything if there are no playable tracks found as parameters', async () => {
             // Arrange
-            applicationMock.setup((x) => x.getParameters()).returns(() => ['file 1.png', 'file 2.mkv', 'file 3.bmp']);
+            applicationMock
+                .setup((x) => x.getParameters())
+                .returns(() => ['/my/directory/file 1.png', '/my/directory/file 2.mkv', '/my/directory/file 3.bmp']);
             applicationMock.setup((x) => x.getGlobal('fileQueue')).returns(() => []);
             const service: FileServiceBase = createService();
 

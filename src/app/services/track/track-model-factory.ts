@@ -4,7 +4,6 @@ import { DateTime } from '../../common/date-time';
 import { TrackFiller } from '../indexing/track-filler';
 import { TrackModel } from './track-model';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
-import { SettingsBase } from '../../common/settings/settings.base';
 
 @Injectable()
 export class TrackModelFactory {
