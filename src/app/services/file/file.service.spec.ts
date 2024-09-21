@@ -67,6 +67,8 @@ describe('FileService', () => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
         fileValidatorMock.setup((x) => x.isPlayableAudioFile('/my/directory/file 1.mp3')).returns(() => true);
+        fileValidatorMock.setup((x) => x.isPlayableAudioFile('/my/directory/file 3.mp3')).returns(() => true);
+        fileValidatorMock.setup((x) => x.isPlayableAudioFile('/my/directory/file 4.mp3')).returns(() => true);
         fileValidatorMock.setup((x) => x.isPlayableAudioFile('/my/directory/file 1.png')).returns(() => false);
         fileValidatorMock.setup((x) => x.isPlayableAudioFile('/my/directory/file 2.ogg')).returns(() => true);
         fileValidatorMock.setup((x) => x.isPlayableAudioFile('/my/directory/file 2.mkv')).returns(() => false);
@@ -109,17 +111,113 @@ describe('FileService', () => {
             expect(service).toBeDefined();
         });
 
-        it('should enqueue all playable tracks that are found as parameters', async () => {
+        it('should enqueue all playable tracks that are found as parameters in directory order when given unordered and same number of files than in directory', async () => {
             // Arrange
             fileAccessMock.setup((x) => x.getDirectoryPath('/my/directory/file 2.ogg')).returns(() => '/my/directory');
             fileAccessMock
                 .setup((x) => x.getFilesInDirectory('/my/directory'))
-                .returns(() => ['/my/directory/file 1.mp3', '/my/directory/file 2.ogg']);
+                .returns(() => ['/my/directory/file 1.mp3', '/my/directory/file 3.bmp', '/my/directory/file 2.ogg']);
 
             createService();
 
             // Act
             argumentsReceivedMock.next(['/my/directory/file 2.ogg', '/my/directory/file 1.mp3', '/my/directory/file 3.bmp']);
+            await flushPromises();
+
+            // Assert
+            playbackServiceMock.verify(
+                (x) =>
+                    x.enqueueAndPlayTracks(
+                        It.is<TrackModel[]>(
+                            (trackModels: TrackModel[]) =>
+                                trackModels.length === 2 &&
+                                trackModels[0].path === '/my/directory/file 1.mp3' &&
+                                trackModels[1].path === '/my/directory/file 2.ogg',
+                        ),
+                    ),
+                Times.once(),
+            );
+        });
+
+        it('should enqueue all playable tracks that are found as parameters in directory order when given ordered and same number of files than in directory', async () => {
+            // Arrange
+            fileAccessMock.setup((x) => x.getDirectoryPath('/my/directory/file 1.mp3')).returns(() => '/my/directory');
+            fileAccessMock
+                .setup((x) => x.getFilesInDirectory('/my/directory'))
+                .returns(() => ['/my/directory/file 1.mp3', '/my/directory/file 2.ogg', '/my/directory/file 3.bmp']);
+
+            createService();
+
+            // Act
+            argumentsReceivedMock.next(['/my/directory/file 1.mp3', '/my/directory/file 2.ogg', '/my/directory/file 3.bmp']);
+            await flushPromises();
+
+            // Assert
+            playbackServiceMock.verify(
+                (x) =>
+                    x.enqueueAndPlayTracks(
+                        It.is<TrackModel[]>(
+                            (trackModels: TrackModel[]) =>
+                                trackModels.length === 2 &&
+                                trackModels[0].path === '/my/directory/file 1.mp3' &&
+                                trackModels[1].path === '/my/directory/file 2.ogg',
+                        ),
+                    ),
+                Times.once(),
+            );
+        });
+
+        it('should enqueue all playable tracks that are found as parameters in directory order when given unordered and less files than in directory', async () => {
+            // Arrange
+            fileAccessMock.setup((x) => x.getDirectoryPath('/my/directory/file 2.ogg')).returns(() => '/my/directory');
+            fileAccessMock
+                .setup((x) => x.getFilesInDirectory('/my/directory'))
+                .returns(() => [
+                    '/my/directory/file 3.bmp',
+                    '/my/directory/file 1.mp3',
+                    '/my/directory/file 3.mp3',
+                    '/my/directory/file 2.ogg',
+                    '/my/directory/file 4.mp3',
+                ]);
+
+            createService();
+
+            // Act
+            argumentsReceivedMock.next(['/my/directory/file 2.ogg', '/my/directory/file 1.mp3', '/my/directory/file 3.bmp']);
+            await flushPromises();
+
+            // Assert
+            playbackServiceMock.verify(
+                (x) =>
+                    x.enqueueAndPlayTracks(
+                        It.is<TrackModel[]>(
+                            (trackModels: TrackModel[]) =>
+                                trackModels.length === 2 &&
+                                trackModels[0].path === '/my/directory/file 1.mp3' &&
+                                trackModels[1].path === '/my/directory/file 2.ogg',
+                        ),
+                    ),
+                Times.once(),
+            );
+        });
+
+        it('should enqueue all playable tracks that are found as parameters in directory order when given ordered and less tracks than in directory', async () => {
+            // Arrange
+            fileAccessMock.setup((x) => x.getDirectoryPath('/my/directory/file 1.mp3')).returns(() => '/my/directory');
+            fileAccessMock
+                .setup((x) => x.getFilesInDirectory('/my/directory'))
+                .returns(() => [
+                    '/my/directory/file 3.bmp',
+                    '/my/directory/file 1.mp3',
+                    '/my/directory/file 3.mp3',
+                    '/my/directory/file 2.ogg',
+                    '/my/directory/file 4.mp3',
+                ]);
+
+            createService();
+
+            // Act
+            argumentsReceivedMock.next(['/my/directory/file 1.mp3', '/my/directory/file 2.ogg', '/my/directory/file 3.bmp']);
             await flushPromises();
 
             // Assert
@@ -173,17 +271,114 @@ describe('FileService', () => {
             playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
         });
 
-        it('should enqueue all playable tracks that are dropped', async () => {
+        it('should enqueue all playable tracks that are dropped in directory order when given unordered and same number of tracks than in directory', async () => {
             // Arrange
+
             fileAccessMock.setup((x) => x.getDirectoryPath('/my/directory/file 2.ogg')).returns(() => '/my/directory');
             fileAccessMock
                 .setup((x) => x.getFilesInDirectory('/my/directory'))
-                .returns(() => ['/my/directory/file 1.mp3', '/my/directory/file 2.ogg']);
+                .returns(() => ['/my/directory/file 1.mp3', '/my/directory/file 3.bmp', '/my/directory/file 2.ogg']);
 
             createService();
 
             // Act
             filesDroppedMock.next(['/my/directory/file 2.ogg', '/my/directory/file 1.mp3', '/my/directory/file 3.bmp']);
+            await flushPromises();
+
+            // Assert
+            playbackServiceMock.verify(
+                (x) =>
+                    x.enqueueAndPlayTracks(
+                        It.is<TrackModel[]>(
+                            (trackModels: TrackModel[]) =>
+                                trackModels.length === 2 &&
+                                trackModels[0].path === '/my/directory/file 1.mp3' &&
+                                trackModels[1].path === '/my/directory/file 2.ogg',
+                        ),
+                    ),
+                Times.once(),
+            );
+        });
+
+        it('should enqueue all playable tracks that are dropped in directory order when given ordered and same number of tracks than in directory', async () => {
+            // Arrange
+            fileAccessMock.setup((x) => x.getDirectoryPath('/my/directory/file 1.mp3')).returns(() => '/my/directory');
+            fileAccessMock
+                .setup((x) => x.getFilesInDirectory('/my/directory'))
+                .returns(() => ['/my/directory/file 1.mp3', '/my/directory/file 3.bmp', '/my/directory/file 2.ogg']);
+
+            createService();
+
+            // Act
+            filesDroppedMock.next(['/my/directory/file 1.mp3', '/my/directory/file 2.ogg', '/my/directory/file 3.bmp']);
+            await flushPromises();
+
+            // Assert
+            playbackServiceMock.verify(
+                (x) =>
+                    x.enqueueAndPlayTracks(
+                        It.is<TrackModel[]>(
+                            (trackModels: TrackModel[]) =>
+                                trackModels.length === 2 &&
+                                trackModels[0].path === '/my/directory/file 1.mp3' &&
+                                trackModels[1].path === '/my/directory/file 2.ogg',
+                        ),
+                    ),
+                Times.once(),
+            );
+        });
+
+        it('should enqueue all playable tracks that are dropped in directory order when given unordered and less tracks than in directory', async () => {
+            // Arrange
+            fileAccessMock.setup((x) => x.getDirectoryPath('/my/directory/file 2.ogg')).returns(() => '/my/directory');
+            fileAccessMock
+                .setup((x) => x.getFilesInDirectory('/my/directory'))
+                .returns(() => [
+                    '/my/directory/file 3.bmp',
+                    '/my/directory/file 1.mp3',
+                    '/my/directory/file 3.mp3',
+                    '/my/directory/file 2.ogg',
+                    '/my/directory/file 4.mp3',
+                ]);
+
+            createService();
+
+            // Act
+            filesDroppedMock.next(['/my/directory/file 2.ogg', '/my/directory/file 1.mp3', '/my/directory/file 3.bmp']);
+            await flushPromises();
+
+            // Assert
+            playbackServiceMock.verify(
+                (x) =>
+                    x.enqueueAndPlayTracks(
+                        It.is<TrackModel[]>(
+                            (trackModels: TrackModel[]) =>
+                                trackModels.length === 2 &&
+                                trackModels[0].path === '/my/directory/file 1.mp3' &&
+                                trackModels[1].path === '/my/directory/file 2.ogg',
+                        ),
+                    ),
+                Times.once(),
+            );
+        });
+
+        it('should enqueue all playable tracks that are dropped in directory order when given ordered and less tracks than in directory', async () => {
+            // Arrange
+            fileAccessMock.setup((x) => x.getDirectoryPath('/my/directory/file 1.mp3')).returns(() => '/my/directory');
+            fileAccessMock
+                .setup((x) => x.getFilesInDirectory('/my/directory'))
+                .returns(() => [
+                    '/my/directory/file 3.bmp',
+                    '/my/directory/file 1.mp3',
+                    '/my/directory/file 3.mp3',
+                    '/my/directory/file 2.ogg',
+                    '/my/directory/file 4.mp3',
+                ]);
+
+            createService();
+
+            // Act
+            filesDroppedMock.next(['/my/directory/file 1.mp3', '/my/directory/file 2.ogg', '/my/directory/file 3.bmp']);
             await flushPromises();
 
             // Assert
@@ -236,7 +431,39 @@ describe('FileService', () => {
     });
 
     describe('enqueueParameterFilesAsync', () => {
-        it('should enqueue all playable tracks found as parameters', async () => {
+        it('should enqueue all playable tracks found as parameters in directory order when given unordered and same number of tracks than in directory', async () => {
+            // Arrange
+            applicationMock
+                .setup((x) => x.getParameters())
+                .returns(() => ['/my/directory/file 2.ogg', '/my/directory/file 1.mp3', '/my/directory/file 3.bmp']);
+            applicationMock.setup((x) => x.getGlobal('fileQueue')).returns(() => []);
+
+            fileAccessMock.setup((x) => x.getDirectoryPath('/my/directory/file 2.ogg')).returns(() => '/my/directory');
+            fileAccessMock
+                .setup((x) => x.getFilesInDirectory('/my/directory'))
+                .returns(() => ['/my/directory/file 1.mp3', '/my/directory/file 3.bmp', '/my/directory/file 2.ogg']);
+
+            const service: FileServiceBase = createService();
+
+            // Act
+            await service.enqueueParameterFilesAsync();
+
+            // Assert
+            playbackServiceMock.verify(
+                (x) =>
+                    x.enqueueAndPlayTracks(
+                        It.is<TrackModel[]>(
+                            (trackModels: TrackModel[]) =>
+                                trackModels.length === 2 &&
+                                trackModels[0].path === '/my/directory/file 1.mp3' &&
+                                trackModels[1].path === '/my/directory/file 2.ogg',
+                        ),
+                    ),
+                Times.once(),
+            );
+        });
+
+        it('should enqueue all playable tracks found as parameters in directory order when given ordered and same number of tracks than in directory', async () => {
             // Arrange
             applicationMock
                 .setup((x) => x.getParameters())
@@ -246,7 +473,83 @@ describe('FileService', () => {
             fileAccessMock.setup((x) => x.getDirectoryPath('/my/directory/file 1.mp3')).returns(() => '/my/directory');
             fileAccessMock
                 .setup((x) => x.getFilesInDirectory('/my/directory'))
-                .returns(() => ['/my/directory/file 1.mp3', '/my/directory/file 2.ogg']);
+                .returns(() => ['/my/directory/file 1.mp3', '/my/directory/file 3.bmp', '/my/directory/file 2.ogg']);
+
+            const service: FileServiceBase = createService();
+
+            // Act
+            await service.enqueueParameterFilesAsync();
+
+            // Assert
+            playbackServiceMock.verify(
+                (x) =>
+                    x.enqueueAndPlayTracks(
+                        It.is<TrackModel[]>(
+                            (trackModels: TrackModel[]) =>
+                                trackModels.length === 2 &&
+                                trackModels[0].path === '/my/directory/file 1.mp3' &&
+                                trackModels[1].path === '/my/directory/file 2.ogg',
+                        ),
+                    ),
+                Times.once(),
+            );
+        });
+
+        it('should enqueue all playable tracks found as parameters in directory order when given unordered and less tracks than in directory', async () => {
+            // Arrange
+            applicationMock
+                .setup((x) => x.getParameters())
+                .returns(() => ['/my/directory/file 2.ogg', '/my/directory/file 1.mp3', '/my/directory/file 3.bmp']);
+            applicationMock.setup((x) => x.getGlobal('fileQueue')).returns(() => []);
+
+            fileAccessMock.setup((x) => x.getDirectoryPath('/my/directory/file 2.ogg')).returns(() => '/my/directory');
+            fileAccessMock
+                .setup((x) => x.getFilesInDirectory('/my/directory'))
+                .returns(() => [
+                    '/my/directory/file 3.bmp',
+                    '/my/directory/file 1.mp3',
+                    '/my/directory/file 3.mp3',
+                    '/my/directory/file 2.ogg',
+                    '/my/directory/file 4.mp3',
+                ]);
+
+            const service: FileServiceBase = createService();
+
+            // Act
+            await service.enqueueParameterFilesAsync();
+
+            // Assert
+            playbackServiceMock.verify(
+                (x) =>
+                    x.enqueueAndPlayTracks(
+                        It.is<TrackModel[]>(
+                            (trackModels: TrackModel[]) =>
+                                trackModels.length === 2 &&
+                                trackModels[0].path === '/my/directory/file 1.mp3' &&
+                                trackModels[1].path === '/my/directory/file 2.ogg',
+                        ),
+                    ),
+                Times.once(),
+            );
+        });
+
+        it('should enqueue all playable tracks found as parameters in directory order when given ordered and less tracks than in directory', async () => {
+            // Arrange
+            applicationMock
+                .setup((x) => x.getParameters())
+                .returns(() => ['/my/directory/file 1.mp3', '/my/directory/file 2.ogg', '/my/directory/file 3.bmp']);
+            applicationMock.setup((x) => x.getGlobal('fileQueue')).returns(() => []);
+
+            fileAccessMock.setup((x) => x.getDirectoryPath('/my/directory/file 1.mp3')).returns(() => '/my/directory');
+            fileAccessMock
+                .setup((x) => x.getFilesInDirectory('/my/directory'))
+                .returns(() => [
+                    '/my/directory/file 3.bmp',
+                    '/my/directory/file 1.mp3',
+                    '/my/directory/file 3.mp3',
+                    '/my/directory/file 2.ogg',
+                    '/my/directory/file 4.mp3',
+                ]);
 
             const service: FileServiceBase = createService();
 
