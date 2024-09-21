@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 -   Adds a new macOS icon (Thank you https://github.com/VisualisationExpo)
--   Adds macOS traffic lights support
+-   Adds macOS traffic lights support (Thank you https://github.com/fr-eed)
 
 ### Changed
 
