@@ -294,5 +294,7 @@
     "confirm-remove-artist": "Etes-vous sûr de vouloir supprimer l'artiste '{{artist}}'?",
     "switch-player": "Changer de lecteur",
     "volume": "Volume",
-    "thanks-to-visualisationexpo": "À VisualisationExpo, pour la superbe icône macOS!"
+    "thanks-to-visualisationexpo": "À VisualisationExpo, pour la superbe icône macOS!",
+    "edit-track": "Éditer le morceau",
+    "edit-tracks": "Éditer les morceaux"
 }
