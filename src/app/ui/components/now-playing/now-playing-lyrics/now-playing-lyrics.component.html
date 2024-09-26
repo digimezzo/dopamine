@@ -28,7 +28,7 @@
     </div>
     <div *ngIf="!this.isBusy" class="app-now-playing-lyrics__text">
         <div class="break-on-newline">
-            <div *ngIf="this.hasLyrics">{{ this.lyrics?.text }}</div>
+            <div *ngIf="this.hasLyrics" [innerText]="this.lyrics?.text"></div>
             <div *ngIf="!this.hasLyrics">{{ 'no-lyrics-found' | translate }}</div>
         </div>
     </div>

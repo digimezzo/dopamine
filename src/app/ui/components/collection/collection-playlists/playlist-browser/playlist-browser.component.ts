@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Logger } from '../../../../../common/logger';
 import { NativeElementProxy } from '../../../../../common/native-element-proxy';
@@ -14,6 +14,9 @@ import { TranslatorServiceBase } from '../../../../../services/translator/transl
 import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
 import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
+import { Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import { Constants } from '../../../../../common/application/constants';
 
 @Component({
     selector: 'app-playlist-browser',
@@ -22,10 +25,11 @@ import { ContextMenuOpener } from '../../../context-menu-opener';
     styleUrls: ['./playlist-browser.component.scss'],
     providers: [MouseSelectionWatcher],
 })
-export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
+export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDestroy {
     private _playlists: PlaylistModel[] = [];
     private _playlistsPersister: PlaylistsPersister;
     private availableWidthInPixels: number = 0;
+    private destroy$ = new Subject<void>();
 
     public constructor(
         public playbackService: PlaybackServiceBase,
@@ -58,7 +62,6 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
     public set playlistsPersister(v: PlaylistsPersister) {
         this._playlistsPersister = v;
         this.selectedPlaylistOrder = this.playlistsPersister.getSelectedPlaylistOrder();
-        this.orderPlaylists();
     }
 
     public get playlists(): PlaylistModel[] {
@@ -69,36 +72,45 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
     public set playlists(v: PlaylistModel[]) {
         this._playlists = v;
         this.mouseSelectionWatcher.initialize(this.playlists, false);
-
-        // When the component is first rendered, it happens that playlistsPersister is undefined.
-        if (this.playlistsPersister != undefined) {
-            this.orderPlaylists();
-        }
     }
 
     public get hasPlaylists(): boolean {
         return this._playlists.length > 0;
     }
 
-    public ngOnInit(): void {
-        this.applicationService.windowSizeChanged$.subscribe(() => {
-            if (this.hasAvailableWidthChanged()) {
-                this.orderPlaylists();
-            }
-        });
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
 
-        this.applicationService.mouseButtonReleased$.subscribe(() => {
-            if (this.hasAvailableWidthChanged()) {
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes['playlists'] || changes['playlistsPersister']) {
+            if (this.playlists && this.playlists.length > 0 && this.playlistsPersister) {
                 this.orderPlaylists();
             }
-        });
+        }
     }
 
     public ngAfterViewInit(): void {
         // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
         setTimeout(() => {
             this.initializeAvailableWidth();
-            this.orderPlaylists();
+
+            this.applicationService.windowSizeChanged$
+                .pipe(debounceTime(Constants.playlistsRedrawDelayMilliseconds), takeUntil(this.destroy$))
+                .subscribe(() => {
+                    if (this.hasAvailableWidthChanged()) {
+                        this.orderPlaylists();
+                    }
+                });
+
+            this.applicationService.mouseButtonReleased$
+                .pipe(debounceTime(Constants.playlistsRedrawDelayMilliseconds), takeUntil(this.destroy$))
+                .subscribe(() => {
+                    if (this.hasAvailableWidthChanged()) {
+                        this.orderPlaylists();
+                    }
+                });
         }, 0);
     }
 

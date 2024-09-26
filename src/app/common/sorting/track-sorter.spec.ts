@@ -5,6 +5,7 @@ import { Track } from '../../data/entities/track';
 import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
 import { TrackSorter } from './track-sorter';
 import { SettingsMock } from '../../testing/settings-mock';
+import { Logger } from '../logger';
 
 describe('TrackSorter', () => {
     let trackModel1: TrackModel;
@@ -21,6 +22,7 @@ describe('TrackSorter', () => {
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let settingsMock: any;
+    let loggerMock: IMock<Logger>;
 
     let trackSorter: TrackSorter;
     let tracks: TrackModel[];
@@ -48,6 +50,7 @@ describe('TrackSorter', () => {
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         settingsMock = new SettingsMock();
+        loggerMock = Mock.ofType<Logger>();
 
         trackModel1 = createTrackModel('Path 1', 'Title 1', 'Album title 1', ['Album artist 1'], 1, 1);
         trackModel2 = createTrackModel('Path 2', 'title 2', 'Album title 1', ['Album artist 1'], 1, 2);
@@ -73,7 +76,7 @@ describe('TrackSorter', () => {
             trackModel6,
         ];
 
-        trackSorter = new TrackSorter();
+        trackSorter = new TrackSorter(loggerMock.object);
     });
 
     describe('sortByTitleAscending', () => {

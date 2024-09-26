@@ -61,7 +61,7 @@ describe('AlbumKeyGenerator', () => {
             const albumKey: string = albumkeyGenerator.generateAlbumKey('The album title', ['Album artist 1']);
 
             // Assert
-            expect(albumKey).toEqual(';The album title;;Album artist 1;');
+            expect(albumKey).toEqual(';The album title;;album artist 1;');
         });
 
         it('should generate an album key using album title and multiple album artists given an album title and multiple album artists', () => {
@@ -69,7 +69,7 @@ describe('AlbumKeyGenerator', () => {
             const albumKey: string = albumkeyGenerator.generateAlbumKey('The album title', ['Album artist 1', 'Album artist 2']);
 
             // Assert
-            expect(albumKey).toEqual(';The album title;;Album artist 1;;Album artist 2;');
+            expect(albumKey).toEqual(';The album title;;album artist 1;;album artist 2;');
         });
     });
 });

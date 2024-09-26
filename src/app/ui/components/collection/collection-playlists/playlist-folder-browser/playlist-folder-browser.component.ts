@@ -98,6 +98,7 @@ export class PlaylistFolderBrowserComponent {
             dialogTitle,
             placeholderText,
             playlistFolder.name,
+            [],
         );
 
         if (!StringUtils.isNullOrWhiteSpace(newPlaylistFolderName)) {
@@ -117,6 +118,7 @@ export class PlaylistFolderBrowserComponent {
             this.translatorService.get('create-playlist-folder'),
             this.translatorService.get('playlist-folder-name'),
             '',
+            [],
         );
 
         try {

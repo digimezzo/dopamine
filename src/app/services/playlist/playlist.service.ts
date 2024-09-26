@@ -24,6 +24,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Constants } from '../../common/application/constants';
 import { PlaylistUpdateInfo } from './playlist-update-info';
 import { PromiseUtils } from '../../common/utils/promise-utils';
+import {SettingsBase} from "../../common/settings/settings.base";
 
 @Injectable()
 export class PlaylistService implements PlaylistServiceBase {
@@ -43,6 +44,7 @@ export class PlaylistService implements PlaylistServiceBase {
         private trackModelFactory: TrackModelFactory,
         private fileValidator: FileValidator,
         private fileAccess: FileAccessBase,
+        private settings: SettingsBase,
         private logger: Logger,
     ) {
         this.initialize();
@@ -76,8 +78,7 @@ export class PlaylistService implements PlaylistServiceBase {
             throw new Error('artistsToAdd is undefined');
         }
 
-        const artistNames: string[] = artistsToAdd.map((x) => x.name);
-        const tracks: TrackModels = this.trackService.getTracksForArtists(artistNames, ArtistType.allArtists);
+        const tracks: TrackModels = this.trackService.getTracksForArtists(artistsToAdd, ArtistType.allArtists);
         await this.addTracksToPlaylistAsync(playlistPath, playlistName, tracks.tracks);
     }
 
@@ -282,10 +283,13 @@ export class PlaylistService implements PlaylistServiceBase {
             this.logger.error(e, `Could not decode playlist with path='${playlistPath}'`, 'PlaylistService', 'decodePlaylistAsync');
             throw new Error(e instanceof Error ? e.message : 'Unknown error');
         }
+        
+        
+        const albumKeyIndex = this.settings.albumKeyIndex;
 
         for (const playlistEntry of playlistEntries) {
             if (this.fileValidator.isPlayableAudioFile(playlistEntry.decodedPath)) {
-                const track: TrackModel = await this.trackModelFactory.createFromFileAsync(playlistEntry.decodedPath);
+                const track: TrackModel = await this.trackModelFactory.createFromFileAsync(playlistEntry.decodedPath, albumKeyIndex);
                 tracks.push(track);
             }
         }

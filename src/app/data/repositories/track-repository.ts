@@ -107,6 +107,22 @@ export class TrackRepository implements TrackRepositoryBase {
         return tracks;
     }
 
+    public getTracksForPaths(paths: string[]): Track[] | undefined {
+        const database: any = this.databaseFactory.create();
+
+        let filterQuery: string = '';
+
+        if (paths != undefined && paths.length > 0) {
+            filterQuery = ` AND ${ClauseCreator.createTextInClause('t.Path', paths)}`;
+        }
+
+        const statement = database.prepare(`${QueryParts.selectTracksQueryPart(true)} ${filterQuery};`);
+
+        const tracks: Track[] | undefined = statement.all();
+
+        return tracks;
+    }
+
     public getAlbumDataThatNeedsIndexing(albumKeyIndex: string): AlbumData[] | undefined {
         const database = this.databaseFactory.create();
 

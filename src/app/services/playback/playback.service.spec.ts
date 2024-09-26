@@ -951,7 +951,7 @@ describe('PlaybackService', () => {
             service.enqueueAndPlayArtist(artistToPlay, ArtistType.trackArtists);
 
             // Assert
-            trackServiceMock.verify((x) => x.getTracksForArtists([artistToPlay.displayName], ArtistType.trackArtists), Times.exactly(1));
+            trackServiceMock.verify((x) => x.getTracksForArtists([artistToPlay], ArtistType.trackArtists), Times.exactly(1));
         });
 
         it('should order tracks for the artist byAlbum', () => {
@@ -2182,7 +2182,7 @@ describe('PlaybackService', () => {
             await service.addArtistToQueueAsync(artistToAdd, ArtistType.trackArtists);
 
             // Assert
-            trackServiceMock.verify((x) => x.getTracksForArtists([artistToAdd.displayName], ArtistType.trackArtists), Times.exactly(1));
+            trackServiceMock.verify((x) => x.getTracksForArtists([artistToAdd], ArtistType.trackArtists), Times.exactly(1));
         });
 
         it('should order tracks for the artist byAlbum', async () => {

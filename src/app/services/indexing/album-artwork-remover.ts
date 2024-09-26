@@ -22,10 +22,12 @@ export class AlbumArtworkRemover {
     public async removeAlbumArtworkThatHasNoTrackAsync(): Promise<void> {
         const timer: Timer = new Timer();
         timer.start();
+        
+        const albumKeyIndex: string = this.settings.albumKeyIndex;
 
         try {
             const numberOfAlbumArtworkToRemove: number = this.albumArtworkRepository.getNumberOfAlbumArtworkThatHasNoTrack(
-                this.settings.albumKeyIndex,
+                albumKeyIndex,
             );
 
             if (numberOfAlbumArtworkToRemove === 0) {
@@ -49,7 +51,7 @@ export class AlbumArtworkRemover {
             await this.notificationService.updatingAlbumArtworkAsync();
 
             const numberOfRemovedAlbumArtwork: number = this.albumArtworkRepository.deleteAlbumArtworkThatHasNoTrack(
-                this.settings.albumKeyIndex,
+                albumKeyIndex,
             );
 
             timer.stop();
@@ -71,8 +73,9 @@ export class AlbumArtworkRemover {
         timer.start();
 
         try {
+            const albumKeyIndex: string = this.settings.albumKeyIndex;
             const numberOfAlbumArtworkToRemove: number =
-                this.albumArtworkRepository.getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(this.settings.albumKeyIndex);
+                this.albumArtworkRepository.getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(albumKeyIndex);
 
             if (numberOfAlbumArtworkToRemove === 0) {
                 timer.stop();
@@ -95,7 +98,7 @@ export class AlbumArtworkRemover {
             await this.notificationService.updatingAlbumArtworkAsync();
 
             const numberOfRemovedAlbumArtwork: number = this.albumArtworkRepository.deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(
-                this.settings.albumKeyIndex,
+                albumKeyIndex,
             );
 
             timer.stop();

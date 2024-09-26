@@ -2,6 +2,7 @@ import { IMock, Mock } from 'typemoq';
 import { ArtistModel } from '../../services/artist/artist-model';
 import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
 import { ArtistSorter } from './artist-sorter';
+import { Logger } from '../logger';
 
 describe('ArtistSorter', () => {
     let artistModel1: ArtistModel;
@@ -16,12 +17,14 @@ describe('ArtistSorter', () => {
     let artistModel10: ArtistModel;
 
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let loggerMock: IMock<Logger>;
 
     let artistSorter: ArtistSorter;
     let artists: ArtistModel[];
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        loggerMock = Mock.ofType<Logger>();
 
         artistModel1 = new ArtistModel('Artist1', translatorServiceMock.object);
         artistModel2 = new ArtistModel('Artist2', translatorServiceMock.object);
@@ -47,7 +50,7 @@ describe('ArtistSorter', () => {
             artistModel3,
         ];
 
-        artistSorter = new ArtistSorter();
+        artistSorter = new ArtistSorter(loggerMock.object);
     });
 
     describe('sortAscending', () => {

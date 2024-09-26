@@ -11,8 +11,6 @@
 import { app, BrowserWindow, ipcMain, Menu, nativeTheme, protocol, Tray } from 'electron';
 import log from 'electron-log';
 import * as Store from 'electron-store';
-import * as windowStateKeeper from 'electron-window-state';
-import * as os from 'os';
 import * as path from 'path';
 import * as url from 'url';
 import { Worker } from 'worker_threads';
@@ -40,21 +38,60 @@ const isServing: boolean = args.some((val) => val === '--serve');
 let mainWindow: BrowserWindow | undefined;
 let tray: Tray;
 let isQuitting: boolean;
+let isQuit: boolean;
 
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
     globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
 }
 
+// Static variables
+globalAny.windowHasFrame = windowHasFrame();
+globalAny.isMacOS = isMacOS();
+globalAny.fileQueue = [];
+
 /**
  * Functions
  */
+function debounce(func: Function, wait: number) {
+    let timeout: NodeJS.Timeout | null;
+    return function (...args: any[]) {
+        const later = () => {
+            timeout = null;
+            func(...args);
+        };
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout(later, wait);
+    };
+}
+
 function windowHasFrame(): boolean {
     if (!settings.has('useSystemTitleBar')) {
         settings.set('useSystemTitleBar', false);
     }
 
     return settings.get('useSystemTitleBar');
+}
+
+function isMacOS(): boolean {
+    return process.platform === 'darwin';
+}
+
+function isWindows(): boolean {
+    return process.platform === 'win32';
+}
+
+function titleBarStyle(): 'hiddenInset' | 'default' {
+    if (settings.get('useSystemTitleBar')) {
+        return 'default';
+    }
+    // makes traffic lights visible on macOS
+    if (isMacOS()) {
+        return 'hiddenInset';
+    }
+    return 'default';
 }
 
 function shouldShowIconInNotificationArea(): boolean {
@@ -82,13 +119,13 @@ function shouldCloseToNotificationArea(): boolean {
 }
 
 function getTrayIcon(): string {
-    if (os.platform() === 'darwin') {
+    if (isMacOS()) {
         return path.join(globalAny.__static, 'icons/trayTemplate.png');
     }
 
     const invertColor: boolean = settings.get('invertNotificationAreaIconColor');
 
-    if (os.platform() === 'win32') {
+    if (isWindows()) {
         if (!invertColor) {
             // Defaulting to black for Windows
             return path.join(globalAny.__static, 'icons/tray_black.ico');
@@ -105,28 +142,66 @@ function getTrayIcon(): string {
     }
 }
 
+function setInitialWindowState(mainWindow: BrowserWindow): void {
+    try {
+        if (!settings.has('playerType')) {
+            settings.set('playerType', 'full');
+        }
+
+        if (!settings.has('fullPlayerPositionSizeMaximized')) {
+            settings.set('fullPlayerPositionSizeMaximized', '50;50;1000;650;0');
+        }
+
+        if (!settings.has('coverPlayerPosition')) {
+            settings.set('coverPlayerPosition', '50;50');
+        }
+
+        let windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
+
+        if (settings.get('playerType') === 'cover') {
+            windowPositionSizeMaximizedAsString = `${settings.get('coverPlayerPosition')};350;430;0`;
+        }
+
+        const windowPositionSizeMaximized: number[] = windowPositionSizeMaximizedAsString.split(';').map(Number);
+        mainWindow.setPosition(windowPositionSizeMaximized[0], windowPositionSizeMaximized[1]);
+
+        if (settings.get('playerType') !== 'full') {
+            mainWindow.resizable = false;
+            mainWindow.maximizable = false;
+            mainWindow.setContentSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
+        } else {
+            mainWindow.setSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
+            if (windowPositionSizeMaximized[4] === 1) {
+                mainWindow.maximize();
+            }
+        }
+    } catch (e) {
+        log.error(`[Main] [setInitialWindowState] Could not set initial window state. Error: ${e.message}`);
+
+        settings.set('playerType', 'full');
+        settings.set('fullPlayerPositionSizeMaximized', '50;50;1000;650;0');
+        settings.set('coverPlayerPosition', '50;50');
+        let windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
+        const windowPositionSizeMaximized: number[] = windowPositionSizeMaximizedAsString.split(';').map(Number);
+        mainWindow.setPosition(windowPositionSizeMaximized[0], windowPositionSizeMaximized[1]);
+        mainWindow.setSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
+    }
+}
+
 function createMainWindow(): void {
     // Suppress the default menu
     Menu.setApplicationMenu(null);
-
-    // Load the previous state with fallback to defaults
-    const windowState = windowStateKeeper({
-        defaultWidth: 1000,
-        defaultHeight: 650,
-    });
 
     const remoteMain = require('@electron/remote/main');
     remoteMain.initialize();
 
     // Create the browser window
     mainWindow = new BrowserWindow({
-        x: windowState.x,
-        y: windowState.y,
-        width: windowState.width,
-        height: windowState.height,
         backgroundColor: '#fff',
         frame: windowHasFrame(),
-        icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
+        titleBarStyle: titleBarStyle(),
+        trafficLightPosition: isMacOS() ? { x: 10, y: 15 } : undefined,
+        icon: path.join(globalAny.__static, isWindows() ? 'icons/icon.ico' : 'icons/64x64.png'),
         webPreferences: {
             webSecurity: false,
             nodeIntegration: true,
@@ -135,11 +210,9 @@ function createMainWindow(): void {
         show: false,
     });
 
+    setInitialWindowState(mainWindow);
+
     remoteMain.enable(mainWindow.webContents);
-
-    globalAny.windowHasFrame = windowHasFrame();
-
-    windowState.manage(mainWindow);
 
     if (isServing) {
         require('electron-reload')(__dirname, {
@@ -208,15 +281,102 @@ function createMainWindow(): void {
         if (!isQuitting) {
             event.preventDefault();
             if (mainWindow) {
-                if (shouldCloseToNotificationArea()) {
+                if (isQuit) {
+                    mainWindow.webContents.send('application-close');
+                    isQuitting = true;
+                }
+                // on MacOS, close button never closed entire app
+                else if (isMacOS()) {
+                    mainWindow.hide();
+                } else if (shouldCloseToNotificationArea()) {
                     mainWindow.hide();
                 } else {
                     mainWindow.webContents.send('application-close');
+                    isQuitting = true;
                 }
             }
         }
     });
+
+    mainWindow.on(
+        'move',
+        debounce(() => {
+            if (mainWindow && !mainWindow.isMaximized()) {
+                const position: number[] = mainWindow.getPosition();
+                const size: number[] = mainWindow.getSize();
+
+                if (settings.get('playerType') === 'full') {
+                    const isMaximized: number = mainWindow.isMaximized() ? 1 : 0;
+                    settings.set('fullPlayerPositionSizeMaximized', `${position[0]};${position[1]};${size[0]};${size[1]};${isMaximized}`);
+                } else if (settings.get('playerType') === 'cover') {
+                    settings.set('coverPlayerPosition', `${position[0]};${position[1]};350;430`);
+                }
+            }
+        }, 300),
+    );
+
+    mainWindow.on(
+        'resize',
+        debounce(() => {
+            if (mainWindow && !mainWindow.isMaximized()) {
+                const position: number[] = mainWindow.getPosition();
+                const size: number[] = mainWindow.getSize();
+
+                if (settings.get('playerType') === 'full') {
+                    const isMaximized: number = mainWindow.isMaximized() ? 1 : 0;
+                    settings.set('fullPlayerPositionSizeMaximized', `${position[0]};${position[1]};${size[0]};${size[1]};${isMaximized}`);
+                } else if (settings.get('playerType') === 'cover') {
+                    settings.set('coverPlayerPosition', `${position[0]};${position[1]}`);
+                }
+            }
+        }, 300),
+    );
+
+    mainWindow.on('maximize', (event: any) => {
+        if (mainWindow) {
+            if (settings.get('playerType') === 'full') {
+                let windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
+                const windowPositionSizeMaximized: number[] = windowPositionSizeMaximizedAsString.split(';').map(Number);
+                console.log(windowPositionSizeMaximized);
+                settings.set(
+                    'fullPlayerPositionSizeMaximized',
+                    `${windowPositionSizeMaximized[0]};${windowPositionSizeMaximized[1]};${windowPositionSizeMaximized[2]};${windowPositionSizeMaximized[3]};1`,
+                );
+            }
+        }
+    });
+
+    mainWindow.on('unmaximize', (event: any) => {
+        if (mainWindow) {
+            if (settings.get('playerType') === 'full') {
+                settings.set(
+                    'fullPlayerPositionSizeMaximized',
+                    `${mainWindow.getPosition().join(';')};${mainWindow.getSize().join(';')};0`,
+                );
+            }
+        }
+    });
 }
+
+let fileProcessingTimeout;
+
+function pushFilesToQueue(files: string[], functionName: string): void {
+    globalAny.fileQueue.push(...files);
+    log.info(`[App] [${functionName}] File queue: ${globalAny.fileQueue}`);
+    clearTimeout(fileProcessingTimeout);
+    fileProcessingTimeout = setTimeout(processFileQueue, debounceDelay);
+}
+
+function processFileQueue(): void {
+    if (globalAny.fileQueue.length > 0) {
+        log.info(`[App] [processFileQueue] Processing files: ${globalAny.fileQueue}`);
+        if (mainWindow) {
+            mainWindow.webContents.send('arguments-received', globalAny.fileQueue);
+        }
+    }
+}
+
+const debounceDelay: number = 100;
 
 /**
  * Main
@@ -228,14 +388,15 @@ try {
 
     if (!gotTheLock) {
         log.info('[Main] [Main] There is already another instance running. Closing.');
+        // Quit second instance
         app.quit();
     } else {
         app.on('second-instance', (event, argv, workingDirectory) => {
-            log.info('[Main] [Main] Attempt to run second instance. Showing existing window.');
+            // First instance gets the arguments of the second instance and processes them
+            log.info('[App] [second-instance] Attempt to run second instance. Showing existing window.');
+            pushFilesToQueue(argv, 'second-instance');
 
             if (mainWindow) {
-                mainWindow.webContents.send('arguments-received', argv);
-
                 // Someone tried to run a second instance, we should focus the existing window.
                 if (mainWindow.isMinimized()) {
                     mainWindow.restore();
@@ -255,7 +416,7 @@ try {
             log.info('[App] [window-all-closed] +++ Stopping +++');
             // On OS X it is common for applications and their menu bar
             // to stay active until the user quits explicitly with Cmd + Q
-            if (process.platform !== 'darwin') {
+            if (!isMacOS()) {
                 app.quit();
             }
         });
@@ -266,10 +427,18 @@ try {
             if (mainWindow == undefined) {
                 createMainWindow();
             }
+
+            // on MacOS, clicking the dock icon should show the window
+            if (isMacOS()) {
+                if (mainWindow) {
+                    mainWindow.show();
+                    mainWindow.focus();
+                }
+            }
         });
 
         app.on('before-quit', () => {
-            isQuitting = true;
+            isQuit = true;
         });
 
         app.whenReady().then(() => {
@@ -283,6 +452,14 @@ try {
                 tray = new Tray(getTrayIcon());
                 tray.setToolTip('Dopamine');
             }
+        });
+
+        app.on('open-file', (event, path) => {
+            log.info(`[App] [open-file] File opened: ${path}`);
+            // On macOS, the path of a double-clicked file is not passed as argument. Instead, it is passed as open-file event.
+            // https://stackoverflow.com/questions/50935292/argv1-returns-unexpected-value-when-i-open-a-file-on-double-click-in-electron
+            event.preventDefault();
+            pushFilesToQueue([path], 'open-file');
         });
 
         nativeTheme.on('updated', () => {
@@ -311,9 +488,7 @@ try {
                 {
                     label: arg.exitLabel,
                     click(): void {
-                        if (process.platform !== 'darwin') {
-                            app.quit();
-                        }
+                        app.quit();
                     },
                 },
             ]);
@@ -348,9 +523,44 @@ try {
         });
 
         ipcMain.on('closing-tasks-performed', (_) => {
-            if (process.platform !== 'darwin') {
-                app.quit();
+            app.quit();
+        });
+
+        ipcMain.on('set-full-player', (event: any, arg: any) => {
+            settings.set('playerType', 'full');
+            if (mainWindow) {
+                const fullPlayerPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
+                console.log(fullPlayerPositionSizeMaximizedAsString);
+                const fullPlayerPositionSizeMaximized: number[] = fullPlayerPositionSizeMaximizedAsString.split(';').map(Number);
+
+                mainWindow.resizable = true;
+                mainWindow.maximizable = true;
+                mainWindow.setPosition(fullPlayerPositionSizeMaximized[0], fullPlayerPositionSizeMaximized[1]);
+                mainWindow.setSize(fullPlayerPositionSizeMaximized[2], fullPlayerPositionSizeMaximized[3]);
+
+                if (fullPlayerPositionSizeMaximized[4] === 1) {
+                    mainWindow.maximize();
+                }
             }
+        });
+
+        ipcMain.on('set-cover-player', (event: any, arg: any) => {
+            settings.set('playerType', 'cover');
+            if (mainWindow) {
+                const coverPlayerPositionAsString: string = settings.get('coverPlayerPosition');
+                const coverPlayerPosition: number[] = coverPlayerPositionAsString.split(';').map(Number);
+
+                mainWindow.unmaximize();
+                mainWindow.resizable = false;
+                mainWindow.maximizable = false;
+                mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
+                mainWindow.setContentSize(350, 430);
+            }
+        });
+
+        ipcMain.on('clear-file-queue', (event: any, arg: any) => {
+            log.info('[Main] [clear-file-queue] Clearing file queue');
+            globalAny.fileQueue = [];
         });
     }
 } catch (e) {

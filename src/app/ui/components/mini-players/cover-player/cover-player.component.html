@@ -1,0 +1,46 @@
+<div class="cover-player__titlebar" [ngClass]="{ draggable: !this.playbackQueueIsVisible }">
+    <div class="d-flex flex-grow"></div>
+    <div class="d-flex">
+        <app-switch-player-button [highContrast]="true"></app-switch-player-button>
+        <app-window-controls
+            *ngIf="appearanceService.needsCustomWindowControls"
+            [showMaximize]="false"
+            [highContrast]="true"
+        ></app-window-controls>
+    </div>
+</div>
+<div class="cover-player__content">
+    <div class="cover-player__cover-pane">
+        <app-playback-cover-art class="cover-player-cover-pane__cover" [size]="350"></app-playback-cover-art>
+        <div class="cover-player-cover-pane__songinfo">
+            <app-playback-information
+                class="mx-4"
+                [height]="80"
+                [largeFontSize]="28"
+                [smallFontSize]="14"
+                position="center"
+                [showRating]="false"
+                [showLove]="false"
+                [highContrast]="true"
+            >
+            </app-playback-information>
+        </div>
+    </div>
+    <div class="cover-player__playback-pane">
+        <app-playback-progress class="cover-player__progressbar"></app-playback-progress>
+
+        <div class="cover-player__playback-controls">
+            <i
+                class="cover-player-playback-controls__buttons las la-tasks pointer mr-3"
+                (click)="this.openPlaybackQueue()"
+                matTooltip="{{ 'playback-queue' | translate }}"
+            ></i>
+            <app-playback-controls></app-playback-controls>
+            <app-volume-icon
+                class="ml-3 pointer"
+                matTooltip="{{ 'volume' | translate }}"
+                (click)="this.openVolumeControl()"
+            ></app-volume-icon>
+        </div>
+    </div>
+</div>

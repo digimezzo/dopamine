@@ -1,9 +1,6 @@
 const { DataDelimiter } = require('./data-delimiter');
 
 class TrackFieldCreator {
-    constructor(metadataPatcher) {
-        this.metadataPatcher = metadataPatcher;
-    }
     createNumberField(value) {
         if (value === undefined || Number.isNaN(value)) {
             return 0;
@@ -25,7 +22,7 @@ class TrackFieldCreator {
             return '';
         }
 
-        return DataDelimiter.toDelimitedString(this.metadataPatcher.joinUnsplittableMetadata(valueArray));
+        return DataDelimiter.toDelimitedString(valueArray);
     }
 }
 

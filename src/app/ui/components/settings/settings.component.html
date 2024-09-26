@@ -1,5 +1,6 @@
 <div class="window-frame">
     <div class="window-frame__titlebar theme-header-background">
+        <div *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights"></div>
         <app-back-button class="m-2"></app-back-button>
         <app-sub-menu>
             <app-sub-menu-item [page]="0" [selectedPage]="this.page" (click)="this.setPage(0)">
@@ -16,8 +17,9 @@
             </app-sub-menu-item>
         </app-sub-menu>
         <div class="window-frame__dragarea"></div>
-        <app-main-menu class="main-menu"> </app-main-menu>
-        <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
+        <app-main-menu></app-main-menu>
+        <app-switch-player-button></app-switch-player-button>
+        <app-window-controls *ngIf="appearanceService.needsCustomWindowControls"></app-window-controls>
     </div>
     <app-notification-bar></app-notification-bar>
     <div class="window-frame__content__with__notification__bar">

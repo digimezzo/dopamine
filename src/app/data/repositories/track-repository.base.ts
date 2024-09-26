@@ -11,6 +11,7 @@ export abstract class TrackRepositoryBase {
     public abstract getTracksForTrackArtists(trackArtists: string[]): Track[] | undefined;
     public abstract getTracksForAlbumArtists(albumArtists: string[]): Track[] | undefined;
     public abstract getTracksForGenres(genres: string[]): Track[] | undefined;
+    public abstract getTracksForPaths(paths: string[]): Track[] | undefined;
     public abstract getAlbumDataForAlbumKey(albumKeyIndex: string, albumKey: string): AlbumData[] | undefined;
     public abstract getAllAlbumData(albumKeyIndex: string): AlbumData[] | undefined;
     public abstract getAlbumDataForTrackArtists(albumKeyIndex: string, trackArtists: string[]): AlbumData[] | undefined;

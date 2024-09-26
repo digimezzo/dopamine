@@ -7,6 +7,8 @@ export class Settings implements SettingsBase {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private settings: Store<any> = new Store();
 
+    private cachedAlbumKeyIndex: string = '-1';
+
     public constructor() {
         this.initialize();
     }
@@ -23,15 +25,23 @@ export class Settings implements SettingsBase {
 
     // albumKeyIndex
     public get albumKeyIndex(): string {
+        if (this.cachedAlbumKeyIndex === '-1') {
+            this.setCachedAlbumKeyIndex();
+        }
+
+        return this.cachedAlbumKeyIndex;
+    }
+
+    private setCachedAlbumKeyIndex(): void {
         if (this.albumsDefinedByFolders) {
-            return '3';
+            this.cachedAlbumKeyIndex = '3';
         }
 
         if (this.albumsDefinedByTitle) {
-            return '2';
+            this.cachedAlbumKeyIndex = '2';
         }
 
-        return '';
+        this.cachedAlbumKeyIndex = '';
     }
 
     public set language(v: string) {
@@ -685,6 +695,7 @@ export class Settings implements SettingsBase {
 
     public set albumsDefinedByTitleAndArtist(v: boolean) {
         this.settings.set('albumsDefinedByTitleAndArtist', v);
+        this.setCachedAlbumKeyIndex();
     }
 
     // albumsDefinedByTitle
@@ -694,6 +705,7 @@ export class Settings implements SettingsBase {
 
     public set albumsDefinedByTitle(v: boolean) {
         this.settings.set('albumsDefinedByTitle', v);
+        this.setCachedAlbumKeyIndex();
     }
 
     // albumsDefinedByFolders
@@ -703,6 +715,7 @@ export class Settings implements SettingsBase {
 
     public set albumsDefinedByFolders(v: boolean) {
         this.settings.set('albumsDefinedByFolders', v);
+        this.setCachedAlbumKeyIndex();
     }
 
     // playbackControlsLoop
@@ -730,6 +743,51 @@ export class Settings implements SettingsBase {
 
     public set rememberPlaybackStateAfterRestart(v: boolean) {
         this.settings.set('rememberPlaybackStateAfterRestart', v);
+    }
+
+    // artistSplitSeparators
+    public get artistSplitSeparators(): string {
+        return <string>this.settings.get('artistSplitSeparators');
+    }
+
+    public set artistSplitSeparators(v: string) {
+        this.settings.set('artistSplitSeparators', v);
+    }
+
+    // artistSplitExceptions
+    public get artistSplitExceptions(): string {
+        return <string>this.settings.get('artistSplitExceptions');
+    }
+
+    public set artistSplitExceptions(v: string) {
+        this.settings.set('artistSplitExceptions', v);
+    }
+
+    // playerType
+    public get playerType(): string {
+        return <string>this.settings.get('playerType');
+    }
+
+    public set playerType(v: string) {
+        this.settings.set('playerType', v);
+    }
+
+    // fullPlayerPositionSizeMaximized
+    public get fullPlayerPositionSizeMaximized(): string {
+        return <string>this.settings.get('fullPlayerPositionSizeMaximized');
+    }
+
+    public set fullPlayerPositionSizeMaximized(v: string) {
+        this.settings.set('fullPlayerPositionSizeMaximized', v);
+    }
+
+    // coverPlayerPosition
+    public get coverPlayerPosition(): string {
+        return <string>this.settings.get('coverPlayerPosition');
+    }
+
+    public set coverPlayerPositionAndSize(v: string) {
+        this.settings.set('coverPlayerPosition', v);
     }
 
     // Initialize
@@ -1040,6 +1098,26 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('rememberPlaybackStateAfterRestart')) {
             this.settings.set('rememberPlaybackStateAfterRestart', true);
+        }
+
+        if (!this.settings.has('artistSplitSeparators')) {
+            this.settings.set('artistSplitSeparators', '[feat.][ft.]');
+        }
+
+        if (!this.settings.has('artistSplitExceptions')) {
+            this.settings.set('artistSplitExceptions', '');
+        }
+
+        if (!this.settings.has('playerType')) {
+            this.settings.set('playerType', 'full');
+        }
+
+        if (!this.settings.has('fullPlayerPositionSizeMaximized')) {
+            this.settings.set('fullPlayerPositionSizeMaximized', '50;50;1000;650;0');
+        }
+
+        if (!this.settings.has('coverPlayerPosition')) {
+            this.settings.set('coverPlayerPosition', '50;50');
         }
     }
 }

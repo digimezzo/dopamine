@@ -31,13 +31,14 @@ export class Constants {
     public static readonly releaseCandidateApplicationTag: string = 'rc';
     public static readonly columnValueDelimiter: string = ';';
 
-    public static readonly albumSizeInPixels: number = 120;
+    public static readonly albumSizeInPixels: number = 124;
     public static readonly itemMarginInPixels: number = 8;
     public static readonly screenEaseMarginPixels: number = 50;
     public static readonly screenEaseSpeedMilliseconds: number = 350;
     public static readonly longListLoadDelayMilliseconds: number = 500;
     public static readonly shortListLoadDelayMilliseconds: number = 50;
     public static readonly albumsRedrawDelayMilliseconds: number = 150;
+    public static readonly playlistsRedrawDelayMilliseconds: number = 150;
     public static readonly searchDelayMilliseconds: number = 500;
     public static readonly semanticZoomOutAnimationMilliseconds: number = 250;
     public static readonly semanticZoomInDelayMilliseconds: number = 100;
@@ -145,10 +146,10 @@ export class Constants {
             'https://github.com/sindresorhus/electron-store/blob/master/license',
         ),
         new ExternalComponent(
-            'electron-window-state',
-            'A library to store and restore window sizes and positions for your Electron app.',
-            'https://github.com/mawie81/electron-window-state',
-            'https://github.com/mawie81/electron-window-state/blob/master/license',
+            'fast-sort',
+            'Blazing fast array sorting with TypeScript support.',
+            'https://github.com/snovakovic/fast-sort',
+            'https://github.com/snovakovic/fast-sort/blob/master/LICENSE',
         ),
         new ExternalComponent(
             'Fast HTML Parser',
@@ -180,6 +181,12 @@ export class Constants {
             'Replace Font Awesome with modern line icons.',
             'https://github.com/icons8/line-awesome',
             'https://github.com/icons8/line-awesome/blob/master/LICENSE.md',
+        ),
+        new ExternalComponent(
+            'macOS icon created by VisualisationExpo',
+            `Superb macOS icon created by VisualisationExpo, extending the original icon to better match the macOS look and feel.`,
+            'https://github.com/VisualisationExpo',
+            '',
         ),
         new ExternalComponent(
             'Material Design Color Generator',

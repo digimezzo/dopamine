@@ -6,12 +6,18 @@ import { QueuedTrack } from '../../data/entities/queued-track';
 import { TrackModel } from '../track/track-model';
 import { QueueRestoreInfo } from './queue-restore-info';
 import { TrackModelFactory } from '../track/track-model-factory';
+import { SettingsBase } from '../../common/settings/settings.base';
+import { Track } from '../../data/entities/track';
+import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { Timer } from '../../common/scheduling/timer';
 
 @Injectable({ providedIn: 'root' })
 export class QueuePersister {
     public constructor(
         private queuedTrackRepository: QueuedTrackRepositoryBase,
+        private trackRepository: TrackRepositoryBase,
         private trackModelFactory: TrackModelFactory,
+        private settings: SettingsBase,
         private logger: Logger,
     ) {}
 
@@ -58,26 +64,61 @@ export class QueuePersister {
                 return new QueueRestoreInfo([], [], undefined, 0);
             }
 
-            const tracks: TrackModel[] = [];
+            const tracksModels: TrackModel[] = [];
             const playbackOrder: number[] = new Array<number>(savedQueuedTracks.length).fill(0);
             let playingTrack: TrackModel | undefined = undefined;
             let progressSeconds: number = 0;
 
-            for (const savedQueuedTrack of savedQueuedTracks) {
-                const track: TrackModel = await this.trackModelFactory.createFromFileAsync(savedQueuedTrack.path);
+            const tracks: Track[] | undefined = this.trackRepository.getTracksForPaths(savedQueuedTracks.map((x) => x.path));
 
-                tracks.push(track);
-                playbackOrder[savedQueuedTrack.orderId] = tracks.length - 1;
+            if (!tracks || tracks.length === 0) {
+                this.logger.info(`No tracks found for saved queued tracks.`, 'QueuePersister', 'restore');
+                return new QueueRestoreInfo([], [], undefined, 0);
+            }
 
-                if (savedQueuedTrack.isPlaying) {
-                    playingTrack = track;
-                    progressSeconds = savedQueuedTrack.progressSeconds;
+            const timer = new Timer();
+            timer.start();
+
+            const albumKeyIndex = this.settings.albumKeyIndex;
+
+            const trackMap = new Map(savedQueuedTracks.map((track) => [track.path, track]));
+            const orderedTracks = tracks
+                .sort((a, b) => {
+                    const orderA = trackMap.get(a.path)?.orderId ?? 0;
+                    const orderB = trackMap.get(b.path)?.orderId ?? 0;
+                    return orderA - orderB;
+                })
+                .map((track) => {
+                    const savedTrack = trackMap.get(track.path);
+                    return {
+                        ...track,
+                        isPlaying: savedTrack?.isPlaying ?? 0,
+                        orderId: savedTrack?.orderId ?? 0,
+                        progressSeconds: savedTrack?.progressSeconds ?? 0,
+                    };
+                });
+
+            for (const orderedTrack of orderedTracks) {
+                const trackModel: TrackModel = this.trackModelFactory.createFromTrack(orderedTrack, albumKeyIndex);
+
+                tracksModels.push(trackModel);
+                playbackOrder[orderedTrack.orderId] = tracksModels.length - 1;
+
+                if (orderedTrack.isPlaying) {
+                    playingTrack = trackModel;
+                    progressSeconds = orderedTrack.progressSeconds;
                 }
             }
 
-            this.logger.info(`Restored queue of ${savedQueuedTracks.length} tracks`, 'QueuePersister', 'restore');
+            timer.stop();
 
-            return new QueueRestoreInfo(tracks, playbackOrder, playingTrack, progressSeconds);
+            this.logger.info(
+                `Restored queue of ${savedQueuedTracks.length} tracks. Time required: ${timer.elapsedMilliseconds} ms`,
+                'QueuePersister',
+                'restore',
+            );
+
+            return new QueueRestoreInfo(tracksModels, playbackOrder, playingTrack, progressSeconds);
         } catch (e: unknown) {
             if (e instanceof Error) {
                 this.logger.error(e, 'Failed to restore queue', 'QueuePersister', 'restore');

@@ -94,7 +94,7 @@ describe('ArtistModel', () => {
             expect(name).toEqual('Unknown artist');
         });
 
-        it('should return the atrist name if artist is not undefined, empty or space.', () => {
+        it('should return the artist name if artist is not undefined, empty or space.', () => {
             // Arrange
             const artist: string = 'My artist';
             artistModel = new ArtistModel(artist, translatorServiceMock.object);

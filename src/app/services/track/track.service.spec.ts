@@ -10,29 +10,34 @@ import { FileAccessBase } from '../../common/io/file-access.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
 import { SettingsMock } from '../../testing/settings-mock';
+import { ArtistModel } from '../artist/artist-model';
+import { Logger } from '../../common/logger';
+import { ArtistServiceBase } from '../artist/artist.service.base';
 
 describe('TrackService', () => {
+    let artistServiceMock: IMock<ArtistServiceBase>;
     let trackModelFactoryMock: IMock<TrackModelFactory>;
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
     let fileAccessMock: IMock<FileAccessBase>;
     let settingsMock: SettingsMock;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let loggerMock: IMock<Logger>;
 
     let track1: Track;
     let track2: Track;
     let track3: Track;
     let track4: Track;
 
-    let service: TrackService;
-
     beforeEach(() => {
+        artistServiceMock = Mock.ofType<ArtistServiceBase>();
         trackModelFactoryMock = Mock.ofType<TrackModelFactory>();
         trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
         fileAccessMock = Mock.ofType<FileAccessBase>();
         settingsMock = new SettingsMock();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        loggerMock = Mock.ofType<Logger>();
 
         fileAccessMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.mp3')).returns(() => '.mp3');
         fileAccessMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.png')).returns(() => '.png');
@@ -53,44 +58,52 @@ describe('TrackService', () => {
         trackRepositoryMock.setup((x) => x.getTracksForGenres(['unknownGenre1', 'unknownGenre2'])).returns(() => []);
         trackRepositoryMock.setup((x) => x.getTracksForGenres([])).returns(() => []);
 
-        trackRepositoryMock.setup((x) => x.getTracksForTrackArtists(['artist3', 'artist4'])).returns(() => [track2]);
-        trackRepositoryMock.setup((x) => x.getTracksForAlbumArtists(['artist3', 'artist4'])).returns(() => [track3]);
+        trackRepositoryMock.setup((x) => x.getTracksForTrackArtists(['Source artist3', 'Source artist4'])).returns(() => [track2]);
+        trackRepositoryMock.setup((x) => x.getTracksForAlbumArtists(['Source artist3', 'Source artist4'])).returns(() => [track3]);
 
         trackModelFactoryMock
-            .setup((x) => x.createFromTrack(track1))
-            .returns(() => new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object, settingsMock));
+            .setup((x) => x.createFromTrack(track1, ''))
+            .returns(() => new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object, ''));
         trackModelFactoryMock
-            .setup((x) => x.createFromTrack(track2))
-            .returns(() => new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object, settingsMock));
+            .setup((x) => x.createFromTrack(track2, ''))
+            .returns(() => new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object, ''));
         trackModelFactoryMock
-            .setup((x) => x.createFromTrack(track3))
-            .returns(() => new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object, settingsMock));
+            .setup((x) => x.createFromTrack(track3, ''))
+            .returns(() => new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object, ''));
         trackModelFactoryMock
-            .setup((x) => x.createFromTrack(track4))
-            .returns(() => new TrackModel(track4, dateTimeMock.object, translatorServiceMock.object, settingsMock));
+            .setup((x) => x.createFromTrack(track4, ''))
+            .returns(() => new TrackModel(track4, dateTimeMock.object, translatorServiceMock.object, ''));
         trackModelFactoryMock
-            .setup((x) => x.createFromFileAsync('/home/user/Music/Subfolder1/track1.mp3'))
+            .setup((x) => x.createFromFileAsync('/home/user/Music/Subfolder1/track1.mp3', ''))
             .returns(() =>
                 Promise.resolve(
                     new TrackModel(
                         new Track('/home/user/Music/Subfolder1/track1.mp3'),
                         dateTimeMock.object,
                         translatorServiceMock.object,
-                        settingsMock,
+                        '',
                     ),
                 ),
             );
 
         dateTimeMock.setup((x) => x.convertDateToTicks(It.isAny())).returns(() => 123456);
-
-        service = new TrackService(trackModelFactoryMock.object, trackRepositoryMock.object, fileAccessMock.object, settingsMock);
     });
+
+    function createService(): TrackService {
+        return new TrackService(
+            artistServiceMock.object,
+            trackModelFactoryMock.object,
+            trackRepositoryMock.object,
+            fileAccessMock.object,
+            settingsMock,
+            loggerMock.object,
+        );
+    }
 
     describe('constructor', () => {
         it('should create', () => {
-            // Arrange
-
             // Act
+            const service: TrackService = createService();
 
             // Assert
             expect(service).toBeDefined();
@@ -99,7 +112,10 @@ describe('TrackService', () => {
 
     describe('getTracksInSubfolderAsync', () => {
         it('should return an empty TrackModels when the subfolder path is empty', async () => {
-            // Arrange, Act
+            // Arrange
+            const service: TrackService = createService();
+
+            // Act
             const tracksModels: TrackModels = await service.getTracksInSubfolderAsync('');
 
             // Assert
@@ -109,7 +125,10 @@ describe('TrackService', () => {
         });
 
         it('should not check if an empty path exists', async () => {
-            // Arrange, Act
+            // Arrange
+            const service: TrackService = createService();
+
+            // Act
             await service.getTracksInSubfolderAsync('');
 
             // Assert
@@ -117,7 +136,10 @@ describe('TrackService', () => {
         });
 
         it('should check that the given non empty or undefined path exists', async () => {
-            // Arrange, Act
+            // Arrange
+            const service: TrackService = createService();
+
+            // Act
             await service.getTracksInSubfolderAsync('/home/user/Music/Subfolder1');
 
             // Assert
@@ -128,6 +150,7 @@ describe('TrackService', () => {
             // Arrange
             const subfolderPath: string = '/home/user/Music/Subfolder1';
             fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => false);
+            const service: TrackService = createService();
 
             // Act
             const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(subfolderPath);
@@ -142,6 +165,7 @@ describe('TrackService', () => {
             // Arrange
             const subfolderPath: string = '/home/user/Music/Subfolder1';
             fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
+            const service: TrackService = createService();
 
             // Act
             await service.getTracksInSubfolderAsync(subfolderPath);
@@ -154,6 +178,7 @@ describe('TrackService', () => {
             // Arrange
             const subfolderPath: string = '/home/user/Music/Subfolder1';
             fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
+            const service: TrackService = createService();
 
             // Act
             const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(subfolderPath);
@@ -166,6 +191,7 @@ describe('TrackService', () => {
             // Arrange
             const subfolderPath: string = '/home/user/Music/Subfolder1';
             fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
+            const service: TrackService = createService();
 
             // Act
             const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(subfolderPath);
@@ -183,12 +209,13 @@ describe('TrackService', () => {
             // Arrange
             const subfolderPath: string = '/home/user/Music/Subfolder1';
             fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
+            const service: TrackService = createService();
 
             // Act
             await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
-            trackModelFactoryMock.verify((x) => x.createFromFileAsync('/home/user/Music/Subfolder1/track1.mp3'), Times.once());
+            trackModelFactoryMock.verify((x) => x.createFromFileAsync('/home/user/Music/Subfolder1/track1.mp3', ''), Times.once());
         });
     });
 
@@ -196,10 +223,11 @@ describe('TrackService', () => {
         test.todo('should write tests');
     });
 
-    describe('getAlbumTracks', () => {
+    describe('getTracksForAlbums', () => {
         it('should return a TrackModels containing no tracks if albumKeys empty', () => {
             // Arrange
             const albumKeys: string[] = [];
+            const service: TrackService = createService();
 
             // Act
             const tracksModels: TrackModels = service.getTracksForAlbums(albumKeys);
@@ -212,6 +240,7 @@ describe('TrackService', () => {
         it('should return a TrackModels containing tracks if tracks are found for the given albumKeys', () => {
             // Arrange
             const albumKeys: string[] = ['albumKey1', 'albumKey2'];
+            const service: TrackService = createService();
 
             // Act
             const tracksModels: TrackModels = service.getTracksForAlbums(albumKeys);
@@ -226,6 +255,7 @@ describe('TrackService', () => {
         it('should return a TrackModels containing no tracks if no tracks are found for the given albumKeys', () => {
             // Arrange
             const albumKeys: string[] = ['unknownAlbumKey1', 'unknownAlbumKey2'];
+            const service: TrackService = createService();
 
             // Act
             const tracksModels: TrackModels = service.getTracksForAlbums(albumKeys);
@@ -239,47 +269,64 @@ describe('TrackService', () => {
     describe('getTracksForArtists', () => {
         it('should return a TrackModels containing no tracks if artists is empty', () => {
             // Arrange
-            const artists: string[] = [];
+            const artists: ArtistModel[] = [];
             const artistType: ArtistType = ArtistType.albumArtists;
+            const service: TrackService = createService();
 
             // Act
             const tracksModels: TrackModels = service.getTracksForArtists(artists, artistType);
 
             // Assert
-            trackRepositoryMock.verify((x) => x.getTracksForTrackArtists(artists), Times.never());
-            trackRepositoryMock.verify((x) => x.getTracksForAlbumArtists(artists), Times.never());
+            trackRepositoryMock.verify((x) => x.getTracksForTrackArtists([]), Times.never());
+            trackRepositoryMock.verify((x) => x.getTracksForAlbumArtists([]), Times.never());
             expect(tracksModels.tracks.length).toEqual(0);
         });
 
         it('should return a TrackModels for track artists only if artistType is trackArtists', () => {
             // Arrange
+            const artist3: ArtistModel = new ArtistModel('artist3', translatorServiceMock.object);
+            const artist4: ArtistModel = new ArtistModel('artist4', translatorServiceMock.object);
+            artistServiceMock.setup((x) => x.getSourceArtists([artist3, artist4])).returns(() => ['Source artist3', 'Source artist4']);
+            const service: TrackService = createService();
 
             // Act
-            const tracksModels: TrackModels = service.getTracksForArtists(['artist3', 'artist4'], ArtistType.trackArtists);
+            const tracksModels: TrackModels = service.getTracksForArtists([artist3, artist4], ArtistType.trackArtists);
 
             // Assert
+            trackRepositoryMock.verify((x) => x.getTracksForTrackArtists(['Source artist3', 'Source artist4']), Times.once());
             expect(tracksModels.tracks.length).toEqual(1);
             expect(tracksModels.tracks[0].path).toEqual(track2.path);
         });
 
         it('should return a TrackModels for album artists only if artistType is albumArtists', () => {
             // Arrange
+            const artist3: ArtistModel = new ArtistModel('Artist3', translatorServiceMock.object);
+            const artist4: ArtistModel = new ArtistModel('Artist4', translatorServiceMock.object);
+            artistServiceMock.setup((x) => x.getSourceArtists([artist3, artist4])).returns(() => ['Source artist3', 'Source artist4']);
+            const service: TrackService = createService();
 
             // Act
-            const tracksModels: TrackModels = service.getTracksForArtists(['artist3', 'artist4'], ArtistType.albumArtists);
+            const tracksModels: TrackModels = service.getTracksForArtists([artist3, artist4], ArtistType.albumArtists);
 
             // Assert
+            trackRepositoryMock.verify((x) => x.getTracksForAlbumArtists(['Source artist3', 'Source artist4']), Times.once());
             expect(tracksModels.tracks.length).toEqual(1);
             expect(tracksModels.tracks[0].path).toEqual(track3.path);
         });
 
         it('should return a TrackModels for both track and album artists if artistType is allArtists', () => {
             // Arrange
+            const artist3: ArtistModel = new ArtistModel('Artist3', translatorServiceMock.object);
+            const artist4: ArtistModel = new ArtistModel('Artist4', translatorServiceMock.object);
+            artistServiceMock.setup((x) => x.getSourceArtists([artist3, artist4])).returns(() => ['Source artist3', 'Source artist4']);
+            const service: TrackService = createService();
 
             // Act
-            const tracksModels: TrackModels = service.getTracksForArtists(['artist3', 'artist4'], ArtistType.allArtists);
+            const tracksModels: TrackModels = service.getTracksForArtists([artist3, artist4], ArtistType.allArtists);
 
             // Assert
+            trackRepositoryMock.verify((x) => x.getTracksForTrackArtists(['Source artist3', 'Source artist4']), Times.once());
+            trackRepositoryMock.verify((x) => x.getTracksForAlbumArtists(['Source artist3', 'Source artist4']), Times.once());
             expect(tracksModels.tracks.length).toEqual(2);
             expect(tracksModels.tracks[0].path).toEqual(track2.path);
             expect(tracksModels.tracks[1].path).toEqual(track3.path);
@@ -290,6 +337,7 @@ describe('TrackService', () => {
         it('should return a TrackModels containing no tracks if genres empty', () => {
             // Arrange
             const genres: string[] = [];
+            const service: TrackService = createService();
 
             // Act
             const tracksModels: TrackModels = service.getTracksForGenres(genres);
@@ -302,6 +350,7 @@ describe('TrackService', () => {
         it('should return a TrackModels containing tracks if tracks are found for the given genres', () => {
             // Arrange
             const genres: string[] = ['genre1', 'genre2'];
+            const service: TrackService = createService();
 
             // Act
             const tracksModels: TrackModels = service.getTracksForGenres(genres);
@@ -316,6 +365,7 @@ describe('TrackService', () => {
         it('should return a TrackModels containing no tracks if no tracks are found for the given genres', () => {
             // Arrange
             const genres: string[] = ['unknownGenre1', 'unknownGenre2'];
+            const service: TrackService = createService();
 
             // Act
             const tracksModels: TrackModels = service.getTracksForGenres(genres);
@@ -331,8 +381,9 @@ describe('TrackService', () => {
             // Arrange
             const track: Track = new Track('path');
             track.trackId = 9;
-            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, settingsMock);
+            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, '');
             trackModel.increasePlayCountAndDateLastPlayed();
+            const service: TrackService = createService();
 
             // Act
             service.savePlayCountAndDateLastPlayed(trackModel);
@@ -348,8 +399,9 @@ describe('TrackService', () => {
             const track: Track = new Track('path');
             track.trackId = 9;
 
-            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, settingsMock);
+            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, '');
             trackModel.increaseSkipCount();
+            const service: TrackService = createService();
 
             // Act
             service.saveSkipCount(trackModel);

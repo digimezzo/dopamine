@@ -6,15 +6,24 @@ import { ArtistType } from './artist-type';
 import { ArtistServiceBase } from './artist.service.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { ArtistSplitter } from './artist-splitter';
+import { Timer } from '../../common/scheduling/timer';
+import { Logger } from '../../common/logger';
+import { CollectionUtils } from '../../common/utils/collections-utils';
 
 @Injectable()
 export class ArtistService implements ArtistServiceBase {
+    private sourceArtists: string[] = [];
     public constructor(
-        private translatorService: TranslatorServiceBase,
+        private artistSplitter: ArtistSplitter,
         private trackRepository: TrackRepositoryBase,
+        private logger: Logger,
     ) {}
 
     public getArtists(artistType: ArtistType): ArtistModel[] {
+        const timer = new Timer();
+        timer.start();
+
         const artistDatas: ArtistData[] = [];
 
         if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
@@ -27,24 +36,38 @@ export class ArtistService implements ArtistServiceBase {
             artistDatas.push(...albumArtistDatas);
         }
 
-        const artistModels: ArtistModel[] = [];
-        let alreadyAddedArtists: string[] = [];
+        const artists: string[] = [];
 
         for (const artistData of artistDatas) {
-            const artists: string[] = DataDelimiter.fromDelimitedString(artistData.artists);
+            artists.push(...DataDelimiter.fromDelimitedString(artistData.artists));
+        }
 
-            for (const artist of artists) {
-                const processedArtist: string = artist.toLowerCase().trim();
+        timer.stop();
 
-                if (!alreadyAddedArtists.includes(processedArtist)) {
-                    alreadyAddedArtists.push(processedArtist);
-                    artistModels.push(new ArtistModel(artist, this.translatorService));
-                }
+        this.logger.info(`Finished getting artists. Time required: ${timer.elapsedMilliseconds} ms`, 'ArtistService', 'getArtists');
+
+        timer.start();
+
+        this.sourceArtists = artists;
+        const splitArtists: ArtistModel[] = this.artistSplitter.splitArtists(artists);
+
+        timer.stop();
+
+        this.logger.info(`Finished splitting artists. Time required: ${timer.elapsedMilliseconds} ms`, 'ArtistService', 'getArtists');
+
+        return splitArtists;
+    }
+
+    public getSourceArtists(artists: ArtistModel[]): string[] {
+        const filteredSourceArtists: string[] = [];
+        const lowerCaseArtistNames = new Set(artists.map((artist) => artist.name.toLowerCase()));
+
+        for (const sourceArtist of this.sourceArtists) {
+            if ([...lowerCaseArtistNames].some((name) => sourceArtist.toLowerCase().includes(name))) {
+                filteredSourceArtists.push(sourceArtist);
             }
         }
 
-        alreadyAddedArtists = [];
-
-        return artistModels;
+        return filteredSourceArtists;
     }
 }
