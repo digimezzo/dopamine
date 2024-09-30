@@ -183,6 +183,12 @@ export class Constants {
             'https://github.com/icons8/line-awesome/blob/master/LICENSE.md',
         ),
         new ExternalComponent(
+            'Jimp',
+            'An image processing library written entirely in JavaScript for Node, with zero external or native dependencies.',
+            'https://github.com/jimp-dev/jimp',
+            'https://github.com/jimp-dev/jimp/blob/main/LICENSE',
+        ),
+        new ExternalComponent(
             'macOS icon created by VisualisationExpo',
             `Superb macOS icon created by VisualisationExpo, extending the original icon to better match the macOS look and feel.`,
             'https://github.com/VisualisationExpo',
