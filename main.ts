@@ -14,6 +14,7 @@ import * as Store from 'electron-store';
 import * as path from 'path';
 import * as url from 'url';
 import { Worker } from 'worker_threads';
+import * as os from "node:os";
 
 /**
  * Command line parameters
@@ -76,11 +77,11 @@ function windowHasFrame(): boolean {
 }
 
 function isMacOS(): boolean {
-    return process.platform === 'darwin';
+    return os.platform() === 'darwin';
 }
 
 function isWindows(): boolean {
-    return process.platform === 'win32';
+    return os.platform() === 'win32';
 }
 
 function titleBarStyle(): 'hiddenInset' | 'default' {

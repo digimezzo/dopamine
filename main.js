@@ -16,6 +16,7 @@ const Store = require("electron-store");
 const path = require("path");
 const url = require("url");
 const worker_threads_1 = require("worker_threads");
+const os = require("node:os");
 /**
  * Command line parameters
  */
@@ -69,10 +70,10 @@ function windowHasFrame() {
     return settings.get('useSystemTitleBar');
 }
 function isMacOS() {
-    return process.platform === 'darwin';
+    return os.platform() === 'darwin';
 }
 function isWindows() {
-    return process.platform === 'win32';
+    return os.platform() === 'win32';
 }
 function titleBarStyle() {
     if (settings.get('useSystemTitleBar')) {
