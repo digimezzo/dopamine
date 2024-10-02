@@ -16,6 +16,8 @@ import { NotificationServiceBase } from '../notification/notification.service.ba
 import { SettingsBase } from '../../common/settings/settings.base';
 import { SettingsMock } from '../../testing/settings-mock';
 
+jest.mock('jimp', () => ({ exec: jest.fn() }));
+
 class FileMetadataImplementation implements IFileMetadata {
     public path: string;
     public bitRate: number;

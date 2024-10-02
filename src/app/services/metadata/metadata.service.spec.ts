@@ -18,6 +18,8 @@ import { MetadataServiceBase } from './metadata.service.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
 
+jest.mock('jimp', () => ({ exec: jest.fn() }));
+
 class FileMetadataImplementation implements IFileMetadata {
     public path: string;
     public bitRate: number;
