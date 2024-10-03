@@ -3,6 +3,17 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0-preview.35] - 2024-10-03
+
+### Added
+
+-   Added back support for .tiff cover images after having to break it in order to fix other problems
+
+### Fixed
+
+-   Fixed missing tray icons on all operating systems
+-   Fixed slow performance on folders screen when opening folders containing a lot of files
+
 ## [3.0.0-preview.34] - 2024-09-21
 
 ### Added

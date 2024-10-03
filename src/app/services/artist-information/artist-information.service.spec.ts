@@ -9,13 +9,13 @@ import { ArtistInformationFactory } from './artist-information-factory';
 import { ArtistInformationService } from './artist-information.service';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
-import { FanartApi } from '../../common/api/fanart/fanart.api';
 import { ArtistInformationServiceBase } from './artist-information.service.base';
 import { Track } from '../../data/entities/track';
 import { DesktopBase } from '../../common/io/desktop.base';
-import { ImageProcessor } from '../../common/image-processor';
 import { OnlineArtistImageGetter } from './online-artist-image-getter';
 import { SettingsMock } from '../../testing/settings-mock';
+
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('ArtistInformationService', () => {
     let translatorServiceMock: IMock<TranslatorServiceBase>;

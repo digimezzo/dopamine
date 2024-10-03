@@ -5,6 +5,8 @@ import { EmbeddedAlbumArtworkGetter } from './embedded-album-artwork-getter';
 import { ExternalAlbumArtworkGetter } from './external-album-artwork-getter';
 import { OnlineAlbumArtworkGetter } from './online-album-artwork-getter';
 
+jest.mock('jimp', () => ({ exec: jest.fn() }));
+
 describe('AlbumArtworkGetter', () => {
     let embeddedAlbumArtworkGetterMock: IMock<EmbeddedAlbumArtworkGetter>;
     let externalAlbumArtworkGetterMock: IMock<ExternalAlbumArtworkGetter>;
