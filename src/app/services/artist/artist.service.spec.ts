@@ -5,7 +5,6 @@ import { ArtistService } from './artist.service';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { ArtistData } from '../../data/entities/artist-data';
-import { ArtistServiceBase } from './artist.service.base';
 import { ArtistSplitter } from './artist-splitter';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { SettingsMock } from '../../testing/settings-mock';
@@ -215,6 +214,8 @@ describe('ArtistService', () => {
                 new ArtistData(';Artist5 | Artist6;'),
                 new ArtistData(';Artist6 | Artist7;'),
                 new ArtistData(';;'),
+                new ArtistData(';Drift;'),
+                new ArtistData(';Driftwood;'),
             ];
 
             settingsMock.artistSplitSeparators = '[ft.][feat.][&][|]';
@@ -234,6 +235,8 @@ describe('ArtistService', () => {
             const sourceArtists6: string[] = service.getSourceArtists([createArtistModel('Artist5')]);
             const sourceArtists7: string[] = service.getSourceArtists([createArtistModel('Artist6')]);
             const sourceArtists8: string[] = service.getSourceArtists([createArtistModel('Artist6 | Artist7')]);
+            const sourceArtists9: string[] = service.getSourceArtists([createArtistModel('Drift')]);
+            const sourceArtists10: string[] = service.getSourceArtists([createArtistModel('Driftwood')]);
 
             // Assert
             expect(sourceArtists1.length).toEqual(4);
@@ -271,6 +274,12 @@ describe('ArtistService', () => {
 
             expect(sourceArtists8.length).toEqual(1);
             expect(sourceArtists8[0]).toEqual('Artist6 | Artist7');
+
+            expect(sourceArtists9.length).toEqual(1);
+            expect(sourceArtists9[0]).toEqual('Drift');
+
+            expect(sourceArtists10.length).toEqual(1);
+            expect(sourceArtists10[0]).toEqual('Driftwood');
         });
     });
 });
