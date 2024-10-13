@@ -294,5 +294,7 @@
     "confirm-remove-artist": "确定移除艺术家 '{{artist}}'？",
     "switch-player": "切换播放器",
     "volume": "音量",
-    "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb macOS icon!"
+    "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb macOS icon!",
+    "gapless-playback": "Gapless playback",
+    "enable-gapless-playback": "Enable gapless playback"
 }

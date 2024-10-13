@@ -1,6 +1,6 @@
 import { IMock, Mock } from 'typemoq';
-import { Logger } from '../../common/logger';
-import { MathExtensions } from '../../common/math-extensions';
+import { Logger } from '../../../common/logger';
+import { MathExtensions } from '../../../common/math-extensions';
 import { AudioPlayer } from './audio-player';
 import { AudioPlayerBase } from './audio-player.base';
 

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Logger } from '../../common/logger';
-import { MathExtensions } from '../../common/math-extensions';
-import { PromiseUtils } from '../../common/utils/promise-utils';
-import { StringUtils } from '../../common/utils/string-utils';
+import { Logger } from '../../../common/logger';
+import { MathExtensions } from '../../../common/math-extensions';
+import { PromiseUtils } from '../../../common/utils/promise-utils';
+import { StringUtils } from '../../../common/utils/string-utils';
 import { AudioPlayerBase } from './audio-player.base';
 
 @Injectable()
-export class AudioPlayer implements AudioPlayerBase {
+export class GaplessAudioPlayer implements AudioPlayerBase {
     private _audio: HTMLAudioElement;
     private _audioContext: AudioContext;
     private _buffer: AudioBuffer | undefined = undefined;

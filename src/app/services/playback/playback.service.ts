@@ -23,6 +23,7 @@ import { NotificationServiceBase } from '../notification/notification.service.ba
 import { TrackSorter } from '../../common/sorting/track-sorter';
 import { QueuePersister } from './queue-persister';
 import { QueueRestoreInfo } from './queue-restore-info';
+import { AudioPlayerFactory } from './audio-player/audio-player-factory';
 
 @Injectable()
 export class PlaybackService implements PlaybackServiceBase {
@@ -48,7 +49,7 @@ export class PlaybackService implements PlaybackServiceBase {
         private playlistService: PlaylistServiceBase,
         private notificationService: NotificationServiceBase,
         private queuePersister: QueuePersister,
-        private _audioPlayer: AudioPlayerBase,
+        private audioPlayerFactory: AudioPlayerFactory,
         private trackSorter: TrackSorter,
         private queue: Queue,
         private progressUpdater: ProgressUpdater,
@@ -536,5 +537,35 @@ export class PlaybackService implements PlaybackServiceBase {
             this.skipToSeconds(info.progressSeconds);
             this.progressUpdater.startUpdatingProgress();
         }
+    }
+
+    private checkIfGaplessPlaybackChanged(): void {
+        if (this._enableGaplessPlayback !== this.settings.enableGaplessPlayback) {
+            this.logger.info(
+                `Gapless playback changed from ${this._enableGaplessPlayback} to ${this.settings.enableGaplessPlayback}`,
+                'PlaybackService',
+                'initializeAudioPlayer',
+            );
+            this._enableGaplessPlayback = this.settings.enableGaplessPlayback;
+            this.initializeAudioPlayer();
+        }
+    }
+
+    private initializeAudioPlayer(): void {
+        this.destroyAudioPlayerSubscriptions$.next();
+        this.destroyAudioPlayerSubscriptions$.complete();
+        this.destroyAudioPlayerSubscriptions$ = new Subject<void>();
+
+        this._audioPlayer = this.audioPlayerFactory.create();
+        this.logger.info(
+            `Created new audio player. Gapless playback: ${this._audioPlayer.supportsGaplessPlayback}`,
+            'PlaybackService',
+            'initializeAudioPlayer',
+        );
+        this._audioPlayer.setVolume(this._volume);
+
+        this._audioPlayer.playbackFinished$.pipe(takeUntil(this.destroyAudioPlayerSubscriptions$)).subscribe(() => {
+            this.playbackFinishedHandler();
+        });
     }
 }
