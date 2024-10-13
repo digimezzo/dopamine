@@ -71,8 +71,8 @@ export class ArtistService implements ArtistServiceBase {
                     separators.some(
                         (separator) =>
                             sourceArtist.toLowerCase() === name ||
-                            sourceArtist.toLowerCase().includes(`${separator} ${name}`) ||
-                            sourceArtist.toLowerCase().includes(`${name} ${separator}`),
+                            sourceArtist.toLowerCase().includes(` ${separator} ${name}`) ||
+                            sourceArtist.toLowerCase().includes(`${name} ${separator} `),
                     ),
                 )
             ) {

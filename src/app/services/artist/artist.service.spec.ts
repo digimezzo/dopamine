@@ -222,6 +222,12 @@ describe('ArtistService', () => {
                 new ArtistData(';Link;'),
                 new ArtistData(';Mid Carson July;'),
                 new ArtistData(';July;'),
+                new ArtistData(';Artist8;'),
+                new ArtistData(';Artist9;'),
+                new ArtistData(';Artist8 &Artist9;'),
+                new ArtistData(';Artist10;'),
+                new ArtistData(';Artist11;'),
+                new ArtistData(';Artist10& Artist11;'),
             ];
 
             settingsMock.artistSplitSeparators = '[ft.][feat.][&][|]';
@@ -249,6 +255,12 @@ describe('ArtistService', () => {
             const sourceArtists14: string[] = service.getSourceArtists([createArtistModel('Link')]);
             const sourceArtists15: string[] = service.getSourceArtists([createArtistModel('Mid Carson July')]);
             const sourceArtists16: string[] = service.getSourceArtists([createArtistModel('July')]);
+            const sourceArtists17: string[] = service.getSourceArtists([createArtistModel('Artist8')]);
+            const sourceArtists18: string[] = service.getSourceArtists([createArtistModel('Artist9')]);
+            const sourceArtists19: string[] = service.getSourceArtists([createArtistModel('Artist8 &Artist9')]);
+            const sourceArtists20: string[] = service.getSourceArtists([createArtistModel('Artist10')]);
+            const sourceArtists21: string[] = service.getSourceArtists([createArtistModel('Artist11')]);
+            const sourceArtists22: string[] = service.getSourceArtists([createArtistModel('Artist10& Artist11')]);
 
             // Assert
             expect(sourceArtists1.length).toEqual(4);
@@ -310,6 +322,24 @@ describe('ArtistService', () => {
 
             expect(sourceArtists16.length).toEqual(1);
             expect(sourceArtists16[0]).toEqual('July');
+
+            expect(sourceArtists17.length).toEqual(1);
+            expect(sourceArtists17[0]).toEqual('Artist8');
+
+            expect(sourceArtists18.length).toEqual(1);
+            expect(sourceArtists18[0]).toEqual('Artist9');
+
+            expect(sourceArtists19.length).toEqual(1);
+            expect(sourceArtists19[0]).toEqual('Artist8 &Artist9');
+
+            expect(sourceArtists20.length).toEqual(1);
+            expect(sourceArtists20[0]).toEqual('Artist10');
+
+            expect(sourceArtists21.length).toEqual(1);
+            expect(sourceArtists21[0]).toEqual('Artist11');
+
+            expect(sourceArtists22.length).toEqual(1);
+            expect(sourceArtists22[0]).toEqual('Artist10& Artist11');
         });
     });
 });
