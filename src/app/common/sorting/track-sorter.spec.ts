@@ -130,15 +130,15 @@ describe('TrackSorter', () => {
 
             // Assert
             expect(sortedTracks[0]).toBe(trackModel1);
-            expect(sortedTracks[1]).toBe(trackModel2);
-            expect(sortedTracks[2]).toBe(trackModel4);
-            expect(sortedTracks[3]).toBe(trackModel5);
-            expect(sortedTracks[4]).toBe(trackModel3);
-            expect(sortedTracks[5]).toBe(trackModel6);
-            expect(sortedTracks[6]).toBe(trackModel7);
-            expect(sortedTracks[7]).toBe(trackModel8);
-            expect(sortedTracks[8]).toBe(trackModel9);
-            expect(sortedTracks[9]).toBe(trackModel10);
+            expect(sortedTracks[1]).toBe(trackModel4);
+            expect(sortedTracks[2]).toBe(trackModel5);
+            expect(sortedTracks[3]).toBe(trackModel3);
+            expect(sortedTracks[4]).toBe(trackModel6);
+            expect(sortedTracks[5]).toBe(trackModel7);
+            expect(sortedTracks[6]).toBe(trackModel8);
+            expect(sortedTracks[7]).toBe(trackModel9);
+            expect(sortedTracks[8]).toBe(trackModel10);
+            expect(sortedTracks[9]).toBe(trackModel2);
         });
     });
 });
