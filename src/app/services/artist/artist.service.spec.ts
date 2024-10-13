@@ -29,7 +29,7 @@ describe('ArtistService', () => {
     function createService(): ArtistService {
         artistSplitter = new ArtistSplitter(translatorServiceMock.object, settingsMock);
 
-        return new ArtistService(artistSplitter, trackRepositoryMock.object, loggerMock.object);
+        return new ArtistService(artistSplitter, trackRepositoryMock.object, settingsMock, loggerMock.object);
     }
 
     function createArtistModel(artist: string): ArtistModel {
@@ -216,6 +216,12 @@ describe('ArtistService', () => {
                 new ArtistData(';;'),
                 new ArtistData(';Drift;'),
                 new ArtistData(';Driftwood;'),
+                new ArtistData(';Ida;'),
+                new ArtistData(';Suicidal Tendencies;'),
+                new ArtistData(';blink-182;'),
+                new ArtistData(';Link;'),
+                new ArtistData(';Mid Carson July;'),
+                new ArtistData(';July;'),
             ];
 
             settingsMock.artistSplitSeparators = '[ft.][feat.][&][|]';
@@ -237,6 +243,12 @@ describe('ArtistService', () => {
             const sourceArtists8: string[] = service.getSourceArtists([createArtistModel('Artist6 | Artist7')]);
             const sourceArtists9: string[] = service.getSourceArtists([createArtistModel('Drift')]);
             const sourceArtists10: string[] = service.getSourceArtists([createArtistModel('Driftwood')]);
+            const sourceArtists11: string[] = service.getSourceArtists([createArtistModel('Ida')]);
+            const sourceArtists12: string[] = service.getSourceArtists([createArtistModel('Suicidal Tendencies')]);
+            const sourceArtists13: string[] = service.getSourceArtists([createArtistModel('blink-182')]);
+            const sourceArtists14: string[] = service.getSourceArtists([createArtistModel('Link')]);
+            const sourceArtists15: string[] = service.getSourceArtists([createArtistModel('Mid Carson July')]);
+            const sourceArtists16: string[] = service.getSourceArtists([createArtistModel('July')]);
 
             // Assert
             expect(sourceArtists1.length).toEqual(4);
@@ -280,6 +292,24 @@ describe('ArtistService', () => {
 
             expect(sourceArtists10.length).toEqual(1);
             expect(sourceArtists10[0]).toEqual('Driftwood');
+
+            expect(sourceArtists11.length).toEqual(1);
+            expect(sourceArtists11[0]).toEqual('Ida');
+
+            expect(sourceArtists12.length).toEqual(1);
+            expect(sourceArtists12[0]).toEqual('Suicidal Tendencies');
+
+            expect(sourceArtists13.length).toEqual(1);
+            expect(sourceArtists13[0]).toEqual('blink-182');
+
+            expect(sourceArtists14.length).toEqual(1);
+            expect(sourceArtists14[0]).toEqual('Link');
+
+            expect(sourceArtists15.length).toEqual(1);
+            expect(sourceArtists15[0]).toEqual('Mid Carson July');
+
+            expect(sourceArtists16.length).toEqual(1);
+            expect(sourceArtists16[0]).toEqual('July');
         });
     });
 });
