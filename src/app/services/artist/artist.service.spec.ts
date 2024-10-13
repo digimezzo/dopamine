@@ -228,6 +228,8 @@ describe('ArtistService', () => {
                 new ArtistData(';Artist10;'),
                 new ArtistData(';Artist11;'),
                 new ArtistData(';Artist10& Artist11;'),
+                new ArtistData(';S;'),
+                new ArtistData(';Gee Rock & Tha CND Coalition feat. Skee Love;'),
             ];
 
             settingsMock.artistSplitSeparators = '[ft.][feat.][&][|]';
@@ -261,6 +263,8 @@ describe('ArtistService', () => {
             const sourceArtists20: string[] = service.getSourceArtists([createArtistModel('Artist10')]);
             const sourceArtists21: string[] = service.getSourceArtists([createArtistModel('Artist11')]);
             const sourceArtists22: string[] = service.getSourceArtists([createArtistModel('Artist10& Artist11')]);
+            const sourceArtists23: string[] = service.getSourceArtists([createArtistModel('S')]);
+            const sourceArtists24: string[] = service.getSourceArtists([createArtistModel('Gee Rock & Tha CND Coalition feat. Skee Love')]);
 
             // Assert
             expect(sourceArtists1.length).toEqual(4);
@@ -340,6 +344,12 @@ describe('ArtistService', () => {
 
             expect(sourceArtists22.length).toEqual(1);
             expect(sourceArtists22[0]).toEqual('Artist10& Artist11');
+
+            expect(sourceArtists23.length).toEqual(1);
+            expect(sourceArtists23[0]).toEqual('S');
+
+            expect(sourceArtists24.length).toEqual(1);
+            expect(sourceArtists24[0]).toEqual('Gee Rock & Tha CND Coalition feat. Skee Love');
         });
     });
 });
