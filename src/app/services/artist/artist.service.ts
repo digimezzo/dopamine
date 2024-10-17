@@ -65,18 +65,19 @@ export class ArtistService implements ArtistServiceBase {
         const filteredSourceArtists: string[] = [];
         const lowerCaseArtistNames = new Set(artists.map((artist) => artist.name.toLowerCase()));
 
-        for (const sourceArtist of this.sourceArtists) {
+        const sourceArtistsSurroundedBySpaces = this.sourceArtists.map((artist) => ` ${artist} `);
+        for (const sourceArtist of sourceArtistsSurroundedBySpaces) {
             if (
                 [...lowerCaseArtistNames].some((name) =>
                     separators.some(
                         (separator) =>
-                            sourceArtist.toLowerCase() === name ||
-                            sourceArtist.toLowerCase().includes(` ${separator} ${name}`) ||
-                            sourceArtist.toLowerCase().includes(`${name} ${separator} `),
+                            sourceArtist.toLowerCase() === ` ${name} ` ||
+                            sourceArtist.toLowerCase().includes(` ${separator} ${name} `) ||
+                            sourceArtist.toLowerCase().includes(` ${name} ${separator} `),
                     ),
                 )
             ) {
-                filteredSourceArtists.push(sourceArtist);
+                filteredSourceArtists.push(sourceArtist.trim());
             }
         }
 
