@@ -15,4 +15,5 @@ export abstract class AudioPlayerBase {
     public abstract mute(): void;
     public abstract unMute(): void;
     public abstract skipToSeconds(seconds: number): void;
+    public abstract preloadNextTrack(audioFilePath: string): void;
 }

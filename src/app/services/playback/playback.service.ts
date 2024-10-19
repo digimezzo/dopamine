@@ -390,6 +390,17 @@ export class PlaybackService implements PlaybackServiceBase {
         this.nextTrack = this.queue.getNextTrack(this.currentTrack, this.loopMode === LoopMode.All);
 
         this.logger.info(`Playing '${this.currentTrack.path}'`, 'PlaybackService', 'play');
+
+        this.preloadNextTrackAfterDelay();
+    }
+
+    private preloadNextTrackAfterDelay(): void {
+        if (this.nextTrack) {
+            setTimeout(() => {
+                this._audioPlayer.preloadNextTrack(this.nextTrack!.path);
+                this.logger.info(`Preloaded '${this.nextTrack!.path}'`, 'PlaybackService', 'preloadNextTrackAfterDelay');
+            }, 10000);
+        }
     }
 
     private stop(): void {

@@ -21,6 +21,7 @@ export class AudioPlayer implements AudioPlayerBase {
     private _enableGaplessPlayback: boolean = true;
     private _isPaused: boolean;
     private _pausedWhilePlayingOnHtml5Audio: boolean = false;
+    private _nextAudioPath: string = '';
 
     public constructor(
         private mathExtensions: MathExtensions,
@@ -29,6 +30,7 @@ export class AudioPlayer implements AudioPlayerBase {
     ) {
         this._enableGaplessPlayback = this.settings.enableGaplessPlayback;
         this._audio = new Audio();
+        this._audio.preload = 'auto';
         this._audioContext = new AudioContext();
         this._gainNode = this._audioContext.createGain();
         this._gainNode.connect(this._audioContext.destination);
@@ -37,7 +39,7 @@ export class AudioPlayer implements AudioPlayerBase {
         this._analyser.fftSize = 128;
 
         if (!this._enableGaplessPlayback) {
-            const mediaElementSource: MediaElementAudioSourceNode = this._audioContext.createMediaElementSource(this.audio);
+            const mediaElementSource: MediaElementAudioSourceNode = this._audioContext.createMediaElementSource(this._audio);
             this._analyser.connect(this._audioContext.destination);
             mediaElementSource!.connect(this._analyser);
         }
@@ -47,20 +49,20 @@ export class AudioPlayer implements AudioPlayerBase {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-            this.audio.setSinkId('default');
+            this._audio.setSinkId('default');
         } catch (e: unknown) {
             // Suppress this error, but log it, in case it happens in production.
             this.logger.error(e, 'Could not perform setSinkId()', 'AudioPlayer', 'constructor');
         }
 
-        this.audio.defaultPlaybackRate = 1;
-        this.audio.playbackRate = 1;
-        this.audio.volume = 1;
-        this.audio.muted = false;
+        this._audio.defaultPlaybackRate = 1;
+        this._audio.playbackRate = 1;
+        this._audio.volume = 1;
+        this._audio.muted = false;
 
         this._gainNode.gain.setValueAtTime(1, 0);
 
-        this.audio.onended = () => this.playbackFinished.next();
+        this._audio.onended = () => this.playbackFinished.next();
     }
 
     private playbackFinished: Subject<void> = new Subject();
@@ -104,12 +106,16 @@ export class AudioPlayer implements AudioPlayerBase {
 
     public play(audioFilePath: string): void {
         this._isPlayingOnWebAudio = false;
-        const playableAudioFilePath: string = this.replaceUnplayableCharacters(audioFilePath);
-        this.audio.src = 'file:///' + playableAudioFilePath;
+
+        if (audioFilePath !== this._nextAudioPath) {
+            const playableAudioFilePath: string = this.replaceUnplayableCharacters(audioFilePath);
+            this.audio.src = 'file:///' + playableAudioFilePath;
+        }
 
         this.audio.play();
 
         if (this._enableGaplessPlayback) {
+            const playableAudioFilePath: string = this.replaceUnplayableCharacters(audioFilePath);
             this.loadAudioWithWebAudio(playableAudioFilePath);
         }
     }
@@ -255,5 +261,14 @@ export class AudioPlayer implements AudioPlayerBase {
         this._audio.pause();
 
         this.playWebAudio(currentTime);
+    }
+
+    public preloadNextTrack(audioFilePath: string): void {
+        if (this._isPlayingOnWebAudio) {
+            this._nextAudioPath = audioFilePath;
+            const playableAudioFilePath: string = this.replaceUnplayableCharacters(audioFilePath);
+            this._audio.src = 'file:///' + playableAudioFilePath;
+            this._audio.load();
+        }
     }
 }
