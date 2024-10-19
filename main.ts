@@ -169,7 +169,13 @@ function setInitialWindowState(mainWindow: BrowserWindow): void {
             mainWindow.resizable = false;
             mainWindow.maximizable = false;
             mainWindow.setContentSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
+            if (isMacOS()) {
+                mainWindow.fullScreenable = false;
+            }
         } else {
+            if (isMacOS()) {
+                mainWindow.fullScreenable = true;
+            }
             mainWindow.setSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
             if (windowPositionSizeMaximized[4] === 1) {
                 mainWindow.maximize();
@@ -356,6 +362,31 @@ function createMainWindow(): void {
             }
         }
     });
+
+    mainWindow.on('leave-full-screen', () => {
+        if (!mainWindow) {
+            return;
+        }
+        // On macOS, fullscreen transitions takes time
+        // So, we need to wait for the leave-full-screen to finally resize the window
+        if (!isMacOS()) {
+            return;
+        }
+
+        // if mode is not cover anymore, return
+        if (settings.get('playerType') !== 'cover') {
+            return;
+        }
+
+        const coverPlayerPositionAsString: string = settings.get('coverPlayerPosition');
+        const coverPlayerPosition: number[] = coverPlayerPositionAsString.split(';').map(Number);
+
+        mainWindow.resizable = false;
+        mainWindow.maximizable = false;
+        mainWindow.fullScreenable = false;
+        mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
+        mainWindow.setContentSize(350, 430);
+    });
 }
 
 let fileProcessingTimeout;
@@ -527,12 +558,17 @@ try {
         });
 
         ipcMain.on('set-full-player', (event: any, arg: any) => {
+            // I hate this, but it seems that state is not always set correctly
+            settings.set('playerType', 'full');
             settings.set('playerType', 'full');
             if (mainWindow) {
                 const fullPlayerPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
                 console.log(fullPlayerPositionSizeMaximizedAsString);
                 const fullPlayerPositionSizeMaximized: number[] = fullPlayerPositionSizeMaximizedAsString.split(';').map(Number);
 
+                if (isMacOS()) {
+                    mainWindow.fullScreenable = true;
+                }
                 mainWindow.resizable = true;
                 mainWindow.maximizable = true;
                 mainWindow.setPosition(fullPlayerPositionSizeMaximized[0], fullPlayerPositionSizeMaximized[1]);
@@ -547,9 +583,21 @@ try {
         ipcMain.on('set-cover-player', (event: any, arg: any) => {
             settings.set('playerType', 'cover');
             if (mainWindow) {
+                // we cannot resize the window when it is still in full screen mode on MacOS
+                if (isMacOS() && mainWindow.isFullScreen()) {
+                    // if for whatever reason fullScreenable will be set to false
+                    // mainWindow.fullScreen = false; will not work on MacOS
+                    mainWindow.fullScreenable = true;
+                    mainWindow.fullScreen = false;
+                    return;
+                }
+
                 const coverPlayerPositionAsString: string = settings.get('coverPlayerPosition');
                 const coverPlayerPosition: number[] = coverPlayerPositionAsString.split(';').map(Number);
 
+                if (isMacOS()) {
+                    mainWindow.fullScreenable = false;
+                }
                 mainWindow.unmaximize();
                 mainWindow.resizable = false;
                 mainWindow.maximizable = false;
