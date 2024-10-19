@@ -1,10 +1,12 @@
 import { Observable } from 'rxjs';
 
 export abstract class AudioPlayerBase {
+    public analyser: AnalyserNode;
     public audio: HTMLAudioElement;
     public playbackFinished$: Observable<void>;
     public abstract progressSeconds: number;
     public abstract totalSeconds: number;
+    public abstract isPaused: boolean;
     public abstract play(audioFilePath: string): void;
     public abstract stop(): void;
     public abstract pause(): void;
@@ -13,4 +15,5 @@ export abstract class AudioPlayerBase {
     public abstract mute(): void;
     public abstract unMute(): void;
     public abstract skipToSeconds(seconds: number): void;
+    public abstract preloadNextTrack(audioFilePath: string): void;
 }

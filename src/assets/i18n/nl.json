@@ -294,5 +294,7 @@
     "confirm-remove-artist": "Weet u zeker dat u de artiest '{{artist}}' wilt verwijderen?",
     "switch-player": "Speler wisselen",
     "volume": "Volume",
-    "thanks-to-visualisationexpo": "Aan VisualizationExpo, voor het fantastische macOS icoon!"
+    "thanks-to-visualisationexpo": "Aan VisualizationExpo, voor het fantastische macOS icoon!",
+    "gapless-playback": "Ononderbroken afspelen",
+    "enable-gapless-playback": "Schakel ononderbroken afspelen in (vereist een herstart)"
 }

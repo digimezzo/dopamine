@@ -6,9 +6,7 @@ import { RgbColor } from '../../common/rgb-color';
 
 @Injectable()
 export class AudioVisualizer {
-    private readonly audioContext: AudioContext;
-    private readonly analyser: AnalyserNode;
-    private readonly dataArray: Uint8Array;
+    private dataArray: Uint8Array;
     private canvas: HTMLCanvasElement;
     private canvasContext: CanvasRenderingContext2D;
     private isStopped: boolean;
@@ -18,32 +16,20 @@ export class AudioVisualizer {
         private audioPlayer: AudioPlayerBase,
         private appearanceService: AppearanceServiceBase,
         private settings: SettingsBase,
-    ) {
-        this.audioContext = new window.AudioContext();
-        this.analyser = this.audioContext.createAnalyser();
-        this.analyser.fftSize = 128;
-        this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+    ) {}
+
+    public connectAudioElement(): void {
+        this.dataArray = new Uint8Array(this.audioPlayer.analyser.frequencyBinCount);
         this.analyze();
     }
 
-    public connectAudioElement(): void {
-        const source: MediaElementAudioSourceNode = this.getSourceForAudioContext(this.audioContext);
-        source.connect(this.analyser);
-    }
-
     public connectCanvas(canvas: HTMLCanvasElement): void {
-        this.analyser.disconnect();
         this.canvas = canvas;
         this.canvasContext = this.canvas.getContext('2d') as CanvasRenderingContext2D;
-        this.analyser.connect(this.audioContext.destination);
-    }
-
-    private getSourceForAudioContext(audioContext: AudioContext): MediaElementAudioSourceNode {
-        return audioContext.createMediaElementSource(this.audioPlayer.audio as HTMLMediaElement);
     }
 
     private shouldStopDelayed(): boolean {
-        return this.audioPlayer.audio.paused;
+        return this.audioPlayer.isPaused;
     }
 
     private shouldStopNow(): boolean {
@@ -53,7 +39,7 @@ export class AudioVisualizer {
     private analyze(): void {
         setTimeout(
             () => {
-                this.analyser.getByteFrequencyData(this.dataArray);
+                this.audioPlayer.analyser.getByteFrequencyData(this.dataArray);
                 this.draw();
 
                 requestAnimationFrame(() => this.analyze());

@@ -41,6 +41,7 @@ export class PlaybackService implements PlaybackServiceBase {
     private _canResume: boolean = true;
     private _volumeBeforeMute: number = 0;
     private subscription: Subscription = new Subscription();
+    private nextTrack: TrackModel | undefined;
 
     public constructor(
         private trackService: TrackServiceBase,
@@ -132,7 +133,7 @@ export class PlaybackService implements PlaybackServiceBase {
         const firstTrack: TrackModel | undefined = this.queue.getFirstTrack();
 
         if (firstTrack != undefined) {
-            this.play(firstTrack, false);
+            this.play(firstTrack, false, true);
         }
     }
 
@@ -147,7 +148,7 @@ export class PlaybackService implements PlaybackServiceBase {
 
         const enqueuedTracks: TrackModel[] = this.queue.setTracks(tracksToEnqueue, this.isShuffled);
         const enqueuedTrackToPlay: TrackModel = enqueuedTracks.filter((x) => x.path === trackToPlay.path)[0];
-        this.play(enqueuedTrackToPlay, false);
+        this.play(enqueuedTrackToPlay, false, true);
     }
 
     public enqueueAndPlayArtist(artistToPlay: ArtistModel, artistType: ArtistType): void {
@@ -222,7 +223,7 @@ export class PlaybackService implements PlaybackServiceBase {
     }
 
     public playQueuedTrack(trackToPlay: TrackModel): void {
-        this.play(trackToPlay, false);
+        this.play(trackToPlay, false, true);
     }
 
     public toggleLoopMode(): void {
@@ -280,7 +281,7 @@ export class PlaybackService implements PlaybackServiceBase {
             const firstTrack: TrackModel | undefined = this.queue.getFirstTrack();
 
             if (firstTrack != undefined) {
-                this.play(this.queue.getFirstTrack()!, false);
+                this.play(this.queue.getFirstTrack()!, false, true);
                 return;
             }
 
@@ -310,7 +311,7 @@ export class PlaybackService implements PlaybackServiceBase {
         }
 
         if (trackToPlay != undefined) {
-            this.play(trackToPlay, true);
+            this.play(trackToPlay, true, true);
 
             return;
         }
@@ -319,13 +320,13 @@ export class PlaybackService implements PlaybackServiceBase {
     }
 
     public playNext(): void {
-        this.increaseCountersForCurrentTrackBasedOnProgress();
+        this.increaseCountersForTrackBasedOnProgress(this.currentTrack);
 
         const allowWrapAround: boolean = this.loopMode === LoopMode.All;
         const trackToPlay: TrackModel | undefined = this.queue.getNextTrack(this.currentTrack, allowWrapAround);
 
         if (trackToPlay != undefined) {
-            this.play(trackToPlay, false);
+            this.play(trackToPlay, false, true);
 
             return;
         }
@@ -373,8 +374,11 @@ export class PlaybackService implements PlaybackServiceBase {
         }
     }
 
-    private play(trackToPlay: TrackModel, isPlayingPreviousTrack: boolean): void {
-        this.audioPlayer.stop();
+    private play(trackToPlay: TrackModel, isPlayingPreviousTrack: boolean, shouldStop: boolean): void {
+        if (shouldStop) {
+            this.audioPlayer.stop();
+        }
+
         this.audioPlayer.play(trackToPlay.path);
         this.currentTrack = trackToPlay;
         this._isPlaying = true;
@@ -383,7 +387,20 @@ export class PlaybackService implements PlaybackServiceBase {
         this.progressUpdater.startUpdatingProgress();
         this.playbackStarted.next(new PlaybackStarted(trackToPlay, isPlayingPreviousTrack));
 
+        this.nextTrack = this.queue.getNextTrack(this.currentTrack, this.loopMode === LoopMode.All);
+
         this.logger.info(`Playing '${this.currentTrack.path}'`, 'PlaybackService', 'play');
+
+        this.preloadNextTrackAfterDelay();
+    }
+
+    private preloadNextTrackAfterDelay(): void {
+        if (this.nextTrack) {
+            setTimeout(() => {
+                this._audioPlayer.preloadNextTrack(this.nextTrack!.path);
+                this.logger.info(`Preloaded '${this.nextTrack!.path}'`, 'PlaybackService', 'preloadNextTrackAfterDelay');
+            }, 10000);
+        }
     }
 
     private stop(): void {
@@ -402,33 +419,34 @@ export class PlaybackService implements PlaybackServiceBase {
     }
 
     private playbackFinishedHandler(): void {
-        if (this.currentTrack != undefined) {
-            this.logger.info(`Track finished: '${this.currentTrack.path}'`, 'PlaybackService', 'playbackFinishedHandler');
-        }
-
-        this.increasePlayCountAndDateLastPlayedForCurrentTrack();
+        const finishedTrack: TrackModel | undefined = this.currentTrack;
 
         if (this.loopMode === LoopMode.One) {
             if (this.currentTrack != undefined) {
-                this.play(this.currentTrack, false);
+                this.play(this.currentTrack, false, true);
             }
+            this.increasePlayCountAndDateLastPlayedForTrack(finishedTrack);
 
             return;
         }
 
-        const allowWrapAround: boolean = this.loopMode === LoopMode.All;
-        const trackToPlay: TrackModel | undefined = this.queue.getNextTrack(this.currentTrack, allowWrapAround);
+        if (this.nextTrack) {
+            this.play(this.nextTrack, false, false);
 
-        if (trackToPlay != undefined) {
-            this.play(trackToPlay, false);
+            // delayed, to avoid interfering with gapless playback.
+            setTimeout(() => {
+                this.increasePlayCountAndDateLastPlayedForTrack(finishedTrack);
+            }, 1000);
 
             return;
         }
+
+        this.increasePlayCountAndDateLastPlayedForTrack(finishedTrack);
 
         this.stop();
     }
 
-    private increaseCountersForCurrentTrackBasedOnProgress(): void {
+    private increaseCountersForTrackBasedOnProgress(track: TrackModel | undefined): void {
         if (this.progress == undefined) {
             this.logger.warn('Progress was undefined', 'PlaybackService', 'increaseCountersForCurrentTrackBasedOnProgress');
 
@@ -436,32 +454,32 @@ export class PlaybackService implements PlaybackServiceBase {
         }
 
         if (this.progress.progressPercent <= 80) {
-            this.increaseSkipCountForCurrentTrack();
+            this.increaseSkipCountForTrack(this.currentTrack);
         } else {
-            this.increasePlayCountAndDateLastPlayedForCurrentTrack();
+            this.increasePlayCountAndDateLastPlayedForTrack(this.currentTrack);
         }
     }
 
-    private increasePlayCountAndDateLastPlayedForCurrentTrack(): void {
-        if (this.currentTrack == undefined) {
-            this.logger.warn('CurrentTrack is undefined', 'PlaybackService', 'increasePlayCountAndDateLastPlayedForCurrentTrack');
+    private increasePlayCountAndDateLastPlayedForTrack(track: TrackModel | undefined): void {
+        if (!track) {
+            this.logger.warn('Track is undefined', 'PlaybackService', 'increasePlayCountAndDateLastPlayedForCurrentTrack');
 
             return;
         }
 
-        this.currentTrack.increasePlayCountAndDateLastPlayed();
-        this.trackService.savePlayCountAndDateLastPlayed(this.currentTrack);
+        track.increasePlayCountAndDateLastPlayed();
+        this.trackService.savePlayCountAndDateLastPlayed(track);
     }
 
-    private increaseSkipCountForCurrentTrack(): void {
-        if (this.currentTrack == undefined) {
-            this.logger.warn('CurrentTrack is undefined', 'PlaybackService', 'increaseSkipCountForCurrentTrack');
+    private increaseSkipCountForTrack(track: TrackModel | undefined): void {
+        if (!track) {
+            this.logger.warn('Track is undefined', 'PlaybackService', 'increaseSkipCountForCurrentTrack');
 
             return;
         }
 
-        this.currentTrack.increaseSkipCount();
-        this.trackService.saveSkipCount(this.currentTrack);
+        track.increaseSkipCount();
+        this.trackService.saveSkipCount(track);
     }
 
     private initializeSubscriptions(): void {
@@ -524,7 +542,7 @@ export class PlaybackService implements PlaybackServiceBase {
         this.queue.restoreTracks(info.tracks, info.playbackOrder);
 
         if (info.playingTrack) {
-            this.play(info.playingTrack, false);
+            this.play(info.playingTrack, false, true);
             this.pause();
             this.skipToSeconds(info.progressSeconds);
             this.progressUpdater.startUpdatingProgress();
