@@ -3,10 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0-preview.35] - 2024-10-11
+## [3.0.0-preview.35] - 2024-10-19
 
 ### Added
 
+-   Added gapless playback
 -   Added back support for .tiff cover images after having to break it in order to fix other problems
 
 ### Fixed
