@@ -294,5 +294,7 @@
     "confirm-remove-artist": "Sei sicuro di voler rimuovere l'artista '{{artist}}'?",
     "switch-player": "Cambia interfaccia",
     "volume": "Volume",
-    "thanks-to-visualisationexpo": "A VisualisationExpo, per l'incredibile icona per macOS!"
+    "thanks-to-visualisationexpo": "A VisualisationExpo, per l'incredibile icona per macOS!",
+    "gapless-playback": "Gapless playback",
+    "enable-gapless-playback": "Enable gapless playback (requires a restart)"
 }

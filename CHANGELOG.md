@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Added gapless playback
 -   Added back support for .tiff cover images after having to break it in order to fix other problems
+-   Added Italian translation
 
 ### Fixed
 
