@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Fixed slow performance on folders screen when opening folders containing a lot of files
 -   Fixed sorting of songs by album when there are more than 9 songs in a multi-disc album
 -   Fixed albums being shown under the wrong artist due to splitting of artists on separators
+-   Fixed problems while transitioning between full and cover player on macOS
 
 ## [3.0.0-preview.34] - 2024-09-21
 
