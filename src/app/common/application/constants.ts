@@ -14,6 +14,7 @@ export class Constants {
         new Language('fa', 'Farsi', 'فارسی', true),
         new Language('fr', 'French', 'Français', false),
         new Language('hr', 'Croatian', 'Hrvatski', false),
+        new Language('it', 'Italian', 'Italiano', false),
         new Language('nl', 'Dutch', 'Nederlands', false),
         new Language('pl', 'Polish', 'Polski', false),
         new Language('pt-BR', 'Brazilian Portuguese', 'Português Brasileiro', false),
