@@ -294,5 +294,7 @@
   "confirm-remove-artist": "Är du säker på att du vill ta bort artisten '{{artist}}'?",
   "switch-player": "Switch player",
   "volume": "Volume",
-  "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb macOS icon!"
+  "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb macOS icon!",
+  "gapless-playback": "Gapless playback",
+  "enable-gapless-playback": "Enable gapless playback (requires a restart)"
 }

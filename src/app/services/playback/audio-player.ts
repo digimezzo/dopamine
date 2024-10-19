@@ -5,6 +5,7 @@ import { MathExtensions } from '../../common/math-extensions';
 import { PromiseUtils } from '../../common/utils/promise-utils';
 import { StringUtils } from '../../common/utils/string-utils';
 import { AudioPlayerBase } from './audio-player.base';
+import { SettingsBase } from '../../common/settings/settings.base';
 
 @Injectable()
 export class AudioPlayer implements AudioPlayerBase {
@@ -15,16 +16,31 @@ export class AudioPlayer implements AudioPlayerBase {
     private _gainNode: GainNode;
     private _isPlayingOnWebAudio: boolean = false;
     private _webAudioStartTime: number = 0;
-    private _webAudioOffset: number = 0;
+    private _webAudioPausedAt: number = 0;
+    private _analyser: AnalyserNode;
+    private _enableGaplessPlayback: boolean = true;
+    private _isPaused: boolean;
+    private _pausedWhilePlayingOnHtml5Audio: boolean = false;
 
     public constructor(
         private mathExtensions: MathExtensions,
+        private settings: SettingsBase,
         private logger: Logger,
     ) {
+        this._enableGaplessPlayback = this.settings.enableGaplessPlayback;
         this._audio = new Audio();
         this._audioContext = new AudioContext();
         this._gainNode = this._audioContext.createGain();
         this._gainNode.connect(this._audioContext.destination);
+
+        this._analyser = this._audioContext.createAnalyser();
+        this._analyser.fftSize = 128;
+
+        if (!this._enableGaplessPlayback) {
+            const mediaElementSource: MediaElementAudioSourceNode = this._audioContext.createMediaElementSource(this.audio);
+            this._analyser.connect(this._audioContext.destination);
+            mediaElementSource!.connect(this._analyser);
+        }
 
         try {
             // This fails during unit tests because setSinkId() does not exist on HTMLAudioElement
@@ -49,6 +65,10 @@ export class AudioPlayer implements AudioPlayerBase {
 
     private playbackFinished: Subject<void> = new Subject();
     public playbackFinished$: Observable<void> = this.playbackFinished.asObservable();
+
+    public get analyser(): AnalyserNode {
+        return this._analyser;
+    }
 
     public get audio(): HTMLAudioElement {
         return this._audio;
@@ -78,12 +98,20 @@ export class AudioPlayer implements AudioPlayerBase {
         }
     }
 
+    public get isPaused(): boolean {
+        return this._isPaused;
+    }
+
     public play(audioFilePath: string): void {
         this._isPlayingOnWebAudio = false;
         const playableAudioFilePath: string = this.replaceUnplayableCharacters(audioFilePath);
         this.audio.src = 'file:///' + playableAudioFilePath;
-        PromiseUtils.noAwait(this.audio.play());
-        PromiseUtils.noAwait(this.loadAudioWithWebAudio(playableAudioFilePath));
+
+        this.audio.play();
+
+        if (this._enableGaplessPlayback) {
+            this.loadAudioWithWebAudio(playableAudioFilePath);
+        }
     }
 
     public stop(): void {
@@ -101,15 +129,24 @@ export class AudioPlayer implements AudioPlayerBase {
 
     public pause(): void {
         if (this._isPlayingOnWebAudio) {
-            // TODO
+            this._webAudioPausedAt = this._audioContext.currentTime - this._webAudioStartTime;
+
+            if (this._sourceNode) {
+                this._sourceNode.onended = () => {};
+                this._sourceNode.stop();
+                this._sourceNode.disconnect();
+            }
         } else {
             this.audio.pause();
+            this._pausedWhilePlayingOnHtml5Audio = true;
         }
     }
 
     public resume(): void {
+        this._pausedWhilePlayingOnHtml5Audio = false;
+
         if (this._isPlayingOnWebAudio) {
-            // TODO
+            this.playWebAudio(this._webAudioPausedAt);
         } else {
             PromiseUtils.noAwait(this.audio.play());
         }
@@ -172,6 +209,11 @@ export class AudioPlayer implements AudioPlayerBase {
             return;
         }
 
+        if (this._pausedWhilePlayingOnHtml5Audio) {
+            this._pausedWhilePlayingOnHtml5Audio = false;
+            return;
+        }
+
         try {
             // Make sure to stop any previous sourceNode if it's still playing
             if (this._sourceNode) {
@@ -185,6 +227,9 @@ export class AudioPlayer implements AudioPlayerBase {
             this._sourceNode = this._audioContext.createBufferSource();
             this._sourceNode.buffer = this._buffer;
 
+            // Connect the source to the analyser
+            this._sourceNode.connect(this._analyser);
+
             // Connect the source node to the gain node
             this._sourceNode.connect(this._gainNode);
 
@@ -196,9 +241,6 @@ export class AudioPlayer implements AudioPlayerBase {
 
             // Store the current time when audio starts playing
             this._webAudioStartTime = this._audioContext.currentTime - offset;
-
-            // Store the offset for pausing and resuming
-            this._webAudioOffset = offset;
 
             // Sync playback position with HTML5 Audio
             this._sourceNode.start(0, offset);

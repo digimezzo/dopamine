@@ -294,5 +294,7 @@
     "confirm-remove-artist": "Сигурни ли сте, че искате да премахнете изпълнителя '{{artist}}'?",
     "switch-player": "Смени плеъра",
     "volume": "Сила на звука",
-    "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb macOS icon!"
+    "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb macOS icon!",
+    "gapless-playback": "Gapless playback",
+    "enable-gapless-playback": "Enable gapless playback (requires a restart)"
 }

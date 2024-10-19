@@ -516,7 +516,7 @@ export class PlaybackService implements PlaybackServiceBase {
                 this._isShuffled = true;
             }
 
-            // await this.restoreQueueAsync();
+            await this.restoreQueueAsync();
         }
     }
 
