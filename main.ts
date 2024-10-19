@@ -39,6 +39,7 @@ let mainWindow: BrowserWindow | undefined;
 let tray: Tray;
 let isQuitting: boolean;
 let isQuit: boolean;
+let fileProcessingTimeout: NodeJS.Timeout;
 
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
@@ -378,18 +379,22 @@ function createMainWindow(): void {
             return;
         }
 
-        const coverPlayerPositionAsString: string = settings.get('coverPlayerPosition');
-        const coverPlayerPosition: number[] = coverPlayerPositionAsString.split(';').map(Number);
-
-        mainWindow.resizable = false;
-        mainWindow.maximizable = false;
-        mainWindow.fullScreenable = false;
-        mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
-        mainWindow.setContentSize(350, 430);
+        setCoverPlayer(mainWindow);
     });
 }
 
-let fileProcessingTimeout;
+function setCoverPlayer(mainWindow: BrowserWindow): void {
+    const coverPlayerPositionAsString: string = settings.get('coverPlayerPosition');
+    const coverPlayerPosition: number[] = coverPlayerPositionAsString.split(';').map(Number);
+
+    if (isMacOS()) {
+        mainWindow.fullScreenable = false;
+    }
+    mainWindow.resizable = false;
+    mainWindow.maximizable = false;
+    mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
+    mainWindow.setContentSize(350, 430);
+}
 
 function pushFilesToQueue(files: string[], functionName: string): void {
     globalAny.fileQueue.push(...files);
@@ -453,13 +458,13 @@ try {
         });
 
         app.on('activate', () => {
-            // On OS X it's common to re-create a window in the app when the
+            // On macOS, it's common to re-create a window in the app when the
             // dock icon is clicked and there are no other windows open.
             if (mainWindow == undefined) {
                 createMainWindow();
             }
 
-            // on MacOS, clicking the dock icon should show the window
+            // On macOS, clicking the dock icon should show the window.
             if (isMacOS()) {
                 if (mainWindow) {
                     mainWindow.show();
@@ -558,7 +563,7 @@ try {
         });
 
         ipcMain.on('set-full-player', (event: any, arg: any) => {
-            // I hate this, but it seems that state is not always set correctly
+            // TODO: I hate this, but it seems that state is not always set correctly.
             settings.set('playerType', 'full');
             settings.set('playerType', 'full');
             if (mainWindow) {
@@ -583,26 +588,17 @@ try {
         ipcMain.on('set-cover-player', (event: any, arg: any) => {
             settings.set('playerType', 'cover');
             if (mainWindow) {
-                // we cannot resize the window when it is still in full screen mode on MacOS
+                // We cannot resize the window when it is still in full screen mode on macOS.
                 if (isMacOS() && mainWindow.isFullScreen()) {
-                    // if for whatever reason fullScreenable will be set to false
-                    // mainWindow.fullScreen = false; will not work on MacOS
+                    // If for whatever reason fullScreenable will be set to false
+                    // mainWindow.fullScreen = false; will not work on macOS.
                     mainWindow.fullScreenable = true;
                     mainWindow.fullScreen = false;
                     return;
                 }
 
-                const coverPlayerPositionAsString: string = settings.get('coverPlayerPosition');
-                const coverPlayerPosition: number[] = coverPlayerPositionAsString.split(';').map(Number);
-
-                if (isMacOS()) {
-                    mainWindow.fullScreenable = false;
-                }
                 mainWindow.unmaximize();
-                mainWindow.resizable = false;
-                mainWindow.maximizable = false;
-                mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
-                mainWindow.setContentSize(350, 430);
+                setCoverPlayer(mainWindow);
             }
         });
 

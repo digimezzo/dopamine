@@ -324,16 +324,21 @@ function createMainWindow() {
         if (settings.get('playerType') !== 'cover') {
             return;
         }
-        const coverPlayerPositionAsString = settings.get('coverPlayerPosition');
-        const coverPlayerPosition = coverPlayerPositionAsString.split(';').map(Number);
-        mainWindow.resizable = false;
-        mainWindow.maximizable = false;
-        mainWindow.fullScreenable = false;
-        mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
-        mainWindow.setContentSize(350, 430);
+        setCoverPlayer(mainWindow);
     });
 }
 let fileProcessingTimeout;
+function setCoverPlayer(mainWindow) {
+    const coverPlayerPositionAsString = settings.get('coverPlayerPosition');
+    const coverPlayerPosition = coverPlayerPositionAsString.split(';').map(Number);
+    if (isMacOS()) {
+        mainWindow.fullScreenable = false;
+    }
+    mainWindow.resizable = false;
+    mainWindow.maximizable = false;
+    mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
+    mainWindow.setContentSize(350, 430);
+}
 function pushFilesToQueue(files, functionName) {
     globalAny.fileQueue.push(...files);
     electron_log_1.default.info(`[App] [${functionName}] File queue: ${globalAny.fileQueue}`);
@@ -475,8 +480,6 @@ try {
             electron_1.app.quit();
         });
         electron_1.ipcMain.on('set-full-player', (event, arg) => {
-            // I hate this, but it seems that state is not always set correctly
-            settings.set('playerType', 'full');
             settings.set('playerType', 'full');
             if (mainWindow) {
                 const fullPlayerPositionSizeMaximizedAsString = settings.get('fullPlayerPositionSizeMaximized');
@@ -505,16 +508,8 @@ try {
                     mainWindow.fullScreen = false;
                     return;
                 }
-                const coverPlayerPositionAsString = settings.get('coverPlayerPosition');
-                const coverPlayerPosition = coverPlayerPositionAsString.split(';').map(Number);
-                if (isMacOS()) {
-                    mainWindow.fullScreenable = false;
-                }
                 mainWindow.unmaximize();
-                mainWindow.resizable = false;
-                mainWindow.maximizable = false;
-                mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
-                mainWindow.setContentSize(350, 430);
+                setCoverPlayer(mainWindow);
             }
         });
         electron_1.ipcMain.on('clear-file-queue', (event, arg) => {
