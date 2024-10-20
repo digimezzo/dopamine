@@ -563,8 +563,6 @@ try {
         });
 
         ipcMain.on('set-full-player', (event: any, arg: any) => {
-            // TODO: I hate this, but it seems that state is not always set correctly.
-            settings.set('playerType', 'full');
             settings.set('playerType', 'full');
             if (mainWindow) {
                 const fullPlayerPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
