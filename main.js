@@ -38,6 +38,7 @@ let mainWindow;
 let tray;
 let isQuitting;
 let isQuit;
+let fileProcessingTimeout;
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
     globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
@@ -327,7 +328,6 @@ function createMainWindow() {
         setCoverPlayer(mainWindow);
     });
 }
-let fileProcessingTimeout;
 function setCoverPlayer(mainWindow) {
     const coverPlayerPositionAsString = settings.get('coverPlayerPosition');
     const coverPlayerPosition = coverPlayerPositionAsString.split(';').map(Number);
@@ -392,12 +392,12 @@ try {
             }
         });
         electron_1.app.on('activate', () => {
-            // On OS X it's common to re-create a window in the app when the
+            // On macOS, it's common to re-create a window in the app when the
             // dock icon is clicked and there are no other windows open.
             if (mainWindow == undefined) {
                 createMainWindow();
             }
-            // on MacOS, clicking the dock icon should show the window
+            // On macOS, clicking the dock icon should show the window.
             if (isMacOS()) {
                 if (mainWindow) {
                     mainWindow.show();
@@ -480,7 +480,7 @@ try {
             electron_1.app.quit();
         });
         electron_1.ipcMain.on('set-full-player', (event, arg) => {
-            settings.set('playerType', 'full');
+            electron_log_1.default.info('[Main] [set-full-player] Setting playerType to full player');
             if (mainWindow) {
                 const fullPlayerPositionSizeMaximizedAsString = settings.get('fullPlayerPositionSizeMaximized');
                 console.log(fullPlayerPositionSizeMaximizedAsString);
@@ -498,12 +498,12 @@ try {
             }
         });
         electron_1.ipcMain.on('set-cover-player', (event, arg) => {
-            settings.set('playerType', 'cover');
+            electron_log_1.default.info('[Main] [set-cover-player] Setting playerType to cover player');
             if (mainWindow) {
-                // we cannot resize the window when it is still in full screen mode on MacOS
+                // We cannot resize the window when it is still in full screen mode on macOS.
                 if (isMacOS() && mainWindow.isFullScreen()) {
-                    // if for whatever reason fullScreenable will be set to false
-                    // mainWindow.fullScreen = false; will not work on MacOS
+                    // If for whatever reason fullScreenable will be set to false
+                    // mainWindow.fullScreen = false; will not work on macOS.
                     mainWindow.fullScreenable = true;
                     mainWindow.fullScreen = false;
                     return;

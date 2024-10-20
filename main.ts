@@ -564,8 +564,6 @@ try {
 
         ipcMain.on('set-full-player', (event: any, arg: any) => {
             log.info('[Main] [set-full-player] Setting playerType to full player');
-            settings.set('playerType', 'full');
-            log.info(`[Main] [set-full-player] playerType is now ${settings.get('playerType')}`);
             if (mainWindow) {
                 const fullPlayerPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
                 console.log(fullPlayerPositionSizeMaximizedAsString);
@@ -587,8 +585,6 @@ try {
 
         ipcMain.on('set-cover-player', (event: any, arg: any) => {
             log.info('[Main] [set-cover-player] Setting playerType to cover player');
-            settings.set('playerType', 'cover');
-            log.info(`[Main] [set-cover-player] playerType is now ${settings.get('playerType')}`);
             if (mainWindow) {
                 // We cannot resize the window when it is still in full screen mode on macOS.
                 if (isMacOS() && mainWindow.isFullScreen()) {
