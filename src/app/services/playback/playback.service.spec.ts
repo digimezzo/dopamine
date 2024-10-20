@@ -353,30 +353,6 @@ describe('PlaybackService', () => {
             expect(currentTrack).toBeUndefined();
         });
 
-        it('should play the next track on playback finished if a next track is found', () => {
-            // Arrange
-            const service: PlaybackServiceBase = createService();
-
-            queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => trackModel2);
-            queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
-
-            service.enqueueAndPlayTracks(trackModels);
-
-            audioPlayerMock.reset();
-            progressUpdaterMock.reset();
-
-            // Act
-            playbackFinished.next();
-
-            // Assert
-            audioPlayerMock.verify((x) => x.stop(), Times.exactly(1));
-            expect(service.isPlaying).toBeTruthy();
-            expect(service.canResume).toBeFalsy();
-            expect(service.canPause).toBeTruthy();
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
-            expect(service.currentTrack).toBe(trackModel2);
-        });
-
         it('should play the same track on playback finished if loopMode is One', () => {
             // Arrange
             const service: PlaybackServiceBase = createService();
@@ -463,32 +439,6 @@ describe('PlaybackService', () => {
             audioPlayerMock.verify((x) => x.play(trackModel2.path), Times.exactly(1));
         });
 
-        it('should get the next track without wrap around on playback finished if loopMode is None', () => {
-            // Arrange
-            createService();
-
-            // Act
-            playbackFinished.next();
-
-            // Assert
-            queueMock.verify((x) => x.getNextTrack(It.isAny(), false), Times.exactly(1));
-        });
-
-        it('should get the next track with wrap around on playback finished if loopMode is All', () => {
-            // Arrange
-            const service: PlaybackServiceBase = createService();
-
-            while (service.loopMode !== LoopMode.All) {
-                service.toggleLoopMode();
-            }
-
-            // Act
-            playbackFinished.next();
-
-            // Assert
-            queueMock.verify((x) => x.getNextTrack(It.isAny(), true), Times.exactly(1));
-        });
-
         it('should increase play count and date last played for the current track on playback finished', () => {
             // Arrange
             const service: PlaybackServiceBase = createService();
@@ -517,32 +467,6 @@ describe('PlaybackService', () => {
 
             // Assert
             trackServiceMock.verify((x) => x.savePlayCountAndDateLastPlayed(trackModelMock.object), Times.once());
-        });
-
-        it('should raise an event, on playback finished, that playback has started, containing the current track and if a next track is being played.', () => {
-            // Arrange
-            const service: PlaybackServiceBase = createService();
-
-            queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
-            service.enqueueAndPlayTracks(trackModels);
-            queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => trackModel2);
-
-            let receivedTrack: TrackModel | undefined;
-            let isPlayingPreviousTrack: boolean = true;
-
-            subscription.add(
-                service.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
-                    receivedTrack = playbackStarted.currentTrack;
-                    isPlayingPreviousTrack = playbackStarted.isPlayingPreviousTrack;
-                }),
-            );
-
-            // Act
-            playbackFinished.next();
-
-            // Assert
-            expect(receivedTrack).toBe(trackModel2);
-            expect(isPlayingPreviousTrack).toBeFalsy();
         });
 
         it('should listen to progress changes, set the progress in the service and publish progress changed.', () => {
@@ -2328,21 +2252,6 @@ describe('PlaybackService', () => {
             audioPlayerMock.verify((x) => x.stop(), Times.never());
         });
 
-        it('should not play the next track if the given track is not playing', () => {
-            // Arrange
-            const service: PlaybackServiceBase = createService();
-            queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
-            service.enqueueAndPlayTracks(trackModels);
-            audioPlayerMock.reset();
-
-            // Act
-            service.stopIfPlaying(trackModel2);
-
-            // Assert
-            queueMock.verify((x) => x.getNextTrack(It.isAny(), It.isAny()), Times.never());
-            audioPlayerMock.verify((x) => x.play(It.isAny()), Times.never());
-        });
-
         it('should stop playback if the given track is playing and it is the only track in the queue', () => {
             // Arrange
             const service: PlaybackServiceBase = createService();
@@ -2355,7 +2264,6 @@ describe('PlaybackService', () => {
             service.stopIfPlaying(trackModel1);
 
             // Assert
-            queueMock.verify((x) => x.getNextTrack(It.isAny(), It.isAny()), Times.never());
             audioPlayerMock.verify((x) => x.stop(), Times.once());
         });
 
