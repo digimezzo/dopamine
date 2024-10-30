@@ -292,9 +292,9 @@
     "confirm-remove-symbol": "Уверены, что хотите удалить символ «{{symbol}}»?",
     "remove-artist": "Удалить исполнителя",
     "confirm-remove-artist": "Уверены, что хотите удалить исполнителя «{{artist}}»?",
-    "switch-player": "Switch player",
-    "volume": "Volume",
-    "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb macOS icon!",
-    "gapless-playback": "Gapless playback",
-    "enable-gapless-playback": "Enable gapless playback (requires a restart)"
+    "switch-player": "Переключить вид",
+    "volume": "Громкость",
+    "thanks-to-visualisationexpo": "VisualisationExpo за великолепную иконку macOS!",
+    "gapless-playback": "Произведение без пауз",
+    "enable-gapless-playback": "Включить произведение без пауз (требуется перезапуск)"
 }
