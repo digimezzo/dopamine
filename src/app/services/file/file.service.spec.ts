@@ -5,7 +5,7 @@ import { Logger } from '../../common/logger';
 import { TrackModel } from '../track/track-model';
 import { TrackModelFactory } from '../track/track-model-factory';
 import { FileService } from './file.service';
-import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { PlaybackService } from '../playback/playback.service';
 import { EventListenerServiceBase } from '../event-listener/event-listener.service.base';
 import { FileValidator } from '../../common/validation/file-validator';
 import { ApplicationBase } from '../../common/io/application.base';
@@ -17,7 +17,7 @@ import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
 
 describe('FileService', () => {
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let eventListenerServiceMock: IMock<EventListenerServiceBase>;
     let trackModelFactoryMock: IMock<TrackModelFactory>;
     let fileValidatorMock: IMock<FileValidator>;
@@ -53,7 +53,7 @@ describe('FileService', () => {
     }
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         eventListenerServiceMock = Mock.ofType<EventListenerServiceBase>();
         trackModelFactoryMock = Mock.ofType<TrackModelFactory>();
         fileValidatorMock = Mock.ofType<FileValidator>();

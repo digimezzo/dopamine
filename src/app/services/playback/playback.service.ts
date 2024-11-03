@@ -14,7 +14,6 @@ import { PlaybackProgress } from './playback-progress';
 import { PlaybackStarted } from './playback-started';
 import { ProgressUpdater } from './progress-updater';
 import { Queue } from './queue';
-import { PlaybackServiceBase } from './playback.service.base';
 import { TrackServiceBase } from '../track/track.service.base';
 import { PlaylistServiceBase } from '../playlist/playlist.service.base';
 import { AudioPlayerBase } from './audio-player.base';
@@ -24,8 +23,8 @@ import { TrackSorter } from '../../common/sorting/track-sorter';
 import { QueuePersister } from './queue-persister';
 import { QueueRestoreInfo } from './queue-restore-info';
 
-@Injectable()
-export class PlaybackService implements PlaybackServiceBase {
+@Injectable({ providedIn: 'root' })
+export class PlaybackService {
     private progressChanged: Subject<PlaybackProgress> = new Subject();
     private playbackStarted: Subject<PlaybackStarted> = new Subject();
     private playbackPaused: Subject<void> = new Subject();

@@ -10,7 +10,7 @@ import { AppearanceServiceBase } from '../../../../services/appearance/appearanc
 import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { MetadataServiceBase } from '../../../../services/metadata/metadata.service.base';
-import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../../services/playback/playback.service';
 import { FolderServiceBase } from '../../../../services/folder/folder.service.base';
 import { NavigationServiceBase } from '../../../../services/navigation/navigation.service.base';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
@@ -40,7 +40,7 @@ describe('CollectionFoldersComponent', () => {
     let indexingServiceMock: IMock<IndexingServiceBase>;
     let collectionServiceMock: IMock<CollectionServiceBase>;
     let metadataServiceMock: IMock<MetadataServiceBase>;
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let folderServiceMock: IMock<FolderServiceBase>;
     let navigationServiceMock: IMock<NavigationServiceBase>;
     let trackServiceMock: IMock<TrackServiceBase>;
@@ -115,7 +115,7 @@ describe('CollectionFoldersComponent', () => {
         indexingServiceMock = Mock.ofType<IndexingServiceBase>();
         collectionServiceMock = Mock.ofType<CollectionServiceBase>();
         metadataServiceMock = Mock.ofType<MetadataServiceBase>();
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         folderServiceMock = Mock.ofType<FolderServiceBase>();
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
         trackServiceMock = Mock.ofType<TrackServiceBase>();

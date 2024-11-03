@@ -8,14 +8,14 @@ import { PlaybackStarted } from '../playback/playback-started';
 import { TrackModel } from '../track/track-model';
 import { ScrobblingService } from './scrobbling.service';
 import { SignInState } from './sign-in-state';
-import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { PlaybackService } from '../playback/playback.service';
 import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { ScrobblingServiceBase } from './scrobbling.service.base';
 import { Track } from '../../data/entities/track';
 
 describe('ScrobblingService', () => {
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let lastfmApiMock: IMock<LastfmApi>;
     let dateTimeMock: IMock<DateTime>;
     let settingsMock: IMock<SettingsBase>;
@@ -35,7 +35,7 @@ describe('ScrobblingService', () => {
     const flushPromises = () => new Promise(process.nextTick);
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         lastfmApiMock = Mock.ofType<LastfmApi>();
         dateTimeMock = Mock.ofType<DateTime>();
         settingsMock = Mock.ofType<SettingsBase>();

@@ -8,7 +8,6 @@ import { TrackOrder } from '../track-order';
 import { TrackBrowserComponent } from './track-browser.component';
 import { TrackModels } from '../../../../services/track/track-models';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
-import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { PlaybackIndicationServiceBase } from '../../../../services/playback-indication/playback-indication.service.base';
 import { MetadataServiceBase } from '../../../../services/metadata/metadata.service.base';
@@ -22,9 +21,10 @@ import { DateTime } from '../../../../common/date-time';
 import { GuidFactory } from '../../../../common/guid.factory';
 import { TrackSorter } from '../../../../common/sorting/track-sorter';
 import { SettingsMock } from '../../../../testing/settings-mock';
+import { PlaybackService } from '../../../../services/playback/playback.service';
 
 describe('TrackBrowserComponent', () => {
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let playbackIndicationServiceMock: IMock<PlaybackIndicationServiceBase>;
@@ -61,7 +61,7 @@ describe('TrackBrowserComponent', () => {
     let tracks: TrackModels;
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         playbackIndicationServiceMock = Mock.ofType<PlaybackIndicationServiceBase>();

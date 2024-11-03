@@ -10,7 +10,6 @@ import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { BaseTracksPersister } from '../base-tracks-persister';
 import { TrackOrder } from '../track-order';
 import { TrackBrowserBase } from './track-brower-base';
-import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
 import { MetadataServiceBase } from '../../../../services/metadata/metadata.service.base';
 import { PlaybackIndicationServiceBase } from '../../../../services/playback-indication/playback-indication.service.base';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
@@ -21,6 +20,7 @@ import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { TrackSorter } from '../../../../common/sorting/track-sorter';
 import { Timer } from '../../../../common/scheduling/timer';
+import {PlaybackService} from "../../../../services/playback/playback.service";
 
 @Component({
     selector: 'app-track-browser',
@@ -36,7 +36,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        public playbackService: PlaybackServiceBase,
+        public playbackService: PlaybackService,
         public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,

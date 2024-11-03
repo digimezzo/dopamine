@@ -18,7 +18,7 @@ import { ApplicationBase } from '../../common/io/application.base';
 import { AppearanceServiceBase } from './appearance.service.base';
 import { RgbColor } from '../../common/rgb-color';
 import { ApplicationPaths } from '../../common/application/application-paths';
-import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { PlaybackService } from '../playback/playback.service';
 import { AlbumAccentColorService } from '../album-accent-color/album-accent-color.service';
 import { PlaybackStarted } from '../playback/playback-started';
 import { TrackModel } from '../track/track-model';
@@ -34,7 +34,7 @@ describe('AppearanceService', () => {
     let defaultThemesCreatorMock: IMock<DefaultThemesCreator>;
     let documentProxyMock: IMock<DocumentProxy>;
     let applicationPathsMock: IMock<ApplicationPaths>;
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let albumAccentColorServiceMock: IMock<AlbumAccentColorService>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
@@ -338,7 +338,7 @@ describe('AppearanceService', () => {
         defaultThemesCreatorMock = Mock.ofType<DefaultThemesCreator>();
         documentProxyMock = Mock.ofType<DocumentProxy>();
         applicationPathsMock = Mock.ofType<ApplicationPaths>();
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         albumAccentColorServiceMock = Mock.ofType<AlbumAccentColorService>();
 
         playbackServicePlaybackStartedMock = new Subject();

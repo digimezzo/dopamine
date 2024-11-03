@@ -5,7 +5,7 @@ import { PlaybackStarted } from '../playback/playback-started';
 import { TrackModel } from '../track/track-model';
 import { PlaybackInformation } from './playback-information';
 import { PlaybackInformationService } from './playback-information.service';
-import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { PlaybackService } from '../playback/playback.service';
 import { MetadataServiceBase } from '../metadata/metadata.service.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
@@ -15,7 +15,7 @@ import { MockCreator } from '../../testing/mock-creator';
 import { SettingsMock } from '../../testing/settings-mock';
 
 describe('PlaybackInformationService', () => {
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let metadataServiceMock: IMock<MetadataServiceBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let dateTimeMock: IMock<DateTime>;
@@ -29,7 +29,7 @@ describe('PlaybackInformationService', () => {
     const flushPromises = () => new Promise(process.nextTick);
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         metadataServiceMock = Mock.ofType<MetadataServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         dateTimeMock = Mock.ofType<DateTime>();

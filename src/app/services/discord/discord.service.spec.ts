@@ -9,12 +9,12 @@ import { PlaybackStarted } from '../playback/playback-started';
 import { TrackModel } from '../track/track-model';
 import { DiscordService } from './discord.service';
 import { PresenceUpdater } from './presence-updater';
-import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { PlaybackService } from '../playback/playback.service';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
 
 describe('DiscordService', () => {
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let presenceUpdaterMock: IMock<PresenceUpdater>;
@@ -31,7 +31,7 @@ describe('DiscordService', () => {
     let trackModel: TrackModel;
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         presenceUpdaterMock = Mock.ofType<PresenceUpdater>();

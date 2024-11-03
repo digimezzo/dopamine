@@ -7,7 +7,7 @@ import { PlaylistRowsGetter } from '../playlist-folder-browser/playlist-rows-get
 import { PlaylistOrder } from '../playlist-order';
 import { PlaylistsPersister } from '../playlists-persister';
 import { PlaylistRow } from './playlist-row';
-import { PlaybackServiceBase } from '../../../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../../../services/playback/playback.service';
 import { PlaylistServiceBase } from '../../../../../services/playlist/playlist.service.base';
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
@@ -32,7 +32,7 @@ export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDes
     private destroy$ = new Subject<void>();
 
     public constructor(
-        public playbackService: PlaybackServiceBase,
+        public playbackService: PlaybackService,
         public playlistService: PlaylistServiceBase,
         private applicationService: ApplicationServiceBase,
         private translatorService: TranslatorServiceBase,

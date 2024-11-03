@@ -1,6 +1,6 @@
 import { Mock, Times } from 'typemoq';
 import { VolumeControlComponent } from './volume-control.component';
-import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../services/playback/playback.service';
 
 describe('VolumeControlComponent', () => {
     let playbackServiceMock: any;
@@ -12,7 +12,7 @@ describe('VolumeControlComponent', () => {
     describe('constructor', () => {
         it('should create', () => {
             // Arrange
-            const playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+            const playbackServiceMock = Mock.ofType<PlaybackService>();
 
             // Act
             const component: VolumeControlComponent = new VolumeControlComponent(playbackServiceMock.object);
@@ -48,7 +48,7 @@ describe('VolumeControlComponent', () => {
     describe('toggleMute', () => {
         it('should call playbackService.toggleMute()', () => {
             // Arrange
-            const playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+            const playbackServiceMock = Mock.ofType<PlaybackService>();
             const component: VolumeControlComponent = new VolumeControlComponent(playbackServiceMock.object);
 
             // Act

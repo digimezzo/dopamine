@@ -4,7 +4,7 @@ import { DateTime } from '../../common/date-time';
 import { PlaybackInformation } from '../playback-information/playback-information';
 import { TrackModel } from '../track/track-model';
 import { MediaSessionService } from './media-session.service';
-import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { PlaybackService } from '../playback/playback.service';
 import { PlaybackInformationServiceBase } from '../playback-information/playback-information.service.base';
 import { MediaSessionProxyBase } from '../../common/io/media-session-proxy.base';
 import { MediaSessionServiceBase } from './media-session.service.base';
@@ -12,7 +12,7 @@ import { Track } from '../../data/entities/track';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 
 describe('MediaSessionService', () => {
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let playbackInformationServiceMock: IMock<PlaybackInformationServiceBase>;
     let mediaSessionProxyMock: IMock<MediaSessionProxyBase>;
     let settingsMock: any;
@@ -21,7 +21,7 @@ describe('MediaSessionService', () => {
     let playingPreviousTrack: Subject<PlaybackInformation>;
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         playbackInformationServiceMock = Mock.ofType<PlaybackInformationServiceBase>();
         mediaSessionProxyMock = Mock.ofType<MediaSessionProxyBase>();
         settingsMock = { enableMultimediaKeys: false };

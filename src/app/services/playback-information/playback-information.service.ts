@@ -7,7 +7,7 @@ import { TrackModel } from '../track/track-model';
 
 import { PlaybackInformation } from './playback-information';
 import { PlaybackInformationServiceBase } from './playback-information.service.base';
-import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { PlaybackService } from '../playback/playback.service';
 import { MetadataServiceBase } from '../metadata/metadata.service.base';
 import { Constants } from '../../common/application/constants';
 
@@ -21,7 +21,7 @@ export class PlaybackInformationService implements PlaybackInformationServiceBas
     private cachedPlaybackinformation: PlaybackInformation | undefined;
 
     public constructor(
-        private playbackService: PlaybackServiceBase,
+        private playbackService: PlaybackService,
         private metadataService: MetadataServiceBase,
     ) {
         this.subscription.add(

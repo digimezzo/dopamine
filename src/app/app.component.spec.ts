@@ -15,13 +15,13 @@ import { NavigationServiceBase } from './services/navigation/navigation.service.
 import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
 import { DesktopBase } from './common/io/desktop.base';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
-import { PlaybackServiceBase } from './services/playback/playback.service.base';
 import { LifetimeService } from './services/lifetime/lifetime.service';
 import { SwitchPlayerService } from './services/player-switcher/switch-player.service';
+import { PlaybackService } from './services/playback/playback.service';
 
 describe('AppComponent', () => {
     let playerSwitcherServiceMock: IMock<SwitchPlayerService>;
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let navigationServiceMock: IMock<NavigationServiceBase>;
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -45,7 +45,6 @@ describe('AppComponent', () => {
 
     function createComponent(): AppComponent {
         return new AppComponent(
-            playerSwitcherServiceMock.object,
             playbackServiceMock.object,
             navigationServiceMock.object,
             appearanceServiceMock.object,
@@ -66,7 +65,7 @@ describe('AppComponent', () => {
 
     beforeEach(() => {
         playerSwitcherServiceMock = Mock.ofType<SwitchPlayerService>();
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();

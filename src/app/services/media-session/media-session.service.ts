@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PlaybackInformation } from '../playback-information/playback-information';
 import { MediaSessionServiceBase } from './media-session.service.base';
-import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { PlaybackService } from '../playback/playback.service';
 import { PlaybackInformationServiceBase } from '../playback-information/playback-information.service.base';
 import { MediaSessionProxyBase } from '../../common/io/media-session-proxy.base';
 import { SettingsBase } from '../../common/settings/settings.base';
@@ -11,7 +11,7 @@ export class MediaSessionService implements MediaSessionServiceBase {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        private playbackService: PlaybackServiceBase,
+        private playbackService: PlaybackService,
         private playbackInformationService: PlaybackInformationServiceBase,
         private mediaSessionProxy: MediaSessionProxyBase,
         private settings: SettingsBase,

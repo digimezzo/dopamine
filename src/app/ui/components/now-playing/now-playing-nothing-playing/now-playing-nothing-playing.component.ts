@@ -1,5 +1,5 @@
 ﻿import { Component, ViewEncapsulation } from '@angular/core';
-import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../../services/playback/playback.service';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { TrackModels } from '../../../../services/track/track-models';
 
@@ -12,7 +12,7 @@ import { TrackModels } from '../../../../services/track/track-models';
 })
 export class NowPlayingNothingPlayingComponent {
     public constructor(
-        private playbackService: PlaybackServiceBase,
+        private playbackService: PlaybackService,
         private trackService: TrackServiceBase,
     ) {}
 

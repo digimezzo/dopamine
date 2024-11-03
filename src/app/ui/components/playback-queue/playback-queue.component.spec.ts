@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { PlaybackQueueComponent } from './playback-queue.component';
-import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../services/playback/playback.service';
 import { ContextMenuOpener } from '../context-menu-opener';
 import { MouseSelectionWatcher } from '../mouse-selection-watcher';
 import { PlaybackIndicationServiceBase } from '../../../services/playback-indication/playback-indication.service.base';
@@ -15,7 +15,7 @@ import { Track } from '../../../data/entities/track';
 import { SettingsMock } from '../../../testing/settings-mock';
 
 describe('PlaybackQueueComponent', () => {
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let playbackIndicationServiceMock: IMock<PlaybackIndicationServiceBase>;
@@ -39,7 +39,7 @@ describe('PlaybackQueueComponent', () => {
     }
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         playbackIndicationServiceMock = Mock.ofType<PlaybackIndicationServiceBase>();

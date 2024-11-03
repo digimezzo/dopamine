@@ -15,7 +15,6 @@ import { Track } from '../../../../../data/entities/track';
 import { TrackModels } from '../../../../../services/track/track-models';
 import { TracksColumnsOrderColumn } from '../../../../../services/track-columns/tracks-columns-order-column';
 import { TracksColumnsOrderDirection } from '../../../../../services/track-columns/tracks-columns-order-direction';
-import { PlaybackServiceBase } from '../../../../../services/playback/playback.service.base';
 import { MetadataServiceBase } from '../../../../../services/metadata/metadata.service.base';
 import { PlaybackIndicationServiceBase } from '../../../../../services/playback-indication/playback-indication.service.base';
 import { TracksColumnsServiceBase } from '../../../../../services/track-columns/tracks-columns.service.base';
@@ -24,9 +23,10 @@ import { TranslatorServiceBase } from '../../../../../services/translator/transl
 import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
 import { CollectionServiceBase } from '../../../../../services/collection/collection.service.base';
 import { SettingsMock } from '../../../../../testing/settings-mock';
+import {PlaybackService} from "../../../../../services/playback/playback.service";
 
 describe('CollectionTracksTableComponent', () => {
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
@@ -84,7 +84,7 @@ describe('CollectionTracksTableComponent', () => {
     }
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();

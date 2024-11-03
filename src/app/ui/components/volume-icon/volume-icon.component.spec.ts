@@ -1,6 +1,6 @@
 import { Mock } from 'typemoq';
-import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
 import { VolumeIconComponent } from './volume-icon.component';
+import {PlaybackService} from "../../../services/playback/playback.service";
 
 describe('VolumeIconComponent', () => {
     let playbackServiceMock: any;
@@ -12,7 +12,7 @@ describe('VolumeIconComponent', () => {
     describe('constructor', () => {
         it('should create', () => {
             // Arrange
-            const playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+            const playbackServiceMock = Mock.ofType<PlaybackService>();
 
             // Act
             const component: VolumeIconComponent = new VolumeIconComponent(playbackServiceMock.object);

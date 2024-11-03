@@ -19,9 +19,8 @@ import { EventListenerServiceBase } from './services/event-listener/event-listen
 import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
 import { DesktopBase } from './common/io/desktop.base';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
-import { PlaybackServiceBase } from './services/playback/playback.service.base';
 import { LifetimeService } from './services/lifetime/lifetime.service';
-import { SwitchPlayerService } from './services/player-switcher/switch-player.service';
+import { PlaybackService } from './services/playback/playback.service';
 
 @Component({
     selector: 'app-root',
@@ -32,8 +31,7 @@ export class AppComponent implements OnInit {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        private playerSwitcherService: SwitchPlayerService,
-        private playbackService: PlaybackServiceBase,
+        private playbackService: PlaybackService,
         private navigationService: NavigationServiceBase,
         private appearanceService: AppearanceServiceBase,
         private translatorService: TranslatorServiceBase,

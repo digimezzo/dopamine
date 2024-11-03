@@ -5,7 +5,6 @@ import { AlbumOrder } from '../album-order';
 import { BaseAlbumsPersister } from '../base-albums-persister';
 import { AlbumBrowserComponent } from './album-browser.component';
 import { AlbumRowsGetter } from './album-rows-getter';
-import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
 import { ApplicationServiceBase } from '../../../../services/application/application.service.base';
 import { NativeElementProxy } from '../../../../common/native-element-proxy';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
@@ -16,9 +15,10 @@ import { ContextMenuOpener } from '../../context-menu-opener';
 import { AlbumData } from '../../../../data/entities/album-data';
 import { AlbumModel } from '../../../../services/album/album-model';
 import { ApplicationPaths } from '../../../../common/application/application-paths';
+import { PlaybackService } from '../../../../services/playback/playback.service';
 
 describe('AlbumBrowserComponent', () => {
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let applicationServiceMock: IMock<ApplicationServiceBase>;
     let albumRowsGetterMock: IMock<AlbumRowsGetter>;
     let nativeElementProxyMock: IMock<NativeElementProxy>;
@@ -48,7 +48,7 @@ describe('AlbumBrowserComponent', () => {
     }
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         applicationServiceMock = Mock.ofType<ApplicationServiceBase>();
         albumRowsGetterMock = Mock.ofType<AlbumRowsGetter>();
         nativeElementProxyMock = Mock.ofType<NativeElementProxy>();

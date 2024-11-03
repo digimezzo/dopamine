@@ -20,7 +20,6 @@ import { TrackServiceBase } from '../track/track.service.base';
 import { PlaylistServiceBase } from '../playlist/playlist.service.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { AudioPlayerBase } from './audio-player.base';
-import { PlaybackServiceBase } from './playback.service.base';
 import { AlbumData } from '../../data/entities/album-data';
 import { NotificationServiceBase } from '../notification/notification.service.base';
 import { ApplicationPaths } from '../../common/application/application-paths';
@@ -150,7 +149,7 @@ describe('PlaybackService', () => {
         subscription.unsubscribe();
     });
 
-    function createService(): PlaybackServiceBase {
+    function createService(): PlaybackService {
         return new PlaybackService(
             trackServiceMock.object,
             playlistServiceMock.object,
@@ -169,7 +168,7 @@ describe('PlaybackService', () => {
     describe('constructor', () => {
         it('should create', () => {
             // Arrange, Act
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Assert
             expect(service).toBeDefined();
@@ -177,7 +176,7 @@ describe('PlaybackService', () => {
 
         it('should declare currentTrack', () => {
             // Arrange, Act
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Assert
             expect(service.currentTrack).toBeUndefined();
@@ -185,7 +184,7 @@ describe('PlaybackService', () => {
 
         it('should define progressChanged$', () => {
             // Arrange, Act
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Assert
             expect(service.progressChanged$).toBeDefined();
@@ -193,7 +192,7 @@ describe('PlaybackService', () => {
 
         it('should define progress with progressSeconds as 0 and totalSeconds as 0', () => {
             // Arrange, Act
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Assert
             expect(service.progress.progressSeconds).toEqual(0);
@@ -202,7 +201,7 @@ describe('PlaybackService', () => {
 
         it('should define playbackStarted$', () => {
             // Arrange, Act
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Assert
             expect(service.playbackStarted$).toBeDefined();
@@ -210,7 +209,7 @@ describe('PlaybackService', () => {
 
         it('should define playbackPaused$', () => {
             // Arrange, Act
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Assert
             expect(service.playbackPaused$).toBeDefined();
@@ -218,7 +217,7 @@ describe('PlaybackService', () => {
 
         it('should define playbackResumed$', () => {
             // Arrange, Act
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Assert
             expect(service.playbackResumed$).toBeDefined();
@@ -226,7 +225,7 @@ describe('PlaybackService', () => {
 
         it('should define playbackStopped$', () => {
             // Arrange, Act
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Assert
             expect(service.playbackStopped$).toBeDefined();
@@ -234,7 +233,7 @@ describe('PlaybackService', () => {
 
         it('should define playbackSkipped$', () => {
             // Arrange, Act
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Assert
             expect(service.playbackSkipped$).toBeDefined();
@@ -242,7 +241,7 @@ describe('PlaybackService', () => {
 
         it('should initialize loopMode as LoopMode.None', () => {
             // Arrange, Act
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Assert
             expect(service.loopMode).toEqual(LoopMode.None);
@@ -250,7 +249,7 @@ describe('PlaybackService', () => {
 
         it('should initialize isPlaying as false', () => {
             // Arrange, Act
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Assert
             expect(service.isShuffled).toBeFalsy();
@@ -258,7 +257,7 @@ describe('PlaybackService', () => {
 
         it('should initialize isShuffled as false', () => {
             // Arrange, Act
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Assert
             expect(service.isShuffled).toBeFalsy();
@@ -266,7 +265,7 @@ describe('PlaybackService', () => {
 
         it('should initialize canPause as false', () => {
             // Arrange, Act
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Assert
             expect(service.canPause).toBeFalsy();
@@ -274,7 +273,7 @@ describe('PlaybackService', () => {
 
         it('should initialize canResume as true', () => {
             // Arrange, Act
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Assert
             expect(service.canResume).toBeTruthy();
@@ -283,7 +282,7 @@ describe('PlaybackService', () => {
         it('should apply volume from the settings when not muted', () => {
             // Arrange, Act
             settingsStub.isMuted = false;
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Assert
             expect(service.volume).toEqual(0.6);
@@ -292,7 +291,7 @@ describe('PlaybackService', () => {
 
         it('should stop playback on playback finished if a next track is not found', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getNextTrack(It.isAny(), false)).returns(() => undefined);
 
@@ -312,7 +311,7 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback is stopped on playback finished if a next track is not found', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getNextTrack(It.isAny(), false)).returns(() => undefined);
             let playbackIsStopped: boolean = false;
@@ -332,7 +331,7 @@ describe('PlaybackService', () => {
 
         it('should set the current track to undefined before raising a playback stopped event', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getNextTrack(It.isAny(), false)).returns(() => undefined);
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
@@ -355,7 +354,7 @@ describe('PlaybackService', () => {
 
         it('should play the same track on playback finished if loopMode is One', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.loopMode !== LoopMode.One) {
                 service.toggleLoopMode();
@@ -375,7 +374,7 @@ describe('PlaybackService', () => {
 
         it('should not play the next track on playback finished if found and if loopMode is One', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.loopMode !== LoopMode.One) {
                 service.toggleLoopMode();
@@ -397,7 +396,7 @@ describe('PlaybackService', () => {
 
         it('should play the next track on playback finished if found and if loopMode is All', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.loopMode !== LoopMode.All) {
                 service.toggleLoopMode();
@@ -419,7 +418,7 @@ describe('PlaybackService', () => {
 
         it('should play the next track on playback finished if found and if loopMode is None', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.loopMode !== LoopMode.None) {
                 service.toggleLoopMode();
@@ -441,7 +440,7 @@ describe('PlaybackService', () => {
 
         it('should increase play count and date last played for the current track on playback finished', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModelMock.object);
@@ -456,7 +455,7 @@ describe('PlaybackService', () => {
 
         it('should save play count and date last played for the current track on playback finished', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModelMock.object);
@@ -470,7 +469,7 @@ describe('PlaybackService', () => {
         });
 
         it('should listen to progress changes, set the progress in the service and publish progress changed.', () => {
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             let subscribedProgress: PlaybackProgress | undefined;
 
@@ -496,7 +495,7 @@ describe('PlaybackService', () => {
     describe('toggleLoopMode', () => {
         it('should set loopMode to All when loopMode is None', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.loopMode !== LoopMode.None) {
                 service.toggleLoopMode();
@@ -511,7 +510,7 @@ describe('PlaybackService', () => {
 
         it('should set loopMode to One when loopMode is All', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.loopMode !== LoopMode.All) {
                 service.toggleLoopMode();
@@ -526,7 +525,7 @@ describe('PlaybackService', () => {
 
         it('should set loopMode to None when loopMode is One', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.loopMode !== LoopMode.One) {
                 service.toggleLoopMode();
@@ -543,7 +542,7 @@ describe('PlaybackService', () => {
     describe('toggleIsShuffled', () => {
         it('should enable shuffle when shuffle is disabled', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.isShuffled) {
                 service.toggleIsShuffled();
@@ -558,7 +557,7 @@ describe('PlaybackService', () => {
 
         it('should shuffle the queue when shuffle is disabled', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.isShuffled) {
                 service.toggleIsShuffled();
@@ -573,7 +572,7 @@ describe('PlaybackService', () => {
 
         it('should not unshuffle the queue when shuffle is disabled', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.isShuffled) {
                 service.toggleIsShuffled();
@@ -588,7 +587,7 @@ describe('PlaybackService', () => {
 
         it('should disable shuffle when shuffle is enabled', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (!service.isShuffled) {
                 service.toggleIsShuffled();
@@ -603,7 +602,7 @@ describe('PlaybackService', () => {
 
         it('should have shuffled the queue when shuffle is enabled', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (!service.isShuffled) {
                 service.toggleIsShuffled();
@@ -618,7 +617,7 @@ describe('PlaybackService', () => {
 
         it('should unshuffle the queue when shuffle is enabled', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (!service.isShuffled) {
                 service.toggleIsShuffled();
@@ -635,7 +634,7 @@ describe('PlaybackService', () => {
     describe('forceShuffled', () => {
         it('should enable shuffle', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.isShuffled) {
                 service.toggleIsShuffled();
@@ -650,7 +649,7 @@ describe('PlaybackService', () => {
 
         it('should shuffle the queue', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.isShuffled) {
                 service.toggleIsShuffled();
@@ -667,7 +666,7 @@ describe('PlaybackService', () => {
     describe('enqueueAndPlayTracks', () => {
         it('should not add tracks to the queue if tracks is empty', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
 
@@ -680,7 +679,7 @@ describe('PlaybackService', () => {
 
         it('should not start playback if tracks is empty', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
 
@@ -697,7 +696,7 @@ describe('PlaybackService', () => {
 
         it('should add tracks to the queue unshuffled if shuffle is disabled', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
 
@@ -710,7 +709,7 @@ describe('PlaybackService', () => {
 
         it('should add tracks to the queue shuffled if shuffle is enabled', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             service.toggleIsShuffled();
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
@@ -724,7 +723,7 @@ describe('PlaybackService', () => {
 
         it('should start playback', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             audioPlayerMock.reset();
             audioPlayerMock.setup((x) => x.stop()).verifiable(Times.once(), ExpectedCallType.InSequence);
@@ -745,7 +744,7 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             let receivedTrack: TrackModel | undefined;
             let isPlayingPreviousTrack: boolean = true;
@@ -770,7 +769,7 @@ describe('PlaybackService', () => {
     describe('enqueueAndPlayTracksStartingFromGivenTrack', () => {
         it('should not add tracks to the queue if tracks is empty', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             service.enqueueAndPlayTracksStartingFromGivenTrack([], trackModel1);
@@ -781,7 +780,7 @@ describe('PlaybackService', () => {
 
         it('should not start playback if tracks is empty', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             service.enqueueAndPlayTracksStartingFromGivenTrack([], trackModel1);
@@ -797,7 +796,7 @@ describe('PlaybackService', () => {
         it('should add tracks to the queue unshuffled if shuffle is disabled', () => {
             // Arrange
             queueMock.setup((x) => x.setTracks(trackModels, false)).returns(() => trackModels);
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             service.enqueueAndPlayTracksStartingFromGivenTrack(trackModels, trackModel1);
@@ -809,7 +808,7 @@ describe('PlaybackService', () => {
         it('should add tracks to the queue shuffled if shuffle is enabled', () => {
             // Arrange
             queueMock.setup((x) => x.setTracks(trackModels, true)).returns(() => trackModels);
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
             service.toggleIsShuffled();
 
             // Act
@@ -822,7 +821,7 @@ describe('PlaybackService', () => {
         it('should start playback', () => {
             // Arrange
             queueMock.setup((x) => x.setTracks(trackModels, false)).returns(() => trackModels);
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             audioPlayerMock.reset();
             audioPlayerMock.setup((x) => x.stop()).verifiable(Times.once(), ExpectedCallType.InSequence);
@@ -843,7 +842,7 @@ describe('PlaybackService', () => {
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
             // Arrange
             queueMock.setup((x) => x.setTracks(trackModels, false)).returns(() => trackModels);
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             let receivedTrack: TrackModel | undefined;
             let isPlayingPreviousTrack: boolean = true;
@@ -866,7 +865,7 @@ describe('PlaybackService', () => {
     describe('enqueueAndPlayArtist', () => {
         it('should get tracks for the given artist', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
@@ -880,7 +879,7 @@ describe('PlaybackService', () => {
 
         it('should order tracks for the artist byAlbum', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
@@ -894,7 +893,7 @@ describe('PlaybackService', () => {
 
         it('should add tracks to the queue ordered by album', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
@@ -908,7 +907,7 @@ describe('PlaybackService', () => {
 
         it('should start playback', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
             audioPlayerMock.reset();
@@ -930,7 +929,7 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
             let receivedTrack: TrackModel | undefined;
@@ -956,7 +955,7 @@ describe('PlaybackService', () => {
     describe('enqueueAndPlayGenre', () => {
         it('should get tracks for the given genre', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             const genreToPlay: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
@@ -970,7 +969,7 @@ describe('PlaybackService', () => {
 
         it('should order tracks for the artist byAlbum', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             const genreToPlay: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
@@ -984,7 +983,7 @@ describe('PlaybackService', () => {
 
         it('should add tracks to the queue ordered by album', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             const genreToPlay: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
@@ -998,7 +997,7 @@ describe('PlaybackService', () => {
 
         it('should start playback', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             const genreToPlay: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
 
@@ -1021,7 +1020,7 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             const genreToPlay: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
             audioPlayerMock.reset();
@@ -1047,7 +1046,7 @@ describe('PlaybackService', () => {
     describe('enqueueAndPlayAlbum', () => {
         it('should get tracks for the given album', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
 
@@ -1060,7 +1059,7 @@ describe('PlaybackService', () => {
 
         it('should order tracks for the album byAlbum', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
 
@@ -1073,7 +1072,7 @@ describe('PlaybackService', () => {
 
         it('should add tracks to the queue ordered by album', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
 
@@ -1086,7 +1085,7 @@ describe('PlaybackService', () => {
 
         it('should start playback', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             audioPlayerMock.reset();
             audioPlayerMock.setup((x) => x.stop()).verifiable(Times.once(), ExpectedCallType.InSequence);
@@ -1107,7 +1106,7 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             let receivedTrack: TrackModel | undefined;
             let isPlayingPreviousTrack: boolean = true;
@@ -1136,7 +1135,7 @@ describe('PlaybackService', () => {
     describe('pause', () => {
         it('should pause playback', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -1154,7 +1153,7 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback is paused.', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -1177,7 +1176,7 @@ describe('PlaybackService', () => {
     describe('resume', () => {
         it('should resume playback if playing', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -1198,7 +1197,7 @@ describe('PlaybackService', () => {
         it('should not resume playback if not playing and the queue is empty', () => {
             // Arrange
             queueMock.setup((x) => x.getFirstTrack()).returns(() => undefined);
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             service.resume();
@@ -1214,7 +1213,7 @@ describe('PlaybackService', () => {
         it('should start playing the first queued track if not playing and the queue is not empty', () => {
             // Arrange
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             service.resume();
@@ -1229,7 +1228,7 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback is resumed if playing', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -1252,7 +1251,7 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback is resumed if not playing', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             let playbackIsResumed: boolean = false;
 
@@ -1273,7 +1272,7 @@ describe('PlaybackService', () => {
     describe('skipByFractionOfTotalSeconds', () => {
         it('should skip to a fraction of the total seconds', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             audioPlayerMock.setup((x) => x.totalSeconds).returns(() => 60);
 
@@ -1286,7 +1285,7 @@ describe('PlaybackService', () => {
 
         it('should immediately set progress', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             audioPlayerMock.setup((x) => x.totalSeconds).returns(() => 60);
             const progress: PlaybackProgress = new PlaybackProgress(20, 200);
@@ -1302,7 +1301,7 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback was skipped', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             audioPlayerMock.setup((x) => x.totalSeconds).returns(() => 60);
             progressUpdaterMock.setup((x) => x.getCurrentProgress()).returns(() => new PlaybackProgress(20, 200));
@@ -1325,7 +1324,7 @@ describe('PlaybackService', () => {
     describe('playPrevious', () => {
         it('should play the current track if there is a current track and playback lasted for more than 3 seconds', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -1346,7 +1345,7 @@ describe('PlaybackService', () => {
 
         it('should play the previous track if found and playback lasted for less then 3 seconds', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -1368,7 +1367,7 @@ describe('PlaybackService', () => {
 
         it('should stop playback if a previous track was not found and playback lasted for less then 3 seconds', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -1390,7 +1389,7 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback is stopped if a previous track was not found and playback lasted for less then 3 seconds.', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -1414,7 +1413,7 @@ describe('PlaybackService', () => {
 
         it('should set the current track to undefined before raising a stop event', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -1436,7 +1435,7 @@ describe('PlaybackService', () => {
 
         it('should get the previous track without wrap around if loopMode is None', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.loopMode !== LoopMode.None) {
                 service.toggleLoopMode();
@@ -1451,7 +1450,7 @@ describe('PlaybackService', () => {
 
         it('should get the previous track with wrap around if loopMode is All', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.loopMode !== LoopMode.All) {
                 service.toggleLoopMode();
@@ -1466,7 +1465,7 @@ describe('PlaybackService', () => {
 
         it('should get the previous track with wrap around if loopMode is One', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.loopMode !== LoopMode.One) {
                 service.toggleLoopMode();
@@ -1481,7 +1480,7 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback has started, containing the current track and if a previous track is being played.', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -1505,7 +1504,7 @@ describe('PlaybackService', () => {
     describe('playNext', () => {
         it('should stop playback if a next track is not found', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => undefined);
             progressUpdaterMock.reset();
@@ -1528,7 +1527,7 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback is stopped if a next track is not found', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -1552,7 +1551,7 @@ describe('PlaybackService', () => {
 
         it('should set the current track to undefined before raising a stop event', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -1576,7 +1575,7 @@ describe('PlaybackService', () => {
 
         it('should play the next track if found', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -1599,7 +1598,7 @@ describe('PlaybackService', () => {
 
         it('should get the next track without wrap around if loopMode is None', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.loopMode !== LoopMode.None) {
                 service.toggleLoopMode();
@@ -1613,7 +1612,7 @@ describe('PlaybackService', () => {
         });
         it('should get the next track with wrap around if loopMode is All', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.loopMode !== LoopMode.All) {
                 service.toggleLoopMode();
@@ -1627,7 +1626,7 @@ describe('PlaybackService', () => {
         });
         it('should get the next track with wrap around if loopMode is One', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             while (service.loopMode !== LoopMode.One) {
                 service.toggleLoopMode();
@@ -1642,7 +1641,7 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -1665,7 +1664,7 @@ describe('PlaybackService', () => {
         });
 
         it('should increase play count and date last played for the current track if progress is more than 80%', () => {
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModelMock.object);
             service.enqueueAndPlayTracks([trackModelMock.object]);
@@ -1679,7 +1678,7 @@ describe('PlaybackService', () => {
         });
 
         it('should save play count and date last played for the current track if progress is more than 80%', () => {
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModelMock.object);
             service.enqueueAndPlayTracks([trackModelMock.object]);
@@ -1693,7 +1692,7 @@ describe('PlaybackService', () => {
         });
 
         it('should increase skip count for the current track if progress is less than 80%', () => {
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModelMock.object);
             service.enqueueAndPlayTracks([trackModelMock.object]);
@@ -1707,7 +1706,7 @@ describe('PlaybackService', () => {
         });
 
         it('should save skip count for the current track if progress is less than 80%', () => {
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModelMock.object);
             service.enqueueAndPlayTracks([trackModelMock.object]);
@@ -1724,7 +1723,7 @@ describe('PlaybackService', () => {
     describe('volume', () => {
         it('should return the volume', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             const volume: number = service.volume;
@@ -1735,7 +1734,7 @@ describe('PlaybackService', () => {
 
         it('should set the provided volume if a volume between 0 and 1 exclusive is provided', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             mathExtensionsMock.setup((x) => x.clamp(0.8, 0, 1)).returns(() => 0.8);
 
@@ -1748,7 +1747,7 @@ describe('PlaybackService', () => {
 
         it('should set the audio player volume to the provided volume if a volume between 0 and 1 exclusive is provided', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             mathExtensionsMock.setup((x) => x.clamp(0.8, 0, 1)).returns(() => 0.8);
 
@@ -1761,7 +1760,7 @@ describe('PlaybackService', () => {
 
         it('should save the provided volume in the settings if a volume between 0 and 1 exclusive is provided', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             mathExtensionsMock.setup((x) => x.clamp(0.8, 0, 1)).returns(() => 0.8);
 
@@ -1774,7 +1773,7 @@ describe('PlaybackService', () => {
 
         it('should set the provided volume if a volume of 0 is provided', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             mathExtensionsMock.setup((x) => x.clamp(0, 0, 1)).returns(() => 0);
 
@@ -1787,7 +1786,7 @@ describe('PlaybackService', () => {
 
         it('should set the audio player volume to the provided volume if a volume of 0 is provided', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             mathExtensionsMock.setup((x) => x.clamp(0, 0, 1)).returns(() => 0);
 
@@ -1800,7 +1799,7 @@ describe('PlaybackService', () => {
 
         it('should save the provided volume in the settings if a volume of 0 is provided', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             mathExtensionsMock.setup((x) => x.clamp(0, 0, 1)).returns(() => 0);
 
@@ -1813,7 +1812,7 @@ describe('PlaybackService', () => {
 
         it('should set the provided volume if a volume of 1 is provided', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             mathExtensionsMock.setup((x) => x.clamp(1, 0, 1)).returns(() => 1);
 
@@ -1826,7 +1825,7 @@ describe('PlaybackService', () => {
 
         it('should set the audio player volume to the provided volume if a volume of 1 is provided', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             mathExtensionsMock.setup((x) => x.clamp(1, 0, 1)).returns(() => 1);
 
@@ -1839,7 +1838,7 @@ describe('PlaybackService', () => {
 
         it('should save the provided volume in the settings if a volume of 1 is provided', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             mathExtensionsMock.setup((x) => x.clamp(1, 0, 1)).returns(() => 1);
 
@@ -1852,7 +1851,7 @@ describe('PlaybackService', () => {
 
         it('should set the volume to 0 if a volume smaller than 0 is provided', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             mathExtensionsMock.setup((x) => x.clamp(-0.5, 0, 1)).returns(() => 0);
 
@@ -1865,7 +1864,7 @@ describe('PlaybackService', () => {
 
         it('should set the audio player volume to 0 if a volume smaller than 0 is provided', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             mathExtensionsMock.setup((x) => x.clamp(-0.5, 0, 1)).returns(() => 0);
 
@@ -1878,7 +1877,7 @@ describe('PlaybackService', () => {
 
         it('should save a volume of 0 in the settings if a volume smaller than 0 is provided', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             mathExtensionsMock.setup((x) => x.clamp(-0.5, 0, 1)).returns(() => 0);
 
@@ -1891,7 +1890,7 @@ describe('PlaybackService', () => {
 
         it('should set the volume to 1 if a volume greater than 1 is provided', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             mathExtensionsMock.setup((x) => x.clamp(1.5, 0, 1)).returns(() => 1);
 
@@ -1904,7 +1903,7 @@ describe('PlaybackService', () => {
 
         it('should set the audio player volume to 1 if a volume greater than 1 is provided', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             mathExtensionsMock.setup((x) => x.clamp(1.5, 0, 1)).returns(() => 1);
 
@@ -1917,7 +1916,7 @@ describe('PlaybackService', () => {
 
         it('should save a volume of 1 in the settings if a volume greater than 1 is provided', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             mathExtensionsMock.setup((x) => x.clamp(1.5, 0, 1)).returns(() => 1);
 
@@ -1936,7 +1935,7 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.tracks).returns(() => []);
             queueMock.setup((x) => x.tracksInPlaybackOrder).returns(() => []);
 
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             const queue: TrackModels = service.playbackQueue;
@@ -1951,7 +1950,7 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.tracks).returns(() => tracks.tracks);
             queueMock.setup((x) => x.tracksInPlaybackOrder).returns(() => tracks.tracks);
 
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             const queue: TrackModels = service.playbackQueue;
@@ -1968,7 +1967,7 @@ describe('PlaybackService', () => {
     describe('playQueuedTrack', () => {
         it('should start playback', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             audioPlayerMock.reset();
             audioPlayerMock.setup((x) => x.stop()).verifiable(Times.once(), ExpectedCallType.InSequence);
@@ -1988,7 +1987,7 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             let receivedTrack: TrackModel | undefined;
             let isPlayingPreviousTrack: boolean = true;
@@ -2011,7 +2010,7 @@ describe('PlaybackService', () => {
     describe('togglePlayback', () => {
         it('should resume playback if paused', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -2029,7 +2028,7 @@ describe('PlaybackService', () => {
 
         it('should pause playback if playing', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -2048,7 +2047,7 @@ describe('PlaybackService', () => {
     describe('removeFromQueue', () => {
         it('should not remove tracks when tracksToRemove is empty', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             service.removeFromQueue([]);
@@ -2059,7 +2058,7 @@ describe('PlaybackService', () => {
 
         it('should remove tracks when tracksToRemove has items', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             service.removeFromQueue([trackModel1]);
@@ -2072,7 +2071,7 @@ describe('PlaybackService', () => {
     describe('addTracksToQueueAsync', () => {
         it('should not add tracks to the queue if tracksToAdd is empty', async () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             await service.addTracksToQueueAsync([]);
@@ -2085,7 +2084,7 @@ describe('PlaybackService', () => {
 
         it('should add tracks to the queue if tracksToAdd has tracks', async () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             await service.addTracksToQueueAsync([trackModel1]);
@@ -2099,7 +2098,7 @@ describe('PlaybackService', () => {
     describe('addArtistToQueueAsync', () => {
         it('should get tracks for the given artist and artistType', async () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
             const artistToAdd: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
 
             // Act
@@ -2111,7 +2110,7 @@ describe('PlaybackService', () => {
 
         it('should order tracks for the artist byAlbum', async () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
             const artistToAdd: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
 
             // Act
@@ -2123,7 +2122,7 @@ describe('PlaybackService', () => {
 
         it('should add tracks to the queue ordered by album', async () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
             const artistToAdd: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
 
             // Act
@@ -2138,7 +2137,7 @@ describe('PlaybackService', () => {
     describe('addGenreToQueueAsync', () => {
         it('should get tracks for the given genre', async () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
             const genreToAdd: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
 
             // Act
@@ -2150,7 +2149,7 @@ describe('PlaybackService', () => {
 
         it('should order tracks for the artist byAlbum', async () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
             const genreToAdd: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
 
             // Act
@@ -2162,7 +2161,7 @@ describe('PlaybackService', () => {
 
         it('should add tracks to the queue ordered by album', async () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
             const genreToAdd: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
 
             // Act
@@ -2177,7 +2176,7 @@ describe('PlaybackService', () => {
     describe('addAlbumToQueueAsync', () => {
         it('should get tracks for the given album', async () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             await service.addAlbumToQueueAsync(album1);
@@ -2188,7 +2187,7 @@ describe('PlaybackService', () => {
 
         it('should order tracks for the album byAlbum', async () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             await service.addAlbumToQueueAsync(album1);
@@ -2199,7 +2198,7 @@ describe('PlaybackService', () => {
 
         it('should add tracks to the queue ordered by album', async () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             await service.addAlbumToQueueAsync(album1);
@@ -2217,7 +2216,7 @@ describe('PlaybackService', () => {
     describe('stopIfPlaying', () => {
         it('should not stop playback if there is no track playing', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             service.stopIfPlaying(trackModel2);
@@ -2228,7 +2227,7 @@ describe('PlaybackService', () => {
 
         it('should not play the next track if there is no track playing', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             service.stopIfPlaying(trackModel2);
@@ -2240,7 +2239,7 @@ describe('PlaybackService', () => {
 
         it('should not stop playback if the given track is not playing', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
             audioPlayerMock.reset();
@@ -2254,7 +2253,7 @@ describe('PlaybackService', () => {
 
         it('should stop playback if the given track is playing and it is the only track in the queue', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks([trackModel1]);
             audioPlayerMock.reset();
@@ -2269,7 +2268,7 @@ describe('PlaybackService', () => {
 
         it('should play the next track if the given track is playing and it not the only track in the queue', () => {
             // Arrange
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
             audioPlayerMock.reset();
@@ -2291,7 +2290,7 @@ describe('PlaybackService', () => {
             settingsStub.volume = 0.9;
             mathExtensionsMock.setup((x) => x.clamp(0, 0, 1)).returns(() => 0);
 
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
 
             // Act
             service.toggleMute();
@@ -2308,7 +2307,7 @@ describe('PlaybackService', () => {
             mathExtensionsMock.setup((x) => x.clamp(0, 0, 1)).returns(() => 0);
             mathExtensionsMock.setup((x) => x.clamp(0.9, 0, 1)).returns(() => 0.9);
 
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
             service.toggleMute();
             audioPlayerMock.reset();
 
@@ -2327,7 +2326,7 @@ describe('PlaybackService', () => {
             mathExtensionsMock.setup((x) => x.clamp(0, 0, 1)).returns(() => 0);
             mathExtensionsMock.setup((x) => x.clamp(0.5, 0, 1)).returns(() => 0.5);
 
-            const service: PlaybackServiceBase = createService();
+            const service: PlaybackService = createService();
             audioPlayerMock.reset();
 
             // Act

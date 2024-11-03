@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, HostListener, ViewEncapsulation } from '@angular/core';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
-import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
 import { SettingsBase } from '../../../common/settings/settings.base';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 import { DocumentProxy } from '../../../common/io/document-proxy';
 import { AnimatedPage } from '../animated-page';
 import { enterLeftToRight, enterRightToLeft } from '../../animations/animations';
 import { CollectionNavigationService } from '../../../services/collection-navigation/collection-navigation.service';
+import {PlaybackService} from "../../../services/playback/playback.service";
 
 @Component({
     selector: 'app-collection',
@@ -21,7 +21,7 @@ export class CollectionComponent extends AnimatedPage implements AfterViewInit {
         public appearanceService: AppearanceServiceBase,
         public collectionNavigationService: CollectionNavigationService,
         public settings: SettingsBase,
-        private playbackService: PlaybackServiceBase,
+        private playbackService: PlaybackService,
         private audioVisualizer: AudioVisualizer,
         private documentProxy: DocumentProxy,
     ) {

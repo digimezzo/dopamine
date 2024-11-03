@@ -6,7 +6,7 @@ import { NowPlayingPage } from '../../../services/now-playing-navigation/now-pla
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
 import { MetadataServiceBase } from '../../../services/metadata/metadata.service.base';
-import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../services/playback/playback.service';
 import { NowPlayingNavigationServiceBase } from '../../../services/now-playing-navigation/now-playing-navigation.service.base';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
@@ -96,7 +96,7 @@ export class NowPlayingComponent extends AnimatedPage implements OnInit, AfterVi
         public appearanceService: AppearanceServiceBase,
         private navigationService: NavigationServiceBase,
         private metadataService: MetadataServiceBase,
-        private playbackService: PlaybackServiceBase,
+        private playbackService: PlaybackService,
         private nowPlayingNavigationService: NowPlayingNavigationServiceBase,
         private scheduler: SchedulerBase,
         private audioVisualizer: AudioVisualizer,

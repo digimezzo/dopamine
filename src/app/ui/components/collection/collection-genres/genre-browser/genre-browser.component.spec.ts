@@ -4,7 +4,7 @@ import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { GenresPersister } from '../genres-persister';
 import { GenreBrowserComponent } from './genre-browser.component';
 import { GenreOrder } from './genre-order';
-import { PlaybackServiceBase } from '../../../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../../../services/playback/playback.service';
 import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/semantic-zoom.service.base';
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
 import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
@@ -37,7 +37,7 @@ export class CdkVirtualScrollViewportMock {
 }
 
 describe('GenreBrowserComponent', () => {
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let semanticZoomServiceMock: IMock<SemanticZoomServiceBase>;
     let applicationServiceMock: IMock<ApplicationServiceBase>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
@@ -104,7 +104,7 @@ describe('GenreBrowserComponent', () => {
         guidFactoryMock = Mock.ofType<GuidFactory>();
         schedulerMock = Mock.ofType<SchedulerBase>();
         loggerMock = Mock.ofType<Logger>();
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         genresPersisterMock = Mock.ofType<GenresPersister>();
 
         guidFactoryMock.setup((x) => x.create()).returns(() => '91c70666-8ad0-4037-8590-47f0c453c97d');

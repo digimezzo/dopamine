@@ -187,7 +187,6 @@ import { NowPlayingNavigationService } from './services/now-playing-navigation/n
 import { PlaybackIndicationService } from './services/playback-indication/playback-indication.service';
 import { PlaybackInformationService } from './services/playback-information/playback-information.service';
 import { AudioPlayer } from './services/playback/audio-player';
-import { PlaybackService } from './services/playback/playback.service';
 import { ProgressUpdater } from './services/playback/progress-updater';
 import { PlaylistFolderModelFactory } from './services/playlist-folder/playlist-folder-model-factory';
 import { PlaylistFolderService } from './services/playlist-folder/playlist-folder.service';
@@ -238,7 +237,7 @@ import { TrackServiceBase } from './services/track/track.service.base';
 import { GenreServiceBase } from './services/genre/genre.service.base';
 import { ArtistServiceBase } from './services/artist/artist.service.base';
 import { DialogServiceBase } from './services/dialog/dialog.service.base';
-import { PlaybackServiceBase } from './services/playback/playback.service.base';
+import { PlaybackService } from './services/playback/playback.service';
 import { UpdateServiceBase } from './services/update/update.service.base';
 import { TranslatorServiceBase } from './services/translator/translator.service.base';
 import { IndexingServiceBase } from './services/indexing/indexing.service.base';
@@ -588,7 +587,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: TranslatorServiceBase, useClass: TranslatorService },
         { provide: UpdateServiceBase, useClass: UpdateService },
         { provide: NotificationServiceBase, useClass: NotificationService },
-        { provide: PlaybackServiceBase, useClass: PlaybackService },
         { provide: DialogServiceBase, useClass: DialogService },
         { provide: ArtistServiceBase, useClass: ArtistService },
         { provide: GenreServiceBase, useClass: GenreService },

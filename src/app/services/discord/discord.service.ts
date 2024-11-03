@@ -5,7 +5,7 @@ import { Logger } from '../../common/logger';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { PresenceUpdater } from './presence-updater';
 import { DiscordServiceBase } from './discord.service.base';
-import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { PlaybackService } from '../playback/playback.service';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class DiscordService implements DiscordServiceBase {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        private playbackService: PlaybackServiceBase,
+        private playbackService: PlaybackService,
         private translatorService: TranslatorServiceBase,
         private presenceUpdater: PresenceUpdater,
         private dateProxy: DateProxy,

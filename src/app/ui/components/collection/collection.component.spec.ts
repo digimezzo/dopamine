@@ -2,17 +2,16 @@ import { IMock, Mock, Times } from 'typemoq';
 import { CollectionComponent } from './collection.component';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { SettingsBase } from '../../../common/settings/settings.base';
-import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
-import { SearchServiceBase } from '../../../services/search/search.service.base';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 import { DocumentProxy } from '../../../common/io/document-proxy';
 import { CollectionNavigationService } from '../../../services/collection-navigation/collection-navigation.service';
+import { PlaybackService } from '../../../services/playback/playback.service';
 
 describe('CollectionComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let collectionNavigationServiceMock: IMock<CollectionNavigationService>;
     let settingsMock: IMock<SettingsBase>;
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let audioVisualizerMock: IMock<AudioVisualizer>;
     let documentProxyMock: IMock<DocumentProxy>;
 
@@ -44,7 +43,7 @@ describe('CollectionComponent', () => {
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         collectionNavigationServiceMock = Mock.ofType<CollectionNavigationService>();
         settingsMock = Mock.ofType<SettingsBase>();
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         audioVisualizerMock = Mock.ofType<AudioVisualizer>();
         documentProxyMock = Mock.ofType<DocumentProxy>();
     });

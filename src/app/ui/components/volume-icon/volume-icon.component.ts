@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../services/playback/playback.service';
 
 @Component({
     selector: 'app-volume-icon',
@@ -8,7 +8,7 @@ import { PlaybackServiceBase } from '../../../services/playback/playback.service
     styleUrls: ['./volume-icon.component.scss'],
 })
 export class VolumeIconComponent {
-    public constructor(private playbackService: PlaybackServiceBase) {}
+    public constructor(private playbackService: PlaybackService) {}
 
     public get volume(): number {
         return this.playbackService.volume;
