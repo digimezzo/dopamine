@@ -10,7 +10,5 @@ export abstract class AudioPlayerBase {
     public abstract pause(): void;
     public abstract resume(): void;
     public abstract setVolume(volume: number): void;
-    public abstract mute(): void;
-    public abstract unMute(): void;
     public abstract skipToSeconds(seconds: number): void;
 }

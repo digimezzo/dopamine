@@ -83,14 +83,6 @@ export class AudioPlayer implements AudioPlayerBase {
         this.audio.volume = logarithmicVolume;
     }
 
-    public mute(): void {
-        this.audio.muted = true;
-    }
-
-    public unMute(): void {
-        this.audio.muted = false;
-    }
-
     public skipToSeconds(seconds: number): void {
         this.audio.currentTime = seconds;
     }
