@@ -189,7 +189,6 @@ import { PlaybackInformationService } from './services/playback-information/play
 import { AudioPlayer } from './services/playback/audio-player';
 import { PlaybackService } from './services/playback/playback.service';
 import { ProgressUpdater } from './services/playback/progress-updater';
-import { Queue } from './services/playback/queue';
 import { PlaylistFolderModelFactory } from './services/playlist-folder/playlist-folder-model-factory';
 import { PlaylistFolderService } from './services/playlist-folder/playlist-folder.service';
 import { PlaylistDecoder } from './services/playlist/playlist-decoder';
