@@ -12,7 +12,6 @@ import { PlaybackStarted } from './playback-started';
 
 export abstract class PlaybackServiceBase {
     public abstract playbackQueue: TrackModels;
-    public abstract hasPlaybackQueue: boolean;
     public abstract progressChanged$: Observable<PlaybackProgress>;
     public abstract playbackStarted$: Observable<PlaybackStarted>;
     public abstract playbackPaused$: Observable<void>;
