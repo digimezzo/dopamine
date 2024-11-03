@@ -186,8 +186,6 @@ import { NavigationService } from './services/navigation/navigation.service';
 import { NowPlayingNavigationService } from './services/now-playing-navigation/now-playing-navigation.service';
 import { PlaybackIndicationService } from './services/playback-indication/playback-indication.service';
 import { PlaybackInformationService } from './services/playback-information/playback-information.service';
-import { AudioPlayer } from './services/playback/audio-player/audio-player';
-import { ProgressUpdater } from './services/playback/progress-updater';
 import { PlaylistFolderModelFactory } from './services/playlist-folder/playlist-folder-model-factory';
 import { PlaylistFolderService } from './services/playlist-folder/playlist-folder.service';
 import { PlaylistDecoder } from './services/playlist/playlist-decoder';
@@ -211,7 +209,6 @@ import { OnlineLyricsGetter } from './services/lyrics/online-lyrics-getter';
 import { IntegrationTestRunner } from './testing/integration-test-runner';
 import { EventListenerService } from './services/event-listener/event-listener.service';
 import { Desktop } from './common/io/desktop';
-import { AudioPlayerBase } from './services/playback/audio-player/audio-player.base';
 import { EventListenerServiceBase } from './services/event-listener/event-listener.service.base';
 import { LyricsServiceBase } from './services/lyrics/lyrics.service.base';
 import { ArtistInformationServiceBase } from './services/artist-information/artist-information.service.base';
@@ -515,7 +512,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         Logger,
         Hacks,
         Shuffler,
-        ProgressUpdater,
         MathExtensions,
         PathValidator,
         AlbumRowsGetter,
@@ -614,7 +610,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: LyricsServiceBase, useClass: LyricsService },
         { provide: EventListenerServiceBase, useClass: EventListenerService },
         { provide: AudioVisualizerServiceBase, useClass: AudioVisualizerService },
-        { provide: AudioPlayerBase, useClass: AudioPlayer },
         { provide: SettingsBase, useClass: Settings },
         { provide: DatabaseMigratorBase, useClass: DatabaseMigrator },
         { provide: SchedulerBase, useClass: Scheduler },

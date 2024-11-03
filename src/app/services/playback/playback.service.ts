@@ -12,16 +12,16 @@ import { TrackModels } from '../track/track-models';
 import { LoopMode } from './loop-mode';
 import { PlaybackProgress } from './playback-progress';
 import { PlaybackStarted } from './playback-started';
-import { ProgressUpdater } from './progress-updater';
 import { Queue } from './queue';
 import { TrackServiceBase } from '../track/track.service.base';
 import { PlaylistServiceBase } from '../playlist/playlist.service.base';
-import { AudioPlayerBase } from './audio-player/audio-player.base';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { NotificationServiceBase } from '../notification/notification.service.base';
 import { TrackSorter } from '../../common/sorting/track-sorter';
 import { QueuePersister } from './queue-persister';
 import { QueueRestoreInfo } from './queue-restore-info';
+import { AudioPlayerFactory } from './audio-player/audio-player.factory';
+import { IAudioPlayer } from './audio-player/i-audio-player';
 
 @Injectable({ providedIn: 'root' })
 export class PlaybackService {
@@ -39,21 +39,24 @@ export class PlaybackService {
     private _canPause: boolean = false;
     private _canResume: boolean = true;
     private _volumeBeforeMute: number = 0;
+    private _shouldReportProgress: boolean = false;
+    private _progressInterval: number = 0;
     private subscription: Subscription = new Subscription();
+    private _audioPlayer: IAudioPlayer;
 
     public constructor(
+        private audioPlayerFactory: AudioPlayerFactory,
         private trackService: TrackServiceBase,
         private playlistService: PlaylistServiceBase,
         private notificationService: NotificationServiceBase,
         private queuePersister: QueuePersister,
-        private _audioPlayer: AudioPlayerBase,
         private trackSorter: TrackSorter,
         private queue: Queue,
-        private progressUpdater: ProgressUpdater,
         private mathExtensions: MathExtensions,
         private settings: SettingsBase,
         private logger: Logger,
     ) {
+        this._audioPlayer = this.audioPlayerFactory.create();
         this.initializeSubscriptions();
         this.applyVolumeFromSettings();
     }
@@ -71,11 +74,7 @@ export class PlaybackService {
         return trackModels;
     }
 
-    public get hasPlaybackQueue(): boolean {
-        return this.queue.tracks != undefined && this.queue.tracks.length > 0;
-    }
-
-    public get audioPlayer(): AudioPlayerBase {
+    public get audioPlayer(): IAudioPlayer {
         return this._audioPlayer;
     }
 
@@ -266,7 +265,7 @@ export class PlaybackService {
         this.audioPlayer.pause();
         this._canPause = false;
         this._canResume = true;
-        this.progressUpdater.pauseUpdatingProgress();
+        this.pauseUpdatingProgress();
         this.playbackPaused.next();
 
         if (this.currentTrack != undefined) {
@@ -290,7 +289,7 @@ export class PlaybackService {
 
         this._canPause = true;
         this._canResume = false;
-        this.progressUpdater.startUpdatingProgress();
+        this.startUpdatingProgress();
         this.playbackResumed.next();
 
         if (this.currentTrack != undefined) {
@@ -335,13 +334,13 @@ export class PlaybackService {
     public skipByFractionOfTotalSeconds(fractionOfTotalSeconds: number): void {
         const seconds: number = fractionOfTotalSeconds * this.audioPlayer.totalSeconds;
         this.audioPlayer.skipToSeconds(seconds);
-        this._progress = this.progressUpdater.getCurrentProgress();
+        this._progress = this.getCurrentProgress();
         this.playbackSkipped.next();
     }
 
     private skipToSeconds(seconds: number): void {
         this.audioPlayer.skipToSeconds(seconds);
-        this._progress = this.progressUpdater.getCurrentProgress();
+        this._progress = this.getCurrentProgress();
         this.playbackSkipped.next();
     }
 
@@ -379,7 +378,7 @@ export class PlaybackService {
         this._isPlaying = true;
         this._canPause = true;
         this._canResume = false;
-        this.progressUpdater.startUpdatingProgress();
+        this.startUpdatingProgress();
         this.playbackStarted.next(new PlaybackStarted(trackToPlay, isPlayingPreviousTrack));
 
         this.logger.info(`Playing '${this.currentTrack.path}'`, 'PlaybackService', 'play');
@@ -390,7 +389,7 @@ export class PlaybackService {
         this._isPlaying = false;
         this._canPause = false;
         this._canResume = true;
-        this.progressUpdater.stopUpdatingProgress();
+        this.stopUpdatingProgress();
 
         if (this.currentTrack != undefined) {
             this.logger.info(`Stopping '${this.currentTrack.path}'`, 'PlaybackService', 'stop');
@@ -469,13 +468,6 @@ export class PlaybackService {
                 this.playbackFinishedHandler();
             }),
         );
-
-        this.subscription.add(
-            this.progressUpdater.progressChanged$.subscribe((playbackProgress: PlaybackProgress) => {
-                this._progress = playbackProgress;
-                this.progressChanged.next(playbackProgress);
-            }),
-        );
     }
 
     private applyVolumeFromSettings(): void {
@@ -526,7 +518,38 @@ export class PlaybackService {
             this.play(info.playingTrack, false);
             this.pause();
             this.skipToSeconds(info.progressSeconds);
-            this.progressUpdater.startUpdatingProgress();
+            this.startUpdatingProgress();
         }
+    }
+
+    public getCurrentProgress(): PlaybackProgress {
+        return new PlaybackProgress(this.audioPlayer.progressSeconds, this.audioPlayer.totalSeconds);
+    }
+
+    private reportProgress(): void {
+        if (this._shouldReportProgress) {
+            this._progress = this.getCurrentProgress();
+            this.progressChanged.next(this._progress);
+        }
+    }
+
+    private startUpdatingProgress(): void {
+        this._shouldReportProgress = true;
+        this.reportProgress();
+
+        if (this._progressInterval === 0) {
+            this._progressInterval = window.setInterval(() => {
+                this.reportProgress();
+            }, 500);
+        }
+    }
+
+    public stopUpdatingProgress(): void {
+        this.pauseUpdatingProgress();
+        this.progressChanged.next(new PlaybackProgress(0, 0));
+    }
+
+    public pauseUpdatingProgress(): void {
+        this._shouldReportProgress = false;
     }
 }

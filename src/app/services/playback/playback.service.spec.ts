@@ -11,36 +11,34 @@ import { GenreModel } from '../genre/genre-model';
 import { TrackModel } from '../track/track-model';
 import { TrackModels } from '../track/track-models';
 import { LoopMode } from './loop-mode';
-import { PlaybackProgress } from './playback-progress';
 import { PlaybackStarted } from './playback-started';
 import { PlaybackService } from './playback.service';
-import { ProgressUpdater } from './progress-updater';
 import { Queue } from './queue';
 import { TrackServiceBase } from '../track/track.service.base';
 import { PlaylistServiceBase } from '../playlist/playlist.service.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
-import { AudioPlayerBase } from './audio-player.base';
 import { AlbumData } from '../../data/entities/album-data';
 import { NotificationServiceBase } from '../notification/notification.service.base';
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { TrackSorter } from '../../common/sorting/track-sorter';
 import { SettingsMock } from '../../testing/settings-mock';
 import { QueuePersister } from './queue-persister';
+import { AudioPlayerFactory } from './audio-player/audio-player.factory';
+import { IAudioPlayer } from './audio-player/i-audio-player';
 
 describe('PlaybackService', () => {
+    let audioPlayerFactoryMock: IMock<AudioPlayerFactory>;
+    let audioPlayerMock: IMock<IAudioPlayer>;
     let trackServiceMock: IMock<TrackServiceBase>;
     let playlistServiceMock: IMock<PlaylistServiceBase>;
     let notificationServiceMock: IMock<NotificationServiceBase>;
-    let audioPlayerMock: IMock<AudioPlayerBase>;
     let queuePersisterMock: IMock<QueuePersister>;
     let trackSorterMock: IMock<TrackSorter>;
     let loggerMock: IMock<Logger>;
     let queueMock: IMock<Queue>;
-    let progressUpdaterMock: IMock<ProgressUpdater>;
     let mathExtensionsMock: IMock<MathExtensions>;
     let settingsStub: any;
     let playbackFinished: Subject<void>;
-    let progressUpdaterProgressChanged: Subject<PlaybackProgress>;
     let subscription: Subscription;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -69,29 +67,29 @@ describe('PlaybackService', () => {
     let tracks: TrackModels;
 
     beforeEach(() => {
+        audioPlayerFactoryMock = Mock.ofType<AudioPlayerFactory>();
+        audioPlayerMock = Mock.ofType<IAudioPlayer>();
         trackServiceMock = Mock.ofType<TrackServiceBase>();
         playlistServiceMock = Mock.ofType<PlaylistServiceBase>();
         notificationServiceMock = Mock.ofType<NotificationServiceBase>();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         queuePersisterMock = Mock.ofType<QueuePersister>();
-        audioPlayerMock = Mock.ofType<AudioPlayerBase>();
         trackSorterMock = Mock.ofType<TrackSorter>();
         loggerMock = Mock.ofType<Logger>();
         queueMock = Mock.ofType<Queue>();
-        progressUpdaterMock = Mock.ofType<ProgressUpdater>();
         mathExtensionsMock = Mock.ofType<MathExtensions>();
         settingsMock = new SettingsMock();
         applicationPathsMock = Mock.ofType<ApplicationPaths>();
 
+        audioPlayerFactoryMock.setup((x) => x.create()).returns(() => audioPlayerMock.object);
+
         settingsStub = { volume: 0.6 };
         playbackFinished = new Subject();
-        progressUpdaterProgressChanged = new Subject();
+
         const playbackFinished$: Observable<void> = playbackFinished.asObservable();
-        const progressUpdaterProgressChanged$: Observable<PlaybackProgress> = progressUpdaterProgressChanged.asObservable();
 
         audioPlayerMock.setup((x) => x.playbackFinished$).returns(() => playbackFinished$);
-        progressUpdaterMock.setup((x) => x.progressChanged$).returns(() => progressUpdaterProgressChanged$);
 
         subscription = new Subscription();
 
@@ -151,14 +149,13 @@ describe('PlaybackService', () => {
 
     function createService(): PlaybackService {
         return new PlaybackService(
+            audioPlayerFactoryMock.object,
             trackServiceMock.object,
             playlistServiceMock.object,
             notificationServiceMock.object,
             queuePersisterMock.object,
-            audioPlayerMock.object,
             trackSorterMock.object,
             queueMock.object,
-            progressUpdaterMock.object,
             mathExtensionsMock.object,
             settingsStub,
             loggerMock.object,
@@ -306,7 +303,6 @@ describe('PlaybackService', () => {
             expect(service.progress.progressSeconds).toEqual(0);
             expect(service.progress.totalSeconds).toEqual(0);
             expect(service.currentTrack).toBeUndefined();
-            progressUpdaterMock.verify((x) => x.stopUpdatingProgress(), Times.once());
         });
 
         it('should raise an event that playback is stopped on playback finished if a next track is not found', () => {
@@ -466,29 +462,6 @@ describe('PlaybackService', () => {
 
             // Assert
             trackServiceMock.verify((x) => x.savePlayCountAndDateLastPlayed(trackModelMock.object), Times.once());
-        });
-
-        it('should listen to progress changes, set the progress in the service and publish progress changed.', () => {
-            const service: PlaybackService = createService();
-
-            let subscribedProgress: PlaybackProgress | undefined;
-
-            subscription.add(
-                service.progressChanged$.subscribe((playbackProgress: PlaybackProgress) => {
-                    subscribedProgress = playbackProgress;
-                }),
-            );
-
-            // Act
-            progressUpdaterProgressChanged.next(new PlaybackProgress(40, 300));
-
-            // Assert
-            expect(service.progress).toBeDefined();
-            expect(service.progress.progressSeconds).toEqual(40);
-            expect(service.progress.totalSeconds).toEqual(300);
-            expect(subscribedProgress).toBeDefined();
-            expect(subscribedProgress!.progressSeconds).toEqual(40);
-            expect(subscribedProgress!.totalSeconds).toEqual(300);
         });
     });
 
@@ -688,7 +661,6 @@ describe('PlaybackService', () => {
 
             // Assert
             audioPlayerMock.verify((x) => x.play(It.isAny()), Times.never());
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.never());
             expect(service.isPlaying).toEqual(false);
             expect(service.canPause).toEqual(false);
             expect(service.canResume).toEqual(true);
@@ -739,7 +711,6 @@ describe('PlaybackService', () => {
             expect(service.canPause).toBeTruthy();
             expect(service.canResume).toBeFalsy();
             expect(service.isPlaying).toBeTruthy();
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
         });
 
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
@@ -787,7 +758,6 @@ describe('PlaybackService', () => {
 
             // Assert
             audioPlayerMock.verify((x) => x.play(It.isAny()), Times.never());
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.never());
             expect(service.isPlaying).toEqual(false);
             expect(service.canPause).toEqual(false);
             expect(service.canResume).toEqual(true);
@@ -836,7 +806,6 @@ describe('PlaybackService', () => {
             expect(service.canPause).toBeTruthy();
             expect(service.canResume).toBeFalsy();
             expect(service.isPlaying).toBeTruthy();
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
         });
 
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
@@ -924,7 +893,6 @@ describe('PlaybackService', () => {
             expect(service.canPause).toBeTruthy();
             expect(service.canResume).toBeFalsy();
             expect(service.isPlaying).toBeTruthy();
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
         });
 
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
@@ -1015,7 +983,6 @@ describe('PlaybackService', () => {
             expect(service.canPause).toBeTruthy();
             expect(service.canResume).toBeFalsy();
             expect(service.isPlaying).toBeTruthy();
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
         });
 
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
@@ -1101,7 +1068,6 @@ describe('PlaybackService', () => {
             expect(service.canPause).toBeTruthy();
             expect(service.canResume).toBeFalsy();
             expect(service.isPlaying).toBeTruthy();
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
         });
 
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
@@ -1148,7 +1114,6 @@ describe('PlaybackService', () => {
             expect(service.isPlaying).toBeTruthy();
             expect(service.canPause).toBeFalsy();
             expect(service.canResume).toBeTruthy();
-            progressUpdaterMock.verify((x) => x.pauseUpdatingProgress(), Times.exactly(1));
         });
 
         it('should raise an event that playback is paused.', () => {
@@ -1181,7 +1146,6 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
             audioPlayerMock.reset();
-            progressUpdaterMock.reset();
 
             // Act
             service.resume();
@@ -1191,7 +1155,6 @@ describe('PlaybackService', () => {
             expect(service.isPlaying).toBeTruthy();
             expect(service.canPause).toBeTruthy();
             expect(service.canResume).toBeFalsy();
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
         });
 
         it('should not resume playback if not playing and the queue is empty', () => {
@@ -1207,7 +1170,6 @@ describe('PlaybackService', () => {
             expect(service.isPlaying).toBeFalsy();
             expect(service.canPause).toBeFalsy();
             expect(service.canResume).toBeTruthy();
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.never());
         });
 
         it('should start playing the first queued track if not playing and the queue is not empty', () => {
@@ -1223,7 +1185,6 @@ describe('PlaybackService', () => {
             expect(service.isPlaying).toBeTruthy();
             expect(service.canPause).toBeTruthy();
             expect(service.canResume).toBeFalsy();
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.once());
         });
 
         it('should raise an event that playback is resumed if playing', () => {
@@ -1233,7 +1194,6 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
             audioPlayerMock.reset();
-            progressUpdaterMock.reset();
             let playbackIsResumed: boolean = false;
 
             subscription.add(
@@ -1283,28 +1243,11 @@ describe('PlaybackService', () => {
             audioPlayerMock.verify((x) => x.skipToSeconds(30), Times.exactly(1));
         });
 
-        it('should immediately set progress', () => {
-            // Arrange
-            const service: PlaybackService = createService();
-
-            audioPlayerMock.setup((x) => x.totalSeconds).returns(() => 60);
-            const progress: PlaybackProgress = new PlaybackProgress(20, 200);
-            progressUpdaterMock.setup((x) => x.getCurrentProgress()).returns(() => progress);
-
-            // Act
-            service.skipByFractionOfTotalSeconds(0.5);
-
-            // Assert
-            progressUpdaterMock.verify((x) => x.getCurrentProgress(), Times.exactly(1));
-            expect(service.progress).toBe(progress);
-        });
-
         it('should raise an event that playback was skipped', () => {
             // Arrange
             const service: PlaybackService = createService();
 
             audioPlayerMock.setup((x) => x.totalSeconds).returns(() => 60);
-            progressUpdaterMock.setup((x) => x.getCurrentProgress()).returns(() => new PlaybackProgress(20, 200));
 
             let receivedPlaybackSkipped: boolean = false;
             subscription.add(
@@ -1330,7 +1273,6 @@ describe('PlaybackService', () => {
             service.enqueueAndPlayTracks(trackModels);
             audioPlayerMock.reset();
             audioPlayerMock.setup((x) => x.progressSeconds).returns(() => 3.1);
-            progressUpdaterMock.reset();
 
             // Act
             service.playPrevious();
@@ -1340,7 +1282,6 @@ describe('PlaybackService', () => {
             expect(service.isPlaying).toBeTruthy();
             expect(service.canPause).toBeTruthy();
             expect(service.canResume).toBeFalsy();
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
         });
 
         it('should play the previous track if found and playback lasted for less then 3 seconds', () => {
@@ -1352,7 +1293,6 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.getPreviousTrack(trackModel1, false)).returns(() => trackModel2);
             audioPlayerMock.reset();
             audioPlayerMock.setup((x) => x.progressSeconds).returns(() => 2.9);
-            progressUpdaterMock.reset();
 
             // Act
             service.playPrevious();
@@ -1361,7 +1301,6 @@ describe('PlaybackService', () => {
             expect(service.isPlaying).toBeTruthy();
             expect(service.canPause).toBeTruthy();
             expect(service.canResume).toBeFalsy();
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
             expect(service.currentTrack).toBe(trackModel2);
         });
 
@@ -1383,7 +1322,6 @@ describe('PlaybackService', () => {
             expect(service.isPlaying).toBeFalsy();
             expect(service.canPause).toBeFalsy();
             expect(service.canResume).toBeTruthy();
-            progressUpdaterMock.verify((x) => x.stopUpdatingProgress(), Times.exactly(1));
             expect(service.currentTrack).toBeUndefined();
         });
 
@@ -1507,7 +1445,6 @@ describe('PlaybackService', () => {
             const service: PlaybackService = createService();
 
             queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => undefined);
-            progressUpdaterMock.reset();
             audioPlayerMock.reset();
 
             // Act
@@ -1522,7 +1459,6 @@ describe('PlaybackService', () => {
             expect(service.progress.progressSeconds).toEqual(0);
             expect(service.progress.totalSeconds).toEqual(0);
             expect(service.currentTrack).toBeUndefined();
-            progressUpdaterMock.verify((x) => x.stopUpdatingProgress(), Times.exactly(1));
         });
 
         it('should raise an event that playback is stopped if a next track is not found', () => {
@@ -1532,7 +1468,6 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
             queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => undefined);
-            progressUpdaterMock.reset();
             audioPlayerMock.reset();
             let playbackIsStopped: boolean = false;
 
@@ -1556,7 +1491,6 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
             queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => undefined);
-            progressUpdaterMock.reset();
             audioPlayerMock.reset();
             let currentTrack: TrackModel | undefined;
 
@@ -1580,7 +1514,6 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
             queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => trackModel2);
-            progressUpdaterMock.reset();
             audioPlayerMock.reset();
 
             // Act
@@ -1592,7 +1525,6 @@ describe('PlaybackService', () => {
             expect(service.isPlaying).toBeTruthy();
             expect(service.canPause).toBeTruthy();
             expect(service.canResume).toBeFalsy();
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
             expect(service.currentTrack).toBe(trackModel2);
         });
 
@@ -1664,11 +1596,12 @@ describe('PlaybackService', () => {
         });
 
         it('should increase play count and date last played for the current track if progress is more than 80%', () => {
+            audioPlayerMock.setup((x) => x.progressSeconds).returns(() => 81);
+            audioPlayerMock.setup((x) => x.totalSeconds).returns(() => 100);
             const service: PlaybackService = createService();
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModelMock.object);
             service.enqueueAndPlayTracks([trackModelMock.object]);
-            progressUpdaterProgressChanged.next(new PlaybackProgress(81, 100));
 
             // Act
             service.playNext();
@@ -1678,11 +1611,13 @@ describe('PlaybackService', () => {
         });
 
         it('should save play count and date last played for the current track if progress is more than 80%', () => {
+            audioPlayerMock.setup((x) => x.progressSeconds).returns(() => 81);
+            audioPlayerMock.setup((x) => x.totalSeconds).returns(() => 100);
             const service: PlaybackService = createService();
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModelMock.object);
             service.enqueueAndPlayTracks([trackModelMock.object]);
-            progressUpdaterProgressChanged.next(new PlaybackProgress(81, 100));
+            service.getCurrentProgress();
 
             // Act
             service.playNext();
@@ -1692,11 +1627,12 @@ describe('PlaybackService', () => {
         });
 
         it('should increase skip count for the current track if progress is less than 80%', () => {
+            audioPlayerMock.setup((x) => x.progressSeconds).returns(() => 79);
+            audioPlayerMock.setup((x) => x.totalSeconds).returns(() => 100);
             const service: PlaybackService = createService();
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModelMock.object);
             service.enqueueAndPlayTracks([trackModelMock.object]);
-            progressUpdaterProgressChanged.next(new PlaybackProgress(79, 100));
 
             // Act
             service.playNext();
@@ -1706,11 +1642,12 @@ describe('PlaybackService', () => {
         });
 
         it('should save skip count for the current track if progress is less than 80%', () => {
+            audioPlayerMock.setup((x) => x.progressSeconds).returns(() => 79);
+            audioPlayerMock.setup((x) => x.totalSeconds).returns(() => 100);
             const service: PlaybackService = createService();
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModelMock.object);
             service.enqueueAndPlayTracks([trackModelMock.object]);
-            progressUpdaterProgressChanged.next(new PlaybackProgress(79, 100));
 
             // Act
             service.playNext();
@@ -1982,7 +1919,6 @@ describe('PlaybackService', () => {
             expect(service.canPause).toBeTruthy();
             expect(service.canResume).toBeFalsy();
             expect(service.isPlaying).toBeTruthy();
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
         });
 
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {

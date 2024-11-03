@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AppearanceServiceBase } from '../appearance/appearance.service.base';
 import { SettingsBase } from '../../common/settings/settings.base';
-import { AudioPlayerBase } from './audio-player/audio-player.base';
 import { RgbColor } from '../../common/rgb-color';
+import { PlaybackService } from './playback.service';
 
 @Injectable()
 export class AudioVisualizer {
@@ -15,7 +15,7 @@ export class AudioVisualizer {
     private stopRequestTime: Date | undefined;
 
     public constructor(
-        private audioPlayer: AudioPlayerBase,
+        private playbackService: PlaybackService,
         private appearanceService: AppearanceServiceBase,
         private settings: SettingsBase,
     ) {
@@ -39,11 +39,11 @@ export class AudioVisualizer {
     }
 
     private getSourceForAudioContext(audioContext: AudioContext): MediaElementAudioSourceNode {
-        return audioContext.createMediaElementSource(this.audioPlayer.audio as HTMLMediaElement);
+        return audioContext.createMediaElementSource(this.playbackService.audioPlayer.audio as HTMLMediaElement);
     }
 
     private shouldStopDelayed(): boolean {
-        return this.audioPlayer.audio.paused;
+        return this.playbackService.audioPlayer.audio.paused;
     }
 
     private shouldStopNow(): boolean {
