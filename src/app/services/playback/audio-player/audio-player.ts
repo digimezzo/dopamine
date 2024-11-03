@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Logger } from '../../common/logger';
-import { MathExtensions } from '../../common/math-extensions';
-import { PromiseUtils } from '../../common/utils/promise-utils';
-import { StringUtils } from '../../common/utils/string-utils';
+import { Logger } from '../../../common/logger';
+import { MathExtensions } from '../../../common/math-extensions';
+import { PromiseUtils } from '../../../common/utils/promise-utils';
+import { StringUtils } from '../../../common/utils/string-utils';
 import { AudioPlayerBase } from './audio-player.base';
 
 @Injectable()

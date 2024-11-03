@@ -16,7 +16,7 @@ import { ProgressUpdater } from './progress-updater';
 import { Queue } from './queue';
 import { TrackServiceBase } from '../track/track.service.base';
 import { PlaylistServiceBase } from '../playlist/playlist.service.base';
-import { AudioPlayerBase } from './audio-player.base';
+import { AudioPlayerBase } from './audio-player/audio-player.base';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { NotificationServiceBase } from '../notification/notification.service.base';
 import { TrackSorter } from '../../common/sorting/track-sorter';

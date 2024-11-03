@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AppearanceServiceBase } from '../appearance/appearance.service.base';
 import { SettingsBase } from '../../common/settings/settings.base';
-import { AudioPlayerBase } from './audio-player.base';
+import { AudioPlayerBase } from './audio-player/audio-player.base';
 import { RgbColor } from '../../common/rgb-color';
 
 @Injectable()
