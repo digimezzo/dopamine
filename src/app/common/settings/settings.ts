@@ -790,12 +790,12 @@ export class Settings implements SettingsBase {
         this.settings.set('coverPlayerPosition', v);
     }
 
-    // enableGaplessPlayback
-    public get enableGaplessPlayback(): boolean {
-        return <boolean>this.settings.get('enableGaplessPlayback');
+    // useGaplessPlayback
+    public get useGaplessPlayback(): boolean {
+        return <boolean>this.settings.get('useGaplessPlayback');
     }
-    public set enableGaplessPlayback(v: boolean) {
-        this.settings.set('enableGaplessPlayback', v);
+    public set useGaplessPlayback(v: boolean) {
+        this.settings.set('useGaplessPlayback', v);
     }
 
     // Initialize
@@ -1128,8 +1128,8 @@ export class Settings implements SettingsBase {
             this.settings.set('coverPlayerPosition', '50;50');
         }
 
-        if (!this.settings.has('enableGaplessPlayback')) {
-            this.settings.set('enableGaplessPlayback', true);
+        if (!this.settings.has('useGaplessPlayback')) {
+            this.settings.set('useGaplessPlayback', false);
         }
     }
 }
