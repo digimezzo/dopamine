@@ -14,7 +14,7 @@ import { TranslatorServiceBase } from './services/translator/translator.service.
 import { DiscordServiceBase } from './services/discord/discord.service.base';
 import { ScrobblingServiceBase } from './services/scrobbling/scrobbling.service.base';
 import { TrayServiceBase } from './services/tray/tray.service.base';
-import { MediaSessionServiceBase } from './services/media-session/media-session.service.base';
+import { MediaSessionService } from './services/media-session/media-session.service';
 import { EventListenerServiceBase } from './services/event-listener/event-listener.service.base';
 import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
 import { DesktopBase } from './common/io/desktop.base';
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
         private discordService: DiscordServiceBase,
         private scrobblingService: ScrobblingServiceBase,
         private trayService: TrayServiceBase,
-        private mediaSessionService: MediaSessionServiceBase,
+        private mediaSessionService: MediaSessionService,
         private eventListenerService: EventListenerServiceBase,
         public lifetimeService: LifetimeService,
         private addToPlaylistMenu: AddToPlaylistMenu,

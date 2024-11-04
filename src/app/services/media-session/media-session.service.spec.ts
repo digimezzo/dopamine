@@ -6,15 +6,14 @@ import { TrackModel } from '../track/track-model';
 import { MediaSessionService } from './media-session.service';
 import { PlaybackService } from '../playback/playback.service';
 import { PlaybackInformationServiceBase } from '../playback-information/playback-information.service.base';
-import { MediaSessionProxyBase } from '../../common/io/media-session-proxy.base';
-import { MediaSessionServiceBase } from './media-session.service.base';
+import { MediaSessionProxy } from '../../common/io/media-session-proxy';
 import { Track } from '../../data/entities/track';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 
 describe('MediaSessionService', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let playbackInformationServiceMock: IMock<PlaybackInformationServiceBase>;
-    let mediaSessionProxyMock: IMock<MediaSessionProxyBase>;
+    let mediaSessionProxyMock: IMock<MediaSessionProxy>;
     let settingsMock: any;
 
     let playingNextTrack: Subject<PlaybackInformation>;
@@ -23,7 +22,7 @@ describe('MediaSessionService', () => {
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<PlaybackService>();
         playbackInformationServiceMock = Mock.ofType<PlaybackInformationServiceBase>();
-        mediaSessionProxyMock = Mock.ofType<MediaSessionProxyBase>();
+        mediaSessionProxyMock = Mock.ofType<MediaSessionProxy>();
         settingsMock = { enableMultimediaKeys: false };
 
         playingNextTrack = new Subject();
@@ -33,7 +32,7 @@ describe('MediaSessionService', () => {
         playbackInformationServiceMock.setup((x) => x.playingPreviousTrack$).returns(() => playingPreviousTrack.asObservable());
     });
 
-    function createService(): MediaSessionServiceBase {
+    function createService(): MediaSessionService {
         return new MediaSessionService(
             playbackServiceMock.object,
             playbackInformationServiceMock.object,
@@ -63,7 +62,7 @@ describe('MediaSessionService', () => {
             // Arrange
 
             // Act
-            const service: MediaSessionServiceBase = createService();
+            const service: MediaSessionService = createService();
 
             // Assert
             expect(service).toBeDefined();
@@ -73,7 +72,7 @@ describe('MediaSessionService', () => {
     describe('enableMultimediaKeys', () => {
         it('should set settings.enableMultimediaKeys', () => {
             // Arrange
-            const service: MediaSessionServiceBase = createService();
+            const service: MediaSessionService = createService();
 
             // Act
             service.enableMultimediaKeys = true;
@@ -84,7 +83,7 @@ describe('MediaSessionService', () => {
 
         it('should get settings.enableMultimediaKeys', () => {
             // Arrange
-            const service: MediaSessionServiceBase = createService();
+            const service: MediaSessionService = createService();
             settingsMock.enableMultimediaKeys = true;
 
             // Act & Assert
@@ -94,7 +93,7 @@ describe('MediaSessionService', () => {
         describe('when set to true', () => {
             it('should not clear all multimedia keys handlers', () => {
                 // Arrange
-                const service: MediaSessionServiceBase = createService();
+                const service: MediaSessionService = createService();
 
                 // Act
                 service.enableMultimediaKeys = true;
@@ -108,7 +107,7 @@ describe('MediaSessionService', () => {
 
             it('should set all multimedia keys handlers', () => {
                 // Arrange
-                const service: MediaSessionServiceBase = createService();
+                const service: MediaSessionService = createService();
 
                 // Act
                 service.enableMultimediaKeys = true;
@@ -122,7 +121,7 @@ describe('MediaSessionService', () => {
 
             it('should enable subscriptions so that metadata is set on playing next track', () => {
                 // Arrange
-                const service: MediaSessionServiceBase = createService();
+                const service: MediaSessionService = createService();
 
                 // Act
                 service.enableMultimediaKeys = true;
@@ -134,7 +133,7 @@ describe('MediaSessionService', () => {
 
             it('should enable subscriptions so that metadata is set on previous track', () => {
                 // Arrange
-                const service: MediaSessionServiceBase = createService();
+                const service: MediaSessionService = createService();
 
                 // Act
                 service.enableMultimediaKeys = true;
@@ -148,7 +147,7 @@ describe('MediaSessionService', () => {
         describe('when set to false', () => {
             it('should clear all multimedia keys handlers', () => {
                 // Arrange
-                const service: MediaSessionServiceBase = createService();
+                const service: MediaSessionService = createService();
 
                 // Act
                 service.enableMultimediaKeys = false;
@@ -162,7 +161,7 @@ describe('MediaSessionService', () => {
 
             it('should not set all multimedia keys handlers', () => {
                 // Arrange
-                const service: MediaSessionServiceBase = createService();
+                const service: MediaSessionService = createService();
 
                 // Act
                 service.enableMultimediaKeys = false;
@@ -176,7 +175,7 @@ describe('MediaSessionService', () => {
 
             it('should disable subscriptions so that metadata is not set on playing next track', () => {
                 // Arrange
-                const service: MediaSessionServiceBase = createService();
+                const service: MediaSessionService = createService();
 
                 // Act
                 service.enableMultimediaKeys = false;
@@ -188,7 +187,7 @@ describe('MediaSessionService', () => {
 
             it('should disable subscriptions so that metadata is not set on playing previous track', () => {
                 // Arrange
-                const service: MediaSessionServiceBase = createService();
+                const service: MediaSessionService = createService();
 
                 // Act
                 service.enableMultimediaKeys = false;
@@ -205,7 +204,7 @@ describe('MediaSessionService', () => {
             it('should not clear all multimedia keys handlers', () => {
                 // Arrange
                 settingsMock.enableMultimediaKeys = true;
-                const service: MediaSessionServiceBase = createService();
+                const service: MediaSessionService = createService();
 
                 // Act
                 service.initialize();
@@ -220,7 +219,7 @@ describe('MediaSessionService', () => {
             it('should set all multimedia keys handlers', () => {
                 // Arrange
                 settingsMock.enableMultimediaKeys = true;
-                const service: MediaSessionServiceBase = createService();
+                const service: MediaSessionService = createService();
 
                 // Act
                 service.initialize();
@@ -235,7 +234,7 @@ describe('MediaSessionService', () => {
             it('should enable subscriptions so that metadata is set on playing next track', () => {
                 // Arrange
                 settingsMock.enableMultimediaKeys = true;
-                const service: MediaSessionServiceBase = createService();
+                const service: MediaSessionService = createService();
 
                 // Act
                 service.initialize();
@@ -248,7 +247,7 @@ describe('MediaSessionService', () => {
             it('should enable subscriptions so that metadata is set on playing previous track', () => {
                 // Arrange
                 settingsMock.enableMultimediaKeys = true;
-                const service: MediaSessionServiceBase = createService();
+                const service: MediaSessionService = createService();
 
                 // Act
                 service.initialize();
@@ -263,7 +262,7 @@ describe('MediaSessionService', () => {
             it('should not enable subscriptions so that metadata is set on playing next track', () => {
                 // Arrange
                 settingsMock.enableMultimediaKeys = false;
-                const service: MediaSessionServiceBase = createService();
+                const service: MediaSessionService = createService();
 
                 // Act
                 service.initialize();
@@ -276,7 +275,7 @@ describe('MediaSessionService', () => {
             it('should not enable subscriptions so that metadata is set on playing previous track', () => {
                 // Arrange
                 settingsMock.enableMultimediaKeys = false;
-                const service: MediaSessionServiceBase = createService();
+                const service: MediaSessionService = createService();
 
                 // Act
                 service.initialize();

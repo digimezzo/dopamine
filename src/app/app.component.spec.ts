@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { Logger } from './common/logger';
 import { IntegrationTestRunner } from './testing/integration-test-runner';
 import { EventListenerServiceBase } from './services/event-listener/event-listener.service.base';
-import { MediaSessionServiceBase } from './services/media-session/media-session.service.base';
+import { MediaSessionService } from './services/media-session/media-session.service';
 import { TrayServiceBase } from './services/tray/tray.service.base';
 import { ScrobblingServiceBase } from './services/scrobbling/scrobbling.service.base';
 import { DiscordServiceBase } from './services/discord/discord.service.base';
@@ -28,7 +28,7 @@ describe('AppComponent', () => {
     let discordServiceMock: IMock<DiscordServiceBase>;
     let scrobblingServiceMock: IMock<ScrobblingServiceBase>;
     let trayServiceMock: IMock<TrayServiceBase>;
-    let mediaSessionServiceMock: IMock<MediaSessionServiceBase>;
+    let mediaSessionServiceMock: IMock<MediaSessionService>;
     let eventListenerServiceMock: IMock<EventListenerServiceBase>;
     let lifetimeServiceMock: IMock<LifetimeService>;
     let audioVisualizerMock: IMock<AudioVisualizer>;
@@ -72,7 +72,7 @@ describe('AppComponent', () => {
         discordServiceMock = Mock.ofType<DiscordServiceBase>();
         scrobblingServiceMock = Mock.ofType<ScrobblingServiceBase>();
         trayServiceMock = Mock.ofType<TrayServiceBase>();
-        mediaSessionServiceMock = Mock.ofType<MediaSessionServiceBase>();
+        mediaSessionServiceMock = Mock.ofType<MediaSessionService>();
         eventListenerServiceMock = Mock.ofType<EventListenerServiceBase>();
         lifetimeServiceMock = Mock.ofType<LifetimeService>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
