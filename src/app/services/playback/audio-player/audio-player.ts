@@ -6,7 +6,7 @@ import { StringUtils } from '../../../common/utils/string-utils';
 import { IAudioPlayer } from './i-audio-player';
 
 export class AudioPlayer implements IAudioPlayer {
-    private readonly _audio: HTMLAudioElement;
+    private _audio: HTMLAudioElement;
 
     public constructor(
         private mathExtensions: MathExtensions,
@@ -29,8 +29,6 @@ export class AudioPlayer implements IAudioPlayer {
         this.audio.playbackRate = 1;
         this.audio.volume = 1;
         this.audio.muted = false;
-
-        this.audio.onended = () => this.playbackFinished.next();
     }
 
     private playbackFinished: Subject<void> = new Subject();
@@ -58,8 +56,19 @@ export class AudioPlayer implements IAudioPlayer {
 
     public play(audioFilePath: string): void {
         const playableAudioFilePath: string = this.replaceUnplayableCharacters(audioFilePath);
-        this.audio.src = 'file:///' + playableAudioFilePath;
-        PromiseUtils.noAwait(this.audio.play());
+
+        // This is a workaround to fix flickering of OS media controls when switching track from the media controls
+        const tempAudio: HTMLAudioElement = new Audio();
+        tempAudio.volume = this._audio.volume;
+        tempAudio.src = 'file:///' + playableAudioFilePath;
+        tempAudio.muted = this._audio.muted;
+        tempAudio.defaultPlaybackRate = this._audio.defaultPlaybackRate;
+        tempAudio.playbackRate = this._audio.playbackRate;
+
+        this._audio.onended = () => {};
+        this._audio = tempAudio;
+        this._audio.play();
+        this._audio.onended = () => this.playbackFinished.next();
     }
 
     public stop(): void {
