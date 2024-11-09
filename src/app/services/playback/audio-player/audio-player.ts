@@ -99,4 +99,8 @@ export class AudioPlayer implements IAudioPlayer {
         playableAudioFilePath = StringUtils.replaceAll(playableAudioFilePath, '?', '%3F');
         return playableAudioFilePath;
     }
+
+    public preloadNextTrack(audioFilePath: string): void {
+        // Not implemented
+    }
 }

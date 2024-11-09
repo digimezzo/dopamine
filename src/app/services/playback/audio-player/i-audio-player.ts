@@ -11,4 +11,5 @@ export interface IAudioPlayer {
     resume(): void;
     setVolume(volume: number): void;
     skipToSeconds(seconds: number): void;
+    preloadNextTrack(audioFilePath: string): void;
 }
