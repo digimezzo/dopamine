@@ -624,15 +624,6 @@ export class Settings implements SettingsBase {
         this.settings.set('showLove', v);
     }
 
-    // enableMultimediaKeys
-    public get enableMultimediaKeys(): boolean {
-        return <boolean>this.settings.get('enableMultimediaKeys');
-    }
-
-    public set enableMultimediaKeys(v: boolean) {
-        this.settings.set('enableMultimediaKeys', v);
-    }
-
     // downloadArtistInformationFromLastFm
     public get downloadArtistInformationFromLastFm(): boolean {
         return <boolean>this.settings.get('downloadArtistInformationFromLastFm');
@@ -1054,10 +1045,6 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('showLove')) {
             this.settings.set('showLove', false);
-        }
-
-        if (!this.settings.has('enableMultimediaKeys')) {
-            this.settings.set('enableMultimediaKeys', true);
         }
 
         if (!this.settings.has('downloadArtistInformationFromLastFm')) {

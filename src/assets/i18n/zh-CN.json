@@ -234,8 +234,6 @@
     "love": "最爱",
     "show-love": "显示'最爱'",
     "save-love-error": "保存'最爱'时发生错误。请查看日志以获取更多信息。",
-    "multimedia-keys": "媒体键",
-    "enable-multimedia-keys": "启动媒体键",
     "log-file": "日志文件",
     "something-wrong-look-in-log-file": "是否发生错误了？请在日志文件里查看。",
     "showcase": "歌曲展示",

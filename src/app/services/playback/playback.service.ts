@@ -22,6 +22,7 @@ import { QueuePersister } from './queue-persister';
 import { QueueRestoreInfo } from './queue-restore-info';
 import { AudioPlayerFactory } from './audio-player/audio-player.factory';
 import { IAudioPlayer } from './audio-player/i-audio-player';
+import { MediaSessionService } from '../media-session/media-session.service';
 
 @Injectable({ providedIn: 'root' })
 export class PlaybackService {
@@ -49,6 +50,7 @@ export class PlaybackService {
         private trackService: TrackServiceBase,
         private playlistService: PlaylistServiceBase,
         private notificationService: NotificationServiceBase,
+        private mediaSessionService: MediaSessionService,
         private queuePersister: QueuePersister,
         private trackSorter: TrackSorter,
         private queue: Queue,
@@ -378,6 +380,9 @@ export class PlaybackService {
         this._isPlaying = true;
         this._canPause = true;
         this._canResume = false;
+
+        this.mediaSessionService.setMetadataAsync(trackToPlay);
+
         this.startUpdatingProgress();
         this.playbackStarted.next(new PlaybackStarted(trackToPlay, isPlayingPreviousTrack));
 
@@ -466,6 +471,30 @@ export class PlaybackService {
         this.subscription.add(
             this.audioPlayer.playbackFinished$.subscribe(() => {
                 this.playbackFinishedHandler();
+            }),
+        );
+
+        this.subscription.add(
+            this.mediaSessionService.playEvent$.subscribe(() => {
+                this.togglePlayback();
+            }),
+        );
+
+        this.subscription.add(
+            this.mediaSessionService.pauseEvent$.subscribe(() => {
+                this.togglePlayback();
+            }),
+        );
+
+        this.subscription.add(
+            this.mediaSessionService.previousTrackEvent$.subscribe(() => {
+                this.playPrevious();
+            }),
+        );
+
+        this.subscription.add(
+            this.mediaSessionService.nextTrackEvent$.subscribe(() => {
+                this.playNext();
             }),
         );
     }

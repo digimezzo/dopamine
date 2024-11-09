@@ -28,7 +28,6 @@ export class SettingsMock implements SettingsBase {
     public downloadMissingAlbumCovers: boolean;
     public enableDiscordRichPresence: boolean;
     public enableLastFmScrobbling: boolean;
-    public enableMultimediaKeys: boolean;
     public foldersLeftPaneWidthPercent: number;
     public foldersTabOpenedFolder: string;
     public foldersTabOpenedSubfolder: string;

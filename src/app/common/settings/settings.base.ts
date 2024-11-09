@@ -66,7 +66,6 @@ export abstract class SettingsBase {
     public abstract lastFmPassword: string;
     public abstract lastFmSessionKey: string;
     public abstract showLove: boolean;
-    public abstract enableMultimediaKeys: boolean;
     public abstract downloadArtistInformationFromLastFm: boolean;
     public abstract downloadLyricsOnline: boolean;
     public abstract showAudioVisualizer: boolean;
