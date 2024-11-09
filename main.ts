@@ -196,6 +196,9 @@ function setInitialWindowState(mainWindow: BrowserWindow): void {
 }
 
 function createMainWindow(): void {
+    // Set custom AppUserModelID to ensure the app name shows up in Windows media controls
+    app.setAppUserModelId('com.digimezzo.dopamine');
+
     // Suppress the default menu
     Menu.setApplicationMenu(null);
 
