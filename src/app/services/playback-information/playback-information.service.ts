@@ -1,18 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { PromiseUtils } from '../../common/utils/promise-utils';
-
 import { PlaybackStarted } from '../playback/playback-started';
-import { TrackModel } from '../track/track-model';
-
 import { PlaybackInformation } from './playback-information';
-import { PlaybackInformationServiceBase } from './playback-information.service.base';
 import { PlaybackService } from '../playback/playback.service';
-import { MetadataServiceBase } from '../metadata/metadata.service.base';
-import { Constants } from '../../common/application/constants';
+import {PlaybackInformationFactory} from "./playback-information.factory";
 
-@Injectable()
-export class PlaybackInformationService implements PlaybackInformationServiceBase {
+@Injectable({ providedIn: 'root' })
+export class PlaybackInformationService {
     private subscription: Subscription = new Subscription();
     private playingNextTrack: Subject<PlaybackInformation> = new Subject();
     private playingPreviousTrack: Subject<PlaybackInformation> = new Subject();
@@ -22,7 +17,7 @@ export class PlaybackInformationService implements PlaybackInformationServiceBas
 
     public constructor(
         private playbackService: PlaybackService,
-        private metadataService: MetadataServiceBase,
+        private playbackInformationFactory: PlaybackInformationFactory,
     ) {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
@@ -50,13 +45,13 @@ export class PlaybackInformationService implements PlaybackInformationServiceBas
             return this.cachedPlaybackinformation;
         }
 
-        this.cachedPlaybackinformation = await this.createPlaybackInformationAsync(this.playbackService.currentTrack);
+        this.cachedPlaybackinformation = await this.playbackInformationFactory.createAsync(this.playbackService.currentTrack);
 
         return this.cachedPlaybackinformation;
     }
 
     private async handlePlaybackStartedAsync(playbackStarted: PlaybackStarted): Promise<void> {
-        const playbackInformation: PlaybackInformation = await this.createPlaybackInformationAsync(playbackStarted.currentTrack);
+        const playbackInformation: PlaybackInformation = await this.playbackInformationFactory.createAsync(playbackStarted.currentTrack);
 
         if (playbackStarted.isPlayingPreviousTrack) {
             this.playingPreviousTrack.next(playbackInformation);
@@ -66,17 +61,7 @@ export class PlaybackInformationService implements PlaybackInformationServiceBas
     }
 
     private async handlePlaybackStoppedAsync(): Promise<void> {
-        const playbackInformation: PlaybackInformation = await this.createPlaybackInformationAsync(undefined);
+        const playbackInformation: PlaybackInformation = await this.playbackInformationFactory.createAsync(undefined);
         this.playingNoTrack.next(playbackInformation);
-    }
-
-    private async createPlaybackInformationAsync(track: TrackModel | undefined): Promise<PlaybackInformation> {
-        if (track != undefined) {
-            const newImage: string = await this.metadataService.createImageUrlAsync(track, 0);
-
-            return new PlaybackInformation(track, newImage);
-        }
-
-        return new PlaybackInformation(undefined, '');
     }
 }

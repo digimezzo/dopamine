@@ -5,7 +5,7 @@ import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { NowPlayingPage } from '../../../services/now-playing-navigation/now-playing-page';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
-import { MetadataServiceBase } from '../../../services/metadata/metadata.service.base';
+import { MetadataService } from '../../../services/metadata/metadata.service';
 import { PlaybackService } from '../../../services/playback/playback.service';
 import { NowPlayingNavigationServiceBase } from '../../../services/now-playing-navigation/now-playing-navigation.service.base';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
@@ -95,7 +95,7 @@ export class NowPlayingComponent extends AnimatedPage implements OnInit, AfterVi
     public constructor(
         public appearanceService: AppearanceServiceBase,
         private navigationService: NavigationServiceBase,
-        private metadataService: MetadataServiceBase,
+        private metadataService: MetadataService,
         private playbackService: PlaybackService,
         private nowPlayingNavigationService: NowPlayingNavigationServiceBase,
         private scheduler: SchedulerBase,

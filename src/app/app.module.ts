@@ -179,11 +179,9 @@ import { FolderService } from './services/folder/folder.service';
 import { GenreService } from './services/genre/genre.service';
 import { IndexingService } from './services/indexing/indexing.service';
 import { CachedAlbumArtworkGetter } from './services/metadata/cached-album-artwork-getter';
-import { MetadataService } from './services/metadata/metadata.service';
 import { NavigationService } from './services/navigation/navigation.service';
 import { NowPlayingNavigationService } from './services/now-playing-navigation/now-playing-navigation.service';
 import { PlaybackIndicationService } from './services/playback-indication/playback-indication.service';
-import { PlaybackInformationService } from './services/playback-information/playback-information.service';
 import { PlaylistFolderModelFactory } from './services/playlist-folder/playlist-folder-model-factory';
 import { PlaylistFolderService } from './services/playlist-folder/playlist-folder.service';
 import { PlaylistDecoder } from './services/playlist/playlist-decoder';
@@ -221,8 +219,6 @@ import { AppearanceServiceBase } from './services/appearance/appearance.service.
 import { PlaylistFolderServiceBase } from './services/playlist-folder/playlist-folder.service.base';
 import { PlaylistServiceBase } from './services/playlist/playlist.service.base';
 import { SearchServiceBase } from './services/search/search.service.base';
-import { MetadataServiceBase } from './services/metadata/metadata.service.base';
-import { PlaybackInformationServiceBase } from './services/playback-information/playback-information.service.base';
 import { PlaybackIndicationServiceBase } from './services/playback-indication/playback-indication.service.base';
 import { DiscordServiceBase } from './services/discord/discord.service.base';
 import { CollectionServiceBase } from './services/collection/collection.service.base';
@@ -586,8 +582,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: CollectionServiceBase, useClass: CollectionService },
         { provide: DiscordServiceBase, useClass: DiscordService },
         { provide: PlaybackIndicationServiceBase, useClass: PlaybackIndicationService },
-        { provide: PlaybackInformationServiceBase, useClass: PlaybackInformationService },
-        { provide: MetadataServiceBase, useClass: MetadataService },
         { provide: SearchServiceBase, useClass: SearchService },
         { provide: PlaylistServiceBase, useClass: PlaylistService },
         { provide: PlaylistFolderServiceBase, useClass: PlaylistFolderService },

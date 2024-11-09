@@ -4,10 +4,10 @@ import { Subscription } from 'rxjs';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { PlaybackInformation } from '../../../services/playback-information/playback-information';
 import { TrackModel } from '../../../services/track/track-model';
-import { PlaybackInformationServiceBase } from '../../../services/playback-information/playback-information.service.base';
-import { MetadataServiceBase } from '../../../services/metadata/metadata.service.base';
+import { MetadataService } from '../../../services/metadata/metadata.service';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { Constants } from '../../../common/application/constants';
+import { PlaybackInformationService } from '../../../services/playback-information/playback-information.service';
 
 @Component({
     selector: 'app-playback-information',
@@ -50,8 +50,8 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        private playbackInformationService: PlaybackInformationServiceBase,
-        private metadataService: MetadataServiceBase,
+        private playbackInformationService: PlaybackInformationService,
+        private metadataService: MetadataService,
         private scheduler: SchedulerBase,
     ) {}
 
