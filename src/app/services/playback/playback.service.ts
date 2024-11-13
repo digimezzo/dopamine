@@ -407,6 +407,9 @@ export class PlaybackService {
                 clearTimeout(this._preloadTimeoutId);
             }
             this._preloadTimeoutId = setTimeout(() => {
+                if (!this._nextTrack) {
+                    return; // no next track
+                }
                 this._audioPlayer.preloadNextTrack(this._nextTrack!.path);
                 this.logger.info(`Preloaded '${this._nextTrack!.path}'`, 'PlaybackService', 'preloadNextTrackAfterDelay');
             }, 2000);
