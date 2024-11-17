@@ -7,6 +7,7 @@ import { IAudioPlayer } from './i-audio-player';
 
 export class AudioPlayer implements IAudioPlayer {
     private _audio: HTMLAudioElement;
+    private _audioChanged: Subject<HTMLAudioElement> = new Subject();
 
     public constructor(
         private mathExtensions: MathExtensions,
@@ -19,39 +20,37 @@ export class AudioPlayer implements IAudioPlayer {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-            this.audio.setSinkId('default');
+            this._audio.setSinkId('default');
         } catch (e: unknown) {
             // Suppress this error, but log it, in case it happens in production.
             this.logger.error(e, 'Could not perform setSinkId()', 'AudioPlayer', 'constructor');
         }
 
-        this.audio.defaultPlaybackRate = 1;
-        this.audio.playbackRate = 1;
-        this.audio.volume = 1;
-        this.audio.muted = false;
+        this._audio.defaultPlaybackRate = 1;
+        this._audio.playbackRate = 1;
+        this._audio.volume = 1;
+        this._audio.muted = false;
     }
+
+    public audioChanged$: Observable<HTMLAudioElement> = this._audioChanged.asObservable();
 
     private playbackFinished: Subject<void> = new Subject();
     public playbackFinished$: Observable<void> = this.playbackFinished.asObservable();
 
-    public get audio(): HTMLAudioElement {
-        return this._audio;
-    }
-
     public get progressSeconds(): number {
-        if (isNaN(this.audio.currentTime)) {
+        if (isNaN(this._audio.currentTime)) {
             return 0;
         }
 
-        return this.audio.currentTime;
+        return this._audio.currentTime;
     }
 
     public get totalSeconds(): number {
-        if (isNaN(this.audio.duration)) {
+        if (isNaN(this._audio.duration)) {
             return 0;
         }
 
-        return this.audio.duration;
+        return this._audio.duration;
     }
 
     public play(audioFilePath: string): void {
@@ -69,28 +68,30 @@ export class AudioPlayer implements IAudioPlayer {
         this._audio = tempAudio;
         this._audio.play();
         this._audio.onended = () => this.playbackFinished.next();
+
+        this._audioChanged.next(this._audio);
     }
 
     public stop(): void {
-        this.audio.currentTime = 0;
-        this.audio.pause();
+        this._audio.currentTime = 0;
+        this._audio.pause();
     }
 
     public pause(): void {
-        this.audio.pause();
+        this._audio.pause();
     }
 
     public resume(): void {
-        PromiseUtils.noAwait(this.audio.play());
+        PromiseUtils.noAwait(this._audio.play());
     }
 
     public setVolume(linearVolume: number): void {
         // log(0) is undefined. So we provide a minimum of 0.01.
-        this.audio.volume = linearVolume > 0 ? this.mathExtensions.linearToLogarithmic(linearVolume, 0.01, 1) : 0;
+        this._audio.volume = linearVolume > 0 ? this.mathExtensions.linearToLogarithmic(linearVolume, 0.01, 1) : 0;
     }
 
     public skipToSeconds(seconds: number): void {
-        this.audio.currentTime = seconds;
+        this._audio.currentTime = seconds;
     }
 
     private replaceUnplayableCharacters(audioFilePath: string): string {

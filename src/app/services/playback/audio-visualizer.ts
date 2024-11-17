@@ -13,6 +13,7 @@ export class AudioVisualizer {
     private canvasContext: CanvasRenderingContext2D;
     private isStopped: boolean;
     private stopRequestTime: Date | undefined;
+    private _audio: HTMLMediaElement | undefined;
 
     public constructor(
         private playbackService: PlaybackService,
@@ -24,10 +25,15 @@ export class AudioVisualizer {
         this.analyser.fftSize = 128;
         this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
         this.analyze();
+
+        this.playbackService.audioPlayer.audioChanged$.subscribe((audio: HTMLMediaElement) => {
+            this.connectAudio(audio);
+        });
     }
 
-    public connectAudioElement(): void {
-        const source: MediaElementAudioSourceNode = this.getSourceForAudioContext(this.audioContext);
+    private connectAudio(audio: HTMLMediaElement): void {
+        this._audio = audio;
+        const source: MediaElementAudioSourceNode = this.audioContext.createMediaElementSource(this._audio as HTMLMediaElement);
         source.connect(this.analyser);
     }
 
@@ -38,12 +44,8 @@ export class AudioVisualizer {
         this.analyser.connect(this.audioContext.destination);
     }
 
-    private getSourceForAudioContext(audioContext: AudioContext): MediaElementAudioSourceNode {
-        return audioContext.createMediaElementSource(this.playbackService.audioPlayer.audio as HTMLMediaElement);
-    }
-
     private shouldStopDelayed(): boolean {
-        return this.playbackService.audioPlayer.audio.paused;
+        return this._audio?.paused ?? false;
     }
 
     private shouldStopNow(): boolean {
