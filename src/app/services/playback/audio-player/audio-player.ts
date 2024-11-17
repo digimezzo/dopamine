@@ -4,10 +4,11 @@ import { MathExtensions } from '../../../common/math-extensions';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { StringUtils } from '../../../common/utils/string-utils';
 import { IAudioPlayer } from './i-audio-player';
+import { AudioChangedEvent } from './audio-changed-event';
 
 export class AudioPlayer implements IAudioPlayer {
     private _audio: HTMLAudioElement;
-    private _audioChanged: Subject<HTMLAudioElement> = new Subject();
+    private _audioChanged: Subject<AudioChangedEvent> = new Subject();
 
     public constructor(
         private mathExtensions: MathExtensions,
@@ -32,7 +33,7 @@ export class AudioPlayer implements IAudioPlayer {
         this._audio.muted = false;
     }
 
-    public audioChanged$: Observable<HTMLAudioElement> = this._audioChanged.asObservable();
+    public audioChanged$: Observable<AudioChangedEvent> = this._audioChanged.asObservable();
 
     private playbackFinished: Subject<void> = new Subject();
     public playbackFinished$: Observable<void> = this.playbackFinished.asObservable();
@@ -69,7 +70,7 @@ export class AudioPlayer implements IAudioPlayer {
         this._audio.play();
         this._audio.onended = () => this.playbackFinished.next();
 
-        this._audioChanged.next(this._audio);
+        this._audioChanged.next(new AudioChangedEvent(this._audio));
     }
 
     public stop(): void {

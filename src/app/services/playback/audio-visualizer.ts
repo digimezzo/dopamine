@@ -3,6 +3,7 @@ import { AppearanceServiceBase } from '../appearance/appearance.service.base';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { RgbColor } from '../../common/rgb-color';
 import { PlaybackService } from './playback.service';
+import { AudioChangedEvent } from './audio-player/audio-changed-event';
 
 @Injectable()
 export class AudioVisualizer {
@@ -26,8 +27,8 @@ export class AudioVisualizer {
         this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
         this.analyze();
 
-        this.playbackService.audioPlayer.audioChanged$.subscribe((audio: HTMLMediaElement) => {
-            this.connectAudio(audio);
+        this.playbackService.audioPlayer.audioChanged$.subscribe((event: AudioChangedEvent) => {
+            this.connectAudio(event.audio);
         });
     }
 

@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs';
+import { AudioChangedEvent } from './audio-changed-event';
 
 export interface IAudioPlayer {
-    audioChanged$: Observable<HTMLAudioElement>;
+    audioChanged$: Observable<AudioChangedEvent>;
     playbackFinished$: Observable<void>;
     progressSeconds: number;
     totalSeconds: number;
