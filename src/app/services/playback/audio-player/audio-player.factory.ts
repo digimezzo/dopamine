@@ -1,9 +1,10 @@
 import { IAudioPlayer } from './i-audio-player';
-import { AudioPlayer } from './audio-player';
+import { LegacyAudioPlayer } from './legacy-audio-player';
 import { Injectable } from '@angular/core';
 import { MathExtensions } from '../../../common/math-extensions';
 import { Logger } from '../../../common/logger';
 import { SettingsBase } from '../../../common/settings/settings.base';
+import { GaplessAudioPlayer } from './gapless-audio-player';
 
 @Injectable({ providedIn: 'root' })
 export class AudioPlayerFactory {
@@ -15,9 +16,9 @@ export class AudioPlayerFactory {
 
     public create(): IAudioPlayer {
         if (this.settings.useGaplessPlayback) {
-            return new AudioPlayer(this.mathExtensions, this.logger);
+            return new GaplessAudioPlayer(this.mathExtensions, this.logger);
         } else {
-            return new AudioPlayer(this.mathExtensions, this.logger);
+            return new LegacyAudioPlayer(this.mathExtensions, this.logger);
         }
     }
 }

@@ -6,7 +6,7 @@ import { StringUtils } from '../../../common/utils/string-utils';
 import { IAudioPlayer } from './i-audio-player';
 import { AudioChangedEvent } from './audio-changed-event';
 
-export class AudioPlayer implements IAudioPlayer {
+export class LegacyAudioPlayer implements IAudioPlayer {
     private _audio: HTMLAudioElement;
     private _audioChanged: Subject<AudioChangedEvent> = new Subject();
 
