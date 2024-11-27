@@ -9,6 +9,7 @@ import { AudioChangedEvent } from './audio-changed-event';
 export class LegacyAudioPlayer implements IAudioPlayer {
     private _audio: HTMLAudioElement;
     private _audioChanged: Subject<AudioChangedEvent> = new Subject();
+    private _playbackFinished: Subject<void> = new Subject();
 
     public constructor(
         private mathExtensions: MathExtensions,
@@ -34,9 +35,7 @@ export class LegacyAudioPlayer implements IAudioPlayer {
     }
 
     public audioChanged$: Observable<AudioChangedEvent> = this._audioChanged.asObservable();
-
-    private playbackFinished: Subject<void> = new Subject();
-    public playbackFinished$: Observable<void> = this.playbackFinished.asObservable();
+    public playbackFinished$: Observable<void> = this._playbackFinished.asObservable();
 
     public get progressSeconds(): number {
         if (isNaN(this._audio.currentTime)) {
@@ -68,7 +67,7 @@ export class LegacyAudioPlayer implements IAudioPlayer {
         this._audio.onended = () => {};
         this._audio = tempAudio;
         this._audio.play();
-        this._audio.onended = () => this.playbackFinished.next();
+        this._audio.onended = () => this._playbackFinished.next();
 
         this._audioChanged.next(new AudioChangedEvent(this._audio));
     }

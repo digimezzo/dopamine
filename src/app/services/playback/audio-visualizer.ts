@@ -27,9 +27,9 @@ export class AudioVisualizer {
         this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
         this.analyze();
 
-        this.playbackService.audioPlayer.audioChanged$.subscribe((event: AudioChangedEvent) => {
-            this.connectAudio(event.audio);
-        });
+        // this.playbackService.audioPlayer.audioChanged$.subscribe((event: AudioChangedEvent) => {
+        //     this.connectAudio(event.audio);
+        // });
     }
 
     private connectAudio(audio: HTMLMediaElement): void {
