@@ -5,13 +5,15 @@ import { IAudioPlayer } from './i-audio-player';
 import { MathExtensions } from '../../../common/math-extensions';
 import { Logger } from '../../../common/logger';
 import { StringUtils } from '../../../common/utils/string-utils';
+import { TrackModel } from '../../track/track-model';
 
 @Injectable({
     providedIn: 'root',
 })
 export class GaplessAudioPlayer implements IAudioPlayer {
     private _audioChanged: Subject<AudioChangedEvent> = new Subject();
-    private _playbackFinished: Subject<boolean> = new Subject();
+    private _playbackFinished: Subject<void> = new Subject();
+    private _playingPreloadedTrack: Subject<TrackModel> = new Subject();
     private _audioContext: AudioContext;
     private _audioStartTime: number = 0;
     private _audioPausedAt: number = 0;
@@ -19,6 +21,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     private _nextBuffer: AudioBuffer | undefined;
     private _sourceNode: AudioBufferSourceNode | undefined;
     private _gainNode: GainNode;
+    private _preloadedTrack: TrackModel | undefined;
 
     public constructor(
         private mathExtensions: MathExtensions,
@@ -32,7 +35,8 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     }
 
     public audioChanged$: Observable<AudioChangedEvent> = this._audioChanged.asObservable();
-    public playbackFinished$: Observable<boolean> = this._playbackFinished.asObservable();
+    public playbackFinished$: Observable<void> = this._playbackFinished.asObservable();
+    public playingPreloadedTrack$: Observable<TrackModel> = this._playingPreloadedTrack.asObservable();
 
     public get progressSeconds(): number {
         return this._audioContext.currentTime - this._audioStartTime;
@@ -42,8 +46,8 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         return this._currentBuffer?.duration || 0;
     }
 
-    public play(audioFilePath: string): void {
-        const playableAudioFilePath: string = this.replaceUnplayableCharacters(audioFilePath);
+    public play(track: TrackModel): void {
+        const playableAudioFilePath: string = this.replaceUnplayableCharacters(track.path);
         this.loadAudioWithWebAudioAsync(playableAudioFilePath, false);
     }
     public stop(): void {
@@ -73,8 +77,9 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     public skipToSeconds(seconds: number): void {
         this.playWebAudio(seconds);
     }
-    public preloadNextTrack(audioFilePath: string): void {
-        const playableAudioFilePath: string = this.replaceUnplayableCharacters(audioFilePath);
+    public preloadNext(track: TrackModel): void {
+        this._preloadedTrack = track;
+        const playableAudioFilePath: string = this.replaceUnplayableCharacters(track.path);
         this.loadAudioWithWebAudioAsync(playableAudioFilePath, true);
     }
 
@@ -111,11 +116,12 @@ export class GaplessAudioPlayer implements IAudioPlayer {
             this._sourceNode.connect(this._gainNode);
 
             this._sourceNode.onended = () => {
-                if (this._nextBuffer) {
+                if (this._nextBuffer && this._preloadedTrack) {
                     this.transitionToNextBuffer();
-                    this._playbackFinished.next(false);
+                    this._playingPreloadedTrack.next(this._preloadedTrack);
+                    this._preloadedTrack = undefined;
                 } else {
-                    this._playbackFinished.next(true);
+                    this._playbackFinished.next();
                 }
             };
 

@@ -5,11 +5,13 @@ import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { StringUtils } from '../../../common/utils/string-utils';
 import { IAudioPlayer } from './i-audio-player';
 import { AudioChangedEvent } from './audio-changed-event';
+import { TrackModel } from '../../track/track-model';
 
 export class LegacyAudioPlayer implements IAudioPlayer {
     private _audio: HTMLAudioElement;
     private _audioChanged: Subject<AudioChangedEvent> = new Subject();
-    private _playbackFinished: Subject<boolean> = new Subject();
+    private _playbackFinished: Subject<void> = new Subject();
+    private _playingPreloadedTrack: Subject<TrackModel> = new Subject();
 
     public constructor(
         private mathExtensions: MathExtensions,
@@ -35,7 +37,8 @@ export class LegacyAudioPlayer implements IAudioPlayer {
     }
 
     public audioChanged$: Observable<AudioChangedEvent> = this._audioChanged.asObservable();
-    public playbackFinished$: Observable<boolean> = this._playbackFinished.asObservable();
+    public playbackFinished$: Observable<void> = this._playbackFinished.asObservable();
+    public playingPreloadedTrack$: Observable<TrackModel> = this._playingPreloadedTrack.asObservable();
 
     public get progressSeconds(): number {
         if (isNaN(this._audio.currentTime)) {
@@ -53,8 +56,8 @@ export class LegacyAudioPlayer implements IAudioPlayer {
         return this._audio.duration;
     }
 
-    public play(audioFilePath: string): void {
-        const playableAudioFilePath: string = this.replaceUnplayableCharacters(audioFilePath);
+    public play(track: TrackModel): void {
+        const playableAudioFilePath: string = this.replaceUnplayableCharacters(track.path);
 
         // This is a workaround to fix flickering of OS media controls when switching track from the media controls
         const tempAudio: HTMLAudioElement = new Audio();
@@ -67,7 +70,7 @@ export class LegacyAudioPlayer implements IAudioPlayer {
         this._audio.onended = () => {};
         this._audio = tempAudio;
         this._audio.play();
-        this._audio.onended = () => this._playbackFinished.next(true);
+        this._audio.onended = () => this._playbackFinished.next();
 
         this._audioChanged.next(new AudioChangedEvent(this._audio));
     }
@@ -101,7 +104,7 @@ export class LegacyAudioPlayer implements IAudioPlayer {
         return playableAudioFilePath;
     }
 
-    public preloadNextTrack(audioFilePath: string): void {
-        // Not implemented
+    public preloadNext(track: TrackModel): void {
+        // Not implemented as not supported by legacy audio player.
     }
 }
