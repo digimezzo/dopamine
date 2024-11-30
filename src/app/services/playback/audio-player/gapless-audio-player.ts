@@ -11,11 +11,12 @@ import { StringUtils } from '../../../common/utils/string-utils';
 })
 export class GaplessAudioPlayer implements IAudioPlayer {
     private _audioChanged: Subject<AudioChangedEvent> = new Subject();
-    private _playbackFinished: Subject<void> = new Subject();
+    private _playbackFinished: Subject<boolean> = new Subject();
     private _audioContext: AudioContext;
     private _audioStartTime: number = 0;
     private _audioPausedAt: number = 0;
-    private _buffer: AudioBuffer | undefined;
+    private _currentBuffer: AudioBuffer | undefined;
+    private _nextBuffer: AudioBuffer | undefined;
     private _sourceNode: AudioBufferSourceNode | undefined;
     private _gainNode: GainNode;
 
@@ -31,19 +32,19 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     }
 
     public audioChanged$: Observable<AudioChangedEvent> = this._audioChanged.asObservable();
-    public playbackFinished$: Observable<void> = this._playbackFinished.asObservable();
+    public playbackFinished$: Observable<boolean> = this._playbackFinished.asObservable();
 
     public get progressSeconds(): number {
         return this._audioContext.currentTime - this._audioStartTime;
     }
 
     public get totalSeconds(): number {
-        return this._buffer?.duration || 0;
+        return this._currentBuffer?.duration || 0;
     }
 
     public play(audioFilePath: string): void {
         const playableAudioFilePath: string = this.replaceUnplayableCharacters(audioFilePath);
-        this.loadAudioWithWebAudioAsync(playableAudioFilePath);
+        this.loadAudioWithWebAudioAsync(playableAudioFilePath, false);
     }
     public stop(): void {
         if (this._sourceNode) {
@@ -73,7 +74,8 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         this.playWebAudio(seconds);
     }
     public preloadNextTrack(audioFilePath: string): void {
-        // Do nothing
+        const playableAudioFilePath: string = this.replaceUnplayableCharacters(audioFilePath);
+        this.loadAudioWithWebAudioAsync(playableAudioFilePath, true);
     }
 
     private async fetchAudioFile(url: string): Promise<Blob> {
@@ -85,7 +87,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     }
 
     private playWebAudio(offset: number): void {
-        if (!this._buffer) {
+        if (!this._currentBuffer) {
             return;
         }
 
@@ -100,7 +102,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
 
             // Create a new buffer source node
             this._sourceNode = this._audioContext.createBufferSource();
-            this._sourceNode.buffer = this._buffer;
+            this._sourceNode.buffer = this._currentBuffer;
 
             // Connect the source to the analyser
             // this._sourceNode.connect(this._analyser);
@@ -109,7 +111,12 @@ export class GaplessAudioPlayer implements IAudioPlayer {
             this._sourceNode.connect(this._gainNode);
 
             this._sourceNode.onended = () => {
-                this._playbackFinished.next();
+                if (this._nextBuffer) {
+                    this.transitionToNextBuffer();
+                    this._playbackFinished.next(false);
+                } else {
+                    this._playbackFinished.next(true);
+                }
             };
 
             // Store the current time when audio starts playing
@@ -120,15 +127,31 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         } catch (error) {}
     }
 
-    private async loadAudioWithWebAudioAsync(audioFilePath: string): Promise<void> {
+    private transitionToNextBuffer(): void {
+        if (!this._nextBuffer) {
+            return;
+        }
+
+        this._currentBuffer = this._nextBuffer;
+        this._nextBuffer = undefined;
+
+        this.playWebAudio(0);
+    }
+
+    private async loadAudioWithWebAudioAsync(audioFilePath: string, preload: boolean): Promise<void> {
         this.fetchAudioFile(audioFilePath)
             .then((blob) => {
                 const reader = new FileReader();
                 reader.readAsArrayBuffer(blob);
                 reader.onloadend = async () => {
                     const arrayBuffer = reader.result as ArrayBuffer;
-                    this._buffer = await this._audioContext.decodeAudioData(arrayBuffer);
-                    this.playWebAudio(0);
+
+                    if (preload) {
+                        this._nextBuffer = await this._audioContext.decodeAudioData(arrayBuffer);
+                    } else {
+                        this._currentBuffer = await this._audioContext.decodeAudioData(arrayBuffer);
+                        this.playWebAudio(0);
+                    }
                 };
             })
             .catch((error) => console.error(error));

@@ -3,7 +3,8 @@ import { AudioChangedEvent } from './audio-changed-event';
 
 export interface IAudioPlayer {
     audioChanged$: Observable<AudioChangedEvent>;
-    playbackFinished$: Observable<void>;
+    playbackFinished$: Observable<boolean>;
+    playingPreloadedTrack: Observable<boolean>;
     progressSeconds: number;
     totalSeconds: number;
     play(audioFilePath: string): void;
