@@ -22,6 +22,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     private _sourceNode: AudioBufferSourceNode | undefined;
     private _gainNode: GainNode;
     private _preloadedTrack: TrackModel | undefined;
+    private _isPlaying: boolean = false;
 
     public constructor(
         private mathExtensions: MathExtensions,
@@ -39,11 +40,11 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     public playingPreloadedTrack$: Observable<TrackModel> = this._playingPreloadedTrack.asObservable();
 
     public get progressSeconds(): number {
-        return this._audioContext.currentTime - this._audioStartTime;
+        return this._isPlaying ? this._audioContext.currentTime - this._audioStartTime : 0;
     }
 
     public get totalSeconds(): number {
-        return this._currentBuffer?.duration || 0;
+        return this._isPlaying ? this._currentBuffer?.duration || 0 : 0;
     }
 
     public play(track: TrackModel): void {
@@ -51,6 +52,8 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         this.loadAudioWithWebAudioAsync(playableAudioFilePath, false);
     }
     public stop(): void {
+        this._isPlaying = false;
+
         if (this._sourceNode) {
             this._sourceNode.onended = () => {};
             this._sourceNode.stop();
@@ -130,6 +133,8 @@ export class GaplessAudioPlayer implements IAudioPlayer {
 
             // Sync playback position with HTML5 Audio
             this._sourceNode.start(0, offset);
+
+            this._isPlaying = true;
         } catch (error) {}
     }
 
