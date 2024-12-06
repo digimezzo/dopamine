@@ -75,6 +75,12 @@ export class LegacyAudioPlayer implements IAudioPlayer {
         this._audioChanged.next(new AudioChangedEvent(this._audio));
     }
 
+    public startPaused(track: TrackModel, skipSeconds: number): void {
+        this.play(track);
+        this.pause();
+        this.skipToSeconds(skipSeconds);
+    }
+
     public stop(): void {
         this._audio.currentTime = 0;
         this._audio.pause();

@@ -579,15 +579,21 @@ export class PlaybackService {
         }
     }
 
+    private startPaused(track: TrackModel, skipSeconds: number): void {
+        this.audioPlayer.startPaused(track, skipSeconds);
+        this.postPlay(track);
+
+        this._canPause = false;
+        this._canResume = true;
+        this.playbackPaused.next();
+    }
+
     private async restoreQueueAsync(): Promise<void> {
         const info: QueueRestoreInfo = await this.queuePersister.restoreAsync();
         this.queue.restoreTracks(info.tracks, info.playbackOrder);
 
         if (info.playingTrack) {
-            this.stopAndPlay(info.playingTrack, false);
-            this.pause();
-            this.skipToSeconds(info.progressSeconds);
-            this.startUpdatingProgress();
+            this.startPaused(info.playingTrack, info.progressSeconds);
         }
     }
 

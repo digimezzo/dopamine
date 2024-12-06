@@ -25,6 +25,9 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     private _gainNode: GainNode;
     private _preloadedTrack: TrackModel | undefined;
     private _isPlaying: boolean = false;
+    private _isPaused: boolean = false;
+    private shouldPauseAfterStarting: boolean = false;
+    private skipSecondsAfterStarting: number = 0;
 
     public constructor(
         private mathExtensions: MathExtensions,
@@ -56,7 +59,15 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     public playingPreloadedTrack$: Observable<TrackModel> = this._playingPreloadedTrack.asObservable();
 
     public get progressSeconds(): number {
-        return this._isPlaying ? this._audioContext.currentTime - this._audioStartTime : 0;
+        if (this._isPlaying) {
+            if (this._isPaused) {
+                return this._audioPausedAt;
+            } else {
+                return this._audioContext.currentTime - this._audioStartTime;
+            }
+        } else {
+            return 0;
+        }
     }
 
     public get totalSeconds(): number {
@@ -82,7 +93,15 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         this._audio.currentTime = 0;
         this._audio.pause();
     }
+
+    public startPaused(track: TrackModel, skipSeconds: number): void {
+        this.shouldPauseAfterStarting = true;
+        this.skipSecondsAfterStarting = skipSeconds;
+        this.play(track);
+    }
+
     public pause(): void {
+        this._isPaused = true;
         this._audioPausedAt = this._audioContext.currentTime - this._audioStartTime;
 
         if (this._sourceNode) {
@@ -96,6 +115,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     public resume(): void {
         this.playWebAudio(this._audioPausedAt);
         this._audio.play();
+        this._isPaused = false;
     }
     public setVolume(linearVolume: number): void {
         // log(0) is undefined. So we provide a minimum of 0.01.
@@ -164,6 +184,14 @@ export class GaplessAudioPlayer implements IAudioPlayer {
             this._audio.play();
 
             this._isPlaying = true;
+            this._isPaused = false;
+
+            if (this.shouldPauseAfterStarting) {
+                this.pause();
+                this.skipToSeconds(this.skipSecondsAfterStarting);
+                this.shouldPauseAfterStarting = false;
+                this.skipSecondsAfterStarting = 0;
+            }
         } catch (error) {}
     }
 

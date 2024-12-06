@@ -9,6 +9,7 @@ export interface IAudioPlayer {
     progressSeconds: number;
     totalSeconds: number;
     play(track: TrackModel): void;
+    startPaused(track: TrackModel, skipSeconds: number): void;
     stop(): void;
     pause(): void;
     resume(): void;
