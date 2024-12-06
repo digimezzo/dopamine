@@ -16,4 +16,5 @@ export interface IAudioPlayer {
     setVolume(volume: number): void;
     skipToSeconds(seconds: number): void;
     preloadNext(track: TrackModel): void;
+    getAudio(): HTMLAudioElement | undefined;
 }

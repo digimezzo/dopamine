@@ -113,4 +113,8 @@ export class LegacyAudioPlayer implements IAudioPlayer {
     public preloadNext(track: TrackModel): void {
         // Not implemented as not supported by legacy audio player.
     }
+
+    public getAudio(): HTMLAudioElement | undefined {
+        return this._audio;
+    }
 }

@@ -237,4 +237,8 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         playableAudioFilePath = StringUtils.replaceAll(playableAudioFilePath, '?', '%3F');
         return playableAudioFilePath;
     }
+
+    public getAudio(): HTMLAudioElement | undefined {
+        return undefined;
+    }
 }
