@@ -28,6 +28,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     private _isPaused: boolean = false;
     private shouldPauseAfterStarting: boolean = false;
     private skipSecondsAfterStarting: number = 0;
+    private _lastSetLogarithmicVolume: number = 0;
 
     public constructor(
         private mathExtensions: MathExtensions,
@@ -79,6 +80,8 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         this.loadAudioWithWebAudioAsync(playableAudioFilePath, false);
 
         this._tempAudio = new Audio();
+        this._tempAudio.volume = 0;
+        this._tempAudio.muted = false;
         this._tempAudio.src = 'file:///' + playableAudioFilePath;
     }
     public stop(): void {
@@ -97,6 +100,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     public startPaused(track: TrackModel, skipSeconds: number): void {
         this.shouldPauseAfterStarting = true;
         this.skipSecondsAfterStarting = skipSeconds;
+        this._gainNode.gain.setValueAtTime(0, 0);
         this.play(track);
     }
 
@@ -121,6 +125,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         // log(0) is undefined. So we provide a minimum of 0.01.
         const logarithmicVolume: number = linearVolume > 0 ? this.mathExtensions.linearToLogarithmic(linearVolume, 0.01, 1) : 0;
         this._gainNode.gain.setValueAtTime(logarithmicVolume, 0);
+        this._lastSetLogarithmicVolume = logarithmicVolume;
     }
     public skipToSeconds(seconds: number): void {
         this.playWebAudio(seconds);
@@ -191,6 +196,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
                 this.skipToSeconds(this.skipSecondsAfterStarting);
                 this.shouldPauseAfterStarting = false;
                 this.skipSecondsAfterStarting = 0;
+                this._gainNode.gain.setValueAtTime(this._lastSetLogarithmicVolume, 0);
             }
         } catch (error) {}
     }
