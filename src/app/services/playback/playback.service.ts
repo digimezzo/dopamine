@@ -267,6 +267,10 @@ export class PlaybackService {
 
     public pause(): void {
         this.audioPlayer.pause();
+        this.postPause();
+    }
+
+    private postPause() {
         this._canPause = false;
         this._canResume = true;
         this.pauseUpdatingProgress();
@@ -582,10 +586,8 @@ export class PlaybackService {
     private startPaused(track: TrackModel, skipSeconds: number): void {
         this.audioPlayer.startPaused(track, skipSeconds);
         this.postPlay(track);
-
-        this._canPause = false;
-        this._canResume = true;
-        this.playbackPaused.next();
+        this.postPause();
+        this.startUpdatingProgress();
     }
 
     private async restoreQueueAsync(): Promise<void> {
