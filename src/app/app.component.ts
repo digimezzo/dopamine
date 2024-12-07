@@ -20,6 +20,7 @@ import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
 import { DesktopBase } from './common/io/desktop.base';
 import { LifetimeService } from './services/lifetime/lifetime.service';
 import { PlaybackService } from './services/playback/playback.service';
+import { AudioVisualizer } from './services/playback/audio-visualizer';
 
 @Component({
     selector: 'app-root',
@@ -43,6 +44,7 @@ export class AppComponent implements OnInit {
         private addToPlaylistMenu: AddToPlaylistMenu,
         private desktop: DesktopBase,
         private logger: Logger,
+        private audioVisualizer: AudioVisualizer,
         private integrationTestRunner: IntegrationTestRunner,
     ) {
         log.create('renderer');
@@ -79,6 +81,7 @@ export class AppComponent implements OnInit {
             }),
         );
 
+        this.audioVisualizer.initialize();
         await this.addToPlaylistMenu.initializeAsync();
         this.discordService.setRichPresenceFromSettings();
         await this.appearanceService.applyAppearanceAsync();

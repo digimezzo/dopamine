@@ -3,56 +3,33 @@ import { AppearanceServiceBase } from '../appearance/appearance.service.base';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { RgbColor } from '../../common/rgb-color';
 import { PlaybackService } from './playback.service';
-import { AudioChangedEvent } from './audio-player/audio-changed-event';
 
 @Injectable()
 export class AudioVisualizer {
-    private readonly audioContext: AudioContext;
-    private readonly analyser: AnalyserNode;
-    private readonly dataArray: Uint8Array;
+    private dataArray: Uint8Array;
     private canvas: HTMLCanvasElement;
     private canvasContext: CanvasRenderingContext2D;
     private isStopped: boolean;
     private stopRequestTime: Date | undefined;
-    private _audio: HTMLMediaElement | undefined;
 
     public constructor(
         private playbackService: PlaybackService,
         private appearanceService: AppearanceServiceBase,
         private settings: SettingsBase,
-    ) {
-        this.audioContext = new window.AudioContext();
-        this.analyser = this.audioContext.createAnalyser();
-        this.analyser.fftSize = 128;
-        this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+    ) {}
+
+    public initialize(): void {
+        this.dataArray = new Uint8Array(this.playbackService.audioPlayer.analyser.frequencyBinCount);
         this.analyze();
-
-        this.playbackService.audioPlayer.audioChanged$.subscribe((event: AudioChangedEvent) => {
-            this.connectAudio(event.audio);
-        });
-
-        const audio: HTMLMediaElement | undefined = this.playbackService.audioPlayer.getAudio();
-
-        if (audio) {
-            this.connectAudio(audio);
-        }
-    }
-
-    private connectAudio(audio: HTMLMediaElement): void {
-        this._audio = audio;
-        const source: MediaElementAudioSourceNode = this.audioContext.createMediaElementSource(this._audio as HTMLMediaElement);
-        source.connect(this.analyser);
     }
 
     public connectCanvas(canvas: HTMLCanvasElement): void {
-        this.analyser.disconnect();
         this.canvas = canvas;
         this.canvasContext = this.canvas.getContext('2d') as CanvasRenderingContext2D;
-        this.analyser.connect(this.audioContext.destination);
     }
 
     private shouldStopDelayed(): boolean {
-        return this._audio?.paused ?? false;
+        return this.playbackService.audioPlayer.isPaused;
     }
 
     private shouldStopNow(): boolean {
@@ -62,7 +39,7 @@ export class AudioVisualizer {
     private analyze(): void {
         setTimeout(
             () => {
-                this.analyser.getByteFrequencyData(this.dataArray);
+                this.playbackService.audioPlayer.analyser.getByteFrequencyData(this.dataArray);
                 this.draw();
 
                 requestAnimationFrame(() => this.analyze());

@@ -8,6 +8,8 @@ export interface IAudioPlayer {
     playingPreloadedTrack$: Observable<TrackModel>;
     progressSeconds: number;
     totalSeconds: number;
+    analyser: AnalyserNode;
+    isPaused: boolean;
     play(track: TrackModel): void;
     startPaused(track: TrackModel, skipSeconds: number): void;
     stop(): void;

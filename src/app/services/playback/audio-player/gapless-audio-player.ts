@@ -29,6 +29,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     private shouldPauseAfterStarting: boolean = false;
     private skipSecondsAfterStarting: number = 0;
     private _lastSetLogarithmicVolume: number = 0;
+    private _analyser: AnalyserNode;
 
     public constructor(
         private mathExtensions: MathExtensions,
@@ -38,6 +39,9 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         this._audioContext = new AudioContext();
         this._gainNode = this._audioContext.createGain();
         this._gainNode.connect(this._audioContext.destination);
+
+        this._analyser = this._audioContext.createAnalyser();
+        this._analyser.fftSize = 128;
 
         this._gainNode.gain.setValueAtTime(1, 0);
 
@@ -58,6 +62,14 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     public audioChanged$: Observable<AudioChangedEvent> = this._audioChanged.asObservable();
     public playbackFinished$: Observable<void> = this._playbackFinished.asObservable();
     public playingPreloadedTrack$: Observable<TrackModel> = this._playingPreloadedTrack.asObservable();
+
+    public get analyser(): AnalyserNode {
+        return this._analyser;
+    }
+
+    public get isPaused(): boolean {
+        return this._isPaused;
+    }
 
     public get progressSeconds(): number {
         if (this._isPlaying) {
@@ -164,7 +176,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
             this._sourceNode.buffer = this._currentBuffer;
 
             // Connect the source to the analyser
-            // this._sourceNode.connect(this._analyser);
+            this._sourceNode.connect(this._analyser);
 
             // Connect the source node to the gain node
             this._sourceNode.connect(this._gainNode);

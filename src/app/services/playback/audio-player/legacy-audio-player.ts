@@ -12,12 +12,21 @@ export class LegacyAudioPlayer implements IAudioPlayer {
     private _audioChanged: Subject<AudioChangedEvent> = new Subject();
     private _playbackFinished: Subject<void> = new Subject();
     private _playingPreloadedTrack: Subject<TrackModel> = new Subject();
+    private _audioContext: AudioContext;
+    private _analyser: AnalyserNode;
+    private _isPaused: boolean = false;
 
     public constructor(
         private mathExtensions: MathExtensions,
         private logger: Logger,
     ) {
         this._audio = new Audio();
+        this._audioContext = new AudioContext();
+
+        this._analyser = this._audioContext.createAnalyser();
+        this._analyser.fftSize = 128;
+
+        this.connectVisualizer();
 
         try {
             // This fails during unit tests because setSinkId() does not exist on HTMLAudioElement
@@ -39,6 +48,14 @@ export class LegacyAudioPlayer implements IAudioPlayer {
     public audioChanged$: Observable<AudioChangedEvent> = this._audioChanged.asObservable();
     public playbackFinished$: Observable<void> = this._playbackFinished.asObservable();
     public playingPreloadedTrack$: Observable<TrackModel> = this._playingPreloadedTrack.asObservable();
+
+    public get analyser(): AnalyserNode {
+        return this._analyser;
+    }
+
+    public get isPaused(): boolean {
+        return this._isPaused;
+    }
 
     public get progressSeconds(): number {
         if (isNaN(this._audio.currentTime)) {
@@ -69,6 +86,9 @@ export class LegacyAudioPlayer implements IAudioPlayer {
 
         this._audio.onended = () => {};
         this._audio = tempAudio;
+
+        this.connectVisualizer();
+
         this._audio.play();
         this._audio.onended = () => this._playbackFinished.next();
 
@@ -87,11 +107,13 @@ export class LegacyAudioPlayer implements IAudioPlayer {
     }
 
     public pause(): void {
+        this._isPaused = true;
         this._audio.pause();
     }
 
     public resume(): void {
         PromiseUtils.noAwait(this._audio.play());
+        this._isPaused = false;
     }
 
     public setVolume(linearVolume: number): void {
@@ -116,5 +138,11 @@ export class LegacyAudioPlayer implements IAudioPlayer {
 
     public getAudio(): HTMLAudioElement | undefined {
         return this._audio;
+    }
+
+    private connectVisualizer(): void {
+        const mediaElementSource: MediaElementAudioSourceNode = this._audioContext.createMediaElementSource(this._audio);
+        this._analyser.connect(this._audioContext.destination);
+        mediaElementSource!.connect(this._analyser);
     }
 }

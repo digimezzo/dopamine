@@ -253,7 +253,7 @@ describe('AppComponent', () => {
             await app.ngOnInit();
 
             // Assert
-            audioVisualizerMock.verify((x) => x.connectAudioElement(), Times.once());
+            audioVisualizerMock.verify((x) => x.initialize(), Times.once());
         });
     });
 
