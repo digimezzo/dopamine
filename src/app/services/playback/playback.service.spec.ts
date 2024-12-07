@@ -25,6 +25,9 @@ import { SettingsMock } from '../../testing/settings-mock';
 import { QueuePersister } from './queue-persister';
 import { AudioPlayerFactory } from './audio-player/audio-player.factory';
 import { IAudioPlayer } from './audio-player/i-audio-player';
+import { MediaSessionService } from '../media-session/media-session.service';
+
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('PlaybackService', () => {
     let audioPlayerFactoryMock: IMock<AudioPlayerFactory>;
@@ -32,6 +35,7 @@ describe('PlaybackService', () => {
     let trackServiceMock: IMock<TrackServiceBase>;
     let playlistServiceMock: IMock<PlaylistServiceBase>;
     let notificationServiceMock: IMock<NotificationServiceBase>;
+    let mediaSessionServiceMock: IMock<MediaSessionService>;
     let queuePersisterMock: IMock<QueuePersister>;
     let trackSorterMock: IMock<TrackSorter>;
     let loggerMock: IMock<Logger>;
@@ -39,6 +43,11 @@ describe('PlaybackService', () => {
     let mathExtensionsMock: IMock<MathExtensions>;
     let settingsStub: any;
     let playbackFinished: Subject<void>;
+    let playingPreloadedTrack: Subject<TrackModel>;
+    let playEvent: Subject<void>;
+    let pauseEvent: Subject<void>;
+    let previousTrackEvent: Subject<void>;
+    let nextTrackEvent: Subject<void>;
     let subscription: Subscription;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -72,6 +81,7 @@ describe('PlaybackService', () => {
         trackServiceMock = Mock.ofType<TrackServiceBase>();
         playlistServiceMock = Mock.ofType<PlaylistServiceBase>();
         notificationServiceMock = Mock.ofType<NotificationServiceBase>();
+        mediaSessionServiceMock = Mock.ofType<MediaSessionService>();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         queuePersisterMock = Mock.ofType<QueuePersister>();
@@ -86,10 +96,25 @@ describe('PlaybackService', () => {
 
         settingsStub = { volume: 0.6 };
         playbackFinished = new Subject();
+        playingPreloadedTrack = new Subject();
+        playEvent = new Subject();
+        pauseEvent = new Subject();
+        previousTrackEvent = new Subject();
+        nextTrackEvent = new Subject();
 
         const playbackFinished$: Observable<void> = playbackFinished.asObservable();
-
         audioPlayerMock.setup((x) => x.playbackFinished$).returns(() => playbackFinished$);
+        const playingPreloadedTrack$: Observable<TrackModel> = playingPreloadedTrack.asObservable();
+        audioPlayerMock.setup((x) => x.playingPreloadedTrack$).returns(() => playingPreloadedTrack$);
+
+        const playEvent$: Observable<void> = playEvent.asObservable();
+        mediaSessionServiceMock.setup((x) => x.playEvent$).returns(() => playEvent$);
+        const pauseEvent$: Observable<void> = pauseEvent.asObservable();
+        mediaSessionServiceMock.setup((x) => x.pauseEvent$).returns(() => pauseEvent$);
+        const previousTrackEvent$: Observable<void> = previousTrackEvent.asObservable();
+        mediaSessionServiceMock.setup((x) => x.previousTrackEvent$).returns(() => previousTrackEvent$);
+        const nextTrackEvent$: Observable<void> = nextTrackEvent.asObservable();
+        mediaSessionServiceMock.setup((x) => x.nextTrackEvent$).returns(() => nextTrackEvent$);
 
         subscription = new Subscription();
 
@@ -153,6 +178,7 @@ describe('PlaybackService', () => {
             trackServiceMock.object,
             playlistServiceMock.object,
             notificationServiceMock.object,
+            mediaSessionServiceMock.object,
             queuePersisterMock.object,
             trackSorterMock.object,
             queueMock.object,
@@ -365,7 +391,7 @@ describe('PlaybackService', () => {
             playbackFinished.next();
 
             // Assert
-            audioPlayerMock.verify((x) => x.play(trackModel1.path), Times.exactly(1));
+            audioPlayerMock.verify((x) => x.play(trackModel1), Times.exactly(1));
         });
 
         it('should not play the next track on playback finished if found and if loopMode is One', () => {
@@ -387,7 +413,7 @@ describe('PlaybackService', () => {
             playbackFinished.next();
 
             // Assert
-            audioPlayerMock.verify((x) => x.play(trackModel2.path), Times.never());
+            audioPlayerMock.verify((x) => x.play(trackModel2), Times.never());
         });
 
         it('should play the next track on playback finished if found and if loopMode is All', () => {
@@ -409,7 +435,7 @@ describe('PlaybackService', () => {
             playbackFinished.next();
 
             // Assert
-            audioPlayerMock.verify((x) => x.play(trackModel2.path), Times.exactly(1));
+            audioPlayerMock.verify((x) => x.play(trackModel2), Times.exactly(1));
         });
 
         it('should play the next track on playback finished if found and if loopMode is None', () => {
@@ -431,7 +457,7 @@ describe('PlaybackService', () => {
             playbackFinished.next();
 
             // Assert
-            audioPlayerMock.verify((x) => x.play(trackModel2.path), Times.exactly(1));
+            audioPlayerMock.verify((x) => x.play(trackModel2), Times.exactly(1));
         });
 
         it('should increase play count and date last played for the current track on playback finished', () => {
@@ -699,7 +725,7 @@ describe('PlaybackService', () => {
 
             audioPlayerMock.reset();
             audioPlayerMock.setup((x) => x.stop()).verifiable(Times.once(), ExpectedCallType.InSequence);
-            audioPlayerMock.setup((x) => x.play(trackModel1.path)).verifiable(Times.once(), ExpectedCallType.InSequence);
+            audioPlayerMock.setup((x) => x.play(trackModel1)).verifiable(Times.once(), ExpectedCallType.InSequence);
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
 
             // Act
@@ -795,7 +821,7 @@ describe('PlaybackService', () => {
 
             audioPlayerMock.reset();
             audioPlayerMock.setup((x) => x.stop()).verifiable(Times.once(), ExpectedCallType.InSequence);
-            audioPlayerMock.setup((x) => x.play(trackModel1.path)).verifiable(Times.once(), ExpectedCallType.InSequence);
+            audioPlayerMock.setup((x) => x.play(trackModel1)).verifiable(Times.once(), ExpectedCallType.InSequence);
 
             // Act
             service.enqueueAndPlayTracksStartingFromGivenTrack(trackModels, trackModel1);
@@ -881,7 +907,7 @@ describe('PlaybackService', () => {
             const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
             audioPlayerMock.reset();
             audioPlayerMock.setup((x) => x.stop()).verifiable(Times.once(), ExpectedCallType.InSequence);
-            audioPlayerMock.setup((x) => x.play(trackModel2.path)).verifiable(Times.once(), ExpectedCallType.InSequence);
+            audioPlayerMock.setup((x) => x.play(trackModel2)).verifiable(Times.once(), ExpectedCallType.InSequence);
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel2);
 
             // Act
@@ -971,7 +997,7 @@ describe('PlaybackService', () => {
 
             audioPlayerMock.reset();
             audioPlayerMock.setup((x) => x.stop()).verifiable(Times.once(), ExpectedCallType.InSequence);
-            audioPlayerMock.setup((x) => x.play(trackModel2.path)).verifiable(Times.once(), ExpectedCallType.InSequence);
+            audioPlayerMock.setup((x) => x.play(trackModel2)).verifiable(Times.once(), ExpectedCallType.InSequence);
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel2);
 
             // Act
@@ -1056,7 +1082,7 @@ describe('PlaybackService', () => {
 
             audioPlayerMock.reset();
             audioPlayerMock.setup((x) => x.stop()).verifiable(Times.once(), ExpectedCallType.InSequence);
-            audioPlayerMock.setup((x) => x.play(trackModel2.path)).verifiable(Times.once(), ExpectedCallType.InSequence);
+            audioPlayerMock.setup((x) => x.play(trackModel2)).verifiable(Times.once(), ExpectedCallType.InSequence);
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel2);
 
             // Act
@@ -1181,7 +1207,7 @@ describe('PlaybackService', () => {
             service.resume();
 
             // Assert
-            audioPlayerMock.verify((x) => x.play(trackModel1.path), Times.once());
+            audioPlayerMock.verify((x) => x.play(trackModel1), Times.once());
             expect(service.isPlaying).toBeTruthy();
             expect(service.canPause).toBeTruthy();
             expect(service.canResume).toBeFalsy();
@@ -1278,7 +1304,7 @@ describe('PlaybackService', () => {
             service.playPrevious();
 
             // Assert
-            audioPlayerMock.verify((x) => x.play(track1.path), Times.exactly(1));
+            audioPlayerMock.verify((x) => x.play(trackModel1), Times.exactly(1));
             expect(service.isPlaying).toBeTruthy();
             expect(service.canPause).toBeTruthy();
             expect(service.canResume).toBeFalsy();
@@ -1297,7 +1323,7 @@ describe('PlaybackService', () => {
             // Act
             service.playPrevious();
             // Assert
-            audioPlayerMock.verify((x) => x.play(trackModel2.path), Times.exactly(1));
+            audioPlayerMock.verify((x) => x.play(trackModel2), Times.exactly(1));
             expect(service.isPlaying).toBeTruthy();
             expect(service.canPause).toBeTruthy();
             expect(service.canResume).toBeFalsy();
@@ -1433,6 +1459,7 @@ describe('PlaybackService', () => {
             );
             // Act
             service.playPrevious();
+
             // Assert
             expect(receivedTrack).toBe(trackModel2);
             expect(isPlayingPreviousTrack).toBeTruthy();
@@ -1521,7 +1548,7 @@ describe('PlaybackService', () => {
 
             // Assert
             audioPlayerMock.verify((x) => x.stop(), Times.exactly(1));
-            audioPlayerMock.verify((x) => x.play(trackModel2.path), Times.exactly(1));
+            audioPlayerMock.verify((x) => x.play(trackModel2), Times.exactly(1));
             expect(service.isPlaying).toBeTruthy();
             expect(service.canPause).toBeTruthy();
             expect(service.canResume).toBeFalsy();
@@ -1908,7 +1935,7 @@ describe('PlaybackService', () => {
 
             audioPlayerMock.reset();
             audioPlayerMock.setup((x) => x.stop()).verifiable(Times.once(), ExpectedCallType.InSequence);
-            audioPlayerMock.setup((x) => x.play(trackModel2.path)).verifiable(Times.once(), ExpectedCallType.InSequence);
+            audioPlayerMock.setup((x) => x.play(trackModel2)).verifiable(Times.once(), ExpectedCallType.InSequence);
 
             // Act
             service.playQueuedTrack(trackModel2);
@@ -2216,7 +2243,7 @@ describe('PlaybackService', () => {
 
             // Assert
             queueMock.verify((x) => x.getNextTrack(trackModel1, It.isAny()), Times.once());
-            audioPlayerMock.verify((x) => x.play(trackModel2.path), Times.once());
+            audioPlayerMock.verify((x) => x.play(trackModel2), Times.once());
         });
     });
 

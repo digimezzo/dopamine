@@ -388,10 +388,10 @@ export class PlaybackService {
 
     private play(trackToPlay: TrackModel, isPlayingPreviousTrack: boolean): void {
         this.audioPlayer.play(trackToPlay);
-        this.postPlay(trackToPlay);
+        this.postPlay(trackToPlay, isPlayingPreviousTrack);
     }
 
-    private postPlay(trackToPlay: TrackModel): void {
+    private postPlay(trackToPlay: TrackModel, isPlayingPreviousTrack: boolean): void {
         this.currentTrack = trackToPlay;
         this._isPlaying = true;
         this._canPause = true;
@@ -400,7 +400,7 @@ export class PlaybackService {
         this.mediaSessionService.setMetadataAsync(trackToPlay);
 
         this.startUpdatingProgress();
-        this.playbackStarted.next(new PlaybackStarted(trackToPlay, false));
+        this.playbackStarted.next(new PlaybackStarted(trackToPlay, isPlayingPreviousTrack));
 
         this.logger.info(`Playing '${this.currentTrack.path}'`, 'PlaybackService', 'play');
 
@@ -466,7 +466,7 @@ export class PlaybackService {
     private playingPreloadedTrackHandler(preloadedTrack: TrackModel): void {
         this.increasePlayCountAndDateLastPlayedForCurrentTrack();
 
-        this.postPlay(preloadedTrack);
+        this.postPlay(preloadedTrack, false);
     }
 
     private increaseCountersForCurrentTrackBasedOnProgress(): void {
@@ -585,7 +585,7 @@ export class PlaybackService {
 
     private startPaused(track: TrackModel, skipSeconds: number): void {
         this.audioPlayer.startPaused(track, skipSeconds);
-        this.postPlay(track);
+        this.postPlay(track, false);
         this.postPause();
         this.startUpdatingProgress();
     }
