@@ -9,6 +9,8 @@ import { MockCreator } from '../../../../testing/mock-creator';
 import { TrackModel } from '../../../../services/track/track-model';
 import { ArtistInformation } from '../../../../services/artist-information/artist-information';
 
+jest.mock('jimp', () => ({ exec: jest.fn() }));
+
 describe('NowPlayingArtistInfoComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let artistInformationServiceMock: IMock<ArtistInformationServiceBase>;

@@ -2,18 +2,20 @@ import { IMock, It, Mock, Times } from 'typemoq';
 import { LoveComponent } from './love.component';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { ScrobblingServiceBase } from '../../../services/scrobbling/scrobbling.service.base';
-import { MetadataServiceBase } from '../../../services/metadata/metadata.service.base';
 import { DialogServiceBase } from '../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
 import { DateTime } from '../../../common/date-time';
 import { Track } from '../../../data/entities/track';
 import { TrackModel } from '../../../services/track/track-model';
 import { SettingsMock } from '../../../testing/settings-mock';
+import { MetadataService } from '../../../services/metadata/metadata.service';
+
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('LoveComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let scrobblingServiceMock: IMock<ScrobblingServiceBase>;
-    let metadataServiceMock: IMock<MetadataServiceBase>;
+    let metadataServiceMock: IMock<MetadataService>;
     let dialogServiceMock: IMock<DialogServiceBase>;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -30,7 +32,7 @@ describe('LoveComponent', () => {
     }
 
     beforeEach(() => {
-        metadataServiceMock = Mock.ofType<MetadataServiceBase>();
+        metadataServiceMock = Mock.ofType<MetadataService>();
         scrobblingServiceMock = Mock.ofType<ScrobblingServiceBase>();
         dialogServiceMock = Mock.ofType<DialogServiceBase>();
         dateTimeMock = Mock.ofType<DateTime>();

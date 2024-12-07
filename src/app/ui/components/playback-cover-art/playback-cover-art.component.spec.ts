@@ -1,7 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
 import { PlaybackCoverArtComponent } from './playback-cover-art.component';
-import { PlaybackInformationServiceBase } from '../../../services/playback-information/playback-information.service.base';
 import { Scheduler } from '../../../common/scheduling/scheduler';
 import { DateTime } from '../../../common/date-time';
 import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
@@ -10,10 +9,13 @@ import { Track } from '../../../data/entities/track';
 import { PlaybackInformation } from '../../../services/playback-information/playback-information';
 import { Constants } from '../../../common/application/constants';
 import { SettingsMock } from '../../../testing/settings-mock';
+import { PlaybackInformationService } from '../../../services/playback-information/playback-information.service';
+
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('PlaybackInformationComponent', () => {
     let component: PlaybackCoverArtComponent;
-    let playbackInformationServiceMock: IMock<PlaybackInformationServiceBase>;
+    let playbackInformationServiceMock: IMock<PlaybackInformationService>;
     let schedulerMock: IMock<Scheduler>;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -30,7 +32,7 @@ describe('PlaybackInformationComponent', () => {
     let trackModel1: TrackModel;
 
     beforeEach(() => {
-        playbackInformationServiceMock = Mock.ofType<PlaybackInformationServiceBase>();
+        playbackInformationServiceMock = Mock.ofType<PlaybackInformationService>();
         schedulerMock = Mock.ofType<Scheduler>();
 
         dateTimeMock = Mock.ofType<DateTime>();

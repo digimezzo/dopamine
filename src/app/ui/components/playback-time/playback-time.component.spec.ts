@@ -2,6 +2,8 @@ import { IMock, Mock } from 'typemoq';
 import { PlaybackTimeComponent } from './playback-time.component';
 import { PlaybackService } from '../../../services/playback/playback.service';
 
+jest.mock('jimp', () => ({ exec: jest.fn() }));
+
 describe('PlaybackTimeComponent', () => {
     let component: PlaybackTimeComponent;
     let playbackServiceMock: IMock<PlaybackService>;

@@ -3,7 +3,6 @@ import { IMock, Mock, Times } from 'typemoq';
 import { NowPlayingComponent } from './now-playing.component';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
-import { MetadataServiceBase } from '../../../services/metadata/metadata.service.base';
 import { PlaybackService } from '../../../services/playback/playback.service';
 import { SearchServiceBase } from '../../../services/search/search.service.base';
 import { NowPlayingNavigationServiceBase } from '../../../services/now-playing-navigation/now-playing-navigation.service.base';
@@ -14,11 +13,14 @@ import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 import { DocumentProxy } from '../../../common/io/document-proxy';
 import { SettingsBase } from '../../../common/settings/settings.base';
+import { MetadataService } from '../../../services/metadata/metadata.service';
+
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('NowPlayingComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let navigationServiceMock: IMock<NavigationServiceBase>;
-    let metadataServiceMock: IMock<MetadataServiceBase>;
+    let metadataServiceMock: IMock<MetadataService>;
     let playbackServiceMock: IMock<PlaybackService>;
     let searchServiceMock: IMock<SearchServiceBase>;
     let nowPlayingNavigationServiceMock: IMock<NowPlayingNavigationServiceBase>;
@@ -51,7 +53,7 @@ describe('NowPlayingComponent', () => {
     beforeEach(() => {
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
-        metadataServiceMock = Mock.ofType<MetadataServiceBase>();
+        metadataServiceMock = Mock.ofType<MetadataService>();
         playbackServiceMock = Mock.ofType<PlaybackService>();
         nowPlayingNavigationServiceMock = Mock.ofType<NowPlayingNavigationServiceBase>();
         schedulerMock = Mock.ofType<SchedulerBase>();
