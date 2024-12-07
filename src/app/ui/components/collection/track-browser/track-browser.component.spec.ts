@@ -10,7 +10,6 @@ import { TrackModels } from '../../../../services/track/track-models';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { PlaybackIndicationServiceBase } from '../../../../services/playback-indication/playback-indication.service.base';
-import { MetadataServiceBase } from '../../../../services/metadata/metadata.service.base';
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
 import { DesktopBase } from '../../../../common/io/desktop.base';
 import { Logger } from '../../../../common/logger';
@@ -22,13 +21,16 @@ import { GuidFactory } from '../../../../common/guid.factory';
 import { TrackSorter } from '../../../../common/sorting/track-sorter';
 import { SettingsMock } from '../../../../testing/settings-mock';
 import { PlaybackService } from '../../../../services/playback/playback.service';
+import { MetadataService } from '../../../../services/metadata/metadata.service';
+
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('TrackBrowserComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let playbackIndicationServiceMock: IMock<PlaybackIndicationServiceBase>;
-    let metadataServiceMock: IMock<MetadataServiceBase>;
+    let metadataServiceMock: IMock<MetadataService>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let trackSorterMock: IMock<TrackSorter>;
     let desktopMock: IMock<DesktopBase>;
@@ -65,7 +67,7 @@ describe('TrackBrowserComponent', () => {
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         playbackIndicationServiceMock = Mock.ofType<PlaybackIndicationServiceBase>();
-        metadataServiceMock = Mock.ofType<MetadataServiceBase>();
+        metadataServiceMock = Mock.ofType<MetadataService>();
         collectionServiceMock = Mock.ofType<CollectionServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         dialogServiceMock = Mock.ofType<DialogServiceBase>();

@@ -13,6 +13,8 @@ import { PlaybackService } from '../playback/playback.service';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
 
+jest.mock('jimp', () => ({ exec: jest.fn() }));
+
 describe('DiscordService', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let dateTimeMock: IMock<DateTime>;

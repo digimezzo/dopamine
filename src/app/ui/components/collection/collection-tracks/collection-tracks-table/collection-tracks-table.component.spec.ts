@@ -15,7 +15,6 @@ import { Track } from '../../../../../data/entities/track';
 import { TrackModels } from '../../../../../services/track/track-models';
 import { TracksColumnsOrderColumn } from '../../../../../services/track-columns/tracks-columns-order-column';
 import { TracksColumnsOrderDirection } from '../../../../../services/track-columns/tracks-columns-order-direction';
-import { MetadataServiceBase } from '../../../../../services/metadata/metadata.service.base';
 import { PlaybackIndicationServiceBase } from '../../../../../services/playback-indication/playback-indication.service.base';
 import { TracksColumnsServiceBase } from '../../../../../services/track-columns/tracks-columns.service.base';
 import { DesktopBase } from '../../../../../common/io/desktop.base';
@@ -23,14 +22,17 @@ import { TranslatorServiceBase } from '../../../../../services/translator/transl
 import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
 import { CollectionServiceBase } from '../../../../../services/collection/collection.service.base';
 import { SettingsMock } from '../../../../../testing/settings-mock';
-import {PlaybackService} from "../../../../../services/playback/playback.service";
+import { PlaybackService } from '../../../../../services/playback/playback.service';
+import { MetadataService } from '../../../../../services/metadata/metadata.service';
+
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('CollectionTracksTableComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
-    let metadataServiceMock: IMock<MetadataServiceBase>;
+    let metadataServiceMock: IMock<MetadataService>;
     let playbackIndicationServiceMock: IMock<PlaybackIndicationServiceBase>;
     let tracksColumnsServiceMock: IMock<TracksColumnsServiceBase>;
     let tracksColumnsOrderingMock: IMock<TracksColumnsOrdering>;
@@ -88,7 +90,7 @@ describe('CollectionTracksTableComponent', () => {
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
-        metadataServiceMock = Mock.ofType<MetadataServiceBase>();
+        metadataServiceMock = Mock.ofType<MetadataService>();
         playbackIndicationServiceMock = Mock.ofType<PlaybackIndicationServiceBase>();
         tracksColumnsServiceMock = Mock.ofType<TracksColumnsServiceBase>();
         tracksColumnsOrderingMock = Mock.ofType<TracksColumnsOrdering>();

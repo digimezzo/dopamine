@@ -24,6 +24,8 @@ import { PlaybackStarted } from '../playback/playback-started';
 import { TrackModel } from '../track/track-model';
 import { MockCreator } from '../../testing/mock-creator';
 
+jest.mock('jimp', () => ({ exec: jest.fn() }));
+
 describe('AppearanceService', () => {
     let settingsMock: IMock<SettingsBase>;
     let loggerMock: IMock<Logger>;

@@ -13,6 +13,7 @@ import { CollectionServiceBase } from './collection.service.base';
 import { SettingsMock } from '../../testing/settings-mock';
 
 jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('CollectionService', () => {
     let playbackServiceMock: IMock<PlaybackService>;

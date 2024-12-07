@@ -14,6 +14,8 @@ import { TrackModel } from '../../../services/track/track-model';
 import { Track } from '../../../data/entities/track';
 import { SettingsMock } from '../../../testing/settings-mock';
 
+jest.mock('jimp', () => ({ exec: jest.fn() }));
+
 describe('PlaybackQueueComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
