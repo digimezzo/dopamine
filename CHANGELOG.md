@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Updated Bulgarian translation
 -   Updated Italian translation
 -   Updated Russian translation
+-   Updated Simplified Chinese translation
 -   Updated Vietnamese translation
 
 ### Fixed
