@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Updated Vietnamese translation
 
+### Fixed
+
+-   Fixed many issues with gapless playback
+-   Fixed Windows media overlay disappearing after a few seconds
+-   Fixed skipping multiple songs causing a crash
+
 ## [3.0.0-preview.35] - 2024-10-20
 
 ### Added
