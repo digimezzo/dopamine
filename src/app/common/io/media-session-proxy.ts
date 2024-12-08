@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { MediaSessionProxyBase } from './media-session-proxy.base';
 
-@Injectable()
-export class MediaSessionProxy implements MediaSessionProxyBase {
+@Injectable({providedIn: 'root'})
+export class MediaSessionProxy {
     public setActionHandler(action: MediaSessionAction, handler: MediaSessionActionHandler): void {
         window.navigator.mediaSession.setActionHandler(action, handler);
     }
@@ -12,7 +11,7 @@ export class MediaSessionProxy implements MediaSessionProxyBase {
     }
 
     public setMetadata(title: string, artist: string, album: string, artwork: string): void {
-        const metadata: MediaMetadata = new MediaMetadata({
+        window.navigator.mediaSession.metadata = new MediaMetadata({
             title: title,
             artist: artist,
             album: album,
@@ -22,8 +21,6 @@ export class MediaSessionProxy implements MediaSessionProxyBase {
                 },
             ],
         });
-
-        window.navigator.mediaSession.metadata = metadata;
     }
 
     public clearMetadata(): void {

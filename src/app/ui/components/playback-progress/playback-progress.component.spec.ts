@@ -2,15 +2,17 @@ import { ElementRef } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { PlaybackProgressComponent } from './playback-progress.component';
-import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../services/playback/playback.service';
 import { MathExtensions } from '../../../common/math-extensions';
 import { NativeElementProxy } from '../../../common/native-element-proxy';
 import { Logger } from '../../../common/logger';
 import { PlaybackProgress } from '../../../services/playback/playback-progress';
 
+jest.mock('jimp', () => ({ exec: jest.fn() }));
+
 describe('PlaybackProgressComponent', () => {
     let component: PlaybackProgressComponent;
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let mathExtensionsMock: IMock<MathExtensions>;
     let nativeElementProxyMock: IMock<NativeElementProxy>;
     let loggerMock: IMock<Logger>;
@@ -19,7 +21,7 @@ describe('PlaybackProgressComponent', () => {
     let playbackServiceProgressChanged: Subject<PlaybackProgress>;
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         mathExtensionsMock = Mock.ofType<MathExtensions>();
         nativeElementProxyMock = Mock.ofType<NativeElementProxy>();
         loggerMock = Mock.ofType<Logger>();

@@ -234,8 +234,6 @@
   "love": "Älskar",
   "show-love": "Visa 'Älskar'",
   "save-love-error": "Ett fel uppstod när 'Älskar' skulle sparas. Vänligen verifiera loggen om du behöver mer information.",
-  "multimedia-keys": "Multimediatangenter",
-  "enable-multimedia-keys": "Använd multimediatangenter",
   "log-file": "Loggfil",
   "something-wrong-look-in-log-file": "Gick något fel? Ta en titt i loggfilen.",
   "showcase": "Presentation",

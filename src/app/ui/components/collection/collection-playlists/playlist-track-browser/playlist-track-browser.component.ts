@@ -7,7 +7,7 @@ import { PlaybackStarted } from '../../../../../services/playback/playback-start
 import { TrackModel } from '../../../../../services/track/track-model';
 import { TrackModels } from '../../../../../services/track/track-models';
 import { BaseTracksPersister } from '../../base-tracks-persister';
-import { PlaybackServiceBase } from '../../../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../../../services/playback/playback.service';
 import { PlaylistServiceBase } from '../../../../../services/playlist/playlist.service.base';
 import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
@@ -29,7 +29,7 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        public playbackService: PlaybackServiceBase,
+        public playbackService: PlaybackService,
         public playlistService: PlaylistServiceBase,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,

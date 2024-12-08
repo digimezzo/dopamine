@@ -14,14 +14,13 @@ import { TranslatorServiceBase } from './services/translator/translator.service.
 import { DiscordServiceBase } from './services/discord/discord.service.base';
 import { ScrobblingServiceBase } from './services/scrobbling/scrobbling.service.base';
 import { TrayServiceBase } from './services/tray/tray.service.base';
-import { MediaSessionServiceBase } from './services/media-session/media-session.service.base';
+import { MediaSessionService } from './services/media-session/media-session.service';
 import { EventListenerServiceBase } from './services/event-listener/event-listener.service.base';
 import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
 import { DesktopBase } from './common/io/desktop.base';
-import { AudioVisualizer } from './services/playback/audio-visualizer';
-import { PlaybackServiceBase } from './services/playback/playback.service.base';
 import { LifetimeService } from './services/lifetime/lifetime.service';
-import { SwitchPlayerService } from './services/player-switcher/switch-player.service';
+import { PlaybackService } from './services/playback/playback.service';
+import { AudioVisualizer } from './services/playback/audio-visualizer';
 
 @Component({
     selector: 'app-root',
@@ -32,22 +31,21 @@ export class AppComponent implements OnInit {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        private playerSwitcherService: SwitchPlayerService,
-        private playbackService: PlaybackServiceBase,
+        private playbackService: PlaybackService,
         private navigationService: NavigationServiceBase,
         private appearanceService: AppearanceServiceBase,
         private translatorService: TranslatorServiceBase,
         private discordService: DiscordServiceBase,
         private scrobblingService: ScrobblingServiceBase,
         private trayService: TrayServiceBase,
-        private mediaSessionService: MediaSessionServiceBase,
+        private mediaSessionService: MediaSessionService,
         private eventListenerService: EventListenerServiceBase,
         public lifetimeService: LifetimeService,
         private addToPlaylistMenu: AddToPlaylistMenu,
         private desktop: DesktopBase,
         private logger: Logger,
-        private integrationTestRunner: IntegrationTestRunner,
         private audioVisualizer: AudioVisualizer,
+        private integrationTestRunner: IntegrationTestRunner,
     ) {
         log.create('renderer');
         log.transports.file.resolvePath = () => path.join(this.desktop.getApplicationDataDirectory(), 'logs', 'Dopamine.log');
@@ -64,8 +62,6 @@ export class AppComponent implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
-        this.audioVisualizer.connectAudioElement();
-
         if (!AppConfig.production) {
             this.logger.info('Executing integration tests', 'AppComponent', 'ngOnInit');
             // await this.integrationTestRunner.executeTestsAsync();
@@ -85,6 +81,7 @@ export class AppComponent implements OnInit {
             }),
         );
 
+        this.audioVisualizer.initialize();
         await this.addToPlaylistMenu.initializeAsync();
         this.discordService.setRichPresenceFromSettings();
         await this.appearanceService.applyAppearanceAsync();

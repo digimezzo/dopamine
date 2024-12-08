@@ -234,8 +234,6 @@
     "love": "Любими",
     "show-love": "Покажи 'Любими'",
     "save-love-error": "Възникна грешка при запазването на „Любов“. Моля, проверете регистрационния файл, ако имате нужда от повече информация.",
-    "multimedia-keys": "Мултимедийни бутони",
-    "enable-multimedia-keys": "Активирай мултимедийните бутони",
     "log-file": "Log file",
     "something-wrong-look-in-log-file": "Нещо се обърка? Погледнете в лог файла.",
     "showcase": "Showcase",
@@ -294,7 +292,7 @@
     "confirm-remove-artist": "Сигурни ли сте, че искате да премахнете изпълнителя '{{artist}}'?",
     "switch-player": "Смени плеъра",
     "volume": "Сила на звука",
-    "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb macOS icon!",
-    "gapless-playback": "Gapless playback",
-    "enable-gapless-playback": "Enable gapless playback (requires a restart)"
+    "thanks-to-visualisationexpo": "Към VisualisationExpo, за превъзходната икона на macOS!",
+    "gapless-playback": "Възпроизвеждане без прекъсване",
+    "enable-gapless-playback": "Активиране на възпроизвеждане без прекъсване (изисква рестартиране)"
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AppearanceServiceBase } from '../appearance/appearance.service.base';
 import { SettingsBase } from '../../common/settings/settings.base';
-import { AudioPlayerBase } from './audio-player.base';
 import { RgbColor } from '../../common/rgb-color';
+import { PlaybackService } from './playback.service';
 
 @Injectable()
 export class AudioVisualizer {
@@ -13,13 +13,13 @@ export class AudioVisualizer {
     private stopRequestTime: Date | undefined;
 
     public constructor(
-        private audioPlayer: AudioPlayerBase,
+        private playbackService: PlaybackService,
         private appearanceService: AppearanceServiceBase,
         private settings: SettingsBase,
     ) {}
 
-    public connectAudioElement(): void {
-        this.dataArray = new Uint8Array(this.audioPlayer.analyser.frequencyBinCount);
+    public initialize(): void {
+        this.dataArray = new Uint8Array(this.playbackService.audioPlayer.analyser.frequencyBinCount);
         this.analyze();
     }
 
@@ -29,7 +29,7 @@ export class AudioVisualizer {
     }
 
     private shouldStopDelayed(): boolean {
-        return this.audioPlayer.isPaused;
+        return this.playbackService.audioPlayer.isPaused;
     }
 
     private shouldStopNow(): boolean {
@@ -39,7 +39,7 @@ export class AudioVisualizer {
     private analyze(): void {
         setTimeout(
             () => {
-                this.audioPlayer.analyser.getByteFrequencyData(this.dataArray);
+                this.playbackService.audioPlayer.analyser.getByteFrequencyData(this.dataArray);
                 this.draw();
 
                 requestAnimationFrame(() => this.analyze());

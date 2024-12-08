@@ -5,7 +5,7 @@ import { PromiseUtils } from '../../common/utils/promise-utils';
 import { TrackModel } from '../track/track-model';
 import { TrackModelFactory } from '../track/track-model-factory';
 import { FileServiceBase } from './file.service.base';
-import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { PlaybackService } from '../playback/playback.service';
 import { EventListenerServiceBase } from '../event-listener/event-listener.service.base';
 import { ApplicationBase } from '../../common/io/application.base';
 import { FileValidator } from '../../common/validation/file-validator';
@@ -18,7 +18,7 @@ export class FileService implements FileServiceBase {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        private playbackService: PlaybackServiceBase,
+        private playbackService: PlaybackService,
         private eventListenerService: EventListenerServiceBase,
         private trackModelFactory: TrackModelFactory,
         private application: ApplicationBase,

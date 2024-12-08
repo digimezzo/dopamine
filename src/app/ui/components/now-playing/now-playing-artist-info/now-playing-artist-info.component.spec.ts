@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { NowPlayingArtistInfoComponent } from './now-playing-artist-info.component';
-import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../../services/playback/playback.service';
 import { ArtistInformationServiceBase } from '../../../../services/artist-information/artist-information.service.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
@@ -9,8 +9,10 @@ import { MockCreator } from '../../../../testing/mock-creator';
 import { TrackModel } from '../../../../services/track/track-model';
 import { ArtistInformation } from '../../../../services/artist-information/artist-information';
 
+jest.mock('jimp', () => ({ exec: jest.fn() }));
+
 describe('NowPlayingArtistInfoComponent', () => {
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let artistInformationServiceMock: IMock<ArtistInformationServiceBase>;
     let settingsMock: IMock<SettingsBase>;
 
@@ -23,7 +25,7 @@ describe('NowPlayingArtistInfoComponent', () => {
     }
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         artistInformationServiceMock = Mock.ofType<ArtistInformationServiceBase>();
         settingsMock = Mock.ofType<SettingsBase>();
 

@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { LoopMode } from '../../../services/playback/loop-mode';
-import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../services/playback/playback.service';
 
 @Component({
     selector: 'app-playback-controls',
@@ -10,7 +10,7 @@ import { PlaybackServiceBase } from '../../../services/playback/playback.service
     encapsulation: ViewEncapsulation.None,
 })
 export class PlaybackControlsComponent {
-    public constructor(public playbackService: PlaybackServiceBase) {}
+    public constructor(public playbackService: PlaybackService) {}
 
     // This is required to use enum values in the template
     public loopModeEnum: typeof LoopMode = LoopMode;

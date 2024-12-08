@@ -66,7 +66,6 @@ export abstract class SettingsBase {
     public abstract lastFmPassword: string;
     public abstract lastFmSessionKey: string;
     public abstract showLove: boolean;
-    public abstract enableMultimediaKeys: boolean;
     public abstract downloadArtistInformationFromLastFm: boolean;
     public abstract downloadLyricsOnline: boolean;
     public abstract showAudioVisualizer: boolean;
@@ -84,5 +83,5 @@ export abstract class SettingsBase {
     public abstract playerType: string;
     public abstract fullPlayerPositionSizeMaximized: string;
     public abstract coverPlayerPosition: string;
-    public abstract enableGaplessPlayback: boolean;
+    public abstract useGaplessPlayback: boolean;
 }

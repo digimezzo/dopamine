@@ -4,7 +4,7 @@ import { Logger } from '../../../common/logger';
 import { MathExtensions } from '../../../common/math-extensions';
 import { NativeElementProxy } from '../../../common/native-element-proxy';
 import { PlaybackProgress } from '../../../services/playback/playback-progress';
-import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../services/playback/playback.service';
 
 @Component({
     selector: 'app-playback-progress',
@@ -21,7 +21,7 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
     private progressMargin: number = 6;
 
     public constructor(
-        private playbackService: PlaybackServiceBase,
+        private playbackService: PlaybackService,
         private mathExtensions: MathExtensions,
         private nativeElementProxy: NativeElementProxy,
         private logger: Logger,

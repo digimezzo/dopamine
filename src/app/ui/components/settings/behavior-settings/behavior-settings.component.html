@@ -1,11 +1,4 @@
 <div class="p-4">
-    <div class="title">{{ 'multimedia-keys' | translate }}</div>
-    <div>
-        <app-toggle-switch [(isChecked)]="this.mediaSessionService.enableMultimediaKeys">
-            {{ 'enable-multimedia-keys' | translate }}</app-toggle-switch
-        >
-    </div>
-    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'notification-area' | translate }}</div>
     <div>
         <app-toggle-switch [(isChecked)]="this.settings.showIconInNotificationArea">
@@ -59,9 +52,7 @@
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'gapless-playback' | translate }}</div>
     <div>
-        <app-toggle-switch [(isChecked)]="this.settings.enableGaplessPlayback">
-            {{ 'enable-gapless-playback' | translate }}</app-toggle-switch
-        >
+        <app-toggle-switch [(isChecked)]="this.settings.useGaplessPlayback"> {{ 'enable-gapless-playback' | translate }}</app-toggle-switch>
     </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'split-artists' | translate }}</div>

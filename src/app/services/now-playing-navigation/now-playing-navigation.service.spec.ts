@@ -3,13 +3,15 @@ import { NowPlayingNavigationService } from './now-playing-navigation.service';
 import { NowPlayingPage } from './now-playing-page';
 import { NowPlayingNavigationServiceBase } from './now-playing-navigation.service.base';
 import { IMock, Mock } from 'typemoq';
-import { PlaybackInformationServiceBase } from '../playback-information/playback-information.service.base';
 import { PlaybackInformation } from '../playback-information/playback-information';
 import { TrackModel } from '../track/track-model';
 import { MockCreator } from '../../testing/mock-creator';
+import { PlaybackInformationService } from '../playback-information/playback-information.service';
+
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('NowPlayingNavigationService', () => {
-    let playbackInformationServiceMock: IMock<PlaybackInformationServiceBase>;
+    let playbackInformationServiceMock: IMock<PlaybackInformationService>;
 
     let playingNextTrackMock: Subject<PlaybackInformation>;
     let playingPreviousTrackMock: Subject<PlaybackInformation>;
@@ -18,7 +20,7 @@ describe('NowPlayingNavigationService', () => {
     const flushPromises = () => new Promise(process.nextTick);
 
     beforeEach(() => {
-        playbackInformationServiceMock = Mock.ofType<PlaybackInformationServiceBase>();
+        playbackInformationServiceMock = Mock.ofType<PlaybackInformationService>();
 
         playingNextTrackMock = new Subject();
         playbackInformationServiceMock.setup((x) => x.playingNextTrack$).returns(() => playingNextTrackMock.asObservable());

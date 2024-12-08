@@ -234,8 +234,6 @@
     "love": "Cuore",
     "show-love": "Mostra 'Cuore'",
     "save-love-error": "C'è stato un errore durante il salvataggio del 'Cuore'. Verifica il log per maggiori informazioni.",
-    "multimedia-keys": "Tasti multimediali",
-    "enable-multimedia-keys": "Abilita tasti multimediali",
     "log-file": "File di log",
     "something-wrong-look-in-log-file": "C'è qualcosa che non va? Dai un'occhiata al file di log.",
     "showcase": "Vetrina",
@@ -295,6 +293,6 @@
     "switch-player": "Cambia interfaccia",
     "volume": "Volume",
     "thanks-to-visualisationexpo": "A VisualisationExpo, per l'incredibile icona per macOS!",
-    "gapless-playback": "Gapless playback",
-    "enable-gapless-playback": "Enable gapless playback (requires a restart)"
+    "gapless-playback": "Riproduzione senza stacchi",
+    "enable-gapless-playback": "Abilita riproduzione senza stacchi (richiede riavvio)"
 }
