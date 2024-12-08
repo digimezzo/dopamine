@@ -2,17 +2,19 @@ import { IMock, Mock } from 'typemoq';
 import { NowPlayingLyricsComponent } from './now-playing-lyrics.component';
 import { Observable, Subject } from 'rxjs';
 import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
-import { PlaybackInformationServiceBase } from '../../../../services/playback-information/playback-information.service.base';
 import { LyricsServiceBase } from '../../../../services/lyrics/lyrics.service.base';
 import { PlaybackInformation } from '../../../../services/playback-information/playback-information';
 import { MockCreator } from '../../../../testing/mock-creator';
 import { TrackModel } from '../../../../services/track/track-model';
 import { LyricsModel } from '../../../../services/lyrics/lyrics-model';
 import { LyricsSourceType } from '../../../../common/api/lyrics/lyrics-source-type';
+import { PlaybackInformationService } from '../../../../services/playback-information/playback-information.service';
+
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('NowPlayingLyricsComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
-    let playbackInformationServiceMock: IMock<PlaybackInformationServiceBase>;
+    let playbackInformationServiceMock: IMock<PlaybackInformationService>;
     let lyricsServiceMock: IMock<LyricsServiceBase>;
 
     let playbackInformationService_playingNextTrack_Mock: Subject<PlaybackInformation>;
@@ -23,7 +25,7 @@ describe('NowPlayingLyricsComponent', () => {
 
     beforeEach(() => {
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
-        playbackInformationServiceMock = Mock.ofType<PlaybackInformationServiceBase>();
+        playbackInformationServiceMock = Mock.ofType<PlaybackInformationService>();
         lyricsServiceMock = Mock.ofType<LyricsServiceBase>();
 
         playbackInformationService_playingNextTrack_Mock = new Subject();

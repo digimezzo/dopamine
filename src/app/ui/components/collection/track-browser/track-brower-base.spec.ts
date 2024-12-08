@@ -1,7 +1,6 @@
 import { IMock, It, Mock, Times } from 'typemoq';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { TrackBrowserBase } from './track-brower-base';
-import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
@@ -13,9 +12,12 @@ import { Track } from '../../../../data/entities/track';
 import { TrackModel } from '../../../../services/track/track-model';
 import { DateTime } from '../../../../common/date-time';
 import { SettingsMock } from '../../../../testing/settings-mock';
+import { PlaybackService } from '../../../../services/playback/playback.service';
+
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('TrackBrowserBase', () => {
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let dialogServiceMock: IMock<DialogServiceBase>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
@@ -32,7 +34,7 @@ describe('TrackBrowserBase', () => {
     let trackModel2: TrackModel;
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         dialogServiceMock = Mock.ofType<DialogServiceBase>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();

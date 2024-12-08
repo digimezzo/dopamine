@@ -4,7 +4,7 @@ import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { ArtistInformation } from '../../../../services/artist-information/artist-information';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
 import { TrackModel } from '../../../../services/track/track-model';
-import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../../services/playback/playback.service';
 import { ArtistInformationServiceBase } from '../../../../services/artist-information/artist-information.service.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { StringUtils } from '../../../../common/utils/string-utils';
@@ -23,7 +23,7 @@ export class NowPlayingArtistInfoComponent implements OnInit, OnDestroy {
     private _isBusy: boolean = false;
 
     public constructor(
-        private playbackService: PlaybackServiceBase,
+        private playbackService: PlaybackService,
         private artistInformationService: ArtistInformationServiceBase,
         public settings: SettingsBase,
     ) {}

@@ -1,6 +1,6 @@
 import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 import { Injectable } from '@angular/core';
-import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { PlaybackService } from '../playback/playback.service';
 import { PlaylistServiceBase } from '../playlist/playlist.service.base';
 import { PromiseUtils } from '../../common/utils/promise-utils';
 import { resolve } from '@angular/compiler-cli';
@@ -10,7 +10,7 @@ export class LifetimeService {
     private _isPerformingClosingTasks: boolean = false;
 
     public constructor(
-        private playbackService: PlaybackServiceBase,
+        private playbackService: PlaybackService,
         private playlistService: PlaylistServiceBase,
         private ipcProxy: IpcProxyBase,
     ) {}

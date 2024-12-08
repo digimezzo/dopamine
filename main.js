@@ -174,6 +174,8 @@ function setInitialWindowState(mainWindow) {
     }
 }
 function createMainWindow() {
+    // Set custom AppUserModelID to ensure the app name shows up in Windows media controls
+    electron_1.app.setAppUserModelId('com.digimezzo.dopamine');
     // Suppress the default menu
     electron_1.Menu.setApplicationMenu(null);
     const remoteMain = require('@electron/remote/main');

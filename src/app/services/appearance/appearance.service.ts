@@ -17,7 +17,7 @@ import { ApplicationBase } from '../../common/io/application.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { DesktopBase } from '../../common/io/desktop.base';
 import { RgbColor } from '../../common/rgb-color';
-import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { PlaybackService } from '../playback/playback.service';
 import { PlaybackStarted } from '../playback/playback-started';
 import { AlbumAccentColorService } from '../album-accent-color/album-accent-color.service';
 import { PromiseUtils } from '../../common/utils/promise-utils';
@@ -50,7 +50,7 @@ export class AppearanceService implements AppearanceServiceBase {
         private defaultThemesCreator: DefaultThemesCreator,
         private documentProxy: DocumentProxy,
         private applicationPaths: ApplicationPaths,
-        private playbackService: PlaybackServiceBase,
+        private playbackService: PlaybackService,
         private albumAccentColorService: AlbumAccentColorService,
     ) {
         this.initialize();

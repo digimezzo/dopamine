@@ -14,7 +14,6 @@ import { MetadataService } from './metadata.service';
 import { FileMetadataFactory } from '../../common/metadata/file-metadata.factory';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
-import { MetadataServiceBase } from './metadata.service.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
 
@@ -62,7 +61,7 @@ describe('MetadataService', () => {
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
 
-    function createService(): MetadataServiceBase {
+    function createService(): MetadataService {
         return new MetadataService(
             fileMetadataFactoryMock.object,
             trackRepositoryMock.object,
@@ -96,7 +95,7 @@ describe('MetadataService', () => {
             // Arrange
 
             // Act
-            const service: MetadataServiceBase = createService();
+            const service: MetadataService = createService();
 
             // Assert
             expect(service).toBeDefined();
@@ -106,7 +105,7 @@ describe('MetadataService', () => {
     describe('createImageUrlAsync', () => {
         it('should create an empty image url if trackModel is undefined', async () => {
             // Arrange
-            const service: MetadataServiceBase = createService();
+            const service: MetadataService = createService();
 
             // Act
             const imageUrl: string = await service.createImageUrlAsync(undefined, 0);
@@ -117,7 +116,7 @@ describe('MetadataService', () => {
 
         it('should create an empty image url if file metadata could not be created and there is no cached album artwork', async () => {
             // Arrange
-            const service: MetadataServiceBase = createService();
+            const service: MetadataService = createService();
             const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
             const fileMetaDataMock: any = {};
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
@@ -132,7 +131,7 @@ describe('MetadataService', () => {
 
         it('should return cached album artwork if file metadata could not be created and there is cached album artwork', async () => {
             // Arrange
-            const service: MetadataServiceBase = createService();
+            const service: MetadataService = createService();
             const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
             const fileMetaDataMock: any = {};
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
@@ -148,7 +147,7 @@ describe('MetadataService', () => {
 
         it('should create an empty image url if file metadata could be created and there is no album artwork', async () => {
             // Arrange
-            const service: MetadataServiceBase = createService();
+            const service: MetadataService = createService();
             const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
             const fileMetaDataMock: any = {};
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
@@ -164,7 +163,7 @@ describe('MetadataService', () => {
 
         it('should create an empty image url if file metadata could be created and there is empty album artwork', async () => {
             // Arrange
-            const service: MetadataServiceBase = createService();
+            const service: MetadataService = createService();
             const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
             const fileMetaDataMock: any = {};
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
@@ -182,7 +181,7 @@ describe('MetadataService', () => {
 
         it('should return cover art if album artwork was found', async () => {
             // Arrange
-            const service: MetadataServiceBase = createService();
+            const service: MetadataService = createService();
             const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
             const fileMetaDataMock: any = {};
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
@@ -200,7 +199,7 @@ describe('MetadataService', () => {
 
         it('should not resize cover art if maximumSize of 0 is given', async () => {
             // Arrange
-            const service: MetadataServiceBase = createService();
+            const service: MetadataService = createService();
             const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
             const fileMetaDataMock: any = {};
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
@@ -217,7 +216,7 @@ describe('MetadataService', () => {
 
         it('should not resize cover art if maximumSize smaller than 0 is given', async () => {
             // Arrange
-            const service: MetadataServiceBase = createService();
+            const service: MetadataService = createService();
             const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
             const fileMetaDataMock: any = {};
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
@@ -234,7 +233,7 @@ describe('MetadataService', () => {
 
         it('should resize cover art if maximumSize larger than 0 is given', async () => {
             // Arrange
-            const service: MetadataServiceBase = createService();
+            const service: MetadataService = createService();
             const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
             const fileMetaDataMock: any = {};
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
@@ -256,7 +255,7 @@ describe('MetadataService', () => {
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
             const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object, '');
 
-            const service: MetadataServiceBase = createService();
+            const service: MetadataService = createService();
 
             // Act
             await service.saveTrackRatingAsync(track);
@@ -272,7 +271,7 @@ describe('MetadataService', () => {
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1.mp3')).returns(() => Promise.resolve(fileMetadataStub));
             const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object, '');
 
-            const service: MetadataServiceBase = createService();
+            const service: MetadataService = createService();
 
             // Act
             await service.saveTrackRatingAsync(track);
@@ -288,7 +287,7 @@ describe('MetadataService', () => {
             fileMetadataFactoryMock.setup((x) => x.createAsync('path2.ogg')).returns(() => Promise.resolve(fileMetadataStub));
             const track: TrackModel = new TrackModel(new Track('path2.ogg'), dateTimeMock.object, translatorServiceMock.object, '');
 
-            const service: MetadataServiceBase = createService();
+            const service: MetadataService = createService();
 
             // Act
             await service.saveTrackRatingAsync(track);
@@ -304,7 +303,7 @@ describe('MetadataService', () => {
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1.mp3')).returns(() => Promise.resolve(fileMetadataStub));
             const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object, '');
 
-            const service: MetadataServiceBase = createService();
+            const service: MetadataService = createService();
 
             // Act
             await service.saveTrackRatingAsync(track);
@@ -318,7 +317,7 @@ describe('MetadataService', () => {
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
             const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object, '');
 
-            const service: MetadataServiceBase = createService();
+            const service: MetadataService = createService();
 
             const subscription: Subscription = new Subscription();
             let ratingSaved: boolean = false;
@@ -343,7 +342,7 @@ describe('MetadataService', () => {
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
             const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object, '');
 
-            const service: MetadataServiceBase = createService();
+            const service: MetadataService = createService();
 
             // Act
             service.saveTrackLove(track);
@@ -357,7 +356,7 @@ describe('MetadataService', () => {
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
             const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object, '');
 
-            const service: MetadataServiceBase = createService();
+            const service: MetadataService = createService();
 
             const subscription: Subscription = new Subscription();
             let loveSaved: boolean = false;
