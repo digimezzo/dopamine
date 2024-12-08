@@ -293,6 +293,6 @@
     "switch-player": "Cambia interfaccia",
     "volume": "Volume",
     "thanks-to-visualisationexpo": "A VisualisationExpo, per l'incredibile icona per macOS!",
-    "gapless-playback": "Gapless playback",
-    "enable-gapless-playback": "Enable gapless playback (requires a restart)"
+    "gapless-playback": "Riproduzione senza stacchi",
+    "enable-gapless-playback": "Abilita riproduzione senza stacchi (richiede riavvio)"
 }
