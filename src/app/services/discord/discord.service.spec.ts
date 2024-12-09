@@ -51,7 +51,7 @@ describe('DiscordService', () => {
         trackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, '');
         track.duration = 200000;
 
-        dateProxyMock.setup((x) => x.now()).returns(() => 10);
+        dateProxyMock.setup((x) => x.now()).returns(() => 5000);
     });
 
     function setUpPlaybackServiceMock(isPlaying: boolean, canPause: boolean): void {
@@ -77,7 +77,7 @@ describe('DiscordService', () => {
 
         playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel);
 
-        const progress: PlaybackProgress = new PlaybackProgress(20, 120);
+        const progress: PlaybackProgress = new PlaybackProgress(2, 120);
         playbackServiceMock.setup((x) => x.progress).returns(() => progress);
 
         playbackServiceMock.setup((x) => x.isPlaying).returns(() => isPlaying);
@@ -133,7 +133,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
+                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 3000),
                 Times.once(),
             );
         });
@@ -153,7 +153,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
+                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 3000),
                 Times.once(),
             );
         });
@@ -174,7 +174,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) => x.updatePresence('title', 'artist1, artist2', 'pause', 'Paused', 'icon', 'Playing with Dopamine', false, 0, 0),
+                (x) => x.updatePresence('title', 'artist1, artist2', 'pause', 'Paused', 'icon', 'Playing with Dopamine', false, 0),
                 Times.once(),
             );
         });
@@ -195,7 +195,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
+                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 3000),
                 Times.once(),
             );
         });
@@ -216,7 +216,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
+                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 3000),
                 Times.once(),
             );
         });
@@ -237,7 +237,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) => x.updatePresence('title', 'artist1, artist2', 'pause', 'Paused', 'icon', 'Playing with Dopamine', false, 0, 0),
+                (x) => x.updatePresence('title', 'artist1, artist2', 'pause', 'Paused', 'icon', 'Playing with Dopamine', false, 0),
                 Times.once(),
             );
         });
@@ -278,18 +278,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) =>
-                    x.updatePresence(
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                    ),
+                (x) => x.updatePresence(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()),
                 Times.never(),
             );
         });
@@ -310,18 +299,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) =>
-                    x.updatePresence(
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                    ),
+                (x) => x.updatePresence(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()),
                 Times.never(),
             );
         });
@@ -342,18 +320,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) =>
-                    x.updatePresence(
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                    ),
+                (x) => x.updatePresence(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()),
                 Times.never(),
             );
         });
@@ -374,18 +341,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) =>
-                    x.updatePresence(
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                    ),
+                (x) => x.updatePresence(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()),
                 Times.never(),
             );
         });
@@ -406,18 +362,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) =>
-                    x.updatePresence(
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                    ),
+                (x) => x.updatePresence(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()),
                 Times.never(),
             );
         });
@@ -463,7 +408,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
+                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 3000),
                 Times.once(),
             );
         });
@@ -481,7 +426,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
+                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 3000),
                 Times.once(),
             );
         });
@@ -499,7 +444,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) => x.updatePresence('title', 'artist1, artist2', 'pause', 'Paused', 'icon', 'Playing with Dopamine', false, 0, 0),
+                (x) => x.updatePresence('title', 'artist1, artist2', 'pause', 'Paused', 'icon', 'Playing with Dopamine', false, 0),
                 Times.once(),
             );
         });
@@ -517,7 +462,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
+                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 3000),
                 Times.once(),
             );
         });
@@ -535,7 +480,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
+                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 3000),
                 Times.once(),
             );
         });
@@ -553,7 +498,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) => x.updatePresence('title', 'artist1, artist2', 'pause', 'Paused', 'icon', 'Playing with Dopamine', false, 0, 0),
+                (x) => x.updatePresence('title', 'artist1, artist2', 'pause', 'Paused', 'icon', 'Playing with Dopamine', false, 0),
                 Times.once(),
             );
         });
@@ -588,18 +533,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) =>
-                    x.updatePresence(
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                    ),
+                (x) => x.updatePresence(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()),
                 Times.never(),
             );
         });
@@ -617,18 +551,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) =>
-                    x.updatePresence(
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                    ),
+                (x) => x.updatePresence(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()),
                 Times.never(),
             );
         });
@@ -646,18 +569,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) =>
-                    x.updatePresence(
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                    ),
+                (x) => x.updatePresence(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()),
                 Times.never(),
             );
         });
@@ -675,18 +587,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) =>
-                    x.updatePresence(
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                    ),
+                (x) => x.updatePresence(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()),
                 Times.never(),
             );
         });
@@ -704,18 +605,7 @@ describe('DiscordService', () => {
 
             // Assert
             presenceUpdaterMock.verify(
-                (x) =>
-                    x.updatePresence(
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                        It.isAny(),
-                    ),
+                (x) => x.updatePresence(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()),
                 Times.never(),
             );
         });

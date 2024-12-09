@@ -8,7 +8,7 @@ import { EventListenerServiceBase } from './services/event-listener/event-listen
 import { MediaSessionService } from './services/media-session/media-session.service';
 import { TrayServiceBase } from './services/tray/tray.service.base';
 import { ScrobblingServiceBase } from './services/scrobbling/scrobbling.service.base';
-import { DiscordServiceBase } from './services/discord/discord.service.base';
+import { DiscordService } from './services/discord/discord.service';
 import { TranslatorServiceBase } from './services/translator/translator.service.base';
 import { AppearanceServiceBase } from './services/appearance/appearance.service.base';
 import { NavigationServiceBase } from './services/navigation/navigation.service.base';
@@ -27,7 +27,7 @@ describe('AppComponent', () => {
     let navigationServiceMock: IMock<NavigationServiceBase>;
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
-    let discordServiceMock: IMock<DiscordServiceBase>;
+    let discordServiceMock: IMock<DiscordService>;
     let scrobblingServiceMock: IMock<ScrobblingServiceBase>;
     let trayServiceMock: IMock<TrayServiceBase>;
     let mediaSessionServiceMock: IMock<MediaSessionService>;
@@ -71,7 +71,7 @@ describe('AppComponent', () => {
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
-        discordServiceMock = Mock.ofType<DiscordServiceBase>();
+        discordServiceMock = Mock.ofType<DiscordService>();
         scrobblingServiceMock = Mock.ofType<ScrobblingServiceBase>();
         trayServiceMock = Mock.ofType<TrayServiceBase>();
         mediaSessionServiceMock = Mock.ofType<MediaSessionService>();
