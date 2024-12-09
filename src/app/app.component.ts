@@ -11,7 +11,6 @@ import { AppConfig } from '../environments/environment';
 import { NavigationServiceBase } from './services/navigation/navigation.service.base';
 import { AppearanceServiceBase } from './services/appearance/appearance.service.base';
 import { TranslatorServiceBase } from './services/translator/translator.service.base';
-import { DiscordServiceBase } from './services/discord/discord.service.base';
 import { ScrobblingServiceBase } from './services/scrobbling/scrobbling.service.base';
 import { TrayServiceBase } from './services/tray/tray.service.base';
 import { MediaSessionService } from './services/media-session/media-session.service';
@@ -21,6 +20,7 @@ import { DesktopBase } from './common/io/desktop.base';
 import { LifetimeService } from './services/lifetime/lifetime.service';
 import { PlaybackService } from './services/playback/playback.service';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
+import { DiscordService } from './services/discord/discord.service';
 
 @Component({
     selector: 'app-root',
@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
         private navigationService: NavigationServiceBase,
         private appearanceService: AppearanceServiceBase,
         private translatorService: TranslatorServiceBase,
-        private discordService: DiscordServiceBase,
+        private discordService: DiscordService,
         private scrobblingService: ScrobblingServiceBase,
         private trayService: TrayServiceBase,
         private mediaSessionService: MediaSessionService,

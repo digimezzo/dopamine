@@ -22,7 +22,6 @@ export class PresenceUpdater {
         largeImageText: string,
         shouldSendTimestamps: boolean,
         startTime: number,
-        endTime: number
     ): void {
         if (this.discordClient == undefined || !(<boolean>this.discordClient.discordClientIsReady)) {
             const clientId: string = SensitiveInformation.discordClientId;
@@ -42,7 +41,6 @@ export class PresenceUpdater {
                     largeImageText,
                     shouldSendTimestamps,
                     startTime,
-                    endTime
                 );
             });
 
@@ -51,17 +49,7 @@ export class PresenceUpdater {
                 this.logger.info(`Discord client has disconnected`, 'DiscordService', 'updatePresence');
             });
         } else {
-            this.setPresence(
-                details,
-                state,
-                smallImageKey,
-                smallImageText,
-                largeImageKey,
-                largeImageText,
-                shouldSendTimestamps,
-                startTime,
-                endTime
-            );
+            this.setPresence(details, state, smallImageKey, smallImageText, largeImageKey, largeImageText, shouldSendTimestamps, startTime);
         }
     }
 
@@ -74,15 +62,17 @@ export class PresenceUpdater {
         largeImageText: string,
         shouldSendTimestamps: boolean,
         startTime: number,
-        endTime: number
     ): void {
         try {
+            // It seems required to clear the activity before setting a new one
+            // Otherwise the activity will not be updated most of the time
+            this.discordClient.clearActivity();
+
             if (shouldSendTimestamps) {
                 this.discordClient.setActivity({
                     details: details,
                     state: state,
                     startTimestamp: startTime,
-                    endTimestamp: endTime,
                     largeImageKey: largeImageKey,
                     largeImageText: largeImageText,
                     smallImageKey: smallImageKey,

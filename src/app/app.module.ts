@@ -220,7 +220,6 @@ import { PlaylistFolderServiceBase } from './services/playlist-folder/playlist-f
 import { PlaylistServiceBase } from './services/playlist/playlist.service.base';
 import { SearchServiceBase } from './services/search/search.service.base';
 import { PlaybackIndicationServiceBase } from './services/playback-indication/playback-indication.service.base';
-import { DiscordServiceBase } from './services/discord/discord.service.base';
 import { CollectionServiceBase } from './services/collection/collection.service.base';
 import { AlbumServiceBase } from './services/album/album-service.base';
 import { TrackServiceBase } from './services/track/track.service.base';
@@ -580,7 +579,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: TrackServiceBase, useClass: TrackService },
         { provide: AlbumServiceBase, useClass: AlbumService },
         { provide: CollectionServiceBase, useClass: CollectionService },
-        { provide: DiscordServiceBase, useClass: DiscordService },
         { provide: PlaybackIndicationServiceBase, useClass: PlaybackIndicationService },
         { provide: SearchServiceBase, useClass: SearchService },
         { provide: PlaylistServiceBase, useClass: PlaylistService },

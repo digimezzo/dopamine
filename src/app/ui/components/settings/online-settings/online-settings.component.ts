@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { SignInState } from '../../../../services/scrobbling/sign-in-state';
-import { DiscordServiceBase } from '../../../../services/discord/discord.service.base';
 import { ScrobblingServiceBase } from '../../../../services/scrobbling/scrobbling.service.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { NotificationServiceBase } from '../../../../services/notification/notification.service.base';
+import { DiscordService } from '../../../../services/discord/discord.service';
 
 @Component({
     selector: 'app-online-settings',
@@ -19,7 +19,7 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        private discordService: DiscordServiceBase,
+        private discordService: DiscordService,
         private scrobblingService: ScrobblingServiceBase,
         private notificationService: NotificationServiceBase,
         public settings: SettingsBase,
