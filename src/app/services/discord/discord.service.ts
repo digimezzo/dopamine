@@ -3,7 +3,6 @@ import { Subscription } from 'rxjs';
 import { DateProxy } from '../../common/io/date-proxy';
 import { Logger } from '../../common/logger';
 import { SettingsBase } from '../../common/settings/settings.base';
-import { PresenceUpdater } from './presence-updater';
 import { PlaybackService } from '../playback/playback.service';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
@@ -15,7 +14,6 @@ export class DiscordService {
     public constructor(
         private playbackService: PlaybackService,
         private translatorService: TranslatorServiceBase,
-        private presenceUpdater: PresenceUpdater,
         private dateProxy: DateProxy,
         private ipcProxy: IpcProxyBase,
         private settings: SettingsBase,
@@ -62,7 +60,7 @@ export class DiscordService {
 
         this._subscription.add(
             this.playbackService.playbackStopped$.subscribe(() => {
-                this.presenceUpdater.clearPresence();
+                this.clearPresence();
             }),
         );
 
