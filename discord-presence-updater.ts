@@ -16,7 +16,7 @@ export class DiscordPresenceUpdater {
     private rpc: Client;
     private isReady: boolean;
 
-    constructor(clientId: string) {
+    public constructor(clientId: string) {
         this.clientId = clientId;
         this.rpc = new Client({ transport: 'ipc' });
         this.isReady = false;
@@ -51,8 +51,8 @@ export class DiscordPresenceUpdater {
         }
 
         const presence: Presence = {
-            details: `Listening to ${args.title}`,
-            state: `by ${args.artists}`,
+            details: `${args.title}`,
+            state: `${args.artists}`,
             largeImageKey: args.largeImageKey,
             largeImageText: args.largeImageText,
             smallImageKey: args.smallImageKey,
