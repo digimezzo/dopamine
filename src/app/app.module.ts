@@ -171,8 +171,6 @@ import { ArtistInformationService } from './services/artist-information/artist-i
 import { ArtistService } from './services/artist/artist.service';
 import { CollectionService } from './services/collection/collection.service';
 import { DialogService } from './services/dialog/dialog.service';
-import { DiscordService } from './services/discord/discord.service';
-import { PresenceUpdater } from './services/discord/presence-updater';
 import { ElectronService } from './services/electron.service';
 import { FileService } from './services/file/file.service';
 import { FolderService } from './services/folder/folder.service';
@@ -515,7 +513,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         WebSearchApi,
         MetadataPatcher,
         TracksColumnsOrdering,
-        PresenceUpdater,
         SemanticZoomHeaderAdder,
         DefaultThemesCreator,
         ArtistsPersister,
