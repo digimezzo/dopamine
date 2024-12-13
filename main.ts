@@ -482,9 +482,9 @@ try {
             isQuit = true;
         });
 
-        // app.on('will-quit', () => {
-        //     // discordUpdater.shutdown();
-        // });
+        app.on('will-quit', () => {
+            // discordUpdater.shutdown();
+        });
 
         app.whenReady().then(() => {
             // See: https://github.com/electron/electron/issues/23757
