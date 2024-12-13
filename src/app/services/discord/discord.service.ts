@@ -81,7 +81,7 @@ export class DiscordService {
 
     private updatePresence(): void {
         if (this.playbackService.currentTrack == undefined) {
-            this.logger.info(`No currentTrack was found. Not setting Discord Rich Presence.`, 'DiscordService', 'updatePresence');
+            this.logger.info(`No currentTrack was found. Not setting Discord Rich Presence.`, 'DiscordService', 'setPresence');
 
             return;
         }
