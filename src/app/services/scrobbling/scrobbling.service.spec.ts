@@ -6,11 +6,12 @@ import { SettingsBase } from '../../common/settings/settings.base';
 import { PlaybackProgress } from '../playback/playback-progress';
 import { PlaybackStarted } from '../playback/playback-started';
 import { TrackModel } from '../track/track-model';
+import { ScrobblingService } from './scrobbling.service';
 import { SignInState } from './sign-in-state';
 import { PlaybackService } from '../playback/playback.service';
 import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
-import { ScrobblingService } from './scrobbling.service';
+import { ScrobblingServiceBase } from './scrobbling.service.base';
 import { Track } from '../../data/entities/track';
 
 jest.mock('jimp', () => ({ exec: jest.fn() }));
@@ -59,7 +60,7 @@ describe('ScrobblingService', () => {
         playbackServiceMock.setup((x) => x.playbackSkipped$).returns(() => playbackService_playbackSkipped$);
     });
 
-    function createService(): ScrobblingService {
+    function createService(): ScrobblingServiceBase {
         return new ScrobblingService(
             playbackServiceMock.object,
             lastfmApiMock.object,
@@ -104,7 +105,7 @@ describe('ScrobblingService', () => {
             // Arrange
 
             // Act
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
 
             // Assert
             expect(service).toBeDefined();
@@ -115,7 +116,7 @@ describe('ScrobblingService', () => {
         it('should set username from settings if Last.fm scrobbling is enabled', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
 
             // Act
             service.initialize();
@@ -127,7 +128,7 @@ describe('ScrobblingService', () => {
         it('should set password from settings if Last.fm scrobbling is enabled', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
 
             // Act
             service.initialize();
@@ -139,7 +140,7 @@ describe('ScrobblingService', () => {
         it('should not set username from settings if Last.fm scrobbling is disabled', () => {
             // Arrange
             createSettingsMock(false, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
 
             // Act
             service.initialize();
@@ -151,7 +152,7 @@ describe('ScrobblingService', () => {
         it('should not set password from settings if Last.fm scrobbling is disabled', () => {
             // Arrange
             createSettingsMock(false, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
 
             // Act
             service.initialize();
@@ -163,7 +164,7 @@ describe('ScrobblingService', () => {
         it('should set SignInState to SignedOut if Last.fm scrobbling is disabled', () => {
             // Arrange
             createSettingsMock(false, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
 
             // Act
             service.initialize();
@@ -175,7 +176,7 @@ describe('ScrobblingService', () => {
         it('should set SignInState to SignedIn if Last.fm scrobbling is enabled and lastFmUsername, lastFmPassword and lastFmSessionKey are set in the settings', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
 
             // Act
             service.initialize();
@@ -187,7 +188,7 @@ describe('ScrobblingService', () => {
         it('should set SignInState to SignedOut if Last.fm scrobbling is enabled and lastFmUsername is not set in the settings', () => {
             // Arrange
             createSettingsMock(true, '', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
 
             // Act
             service.initialize();
@@ -199,7 +200,7 @@ describe('ScrobblingService', () => {
         it('should set SignInState to SignedOut if Last.fm scrobbling is enabled and lastFmPassword is not set in the settings', () => {
             // Arrange
             createSettingsMock(true, 'user', '', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
 
             // Act
             service.initialize();
@@ -211,7 +212,7 @@ describe('ScrobblingService', () => {
         it('should set SignInState to SignedOut if Last.fm scrobbling is enabled and lastFmSessionKey is not set in the settings', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', '');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
 
             // Act
             service.initialize();
@@ -228,7 +229,7 @@ describe('ScrobblingService', () => {
                 .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
                 .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
             service.initialize();
 
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 300000);
@@ -248,7 +249,7 @@ describe('ScrobblingService', () => {
                 .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
                 .returns(() => Promise.resolve(true));
             createSettingsMock(false, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
             service.initialize();
 
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 300000);
@@ -268,7 +269,7 @@ describe('ScrobblingService', () => {
                 .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
                 .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
             service.initialize();
 
             const trackModel1: TrackModel = createTrackModel('path1', '', 'title1', 'albumTitle1', 300000);
@@ -288,7 +289,7 @@ describe('ScrobblingService', () => {
                 .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
                 .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
             service.initialize();
 
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', '', 'albumTitle1', 300000);
@@ -312,7 +313,7 @@ describe('ScrobblingService', () => {
                 .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
                 .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
             service.initialize();
 
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 300000);
@@ -339,7 +340,7 @@ describe('ScrobblingService', () => {
                 .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
                 .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
             service.initialize();
 
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 900000);
@@ -366,7 +367,7 @@ describe('ScrobblingService', () => {
                 .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
                 .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
             service.initialize();
 
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 20000);
@@ -393,7 +394,7 @@ describe('ScrobblingService', () => {
                 .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
                 .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
             service.initialize();
 
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 300000);
@@ -421,7 +422,7 @@ describe('ScrobblingService', () => {
                 .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
                 .returns(() => Promise.resolve(true));
             createSettingsMock(false, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
             service.initialize();
 
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 300000);
@@ -448,7 +449,7 @@ describe('ScrobblingService', () => {
                 .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
                 .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
             service.initialize();
 
             const playbackProgress: PlaybackProgress = new PlaybackProgress(200, 300);
@@ -472,7 +473,7 @@ describe('ScrobblingService', () => {
                 .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
                 .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
             service.initialize();
 
             const trackModel1: TrackModel = createTrackModel('path1', '', 'title1', 'albumTitle1', 300000);
@@ -499,7 +500,7 @@ describe('ScrobblingService', () => {
                 .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
                 .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
             service.initialize();
 
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', '', 'albumTitle1', 300000);
@@ -523,7 +524,7 @@ describe('ScrobblingService', () => {
         it('should not send track love/unlove when not signed in', async () => {
             // Arrange
             createSettingsMock(false, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
             service.initialize();
 
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1', 300000);
@@ -539,7 +540,7 @@ describe('ScrobblingService', () => {
         it('should not send track love/unlove for an unknown track title', async () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
             service.initialize();
 
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', '', 'albumTitle1', 300000);
@@ -555,7 +556,7 @@ describe('ScrobblingService', () => {
         it('should not send track love/unlove for unknown artists', async () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
             service.initialize();
 
             const trackModel1: TrackModel = createTrackModel('path1', '', 'title1', 'albumTitle1', 300000);
@@ -571,7 +572,7 @@ describe('ScrobblingService', () => {
         it('should send track love for all artists', async () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
             service.initialize();
 
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1', 300000);
@@ -588,7 +589,7 @@ describe('ScrobblingService', () => {
         it('should send track unlove for all artists', async () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
+            const service: ScrobblingServiceBase = createService();
             service.initialize();
 
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1', 300000);

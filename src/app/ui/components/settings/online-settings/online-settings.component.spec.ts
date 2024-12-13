@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { OnlineSettingsComponent } from './online-settings.component';
-import { ScrobblingService } from '../../../../services/scrobbling/scrobbling.service';
+import { ScrobblingServiceBase } from '../../../../services/scrobbling/scrobbling.service.base';
 import { SignInState } from '../../../../services/scrobbling/sign-in-state';
 import { NotificationServiceBase } from '../../../../services/notification/notification.service.base';
 import { DiscordService } from '../../../../services/discord/discord.service';
@@ -10,7 +10,7 @@ jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('OnlineSettingsComponent', () => {
     let discordServiceMock: IMock<DiscordService>;
-    let scrobblingServiceMock: IMock<ScrobblingService>;
+    let scrobblingServiceMock: IMock<ScrobblingServiceBase>;
     let notificationServiceMock: IMock<NotificationServiceBase>;
     let settingsStub: any;
 
@@ -34,7 +34,7 @@ describe('OnlineSettingsComponent', () => {
 
     beforeEach(() => {
         discordServiceMock = Mock.ofType<DiscordService>();
-        scrobblingServiceMock = Mock.ofType<ScrobblingService>();
+        scrobblingServiceMock = Mock.ofType<ScrobblingServiceBase>();
         notificationServiceMock = Mock.ofType<NotificationServiceBase>();
         settingsStub = { enableDiscordRichPresence: true, enableLastFmScrobbling: true, downloadLyricsOnline: true };
 
