@@ -16,7 +16,6 @@ const Store = require("electron-store");
 const path = require("path");
 const url = require("url");
 const worker_threads_1 = require("worker_threads");
-const discord_presence_updater_1 = require("./discord-presence-updater");
 /**
  * Command line parameters
  */
@@ -40,7 +39,6 @@ let tray;
 let isQuitting;
 let isQuit;
 let fileProcessingTimeout;
-const discordUpdater = new discord_presence_updater_1.DiscordPresenceUpdater('826521040275636325');
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
     globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
@@ -412,9 +410,6 @@ try {
         electron_1.app.on('before-quit', () => {
             isQuit = true;
         });
-        electron_1.app.on('will-quit', () => {
-            discordUpdater.shutdown();
-        });
         electron_1.app.whenReady().then(() => {
             // See: https://github.com/electron/electron/issues/23757
             electron_1.protocol.registerFileProtocol('file', (request, callback) => {
@@ -522,12 +517,6 @@ try {
         electron_1.ipcMain.on('clear-file-queue', (event, arg) => {
             electron_log_1.default.info('[Main] [clear-file-queue] Clearing file queue');
             globalAny.fileQueue = [];
-        });
-        electron_1.ipcMain.on('set-discord-presence', (event, arg) => {
-            discordUpdater.setPresence(arg);
-        });
-        electron_1.ipcMain.on('clear-discord-presence', (event, arg) => {
-            discordUpdater.clearPresence();
         });
     }
 }

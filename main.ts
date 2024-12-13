@@ -14,7 +14,6 @@ import * as Store from 'electron-store';
 import * as path from 'path';
 import * as url from 'url';
 import { Worker } from 'worker_threads';
-import { DiscordPresenceUpdater, PresenceArgs } from './discord-presence-updater';
 
 /**
  * Command line parameters
@@ -41,7 +40,6 @@ let tray: Tray;
 let isQuitting: boolean;
 let isQuit: boolean;
 let fileProcessingTimeout: NodeJS.Timeout;
-const discordUpdater = new DiscordPresenceUpdater('826521040275636325');
 
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
@@ -482,10 +480,6 @@ try {
             isQuit = true;
         });
 
-        app.on('will-quit', () => {
-            discordUpdater.shutdown();
-        });
-
         app.whenReady().then(() => {
             // See: https://github.com/electron/electron/issues/23757
             protocol.registerFileProtocol('file', (request, callback) => {
@@ -612,14 +606,6 @@ try {
         ipcMain.on('clear-file-queue', (event: any, arg: any) => {
             log.info('[Main] [clear-file-queue] Clearing file queue');
             globalAny.fileQueue = [];
-        });
-
-        ipcMain.on('set-discord-presence', (event: any, arg: PresenceArgs) => {
-            discordUpdater.setPresence(arg);
-        });
-
-        ipcMain.on('clear-discord-presence', (event: any, arg: any) => {
-            discordUpdater.clearPresence();
         });
     }
 } catch (e) {
