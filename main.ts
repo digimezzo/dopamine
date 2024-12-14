@@ -14,6 +14,7 @@ import * as Store from 'electron-store';
 import * as path from 'path';
 import * as url from 'url';
 import { Worker } from 'worker_threads';
+import { DiscordPresenceUpdater, PresenceArgs } from './discord-presence-updater';
 
 /**
  * Command line parameters
@@ -35,6 +36,8 @@ const globalAny: any = global; // Global does not allow setting custom propertie
 const settings: Store<any> = new Store();
 const args: string[] = process.argv.slice(1);
 const isServing: boolean = args.some((val) => val === '--serve');
+const discordUpdater = new DiscordPresenceUpdater('826521040275636325');
+
 let mainWindow: BrowserWindow | undefined;
 let tray: Tray;
 let isQuitting: boolean;
@@ -480,6 +483,10 @@ try {
             isQuit = true;
         });
 
+        app.on('will-quit', () => {
+            discordUpdater.shutdown();
+        });
+
         app.whenReady().then(() => {
             // See: https://github.com/electron/electron/issues/23757
             protocol.registerFileProtocol('file', (request, callback) => {
@@ -606,6 +613,14 @@ try {
         ipcMain.on('clear-file-queue', (event: any, arg: any) => {
             log.info('[Main] [clear-file-queue] Clearing file queue');
             globalAny.fileQueue = [];
+        });
+
+        ipcMain.on('set-discord-presence', (event: any, arg: PresenceArgs) => {
+            discordUpdater.setPresence(arg);
+        });
+
+        ipcMain.on('clear-discord-presence', (event: any, arg: any) => {
+            discordUpdater.clearPresence();
         });
     }
 } catch (e) {
