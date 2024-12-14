@@ -37,7 +37,7 @@ const globalAny: any = global; // Global does not allow setting custom propertie
 const settings: Store<any> = new Store();
 const args: string[] = process.argv.slice(1);
 const isServing: boolean = args.some((val) => val === '--serve');
-let discordApi = new DiscordApi(SensitiveInformation.discordClientId);
+const discordApi = new DiscordApi(SensitiveInformation.discordClientId);
 
 let mainWindow: BrowserWindow | undefined;
 let tray: Tray;

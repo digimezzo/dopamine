@@ -36,7 +36,7 @@ const globalAny = global; // Global does not allow setting custom properties. We
 const settings = new Store();
 const args = process.argv.slice(1);
 const isServing = args.some((val) => val === '--serve');
-let discordApi = new discord_api_1.DiscordApi(sensitive_information_1.SensitiveInformation.discordClientId);
+const discordApi = new discord_api_1.DiscordApi(sensitive_information_1.SensitiveInformation.discordClientId);
 let mainWindow;
 let tray;
 let isQuitting;
