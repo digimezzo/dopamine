@@ -82,26 +82,35 @@ jobs:
                   path: release/Dopamine-*.dmg
 
     nightly_build_on_win:
-        runs-on: windows-2019
-        steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@master
-              with:
-                  node-version: '20.x'
-            - name: install dependencies
-              run: npm install
-            - name: run unit tests
-              run: npm run test
-            - name: build
-              run: npm run electron:windows
-            - name: fetch current version
-              id: ver_name
-              uses: notiz-dev/github-action-json-property@release
-              with:
-                  path: 'package.json'
-                  prop_path: 'version'
-            - name: upload build artifacts
-              uses: actions/upload-artifact@v4
-              with:
-                  name: dopamine-nightly-win
-                  path: release\Dopamine-*.exe
+      runs-on: windows-2019
+      steps:
+        - uses: actions/checkout@v2
+        - uses: actions/setup-node@master
+          with:
+            node-version: '20.x'
+        - name: Install dependencies
+          run: npm install
+        - name: Run unit tests
+          run: npm run test
+        - name: Build
+          run: npm run electron:windows
+        - name: Fetch current version
+          id: ver_name
+          uses: notiz-dev/github-action-json-property@release
+          with:
+            path: 'package.json'
+            prop_path: 'version'
+        - name: Download and Install 7-Zip
+          run: |
+            curl -L -o 7z.exe https://www.7-zip.org/a/7z2201-x64.exe
+            Start-Process -FilePath 7z.exe -ArgumentList '/S' -Wait
+        - name: Create 7z Archive With Only EXE Files
+          shell: cmd
+          run: |
+            cd release
+            "C:\Program Files\7-Zip\7z.exe" a ../dopamine-nightly-win.7z Dopamine-*.exe
+        - name: Upload Build Artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: dopamine-nightly-win
+            path: dopamine-nightly-win.7z
