@@ -12,14 +12,15 @@ export interface PresenceArgs {
     startTime?: number;
 }
 
-export class DiscordPresenceUpdater {
-    private clientId: string;
+export class DiscordApi {
+    private readonly clientId: string;
     private rpc: Client;
     private isReady: boolean;
     private presenceToSetWhenReady: PresenceArgs | undefined;
 
     public constructor(clientId: string) {
         this.clientId = clientId;
+
         this.reconnect();
     }
 
@@ -29,7 +30,7 @@ export class DiscordPresenceUpdater {
 
         // Bind event listeners
         this.rpc.on('ready', () => {
-            log.info('[DiscordPresenceUpdater] [ready] Discord RPC is ready!');
+            log.info('[DiscordApi] [ready] Discord RPC is ready!');
             this.isReady = true;
 
             if (this.presenceToSetWhenReady) {
@@ -39,7 +40,7 @@ export class DiscordPresenceUpdater {
         });
 
         this.rpc.on('disconnected', () => {
-            log.info('[DiscordPresenceUpdater] [disconnected] Discord RPC disconnected. Attempting to reconnect...');
+            log.info('[DiscordApi] [disconnected] Discord RPC disconnected. Attempting to reconnect...');
             this.isReady = false;
             this.login(); // Reattempt connection
         });
@@ -51,15 +52,15 @@ export class DiscordPresenceUpdater {
     private async login(): Promise<void> {
         try {
             await this.rpc.login({ clientId: this.clientId });
-            log.info('[DiscordPresenceUpdater] [login] Successfully logged into Discord RPC');
+            log.info('[DiscordApi] [login] Successfully logged into Discord RPC');
         } catch (error) {
-            log.error(`[DiscordPresenceUpdater] [login] Failed to log into Discord RPC: ${error}`);
+            log.error(`[DiscordApi] [login] Failed to log into Discord RPC: ${error}`);
         }
     }
 
     public setPresence(args: PresenceArgs): void {
         if (!this.isReady) {
-            log.warn('[DiscordPresenceUpdater] [setPresence] Discord RPC is not ready. Attempting reconnect.');
+            log.warn('[DiscordApi] [setPresence] Discord RPC is not ready. Attempting reconnect.');
             this.presenceToSetWhenReady = args;
             this.reconnect();
 
@@ -80,25 +81,25 @@ export class DiscordPresenceUpdater {
         }
 
         this.rpc.setActivity(presence);
-        log.info(`[DiscordPresenceUpdater] [setPresence] Rich Presence updated:: ${presence}`);
+        log.info(`[DiscordApi] [setPresence] Rich Presence updated: ${presence.state} - ${presence.details}`);
     }
 
     public clearPresence(): void {
         this.presenceToSetWhenReady = undefined;
 
         if (!this.isReady) {
-            log.warn('[DiscordPresenceUpdater] [clearPresence] Discord RPC is not ready. Cannot clear presence.');
+            log.warn('[DiscordApi] [clearPresence] Discord RPC is not ready. Cannot clear presence.');
             return;
         }
 
         this.rpc.clearActivity();
-        log.info('[DiscordPresenceUpdater] [clearPresence] Rich Presence cleared.');
+        log.info('[DiscordApi] [clearPresence] Rich Presence cleared.');
     }
 
     public shutdown(): void {
         this.presenceToSetWhenReady = undefined;
 
         this.rpc.destroy();
-        log.info('[DiscordPresenceUpdater] [shutdown] Discord RPC client destroyed.');
+        log.info('[DiscordApi] [shutdown] Discord RPC client destroyed.');
     }
 }

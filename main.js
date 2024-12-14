@@ -16,7 +16,8 @@ const Store = require("electron-store");
 const path = require("path");
 const url = require("url");
 const worker_threads_1 = require("worker_threads");
-const discord_presence_updater_1 = require("./discord-presence-updater");
+const discord_api_1 = require("./main/api/discord-api");
+const sensitive_information_1 = require("./main/common/application/sensitive-information");
 /**
  * Command line parameters
  */
@@ -35,7 +36,7 @@ const globalAny = global; // Global does not allow setting custom properties. We
 const settings = new Store();
 const args = process.argv.slice(1);
 const isServing = args.some((val) => val === '--serve');
-const discordUpdater = new discord_presence_updater_1.DiscordPresenceUpdater('826521040275636325');
+let discordApi = new discord_api_1.DiscordApi(sensitive_information_1.SensitiveInformation.discordClientId);
 let mainWindow;
 let tray;
 let isQuitting;
@@ -413,7 +414,7 @@ try {
             isQuit = true;
         });
         electron_1.app.on('will-quit', () => {
-            discordUpdater.shutdown();
+            discordApi.shutdown();
         });
         electron_1.app.whenReady().then(() => {
             // See: https://github.com/electron/electron/issues/23757
@@ -469,7 +470,7 @@ try {
             tray.setImage(getTrayIcon());
         });
         electron_1.ipcMain.on('indexing-worker', (event, arg) => {
-            const workerThread = new worker_threads_1.Worker(path.join(__dirname, 'main/workers/indexing-worker.js'), {
+            const workerThread = new worker_threads_1.Worker(path.join(__dirname, 'main/background-work/workers/indexing-worker.js'), {
                 workerData: { arg },
             });
             workerThread.on('message', (message) => {
@@ -524,10 +525,10 @@ try {
             globalAny.fileQueue = [];
         });
         electron_1.ipcMain.on('set-discord-presence', (event, arg) => {
-            discordUpdater.setPresence(arg);
+            discordApi.setPresence(arg);
         });
         electron_1.ipcMain.on('clear-discord-presence', (event, arg) => {
-            discordUpdater.clearPresence();
+            discordApi.clearPresence();
         });
     }
 }

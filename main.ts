@@ -14,7 +14,8 @@ import * as Store from 'electron-store';
 import * as path from 'path';
 import * as url from 'url';
 import { Worker } from 'worker_threads';
-import { DiscordPresenceUpdater, PresenceArgs } from './discord-presence-updater';
+import { DiscordApi, PresenceArgs } from './main/api/discord-api';
+import { SensitiveInformation } from './main/common/application/sensitive-information';
 
 /**
  * Command line parameters
@@ -36,7 +37,7 @@ const globalAny: any = global; // Global does not allow setting custom propertie
 const settings: Store<any> = new Store();
 const args: string[] = process.argv.slice(1);
 const isServing: boolean = args.some((val) => val === '--serve');
-const discordUpdater = new DiscordPresenceUpdater('826521040275636325');
+let discordApi = new DiscordApi(SensitiveInformation.discordClientId);
 
 let mainWindow: BrowserWindow | undefined;
 let tray: Tray;
@@ -484,7 +485,7 @@ try {
         });
 
         app.on('will-quit', () => {
-            discordUpdater.shutdown();
+            discordApi.shutdown();
         });
 
         app.whenReady().then(() => {
@@ -551,7 +552,7 @@ try {
         });
 
         ipcMain.on('indexing-worker', (event: any, arg: any) => {
-            const workerThread = new Worker(path.join(__dirname, 'main/workers/indexing-worker.js'), {
+            const workerThread = new Worker(path.join(__dirname, 'main/background-work/workers/indexing-worker.js'), {
                 workerData: { arg },
             });
 
@@ -616,11 +617,11 @@ try {
         });
 
         ipcMain.on('set-discord-presence', (event: any, arg: PresenceArgs) => {
-            discordUpdater.setPresence(arg);
+            discordApi.setPresence(arg);
         });
 
         ipcMain.on('clear-discord-presence', (event: any, arg: any) => {
-            discordUpdater.clearPresence();
+            discordApi.clearPresence();
         });
     }
 } catch (e) {

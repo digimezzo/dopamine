@@ -1,6 +1,6 @@
 const { DateTime } = require('../common/date-time');
 const { FileAccess } = require('../common/io/file-access');
-const { WorkerProxy } = require('../workers/worker-proxy');
+const { WorkerProxy } = require('../worker-proxy');
 const { DatabaseFactory } = require('../data/database.factory');
 const { FolderRepository } = require('../data/folder-repository');
 const { FolderTrackRepository } = require('../data/folder-track-repository');
