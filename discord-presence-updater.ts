@@ -1,4 +1,5 @@
 import { Client, Presence } from 'discord-rpc';
+import log from 'electron-log';
 
 export interface PresenceArgs {
     title: string;
@@ -28,7 +29,7 @@ export class DiscordPresenceUpdater {
 
         // Bind event listeners
         this.rpc.on('ready', () => {
-            console.log('Discord RPC is ready!');
+            log.info('[DiscordPresenceUpdater] [ready] Discord RPC is ready!');
             this.isReady = true;
 
             if (this.presenceToSetWhenReady) {
@@ -38,7 +39,7 @@ export class DiscordPresenceUpdater {
         });
 
         this.rpc.on('disconnected', () => {
-            console.warn('Discord RPC disconnected. Attempting to reconnect...');
+            log.info('[DiscordPresenceUpdater] [disconnected] Discord RPC disconnected. Attempting to reconnect...');
             this.isReady = false;
             this.login(); // Reattempt connection
         });
@@ -47,16 +48,18 @@ export class DiscordPresenceUpdater {
         this.login();
     }
 
-    private login(): void {
-        this.rpc
-            .login({ clientId: this.clientId })
-            .then(() => console.log('Successfully logged into Discord RPC'))
-            .catch((error) => console.error('Failed to log into Discord RPC:', error));
+    private async login(): Promise<void> {
+        try {
+            await this.rpc.login({ clientId: this.clientId });
+            log.info('[DiscordPresenceUpdater] [login] Successfully logged into Discord RPC');
+        } catch (error) {
+            log.error(`[DiscordPresenceUpdater] [login] Failed to log into Discord RPC: ${error}`);
+        }
     }
 
     public setPresence(args: PresenceArgs): void {
         if (!this.isReady) {
-            console.warn('Discord RPC is not ready. Attempting reconnect.');
+            log.warn('[DiscordPresenceUpdater] [setPresence] Discord RPC is not ready. Attempting reconnect.');
             this.presenceToSetWhenReady = args;
             this.reconnect();
 
@@ -77,25 +80,25 @@ export class DiscordPresenceUpdater {
         }
 
         this.rpc.setActivity(presence);
-        console.log('Rich Presence updated:', presence);
+        log.info(`[DiscordPresenceUpdater] [setPresence] Rich Presence updated:: ${presence}`);
     }
 
     public clearPresence(): void {
         this.presenceToSetWhenReady = undefined;
 
         if (!this.isReady) {
-            console.warn('Discord RPC is not ready. Cannot clear presence.');
+            log.warn('[DiscordPresenceUpdater] [clearPresence] Discord RPC is not ready. Cannot clear presence.');
             return;
         }
 
         this.rpc.clearActivity();
-        console.log('Rich Presence cleared.');
+        log.info('[DiscordPresenceUpdater] [clearPresence] Rich Presence cleared.');
     }
 
     public shutdown(): void {
         this.presenceToSetWhenReady = undefined;
 
         this.rpc.destroy();
-        console.log('Discord RPC client destroyed.');
+        log.info('[DiscordPresenceUpdater] [shutdown] Discord RPC client destroyed.');
     }
 }
