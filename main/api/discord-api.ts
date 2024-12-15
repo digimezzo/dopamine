@@ -13,33 +13,33 @@ export interface PresenceArgs {
 }
 
 export class DiscordApi {
-    private readonly clientId: string;
+    private readonly _clientId: string;
     private _client: Client;
-    private isReady: boolean;
-    private presenceToSetWhenReady: PresenceArgs | undefined;
+    private _isReady: boolean;
+    private _presenceToSetWhenReady: PresenceArgs | undefined;
 
     public constructor(clientId: string) {
-        this.clientId = clientId;
+        this._clientId = clientId;
         this.reconnect();
     }
 
     private reconnect(): void {
         this._client = new Client({ transport: 'ipc' });
-        this.isReady = false;
+        this._isReady = false;
 
         this._client.on('ready', () => {
             log.info('[DiscordApi] [ready] Discord client is ready!');
-            this.isReady = true;
+            this._isReady = true;
 
-            if (this.presenceToSetWhenReady) {
-                this.setPresence(this.presenceToSetWhenReady);
-                this.presenceToSetWhenReady = undefined;
+            if (this._presenceToSetWhenReady) {
+                this.setPresence(this._presenceToSetWhenReady);
+                this._presenceToSetWhenReady = undefined;
             }
         });
 
         this._client.on('disconnected', () => {
             log.info('[DiscordApi] [disconnected] Discord client disconnected. Attempting to reconnect...');
-            this.isReady = false;
+            this._isReady = false;
             this.login();
         });
 
@@ -48,7 +48,7 @@ export class DiscordApi {
 
     private async login(): Promise<void> {
         try {
-            await this._client.login({ clientId: this.clientId });
+            await this._client.login({ clientId: this._clientId });
             log.info('[DiscordApi] [login] Successfully logged into Discord client');
         } catch (error) {
             log.error(`[DiscordApi] [login] Failed to log into Discord client: ${error}`);
@@ -56,9 +56,9 @@ export class DiscordApi {
     }
 
     public setPresence(args: PresenceArgs): void {
-        if (!this.isReady) {
+        if (!this._isReady) {
             log.warn('[DiscordApi] [setPresence] Discord client is not ready. Attempting reconnect.');
-            this.presenceToSetWhenReady = args;
+            this._presenceToSetWhenReady = args;
             this.reconnect();
 
             return;
@@ -82,9 +82,9 @@ export class DiscordApi {
     }
 
     public clearPresence(): void {
-        this.presenceToSetWhenReady = undefined;
+        this._presenceToSetWhenReady = undefined;
 
-        if (!this.isReady) {
+        if (!this._isReady) {
             log.warn('[DiscordApi] [clearPresence] Discord client is not ready. Cannot clear presence.');
             return;
         }
@@ -94,7 +94,7 @@ export class DiscordApi {
     }
 
     public shutdown(): void {
-        this.presenceToSetWhenReady = undefined;
+        this._presenceToSetWhenReady = undefined;
 
         this._client.destroy();
         log.info('[DiscordApi] [shutdown] Discord client destroyed.');
