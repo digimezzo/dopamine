@@ -17,13 +17,19 @@ export class DiscordApi {
     private _client: Client;
     private _isReady: boolean;
     private _presenceToSetWhenReady: PresenceArgs | undefined;
+    private _isReconnecting: boolean = false;
 
     public constructor(clientId: string) {
         this._clientId = clientId;
-        this.reconnect();
     }
 
     private reconnect(): void {
+        if (this._isReconnecting) {
+            log.info('[DiscordApi] [reconnect] Already attempting to reconnect. Skipping...');
+            return;
+        }
+
+        this._isReconnecting = true;
         this._isReady = false;
         this._client = new Client({ transport: 'ipc' });
 
@@ -52,6 +58,8 @@ export class DiscordApi {
             log.info('[DiscordApi] [login] Successfully logged into Discord client');
         } catch (error) {
             log.error(`[DiscordApi] [login] Failed to log into Discord client: ${error}`);
+        } finally {
+            this._isReconnecting = false;
         }
     }
 
@@ -78,7 +86,7 @@ export class DiscordApi {
         }
 
         this._client.setActivity(presence);
-        log.info(`[DiscordApi] [setPresence] Rich Presence updated: ${presence.state} - ${presence.details}`);
+        log.info(`[DiscordApi] [setPresence] Rich Presence updated: ${presence.state} - ${presence.details} (${presence.smallImageKey})`);
     }
 
     public clearPresence(): void {
