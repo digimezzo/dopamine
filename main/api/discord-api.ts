@@ -24,8 +24,8 @@ export class DiscordApi {
     }
 
     private reconnect(): void {
-        this._client = new Client({ transport: 'ipc' });
         this._isReady = false;
+        this._client = new Client({ transport: 'ipc' });
 
         this._client.on('ready', () => {
             log.info('[DiscordApi] [ready] Discord client is ready!');
