@@ -14,23 +14,21 @@ export interface PresenceArgs {
 
 export class DiscordApi {
     private readonly clientId: string;
-    private rpc: Client;
+    private _client: Client;
     private isReady: boolean;
     private presenceToSetWhenReady: PresenceArgs | undefined;
 
     public constructor(clientId: string) {
         this.clientId = clientId;
-
         this.reconnect();
     }
 
     private reconnect(): void {
-        this.rpc = new Client({ transport: 'ipc' });
+        this._client = new Client({ transport: 'ipc' });
         this.isReady = false;
 
-        // Bind event listeners
-        this.rpc.on('ready', () => {
-            log.info('[DiscordApi] [ready] Discord RPC is ready!');
+        this._client.on('ready', () => {
+            log.info('[DiscordApi] [ready] Discord client is ready!');
             this.isReady = true;
 
             if (this.presenceToSetWhenReady) {
@@ -39,28 +37,27 @@ export class DiscordApi {
             }
         });
 
-        this.rpc.on('disconnected', () => {
-            log.info('[DiscordApi] [disconnected] Discord RPC disconnected. Attempting to reconnect...');
+        this._client.on('disconnected', () => {
+            log.info('[DiscordApi] [disconnected] Discord client disconnected. Attempting to reconnect...');
             this.isReady = false;
-            this.login(); // Reattempt connection
+            this.login();
         });
 
-        // Log in to Discord RPC
         this.login();
     }
 
     private async login(): Promise<void> {
         try {
-            await this.rpc.login({ clientId: this.clientId });
-            log.info('[DiscordApi] [login] Successfully logged into Discord RPC');
+            await this._client.login({ clientId: this.clientId });
+            log.info('[DiscordApi] [login] Successfully logged into Discord client');
         } catch (error) {
-            log.error(`[DiscordApi] [login] Failed to log into Discord RPC: ${error}`);
+            log.error(`[DiscordApi] [login] Failed to log into Discord client: ${error}`);
         }
     }
 
     public setPresence(args: PresenceArgs): void {
         if (!this.isReady) {
-            log.warn('[DiscordApi] [setPresence] Discord RPC is not ready. Attempting reconnect.');
+            log.warn('[DiscordApi] [setPresence] Discord client is not ready. Attempting reconnect.');
             this.presenceToSetWhenReady = args;
             this.reconnect();
 
@@ -80,7 +77,7 @@ export class DiscordApi {
             presence.startTimestamp = Math.floor(args.startTime / 1000);
         }
 
-        this.rpc.setActivity(presence);
+        this._client.setActivity(presence);
         log.info(`[DiscordApi] [setPresence] Rich Presence updated: ${presence.state} - ${presence.details}`);
     }
 
@@ -88,18 +85,18 @@ export class DiscordApi {
         this.presenceToSetWhenReady = undefined;
 
         if (!this.isReady) {
-            log.warn('[DiscordApi] [clearPresence] Discord RPC is not ready. Cannot clear presence.');
+            log.warn('[DiscordApi] [clearPresence] Discord client is not ready. Cannot clear presence.');
             return;
         }
 
-        this.rpc.clearActivity();
+        this._client.clearActivity();
         log.info('[DiscordApi] [clearPresence] Rich Presence cleared.');
     }
 
     public shutdown(): void {
         this.presenceToSetWhenReady = undefined;
 
-        this.rpc.destroy();
-        log.info('[DiscordApi] [shutdown] Discord RPC client destroyed.');
+        this._client.destroy();
+        log.info('[DiscordApi] [shutdown] Discord client destroyed.');
     }
 }
