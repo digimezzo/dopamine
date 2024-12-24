@@ -16,8 +16,9 @@ const Store = require("electron-store");
 const path = require("path");
 const url = require("url");
 const worker_threads_1 = require("worker_threads");
-const discord_api_1 = require("./main/api/discord-api");
+const discord_api_1 = require("./main/api/discord/discord-api");
 const sensitive_information_1 = require("./main/common/application/sensitive-information");
+const discord_api_command_type_1 = require("./main/api/discord/discord-api-command-type");
 /**
  * Command line parameters
  */
@@ -524,11 +525,13 @@ try {
             electron_log_1.default.info('[Main] [clear-file-queue] Clearing file queue');
             globalAny.fileQueue = [];
         });
-        electron_1.ipcMain.on('set-discord-presence', (event, arg) => {
-            discordApi.setPresence(arg);
-        });
-        electron_1.ipcMain.on('clear-discord-presence', (event, arg) => {
-            discordApi.clearPresence();
+        electron_1.ipcMain.on('discord-api-command', (event, command) => {
+            if (command.commandType === discord_api_command_type_1.DiscordApiCommandType.SetPresence) {
+                discordApi.setPresence(command.args);
+            }
+            else if (command.commandType === discord_api_command_type_1.DiscordApiCommandType.ClearPresence) {
+                discordApi.clearPresence();
+            }
         });
     }
 }

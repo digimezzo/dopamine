@@ -1,16 +1,6 @@
 import { Client, Presence } from 'discord-rpc';
 import log from 'electron-log';
-
-export interface PresenceArgs {
-    title: string;
-    artists: string;
-    smallImageKey?: string;
-    smallImageText?: string;
-    largeImageKey?: string;
-    largeImageText?: string;
-    shouldSendTimestamps?: boolean;
-    startTime?: number;
-}
+import { PresenceArgs } from './presence-args';
 
 export class DiscordApi {
     private readonly _clientId: string;

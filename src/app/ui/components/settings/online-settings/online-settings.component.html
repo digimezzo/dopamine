@@ -18,7 +18,7 @@
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'discord' | translate }}</div>
     <div>
-        <app-toggle-switch [(isChecked)]="this.enableDiscordRichPresence">
+        <app-toggle-switch [(isChecked)]="this.discordService.enableDiscordRichPresence">
             {{ 'enable-discord-rich-presence' | translate }}
         </app-toggle-switch>
     </div>

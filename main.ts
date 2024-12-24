@@ -14,8 +14,10 @@ import * as Store from 'electron-store';
 import * as path from 'path';
 import * as url from 'url';
 import { Worker } from 'worker_threads';
-import { DiscordApi, PresenceArgs } from './main/api/discord-api';
+import { DiscordApi } from './main/api/discord/discord-api';
 import { SensitiveInformation } from './main/common/application/sensitive-information';
+import { DiscordApiCommand } from './main/api/discord/discord-api-command';
+import { DiscordApiCommandType } from './main/api/discord/discord-api-command-type';
 
 /**
  * Command line parameters
@@ -616,12 +618,12 @@ try {
             globalAny.fileQueue = [];
         });
 
-        ipcMain.on('set-discord-presence', (event: any, arg: PresenceArgs) => {
-            discordApi.setPresence(arg);
-        });
-
-        ipcMain.on('clear-discord-presence', (event: any, arg: any) => {
-            discordApi.clearPresence();
+        ipcMain.on('discord-api-command', (event: any, command: DiscordApiCommand) => {
+            if (command.commandType === DiscordApiCommandType.SetPresence) {
+                discordApi.setPresence(command.args!);
+            } else if (command.commandType === DiscordApiCommandType.ClearPresence) {
+                discordApi.clearPresence();
+            }
         });
     }
 } catch (e) {

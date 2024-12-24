@@ -19,7 +19,7 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        private discordService: DiscordService,
+        public discordService: DiscordService,
         private scrobblingService: ScrobblingServiceBase,
         private notificationService: NotificationServiceBase,
         public settings: SettingsBase,
@@ -61,15 +61,6 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
         );
 
         this._signInState = this.scrobblingService.signInState;
-    }
-
-    public get enableDiscordRichPresence(): boolean {
-        return this.settings.enableDiscordRichPresence;
-    }
-
-    public set enableDiscordRichPresence(v: boolean) {
-        this.settings.enableDiscordRichPresence = v;
-        this.discordService.setRichPresence(v);
     }
 
     public get downloadLyricsOnline(): boolean {
