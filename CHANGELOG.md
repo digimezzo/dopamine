@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0-preview.38] - 2024-12-24
+
+### Fixed
+
+-   Fixed more problems with Discord Rich Presence
+
 ## [3.0.0-preview.37] - 2024-12-09
 
 ### Fixed
