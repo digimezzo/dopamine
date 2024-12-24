@@ -140,8 +140,13 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         this._lastSetLogarithmicVolume = logarithmicVolume;
     }
     public skipToSeconds(seconds: number): void {
+        const isPaused = this._isPaused;
         this.playWebAudio(seconds);
         this._audio.currentTime = seconds;
+
+        if (isPaused) {
+            this.pause();
+        }
     }
     public preloadNext(track: TrackModel): void {
         this._preloadedTrack = track;
