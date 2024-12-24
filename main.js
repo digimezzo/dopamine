@@ -16,6 +16,9 @@ const Store = require("electron-store");
 const path = require("path");
 const url = require("url");
 const worker_threads_1 = require("worker_threads");
+const discord_api_1 = require("./main/api/discord/discord-api");
+const sensitive_information_1 = require("./main/common/application/sensitive-information");
+const discord_api_command_type_1 = require("./main/api/discord/discord-api-command-type");
 /**
  * Command line parameters
  */
@@ -34,6 +37,7 @@ const globalAny = global; // Global does not allow setting custom properties. We
 const settings = new Store();
 const args = process.argv.slice(1);
 const isServing = args.some((val) => val === '--serve');
+const discordApi = new discord_api_1.DiscordApi(sensitive_information_1.SensitiveInformation.discordClientId);
 let mainWindow;
 let tray;
 let isQuitting;
@@ -410,6 +414,9 @@ try {
         electron_1.app.on('before-quit', () => {
             isQuit = true;
         });
+        electron_1.app.on('will-quit', () => {
+            discordApi.shutdown();
+        });
         electron_1.app.whenReady().then(() => {
             // See: https://github.com/electron/electron/issues/23757
             electron_1.protocol.registerFileProtocol('file', (request, callback) => {
@@ -464,7 +471,7 @@ try {
             tray.setImage(getTrayIcon());
         });
         electron_1.ipcMain.on('indexing-worker', (event, arg) => {
-            const workerThread = new worker_threads_1.Worker(path.join(__dirname, 'main/workers/indexing-worker.js'), {
+            const workerThread = new worker_threads_1.Worker(path.join(__dirname, 'main/background-work/workers/indexing-worker.js'), {
                 workerData: { arg },
             });
             workerThread.on('message', (message) => {
@@ -517,6 +524,14 @@ try {
         electron_1.ipcMain.on('clear-file-queue', (event, arg) => {
             electron_log_1.default.info('[Main] [clear-file-queue] Clearing file queue');
             globalAny.fileQueue = [];
+        });
+        electron_1.ipcMain.on('discord-api-command', (event, command) => {
+            if (command.commandType === discord_api_command_type_1.DiscordApiCommandType.SetPresence) {
+                discordApi.setPresence(command.args);
+            }
+            else if (command.commandType === discord_api_command_type_1.DiscordApiCommandType.ClearPresence) {
+                discordApi.clearPresence();
+            }
         });
     }
 }

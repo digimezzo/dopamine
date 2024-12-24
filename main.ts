@@ -14,6 +14,10 @@ import * as Store from 'electron-store';
 import * as path from 'path';
 import * as url from 'url';
 import { Worker } from 'worker_threads';
+import { DiscordApi } from './main/api/discord/discord-api';
+import { SensitiveInformation } from './main/common/application/sensitive-information';
+import { DiscordApiCommand } from './main/api/discord/discord-api-command';
+import { DiscordApiCommandType } from './main/api/discord/discord-api-command-type';
 
 /**
  * Command line parameters
@@ -35,6 +39,8 @@ const globalAny: any = global; // Global does not allow setting custom propertie
 const settings: Store<any> = new Store();
 const args: string[] = process.argv.slice(1);
 const isServing: boolean = args.some((val) => val === '--serve');
+const discordApi = new DiscordApi(SensitiveInformation.discordClientId);
+
 let mainWindow: BrowserWindow | undefined;
 let tray: Tray;
 let isQuitting: boolean;
@@ -480,6 +486,10 @@ try {
             isQuit = true;
         });
 
+        app.on('will-quit', () => {
+            discordApi.shutdown();
+        });
+
         app.whenReady().then(() => {
             // See: https://github.com/electron/electron/issues/23757
             protocol.registerFileProtocol('file', (request, callback) => {
@@ -544,7 +554,7 @@ try {
         });
 
         ipcMain.on('indexing-worker', (event: any, arg: any) => {
-            const workerThread = new Worker(path.join(__dirname, 'main/workers/indexing-worker.js'), {
+            const workerThread = new Worker(path.join(__dirname, 'main/background-work/workers/indexing-worker.js'), {
                 workerData: { arg },
             });
 
@@ -606,6 +616,14 @@ try {
         ipcMain.on('clear-file-queue', (event: any, arg: any) => {
             log.info('[Main] [clear-file-queue] Clearing file queue');
             globalAny.fileQueue = [];
+        });
+
+        ipcMain.on('discord-api-command', (event: any, command: DiscordApiCommand) => {
+            if (command.commandType === DiscordApiCommandType.SetPresence) {
+                discordApi.setPresence(command.args!);
+            } else if (command.commandType === DiscordApiCommandType.ClearPresence) {
+                discordApi.clearPresence();
+            }
         });
     }
 } catch (e) {
