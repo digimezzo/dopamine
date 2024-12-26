@@ -591,6 +591,11 @@ export class PlaybackService {
     }
 
     private async restoreQueueAsync(): Promise<void> {
+        // If already playing (e.g. from double-clicking files), do not restore queue.
+        if (this.currentTrack) {
+            return;
+        }
+
         const info: QueueRestoreInfo = await this.queuePersister.restoreAsync();
         this.queue.restoreTracks(info.tracks, info.playbackOrder);
 
