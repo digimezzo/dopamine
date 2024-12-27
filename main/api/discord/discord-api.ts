@@ -75,6 +75,11 @@ export class DiscordApi {
             presence.startTimestamp = Math.floor(args.startTime / 1000);
         }
 
+        if (!this._client) {
+            log.error('[DiscordApi] [setPresence] Discord client not found.');
+            return;
+        }
+
         this._client.setActivity(presence);
         log.info(`[DiscordApi] [setPresence] Rich Presence updated: ${presence.state} - ${presence.details} (${presence.smallImageKey})`);
     }
@@ -87,12 +92,22 @@ export class DiscordApi {
             return;
         }
 
+        if (!this._client) {
+            log.error('[DiscordApi] [clearPresence] Discord client not found.');
+            return;
+        }
+
         this._client.clearActivity();
         log.info('[DiscordApi] [clearPresence] Rich Presence cleared.');
     }
 
     public shutdown(): void {
         this._presenceToSetWhenReady = undefined;
+
+        if (!this._client) {
+            log.warn('[DiscordApi] [shutdown] Discord client not found.');
+            return;
+        }
 
         this._client.destroy();
         log.info('[DiscordApi] [shutdown] Discord client destroyed.');
