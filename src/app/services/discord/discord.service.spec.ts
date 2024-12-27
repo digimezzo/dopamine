@@ -12,6 +12,9 @@ import { PlaybackService } from '../playback/playback.service';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
 import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
+import { DiscordApiCommand } from './discord-api-command';
+import { DiscordApiCommandType } from './discord-api-command-type';
+import { SettingsMock } from '../../testing/settings-mock';
 
 jest.mock('jimp', () => ({ exec: jest.fn() }));
 
@@ -21,7 +24,7 @@ describe('DiscordService', () => {
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let dateProxyMock: IMock<DateProxy>;
     let ipcProxyMock: IMock<IpcProxyBase>;
-    let settingsMock: IMock<SettingsBase>;
+    let settingsMock: SettingsMock;
     let loggerMock: IMock<Logger>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
@@ -38,7 +41,7 @@ describe('DiscordService', () => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         dateProxyMock = Mock.ofType<DateProxy>();
         ipcProxyMock = Mock.ofType<IpcProxyBase>();
-        settingsMock = Mock.ofType<SettingsBase>();
+        settingsMock = new SettingsMock();
         loggerMock = Mock.ofType<Logger>();
 
         translatorServiceMock.setup((x) => x.get('playing')).returns(() => 'Playing');
@@ -90,7 +93,7 @@ describe('DiscordService', () => {
             translatorServiceMock.object,
             dateProxyMock.object,
             ipcProxyMock.object,
-            settingsMock.object,
+            settingsMock,
             loggerMock.object,
         );
     }
@@ -105,28 +108,31 @@ describe('DiscordService', () => {
         });
     });
 
-    describe('setRichPresenceFromSettings', () => {
+    describe('initialize', () => {
         it('should clear Discord presence if Discord Rich Presence is disabled', () => {
             // Arrange
-            settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => false);
+            settingsMock.enableDiscordRichPresence = false;
 
             const service: DiscordService = createDiscordService();
 
             // Act
-            service.setRichPresenceFromSettings();
+            service.initialize();
 
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('clear-discord-presence', undefined), Times.once());
+            ipcProxyMock.verify(
+                (x) => x.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.ClearPresence, undefined)),
+                Times.once(),
+            );
         });
 
         it('should set Discord presence to "Playing" if a track is already playing and Discord Rich Presence is enabled', () => {
             // Arrange
-            settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => true);
+            settingsMock.enableDiscordRichPresence = true;
 
             setUpPlaybackServiceMock(true, true);
             const service: DiscordService = createDiscordService();
 
-            const arg = {
+            const args = {
                 title: 'title',
                 artists: 'artist1, artist2',
                 smallImageKey: 'play',
@@ -137,21 +143,27 @@ describe('DiscordService', () => {
                 startTime: 3000,
             };
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresenceFromSettings();
+            service.initialize();
+            jest.runAllTimers();
 
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', arg), Times.once());
+            ipcProxyMock.verify(
+                (x) => x.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.SetPresence, args)),
+                Times.once(),
+            );
         });
 
         it('should set Discord presence to "Playing" after a track starts playing and Discord Rich Presence is enabled', () => {
             // Arrange
-            settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => true);
+            settingsMock.enableDiscordRichPresence = true;
 
             setUpPlaybackServiceMock(false, true);
             const service: DiscordService = createDiscordService();
 
-            const arg = {
+            const args = {
                 title: 'title',
                 artists: 'artist1, artist2',
                 smallImageKey: 'play',
@@ -162,25 +174,30 @@ describe('DiscordService', () => {
                 startTime: 3000,
             };
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresenceFromSettings();
+            service.initialize();
             ipcProxyMock.reset();
 
             playbackServicePlaybackStartedMock.next(new PlaybackStarted(trackModel, false));
+            jest.runAllTimers();
 
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', arg), Times.once());
+            ipcProxyMock.verify(
+                (x) => x.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.SetPresence, args)),
+                Times.once(),
+            );
         });
 
         it('should set Discord presence to "Paused" after a track is paused and Discord Rich Presence is enabled', () => {
             // Arrange
-            settingsMock.reset();
-            settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => true);
+            settingsMock.enableDiscordRichPresence = true;
 
             setUpPlaybackServiceMock(false, false);
             const service: DiscordService = createDiscordService();
 
-            const arg = {
+            const args = {
                 title: 'title',
                 artists: 'artist1, artist2',
                 smallImageKey: 'pause',
@@ -191,25 +208,30 @@ describe('DiscordService', () => {
                 startTime: 0,
             };
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresenceFromSettings();
+            service.initialize();
             ipcProxyMock.reset();
 
             playbackServicePlaybackPausedMock.next();
+            jest.runAllTimers();
 
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', arg), Times.once());
+            ipcProxyMock.verify(
+                (x) => x.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.SetPresence, args)),
+                Times.once(),
+            );
         });
 
         it('should set Discord presence to "Playing" after a track is resumed and Discord Rich Presence is enabled', () => {
             // Arrange
-            settingsMock.reset();
-            settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => true);
+            settingsMock.enableDiscordRichPresence = true;
 
             setUpPlaybackServiceMock(false, true);
             const service: DiscordService = createDiscordService();
 
-            const arg = {
+            const args = {
                 title: 'title',
                 artists: 'artist1, artist2',
                 smallImageKey: 'play',
@@ -220,25 +242,30 @@ describe('DiscordService', () => {
                 startTime: 3000,
             };
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresenceFromSettings();
+            service.initialize();
             ipcProxyMock.reset();
 
             playbackServicePlaybackResumedMock.next();
+            jest.runAllTimers();
 
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', arg), Times.once());
+            ipcProxyMock.verify(
+                (x) => x.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.SetPresence, args)),
+                Times.once(),
+            );
         });
 
         it('should set Discord presence to "Playing" after a track is skipped and Discord Rich Presence is enabled and playbackService can pause', () => {
             // Arrange
-            settingsMock.reset();
-            settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => true);
+            settingsMock.enableDiscordRichPresence = true;
 
             setUpPlaybackServiceMock(false, true);
             const service: DiscordService = createDiscordService();
 
-            const arg = {
+            const args = {
                 title: 'title',
                 artists: 'artist1, artist2',
                 smallImageKey: 'play',
@@ -249,25 +276,30 @@ describe('DiscordService', () => {
                 startTime: 3000,
             };
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresenceFromSettings();
+            service.initialize();
             ipcProxyMock.reset();
 
             playbackServicePlaybackSkippedMock.next();
+            jest.runAllTimers();
 
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', arg), Times.once());
+            ipcProxyMock.verify(
+                (x) => x.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.SetPresence, args)),
+                Times.once(),
+            );
         });
 
         it('should set Discord presence to "Paused" after a track is skipped and Discord Rich Presence is enabled and playbackService cannot pause', () => {
             // Arrange
-            settingsMock.reset();
-            settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => true);
+            settingsMock.enableDiscordRichPresence = true;
 
             setUpPlaybackServiceMock(false, false);
             const service: DiscordService = createDiscordService();
 
-            const arg = {
+            const args = {
                 title: 'title',
                 artists: 'artist1, artist2',
                 smallImageKey: 'pause',
@@ -278,155 +310,181 @@ describe('DiscordService', () => {
                 startTime: 0,
             };
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresenceFromSettings();
+            service.initialize();
             ipcProxyMock.reset();
 
             playbackServicePlaybackSkippedMock.next();
 
+            jest.runAllTimers();
+
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', arg), Times.once());
+            ipcProxyMock.verify(
+                (x) => x.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.SetPresence, args)),
+                Times.once(),
+            );
         });
 
         it('should clear Discord presence after a track is stopped and Discord Rich Presence is enabled', () => {
             // Arrange
-            settingsMock.reset();
-            settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => true);
+            settingsMock.enableDiscordRichPresence = true;
 
             setUpPlaybackServiceMock(false, false);
             const service: DiscordService = createDiscordService();
 
             // Act
-            service.setRichPresenceFromSettings();
+            service.initialize();
             ipcProxyMock.reset();
 
             playbackServicePlaybackStoppedMock.next();
 
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('clear-discord-presence', undefined), Times.once());
+            ipcProxyMock.verify(
+                (x) => x.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.ClearPresence, undefined)),
+                Times.once(),
+            );
         });
 
         it('should not set Discord presence after a track starts playing and Discord Rich Presence is disabled', () => {
             // Arrange
-            settingsMock.reset();
-            settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => false);
+            settingsMock.enableDiscordRichPresence = false;
 
             setUpPlaybackServiceMock(false, true);
             const service: DiscordService = createDiscordService();
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresenceFromSettings();
+            service.initialize();
             ipcProxyMock.reset();
 
             playbackServicePlaybackStartedMock.next(
                 new PlaybackStarted(new TrackModel(new Track('Path1'), dateTimeMock.object, translatorServiceMock.object, ''), false),
             );
 
+            jest.runAllTimers();
+
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess(It.isAny(), It.isAny()), Times.never());
+            ipcProxyMock.verify((x) => x.sendToMainProcess('discord-api-command', It.isAny()), Times.never());
         });
 
         it('should not set Discord presence to "Paused" after a track is paused and Discord Rich Presence is disabled', () => {
             // Arrange
-            settingsMock.reset();
-            settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => false);
+            settingsMock.enableDiscordRichPresence = false;
 
             setUpPlaybackServiceMock(false, false);
             const service: DiscordService = createDiscordService();
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresenceFromSettings();
+            service.initialize();
             ipcProxyMock.reset();
 
             playbackServicePlaybackPausedMock.next();
 
+            jest.runAllTimers();
+
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess(It.isAny(), It.isAny()), Times.never());
+            ipcProxyMock.verify((x) => x.sendToMainProcess('discord-api-command', It.isAny()), Times.never());
         });
 
         it('should not set Discord presence to "Playing" after a track is resumed and Discord Rich Presence is disabled', () => {
             // Arrange
-            settingsMock.reset();
-            settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => false);
+            settingsMock.enableDiscordRichPresence = false;
 
             setUpPlaybackServiceMock(false, true);
             const service: DiscordService = createDiscordService();
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresenceFromSettings();
+            service.initialize();
             ipcProxyMock.reset();
 
             playbackServicePlaybackResumedMock.next();
 
+            jest.runAllTimers();
+
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess(It.isAny(), It.isAny()), Times.never());
+            ipcProxyMock.verify((x) => x.sendToMainProcess('discord-api-command', It.isAny()), Times.never());
         });
 
         it('should not set Discord presence to "Playing" after a track is skipped and Discord Rich Presence is disabled and playbackService can pause', () => {
             // Arrange
-            settingsMock.reset();
-            settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => false);
+            settingsMock.enableDiscordRichPresence = false;
 
             setUpPlaybackServiceMock(false, true);
             const service: DiscordService = createDiscordService();
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresenceFromSettings();
+            service.initialize();
             ipcProxyMock.reset();
 
             playbackServicePlaybackSkippedMock.next();
 
+            jest.runAllTimers();
+
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess(It.isAny(), It.isAny()), Times.never());
+            ipcProxyMock.verify((x) => x.sendToMainProcess('discord-api-command', It.isAny()), Times.never());
         });
 
         it('should not set Discord presence to "Playing" after a track is skipped and Discord Rich Presence is disabled and playbackService cannot pause', () => {
             // Arrange
-            settingsMock.reset();
-            settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => false);
+            settingsMock.enableDiscordRichPresence = false;
 
             setUpPlaybackServiceMock(false, false);
             const service: DiscordService = createDiscordService();
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresenceFromSettings();
+            service.initialize();
             ipcProxyMock.reset();
 
             playbackServicePlaybackSkippedMock.next();
 
+            jest.runAllTimers();
+
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', It.isAny()), Times.never());
+            ipcProxyMock.verify((x) => x.sendToMainProcess('discord-api-command', It.isAny()), Times.never());
         });
 
         it('should not clear Discord presence after a track is stopped and Discord Rich Presence is disabled', () => {
             // Arrange
-            settingsMock.reset();
-            settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => false);
+            settingsMock.enableDiscordRichPresence = false;
 
             setUpPlaybackServiceMock(false, false);
             const service: DiscordService = createDiscordService();
 
             // Act
-            service.setRichPresenceFromSettings();
+            service.initialize();
             ipcProxyMock.reset();
 
             playbackServicePlaybackStoppedMock.next();
 
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('clear-discord-presence', It.isAny()), Times.never());
+            ipcProxyMock.verify((x) => x.sendToMainProcess('discord-api-command', It.isAny()), Times.never());
         });
     });
 
-    describe('setRichPresence', () => {
+    describe('enableDiscordRichPresence', () => {
         it('should clear Discord presence if enableRichPresence is false', () => {
             // Arrange
             const service: DiscordService = createDiscordService();
 
             // Act
-            service.setRichPresence(false);
+            service.enableDiscordRichPresence = false;
 
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('clear-discord-presence', undefined), Times.once());
+            ipcProxyMock.verify(
+                (x) => x.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.ClearPresence, undefined)),
+                Times.once(),
+            );
         });
 
         it('should set Discord presence to "Playing" if a track is already playing and enableRichPresence is true', () => {
@@ -434,7 +492,7 @@ describe('DiscordService', () => {
             setUpPlaybackServiceMock(true, true);
             const service: DiscordService = createDiscordService();
 
-            const arg = {
+            const args = {
                 title: 'title',
                 artists: 'artist1, artist2',
                 smallImageKey: 'play',
@@ -445,11 +503,18 @@ describe('DiscordService', () => {
                 startTime: 3000,
             };
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresence(true);
+            service.enableDiscordRichPresence = true;
+
+            jest.runAllTimers();
 
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', arg), Times.once());
+            ipcProxyMock.verify(
+                (x) => x.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.SetPresence, args)),
+                Times.once(),
+            );
         });
 
         it('should set Discord presence to "Playing" after a track starts playing and enableRichPresence is true', () => {
@@ -457,7 +522,7 @@ describe('DiscordService', () => {
             setUpPlaybackServiceMock(false, true);
             const service: DiscordService = createDiscordService();
 
-            const arg = {
+            const args = {
                 title: 'title',
                 artists: 'artist1, artist2',
                 smallImageKey: 'play',
@@ -468,14 +533,21 @@ describe('DiscordService', () => {
                 startTime: 3000,
             };
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresence(true);
+            service.enableDiscordRichPresence = true;
             ipcProxyMock.reset();
 
             playbackServicePlaybackStartedMock.next(new PlaybackStarted(trackModel, false));
 
+            jest.runAllTimers();
+
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', arg), Times.once());
+            ipcProxyMock.verify(
+                (x) => x.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.SetPresence, args)),
+                Times.once(),
+            );
         });
 
         it('should set Discord presence to "Paused" after a track is paused and enableRichPresence is true', () => {
@@ -483,7 +555,7 @@ describe('DiscordService', () => {
             setUpPlaybackServiceMock(false, false);
             const service: DiscordService = createDiscordService();
 
-            const arg = {
+            const args = {
                 title: 'title',
                 artists: 'artist1, artist2',
                 smallImageKey: 'pause',
@@ -494,14 +566,21 @@ describe('DiscordService', () => {
                 startTime: 0,
             };
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresence(true);
+            service.enableDiscordRichPresence = true;
             ipcProxyMock.reset();
 
             playbackServicePlaybackPausedMock.next();
 
+            jest.runAllTimers();
+
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', arg), Times.once());
+            ipcProxyMock.verify(
+                (x) => x.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.SetPresence, args)),
+                Times.once(),
+            );
         });
 
         it('should set Discord presence to "Playing" after a track is resumed and enableRichPresence is true', () => {
@@ -509,7 +588,7 @@ describe('DiscordService', () => {
             setUpPlaybackServiceMock(false, true);
             const service: DiscordService = createDiscordService();
 
-            const arg = {
+            const args = {
                 title: 'title',
                 artists: 'artist1, artist2',
                 smallImageKey: 'play',
@@ -520,14 +599,21 @@ describe('DiscordService', () => {
                 startTime: 3000,
             };
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresence(true);
+            service.enableDiscordRichPresence = true;
             ipcProxyMock.reset();
 
             playbackServicePlaybackResumedMock.next();
 
+            jest.runAllTimers();
+
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', arg), Times.once());
+            ipcProxyMock.verify(
+                (x) => x.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.SetPresence, args)),
+                Times.once(),
+            );
         });
 
         it('should set Discord presence to "Playing" after a track is skipped and enableRichPresence is true and playbackService can pause', () => {
@@ -535,7 +621,7 @@ describe('DiscordService', () => {
             setUpPlaybackServiceMock(false, true);
             const service: DiscordService = createDiscordService();
 
-            const arg = {
+            const args = {
                 title: 'title',
                 artists: 'artist1, artist2',
                 smallImageKey: 'play',
@@ -546,14 +632,21 @@ describe('DiscordService', () => {
                 startTime: 3000,
             };
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresence(true);
+            service.enableDiscordRichPresence = true;
             ipcProxyMock.reset();
 
             playbackServicePlaybackSkippedMock.next();
 
+            jest.runAllTimers();
+
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', arg), Times.once());
+            ipcProxyMock.verify(
+                (x) => x.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.SetPresence, args)),
+                Times.once(),
+            );
         });
 
         it('should set Discord presence to "Paused" after a track is skipped and enableRichPresence is true and playbackService cannot pause', () => {
@@ -561,7 +654,7 @@ describe('DiscordService', () => {
             setUpPlaybackServiceMock(false, false);
             const service: DiscordService = createDiscordService();
 
-            const arg = {
+            const args = {
                 title: 'title',
                 artists: 'artist1, artist2',
                 smallImageKey: 'pause',
@@ -572,14 +665,21 @@ describe('DiscordService', () => {
                 startTime: 0,
             };
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresence(true);
+            service.enableDiscordRichPresence = true;
             ipcProxyMock.reset();
 
             playbackServicePlaybackSkippedMock.next();
 
+            jest.runAllTimers();
+
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', arg), Times.once());
+            ipcProxyMock.verify(
+                (x) => x.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.SetPresence, args)),
+                Times.once(),
+            );
         });
 
         it('should clear Discord presence after a track is stopped and enableRichPresence is true', () => {
@@ -588,13 +688,16 @@ describe('DiscordService', () => {
             const service: DiscordService = createDiscordService();
 
             // Act
-            service.setRichPresence(true);
+            service.enableDiscordRichPresence = true;
             ipcProxyMock.reset();
 
             playbackServicePlaybackStoppedMock.next();
 
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('clear-discord-presence', undefined), Times.once());
+            ipcProxyMock.verify(
+                (x) => x.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.ClearPresence, undefined)),
+                Times.once(),
+            );
         });
 
         it('should not set Discord presence after a track starts playing and enableRichPresence is false', () => {
@@ -602,16 +705,20 @@ describe('DiscordService', () => {
             setUpPlaybackServiceMock(false, true);
             const service: DiscordService = createDiscordService();
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresence(false);
-            // presenceUpdaterMock.reset();
+            service.enableDiscordRichPresence = false;
+            ipcProxyMock.reset();
 
             playbackServicePlaybackStartedMock.next(
                 new PlaybackStarted(new TrackModel(new Track('Path1'), dateTimeMock.object, translatorServiceMock.object, ''), false),
             );
 
+            jest.runAllTimers();
+
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', It.isAny()), Times.never());
+            ipcProxyMock.verify((x) => x.sendToMainProcess('discord-api-command', It.isAny()), Times.never());
         });
 
         it('should not set Discord presence to "Paused" after a track is paused and enableRichPresence is false', () => {
@@ -619,14 +726,18 @@ describe('DiscordService', () => {
             setUpPlaybackServiceMock(false, false);
             const service: DiscordService = createDiscordService();
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresence(false);
+            service.enableDiscordRichPresence = false;
             ipcProxyMock.reset();
 
             playbackServicePlaybackPausedMock.next();
 
+            jest.runAllTimers();
+
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', It.isAny()), Times.never());
+            ipcProxyMock.verify((x) => x.sendToMainProcess('discord-api-command', It.isAny()), Times.never());
         });
 
         it('should not set Discord presence to "Playing" after a track is resumed and enableRichPresence is false', () => {
@@ -634,14 +745,18 @@ describe('DiscordService', () => {
             setUpPlaybackServiceMock(false, true);
             const service: DiscordService = createDiscordService();
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresence(false);
+            service.enableDiscordRichPresence = false;
             ipcProxyMock.reset();
 
             playbackServicePlaybackResumedMock.next();
 
+            jest.runAllTimers();
+
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', It.isAny()), Times.never());
+            ipcProxyMock.verify((x) => x.sendToMainProcess('discord-api-command', It.isAny()), Times.never());
         });
 
         it('should not set Discord presence to "Playing" after a track is skipped and enableRichPresence is false and playbackService can pause', () => {
@@ -649,14 +764,18 @@ describe('DiscordService', () => {
             setUpPlaybackServiceMock(false, true);
             const service: DiscordService = createDiscordService();
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresence(false);
+            service.enableDiscordRichPresence = false;
             ipcProxyMock.reset();
 
             playbackServicePlaybackSkippedMock.next();
 
+            jest.runAllTimers();
+
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', It.isAny()), Times.never());
+            ipcProxyMock.verify((x) => x.sendToMainProcess('discord-api-command', It.isAny()), Times.never());
         });
 
         it('should not set Discord presence to "Playing" after a track is skipped and enableRichPresence is false and playbackService cannot pause', () => {
@@ -664,14 +783,18 @@ describe('DiscordService', () => {
             setUpPlaybackServiceMock(false, false);
             const service: DiscordService = createDiscordService();
 
+            jest.useFakeTimers();
+
             // Act
-            service.setRichPresence(false);
+            service.enableDiscordRichPresence = false;
             ipcProxyMock.reset();
 
             playbackServicePlaybackSkippedMock.next();
 
+            jest.runAllTimers();
+
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('set-discord-presence', It.isAny()), Times.never());
+            ipcProxyMock.verify((x) => x.sendToMainProcess('discord-api-command', It.isAny()), Times.never());
         });
 
         it('should not clear Discord presence after a track is stopped and enableRichPresence is false', () => {
@@ -680,13 +803,13 @@ describe('DiscordService', () => {
             const service: DiscordService = createDiscordService();
 
             // Act
-            service.setRichPresence(false);
+            service.enableDiscordRichPresence = false;
             ipcProxyMock.reset();
 
             playbackServicePlaybackStoppedMock.next();
 
             // Assert
-            ipcProxyMock.verify((x) => x.sendToMainProcess('clear-discord-presence', It.isAny()), Times.never());
+            ipcProxyMock.verify((x) => x.sendToMainProcess('discord-api-command', It.isAny()), Times.never());
         });
     });
 });

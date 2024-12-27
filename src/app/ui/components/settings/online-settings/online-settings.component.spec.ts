@@ -63,6 +63,16 @@ describe('OnlineSettingsComponent', () => {
             // Assert
             expect(component.signInState).toEqual(SignInState.SignedOut);
         });
+
+        it('should define discordService', () => {
+            // Arrange
+
+            // Act
+            const component: OnlineSettingsComponent = createComponent();
+
+            // Assert
+            expect(component.discordService).toBeDefined();
+        });
     });
 
     describe('ngOnInit', () => {
@@ -182,52 +192,6 @@ describe('OnlineSettingsComponent', () => {
 
             // Assert
             expect(component.lastFmPassword).toEqual('MyNewLastFmPassword');
-        });
-    });
-
-    describe('enableDiscordRichPresence', () => {
-        it('should get enableDiscordRichPresence from the settings', () => {
-            // Arrange
-            const component: OnlineSettingsComponent = createComponent();
-
-            // Act
-            const enableDiscordRichPresenceFromSettings: boolean = component.enableDiscordRichPresence;
-
-            // Assert
-            expect(enableDiscordRichPresenceFromSettings).toBeTruthy();
-        });
-
-        it('should set enableDiscordRichPresence to true when true', () => {
-            // Arrange
-            const component: OnlineSettingsComponent = createComponent();
-
-            // Act
-            component.enableDiscordRichPresence = true;
-
-            // Assert
-            discordServiceMock.verify((x) => x.setRichPresence(true), Times.once());
-        });
-
-        it('should set enableDiscordRichPresence to false when false', () => {
-            // Arrange
-            const component: OnlineSettingsComponent = createComponent();
-
-            // Act
-            component.enableDiscordRichPresence = false;
-
-            // Assert
-            discordServiceMock.verify((x) => x.setRichPresence(false), Times.once());
-        });
-
-        it('should save enableDiscordRichPresence to the settings', () => {
-            // Arrange
-            const component: OnlineSettingsComponent = createComponent();
-
-            // Act
-            component.enableDiscordRichPresence = false;
-
-            // Assert
-            expect(settingsStub.enableDiscordRichPresence).toBeFalsy();
         });
     });
 
