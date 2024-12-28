@@ -1,0 +1,19 @@
+pkgbase = dopamine-appimage-preview
+	pkgdesc = The audio player that keeps it simple
+	pkgver = 3.0.0.preview.19
+	pkgrel = 1
+	url = https://digimezzo.github.io/site/
+	arch = x86_64
+	license = GPL3
+	depends = alsa-lib
+	depends = gtk3
+	depends = nss
+	provides = dopamine
+	conflicts = dopamine
+	options = !strip
+	source = dopamine.desktop
+	sha512sums = c27e980de4fb9e9a4a7b714c65c35aef9fe37e13f4589e5c1160e927df4dd9e0370999995d092b7009829bc1e410cd7fbfbd4f3fb11ffa05d5c5cfb1657ba793
+	source_x86_64 = https://github.com/digimezzo/dopamine/releases/download/v3.0.0-preview19/Dopamine-3.0.0-preview.19.AppImage
+	sha512sums_x86_64 = 61cbd5936f3bb1f80fb7df38dab1c1e53686f41e6688a4d62dea30ccc70b8fb8102fca9f3cf7cf1780c82389836be642c36f29b6e07b1e14a0996f3aacab5176
+
+pkgname = dopamine-appimage-preview
