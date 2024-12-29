@@ -63,6 +63,10 @@ describe('ExternalArtworkPathGetter', () => {
             fileAccessMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/MyMusicFile.JPEG')).returns(() => 'MyMusicFile');
 
             fileAccessMock
+                .setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/' + artworkFileName))
+                .returns(() => artworkFileName.slice(0, -4));
+
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/MyUser/Music'))
                 .returns(() => Promise.resolve(['/home/MyUser/Music/MyMusicFile.mp3', '/home/MyUser/Music/' + artworkFileName]));
 
@@ -71,7 +75,7 @@ describe('ExternalArtworkPathGetter', () => {
             return await externalArtworkPathGetter.getExternalArtworkPathAsync(audioFilePath);
         }
 
-        it('should return a external artwork path if there is an artwork file in the same directory', async () => {
+        it('should return a external artwork path if there is an artwork file in the same directory that amtched crieria', async () => {
             // Arrange
 
             // Act
@@ -155,6 +159,16 @@ describe('ExternalArtworkPathGetter', () => {
             expect(fileNameJpeg1ArtworkPath).toEqual('/home/MyUser/Music/mymusicfile.jpeg');
             expect(fileNameJpeg2ArtworkPath).toEqual('/home/MyUser/Music/MyMusicFile.jpeg');
             expect(fileNameJpeg3ArtworkPath).toEqual('/home/MyUser/Music/MyMusicFile.JPEG');
+        });
+
+        it('should not return a external artwork path if there is an artwork file in the same directory that does not match criteria', async () => {
+            // Arrange
+
+            // Act
+            const artworkPath: string = await getExternalArtworkPathAsync('does_not_match.jpg');
+
+            // Assert
+            expect(artworkPath).toEqual('');
         });
     });
 });
