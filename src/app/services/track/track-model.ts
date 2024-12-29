@@ -183,7 +183,7 @@ export class TrackModel implements ISelectable {
     }
 
     public get sortableAlbumProperties(): string {
-        return StringUtils.getSortableString(`${this.albumKey}${this.discNumber}${this.number}`, false);
+        return StringUtils.getSortableString(`${this.discNumber}${this.albumKey}${this.number}`, false);
     }
 
     public get durationInMilliseconds(): number {

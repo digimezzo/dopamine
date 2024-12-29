@@ -46,12 +46,23 @@ export class TrackService implements TrackServiceBase {
 
         const albumKeyIndex: string = this.settings.albumKeyIndex;
 
+        const tracksInDatabase: Track[] = this.trackRepository.getTracksForPaths(filesInDirectory) ?? [];
+        const pathsInDatabaseSet = new Set(tracksInDatabase.map((x) => x.path));
+
         for (const file of filesInDirectory) {
             const fileExtension: string = this.fileAccess.getFileExtension(file);
             const fileExtensionIsSupported: boolean = FileFormats.supportedAudioExtensions.includes(fileExtension.toLowerCase());
 
             if (fileExtensionIsSupported) {
-                const trackModel: TrackModel = await this.trackModelFactory.createFromFileAsync(file, albumKeyIndex);
+                let trackModel: TrackModel;
+
+                if (pathsInDatabaseSet.has(file)) {
+                    const trackInDatabase: Track = tracksInDatabase.find((x) => x.path === file) as Track;
+                    trackModel = this.trackModelFactory.createFromTrack(trackInDatabase, albumKeyIndex);
+                } else {
+                    trackModel = await this.trackModelFactory.createFromFileAsync(file, albumKeyIndex);
+                }
+
                 trackModels.addTrack(trackModel);
             }
         }

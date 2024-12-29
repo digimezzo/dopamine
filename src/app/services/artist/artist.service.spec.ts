@@ -5,7 +5,6 @@ import { ArtistService } from './artist.service';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { ArtistData } from '../../data/entities/artist-data';
-import { ArtistServiceBase } from './artist.service.base';
 import { ArtistSplitter } from './artist-splitter';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { SettingsMock } from '../../testing/settings-mock';
@@ -30,7 +29,7 @@ describe('ArtistService', () => {
     function createService(): ArtistService {
         artistSplitter = new ArtistSplitter(translatorServiceMock.object, settingsMock);
 
-        return new ArtistService(artistSplitter, trackRepositoryMock.object, loggerMock.object);
+        return new ArtistService(artistSplitter, trackRepositoryMock.object, settingsMock, loggerMock.object);
     }
 
     function createArtistModel(artist: string): ArtistModel {
@@ -215,6 +214,22 @@ describe('ArtistService', () => {
                 new ArtistData(';Artist5 | Artist6;'),
                 new ArtistData(';Artist6 | Artist7;'),
                 new ArtistData(';;'),
+                new ArtistData(';Drift;'),
+                new ArtistData(';Driftwood;'),
+                new ArtistData(';Ida;'),
+                new ArtistData(';Suicidal Tendencies;'),
+                new ArtistData(';blink-182;'),
+                new ArtistData(';Link;'),
+                new ArtistData(';Mid Carson July;'),
+                new ArtistData(';July;'),
+                new ArtistData(';Artist8;'),
+                new ArtistData(';Artist9;'),
+                new ArtistData(';Artist8 &Artist9;'),
+                new ArtistData(';Artist10;'),
+                new ArtistData(';Artist11;'),
+                new ArtistData(';Artist10& Artist11;'),
+                new ArtistData(';S;'),
+                new ArtistData(';Gee Rock & Tha CND Coalition feat. Skee Love;'),
             ];
 
             settingsMock.artistSplitSeparators = '[ft.][feat.][&][|]';
@@ -234,6 +249,22 @@ describe('ArtistService', () => {
             const sourceArtists6: string[] = service.getSourceArtists([createArtistModel('Artist5')]);
             const sourceArtists7: string[] = service.getSourceArtists([createArtistModel('Artist6')]);
             const sourceArtists8: string[] = service.getSourceArtists([createArtistModel('Artist6 | Artist7')]);
+            const sourceArtists9: string[] = service.getSourceArtists([createArtistModel('Drift')]);
+            const sourceArtists10: string[] = service.getSourceArtists([createArtistModel('Driftwood')]);
+            const sourceArtists11: string[] = service.getSourceArtists([createArtistModel('Ida')]);
+            const sourceArtists12: string[] = service.getSourceArtists([createArtistModel('Suicidal Tendencies')]);
+            const sourceArtists13: string[] = service.getSourceArtists([createArtistModel('blink-182')]);
+            const sourceArtists14: string[] = service.getSourceArtists([createArtistModel('Link')]);
+            const sourceArtists15: string[] = service.getSourceArtists([createArtistModel('Mid Carson July')]);
+            const sourceArtists16: string[] = service.getSourceArtists([createArtistModel('July')]);
+            const sourceArtists17: string[] = service.getSourceArtists([createArtistModel('Artist8')]);
+            const sourceArtists18: string[] = service.getSourceArtists([createArtistModel('Artist9')]);
+            const sourceArtists19: string[] = service.getSourceArtists([createArtistModel('Artist8 &Artist9')]);
+            const sourceArtists20: string[] = service.getSourceArtists([createArtistModel('Artist10')]);
+            const sourceArtists21: string[] = service.getSourceArtists([createArtistModel('Artist11')]);
+            const sourceArtists22: string[] = service.getSourceArtists([createArtistModel('Artist10& Artist11')]);
+            const sourceArtists23: string[] = service.getSourceArtists([createArtistModel('S')]);
+            const sourceArtists24: string[] = service.getSourceArtists([createArtistModel('Gee Rock & Tha CND Coalition feat. Skee Love')]);
 
             // Assert
             expect(sourceArtists1.length).toEqual(4);
@@ -271,6 +302,54 @@ describe('ArtistService', () => {
 
             expect(sourceArtists8.length).toEqual(1);
             expect(sourceArtists8[0]).toEqual('Artist6 | Artist7');
+
+            expect(sourceArtists9.length).toEqual(1);
+            expect(sourceArtists9[0]).toEqual('Drift');
+
+            expect(sourceArtists10.length).toEqual(1);
+            expect(sourceArtists10[0]).toEqual('Driftwood');
+
+            expect(sourceArtists11.length).toEqual(1);
+            expect(sourceArtists11[0]).toEqual('Ida');
+
+            expect(sourceArtists12.length).toEqual(1);
+            expect(sourceArtists12[0]).toEqual('Suicidal Tendencies');
+
+            expect(sourceArtists13.length).toEqual(1);
+            expect(sourceArtists13[0]).toEqual('blink-182');
+
+            expect(sourceArtists14.length).toEqual(1);
+            expect(sourceArtists14[0]).toEqual('Link');
+
+            expect(sourceArtists15.length).toEqual(1);
+            expect(sourceArtists15[0]).toEqual('Mid Carson July');
+
+            expect(sourceArtists16.length).toEqual(1);
+            expect(sourceArtists16[0]).toEqual('July');
+
+            expect(sourceArtists17.length).toEqual(1);
+            expect(sourceArtists17[0]).toEqual('Artist8');
+
+            expect(sourceArtists18.length).toEqual(1);
+            expect(sourceArtists18[0]).toEqual('Artist9');
+
+            expect(sourceArtists19.length).toEqual(1);
+            expect(sourceArtists19[0]).toEqual('Artist8 &Artist9');
+
+            expect(sourceArtists20.length).toEqual(1);
+            expect(sourceArtists20[0]).toEqual('Artist10');
+
+            expect(sourceArtists21.length).toEqual(1);
+            expect(sourceArtists21[0]).toEqual('Artist11');
+
+            expect(sourceArtists22.length).toEqual(1);
+            expect(sourceArtists22[0]).toEqual('Artist10& Artist11');
+
+            expect(sourceArtists23.length).toEqual(1);
+            expect(sourceArtists23[0]).toEqual('S');
+
+            expect(sourceArtists24.length).toEqual(1);
+            expect(sourceArtists24[0]).toEqual('Gee Rock & Tha CND Coalition feat. Skee Love');
         });
     });
 });

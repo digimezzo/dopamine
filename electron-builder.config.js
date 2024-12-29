@@ -55,16 +55,7 @@ const config = {
     directories: {
         output: 'release',
     },
-    files: [
-        "*",
-        "dist/",
-        "main/",
-        "node_modules/",
-        "package.json",
-        "!**/*.map",
-        "!**/node_modules/**/*.{md,test.ts,test.js}",
-
-    ],
+    files: ['**/*'],
     extraResources: ['LICENSE'],
     win: {
         target: ['nsis'],
@@ -83,7 +74,6 @@ const config = {
             Terminal: 'false',
         },
     },
-    includeSubNodeModules: false,
 };
 
 module.exports = config;

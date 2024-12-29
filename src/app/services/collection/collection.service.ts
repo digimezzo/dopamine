@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../common/logger';
 import { TrackModel } from '../track/track-model';
 import { CollectionServiceBase } from './collection.service.base';
-import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { PlaybackService } from '../playback/playback.service';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { DesktopBase } from '../../common/io/desktop.base';
 
@@ -12,7 +12,7 @@ export class CollectionService implements CollectionServiceBase {
     private collectionChanged: Subject<void> = new Subject();
 
     public constructor(
-        private playbackService: PlaybackServiceBase,
+        private playbackService: PlaybackService,
         private trackRepository: TrackRepositoryBase,
         private desktop: DesktopBase,
         private logger: Logger,

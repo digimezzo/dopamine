@@ -6,9 +6,9 @@ import { LyricsModel } from '../../../../services/lyrics/lyrics-model';
 import { LyricsSourceType } from '../../../../common/api/lyrics/lyrics-source-type';
 import { PlaybackInformation } from '../../../../services/playback-information/playback-information';
 import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
-import { PlaybackInformationServiceBase } from '../../../../services/playback-information/playback-information.service.base';
 import { LyricsServiceBase } from '../../../../services/lyrics/lyrics.service.base';
 import { StringUtils } from '../../../../common/utils/string-utils';
+import { PlaybackInformationService } from '../../../../services/playback-information/playback-information.service';
 
 @Component({
     selector: 'app-now-playing-lyrics',
@@ -25,7 +25,7 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
 
     public constructor(
         private appearanceService: AppearanceServiceBase,
-        private playbackInformationService: PlaybackInformationServiceBase,
+        private playbackInformationService: PlaybackInformationService,
         private lyricsService: LyricsServiceBase,
     ) {}
 

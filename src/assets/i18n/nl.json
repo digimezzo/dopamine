@@ -234,8 +234,6 @@
     "love": "Vind ik leuk",
     "show-love": "Toon 'Vind ik leuk'",
     "save-love-error": "Er is een fout opgetreden bij het opslaan van 'Vind ik leuk'. Controleer de log als u meer informatie nodig hebt.",
-    "multimedia-keys": "Multimedia toetsen",
-    "enable-multimedia-keys": "Schakel multimediatoetsen in",
     "log-file": "Log bestand",
     "something-wrong-look-in-log-file": "Is er iets misgegaan? Kijk eens in de log.",
     "showcase": "Tentoonstelling",
@@ -295,6 +293,6 @@
     "switch-player": "Speler wisselen",
     "volume": "Volume",
     "thanks-to-visualisationexpo": "Aan VisualizationExpo, voor het fantastische macOS icoon!",
-    "edit-track": "Nummer bewerken",
-    "edit-tracks": "Nummers bewerken",
+    "gapless-playback": "Ononderbroken afspelen",
+    "enable-gapless-playback": "Schakel ononderbroken afspelen in (vereist een herstart)"
 }

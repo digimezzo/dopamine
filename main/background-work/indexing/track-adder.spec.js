@@ -8,7 +8,7 @@ const { IndexablePath } = require('./indexable-path');
 const { RemovedTrackRepositoryMock } = require('../mocks/removed-track-repository-mock');
 const { TrackFillerMock } = require('../mocks/track-filler-mock');
 const { TrackAdder } = require('./track-adder');
-const { RemovedTrack } = require('../../src/app/data/entities/removed-track');
+const { RemovedTrack } = require('../data/entities/removed-track');
 
 describe('TrackAdder', () => {
     let removedTrackRepositoryMock;

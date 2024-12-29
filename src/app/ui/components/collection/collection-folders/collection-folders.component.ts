@@ -15,7 +15,7 @@ import { FoldersPersister } from './folders-persister';
 import { SearchServiceBase } from '../../../../services/search/search.service.base';
 import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
 import { FolderServiceBase } from '../../../../services/folder/folder.service.base';
-import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../../services/playback/playback.service';
 import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { NavigationServiceBase } from '../../../../services/navigation/navigation.service.base';
@@ -43,7 +43,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         public searchService: SearchServiceBase,
         public appearanceService: AppearanceServiceBase,
         public folderService: FolderServiceBase,
-        public playbackService: PlaybackServiceBase,
+        public playbackService: PlaybackService,
         public tracksPersister: FolderTracksPersister,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,

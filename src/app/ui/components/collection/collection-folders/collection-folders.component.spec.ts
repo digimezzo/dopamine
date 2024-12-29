@@ -9,8 +9,7 @@ import { SearchServiceBase } from '../../../../services/search/search.service.ba
 import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
 import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
-import { MetadataServiceBase } from '../../../../services/metadata/metadata.service.base';
-import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../../services/playback/playback.service';
 import { FolderServiceBase } from '../../../../services/folder/folder.service.base';
 import { NavigationServiceBase } from '../../../../services/navigation/navigation.service.base';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
@@ -31,7 +30,9 @@ import { TrackModels } from '../../../../services/track/track-models';
 import { Folder } from '../../../../data/entities/folder';
 import { Constants } from '../../../../common/application/constants';
 import { DesktopBase } from '../../../../common/io/desktop.base';
-import { TrackBrowserComponent } from '../track-browser/track-browser.component';
+import { MetadataService } from '../../../../services/metadata/metadata.service';
+
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('CollectionFoldersComponent', () => {
     let settingsStub: any;
@@ -39,8 +40,8 @@ describe('CollectionFoldersComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let indexingServiceMock: IMock<IndexingServiceBase>;
     let collectionServiceMock: IMock<CollectionServiceBase>;
-    let metadataServiceMock: IMock<MetadataServiceBase>;
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let metadataServiceMock: IMock<MetadataService>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let folderServiceMock: IMock<FolderServiceBase>;
     let navigationServiceMock: IMock<NavigationServiceBase>;
     let trackServiceMock: IMock<TrackServiceBase>;
@@ -114,8 +115,8 @@ describe('CollectionFoldersComponent', () => {
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         indexingServiceMock = Mock.ofType<IndexingServiceBase>();
         collectionServiceMock = Mock.ofType<CollectionServiceBase>();
-        metadataServiceMock = Mock.ofType<MetadataServiceBase>();
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        metadataServiceMock = Mock.ofType<MetadataService>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         folderServiceMock = Mock.ofType<FolderServiceBase>();
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
         trackServiceMock = Mock.ofType<TrackServiceBase>();

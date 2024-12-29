@@ -5,30 +5,32 @@ import { AppComponent } from './app.component';
 import { Logger } from './common/logger';
 import { IntegrationTestRunner } from './testing/integration-test-runner';
 import { EventListenerServiceBase } from './services/event-listener/event-listener.service.base';
-import { MediaSessionServiceBase } from './services/media-session/media-session.service.base';
+import { MediaSessionService } from './services/media-session/media-session.service';
 import { TrayServiceBase } from './services/tray/tray.service.base';
 import { ScrobblingServiceBase } from './services/scrobbling/scrobbling.service.base';
-import { DiscordServiceBase } from './services/discord/discord.service.base';
+import { DiscordService } from './services/discord/discord.service';
 import { TranslatorServiceBase } from './services/translator/translator.service.base';
 import { AppearanceServiceBase } from './services/appearance/appearance.service.base';
 import { NavigationServiceBase } from './services/navigation/navigation.service.base';
 import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
 import { DesktopBase } from './common/io/desktop.base';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
-import { PlaybackServiceBase } from './services/playback/playback.service.base';
 import { LifetimeService } from './services/lifetime/lifetime.service';
 import { SwitchPlayerService } from './services/player-switcher/switch-player.service';
+import { PlaybackService } from './services/playback/playback.service';
+
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('AppComponent', () => {
     let playerSwitcherServiceMock: IMock<SwitchPlayerService>;
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let navigationServiceMock: IMock<NavigationServiceBase>;
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
-    let discordServiceMock: IMock<DiscordServiceBase>;
+    let discordServiceMock: IMock<DiscordService>;
     let scrobblingServiceMock: IMock<ScrobblingServiceBase>;
     let trayServiceMock: IMock<TrayServiceBase>;
-    let mediaSessionServiceMock: IMock<MediaSessionServiceBase>;
+    let mediaSessionServiceMock: IMock<MediaSessionService>;
     let eventListenerServiceMock: IMock<EventListenerServiceBase>;
     let lifetimeServiceMock: IMock<LifetimeService>;
     let audioVisualizerMock: IMock<AudioVisualizer>;
@@ -45,7 +47,6 @@ describe('AppComponent', () => {
 
     function createComponent(): AppComponent {
         return new AppComponent(
-            playerSwitcherServiceMock.object,
             playbackServiceMock.object,
             navigationServiceMock.object,
             appearanceServiceMock.object,
@@ -59,21 +60,21 @@ describe('AppComponent', () => {
             addToPlaylistMenuMock.object,
             desktopMock.object,
             loggerMock.object,
-            integrationTestRunnerMock.object,
             audioVisualizerMock.object,
+            integrationTestRunnerMock.object,
         );
     }
 
     beforeEach(() => {
         playerSwitcherServiceMock = Mock.ofType<SwitchPlayerService>();
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
-        discordServiceMock = Mock.ofType<DiscordServiceBase>();
+        discordServiceMock = Mock.ofType<DiscordService>();
         scrobblingServiceMock = Mock.ofType<ScrobblingServiceBase>();
         trayServiceMock = Mock.ofType<TrayServiceBase>();
-        mediaSessionServiceMock = Mock.ofType<MediaSessionServiceBase>();
+        mediaSessionServiceMock = Mock.ofType<MediaSessionService>();
         eventListenerServiceMock = Mock.ofType<EventListenerServiceBase>();
         lifetimeServiceMock = Mock.ofType<LifetimeService>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
@@ -186,7 +187,7 @@ describe('AppComponent', () => {
             await app.ngOnInit();
 
             // Assert
-            discordServiceMock.verify((x) => x.setRichPresenceFromSettings(), Times.once());
+            discordServiceMock.verify((x) => x.initialize(), Times.once());
         });
 
         it('should toggle the drawer on showNowPlayingRequested when it is not undefined', async () => {
@@ -254,7 +255,7 @@ describe('AppComponent', () => {
             await app.ngOnInit();
 
             // Assert
-            audioVisualizerMock.verify((x) => x.connectAudioElement(), Times.once());
+            audioVisualizerMock.verify((x) => x.initialize(), Times.once());
         });
     });
 

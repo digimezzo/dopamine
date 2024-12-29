@@ -234,8 +234,6 @@
     "love": "عشق",
     "show-love": "نمایش \"عشق\"",
     "save-love-error": "هنگام ذخیره «Love» خطایی روی داد. ",
-    "multimedia-keys": "کلیدهای چند رسانه ای",
-    "enable-multimedia-keys": "کلیدهای چند رسانه ای را فعال کنید",
     "log-file": "ورود به سیستم فایل",
     "something-wrong-look-in-log-file": "آیا مشکلی پیش آمده است؟ ",
     "showcase": "ویترین",
@@ -295,6 +293,6 @@
     "switch-player": "Switch player",
     "volume": "Volume",
     "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb macOS icon!",
-    "edit-track": "Edit song",
-    "edit-tracks": "Edit songs"
+    "gapless-playback": "Gapless playback",
+    "enable-gapless-playback": "Enable gapless playback (requires a restart)"
 }

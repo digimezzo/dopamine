@@ -234,8 +234,6 @@
     "love": "Uwielbiam to",
     "show-love": "Pokaż przycisk 'Uwielbiam to'",
     "save-love-error": "Wystąpił błąd podczas zapisywania akcji przycisku 'Uwielbiam to'. Sprawdź szczegóły w dzienniku.",
-    "multimedia-keys": "Klawisze multimedialne",
-    "enable-multimedia-keys": "Włącz obsługę klawiszy multimedialnych",
     "log-file": "Plik dziennika",
     "something-wrong-look-in-log-file": "Czy coś nie działa poprawnie? Zajrzyj do pliku dziennika.",
     "showcase": "Prezentacja",
@@ -295,6 +293,6 @@
     "switch-player": "Switch player",
     "volume": "Volume",
     "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb macOS icon!",
-    "edit-track": "Edit song",
-    "edit-tracks": "Edit songs"
+    "gapless-playback": "Gapless playback",
+    "enable-gapless-playback": "Enable gapless playback (requires a restart)"
 }

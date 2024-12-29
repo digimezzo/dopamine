@@ -4,13 +4,15 @@ import { TranslatorServiceBase } from '../../../services/translator/translator.s
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { DateTime } from '../../../common/date-time';
 import { DialogServiceBase } from '../../../services/dialog/dialog.service.base';
-import { MetadataServiceBase } from '../../../services/metadata/metadata.service.base';
 import { TrackModel } from '../../../services/track/track-model';
 import { Track } from '../../../data/entities/track';
 import { SettingsMock } from '../../../testing/settings-mock';
+import { MetadataService } from '../../../services/metadata/metadata.service';
+
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('RatingComponent', () => {
-    let metadataServiceMock: IMock<MetadataServiceBase>;
+    let metadataServiceMock: IMock<MetadataService>;
     let dialogServiceMock: IMock<DialogServiceBase>;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -34,7 +36,7 @@ describe('RatingComponent', () => {
     }
 
     beforeEach(() => {
-        metadataServiceMock = Mock.ofType<MetadataServiceBase>();
+        metadataServiceMock = Mock.ofType<MetadataService>();
         dialogServiceMock = Mock.ofType<DialogServiceBase>();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();

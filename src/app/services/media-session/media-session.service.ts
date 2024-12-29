@@ -1,74 +1,37 @@
 import { Injectable } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { PlaybackInformation } from '../playback-information/playback-information';
-import { MediaSessionServiceBase } from './media-session.service.base';
-import { PlaybackServiceBase } from '../playback/playback.service.base';
-import { PlaybackInformationServiceBase } from '../playback-information/playback-information.service.base';
-import { MediaSessionProxyBase } from '../../common/io/media-session-proxy.base';
-import { SettingsBase } from '../../common/settings/settings.base';
-@Injectable()
-export class MediaSessionService implements MediaSessionServiceBase {
-    private subscription: Subscription = new Subscription();
+import { MediaSessionProxy } from '../../common/io/media-session-proxy';
+import { TrackModel } from '../track/track-model';
+import { Observable, Subject } from 'rxjs';
+import { PlaybackInformationFactory } from '../playback-information/playback-information.factory';
+
+@Injectable({ providedIn: 'root' })
+export class MediaSessionService {
+    private playEvent = new Subject<void>();
+    private pauseEvent = new Subject<void>();
+    private previousTrackEvent = new Subject<void>();
+    private nextTrackEvent = new Subject<void>();
 
     public constructor(
-        private playbackService: PlaybackServiceBase,
-        private playbackInformationService: PlaybackInformationServiceBase,
-        private mediaSessionProxy: MediaSessionProxyBase,
-        private settings: SettingsBase,
+        private playbackInformationFactory: PlaybackInformationFactory,
+        private mediaSessionProxy: MediaSessionProxy,
     ) {}
 
-    public get enableMultimediaKeys(): boolean {
-        return this.settings.enableMultimediaKeys;
-    }
-    public set enableMultimediaKeys(v: boolean) {
-        this.settings.enableMultimediaKeys = v;
-        this.enableOrDisableMetadataSubscriptions();
-        this.enableOrDisableMediaKeys();
-    }
+    public playEvent$: Observable<void> = this.playEvent.asObservable();
+    public pauseEvent$: Observable<void> = this.pauseEvent.asObservable();
+    public previousTrackEvent$: Observable<void> = this.previousTrackEvent.asObservable();
+    public nextTrackEvent$: Observable<void> = this.nextTrackEvent.asObservable();
 
     public initialize(): void {
-        this.enableOrDisableMetadataSubscriptions();
-        this.enableOrDisableMediaKeys();
+        this.mediaSessionProxy.setActionHandler('play', () => this.playEvent.next());
+        this.mediaSessionProxy.setActionHandler('pause', () => this.pauseEvent.next());
+        this.mediaSessionProxy.setActionHandler('previoustrack', () => this.previousTrackEvent.next());
+        this.mediaSessionProxy.setActionHandler('nexttrack', () => this.nextTrackEvent.next());
     }
 
-    private enableOrDisableMediaKeys(): void {
-        if (this.settings.enableMultimediaKeys) {
-            this.mediaSessionProxy.setActionHandler('play', () => this.playbackService.togglePlayback());
-            this.mediaSessionProxy.setActionHandler('pause', () => this.playbackService.togglePlayback());
-            this.mediaSessionProxy.setActionHandler('previoustrack', () => this.playbackService.playPrevious());
-            this.mediaSessionProxy.setActionHandler('nexttrack', () => this.playbackService.playNext());
-        } else {
-            this.mediaSessionProxy.clearActionHandler('play');
-            this.mediaSessionProxy.clearActionHandler('pause');
-            this.mediaSessionProxy.clearActionHandler('previoustrack');
-            this.mediaSessionProxy.clearActionHandler('nexttrack');
-        }
-    }
+    public async setMetadataAsync(track: TrackModel): Promise<void> {
+        const playbackInformation: PlaybackInformation = await this.playbackInformationFactory.createAsync(track);
 
-    private enableOrDisableMetadataSubscriptions(): void {
-        if (!this.settings.enableMultimediaKeys) {
-            this.subscription.unsubscribe();
-            this.mediaSessionProxy.clearMetadata();
-
-            return;
-        }
-
-        if (this.settings.enableMultimediaKeys) {
-            this.subscription.add(
-                this.playbackInformationService.playingNextTrack$.subscribe((playbackInformation: PlaybackInformation) => {
-                    this.setMetadata(playbackInformation);
-                }),
-            );
-
-            this.subscription.add(
-                this.playbackInformationService.playingPreviousTrack$.subscribe((playbackInformation: PlaybackInformation) => {
-                    this.setMetadata(playbackInformation);
-                }),
-            );
-        }
-    }
-
-    private setMetadata(playbackInformation: PlaybackInformation): void {
         this.mediaSessionProxy.setMetadata(
             playbackInformation.track?.title ?? '',
             playbackInformation.track?.artists ?? '',
