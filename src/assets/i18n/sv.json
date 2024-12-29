@@ -294,5 +294,7 @@
   "volume": "Volume",
   "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb macOS icon!",
   "gapless-playback": "Gapless playback",
-  "enable-gapless-playback": "Enable gapless playback (requires a restart)"
+  "enable-gapless-playback": "Enable gapless playback (requires a restart)",
+  "edit-track": "Edit song",
+  "edit-tracks": "Edit songs"
 }

@@ -294,5 +294,7 @@
     "volume": "Volume",
     "thanks-to-visualisationexpo": "A VisualisationExpo, per l'incredibile icona per macOS!",
     "gapless-playback": "Riproduzione senza stacchi",
-    "enable-gapless-playback": "Abilita riproduzione senza stacchi (richiede riavvio)"
+    "enable-gapless-playback": "Abilita riproduzione senza stacchi (richiede riavvio)",
+    "edit-track": "Edit song",
+    "edit-tracks": "Edit songs"
 }

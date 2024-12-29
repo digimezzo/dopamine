@@ -1,4 +1,5 @@
 import { PlaylistModel } from '../playlist/playlist-model';
+import { TrackModel } from '../track/track-model';
 
 export abstract class DialogServiceBase {
     public abstract showConfirmationDialogAsync(dialogTitle: string, dialogText: string): Promise<boolean>;
@@ -13,4 +14,5 @@ export abstract class DialogServiceBase {
     public abstract showEditPlaylistDialogAsync(playlist: PlaylistModel): Promise<void>;
     public abstract showCreatePlaylistDialogAsync(): Promise<void>;
     public abstract showEditColumnsDialogAsync(): Promise<void>;
+    public abstract showEditTracksAsync(tracks: TrackModel[]): Promise<boolean>;
 }

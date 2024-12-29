@@ -294,5 +294,7 @@
     "volume": "Volume",
     "thanks-to-visualisationexpo": "Aan VisualizationExpo, voor het fantastische macOS icoon!",
     "gapless-playback": "Ononderbroken afspelen",
-    "enable-gapless-playback": "Schakel ononderbroken afspelen in (vereist een herstart)"
+    "enable-gapless-playback": "Schakel ononderbroken afspelen in (vereist een herstart)",
+    "edit-track": "Nummer bewerken",
+    "edit-tracks": "Nummers bewerken",
 }

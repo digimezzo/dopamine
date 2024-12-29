@@ -294,5 +294,7 @@
     "volume": "Lautstärke",
     "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb macOS icon!",
     "gapless-playback": "Pausenloses Abspielen",
-    "enable-gapless-playback": "Pausenloses Abspielen aktivieren (erfordert Neustart)"
+    "enable-gapless-playback": "Pausenloses Abspielen aktivieren (erfordert Neustart)",
+    "edit-track": "Edit song",
+    "edit-tracks": "Edit songs"
 }

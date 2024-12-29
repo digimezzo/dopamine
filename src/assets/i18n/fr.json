@@ -294,5 +294,7 @@
     "volume": "Volume",
     "thanks-to-visualisationexpo": "À VisualisationExpo, pour la superbe icône macOS!",
     "gapless-playback": "Lecture sans interruption",
-    "enable-gapless-playback": "Activer la lecture sans interruption (nécessite un redémarrage)"
+    "enable-gapless-playback": "Activer la lecture sans interruption (nécessite un redémarrage)",
+    "edit-track": "Éditer le morceau",
+    "edit-tracks": "Éditer les morceaux"
 }

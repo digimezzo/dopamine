@@ -294,5 +294,7 @@
     "volume": "Громкость",
     "thanks-to-visualisationexpo": "VisualisationExpo за великолепную иконку macOS!",
     "gapless-playback": "Воспроизведение без пауз",
-    "enable-gapless-playback": "Включить воспроизведение без пауз (требуется перезапуск)"
+    "enable-gapless-playback": "Включить воспроизведение без пауз (требуется перезапуск)",
+    "edit-track": "Edit song",
+    "edit-tracks": "Edit songs"
 }

@@ -294,5 +294,7 @@
     "volume": "Âm lượng",
     "thanks-to-visualisationexpo": "VisualisationExpo đã thiết kế biểu tượng macOS!",
     "gapless-playback": "Phát liền mạch",
-    "enable-gapless-playback": "Không chèn khoảng nghĩ giữa các bài (cần khởi động lại)"
+    "enable-gapless-playback": "Không chèn khoảng nghĩ giữa các bài (cần khởi động lại)",
+    "edit-track": "Edit song",
+    "edit-tracks": "Edit songs"
 }

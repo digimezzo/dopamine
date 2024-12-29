@@ -294,5 +294,7 @@
     "volume": "音量",
     "thanks-to-visualisationexpo": "VisualisationExpo 绘制的超酷的 macOS 图标！",
     "gapless-playback": "无缝播放",
-    "enable-gapless-playback": "启用无缝播放（重启生效）"
+    "enable-gapless-playback": "启用无缝播放（重启生效）",
+    "edit-track": "Edit song",
+    "edit-tracks": "Edit songs"
 }

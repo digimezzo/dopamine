@@ -294,5 +294,7 @@
     "volume": "Сила на звука",
     "thanks-to-visualisationexpo": "Към VisualisationExpo, за превъзходната икона на macOS!",
     "gapless-playback": "Възпроизвеждане без прекъсване",
-    "enable-gapless-playback": "Активиране на възпроизвеждане без прекъсване (изисква рестартиране)"
+    "enable-gapless-playback": "Активиране на възпроизвеждане без прекъсване (изисква рестартиране)",
+    "edit-track": "Edit song",
+    "edit-tracks": "Edit songs"
 }
