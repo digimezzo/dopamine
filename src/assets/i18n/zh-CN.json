@@ -296,5 +296,15 @@
     "gapless-playback": "无缝播放",
     "enable-gapless-playback": "启用无缝播放（重启生效）",
     "edit-track": "Edit song",
-    "edit-tracks": "Edit songs"
+    "edit-tracks": "Edit songs",
+    "artist": "Artist",
+    "track-number": "Track number",
+    "track-count": "Track count",
+    "disc-number": "Disc number",
+    "disc-count": "Disc count",
+    "comment": "Comment",
+    "export": "Export",
+    "change": "Change",
+    "remove": "Remove",
+    "update-album-cover": "Update album cover"
 }

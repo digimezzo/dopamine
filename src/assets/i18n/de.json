@@ -296,5 +296,15 @@
     "gapless-playback": "Pausenloses Abspielen",
     "enable-gapless-playback": "Pausenloses Abspielen aktivieren (erfordert Neustart)",
     "edit-track": "Edit song",
-    "edit-tracks": "Edit songs"
+    "edit-tracks": "Edit songs",
+    "artist": "Artist",
+    "track-number": "Track number",
+    "track-count": "Track count",
+    "disc-number": "Disc number",
+    "disc-count": "Disc count",
+    "comment": "Comment",
+    "export": "Export",
+    "change": "Change",
+    "remove": "Remove",
+    "update-album-cover": "Update album cover"
 }

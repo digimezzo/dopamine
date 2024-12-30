@@ -297,4 +297,14 @@
     "enable-gapless-playback": "Schakel ononderbroken afspelen in (vereist een herstart)",
     "edit-track": "Nummer bewerken",
     "edit-tracks": "Nummers bewerken",
+    "artist": "Artiest",
+    "track-number": "Nummer",
+    "track-count": "Aantal nummers",
+    "disc-number": "Disc nummer",
+    "disc-count": "Aantal discs",
+    "comment": "Commentaar",
+    "export": "Exporteren",
+    "change": "Wijzigen",
+    "remove": "Verwijderen",
+    "update-album-cover": "Albumhoes bijwerken"
 }

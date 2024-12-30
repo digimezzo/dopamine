@@ -296,5 +296,15 @@
     "gapless-playback": "Lecture sans interruption",
     "enable-gapless-playback": "Activer la lecture sans interruption (nécessite un redémarrage)",
     "edit-track": "Éditer le morceau",
-    "edit-tracks": "Éditer les morceaux"
+    "edit-tracks": "Éditer les morceaux",
+    "artist": "Artiste",
+    "track-number": "Numéro de morceau",
+    "track-count": "Nombre de morceaux",
+    "disc-number": "Numéro de disque",
+    "disc-count": "Nombre de disques",
+    "comment": "Commentaire",
+    "export": "Exporter",
+    "change": "Changer",
+    "remove": "Supprimer",
+    "update-album-cover": "Mettre à jour la pochette de l'album"
 }
