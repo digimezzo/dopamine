@@ -11,4 +11,12 @@ import { ErrorData } from '../../../../services/dialog/error-data';
 })
 export class EditTracksDialogComponent {
     public constructor() {}
+
+    public exportImage(): void {}
+
+    public changeImage(): void {}
+
+    public downloadImage(): void {}
+
+    public removeImage(): void {}
 }
