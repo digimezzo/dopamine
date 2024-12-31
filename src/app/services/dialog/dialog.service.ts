@@ -95,7 +95,6 @@ export class DialogService implements DialogServiceBase {
 
     public async showEditTracksAsync(tracks: TrackModel[]): Promise<boolean> {
         const dialogRef: MatDialogRef<EditTracksDialogComponent, boolean> = this.dialog.open(EditTracksDialogComponent, {
-            width: '450px',
             data: tracks,
         });
 
