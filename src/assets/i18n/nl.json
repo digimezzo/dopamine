@@ -306,5 +306,6 @@
     "export": "Exporteren",
     "change": "Wijzigen",
     "remove": "Verwijderen",
-    "update-album-cover": "Albumhoes bijwerken"
+    "update-album-cover": "Albumhoes bijwerken",
+    "multiple-values": "Meerdere waarden"
 }

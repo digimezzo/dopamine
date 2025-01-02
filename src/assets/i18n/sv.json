@@ -306,5 +306,6 @@
   "export": "Export",
   "change": "Change",
   "remove": "Remove",
-  "update-album-cover": "Update album cover"
+  "update-album-cover": "Update album cover",
+  "multiple-values": "Multiple values"
 }

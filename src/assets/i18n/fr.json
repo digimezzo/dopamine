@@ -306,5 +306,6 @@
     "export": "Exporter",
     "change": "Changer",
     "remove": "Supprimer",
-    "update-album-cover": "Mettre à jour la pochette de l'album"
+    "update-album-cover": "Mettre à jour la pochette de l'album",
+    "multiple-values": "Valeurs multiples"
 }
