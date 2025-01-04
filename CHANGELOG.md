@@ -3,6 +3,53 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0-preview.38] - 2024-12-29
+
+### Fixed
+
+-   Fixed more problems with Discord Rich Presence
+-   Fixed unexpected resume when skipping while paused
+-   Fixed audio not playing when starting from double-clicking a file in file manager in mini player mode
+-   Fixed a bug where any image residing in the same directory as the audio file was used as cover art
+
+## [3.0.0-preview.37] - 2024-12-09
+
+### Fixed
+
+-   Fixed problems with Discord Rich Presence
+
+## [3.0.0-preview.36] - 2024-12-08
+
+### Changed
+
+-   Updated Bulgarian translation
+-   Updated Italian translation
+-   Updated Russian translation
+-   Updated Simplified Chinese translation
+-   Updated Vietnamese translation
+
+### Fixed
+
+-   Fixed many issues with gapless playback
+-   Fixed Windows media overlay disappearing after a few seconds
+-   Fixed skipping multiple songs causing a crash
+
+## [3.0.0-preview.35] - 2024-10-20
+
+### Added
+
+-   Added gapless playback
+-   Added back support for .tiff cover images after having to break it in order to fix other problems
+-   Added Italian translation
+
+### Fixed
+
+-   Fixed missing tray icons on all operating systems
+-   Fixed slow performance on folders screen when opening folders containing a lot of files
+-   Fixed sorting of songs by album when there are more than 9 songs in a multi-disc album
+-   Fixed albums being shown under the wrong artist due to splitting of artists on separators
+-   Fixed problems while transitioning between full and cover player on macOS
+
 ## [3.0.0-preview.34] - 2024-09-21
 
 ### Added

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { TrackModel } from '../../../services/track/track-model';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { ScrobblingServiceBase } from '../../../services/scrobbling/scrobbling.service.base';
-import { MetadataServiceBase } from '../../../services/metadata/metadata.service.base';
+import { MetadataService } from '../../../services/metadata/metadata.service';
 import { DialogServiceBase } from '../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
 
@@ -18,7 +18,7 @@ export class LoveComponent {
     public constructor(
         private appearanceService: AppearanceServiceBase,
         private scrobblingService: ScrobblingServiceBase,
-        private metadataService: MetadataServiceBase,
+        private metadataService: MetadataService,
         private dialogService: DialogServiceBase,
         private translatorService: TranslatorServiceBase,
     ) {}

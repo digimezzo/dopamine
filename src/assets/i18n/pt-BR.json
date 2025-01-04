@@ -234,8 +234,6 @@
     "love": "Amar",
     "show-love": "Mostrar \"Amar\"",
     "save-love-error": "Ocorreu um erro ao salvar \"Amar\". Verifique o registro se precisar de mais informações.",
-    "multimedia-keys": "Teclas multimídia",
-    "enable-multimedia-keys": "Habilitar as teclas multimídia",
     "log-file": "Arquivo de registro",
     "something-wrong-look-in-log-file": "Algo deu errado. Por favor, verifique o arquivo de registro.",
     "showcase": "Apresentação",
@@ -294,5 +292,5 @@
     "confirm-remove-artist": "Are you sure you want to remove the artist '{{artist}}'?",
     "switch-player": "Trocar reprodutor de áudio",
     "volume": "Volume",
-    "thanks-to-visualisationexpo": "Para a VisualisationExpo, pelo excelente ícone do macOS!"
+    "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb macOS icon!"
 }

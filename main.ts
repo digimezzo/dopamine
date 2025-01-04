@@ -14,6 +14,10 @@ import * as Store from 'electron-store';
 import * as path from 'path';
 import * as url from 'url';
 import { Worker } from 'worker_threads';
+import { DiscordApi } from './main/api/discord/discord-api';
+import { SensitiveInformation } from './main/common/application/sensitive-information';
+import { DiscordApiCommand } from './main/api/discord/discord-api-command';
+import { DiscordApiCommandType } from './main/api/discord/discord-api-command-type';
 
 /**
  * Command line parameters
@@ -35,10 +39,13 @@ const globalAny: any = global; // Global does not allow setting custom propertie
 const settings: Store<any> = new Store();
 const args: string[] = process.argv.slice(1);
 const isServing: boolean = args.some((val) => val === '--serve');
+const discordApi = new DiscordApi(SensitiveInformation.discordClientId);
+
 let mainWindow: BrowserWindow | undefined;
 let tray: Tray;
 let isQuitting: boolean;
 let isQuit: boolean;
+let fileProcessingTimeout: NodeJS.Timeout;
 
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
@@ -169,7 +176,13 @@ function setInitialWindowState(mainWindow: BrowserWindow): void {
             mainWindow.resizable = false;
             mainWindow.maximizable = false;
             mainWindow.setContentSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
+            if (isMacOS()) {
+                mainWindow.fullScreenable = false;
+            }
         } else {
+            if (isMacOS()) {
+                mainWindow.fullScreenable = true;
+            }
             mainWindow.setSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
             if (windowPositionSizeMaximized[4] === 1) {
                 mainWindow.maximize();
@@ -189,6 +202,9 @@ function setInitialWindowState(mainWindow: BrowserWindow): void {
 }
 
 function createMainWindow(): void {
+    // Set custom AppUserModelID to ensure the app name shows up in Windows media controls
+    app.setAppUserModelId('com.digimezzo.dopamine');
+
     // Suppress the default menu
     Menu.setApplicationMenu(null);
 
@@ -356,9 +372,38 @@ function createMainWindow(): void {
             }
         }
     });
+
+    mainWindow.on('leave-full-screen', () => {
+        if (!mainWindow) {
+            return;
+        }
+        // On macOS, fullscreen transitions takes time
+        // So, we need to wait for the leave-full-screen to finally resize the window
+        if (!isMacOS()) {
+            return;
+        }
+
+        // if mode is not cover anymore, return
+        if (settings.get('playerType') !== 'cover') {
+            return;
+        }
+
+        setCoverPlayer(mainWindow);
+    });
 }
 
-let fileProcessingTimeout;
+function setCoverPlayer(mainWindow: BrowserWindow): void {
+    const coverPlayerPositionAsString: string = settings.get('coverPlayerPosition');
+    const coverPlayerPosition: number[] = coverPlayerPositionAsString.split(';').map(Number);
+
+    if (isMacOS()) {
+        mainWindow.fullScreenable = false;
+    }
+    mainWindow.resizable = false;
+    mainWindow.maximizable = false;
+    mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
+    mainWindow.setContentSize(350, 430);
+}
 
 function pushFilesToQueue(files: string[], functionName: string): void {
     globalAny.fileQueue.push(...files);
@@ -422,13 +467,13 @@ try {
         });
 
         app.on('activate', () => {
-            // On OS X it's common to re-create a window in the app when the
+            // On macOS, it's common to re-create a window in the app when the
             // dock icon is clicked and there are no other windows open.
             if (mainWindow == undefined) {
                 createMainWindow();
             }
 
-            // on MacOS, clicking the dock icon should show the window
+            // On macOS, clicking the dock icon should show the window.
             if (isMacOS()) {
                 if (mainWindow) {
                     mainWindow.show();
@@ -439,6 +484,10 @@ try {
 
         app.on('before-quit', () => {
             isQuit = true;
+        });
+
+        app.on('will-quit', () => {
+            discordApi.shutdown();
         });
 
         app.whenReady().then(() => {
@@ -505,7 +554,7 @@ try {
         });
 
         ipcMain.on('indexing-worker', (event: any, arg: any) => {
-            const workerThread = new Worker(path.join(__dirname, 'main/workers/indexing-worker.js'), {
+            const workerThread = new Worker(path.join(__dirname, 'main/background-work/workers/indexing-worker.js'), {
                 workerData: { arg },
             });
 
@@ -527,12 +576,15 @@ try {
         });
 
         ipcMain.on('set-full-player', (event: any, arg: any) => {
-            settings.set('playerType', 'full');
+            log.info('[Main] [set-full-player] Setting playerType to full player');
             if (mainWindow) {
                 const fullPlayerPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
                 console.log(fullPlayerPositionSizeMaximizedAsString);
                 const fullPlayerPositionSizeMaximized: number[] = fullPlayerPositionSizeMaximizedAsString.split(';').map(Number);
 
+                if (isMacOS()) {
+                    mainWindow.fullScreenable = true;
+                }
                 mainWindow.resizable = true;
                 mainWindow.maximizable = true;
                 mainWindow.setPosition(fullPlayerPositionSizeMaximized[0], fullPlayerPositionSizeMaximized[1]);
@@ -545,22 +597,33 @@ try {
         });
 
         ipcMain.on('set-cover-player', (event: any, arg: any) => {
-            settings.set('playerType', 'cover');
+            log.info('[Main] [set-cover-player] Setting playerType to cover player');
             if (mainWindow) {
-                const coverPlayerPositionAsString: string = settings.get('coverPlayerPosition');
-                const coverPlayerPosition: number[] = coverPlayerPositionAsString.split(';').map(Number);
+                // We cannot resize the window when it is still in full screen mode on macOS.
+                if (isMacOS() && mainWindow.isFullScreen()) {
+                    // If for whatever reason fullScreenable will be set to false
+                    // mainWindow.fullScreen = false; will not work on macOS.
+                    mainWindow.fullScreenable = true;
+                    mainWindow.fullScreen = false;
+                    return;
+                }
 
                 mainWindow.unmaximize();
-                mainWindow.resizable = false;
-                mainWindow.maximizable = false;
-                mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
-                mainWindow.setContentSize(350, 430);
+                setCoverPlayer(mainWindow);
             }
         });
 
         ipcMain.on('clear-file-queue', (event: any, arg: any) => {
             log.info('[Main] [clear-file-queue] Clearing file queue');
             globalAny.fileQueue = [];
+        });
+
+        ipcMain.on('discord-api-command', (event: any, command: DiscordApiCommand) => {
+            if (command.commandType === DiscordApiCommandType.SetPresence) {
+                discordApi.setPresence(command.args!);
+            } else if (command.commandType === DiscordApiCommandType.ClearPresence) {
+                discordApi.clearPresence();
+            }
         });
     }
 } catch (e) {

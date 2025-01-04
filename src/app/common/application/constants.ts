@@ -14,6 +14,7 @@ export class Constants {
         new Language('fa', 'Farsi', 'فارسی', true),
         new Language('fr', 'French', 'Français', false),
         new Language('hr', 'Croatian', 'Hrvatski', false),
+        new Language('it', 'Italian', 'Italiano', false),
         new Language('nl', 'Dutch', 'Nederlands', false),
         new Language('pl', 'Polish', 'Polski', false),
         new Language('pt-BR', 'Brazilian Portuguese', 'Português Brasileiro', false),
@@ -181,6 +182,12 @@ export class Constants {
             'Replace Font Awesome with modern line icons.',
             'https://github.com/icons8/line-awesome',
             'https://github.com/icons8/line-awesome/blob/master/LICENSE.md',
+        ),
+        new ExternalComponent(
+            'Jimp',
+            'An image processing library written entirely in JavaScript for Node, with zero external or native dependencies.',
+            'https://github.com/jimp-dev/jimp',
+            'https://github.com/jimp-dev/jimp/blob/main/LICENSE',
         ),
         new ExternalComponent(
             'macOS icon created by VisualisationExpo',

@@ -11,13 +11,15 @@ import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { SemanticZoomHeaderAdder } from '../../../../../common/semantic-zoom-header-adder';
 import { ArtistType } from '../../../../../services/artist/artist-type';
 import { Constants } from '../../../../../common/application/constants';
-import { PlaybackServiceBase } from '../../../../../services/playback/playback.service.base';
 import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/semantic-zoom.service.base';
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
 import { SchedulerBase } from '../../../../../common/scheduling/scheduler.base';
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
 import { GuidFactory } from '../../../../../common/guid.factory';
 import { ArtistSorter } from '../../../../../common/sorting/artist-sorter';
+import { PlaybackService } from '../../../../../services/playback/playback.service';
+
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 export class CdkVirtualScrollViewportMock {
     private _scrollToIndexIndex: number = -1;
@@ -38,7 +40,7 @@ export class CdkVirtualScrollViewportMock {
 }
 
 describe('ArtistBrowserComponent', () => {
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let semanticZoomServiceMock: IMock<SemanticZoomServiceBase>;
     let applicationServiceMock: IMock<ApplicationServiceBase>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
@@ -104,7 +106,7 @@ describe('ArtistBrowserComponent', () => {
         guidFactoryMock = Mock.ofType<GuidFactory>();
         schedulerMock = Mock.ofType<SchedulerBase>();
         loggerMock = Mock.ofType<Logger>();
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
 
         guidFactoryMock.setup((x) => x.create()).returns(() => '91c70666-8ad0-4037-8590-47f0c453c97d');
 

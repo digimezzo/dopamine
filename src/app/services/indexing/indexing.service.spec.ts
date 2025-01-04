@@ -8,8 +8,10 @@ import { IndexingServiceBase } from './indexing.service.base';
 import { Observable, Subject } from 'rxjs';
 import { DesktopBase } from '../../common/io/desktop.base';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';
-import {IpcProxyBase} from "../../common/io/ipc-proxy.base";
-import {IIndexingMessage} from "./messages/i-indexing-message";
+import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
+import { IIndexingMessage } from './messages/i-indexing-message';
+
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('IndexingService', () => {
     let notificationServiceMock: IMock<NotificationServiceBase>;

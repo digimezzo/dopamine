@@ -16,6 +16,9 @@ const Store = require("electron-store");
 const path = require("path");
 const url = require("url");
 const worker_threads_1 = require("worker_threads");
+const discord_api_1 = require("./main/api/discord/discord-api");
+const sensitive_information_1 = require("./main/common/application/sensitive-information");
+const discord_api_command_type_1 = require("./main/api/discord/discord-api-command-type");
 /**
  * Command line parameters
  */
@@ -34,10 +37,12 @@ const globalAny = global; // Global does not allow setting custom properties. We
 const settings = new Store();
 const args = process.argv.slice(1);
 const isServing = args.some((val) => val === '--serve');
+const discordApi = new discord_api_1.DiscordApi(sensitive_information_1.SensitiveInformation.discordClientId);
 let mainWindow;
 let tray;
 let isQuitting;
 let isQuit;
+let fileProcessingTimeout;
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
     globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
@@ -147,8 +152,14 @@ function setInitialWindowState(mainWindow) {
             mainWindow.resizable = false;
             mainWindow.maximizable = false;
             mainWindow.setContentSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
+            if (isMacOS()) {
+                mainWindow.fullScreenable = false;
+            }
         }
         else {
+            if (isMacOS()) {
+                mainWindow.fullScreenable = true;
+            }
             mainWindow.setSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
             if (windowPositionSizeMaximized[4] === 1) {
                 mainWindow.maximize();
@@ -167,6 +178,8 @@ function setInitialWindowState(mainWindow) {
     }
 }
 function createMainWindow() {
+    // Set custom AppUserModelID to ensure the app name shows up in Windows media controls
+    electron_1.app.setAppUserModelId('com.digimezzo.dopamine');
     // Suppress the default menu
     electron_1.Menu.setApplicationMenu(null);
     const remoteMain = require('@electron/remote/main');
@@ -305,8 +318,33 @@ function createMainWindow() {
             }
         }
     });
+    mainWindow.on('leave-full-screen', () => {
+        if (!mainWindow) {
+            return;
+        }
+        // On macOS, fullscreen transitions takes time
+        // So, we need to wait for the leave-full-screen to finally resize the window
+        if (!isMacOS()) {
+            return;
+        }
+        // if mode is not cover anymore, return
+        if (settings.get('playerType') !== 'cover') {
+            return;
+        }
+        setCoverPlayer(mainWindow);
+    });
 }
-let fileProcessingTimeout;
+function setCoverPlayer(mainWindow) {
+    const coverPlayerPositionAsString = settings.get('coverPlayerPosition');
+    const coverPlayerPosition = coverPlayerPositionAsString.split(';').map(Number);
+    if (isMacOS()) {
+        mainWindow.fullScreenable = false;
+    }
+    mainWindow.resizable = false;
+    mainWindow.maximizable = false;
+    mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
+    mainWindow.setContentSize(350, 430);
+}
 function pushFilesToQueue(files, functionName) {
     globalAny.fileQueue.push(...files);
     electron_log_1.default.info(`[App] [${functionName}] File queue: ${globalAny.fileQueue}`);
@@ -360,12 +398,12 @@ try {
             }
         });
         electron_1.app.on('activate', () => {
-            // On OS X it's common to re-create a window in the app when the
+            // On macOS, it's common to re-create a window in the app when the
             // dock icon is clicked and there are no other windows open.
             if (mainWindow == undefined) {
                 createMainWindow();
             }
-            // on MacOS, clicking the dock icon should show the window
+            // On macOS, clicking the dock icon should show the window.
             if (isMacOS()) {
                 if (mainWindow) {
                     mainWindow.show();
@@ -375,6 +413,9 @@ try {
         });
         electron_1.app.on('before-quit', () => {
             isQuit = true;
+        });
+        electron_1.app.on('will-quit', () => {
+            discordApi.shutdown();
         });
         electron_1.app.whenReady().then(() => {
             // See: https://github.com/electron/electron/issues/23757
@@ -430,7 +471,7 @@ try {
             tray.setImage(getTrayIcon());
         });
         electron_1.ipcMain.on('indexing-worker', (event, arg) => {
-            const workerThread = new worker_threads_1.Worker(path.join(__dirname, 'main/workers/indexing-worker.js'), {
+            const workerThread = new worker_threads_1.Worker(path.join(__dirname, 'main/background-work/workers/indexing-worker.js'), {
                 workerData: { arg },
             });
             workerThread.on('message', (message) => {
@@ -448,11 +489,14 @@ try {
             electron_1.app.quit();
         });
         electron_1.ipcMain.on('set-full-player', (event, arg) => {
-            settings.set('playerType', 'full');
+            electron_log_1.default.info('[Main] [set-full-player] Setting playerType to full player');
             if (mainWindow) {
                 const fullPlayerPositionSizeMaximizedAsString = settings.get('fullPlayerPositionSizeMaximized');
                 console.log(fullPlayerPositionSizeMaximizedAsString);
                 const fullPlayerPositionSizeMaximized = fullPlayerPositionSizeMaximizedAsString.split(';').map(Number);
+                if (isMacOS()) {
+                    mainWindow.fullScreenable = true;
+                }
                 mainWindow.resizable = true;
                 mainWindow.maximizable = true;
                 mainWindow.setPosition(fullPlayerPositionSizeMaximized[0], fullPlayerPositionSizeMaximized[1]);
@@ -463,20 +507,31 @@ try {
             }
         });
         electron_1.ipcMain.on('set-cover-player', (event, arg) => {
-            settings.set('playerType', 'cover');
+            electron_log_1.default.info('[Main] [set-cover-player] Setting playerType to cover player');
             if (mainWindow) {
-                const coverPlayerPositionAsString = settings.get('coverPlayerPosition');
-                const coverPlayerPosition = coverPlayerPositionAsString.split(';').map(Number);
+                // We cannot resize the window when it is still in full screen mode on macOS.
+                if (isMacOS() && mainWindow.isFullScreen()) {
+                    // If for whatever reason fullScreenable will be set to false
+                    // mainWindow.fullScreen = false; will not work on macOS.
+                    mainWindow.fullScreenable = true;
+                    mainWindow.fullScreen = false;
+                    return;
+                }
                 mainWindow.unmaximize();
-                mainWindow.resizable = false;
-                mainWindow.maximizable = false;
-                mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
-                mainWindow.setContentSize(350, 430);
+                setCoverPlayer(mainWindow);
             }
         });
         electron_1.ipcMain.on('clear-file-queue', (event, arg) => {
             electron_log_1.default.info('[Main] [clear-file-queue] Clearing file queue');
             globalAny.fileQueue = [];
+        });
+        electron_1.ipcMain.on('discord-api-command', (event, command) => {
+            if (command.commandType === discord_api_command_type_1.DiscordApiCommandType.SetPresence) {
+                discordApi.setPresence(command.args);
+            }
+            else if (command.commandType === discord_api_command_type_1.DiscordApiCommandType.ClearPresence) {
+                discordApi.clearPresence();
+            }
         });
     }
 }

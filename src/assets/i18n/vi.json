@@ -234,8 +234,6 @@
     "love": "Yêu thích",
     "show-love": "Hiện nút 'Yêu thích'",
     "save-love-error": "Đã xảy ra lỗi khi lưu 'Yêu thích'. Vui lòng xem tập tin log để biết thêm thông tin.",
-    "multimedia-keys": "Phím tắt",
-    "enable-multimedia-keys": "Bật sử dụng phím tắt",
     "log-file": "File log",
     "something-wrong-look-in-log-file": "Có lỗi xảy ra? Hãy xem vấn đề trong file log.",
     "showcase": "Trình chiếu",
@@ -294,5 +292,7 @@
     "confirm-remove-artist": "Bạn có chắc muốn xóa nghệ sĩ '{{artist}}'?",
     "switch-player": "Chuyển đổi trình phát",
     "volume": "Âm lượng",
-    "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb macOS icon!"
+    "thanks-to-visualisationexpo": "VisualisationExpo đã thiết kế biểu tượng macOS!",
+    "gapless-playback": "Phát liền mạch",
+    "enable-gapless-playback": "Không chèn khoảng nghĩ giữa các bài (cần khởi động lại)"
 }

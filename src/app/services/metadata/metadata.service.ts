@@ -9,14 +9,13 @@ import { StringUtils } from '../../common/utils/string-utils';
 import { AlbumArtworkGetter } from '../indexing/album-artwork-getter';
 import { TrackModel } from '../track/track-model';
 import { CachedAlbumArtworkGetter } from './cached-album-artwork-getter';
-import { MetadataServiceBase } from './metadata.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
 import { SettingsBase } from '../../common/settings/settings.base';
 
-@Injectable()
-export class MetadataService implements MetadataServiceBase {
+@Injectable({ providedIn: 'root' })
+export class MetadataService {
     private ratingSaved: Subject<TrackModel> = new Subject();
     private loveSaved: Subject<TrackModel> = new Subject();
 

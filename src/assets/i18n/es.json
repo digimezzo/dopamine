@@ -234,8 +234,6 @@
     "love": "Love",
     "show-love": "Show 'Love'",
     "save-love-error": "An error occurred while saving 'Love'. Please verify the log if you need more information.",
-    "multimedia-keys": "Multimedia keys",
-    "enable-multimedia-keys": "Enable multimedia keys",
     "log-file": "Log file",
     "something-wrong-look-in-log-file": "Did something go wrong? Have a look in the log file.",
     "showcase": "Showcase",
@@ -294,5 +292,7 @@
     "confirm-remove-artist": "Are you sure you want to remove the artist '{{artist}}'?",
     "switch-player": "Switch player",
     "volume": "Volume",
-    "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb macOS icon!"
+    "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb macOS icon!",
+    "gapless-playback": "Gapless playback",
+    "enable-gapless-playback": "Enable gapless playback (requires a restart)"
 }

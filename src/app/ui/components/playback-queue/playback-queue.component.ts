@@ -3,7 +3,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { TrackModel } from '../../../services/track/track-model';
-import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../services/playback/playback.service';
 import { PlaybackIndicationServiceBase } from '../../../services/playback-indication/playback-indication.service.base';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
 import { MouseSelectionWatcher } from '../mouse-selection-watcher';
@@ -22,7 +22,7 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
     private _shouldShowList: boolean = false;
 
     public constructor(
-        public playbackService: PlaybackServiceBase,
+        public playbackService: PlaybackService,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         private playbackIndicationService: PlaybackIndicationServiceBase,

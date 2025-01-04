@@ -1,13 +1,15 @@
 import { IMock, Mock } from 'typemoq';
 import { PlaybackControlsComponent } from './playback-controls.component';
-import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../services/playback/playback.service';
+
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('PlaybackControlsComponent', () => {
     let component: PlaybackControlsComponent;
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         component = new PlaybackControlsComponent(playbackServiceMock.object);
     });
 

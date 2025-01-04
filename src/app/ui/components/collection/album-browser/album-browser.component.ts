@@ -10,12 +10,12 @@ import { AlbumOrder } from '../album-order';
 import { BaseAlbumsPersister } from '../base-albums-persister';
 import { AlbumRow } from './album-row';
 import { AlbumRowsGetter } from './album-rows-getter';
-import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
 import { ApplicationServiceBase } from '../../../../services/application/application.service.base';
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { Timer } from '../../../../common/scheduling/timer';
 import { Subject } from 'rxjs';
+import { PlaybackService } from '../../../../services/playback/playback.service';
 
 @Component({
     selector: 'app-album-browser',
@@ -31,7 +31,7 @@ export class AlbumBrowserComponent implements AfterViewInit, OnChanges, OnDestro
     private destroy$ = new Subject<void>();
 
     public constructor(
-        public playbackService: PlaybackServiceBase,
+        public playbackService: PlaybackService,
         private applicationService: ApplicationServiceBase,
         private albumRowsGetter: AlbumRowsGetter,
         private nativeElementProxy: NativeElementProxy,

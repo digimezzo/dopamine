@@ -1,7 +1,7 @@
 {
     "name": "Dopamine",
     "version": "3.0.0",
-    "versionSuffix": "preview.34",
+    "versionSuffix": "preview.37",
     "copyright": "Copyright Digimezzo Ⓒ 2014 - 2024",
     "description": "Audio player",
     "homepage": "https://github.com/digimezzo/dopamine",
@@ -98,6 +98,7 @@
         "fast-sort": "^3.4.1",
         "fast-xml-parser": "4.3.2",
         "fs-extra": "11.1.1",
+        "jimp": "^1.6.0",
         "line-awesome": "1.3.0",
         "md5-typescript": "1.0.5",
         "moment": "2.29.4",

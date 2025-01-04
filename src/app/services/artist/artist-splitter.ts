@@ -40,7 +40,6 @@ export class ArtistSplitter {
     }
 
     private splitArtist(artist: string, separators: string[], exceptions: string[]): ArtistModel[] {
-        const originalArtist: string = artist;
         const artists: ArtistModel[] = [];
 
         for (const exception of exceptions) {
@@ -52,7 +51,8 @@ export class ArtistSplitter {
             }
         }
 
-        const escapedSeparators = separators.map((separator) => separator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+        // Also adds a space before and after the separator
+        const escapedSeparators = separators.map((separator) => ` ${separator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} `);
         const regex: RegExp = new RegExp(escapedSeparators.join('|'), 'i');
         artists.push(...artist.split(regex).map((a: string) => new ArtistModel(a.trim(), this.translatorService)));
 

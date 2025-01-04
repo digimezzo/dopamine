@@ -3,9 +3,9 @@ import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular
 import { Subscription } from 'rxjs';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { PlaybackInformation } from '../../../services/playback-information/playback-information';
-import { PlaybackInformationServiceBase } from '../../../services/playback-information/playback-information.service.base';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { Constants } from '../../../common/application/constants';
+import { PlaybackInformationService } from '../../../services/playback-information/playback-information.service';
 
 @Component({
     selector: 'app-playback-cover-art',
@@ -49,7 +49,7 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
     private currentImageUrl: string = '';
 
     public constructor(
-        private playbackInformationService: PlaybackInformationServiceBase,
+        private playbackInformationService: PlaybackInformationService,
         private scheduler: SchedulerBase,
     ) {}
 
