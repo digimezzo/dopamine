@@ -1,15 +1,17 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
-import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../../services/playback/playback.service';
 import { NowPlayingNothingPlayingComponent } from './now-playing-nothing-playing.component';
 import { TrackModels } from '../../../../services/track/track-models';
 
+jest.mock('jimp', () => ({ exec: jest.fn() }));
+
 describe('NowPlayingNothingPlayingComponent', () => {
-    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let trackServiceMock: IMock<TrackServiceBase>;
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         trackServiceMock = Mock.ofType<TrackServiceBase>();
     });
 

@@ -7,7 +7,7 @@ import { PlaylistFoldersPersister } from '../playlist-folders-persister';
 import { AppearanceServiceBase } from '../../../../../services/appearance/appearance.service.base';
 import { PlaylistFolderServiceBase } from '../../../../../services/playlist-folder/playlist-folder.service.base';
 import { PlaylistServiceBase } from '../../../../../services/playlist/playlist.service.base';
-import { PlaybackServiceBase } from '../../../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../../../services/playback/playback.service';
 import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
 import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
@@ -28,7 +28,7 @@ export class PlaylistFolderBrowserComponent {
         public appearanceService: AppearanceServiceBase,
         public playlistFolderService: PlaylistFolderServiceBase,
         public playlistService: PlaylistServiceBase,
-        public playbackService: PlaybackServiceBase,
+        public playbackService: PlaybackService,
         private dialogService: DialogServiceBase,
         private translatorService: TranslatorServiceBase,
         public contextMenuOpener: ContextMenuOpener,

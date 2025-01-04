@@ -11,8 +11,7 @@ import { TrackModel } from '../../../../../services/track/track-model';
 import { TrackModels } from '../../../../../services/track/track-models';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { TrackBrowserBase } from '../../track-browser/track-brower-base';
-import { PlaybackServiceBase } from '../../../../../services/playback/playback.service.base';
-import { MetadataServiceBase } from '../../../../../services/metadata/metadata.service.base';
+import { PlaybackService } from '../../../../../services/playback/playback.service';
 import { PlaybackIndicationServiceBase } from '../../../../../services/playback-indication/playback-indication.service.base';
 import { TracksColumnsServiceBase } from '../../../../../services/track-columns/tracks-columns.service.base';
 import { CollectionServiceBase } from '../../../../../services/collection/collection.service.base';
@@ -21,6 +20,7 @@ import { TranslatorServiceBase } from '../../../../../services/translator/transl
 import { DesktopBase } from '../../../../../common/io/desktop.base';
 import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
+import {MetadataService} from "../../../../../services/metadata/metadata.service";
 
 @Component({
     selector: 'app-collection-tracks-table',
@@ -35,11 +35,11 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
     private _tracks: TrackModels = new TrackModels();
 
     public constructor(
-        public playbackService: PlaybackServiceBase,
+        public playbackService: PlaybackService,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,
-        private metadataService: MetadataServiceBase,
+        private metadataService: MetadataService,
         private playbackIndicationService: PlaybackIndicationServiceBase,
         private tracksColumnsService: TracksColumnsServiceBase,
         private tracksColumnsOrdering: TracksColumnsOrdering,

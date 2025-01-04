@@ -42,7 +42,6 @@ import { DocumentProxy } from './common/io/document-proxy';
 import { FileAccess } from './common/io/file-access';
 import { IpcProxy } from './common/io/ipc-proxy';
 import { LogViewer } from './common/io/log-viewer';
-import { MediaSessionProxy } from './common/io/media-session-proxy';
 import { TranslateServiceProxy } from './common/io/translate-service-proxy';
 import { Logger } from './common/logger';
 import { MathExtensions } from './common/math-extensions';
@@ -172,24 +171,15 @@ import { ArtistInformationService } from './services/artist-information/artist-i
 import { ArtistService } from './services/artist/artist.service';
 import { CollectionService } from './services/collection/collection.service';
 import { DialogService } from './services/dialog/dialog.service';
-import { DiscordService } from './services/discord/discord.service';
-import { PresenceUpdater } from './services/discord/presence-updater';
 import { ElectronService } from './services/electron.service';
 import { FileService } from './services/file/file.service';
 import { FolderService } from './services/folder/folder.service';
 import { GenreService } from './services/genre/genre.service';
 import { IndexingService } from './services/indexing/indexing.service';
-import { MediaSessionService } from './services/media-session/media-session.service';
 import { CachedAlbumArtworkGetter } from './services/metadata/cached-album-artwork-getter';
-import { MetadataService } from './services/metadata/metadata.service';
 import { NavigationService } from './services/navigation/navigation.service';
 import { NowPlayingNavigationService } from './services/now-playing-navigation/now-playing-navigation.service';
 import { PlaybackIndicationService } from './services/playback-indication/playback-indication.service';
-import { PlaybackInformationService } from './services/playback-information/playback-information.service';
-import { AudioPlayer } from './services/playback/audio-player';
-import { PlaybackService } from './services/playback/playback.service';
-import { ProgressUpdater } from './services/playback/progress-updater';
-import { Queue } from './services/playback/queue';
 import { PlaylistFolderModelFactory } from './services/playlist-folder/playlist-folder-model-factory';
 import { PlaylistFolderService } from './services/playlist-folder/playlist-folder.service';
 import { PlaylistDecoder } from './services/playlist/playlist-decoder';
@@ -213,7 +203,6 @@ import { OnlineLyricsGetter } from './services/lyrics/online-lyrics-getter';
 import { IntegrationTestRunner } from './testing/integration-test-runner';
 import { EventListenerService } from './services/event-listener/event-listener.service';
 import { Desktop } from './common/io/desktop';
-import { AudioPlayerBase } from './services/playback/audio-player.base';
 import { EventListenerServiceBase } from './services/event-listener/event-listener.service.base';
 import { LyricsServiceBase } from './services/lyrics/lyrics.service.base';
 import { ArtistInformationServiceBase } from './services/artist-information/artist-information.service.base';
@@ -228,18 +217,13 @@ import { AppearanceServiceBase } from './services/appearance/appearance.service.
 import { PlaylistFolderServiceBase } from './services/playlist-folder/playlist-folder.service.base';
 import { PlaylistServiceBase } from './services/playlist/playlist.service.base';
 import { SearchServiceBase } from './services/search/search.service.base';
-import { MetadataServiceBase } from './services/metadata/metadata.service.base';
-import { MediaSessionServiceBase } from './services/media-session/media-session.service.base';
-import { PlaybackInformationServiceBase } from './services/playback-information/playback-information.service.base';
 import { PlaybackIndicationServiceBase } from './services/playback-indication/playback-indication.service.base';
-import { DiscordServiceBase } from './services/discord/discord.service.base';
 import { CollectionServiceBase } from './services/collection/collection.service.base';
 import { AlbumServiceBase } from './services/album/album-service.base';
 import { TrackServiceBase } from './services/track/track.service.base';
 import { GenreServiceBase } from './services/genre/genre.service.base';
 import { ArtistServiceBase } from './services/artist/artist.service.base';
 import { DialogServiceBase } from './services/dialog/dialog.service.base';
-import { PlaybackServiceBase } from './services/playback/playback.service.base';
 import { UpdateServiceBase } from './services/update/update.service.base';
 import { TranslatorServiceBase } from './services/translator/translator.service.base';
 import { IndexingServiceBase } from './services/indexing/indexing.service.base';
@@ -256,7 +240,6 @@ import { DatabaseMigratorBase } from './data/database-migrator.base';
 import { ApplicationBase } from './common/io/application.base';
 import { IpcProxyBase } from './common/io/ipc-proxy.base';
 import { TranslateServiceProxyBase } from './common/io/translate-service-proxy.base';
-import { MediaSessionProxyBase } from './common/io/media-session-proxy.base';
 import { DesktopBase } from './common/io/desktop.base';
 import { FileAccessBase } from './common/io/file-access.base';
 import { FileMetadataFactoryBase } from './common/metadata/file-metadata.factory.base';
@@ -517,7 +500,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         Logger,
         Hacks,
         Shuffler,
-        ProgressUpdater,
         MathExtensions,
         PathValidator,
         AlbumRowsGetter,
@@ -532,7 +514,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         WebSearchApi,
         MetadataPatcher,
         TracksColumnsOrdering,
-        PresenceUpdater,
         SemanticZoomHeaderAdder,
         DefaultThemesCreator,
         ArtistsPersister,
@@ -589,18 +570,13 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: TranslatorServiceBase, useClass: TranslatorService },
         { provide: UpdateServiceBase, useClass: UpdateService },
         { provide: NotificationServiceBase, useClass: NotificationService },
-        { provide: PlaybackServiceBase, useClass: PlaybackService },
         { provide: DialogServiceBase, useClass: DialogService },
         { provide: ArtistServiceBase, useClass: ArtistService },
         { provide: GenreServiceBase, useClass: GenreService },
         { provide: TrackServiceBase, useClass: TrackService },
         { provide: AlbumServiceBase, useClass: AlbumService },
         { provide: CollectionServiceBase, useClass: CollectionService },
-        { provide: DiscordServiceBase, useClass: DiscordService },
         { provide: PlaybackIndicationServiceBase, useClass: PlaybackIndicationService },
-        { provide: PlaybackInformationServiceBase, useClass: PlaybackInformationService },
-        { provide: MediaSessionServiceBase, useClass: MediaSessionService },
-        { provide: MetadataServiceBase, useClass: MetadataService },
         { provide: SearchServiceBase, useClass: SearchService },
         { provide: PlaylistServiceBase, useClass: PlaylistService },
         { provide: PlaylistFolderServiceBase, useClass: PlaylistFolderService },
@@ -617,14 +593,12 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: LyricsServiceBase, useClass: LyricsService },
         { provide: EventListenerServiceBase, useClass: EventListenerService },
         { provide: AudioVisualizerServiceBase, useClass: AudioVisualizerService },
-        { provide: AudioPlayerBase, useClass: AudioPlayer },
         { provide: SettingsBase, useClass: Settings },
         { provide: DatabaseMigratorBase, useClass: DatabaseMigrator },
         { provide: SchedulerBase, useClass: Scheduler },
         { provide: ApplicationBase, useClass: Application },
         { provide: IpcProxyBase, useClass: IpcProxy },
         { provide: TranslateServiceProxyBase, useClass: TranslateServiceProxy },
-        { provide: MediaSessionProxyBase, useClass: MediaSessionProxy },
         { provide: DesktopBase, useClass: Desktop },
         { provide: FileMetadataFactoryBase, useClass: FileMetadataFactory },
         {

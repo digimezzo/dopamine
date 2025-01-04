@@ -10,6 +10,7 @@ import { ArtistSplitter } from './artist-splitter';
 import { Timer } from '../../common/scheduling/timer';
 import { Logger } from '../../common/logger';
 import { CollectionUtils } from '../../common/utils/collections-utils';
+import { SettingsBase } from '../../common/settings/settings.base';
 
 @Injectable()
 export class ArtistService implements ArtistServiceBase {
@@ -17,6 +18,7 @@ export class ArtistService implements ArtistServiceBase {
     public constructor(
         private artistSplitter: ArtistSplitter,
         private trackRepository: TrackRepositoryBase,
+        private settings: SettingsBase,
         private logger: Logger,
     ) {}
 
@@ -59,12 +61,23 @@ export class ArtistService implements ArtistServiceBase {
     }
 
     public getSourceArtists(artists: ArtistModel[]): string[] {
+        const separators: string[] = CollectionUtils.fromString(this.settings.artistSplitSeparators);
         const filteredSourceArtists: string[] = [];
         const lowerCaseArtistNames = new Set(artists.map((artist) => artist.name.toLowerCase()));
 
-        for (const sourceArtist of this.sourceArtists) {
-            if ([...lowerCaseArtistNames].some((name) => sourceArtist.toLowerCase().includes(name))) {
-                filteredSourceArtists.push(sourceArtist);
+        const sourceArtistsSurroundedBySpaces = this.sourceArtists.map((artist) => ` ${artist} `);
+        for (const sourceArtist of sourceArtistsSurroundedBySpaces) {
+            if (
+                [...lowerCaseArtistNames].some((name) =>
+                    separators.some(
+                        (separator) =>
+                            sourceArtist.toLowerCase() === ` ${name} ` ||
+                            sourceArtist.toLowerCase().includes(` ${separator} ${name} `) ||
+                            sourceArtist.toLowerCase().includes(` ${name} ${separator} `),
+                    ),
+                )
+            ) {
+                filteredSourceArtists.push(sourceArtist.trim());
             }
         }
 

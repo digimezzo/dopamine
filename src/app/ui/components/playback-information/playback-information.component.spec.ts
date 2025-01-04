@@ -1,8 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
 import { PlaybackInformationComponent } from './playback-information.component';
-import { PlaybackInformationServiceBase } from '../../../services/playback-information/playback-information.service.base';
-import { MetadataServiceBase } from '../../../services/metadata/metadata.service.base';
 import { Scheduler } from '../../../common/scheduling/scheduler';
 import { DateTime } from '../../../common/date-time';
 import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
@@ -10,10 +8,14 @@ import { PlaybackInformation } from '../../../services/playback-information/play
 import { TrackModel } from '../../../services/track/track-model';
 import { Track } from '../../../data/entities/track';
 import { SettingsMock } from '../../../testing/settings-mock';
+import { PlaybackInformationService } from '../../../services/playback-information/playback-information.service';
+import { MetadataService } from '../../../services/metadata/metadata.service';
+
+jest.mock('jimp', () => ({ exec: jest.fn() }));
 
 describe('PlaybackInformationComponent', () => {
-    let playbackInformationServiceMock: IMock<PlaybackInformationServiceBase>;
-    let metadataServiceMock: IMock<MetadataServiceBase>;
+    let playbackInformationServiceMock: IMock<PlaybackInformationService>;
+    let metadataServiceMock: IMock<MetadataService>;
     let schedulerMock: IMock<Scheduler>;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -43,8 +45,8 @@ describe('PlaybackInformationComponent', () => {
     }
 
     beforeEach(() => {
-        playbackInformationServiceMock = Mock.ofType<PlaybackInformationServiceBase>();
-        metadataServiceMock = Mock.ofType<MetadataServiceBase>();
+        playbackInformationServiceMock = Mock.ofType<PlaybackInformationService>();
+        metadataServiceMock = Mock.ofType<MetadataService>();
         schedulerMock = Mock.ofType<Scheduler>();
         settingsMock = new SettingsMock();
 

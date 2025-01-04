@@ -28,7 +28,6 @@ export class SettingsMock implements SettingsBase {
     public downloadMissingAlbumCovers: boolean;
     public enableDiscordRichPresence: boolean;
     public enableLastFmScrobbling: boolean;
-    public enableMultimediaKeys: boolean;
     public foldersLeftPaneWidthPercent: number;
     public foldersTabOpenedFolder: string;
     public foldersTabOpenedSubfolder: string;
@@ -86,6 +85,7 @@ export class SettingsMock implements SettingsBase {
     public playerType: string;
     public fullPlayerPositionSizeMaximized: string;
     public coverPlayerPosition: string;
+    public useGaplessPlayback: boolean;
 
     public get albumKeyIndex(): string {
         return this.albumKeyIndexMock;

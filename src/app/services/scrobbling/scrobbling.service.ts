@@ -12,7 +12,7 @@ import { TrackModel } from '../track/track-model';
 
 import { SignInState } from './sign-in-state';
 import { ScrobblingServiceBase } from './scrobbling.service.base';
-import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { PlaybackService } from '../playback/playback.service';
 import { SettingsBase } from '../../common/settings/settings.base';
 
 @Injectable()
@@ -27,7 +27,7 @@ export class ScrobblingService implements ScrobblingServiceBase {
     private currentTrackUTCStartTime: Date;
 
     public constructor(
-        private playbackService: PlaybackServiceBase,
+        private playbackService: PlaybackService,
         private lastfmApi: LastfmApi,
         private dateTime: DateTime,
         private settings: SettingsBase,

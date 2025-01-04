@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 import { FileAccessBase } from './io/file-access.base';
 import { nativeImage, NativeImage, Size } from 'electron';
 import * as fs from 'fs-extra';
+import { Jimp } from 'jimp';
 
 @Injectable()
 export class ImageProcessor {
@@ -29,18 +30,37 @@ export class ImageProcessor {
 
     public async toResizedJpegBufferAsync(imageBuffer: Buffer, maxWidth: number, maxHeight: number, jpegQuality: number): Promise<Buffer> {
         let image: NativeImage = nativeImage.createFromBuffer(imageBuffer);
-        const imageSize: Size = image.getSize();
 
-        if (imageSize.width > maxWidth || imageSize.height > maxHeight) {
-            image = image.resize({ width: maxWidth, height: maxHeight, quality: 'best' });
+        // NativeImage is very fast, but only supports PNG and JPG. For other formats, it returns an empty image.
+        if (!image.isEmpty()) {
+            const imageSize: Size = image.getSize();
+
+            if (imageSize.width > maxWidth || imageSize.height > maxHeight) {
+                image = image.resize({ width: maxWidth, height: maxHeight, quality: 'best' });
+            }
+
+            return image.toJPEG(jpegQuality);
         }
 
-        return image.toJPEG(jpegQuality);
+        // Fallback using Jimp, which is much slower than NativeImage.
+        let fallbackImage = await Jimp.read(imageBuffer);
+        if (fallbackImage.bitmap.width > maxWidth || fallbackImage.bitmap.height > maxHeight) {
+            fallbackImage.resize({ w: maxWidth, h: maxHeight });
+        }
+
+        return await fallbackImage.getBuffer('image/jpeg', { quality: jpegQuality });
     }
 
     public async toJpegBufferAsync(imageBuffer: Buffer, jpegQuality: number): Promise<Buffer> {
         let image: NativeImage = nativeImage.createFromBuffer(imageBuffer);
 
-        return image.toJPEG(jpegQuality);
+        // NativeImage is very fast, but only supports PNG and JPG. For other formats, it returns an empty image.
+        if (!image.isEmpty()) {
+            return image.toJPEG(jpegQuality);
+        }
+
+        let fallbackImage = await Jimp.read(imageBuffer);
+
+        return await fallbackImage.getBuffer('image/jpeg', { quality: jpegQuality });
     }
 }

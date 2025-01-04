@@ -11,7 +11,7 @@ import { ArtistType } from '../../../../../services/artist/artist-type';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { ArtistsPersister } from '../artists-persister';
 import { ArtistOrder } from './artist-order';
-import { PlaybackServiceBase } from '../../../../../services/playback/playback.service.base';
+import { PlaybackService } from '../../../../../services/playback/playback.service';
 import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/semantic-zoom.service.base';
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
 import { SchedulerBase } from '../../../../../common/scheduling/scheduler.base';
@@ -35,7 +35,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        public playbackService: PlaybackServiceBase,
+        public playbackService: PlaybackService,
         private semanticZoomService: SemanticZoomServiceBase,
         private applicationService: ApplicationServiceBase,
         public addToPlaylistMenu: AddToPlaylistMenu,

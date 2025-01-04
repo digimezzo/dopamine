@@ -624,15 +624,6 @@ export class Settings implements SettingsBase {
         this.settings.set('showLove', v);
     }
 
-    // enableMultimediaKeys
-    public get enableMultimediaKeys(): boolean {
-        return <boolean>this.settings.get('enableMultimediaKeys');
-    }
-
-    public set enableMultimediaKeys(v: boolean) {
-        this.settings.set('enableMultimediaKeys', v);
-    }
-
     // downloadArtistInformationFromLastFm
     public get downloadArtistInformationFromLastFm(): boolean {
         return <boolean>this.settings.get('downloadArtistInformationFromLastFm');
@@ -788,6 +779,14 @@ export class Settings implements SettingsBase {
 
     public set coverPlayerPositionAndSize(v: string) {
         this.settings.set('coverPlayerPosition', v);
+    }
+
+    // useGaplessPlayback
+    public get useGaplessPlayback(): boolean {
+        return <boolean>this.settings.get('useGaplessPlayback');
+    }
+    public set useGaplessPlayback(v: boolean) {
+        this.settings.set('useGaplessPlayback', v);
     }
 
     // Initialize
@@ -1048,10 +1047,6 @@ export class Settings implements SettingsBase {
             this.settings.set('showLove', false);
         }
 
-        if (!this.settings.has('enableMultimediaKeys')) {
-            this.settings.set('enableMultimediaKeys', true);
-        }
-
         if (!this.settings.has('downloadArtistInformationFromLastFm')) {
             this.settings.set('downloadArtistInformationFromLastFm', true);
         }
@@ -1118,6 +1113,10 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('coverPlayerPosition')) {
             this.settings.set('coverPlayerPosition', '50;50');
+        }
+
+        if (!this.settings.has('useGaplessPlayback')) {
+            this.settings.set('useGaplessPlayback', false);
         }
     }
 }

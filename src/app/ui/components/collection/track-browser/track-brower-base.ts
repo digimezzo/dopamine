@@ -4,17 +4,17 @@ import { Logger } from '../../../../common/logger';
 import { TrackModel } from '../../../../services/track/track-model';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
-import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { DesktopBase } from '../../../../common/io/desktop.base';
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
 import {ContextMenuOpener} from "../../context-menu-opener";
+import {PlaybackService} from "../../../../services/playback/playback.service";
 
 @Directive()
 export class TrackBrowserBase {
     public constructor(
-        public playbackService: PlaybackServiceBase,
+        public playbackService: PlaybackService,
         public dialogService: DialogServiceBase,
         public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,

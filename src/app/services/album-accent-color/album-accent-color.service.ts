@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { MetadataServiceBase } from '../metadata/metadata.service.base';
 import Vibrant from 'node-vibrant/lib/bundle';
 import { Logger } from '../../common/logger';
+import { MetadataService } from '../metadata/metadata.service';
 
 @Injectable({ providedIn: 'root' })
 export class AlbumAccentColorService {
     public constructor(
-        private metadataService: MetadataServiceBase,
+        private metadataService: MetadataService,
         private logger: Logger,
     ) {}
 

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { FanartApi } from '../../common/api/fanart/fanart.api';
 import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
 import { LastfmArtist } from '../../common/api/lastfm/lastfm-artist';
 import { Logger } from '../../common/logger';
@@ -9,7 +8,6 @@ import { ArtistInformation } from './artist-information';
 import { ArtistInformationFactory } from './artist-information-factory';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { ArtistInformationServiceBase } from './artist-information.service.base';
-import { ImageProcessor } from '../../common/image-processor';
 import { OnlineArtistImageGetter } from './online-artist-image-getter';
 
 @Injectable()

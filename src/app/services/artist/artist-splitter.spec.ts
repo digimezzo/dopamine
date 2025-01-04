@@ -21,6 +21,7 @@ describe('ArtistSplitter', () => {
         'Artist5 | Artist6',
         'Artist6 | Artist7',
         '',
+        'Artist2ft.Artist3& Artist4',
     ];
 
     beforeEach(() => {
@@ -60,7 +61,7 @@ describe('ArtistSplitter', () => {
             const splitArtists: ArtistModel[] = splitter.splitArtists(artists);
 
             // Assert
-            expect(splitArtists.length).toEqual(9);
+            expect(splitArtists.length).toEqual(10);
 
             expect(splitArtists[0].displayName).toEqual('Artist1');
             expect(splitArtists[1].displayName).toEqual('Artist2');
@@ -71,6 +72,7 @@ describe('ArtistSplitter', () => {
             expect(splitArtists[6].displayName).toEqual('Artist6');
             expect(splitArtists[7].displayName).toEqual('Artist6 | Artist7');
             expect(splitArtists[8].displayName).toEqual('Unknown artist');
+            expect(splitArtists[9].displayName).toEqual('Artist2ft.Artist3& Artist4');
         });
 
         it('should split without duplicates on all configured separators excluding pipe for substrings that are not in the exception list', () => {
@@ -84,7 +86,7 @@ describe('ArtistSplitter', () => {
             const splitArtists: ArtistModel[] = splitter.splitArtists(artists);
 
             // Assert
-            expect(splitArtists.length).toEqual(8);
+            expect(splitArtists.length).toEqual(9);
 
             expect(splitArtists[0].displayName).toEqual('Artist1');
             expect(splitArtists[1].displayName).toEqual('Artist2');
@@ -94,6 +96,7 @@ describe('ArtistSplitter', () => {
             expect(splitArtists[5].displayName).toEqual('Artist5 | Artist6');
             expect(splitArtists[6].displayName).toEqual('Artist6 | Artist7');
             expect(splitArtists[7].displayName).toEqual('Unknown artist');
+            expect(splitArtists[8].displayName).toEqual('Artist2ft.Artist3& Artist4');
         });
 
         it('should not split on anything without duplicates when there are no separators', () => {
@@ -107,7 +110,7 @@ describe('ArtistSplitter', () => {
             const splitArtists: ArtistModel[] = splitter.splitArtists(artists);
 
             // Assert
-            expect(splitArtists.length).toEqual(10);
+            expect(splitArtists.length).toEqual(11);
             expect(splitArtists[0].displayName).toEqual('Artist1');
             expect(splitArtists[1].displayName).toEqual('Artist2');
             expect(splitArtists[2].displayName).toEqual('Artist1 ft. Artist2 feat. Artist3');
@@ -118,6 +121,7 @@ describe('ArtistSplitter', () => {
             expect(splitArtists[7].displayName).toEqual('Artist5 | Artist6');
             expect(splitArtists[8].displayName).toEqual('Artist6 | Artist7');
             expect(splitArtists[9].displayName).toEqual('Unknown artist');
+            expect(splitArtists[10].displayName).toEqual('Artist2ft.Artist3& Artist4');
         });
     });
 });
