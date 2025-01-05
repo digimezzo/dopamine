@@ -9,6 +9,7 @@ import { CollectionUtils } from '../../../../common/utils/collections-utils';
 import { Logger } from '../../../../common/logger';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { MetadataService } from '../../../../services/metadata/metadata.service';
 
 @Component({
     selector: 'app-edit-tracks-dialog',
@@ -24,6 +25,7 @@ export class EditTracksDialogComponent implements OnInit {
     public constructor(
         private dialogService: DialogServiceBase,
         private translatorService: TranslatorServiceBase,
+        private metadataService: MetadataService,
         private fileMetadataFactory: FileMetadataFactoryBase,
         private logger: Logger,
         public dialogRef: MatDialogRef<EditTracksDialogComponent>,
@@ -42,11 +44,13 @@ export class EditTracksDialogComponent implements OnInit {
     public discCount: string = '';
     public grouping: string = '';
     public comment: string = '';
+    public imagePath: string = '';
 
     public async ngOnInit(): Promise<void> {
         this._tracks = this.data;
         await this.getFileMetaDatasAsync();
         this.setFields();
+        await this.setImagePathAsync();
 
         this.dialogRef.afterClosed().subscribe((result: boolean | undefined) => {
             if (result != undefined && result) {
@@ -150,4 +154,10 @@ export class EditTracksDialogComponent implements OnInit {
             this.comment = allCommentsSame ? this._fileMetaDatas[0].comment : this._multipleValuesText;
         }
     }
+
+    private async setImagePathAsync(): Promise<void> {
+        this.imagePath = await this.metadataService.createImageUrlAsync(this._tracks[0], false, 0);
+    }
+
+    public async changeImageAsync(): Promise<void> {}
 }

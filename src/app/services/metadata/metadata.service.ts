@@ -33,7 +33,11 @@ export class MetadataService {
     public ratingSaved$: Observable<TrackModel> = this.ratingSaved.asObservable();
     public loveSaved$: Observable<TrackModel> = this.loveSaved.asObservable();
 
-    public async createImageUrlAsync(track: TrackModel | undefined, maximumSize: number): Promise<string> {
+    public async createImageUrlAsync(
+        track: TrackModel | undefined,
+        includeExternalAlbumArt: boolean,
+        maximumSize: number,
+    ): Promise<string> {
         if (track == undefined) {
             return Constants.emptyImage;
         }
@@ -42,7 +46,11 @@ export class MetadataService {
             const fileMetaData: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
 
             if (fileMetaData != undefined) {
-                let coverArt: Buffer | undefined = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetaData, false);
+                let coverArt: Buffer | undefined = await this.albumArtworkGetter.getAlbumArtworkAsync(
+                    fileMetaData,
+                    includeExternalAlbumArt,
+                    false,
+                );
 
                 if (coverArt != undefined && coverArt.length > 0) {
                     if (maximumSize > 0) {

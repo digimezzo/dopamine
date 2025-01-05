@@ -194,7 +194,7 @@ describe('AlbumArtworkAdder', () => {
             await albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
 
             // Assert
-            albumArtworkGetterMock.verify((x) => x.getAlbumArtworkAsync(It.isAny(), true), Times.exactly(1));
+            albumArtworkGetterMock.verify((x) => x.getAlbumArtworkAsync(It.isAny(), true, true), Times.exactly(1));
         });
 
         it('should not add album artwork to the cache if no album artwork data was found', async () => {
@@ -210,7 +210,9 @@ describe('AlbumArtworkAdder', () => {
             fileMetadataFactoryMock
                 .setup((x) => x.createAsync('/home/user/Music/track1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
-            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetadataStub, true)).returns(() => Promise.resolve(undefined));
+            albumArtworkGetterMock
+                .setup((x) => x.getAlbumArtworkAsync(fileMetadataStub, true, true))
+                .returns(() => Promise.resolve(undefined));
 
             // Act
             await albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
@@ -234,7 +236,7 @@ describe('AlbumArtworkAdder', () => {
                 .setup((x) => x.createAsync('/home/user/Music/track1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             albumArtworkGetterMock
-                .setup((x) => x.getAlbumArtworkAsync(fileMetadataStub, true))
+                .setup((x) => x.getAlbumArtworkAsync(fileMetadataStub, true, true))
                 .returns(() => Promise.resolve(albumArtworkData1));
 
             // Act
@@ -259,7 +261,7 @@ describe('AlbumArtworkAdder', () => {
                 .setup((x) => x.createAsync('/home/user/Music/track1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             albumArtworkGetterMock
-                .setup((x) => x.getAlbumArtworkAsync(fileMetadataStub, true))
+                .setup((x) => x.getAlbumArtworkAsync(fileMetadataStub, true, true))
                 .returns(() => Promise.resolve(albumArtworkData1));
             albumArtworkCacheServiceMock
                 .setup((x) => x.addArtworkDataToCacheAsync(albumArtworkData1))
@@ -288,7 +290,7 @@ describe('AlbumArtworkAdder', () => {
                 .setup((x) => x.createAsync('/home/user/Music/track1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             albumArtworkGetterMock
-                .setup((x) => x.getAlbumArtworkAsync(fileMetadataStub, true))
+                .setup((x) => x.getAlbumArtworkAsync(fileMetadataStub, true, true))
                 .returns(() => Promise.resolve(albumArtworkData1));
             albumArtworkCacheServiceMock
                 .setup((x) => x.addArtworkDataToCacheAsync(albumArtworkData1))
@@ -316,7 +318,7 @@ describe('AlbumArtworkAdder', () => {
                 .setup((x) => x.createAsync('/home/user/Music/track1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             albumArtworkGetterMock
-                .setup((x) => x.getAlbumArtworkAsync(fileMetadataStub, true))
+                .setup((x) => x.getAlbumArtworkAsync(fileMetadataStub, true, true))
                 .returns(() => Promise.resolve(albumArtworkData1));
             albumArtworkCacheServiceMock
                 .setup((x) => x.addArtworkDataToCacheAsync(albumArtworkData1))
@@ -345,7 +347,7 @@ describe('AlbumArtworkAdder', () => {
                 .setup((x) => x.createAsync('/home/user/Music/track1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             albumArtworkGetterMock
-                .setup((x) => x.getAlbumArtworkAsync(fileMetadataStub, true))
+                .setup((x) => x.getAlbumArtworkAsync(fileMetadataStub, true, true))
                 .returns(() => Promise.resolve(albumArtworkData1));
             albumArtworkCacheServiceMock
                 .setup((x) => x.addArtworkDataToCacheAsync(albumArtworkData1))
