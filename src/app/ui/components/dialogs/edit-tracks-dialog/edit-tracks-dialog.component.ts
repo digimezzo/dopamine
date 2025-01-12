@@ -10,6 +10,8 @@ import { Logger } from '../../../../common/logger';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { MetadataService } from '../../../../services/metadata/metadata.service';
+import { GenreOrder } from '../../collection/collection-genres/genre-browser/genre-order';
+import { ImageComparisonStatus } from '../../../../services/metadata/image-comparison-status';
 
 @Component({
     selector: 'app-edit-tracks-dialog',
@@ -20,7 +22,7 @@ import { MetadataService } from '../../../../services/metadata/metadata.service'
 export class EditTracksDialogComponent implements OnInit {
     private _tracks: TrackModel[];
     private _fileMetaDatas: IFileMetadata[] = [];
-    private _multipleValuesText: string = '<Multiple values>';
+    private _multipleValuesText: string = '';
 
     public constructor(
         private dialogService: DialogServiceBase,
@@ -31,6 +33,9 @@ export class EditTracksDialogComponent implements OnInit {
         public dialogRef: MatDialogRef<EditTracksDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: TrackModel[],
     ) {}
+
+    public imageComparisonStatus: ImageComparisonStatus = ImageComparisonStatus.None;
+    public imageComparisonStatusEnum: typeof ImageComparisonStatus = ImageComparisonStatus;
 
     public title: string = '';
     public artists: string = '';
@@ -48,6 +53,7 @@ export class EditTracksDialogComponent implements OnInit {
 
     public async ngOnInit(): Promise<void> {
         this._tracks = this.data;
+        this._multipleValuesText = await this.translatorService.getAsync('multiple-values');
         await this.getFileMetaDatasAsync();
         this.setFields();
         await this.setImagePathAsync();
@@ -97,6 +103,8 @@ export class EditTracksDialogComponent implements OnInit {
     }
 
     private setFields(): void {
+        this.imageComparisonStatus = this.metadataService.compareImages(this._fileMetaDatas);
+
         if (this._fileMetaDatas.length === 1) {
             this.title = this._fileMetaDatas[0].title;
             this.artists = CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].artists);

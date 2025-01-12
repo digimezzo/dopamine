@@ -13,6 +13,7 @@ import { TrackRepositoryBase } from '../../data/repositories/track-repository.ba
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
 import { SettingsBase } from '../../common/settings/settings.base';
+import { ImageComparisonStatus } from './image-comparison-status';
 
 @Injectable({ providedIn: 'root' })
 export class MetadataService {
@@ -107,5 +108,29 @@ export class MetadataService {
 
     public getAlbumArtworkPath(albumKey: string): string {
         return this.cachedAlbumArtworkGetter.getCachedAlbumArtworkPath(albumKey);
+    }
+
+    public compareImages(fileMetadatas: IFileMetadata[]): ImageComparisonStatus {
+        const imageSizes: number[] = [];
+
+        for (const fileMetadata of fileMetadatas) {
+            const currentImage = fileMetadata.picture;
+
+            if (!currentImage) {
+                imageSizes.push(-1);
+            } else {
+                imageSizes.push(currentImage.length);
+            }
+        }
+
+        if (imageSizes.every((size) => size === -1 || size === 0)) {
+            return ImageComparisonStatus.None;
+        }
+
+        if (imageSizes.every((size) => size === imageSizes[0])) {
+            return ImageComparisonStatus.Identical;
+        }
+
+        return ImageComparisonStatus.Different;
     }
 }

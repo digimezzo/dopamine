@@ -14,8 +14,17 @@
                         />
                     </svg>
                 </div>
-                <div matTooltip="{{ 'change-image' | translate }}" (click)="this.changeImageAsync()">
-                    <img [src]="this.imagePath" width="180" height="180" loading="lazy" draggable="false" />
+                <div
+                    class="d-flex align-items-center justify-content-center"
+                    matTooltip="{{ 'change-image' | translate }}"
+                    (click)="this.changeImageAsync()"
+                >
+                    <div *ngIf="this.imageComparisonStatus === imageComparisonStatusEnum.Identical">
+                        <img [src]="this.imagePath" width="180" height="180" loading="lazy" draggable="false" />
+                    </div>
+                    <div *ngIf="this.imageComparisonStatus === imageComparisonStatusEnum.Different">
+                        {{ 'multiple-images' | translate }}
+                    </div>
                 </div>
                 <div
                     class="edit-tracks__remove-button d-flex justify-content-center align-items-center"
