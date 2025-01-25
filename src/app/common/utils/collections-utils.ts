@@ -95,4 +95,15 @@ export class CollectionUtils {
             .map((x) => x!.trim())
             .join(';');
     }
+
+    public static fromSemicolonSeparatedString(itemsAsString: string | undefined): string[] {
+        if (StringUtils.isNullOrWhiteSpace(itemsAsString)) {
+            return [];
+        }
+
+        return itemsAsString!
+            .split(';')
+            .map((item) => item.trim())
+            .filter((item) => item.length > 0);
+    }
 }

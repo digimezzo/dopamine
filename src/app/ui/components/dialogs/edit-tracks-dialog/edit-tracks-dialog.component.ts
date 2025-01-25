@@ -168,4 +168,37 @@ export class EditTracksDialogComponent implements OnInit {
     }
 
     public async changeImageAsync(): Promise<void> {}
+
+    public saveMetadata(): void {
+        let numerOfErrors: number = 0;
+        for (const fileMetaData of this._fileMetaDatas) {
+            try {
+                fileMetaData.title = this.title;
+                fileMetaData.artists = CollectionUtils.fromSemicolonSeparatedString(this.artists);
+                fileMetaData.album = this.albumTitle;
+                fileMetaData.albumArtists = CollectionUtils.fromSemicolonSeparatedString(this.albumArtists);
+                fileMetaData.year = parseInt(this.year);
+                fileMetaData.genres = CollectionUtils.fromSemicolonSeparatedString(this.genres);
+                fileMetaData.trackNumber = parseInt(this.trackNumber);
+                fileMetaData.discCount = parseInt(this.trackCount);
+                fileMetaData.discNumber = parseInt(this.discNumber);
+                fileMetaData.discCount = parseInt(this.discCount);
+                fileMetaData.grouping = this.grouping;
+                fileMetaData.comment = this.comment;
+                fileMetaData.save();
+            } catch (e: unknown) {
+                numerOfErrors++;
+                this.logger.error(
+                    e,
+                    `Failed to save metadata for file "${fileMetaData.path}"`,
+                    'EditTracksDialogComponent',
+                    'saveMetadata',
+                );
+            }
+        }
+
+        if (numerOfErrors > 0) {
+            this.dialogService.showErrorDialog('Failed to save metadata for some files');
+        }
+    }
 }

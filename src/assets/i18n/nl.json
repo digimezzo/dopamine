@@ -307,6 +307,8 @@
     "update-album-cover": "Albumhoes bijwerken",
     "multiple-values": "Meerdere waarden",
     "multiple-images": "Meerdere afbeeldingen",
-    "read-tags-error-single-file": "Er is een fout opgetreden bij het lezen van de tags van 1 bestand. Controleer log als u meer informatie nodig heeft.",
-    "read-tags-error-multiple-files": "Er is een fout opgetreden bij het lezen van de tags van {{numberOfFiles}} bestanden. Controleer de log als u meer informatie nodig heeft."
+    "read-tags-error-single-file": "Er is een fout opgetreden bij het lezen van de tags van 1 bestand. Controleer de log als u meer informatie nodig heeft.",
+    "read-tags-error-multiple-files": "Er is een fout opgetreden bij het lezen van de tags van {{numberOfFiles}} bestanden. Controleer de log als u meer informatie nodig heeft.",
+    "save-tags-error-single-file": "Er is een fout opgetreden bij het opslaan van de tags van 1 bestand. Controleer de log als u meer informatie nodig heeft.",
+    "save-tags-error-multiple-files": "Er is een fout opgetreden bij het opslaan van de tags van {{numberOfFiles}} bestanden. Controleer de log als u meer informatie nodig heeft."
 }

@@ -101,4 +101,24 @@ describe('CollectionUtils', () => {
             );
         });
     });
+
+    describe('fromSemicolonSeparatedString', () => {
+        it('should return an empty collection if string is undefined', () => {
+            // Assert
+            expect(CollectionUtils.fromSemicolonSeparatedString(undefined)).toEqual([]);
+        });
+
+        it('should return an empty collection if string is empty', () => {
+            // Assert
+            expect(CollectionUtils.fromSemicolonSeparatedString('')).toEqual([]);
+        });
+
+        it('should return a collection containing the string items if string is not empty', () => {
+            // Arrange
+            const itemsAsString = 'Item 1;Item 2 ;; ;Item 3';
+
+            // Act, Assert
+            expect(CollectionUtils.fromSemicolonSeparatedString(itemsAsString)).toEqual(['Item 1', 'Item 2', 'Item 3']);
+        });
+    });
 });
