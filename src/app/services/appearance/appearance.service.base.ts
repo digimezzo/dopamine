@@ -12,6 +12,7 @@ export abstract class AppearanceServiceBase {
     public abstract fontSizes: number[];
     public abstract themes: Theme[];
     public abstract followSystemTheme: boolean;
+    public abstract showAlbumCoverInDock: boolean;
     public abstract useLightBackgroundTheme: boolean;
     public abstract followSystemColor: boolean;
     public abstract followAlbumCoverColor: boolean;
