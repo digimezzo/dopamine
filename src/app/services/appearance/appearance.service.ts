@@ -21,6 +21,9 @@ import { PlaybackService } from '../playback/playback.service';
 import { PlaybackStarted } from '../playback/playback-started';
 import { AlbumAccentColorService } from '../album-accent-color/album-accent-color.service';
 import { PromiseUtils } from '../../common/utils/promise-utils';
+import { Dock, nativeImage } from 'electron';
+import * as remote from '@electron/remote';
+import { MetadataService } from '../metadata/metadata.service';
 
 @Injectable()
 export class AppearanceService implements AppearanceServiceBase {
@@ -52,6 +55,7 @@ export class AppearanceService implements AppearanceServiceBase {
         private applicationPaths: ApplicationPaths,
         private playbackService: PlaybackService,
         private albumAccentColorService: AlbumAccentColorService,
+        private metadataService: MetadataService,
     ) {
         this.initialize();
     }
@@ -90,6 +94,15 @@ export class AppearanceService implements AppearanceServiceBase {
     public set followSystemTheme(v: boolean) {
         this.settings.followSystemTheme = v;
         PromiseUtils.noAwait(this.safeApplyThemeAsync());
+    }
+
+    public get showAlbumCoverInDock(): boolean {
+        return this.settings.showAlbumCoverInDock;
+    }
+
+    public set showAlbumCoverInDock(v: boolean) {
+        this.settings.showAlbumCoverInDock = v;
+        PromiseUtils.noAwait(this.setDockIconAsync());
     }
 
     public get useLightBackgroundTheme(): boolean {
@@ -495,5 +508,32 @@ export class AppearanceService implements AppearanceServiceBase {
         }
 
         return themes;
+    }
+
+    private async setDockIconAsync(): Promise<boolean> {
+        try {
+            const track = this.playbackService.currentTrack;
+            if (this.settings.showAlbumCoverInDock && this.application.getGlobal('isMacOS') && track != undefined) {
+                const albumArtworkPath: string = this.metadataService.getAlbumArtworkPath(track.albumKey);
+                const image = nativeImage.createFromPath(albumArtworkPath);
+                remote.app.dock.setIcon(image);
+                
+            } else {
+                const staticPath = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
+                const defaultIconPath: string = require('path').join(staticPath, 'icons/64x64.png');
+                const image = nativeImage.createFromPath(defaultIconPath);
+                remote.app.dock.setIcon(image);
+            }
+
+        } catch (e: unknown) {
+            this.logger.warn(
+                'Could not set dock icon.',
+                'AppearanceService',
+                'setDockIconAsync',
+            );
+
+            return false;
+        }
+        return true;
     }
 }

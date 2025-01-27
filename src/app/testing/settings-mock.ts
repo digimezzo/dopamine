@@ -70,6 +70,7 @@ export class SettingsMock implements SettingsBase {
     public showRating: boolean;
     public showTracksPage: boolean;
     public showWelcome: boolean;
+    public showAlbumCoverInDock: boolean;
     public skipRemovedFilesDuringRefresh: boolean;
     public theme: string;
     public tracksPageColumnsOrder: string;

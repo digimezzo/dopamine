@@ -41,6 +41,9 @@
     <div class="title">{{ 'title-bar' | translate }}</div>
     <app-toggle-switch [(isChecked)]="settings.useSystemTitleBar"> {{ 'use-system-title-bar' | translate }}</app-toggle-switch>
     <mat-divider class="my-4"></mat-divider>
+    <div class="title">{{ 'dock-bar' | translate }}</div>
+    <app-toggle-switch [(isChecked)]="appearanceService.showAlbumCoverInDock"> {{ 'show-album-cover-in-dock' | translate }}</app-toggle-switch>
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'language' | translate }}</div>
     <div>{{ 'choose-language' | translate }}</div>
     <mat-form-field class="mt-2">

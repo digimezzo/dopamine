@@ -38,6 +38,8 @@
     "follow-system-color": "Follow the system color",
     "title-bar": "Title bar",
     "use-system-title-bar": "Use system title bar (requires a restart)",
+    "dock-bar": "Dock",
+    "show-album-cover-in-dock": "Show album cover as the Dock icon (macOS only)",
     "choose-language": "Choose a language",
     "text-size": "Text size",
     "choose-text-size": "Choose a text size",

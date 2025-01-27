@@ -570,6 +570,15 @@ export class Settings implements SettingsBase {
         this.settings.set('showRating', v);
     }
 
+    // showAlbumCoverInDock
+    public get showAlbumCoverInDock(): boolean {
+        return <boolean>this.settings.get('showAlbumCoverInDock');
+    }
+
+    public set showAlbumCoverInDock(v: boolean) {
+        this.settings.set('showAlbumCoverInDock', v);
+    }
+
     // tracksPageVisibleColumns
     public get tracksPageVisibleColumns(): string {
         return <string>this.settings.get('tracksPageVisibleColumns');
@@ -1017,6 +1026,10 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('showRating')) {
             this.settings.set('showRating', true);
+        }
+
+        if (!this.settings.has('showAlbumCoverInDock')) {
+            this.settings.set('showAlbumCoverInDock', false);
         }
 
         if (!this.settings.has('saveRatingToAudioFiles')) {

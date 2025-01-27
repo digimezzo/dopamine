@@ -59,6 +59,7 @@ export abstract class SettingsBase {
     public abstract showPlaylistsPage: boolean;
     public abstract showFoldersPage: boolean;
     public abstract showRating: boolean;
+    public abstract showAlbumCoverInDock: boolean;
     public abstract saveRatingToAudioFiles: boolean;
     public abstract tracksPageVisibleColumns: string;
     public abstract tracksPageColumnsOrder: string;
