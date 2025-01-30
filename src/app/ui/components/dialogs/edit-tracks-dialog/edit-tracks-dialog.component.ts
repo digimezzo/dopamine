@@ -110,12 +110,12 @@ export class EditTracksDialogComponent implements OnInit {
             this.artists = CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].artists);
             this.albumTitle = this._fileMetaDatas[0].title;
             this.albumArtists = CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].albumArtists);
-            this.year = this._fileMetaDatas[0].year.toString();
+            this.year = this.saveGetNumberAsString(this._fileMetaDatas[0].year);
             this.genres = CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].genres);
-            this.trackNumber = this._fileMetaDatas[0].trackNumber.toString();
-            this.trackCount = this._fileMetaDatas[0].discCount.toString();
-            this.discNumber = this._fileMetaDatas[0].discNumber.toString();
-            this.discCount = this._fileMetaDatas[0].discCount.toString();
+            this.trackNumber = this.saveGetNumberAsString(this._fileMetaDatas[0].trackNumber);
+            this.trackCount = this.saveGetNumberAsString(this._fileMetaDatas[0].trackCount);
+            this.discNumber = this.saveGetNumberAsString(this._fileMetaDatas[0].discNumber);
+            this.discCount = this.saveGetNumberAsString(this._fileMetaDatas[0].discCount);
             this.grouping = this._fileMetaDatas[0].grouping;
             this.comment = this._fileMetaDatas[0].comment;
         } else if (this._fileMetaDatas.length > 1) {
@@ -177,12 +177,12 @@ export class EditTracksDialogComponent implements OnInit {
                 fileMetaData.artists = CollectionUtils.fromSemicolonSeparatedString(this.artists);
                 fileMetaData.album = this.albumTitle;
                 fileMetaData.albumArtists = CollectionUtils.fromSemicolonSeparatedString(this.albumArtists);
-                fileMetaData.year = parseInt(this.year);
+                fileMetaData.year = this.saveSetNumberFromString(this.year);
                 fileMetaData.genres = CollectionUtils.fromSemicolonSeparatedString(this.genres);
-                fileMetaData.trackNumber = parseInt(this.trackNumber);
-                fileMetaData.discCount = parseInt(this.trackCount);
-                fileMetaData.discNumber = parseInt(this.discNumber);
-                fileMetaData.discCount = parseInt(this.discCount);
+                fileMetaData.trackNumber = this.saveSetNumberFromString(this.trackNumber);
+                fileMetaData.discCount = this.saveSetNumberFromString(this.trackCount);
+                fileMetaData.discNumber = this.saveSetNumberFromString(this.discNumber);
+                fileMetaData.discCount = this.saveSetNumberFromString(this.discCount);
                 fileMetaData.grouping = this.grouping;
                 fileMetaData.comment = this.comment;
                 fileMetaData.save();
@@ -200,5 +200,27 @@ export class EditTracksDialogComponent implements OnInit {
         if (numerOfErrors > 0) {
             this.dialogService.showErrorDialog('Failed to save metadata for some files');
         }
+    }
+
+    private saveGetNumberAsString(number: number): string {
+        if (number === 0) {
+            return '';
+        }
+
+        return number.toString();
+    }
+
+    private saveSetNumberFromString(value: string): number {
+        if (value === '') {
+            return 0;
+        }
+
+        const number = parseInt(value);
+
+        if (isNaN(number)) {
+            return 0;
+        }
+
+        return number;
     }
 }
