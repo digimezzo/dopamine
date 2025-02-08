@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TrackModel } from '../../../../services/track/track-model';
 import { IFileMetadata } from '../../../../common/metadata/i-file-metadata';
 import { FileMetadataFactoryBase } from '../../../../common/metadata/file-metadata.factory.base';
@@ -9,7 +9,9 @@ import { DialogServiceBase } from '../../../../services/dialog/dialog.service.ba
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { MetadataService } from '../../../../services/metadata/metadata.service';
 import { ImageComparisonStatus } from '../../../../services/metadata/image-comparison-status';
-import { Constants } from '../../../../common/application/constants';
+import { StringUtils } from '../../../../common/utils/string-utils';
+import { DesktopBase } from '../../../../common/io/desktop.base';
+import { ImageRenderData } from '../../../../services/metadata/image-render-data';
 
 @Component({
     selector: 'app-edit-tracks-dialog',
@@ -22,6 +24,7 @@ export class EditTracksDialogComponent implements OnInit {
     private _fileMetaDatas: IFileMetadata[] = [];
     private _multipleValuesText: string = '';
     private _shouldRemoveImages: boolean = false;
+    private _newImageBuffer: Buffer | undefined;
 
     public constructor(
         private dialogService: DialogServiceBase,
@@ -29,7 +32,7 @@ export class EditTracksDialogComponent implements OnInit {
         private metadataService: MetadataService,
         private fileMetadataFactory: FileMetadataFactoryBase,
         private logger: Logger,
-        public dialogRef: MatDialogRef<EditTracksDialogComponent>,
+        private desktop: DesktopBase,
         @Inject(MAT_DIALOG_DATA) public data: TrackModel[],
     ) {}
 
@@ -57,17 +60,9 @@ export class EditTracksDialogComponent implements OnInit {
         await this.getFileMetaDatasAsync();
         this.setFields();
         await this.setImagePathAsync();
-
-        this.dialogRef.afterClosed().subscribe((result: boolean | undefined) => {
-            if (result != undefined && result) {
-                alert('Saved tracks'); // TODO: make this a pretty notification
-            }
-        });
     }
 
     public exportImage(): void {}
-
-    public changeImage(): void {}
 
     public downloadImage(): void {}
 
@@ -174,9 +169,23 @@ export class EditTracksDialogComponent implements OnInit {
         this.imagePath = await this.metadataService.createTrackImageUrlAsync(this._tracks[0]);
     }
 
-    public async changeImageAsync(): Promise<void> {}
+    public async changeImageAsync(): Promise<void> {
+        const selectedFile: string = await this.desktop.showSelectFileDialogAsync(this.translatorService.get('choose-image'));
 
-    public saveMetadata(): void {
+        if (!StringUtils.isNullOrWhiteSpace(selectedFile)) {
+            try {
+                const renderData: ImageRenderData = await this.metadataService.getImageDataRenderAsync(selectedFile);
+                this.imagePath = renderData.imageUrl;
+                this._newImageBuffer = renderData.imageBuffer;
+                this.canShowRemoveButton = true;
+                this.imageComparisonStatus = ImageComparisonStatus.Identical;
+            } catch (e: unknown) {
+                this.dialogService.showErrorDialog(await this.translatorService.getAsync('change-image-error'));
+            }
+        }
+    }
+
+    public async saveMetadataAsync(): Promise<void> {
         let numberOfErrors: number = 0;
         for (const fileMetaData of this._fileMetaDatas) {
             try {
@@ -219,6 +228,8 @@ export class EditTracksDialogComponent implements OnInit {
 
                 if (this._shouldRemoveImages) {
                     fileMetaData.picture = undefined;
+                } else if (this._newImageBuffer != undefined) {
+                    fileMetaData.picture = this._newImageBuffer;
                 }
 
                 fileMetaData.save();
@@ -234,7 +245,11 @@ export class EditTracksDialogComponent implements OnInit {
         }
 
         if (numberOfErrors > 0) {
-            this.dialogService.showErrorDialog('Failed to save metadata for some files');
+            const message =
+                numberOfErrors === 1
+                    ? await this.translatorService.getAsync('save-tags-error-single-file')
+                    : await this.translatorService.getAsync('save-tags-error-multiple-files', { numberOfFiles: numberOfErrors });
+            this.dialogService.showErrorDialog(message);
         }
     }
 

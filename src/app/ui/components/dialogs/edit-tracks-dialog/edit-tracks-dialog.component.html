@@ -120,6 +120,6 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <app-accent-button class="mr-2" [mat-dialog-close]="true" (click)="this.saveMetadata()">{{ 'ok' | translate }}</app-accent-button>
+    <app-accent-button class="mr-2" [mat-dialog-close]="true" (click)="this.saveMetadataAsync()">{{ 'ok' | translate }}</app-accent-button>
     <app-transparent-button [mat-dialog-close]="false">{{ 'cancel' | translate }}</app-transparent-button>
 </mat-dialog-actions>

@@ -14,6 +14,7 @@ import { FileAccessBase } from '../../common/io/file-access.base';
 import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { ImageComparisonStatus } from './image-comparison-status';
+import { ImageRenderData } from './image-render-data';
 
 @Injectable({ providedIn: 'root' })
 export class MetadataService {
@@ -159,5 +160,17 @@ export class MetadataService {
         }
 
         return ImageComparisonStatus.Different;
+    }
+    s;
+
+    public async getImageDataRenderAsync(imageFilePath: string): Promise<ImageRenderData> {
+        try {
+            const imageBuffer: Buffer = await this.imageProcessor.convertLocalImageToBufferAsync(imageFilePath);
+            const imageUrl: string = this.imageProcessor.convertBufferToImageUrl(imageBuffer);
+            return new ImageRenderData(imageUrl, imageBuffer);
+        } catch (e: unknown) {
+            this.logger.error(e, `Could not read image file '${imageFilePath}'`, 'MetadataService', 'getImageDataRenderAsync');
+            throw new Error(e instanceof Error ? e.message : 'Unknown error');
+        }
     }
 }

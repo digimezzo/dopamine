@@ -310,5 +310,6 @@
     "read-tags-error-single-file": "Une erreur s'est produite lors de la lecture des balises d'un fichier. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
     "read-tags-error-multiple-files": "Une erreur s'est produite lors de la lecture des balises des fichiers {{numberOfFiles}}. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
     "save-tags-error-single-file": "Une erreur s'est produite lors de l'enregistrement des balises d'un fichier. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
-    "save-tags-error-multiple-files": "Une erreur s'est produite lors de l'enregistrement des balises des fichiers {{numberOfFiles}}. Veuillez vérifier le log si vous avez besoin de plus d'informations."
+    "save-tags-error-multiple-files": "Une erreur s'est produite lors de l'enregistrement des balises des fichiers {{numberOfFiles}}. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
+    "change-image-error": "Une erreur s'est produite lors du changement de l'image. Veuillez vérifier le log si vous avez besoin de plus d'informations."
 }

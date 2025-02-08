@@ -310,5 +310,6 @@
     "read-tags-error-single-file": "An error occurred while reading the tags of 1 file. Please check the log file if you need more information.",
     "read-tags-error-multiple-files": "An error occurred while reading the tags of {{numberOfFiles}} files. Please check the log file if you need more information.",
     "save-tags-error-single-file": "An error occurred while saving the tags of 1 file. Please check the log file if you need more information.",
-    "save-tags-error-multiple-files": "An error occurred while saving the tags of {{numberOfFiles}} files. Please check the log file if you need more information."
+    "save-tags-error-multiple-files": "An error occurred while saving the tags of {{numberOfFiles}} files. Please check the log file if you need more information.",
+    "change-image-error": "An error occurred while changing the image. Please check the log file if you need more information."
 }
