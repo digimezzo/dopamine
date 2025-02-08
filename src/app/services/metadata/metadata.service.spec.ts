@@ -16,7 +16,6 @@ import { TrackRepositoryBase } from '../../data/repositories/track-repository.ba
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
-import { ImageComparisonStatus } from './image-comparison-status';
 
 jest.mock('jimp', () => ({ exec: jest.fn() }));
 
@@ -109,7 +108,7 @@ describe('MetadataService', () => {
             const service: MetadataService = createService();
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(undefined, true, 0);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(undefined, 0);
 
             // Assert
             expect(imageUrl).toEqual(Constants.emptyImage);
@@ -124,7 +123,7 @@ describe('MetadataService', () => {
             cachedAlbumArtworkGetterMock.setup((x) => x.getCachedAlbumArtworkPath('albumKey1')).returns(() => '');
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track, true, 0);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(track, 0);
 
             // Assert
             expect(imageUrl).toEqual(Constants.emptyImage);
@@ -140,7 +139,7 @@ describe('MetadataService', () => {
             fileAccessMock.setup((x) => x.pathExists('cachedAlbumArtworkPath1')).returns(() => true);
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track, true, 0);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(track, 0);
 
             // Assert
             expect(imageUrl).toEqual('file:///cachedAlbumArtworkPath1');
@@ -152,13 +151,11 @@ describe('MetadataService', () => {
             const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
             const fileMetaDataMock: any = {};
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
-            albumArtworkGetterMock
-                .setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, true, false))
-                .returns(() => Promise.resolve(undefined));
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, false)).returns(() => Promise.resolve(undefined));
             cachedAlbumArtworkGetterMock.setup((x) => x.getCachedAlbumArtworkPath('albumKey1')).returns(() => '');
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track, true, 0);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(track, 0);
 
             // Assert
             expect(imageUrl).toEqual(Constants.emptyImage);
@@ -171,14 +168,12 @@ describe('MetadataService', () => {
             const fileMetaDataMock: any = {};
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
             const coverArt: Buffer = Buffer.from([]);
-            albumArtworkGetterMock
-                .setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, true, false))
-                .returns(() => Promise.resolve(coverArt));
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, false)).returns(() => Promise.resolve(coverArt));
             imageProcessorMock.setup((x) => x.convertBufferToImageUrl(coverArt)).returns(() => 'bufferAsImageUrl');
             cachedAlbumArtworkGetterMock.setup((x) => x.getCachedAlbumArtworkPath('albumKey1')).returns(() => 'cachedAlbumArtworkPath1');
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track, true, 0);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(track, 0);
 
             // Assert
             expect(imageUrl).toEqual(Constants.emptyImage);
@@ -191,14 +186,12 @@ describe('MetadataService', () => {
             const fileMetaDataMock: any = {};
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
             const coverArt: Buffer = Buffer.from([1, 2, 3]);
-            albumArtworkGetterMock
-                .setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, true, false))
-                .returns(() => Promise.resolve(coverArt));
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, false)).returns(() => Promise.resolve(coverArt));
             imageProcessorMock.setup((x) => x.convertBufferToImageUrl(coverArt)).returns(() => 'bufferAsImageUrl');
             imageProcessorMock.setup((x) => x.toJpegBufferAsync(coverArt, 80)).returns(() => Promise.resolve(coverArt));
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track, true, 0);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(track, 0);
 
             // Assert
             expect(imageUrl).toEqual('bufferAsImageUrl');
@@ -211,13 +204,11 @@ describe('MetadataService', () => {
             const fileMetaDataMock: any = {};
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
             const coverArt: Buffer = Buffer.from([1, 2, 3]);
-            albumArtworkGetterMock
-                .setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, true, false))
-                .returns(() => Promise.resolve(coverArt));
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, false)).returns(() => Promise.resolve(coverArt));
             imageProcessorMock.setup((x) => x.convertBufferToImageUrl(coverArt)).returns(() => 'bufferAsImageUrl');
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track, true, 0);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(track, 0);
 
             // Assert
             imageProcessorMock.verify((x) => x.toResizedJpegBufferAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
@@ -230,13 +221,11 @@ describe('MetadataService', () => {
             const fileMetaDataMock: any = {};
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
             const coverArt: Buffer = Buffer.from([1, 2, 3]);
-            albumArtworkGetterMock
-                .setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, true, false))
-                .returns(() => Promise.resolve(coverArt));
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, false)).returns(() => Promise.resolve(coverArt));
             imageProcessorMock.setup((x) => x.convertBufferToImageUrl(coverArt)).returns(() => 'bufferAsImageUrl');
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track, true, -1);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(track, -1);
 
             // Assert
             imageProcessorMock.verify((x) => x.toResizedJpegBufferAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
@@ -249,13 +238,11 @@ describe('MetadataService', () => {
             const fileMetaDataMock: any = {};
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
             const coverArt: Buffer = Buffer.from([1, 2, 3]);
-            albumArtworkGetterMock
-                .setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, true, false))
-                .returns(() => Promise.resolve(coverArt));
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, false)).returns(() => Promise.resolve(coverArt));
             imageProcessorMock.setup((x) => x.convertBufferToImageUrl(coverArt)).returns(() => 'bufferAsImageUrl');
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track, true, 500);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(track, 500);
 
             // Assert
             imageProcessorMock.verify((x) => x.toResizedJpegBufferAsync(coverArt, 500, 500, 80), Times.once());
@@ -385,149 +372,6 @@ describe('MetadataService', () => {
 
             // Assert
             expect(loveSaved).toBeTruthy();
-        });
-    });
-
-    describe('compareImages', () => {
-        it('should return ImageComparisonStatus.None if there are no images', () => {
-            // Arrange
-            const fileMetadatas: IFileMetadata[] = [];
-            const fm1 = Mock.ofType<IFileMetadata>();
-            const fm2 = Mock.ofType<IFileMetadata>();
-            const fm3 = Mock.ofType<IFileMetadata>();
-            fileMetadatas.push(fm1.object);
-            fileMetadatas.push(fm2.object);
-            fileMetadatas.push(fm3.object);
-            fm1.setup((x) => x.picture).returns(() => undefined);
-            fm2.setup((x) => x.picture).returns(() => undefined);
-            fm3.setup((x) => x.picture).returns(() => undefined);
-            const service: MetadataService = createService();
-
-            // Act
-            const status = service.compareImages(fileMetadatas);
-
-            // Assert
-            expect(status).toEqual(ImageComparisonStatus.None);
-        });
-
-        it('should return ImageComparisonStatus.Identical if all images are the same', () => {
-            const fileMetadatas: IFileMetadata[] = [];
-            const fm1 = Mock.ofType<IFileMetadata>();
-            const fm2 = Mock.ofType<IFileMetadata>();
-            const fm3 = Mock.ofType<IFileMetadata>();
-            fileMetadatas.push(fm1.object);
-            fileMetadatas.push(fm2.object);
-            fileMetadatas.push(fm3.object);
-            fm1.setup((x) => x.picture).returns(() => Buffer.from([1, 2, 3]));
-            fm2.setup((x) => x.picture).returns(() => Buffer.from([1, 2, 3]));
-            fm3.setup((x) => x.picture).returns(() => Buffer.from([1, 2, 3]));
-            const service: MetadataService = createService();
-
-            // Act
-            const status = service.compareImages(fileMetadatas);
-
-            // Assert
-            expect(status).toEqual(ImageComparisonStatus.Identical);
-        });
-
-        it('should return ImageComparisonStatus.Different if some but not all images are the same', () => {
-            const fileMetadatas: IFileMetadata[] = [];
-            const fm1 = Mock.ofType<IFileMetadata>();
-            const fm2 = Mock.ofType<IFileMetadata>();
-            const fm3 = Mock.ofType<IFileMetadata>();
-            fileMetadatas.push(fm1.object);
-            fileMetadatas.push(fm2.object);
-            fileMetadatas.push(fm3.object);
-            fm1.setup((x) => x.picture).returns(() => Buffer.from([1, 2, 3]));
-            fm2.setup((x) => x.picture).returns(() => Buffer.from([1, 2, 3]));
-            fm3.setup((x) => x.picture).returns(() => Buffer.from([1, 2, 3, 4]));
-            const service: MetadataService = createService();
-
-            // Act
-            const status = service.compareImages(fileMetadatas);
-
-            // Assert
-            expect(status).toEqual(ImageComparisonStatus.Different);
-        });
-
-        it('should return ImageComparisonStatus.Different if all images are different', () => {
-            const fileMetadatas: IFileMetadata[] = [];
-            const fm1 = Mock.ofType<IFileMetadata>();
-            const fm2 = Mock.ofType<IFileMetadata>();
-            const fm3 = Mock.ofType<IFileMetadata>();
-            fileMetadatas.push(fm1.object);
-            fileMetadatas.push(fm2.object);
-            fileMetadatas.push(fm3.object);
-            fm1.setup((x) => x.picture).returns(() => Buffer.from([1]));
-            fm2.setup((x) => x.picture).returns(() => Buffer.from([1, 2]));
-            fm3.setup((x) => x.picture).returns(() => Buffer.from([1, 2, 3]));
-            const service: MetadataService = createService();
-
-            // Act
-            const status = service.compareImages(fileMetadatas);
-
-            // Assert
-            expect(status).toEqual(ImageComparisonStatus.Different);
-        });
-
-        it('should return ImageComparisonStatus.None if there are only empty images', () => {
-            const fileMetadatas: IFileMetadata[] = [];
-            const fm1 = Mock.ofType<IFileMetadata>();
-            const fm2 = Mock.ofType<IFileMetadata>();
-            const fm3 = Mock.ofType<IFileMetadata>();
-            fileMetadatas.push(fm1.object);
-            fileMetadatas.push(fm2.object);
-            fileMetadatas.push(fm3.object);
-            fm1.setup((x) => x.picture).returns(() => Buffer.from([]));
-            fm2.setup((x) => x.picture).returns(() => Buffer.from([]));
-            fm3.setup((x) => x.picture).returns(() => Buffer.from([]));
-            const service: MetadataService = createService();
-
-            // Act
-            const status = service.compareImages(fileMetadatas);
-
-            // Assert
-            expect(status).toEqual(ImageComparisonStatus.None);
-        });
-
-        it('should return ImageComparisonStatus.Different if there are some empty images and the other images are the same', () => {
-            const fileMetadatas: IFileMetadata[] = [];
-            const fm1 = Mock.ofType<IFileMetadata>();
-            const fm2 = Mock.ofType<IFileMetadata>();
-            const fm3 = Mock.ofType<IFileMetadata>();
-            fileMetadatas.push(fm1.object);
-            fileMetadatas.push(fm2.object);
-            fileMetadatas.push(fm3.object);
-            fm1.setup((x) => x.picture).returns(() => Buffer.from([]));
-            fm2.setup((x) => x.picture).returns(() => Buffer.from([1, 2, 3]));
-            fm3.setup((x) => x.picture).returns(() => Buffer.from([1, 2, 3]));
-            const service: MetadataService = createService();
-
-            // Act
-            const status = service.compareImages(fileMetadatas);
-
-            // Assert
-            expect(status).toEqual(ImageComparisonStatus.Different);
-        });
-
-        it('should return ImageComparisonStatus.Different if there are some empty images and the other images are not the same', () => {
-            const fileMetadatas: IFileMetadata[] = [];
-            const fm1 = Mock.ofType<IFileMetadata>();
-            const fm2 = Mock.ofType<IFileMetadata>();
-            const fm3 = Mock.ofType<IFileMetadata>();
-            fileMetadatas.push(fm1.object);
-            fileMetadatas.push(fm2.object);
-            fileMetadatas.push(fm3.object);
-            fm1.setup((x) => x.picture).returns(() => Buffer.from([]));
-            fm2.setup((x) => x.picture).returns(() => Buffer.from([1, 2, 3]));
-            fm3.setup((x) => x.picture).returns(() => Buffer.from([1, 2, 3, 4]));
-            const service: MetadataService = createService();
-
-            // Act
-            const status = service.compareImages(fileMetadatas);
-
-            // Assert
-            expect(status).toEqual(ImageComparisonStatus.Different);
         });
     });
 });

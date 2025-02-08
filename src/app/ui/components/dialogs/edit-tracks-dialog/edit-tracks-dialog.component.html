@@ -15,6 +15,7 @@
                     </svg>
                 </div>
                 <div
+                    *ngIf="this.canShowRemoveButton"
                     class="d-flex align-items-center justify-content-center"
                     matTooltip="{{ 'change-image' | translate }}"
                     (click)="this.changeImageAsync()"
@@ -28,7 +29,7 @@
                 </div>
                 <div
                     class="edit-tracks__remove-button d-flex justify-content-center align-items-center"
-                    *ngIf="this.imagePath"
+                    *ngIf="this.canShowRemoveButton"
                     matTooltip="{{ 'remove-image' | translate }}"
                     (click)="this.removeImage()"
                 >

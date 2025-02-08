@@ -1,8 +1,6 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ErrorData } from '../../../../services/dialog/error-data';
 import { TrackModel } from '../../../../services/track/track-model';
-import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { IFileMetadata } from '../../../../common/metadata/i-file-metadata';
 import { FileMetadataFactoryBase } from '../../../../common/metadata/file-metadata.factory.base';
 import { CollectionUtils } from '../../../../common/utils/collections-utils';
@@ -10,8 +8,8 @@ import { Logger } from '../../../../common/logger';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { MetadataService } from '../../../../services/metadata/metadata.service';
-import { GenreOrder } from '../../collection/collection-genres/genre-browser/genre-order';
 import { ImageComparisonStatus } from '../../../../services/metadata/image-comparison-status';
+import { Constants } from '../../../../common/application/constants';
 
 @Component({
     selector: 'app-edit-tracks-dialog',
@@ -23,6 +21,7 @@ export class EditTracksDialogComponent implements OnInit {
     private _tracks: TrackModel[];
     private _fileMetaDatas: IFileMetadata[] = [];
     private _multipleValuesText: string = '';
+    private _shouldRemoveImages: boolean = false;
 
     public constructor(
         private dialogService: DialogServiceBase,
@@ -36,6 +35,7 @@ export class EditTracksDialogComponent implements OnInit {
 
     public imageComparisonStatus: ImageComparisonStatus = ImageComparisonStatus.None;
     public imageComparisonStatusEnum: typeof ImageComparisonStatus = ImageComparisonStatus;
+    public canShowRemoveButton: boolean = false;
 
     public title: string = '';
     public artists: string = '';
@@ -60,8 +60,7 @@ export class EditTracksDialogComponent implements OnInit {
 
         this.dialogRef.afterClosed().subscribe((result: boolean | undefined) => {
             if (result != undefined && result) {
-                // Save tracks
-                alert('Save tracks');
+                alert('Saved tracks'); // TODO: make this a pretty notification
             }
         });
     }
@@ -72,7 +71,11 @@ export class EditTracksDialogComponent implements OnInit {
 
     public downloadImage(): void {}
 
-    public removeImage(): void {}
+    public removeImage(): void {
+        this.canShowRemoveButton = false;
+        this._shouldRemoveImages = true;
+        this.imagePath = '';
+    }
 
     private async getFileMetaDatasAsync(): Promise<void> {
         let numberOfErrors: number = 0;
@@ -104,6 +107,10 @@ export class EditTracksDialogComponent implements OnInit {
 
     private setFields(): void {
         this.imageComparisonStatus = this.metadataService.compareImages(this._fileMetaDatas);
+
+        if (this.imageComparisonStatus !== ImageComparisonStatus.None) {
+            this.canShowRemoveButton = true;
+        }
 
         if (this._fileMetaDatas.length === 1) {
             this.title = this._fileMetaDatas[0].title;
@@ -164,30 +171,59 @@ export class EditTracksDialogComponent implements OnInit {
     }
 
     private async setImagePathAsync(): Promise<void> {
-        this.imagePath = await this.metadataService.createImageUrlAsync(this._tracks[0], false, 0);
+        this.imagePath = await this.metadataService.createTrackImageUrlAsync(this._tracks[0]);
     }
 
     public async changeImageAsync(): Promise<void> {}
 
     public saveMetadata(): void {
-        let numerOfErrors: number = 0;
+        let numberOfErrors: number = 0;
         for (const fileMetaData of this._fileMetaDatas) {
             try {
-                fileMetaData.title = this.title;
-                fileMetaData.artists = CollectionUtils.fromSemicolonSeparatedString(this.artists);
-                fileMetaData.album = this.albumTitle;
-                fileMetaData.albumArtists = CollectionUtils.fromSemicolonSeparatedString(this.albumArtists);
-                fileMetaData.year = this.saveSetNumberFromString(this.year);
-                fileMetaData.genres = CollectionUtils.fromSemicolonSeparatedString(this.genres);
-                fileMetaData.trackNumber = this.saveSetNumberFromString(this.trackNumber);
-                fileMetaData.discCount = this.saveSetNumberFromString(this.trackCount);
-                fileMetaData.discNumber = this.saveSetNumberFromString(this.discNumber);
-                fileMetaData.discCount = this.saveSetNumberFromString(this.discCount);
-                fileMetaData.grouping = this.grouping;
-                fileMetaData.comment = this.comment;
+                if (this.title !== this._multipleValuesText) {
+                    fileMetaData.title = this.title;
+                }
+                if (this.artists !== this._multipleValuesText) {
+                    fileMetaData.artists = CollectionUtils.fromSemicolonSeparatedString(this.artists);
+                }
+                if (this.albumTitle !== this._multipleValuesText) {
+                    fileMetaData.album = this.albumTitle;
+                }
+                if (this.albumArtists !== this._multipleValuesText) {
+                    fileMetaData.albumArtists = CollectionUtils.fromSemicolonSeparatedString(this.albumArtists);
+                }
+                if (this.year !== this._multipleValuesText) {
+                    fileMetaData.year = this.saveSetNumberFromString(this.year);
+                }
+                if (this.genres !== this._multipleValuesText) {
+                    fileMetaData.genres = CollectionUtils.fromSemicolonSeparatedString(this.genres);
+                }
+                if (this.trackNumber !== this._multipleValuesText) {
+                    fileMetaData.trackNumber = this.saveSetNumberFromString(this.trackNumber);
+                }
+                if (this.trackCount !== this._multipleValuesText) {
+                    fileMetaData.trackCount = this.saveSetNumberFromString(this.trackCount);
+                }
+                if (this.discNumber !== this._multipleValuesText) {
+                    fileMetaData.discNumber = this.saveSetNumberFromString(this.discNumber);
+                }
+                if (this.discCount !== this._multipleValuesText) {
+                    fileMetaData.discCount = this.saveSetNumberFromString(this.discCount);
+                }
+                if (this.grouping !== this._multipleValuesText) {
+                    fileMetaData.grouping = this.grouping;
+                }
+                if (this.comment !== this._multipleValuesText) {
+                    fileMetaData.comment = this.comment;
+                }
+
+                if (this._shouldRemoveImages) {
+                    fileMetaData.picture = undefined;
+                }
+
                 fileMetaData.save();
             } catch (e: unknown) {
-                numerOfErrors++;
+                numberOfErrors++;
                 this.logger.error(
                     e,
                     `Failed to save metadata for file "${fileMetaData.path}"`,
@@ -197,7 +233,7 @@ export class EditTracksDialogComponent implements OnInit {
             }
         }
 
-        if (numerOfErrors > 0) {
+        if (numberOfErrors > 0) {
             this.dialogService.showErrorDialog('Failed to save metadata for some files');
         }
     }

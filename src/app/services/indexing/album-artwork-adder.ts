@@ -88,7 +88,7 @@ export class AlbumArtworkAdder {
 
         try {
             const fileMetadata: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
-            albumArtwork = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetadata, true, true);
+            albumArtwork = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetadata, true);
         } catch (e: unknown) {
             this.logger.error(e, `Could not create file metadata for path='${track.path}'`, 'AlbumArtworkAdder', 'addAlbumArtworkAsync');
         }

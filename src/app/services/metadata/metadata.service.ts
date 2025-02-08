@@ -34,11 +34,7 @@ export class MetadataService {
     public ratingSaved$: Observable<TrackModel> = this.ratingSaved.asObservable();
     public loveSaved$: Observable<TrackModel> = this.loveSaved.asObservable();
 
-    public async createImageUrlAsync(
-        track: TrackModel | undefined,
-        includeExternalAlbumArt: boolean,
-        maximumSize: number,
-    ): Promise<string> {
+    public async createAlbumImageUrlAsync(track: TrackModel | undefined, maximumSize: number): Promise<string> {
         if (track == undefined) {
             return Constants.emptyImage;
         }
@@ -47,11 +43,7 @@ export class MetadataService {
             const fileMetaData: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
 
             if (fileMetaData != undefined) {
-                let coverArt: Buffer | undefined = await this.albumArtworkGetter.getAlbumArtworkAsync(
-                    fileMetaData,
-                    includeExternalAlbumArt,
-                    false,
-                );
+                let coverArt: Buffer | undefined = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetaData, false);
 
                 if (coverArt != undefined && coverArt.length > 0) {
                     if (maximumSize > 0) {
@@ -72,7 +64,42 @@ export class MetadataService {
 
             return Constants.emptyImage;
         } catch (e: unknown) {
-            this.logger.error(e, `Could not create image URL for track with path=${track.path}`, 'MetadataService', 'createImageUrlAsync');
+            this.logger.error(
+                e,
+                `Could not create image URL for track with path=${track.path}`,
+                'MetadataService',
+                'createAlbumImageUrlAsync',
+            );
+        }
+
+        return Constants.emptyImage;
+    }
+
+    public async createTrackImageUrlAsync(track: TrackModel | undefined): Promise<string> {
+        if (track == undefined) {
+            return Constants.emptyImage;
+        }
+
+        try {
+            const fileMetaData: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
+
+            if (fileMetaData != undefined) {
+                let coverArt: Buffer | undefined = await this.albumArtworkGetter.getEmbeddedAlbumArtworkOnlyAsync(fileMetaData);
+
+                if (coverArt != undefined && coverArt.length > 0) {
+                    coverArt = await this.imageProcessor.toJpegBufferAsync(coverArt, 80);
+                    return this.imageProcessor.convertBufferToImageUrl(coverArt);
+                }
+            }
+
+            return Constants.emptyImage;
+        } catch (e: unknown) {
+            this.logger.error(
+                e,
+                `Could not create image URL for track with path=${track.path}`,
+                'MetadataService',
+                'createTrackImageUrlAsync',
+            );
         }
 
         return Constants.emptyImage;
