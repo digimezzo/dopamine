@@ -163,13 +163,41 @@ export class MetadataService {
     }
     s;
 
-    public async getImageDataRenderAsync(imageFilePath: string): Promise<ImageRenderData> {
+    public async getImageRenderDataFromFileAsync(imageFilePath: string): Promise<ImageRenderData> {
         try {
             const imageBuffer: Buffer = await this.imageProcessor.convertLocalImageToBufferAsync(imageFilePath);
             const imageUrl: string = this.imageProcessor.convertBufferToImageUrl(imageBuffer);
             return new ImageRenderData(imageUrl, imageBuffer);
         } catch (e: unknown) {
             this.logger.error(e, `Could not read image file '${imageFilePath}'`, 'MetadataService', 'getImageDataRenderAsync');
+            throw new Error(e instanceof Error ? e.message : 'Unknown error');
+        }
+    }
+
+    public async getImageRenderDataAsync(imageFile: string | Buffer): Promise<ImageRenderData> {
+        try {
+            let imageBuffer: Buffer;
+
+            if (typeof imageFile === 'string') {
+                imageBuffer = await this.imageProcessor.convertLocalImageToBufferAsync(imageFile);
+            } else {
+                imageBuffer = imageFile;
+            }
+
+            const imageUrl: string = this.imageProcessor.convertBufferToImageUrl(imageBuffer);
+            return new ImageRenderData(imageUrl, imageBuffer);
+        } catch (e: unknown) {
+            if (typeof imageFile === 'string') {
+                this.logger.error(
+                    e,
+                    `Could not get image render data for file '${imageFile}'`,
+                    'MetadataService',
+                    'getImageRenderDataAsync',
+                );
+            } else {
+                this.logger.error(e, 'Could not get image render data for buffer', 'MetadataService', 'getImageRenderDataAsync');
+            }
+
             throw new Error(e instanceof Error ? e.message : 'Unknown error');
         }
     }

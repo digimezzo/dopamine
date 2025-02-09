@@ -311,5 +311,8 @@
     "read-tags-error-multiple-files": "Er is een fout opgetreden bij het lezen van de tags van {{numberOfFiles}} bestanden. Controleer de log als u meer informatie nodig heeft.",
     "save-tags-error-single-file": "Er is een fout opgetreden bij het opslaan van de tags van 1 bestand. Controleer de log als u meer informatie nodig heeft.",
     "save-tags-error-multiple-files": "Er is een fout opgetreden bij het opslaan van de tags van {{numberOfFiles}} bestanden. Controleer de log als u meer informatie nodig heeft.",
-    "change-image-error": "Er is een fout opgetreden bij het wijzigen van de afbeelding. Controleer de log als u meer informatie nodig heeft."
+    "change-image-error": "Er is een fout opgetreden bij het wijzigen van de afbeelding. Controleer de log als u meer informatie nodig heeft.",
+    "download-image-error": "Er is een fout opgetreden bij het downloaden van de afbeelding. Controleer de log als u meer informatie nodig heeft.",
+    "Information": "Informatie",
+    "no-image-found-online": "Geen afbeelding gevonden"
 }

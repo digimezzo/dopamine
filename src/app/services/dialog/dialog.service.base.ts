@@ -10,6 +10,7 @@ export abstract class DialogServiceBase {
         invalidCharacters: string[],
     ): Promise<string>;
     public abstract showErrorDialog(errorText: string): void;
+    public abstract showInfoDialog(infoText: string): void;
     public abstract showLicenseDialog(): void;
     public abstract showEditPlaylistDialogAsync(playlist: PlaylistModel): Promise<void>;
     public abstract showCreatePlaylistDialogAsync(): Promise<void>;

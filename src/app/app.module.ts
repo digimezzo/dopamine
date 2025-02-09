@@ -296,6 +296,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { CoverPlayerVolumeControlComponent } from './ui/components/mini-players/cover-player/cover-player-volume-control/cover-player-volume-control.component';
 import { VolumeIconComponent } from './ui/components/volume-icon/volume-icon.component';
 import { EditTracksDialogComponent } from './ui/components/dialogs/edit-tracks-dialog/edit-tracks-dialog.component';
+import { InfoDialogComponent } from './ui/components/dialogs/info-dialog/info-dialog.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -349,6 +350,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         ConfirmationDialogComponent,
         InputDialogComponent,
         ErrorDialogComponent,
+        InfoDialogComponent,
         LicenseDialogComponent,
         EditColumnsDialogComponent,
         ManageCollectionComponent,

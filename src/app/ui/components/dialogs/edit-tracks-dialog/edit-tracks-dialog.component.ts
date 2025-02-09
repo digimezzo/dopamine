@@ -12,6 +12,7 @@ import { ImageComparisonStatus } from '../../../../services/metadata/image-compa
 import { StringUtils } from '../../../../common/utils/string-utils';
 import { DesktopBase } from '../../../../common/io/desktop.base';
 import { ImageRenderData } from '../../../../services/metadata/image-render-data';
+import { OnlineAlbumArtworkGetter } from '../../../../services/indexing/online-album-artwork-getter';
 
 @Component({
     selector: 'app-edit-tracks-dialog',
@@ -31,6 +32,7 @@ export class EditTracksDialogComponent implements OnInit {
         private translatorService: TranslatorServiceBase,
         private metadataService: MetadataService,
         private fileMetadataFactory: FileMetadataFactoryBase,
+        private onlineAlbumArtworkGetter: OnlineAlbumArtworkGetter,
         private logger: Logger,
         private desktop: DesktopBase,
         @Inject(MAT_DIALOG_DATA) public data: TrackModel[],
@@ -64,7 +66,45 @@ export class EditTracksDialogComponent implements OnInit {
 
     public exportImage(): void {}
 
-    public downloadImage(): void {}
+    public async changeImageAsync(): Promise<void> {
+        const selectedFile: string = await this.desktop.showSelectFileDialogAsync(this.translatorService.get('choose-image'));
+
+        if (!StringUtils.isNullOrWhiteSpace(selectedFile)) {
+            try {
+                const renderData: ImageRenderData = await this.metadataService.getImageRenderDataAsync(selectedFile);
+                this.setNewImageFromRenderData(renderData);
+            } catch (e: unknown) {
+                this.dialogService.showErrorDialog(await this.translatorService.getAsync('change-image-error'));
+            }
+        }
+    }
+
+    public async downloadImageAsync(): Promise<void> {
+        try {
+            const onlineAlbumArtwork: Buffer | undefined = await this.onlineAlbumArtworkGetter.getOnlineArtworkAsync(
+                this._fileMetaDatas[0],
+            );
+
+            if (onlineAlbumArtwork) {
+                const renderData: ImageRenderData = await this.metadataService.getImageRenderDataAsync(onlineAlbumArtwork);
+                this.setNewImageFromRenderData(renderData);
+            } else {
+                this.dialogService.showInfoDialog(await this.translatorService.getAsync('no-image-found-online'));
+            }
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                this.logger.error(e, 'Failed to download image', 'EditTracksDialogComponent', 'downloadImageAsync');
+            }
+            this.dialogService.showErrorDialog(await this.translatorService.getAsync('download-image-error'));
+        }
+    }
+
+    private setNewImageFromRenderData(renderData: ImageRenderData): void {
+        this.imagePath = renderData.imageUrl;
+        this._newImageBuffer = renderData.imageBuffer;
+        this.canShowRemoveButton = true;
+        this.imageComparisonStatus = ImageComparisonStatus.Identical;
+    }
 
     public removeImage(): void {
         this.canShowRemoveButton = false;
@@ -110,7 +150,7 @@ export class EditTracksDialogComponent implements OnInit {
         if (this._fileMetaDatas.length === 1) {
             this.title = this._fileMetaDatas[0].title;
             this.artists = CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].artists);
-            this.albumTitle = this._fileMetaDatas[0].title;
+            this.albumTitle = this._fileMetaDatas[0].album;
             this.albumArtists = CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].albumArtists);
             this.year = this.saveGetNumberAsString(this._fileMetaDatas[0].year);
             this.genres = CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].genres);
@@ -129,8 +169,8 @@ export class EditTracksDialogComponent implements OnInit {
                 ? CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].artists)
                 : this._multipleValuesText;
 
-            const allAlbumTitlesSame = this._fileMetaDatas.every((track) => track.title === this._fileMetaDatas[0].title);
-            this.albumTitle = allAlbumTitlesSame ? this._fileMetaDatas[0].title : this._multipleValuesText;
+            const allAlbumTitlesSame = this._fileMetaDatas.every((track) => track.album === this._fileMetaDatas[0].album);
+            this.albumTitle = allAlbumTitlesSame ? this._fileMetaDatas[0].album : this._multipleValuesText;
 
             const allAlbumArtistsSame = this._fileMetaDatas.every((track) => track.albumArtists === this._fileMetaDatas[0].albumArtists);
             this.albumArtists = allAlbumArtistsSame
@@ -167,22 +207,6 @@ export class EditTracksDialogComponent implements OnInit {
 
     private async setImagePathAsync(): Promise<void> {
         this.imagePath = await this.metadataService.createTrackImageUrlAsync(this._tracks[0]);
-    }
-
-    public async changeImageAsync(): Promise<void> {
-        const selectedFile: string = await this.desktop.showSelectFileDialogAsync(this.translatorService.get('choose-image'));
-
-        if (!StringUtils.isNullOrWhiteSpace(selectedFile)) {
-            try {
-                const renderData: ImageRenderData = await this.metadataService.getImageDataRenderAsync(selectedFile);
-                this.imagePath = renderData.imageUrl;
-                this._newImageBuffer = renderData.imageBuffer;
-                this.canShowRemoveButton = true;
-                this.imageComparisonStatus = ImageComparisonStatus.Identical;
-            } catch (e: unknown) {
-                this.dialogService.showErrorDialog(await this.translatorService.getAsync('change-image-error'));
-            }
-        }
     }
 
     public async saveMetadataAsync(): Promise<void> {

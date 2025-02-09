@@ -15,6 +15,8 @@ import { PlaylistData } from './playlist-data';
 import { DialogServiceBase } from './dialog.service.base';
 import { TrackModel } from '../track/track-model';
 import { EditTracksDialogComponent } from '../../ui/components/dialogs/edit-tracks-dialog/edit-tracks-dialog.component';
+import { InfoDialogComponent } from '../../ui/components/dialogs/info-dialog/info-dialog.component';
+import { InfoData } from './info-data';
 
 @Injectable()
 export class DialogService implements DialogServiceBase {
@@ -55,6 +57,13 @@ export class DialogService implements DialogServiceBase {
         this.dialog.open(ErrorDialogComponent, {
             width: '450px',
             data: new ErrorData(errorText, false),
+        });
+    }
+
+    public showInfoDialog(infoText: string): void {
+        this.dialog.open(InfoDialogComponent, {
+            width: '450px',
+            data: new InfoData(infoText),
         });
     }
 
