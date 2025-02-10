@@ -36,10 +36,15 @@
                     <i class="las la-times"></i>
                 </div>
             </div>
-            <app-transparent-button class="mt-3" [fill]="true" (click)="exportImage()">
+            <app-transparent-button
+                class="mt-3"
+                [fill]="true"
+                (click)="this.exportImageAsync()"
+                [ngClass]="{ inactive: !this.canExportImage }"
+            >
                 {{ 'export' | translate }}...
             </app-transparent-button>
-            <app-transparent-button class="mt-3" [fill]="true" (click)="downloadImageAsync()">
+            <app-transparent-button class="mt-3" [fill]="true" (click)="this.downloadImageAsync()">
                 {{ 'download' | translate }}
             </app-transparent-button>
         </div>

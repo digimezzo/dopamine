@@ -314,5 +314,6 @@
     "change-image-error": "Une erreur s'est produite lors du changement de l'image. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
     "download-image-error": "Une erreur s'est produite lors du téléchargement de l'image. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
     "Information": "Information",
-    "no-image-found-online": "Aucune image n'a été trouvée en ligne"
+    "no-image-found-online": "Aucune image n'a été trouvée en ligne",
+    "image": "Image"
 }

@@ -6,6 +6,7 @@ export abstract class DesktopBase {
 
     public abstract showSelectFolderDialogAsync(dialogTitle: string): Promise<string>;
     public abstract showSelectFileDialogAsync(dialogTitle: string): Promise<string>;
+    public abstract showSaveFileDialogAsync(dialogTitle: string, defaultPath: string): Promise<string>;
 
     public abstract openLinkAsync(url: string): Promise<void>;
     public abstract openPathAsync(path: string): Promise<void>;

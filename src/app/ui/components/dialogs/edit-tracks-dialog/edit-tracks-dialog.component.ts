@@ -13,6 +13,7 @@ import { StringUtils } from '../../../../common/utils/string-utils';
 import { DesktopBase } from '../../../../common/io/desktop.base';
 import { ImageRenderData } from '../../../../services/metadata/image-render-data';
 import { OnlineAlbumArtworkGetter } from '../../../../services/indexing/online-album-artwork-getter';
+import { ImageProcessor } from '../../../../common/image-processor';
 
 @Component({
     selector: 'app-edit-tracks-dialog',
@@ -35,6 +36,7 @@ export class EditTracksDialogComponent implements OnInit {
         private onlineAlbumArtworkGetter: OnlineAlbumArtworkGetter,
         private logger: Logger,
         private desktop: DesktopBase,
+        private imageProcessor: ImageProcessor,
         @Inject(MAT_DIALOG_DATA) public data: TrackModel[],
     ) {}
 
@@ -56,6 +58,14 @@ export class EditTracksDialogComponent implements OnInit {
     public comment: string = '';
     public imagePath: string = '';
 
+    public get canExportImage(): boolean {
+        return (
+            this.imageComparisonStatus === ImageComparisonStatus.Identical &&
+            this.imagePath !== '' &&
+            this._fileMetaDatas[0].picture !== undefined
+        );
+    }
+
     public async ngOnInit(): Promise<void> {
         this._tracks = this.data;
         this._multipleValuesText = await this.translatorService.getAsync('multiple-values');
@@ -64,7 +74,16 @@ export class EditTracksDialogComponent implements OnInit {
         await this.setImagePathAsync();
     }
 
-    public exportImage(): void {}
+    public async exportImageAsync(): Promise<void> {
+        const selectedPath = await this.desktop.showSaveFileDialogAsync(
+            this.translatorService.get('choose-image'),
+            `${this.translatorService.get('image')}.png`,
+        );
+
+        if (!StringUtils.isNullOrWhiteSpace(selectedPath) && this.canExportImage) {
+            await this.imageProcessor.convertImageBufferToFileAsync(this._fileMetaDatas[0].picture!, selectedPath);
+        }
+    }
 
     public async changeImageAsync(): Promise<void> {
         const selectedFile: string = await this.desktop.showSelectFileDialogAsync(this.translatorService.get('choose-image'));
