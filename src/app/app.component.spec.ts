@@ -19,8 +19,6 @@ import { LifetimeService } from './services/lifetime/lifetime.service';
 import { SwitchPlayerService } from './services/player-switcher/switch-player.service';
 import { PlaybackService } from './services/playback/playback.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('AppComponent', () => {
     let playerSwitcherServiceMock: IMock<SwitchPlayerService>;
     let playbackServiceMock: IMock<PlaybackService>;

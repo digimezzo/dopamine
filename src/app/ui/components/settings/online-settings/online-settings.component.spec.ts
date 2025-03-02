@@ -6,8 +6,6 @@ import { SignInState } from '../../../../services/scrobbling/sign-in-state';
 import { NotificationServiceBase } from '../../../../services/notification/notification.service.base';
 import { DiscordService } from '../../../../services/discord/discord.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('OnlineSettingsComponent', () => {
     let discordServiceMock: IMock<DiscordService>;
     let scrobblingServiceMock: IMock<ScrobblingServiceBase>;

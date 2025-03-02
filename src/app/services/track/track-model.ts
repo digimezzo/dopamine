@@ -56,6 +56,10 @@ export class TrackModel implements ISelectable {
         return this.track.fileName;
     }
 
+    public set title(v: string) {
+        this.track.trackTitle = v;
+    }
+
     public get rawTitle(): string {
         if (StringUtils.isNullOrWhiteSpace(this.track.trackTitle)) {
             return '';

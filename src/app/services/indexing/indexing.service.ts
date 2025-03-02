@@ -1,7 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { Logger } from '../../common/logger';
-import { IndexingServiceBase } from './indexing.service.base';
 import { FolderServiceBase } from '../folder/folder.service.base';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { PromiseUtils } from '../../common/utils/promise-utils';
@@ -10,10 +9,12 @@ import { DesktopBase } from '../../common/io/desktop.base';
 import { IIndexingMessage } from './messages/i-indexing-message';
 import { AddingTracksMessage } from './messages/adding-tracks-message';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';
-import {IpcProxyBase} from "../../common/io/ipc-proxy.base";
+import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
+import { TrackModel } from '../track/track-model';
+import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 
 @Injectable()
-export class IndexingService implements IndexingServiceBase, OnDestroy {
+export class IndexingService implements OnDestroy {
     private indexingFinished: Subject<void> = new Subject();
     private subscription: Subscription = new Subscription();
     private foldersHaveChanged: boolean = false;
@@ -27,6 +28,7 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
         private settings: SettingsBase,
         private ipcProxy: IpcProxyBase,
         private logger: Logger,
+        private trackRepositoryBase: TrackRepositoryBase,
     ) {
         this.initializeSubscriptions();
     }
@@ -98,7 +100,7 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
         this.albumGroupingHasChanged = true;
     }
 
-    private createWorkerArgs(task: string, onlyWhenHasNoCover: boolean) {
+    private createWorkerArgs(task: string) {
         return {
             task: task,
             skipRemovedFilesDuringRefresh: this.settings.skipRemovedFilesDuringRefresh,
@@ -154,6 +156,16 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
 
         this.logger.info('Indexing collection.', 'IndexingService', 'indexCollection');
 
-        this.ipcProxy.sendToMainProcess('indexing-worker', this.createWorkerArgs(task, false));
+        this.ipcProxy.sendToMainProcess('indexing-worker', this.createWorkerArgs(task));
+    }
+
+    public indexAfterTagChange(paths: string[]): void {
+        // Update track metadata in the database and set needs album artwork indexing to 1
+
+        // Trigger album artwork indexing
+
+        // Refresh queued tracks?
+
+        this.indexingFinished.next();
     }
 }

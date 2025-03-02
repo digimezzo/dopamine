@@ -14,6 +14,7 @@ import { DesktopBase } from '../../../../common/io/desktop.base';
 import { ImageRenderData } from '../../../../services/metadata/image-render-data';
 import { OnlineAlbumArtworkGetter } from '../../../../services/indexing/online-album-artwork-getter';
 import { ImageProcessor } from '../../../../common/image-processor';
+import { IndexingService } from '../../../../services/indexing/indexing.service';
 
 @Component({
     selector: 'app-edit-tracks-dialog',
@@ -32,6 +33,7 @@ export class EditTracksDialogComponent implements OnInit {
         private dialogService: DialogServiceBase,
         private translatorService: TranslatorServiceBase,
         private metadataService: MetadataService,
+        private indexingService: IndexingService,
         private fileMetadataFactory: FileMetadataFactoryBase,
         private onlineAlbumArtworkGetter: OnlineAlbumArtworkGetter,
         private logger: Logger,
@@ -230,6 +232,7 @@ export class EditTracksDialogComponent implements OnInit {
 
     public async saveMetadataAsync(): Promise<void> {
         let numberOfErrors: number = 0;
+
         for (const fileMetaData of this._fileMetaDatas) {
             try {
                 if (this.title !== this._multipleValuesText) {
@@ -294,6 +297,10 @@ export class EditTracksDialogComponent implements OnInit {
                     : await this.translatorService.getAsync('save-tags-error-multiple-files', { numberOfFiles: numberOfErrors });
             this.dialogService.showErrorDialog(message);
         }
+
+        try {
+            this.indexingService.indexAfterTagChange(this._fileMetaDatas.map((x) => x.path));
+        } catch {}
     }
 
     private saveGetNumberAsString(number: number): string {

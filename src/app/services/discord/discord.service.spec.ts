@@ -16,8 +16,6 @@ import { DiscordApiCommand } from './discord-api-command';
 import { DiscordApiCommandType } from './discord-api-command-type';
 import { SettingsMock } from '../../testing/settings-mock';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('DiscordService', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let dateTimeMock: IMock<DateTime>;

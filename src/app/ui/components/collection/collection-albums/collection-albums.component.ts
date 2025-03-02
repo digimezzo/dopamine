@@ -13,7 +13,7 @@ import { SearchServiceBase } from '../../../../services/search/search.service.ba
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { AlbumServiceBase } from '../../../../services/album/album-service.base';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
-import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
+import { IndexingService } from '../../../../services/indexing/indexing.service';
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 
@@ -31,7 +31,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         public searchService: SearchServiceBase,
         public albumsPersister: AlbumsAlbumsPersister,
         public tracksPersister: AlbumsTracksPersister,
-        private indexingService: IndexingServiceBase,
+        private indexingService: IndexingService,
         private collectionService: CollectionServiceBase,
         private albumService: AlbumServiceBase,
         private trackService: TrackServiceBase,

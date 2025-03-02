@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
+import { IndexingService } from '../../../../services/indexing/indexing.service';
 
 @Component({
     selector: 'app-manage-albums',
@@ -12,7 +12,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
 export class ManageAlbumsComponent {
     public constructor(
         public settings: SettingsBase,
-        private indexingService: IndexingServiceBase,
+        private indexingService: IndexingService,
     ) {}
 
     public get albumsDefinedByTitleAndArtist(): boolean {

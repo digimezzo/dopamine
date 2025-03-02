@@ -10,8 +10,7 @@ import { AlbumServiceBase } from '../../../../services/album/album-service.base'
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { Scheduler } from '../../../../common/scheduling/scheduler';
 import { Logger } from '../../../../common/logger';
-import { FileAccess } from '../../../../common/io/file-access';
-import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
+import { IndexingService } from '../../../../services/indexing/indexing.service';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { DateTime } from '../../../../common/date-time';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
@@ -33,7 +32,7 @@ describe('CollectionAlbumsComponent', () => {
     let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
     let applicationPathsMock: IMock<ApplicationPaths>;
-    let indexingServiceMock: IMock<IndexingServiceBase>;
+    let indexingServiceMock: IMock<IndexingService>;
     let collectionServiceMock: IMock<CollectionServiceBase>;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -84,7 +83,7 @@ describe('CollectionAlbumsComponent', () => {
         searchServiceMock = Mock.ofType<SearchServiceBase>();
         albumsPersisterMock = Mock.ofType<AlbumsAlbumsPersister>();
         tracksPersisterMock = Mock.ofType<AlbumsTracksPersister>();
-        indexingServiceMock = Mock.ofType<IndexingServiceBase>();
+        indexingServiceMock = Mock.ofType<IndexingService>();
         collectionServiceMock = Mock.ofType<CollectionServiceBase>();
         albumServiceMock = Mock.ofType<AlbumServiceBase>();
         trackServiceMock = Mock.ofType<TrackServiceBase>();

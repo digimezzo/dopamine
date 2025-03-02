@@ -14,8 +14,6 @@ import { DateTime } from '../../../../common/date-time';
 import { SettingsMock } from '../../../../testing/settings-mock';
 import { PlaybackService } from '../../../../services/playback/playback.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('TrackBrowserBase', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let dialogServiceMock: IMock<DialogServiceBase>;

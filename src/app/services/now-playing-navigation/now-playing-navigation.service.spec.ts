@@ -8,8 +8,6 @@ import { TrackModel } from '../track/track-model';
 import { MockCreator } from '../../testing/mock-creator';
 import { PlaybackInformationService } from '../playback-information/playback-information.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('NowPlayingNavigationService', () => {
     let playbackInformationServiceMock: IMock<PlaybackInformationService>;
 

@@ -8,8 +8,6 @@ import { NativeElementProxy } from '../../../common/native-element-proxy';
 import { Logger } from '../../../common/logger';
 import { PlaybackProgress } from '../../../services/playback/playback-progress';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('PlaybackProgressComponent', () => {
     let component: PlaybackProgressComponent;
     let playbackServiceMock: IMock<PlaybackService>;

@@ -11,8 +11,6 @@ import { Constants } from '../../../common/application/constants';
 import { SettingsMock } from '../../../testing/settings-mock';
 import { PlaybackInformationService } from '../../../services/playback-information/playback-information.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('PlaybackInformationComponent', () => {
     let component: PlaybackCoverArtComponent;
     let playbackInformationServiceMock: IMock<PlaybackInformationService>;

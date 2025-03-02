@@ -8,8 +8,6 @@ import { TrackModel } from '../track/track-model';
 import { Track } from '../../data/entities/track';
 import { PlaybackInformation } from '../playback-information/playback-information';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('MediaSessionService', () => {
     let playbackInformationFactoryMock: IMock<PlaybackInformationFactory>;
     let mediaSessionProxyMock: IMock<MediaSessionProxy>;

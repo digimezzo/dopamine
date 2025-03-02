@@ -9,8 +9,6 @@ import { Track } from '../../../data/entities/track';
 import { SettingsMock } from '../../../testing/settings-mock';
 import { MetadataService } from '../../../services/metadata/metadata.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('RatingComponent', () => {
     let metadataServiceMock: IMock<MetadataService>;
     let dialogServiceMock: IMock<DialogServiceBase>;

@@ -18,8 +18,6 @@ import { Constants } from '../../../../../common/application/constants';
 import { GuidFactory } from '../../../../../common/guid.factory';
 import { GenreSorter } from '../../../../../common/sorting/genre-sorter';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 export class CdkVirtualScrollViewportMock {
     private _scrollToIndexIndex: number = -1;
     private _scrollToIndexBehavior: ScrollBehavior | undefined;

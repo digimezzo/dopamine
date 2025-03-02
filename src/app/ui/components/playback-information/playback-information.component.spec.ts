@@ -11,8 +11,6 @@ import { SettingsMock } from '../../../testing/settings-mock';
 import { PlaybackInformationService } from '../../../services/playback-information/playback-information.service';
 import { MetadataService } from '../../../services/metadata/metadata.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('PlaybackInformationComponent', () => {
     let playbackInformationServiceMock: IMock<PlaybackInformationService>;
     let metadataServiceMock: IMock<MetadataService>;

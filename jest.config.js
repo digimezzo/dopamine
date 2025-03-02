@@ -18,5 +18,5 @@ module.exports = {
             },
         ],
     },
-    setupFiles: ['<rootDir>/jest.crypto-setup.js'],
+    setupFiles: ['<rootDir>/jest.setup.js'],
 };

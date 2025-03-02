@@ -12,8 +12,6 @@ import { MockCreator } from '../../testing/mock-creator';
 import { SettingsMock } from '../../testing/settings-mock';
 import { PlaybackInformationFactory } from './playback-information.factory';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('PlaybackInformationService', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let playbackInformationFactoryMock: IMock<PlaybackInformationFactory>;
