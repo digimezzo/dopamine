@@ -295,6 +295,7 @@ import { CoverPlayerPlaybackQueueComponent } from './ui/components/mini-players/
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { CoverPlayerVolumeControlComponent } from './ui/components/mini-players/cover-player/cover-player-volume-control/cover-player-volume-control.component';
 import { VolumeIconComponent } from './ui/components/volume-icon/volume-icon.component';
+import { MacOSDockService } from './services/dock/macos.dock.service';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -486,7 +487,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         {
             provide: APP_INITIALIZER,
             useFactory: appInitializerFactory,
-            deps: [TranslateService, Injector],
+            deps: [TranslateService, Injector, MacOSDockService],
             multi: true,
         },
         ElectronService,
