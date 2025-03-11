@@ -514,9 +514,8 @@ export class AppearanceService implements AppearanceServiceBase {
         try {
             const track = this.playbackService.currentTrack;
             if (this.settings.showAlbumCoverInDock && this.application.getGlobal('isMacOS') && track != undefined) {
-                const albumArtworkPath: string = this.metadataService.getAlbumArtworkPath(track.albumKey);
-                const image = nativeImage.createFromPath(albumArtworkPath);
-                remote.app.dock.setIcon(image);
+                const albumArtwork = await this.metadataService.getDockAlbumArtwork(track.albumKey);
+                remote.app.dock.setIcon(albumArtwork);
                 
             } else {
                 const staticPath = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');

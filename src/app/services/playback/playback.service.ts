@@ -416,10 +416,9 @@ export class PlaybackService {
         this.preloadNextTrackAfterDelay();
     }
 
-    private showDockAlbumArtwork(track: TrackModel): void {
-        const albumArtworkPath: string = this.metadataService.getAlbumArtworkPath(track.albumKey);
-        const image = nativeImage.createFromPath(albumArtworkPath);
-        remote.app.dock.setIcon(image);
+    private async showDockAlbumArtwork(track: TrackModel): Promise<void> {
+        const albumArtwork = await this.metadataService.getDockAlbumArtwork(track.albumKey);
+        remote.app.dock.setIcon(albumArtwork);
     }
 
     private preloadNextTrackAfterDelay(): void {
