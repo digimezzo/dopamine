@@ -27,6 +27,7 @@ import { Dock, nativeImage } from 'electron';
 import * as remote from '@electron/remote';
 import { MetadataService } from '../metadata/metadata.service';
 import { ApplicationBase } from '../../common/io/application.base';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
 
 @Injectable({ providedIn: 'root' })
 export class PlaybackService {
@@ -64,10 +65,17 @@ export class PlaybackService {
         private mathExtensions: MathExtensions,
         private settings: SettingsBase,
         private logger: Logger,
+        private translatorService: TranslatorServiceBase,
     ) {
         this._audioPlayer = this.audioPlayerFactory.create();
         this.initializeSubscriptions();
         this.applyVolumeFromSettings();
+        
+        this.subscription.add(
+            this.translatorService.languageChanged$.subscribe(() => {
+                this.showDockPlaybackMenu();
+            }),
+        );
     }
 
     public get playbackQueue(): TrackModels {
@@ -408,6 +416,8 @@ export class PlaybackService {
             this.showDockAlbumArtwork(trackToPlay);
         }
 
+        this.showDockPlaybackMenu();
+
         this.startUpdatingProgress();
         this.playbackStarted.next(new PlaybackStarted(trackToPlay, isPlayingPreviousTrack));
 
@@ -419,6 +429,11 @@ export class PlaybackService {
     private async showDockAlbumArtwork(track: TrackModel): Promise<void> {
         const albumArtwork = await this.metadataService.getDockAlbumArtwork(track.albumKey);
         remote.app.dock.setIcon(albumArtwork);
+    }
+
+    private async showDockPlaybackMenu(): Promise<void> {
+        const dock: Dock = remote.app.dock;
+        dock.setMenu(this.mediaSessionService.getDockMenu());
     }
 
     private preloadNextTrackAfterDelay(): void {

@@ -3,7 +3,10 @@ import { PlaybackInformation } from '../playback-information/playback-informatio
 import { MediaSessionProxy } from '../../common/io/media-session-proxy';
 import { TrackModel } from '../track/track-model';
 import { Observable, Subject } from 'rxjs';
+import * as remote from '@electron/remote';
 import { PlaybackInformationFactory } from '../playback-information/playback-information.factory';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
+import { Menu } from 'electron';
 
 @Injectable({ providedIn: 'root' })
 export class MediaSessionService {
@@ -15,6 +18,7 @@ export class MediaSessionService {
     public constructor(
         private playbackInformationFactory: PlaybackInformationFactory,
         private mediaSessionProxy: MediaSessionProxy,
+        private translatorService: TranslatorServiceBase,
     ) {}
 
     public playEvent$: Observable<void> = this.playEvent.asObservable();
@@ -39,4 +43,14 @@ export class MediaSessionService {
             playbackInformation.imageUrl,
         );
     }
+
+    public getDockMenu(): Menu {
+        const menu = new remote.Menu();
+        menu.append(new remote.MenuItem({ label: this.translatorService.get('play'), click: () => this.playEvent.next() }));
+        menu.append(new remote.MenuItem({ label: this.translatorService.get('pause'), click: () => this.pauseEvent.next() }));
+        menu.append(new remote.MenuItem({ label: this.translatorService.get('previous'), click: () => this.previousTrackEvent.next() }));
+        menu.append(new remote.MenuItem({ label: this.translatorService.get('next'), click: () => this.nextTrackEvent.next() }));
+        return menu;
+    }
+
 }
