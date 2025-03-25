@@ -13,7 +13,7 @@ import { StringUtils } from '../../../utils/string-utils';
 @Injectable()
 export class WebSearchApi {
     private vqdRegex: RegExp = /vqd=([\d-]+)/;
-    private searchRegex: RegExp = /DDG\.pageLayout\.load\('d',(\[.+\])\);DDG\.duckbar\.load\('images'/;
+    private searchRegex: RegExp = /DDG\.pageLayout\.load\('d',(\[.+\])\)/;
 
     public constructor(private httpClient: HttpClient) {}
 
@@ -85,7 +85,7 @@ export class WebSearchApi {
             ct: 'US',
             sp: '1',
             df: 'a',
-            ss_mkt: 'us',
+            bing_market: 'us',
             s: '0',
             bpa: '1',
             biaexp: 'b',
