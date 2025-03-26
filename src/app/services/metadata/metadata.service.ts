@@ -13,6 +13,8 @@ import { TrackRepositoryBase } from '../../data/repositories/track-repository.ba
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
 import { SettingsBase } from '../../common/settings/settings.base';
+import {Jimp, BlendMode} from 'jimp';
+import { nativeImage } from 'electron';
 
 @Injectable({ providedIn: 'root' })
 export class MetadataService {
@@ -99,5 +101,37 @@ export class MetadataService {
 
     public getAlbumArtworkPath(albumKey: string): string {
         return this.cachedAlbumArtworkGetter.getCachedAlbumArtworkPath(albumKey);
+    }
+
+    public async getDockAlbumArtwork(albumKey) : Promise<Electron.NativeImage> {
+        const albumArtworkPath: string = this.getAlbumArtworkPath(albumKey);
+        const imageBuffer = nativeImage.createFromPath(albumArtworkPath).toJPEG(80);
+        
+        const background = new Jimp({
+            width:1024, 
+            height:1024, 
+            color:0x00000000
+        });
+        
+        // Load the input image from buffer
+        const image = await Jimp.read(imageBuffer);
+        
+        // Scale the image by 13/16 of 1024
+        image.resize({
+            w: 832,
+            h: 832,
+        });
+        
+        // Calculate position to center the scaled image
+        const x = (1024 - image.width) / 2;
+        const y = (1024 - image.height) / 2;
+        
+        // Composite the processed image onto the background
+        background.composite(image, x, y, {
+            mode: BlendMode.SRC_OVER
+        });
+        
+        const result = await background.getBuffer("image/png");
+        return nativeImage.createFromBuffer(result);
     }
 }

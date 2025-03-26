@@ -23,7 +23,9 @@ import { QueueRestoreInfo } from './queue-restore-info';
 import { AudioPlayerFactory } from './audio-player/audio-player.factory';
 import { IAudioPlayer } from './audio-player/i-audio-player';
 import { MediaSessionService } from '../media-session/media-session.service';
-import { Track } from '../../data/entities/track';
+import * as remote from '@electron/remote';
+import { MetadataService } from '../metadata/metadata.service';
+import { ApplicationBase } from '../../common/io/application.base';
 
 @Injectable({ providedIn: 'root' })
 export class PlaybackService {
@@ -48,11 +50,13 @@ export class PlaybackService {
     private _preloadTimeoutId: NodeJS.Timeout | number | undefined;
 
     public constructor(
+        private application: ApplicationBase,
         private audioPlayerFactory: AudioPlayerFactory,
         private trackService: TrackServiceBase,
         private playlistService: PlaylistServiceBase,
         private notificationService: NotificationServiceBase,
         private mediaSessionService: MediaSessionService,
+        private metadataService: MetadataService,
         private queuePersister: QueuePersister,
         private trackSorter: TrackSorter,
         private queue: Queue,
@@ -273,6 +277,7 @@ export class PlaybackService {
     private postPause() {
         this._canPause = false;
         this._canResume = true;
+        this._isPlaying = false;
         this.pauseUpdatingProgress();
         this.playbackPaused.next();
 
@@ -398,6 +403,10 @@ export class PlaybackService {
         this._canResume = false;
 
         this.mediaSessionService.setMetadataAsync(trackToPlay);
+        
+        if (this.settings.showAlbumCoverInDock && this.application.getGlobal('isMacOS')) {
+            this.showDockAlbumArtwork(trackToPlay);
+        }
 
         this.startUpdatingProgress();
         this.playbackStarted.next(new PlaybackStarted(trackToPlay, isPlayingPreviousTrack));
@@ -405,6 +414,11 @@ export class PlaybackService {
         this.logger.info(`Playing '${this.currentTrack.path}'`, 'PlaybackService', 'play');
 
         this.preloadNextTrackAfterDelay();
+    }
+
+    private async showDockAlbumArtwork(track: TrackModel): Promise<void> {
+        const albumArtwork = await this.metadataService.getDockAlbumArtwork(track.albumKey);
+        remote.app.dock.setIcon(albumArtwork);
     }
 
     private preloadNextTrackAfterDelay(): void {
