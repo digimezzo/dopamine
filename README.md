@@ -91,3 +91,12 @@ The pacman package can be installed using this command (replace x.y.z with the c
 If you're getting an error concerning a missing package libappindicator-sharp, use this command to perform the installation instead (replace x.y.z with the correct version number):
 
 `$ sudo pacman -U Dopamine-x.y.z.pacman --assume-installed libappindicator-sharp`
+
+## Slackware installation
+
+You can find `dopamine-bin` in [SlackBuilds.org](https://slackbuilds.org/repository/15.0/audio/dopamine-bin/?search=dopamin)
+
+If you use a package manager assume `slpkg` or `sbopkg` etc...
+
+- `slpkg -i dopamine-bin` or `sbopkg -i dopamine-bin`
+
