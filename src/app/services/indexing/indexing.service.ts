@@ -10,8 +10,10 @@ import { IIndexingMessage } from './messages/i-indexing-message';
 import { AddingTracksMessage } from './messages/adding-tracks-message';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';
 import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
-import { TrackModel } from '../track/track-model';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { IFileMetadata } from '../../common/metadata/i-file-metadata';
+import { Track } from '../../data/entities/track';
+import { TrackFiller } from './track-filler';
 
 @Injectable()
 export class IndexingService implements OnDestroy {
@@ -24,11 +26,12 @@ export class IndexingService implements OnDestroy {
         private notificationService: NotificationServiceBase,
         private folderService: FolderServiceBase,
         private albumArtworkIndexer: AlbumArtworkIndexer,
+        private trackRepository: TrackRepositoryBase,
+        private trackFiller: TrackFiller,
         private desktop: DesktopBase,
         private settings: SettingsBase,
         private ipcProxy: IpcProxyBase,
         private logger: Logger,
-        private trackRepositoryBase: TrackRepositoryBase,
     ) {
         this.initializeSubscriptions();
     }
@@ -159,13 +162,30 @@ export class IndexingService implements OnDestroy {
         this.ipcProxy.sendToMainProcess('indexing-worker', this.createWorkerArgs(task));
     }
 
-    public indexAfterTagChange(paths: string[]): void {
-        // Update track metadata in the database and set needs album artwork indexing to 1
+    public async indexAfterTagChangeAsync(fileMetaDatas: IFileMetadata[]): Promise<void> {
+        const tracks: Track[] | undefined = this.trackRepository.getTracksForPaths(fileMetaDatas.map((f) => f.path));
+
+        if (!tracks) {
+            return;
+        }
+
+        // Update track metadata in the database
+        for (const track of tracks) {
+            const fileMetaData: IFileMetadata | undefined = fileMetaDatas.find((f) => f.path === track.path);
+
+            if (!fileMetaData) {
+                continue;
+            }
+
+            const updatedTrack: Track = await this.trackFiller.addGivenFileMetadataToTrackAsync(track, fileMetaData, false);
+
+            this.trackRepository.updateTrack(updatedTrack);
+        }
 
         // Trigger album artwork indexing
+        await this.indexAlbumArtworkOnlyAsync(false);
 
-        // Refresh queued tracks?
-
+        // Refresh UI
         this.indexingFinished.next();
     }
 }

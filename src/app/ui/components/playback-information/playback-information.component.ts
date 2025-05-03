@@ -8,6 +8,7 @@ import { MetadataService } from '../../../services/metadata/metadata.service';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { Constants } from '../../../common/application/constants';
 import { PlaybackInformationService } from '../../../services/playback-information/playback-information.service';
+import { IndexingService } from '../../../services/indexing/indexing.service';
 
 @Component({
     selector: 'app-playback-information',
@@ -51,6 +52,7 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
     public constructor(
         private playbackInformationService: PlaybackInformationService,
+        private indexingService: IndexingService,
         private metadataService: MetadataService,
         private scheduler: SchedulerBase,
     ) {}
@@ -172,6 +174,14 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         this.subscription.add(
             this.metadataService.loveSaved$.subscribe((track: TrackModel) => {
                 this.setLove(track);
+            }),
+        );
+
+        this.subscription.add(
+            this.indexingService.indexingFinished$.subscribe(async (_) => {
+                const currentPlaybackInformation: PlaybackInformation =
+                    await this.playbackInformationService.getCurrentPlaybackInformationAsync();
+                await this.switchDown(currentPlaybackInformation.track, false);
             }),
         );
     }

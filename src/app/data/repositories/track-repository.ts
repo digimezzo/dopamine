@@ -22,10 +22,10 @@ export class TrackRepository implements TrackRepositoryBase {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(`SELECT COUNT(*) AS numberOfTracks
-        FROM Track WHERE TrackID IN (
-            SELECT TrackID
-            FROM FolderTrack
-            WHERE FolderID NOT IN (SELECT FolderID FROM Folder));`);
+                                            FROM Track
+                                            WHERE TrackID IN (SELECT TrackID
+                                                              FROM FolderTrack
+                                                              WHERE FolderID NOT IN (SELECT FolderID FROM Folder));`);
 
         const result: any = statement.get();
 
@@ -34,7 +34,13 @@ export class TrackRepository implements TrackRepositoryBase {
 
     public deleteTracks(trackIds: number[]): void {
         const database: any = this.databaseFactory.create();
-        database.prepare(`DELETE FROM Track WHERE ${ClauseCreator.createNumericInClause('TrackID', trackIds)};`).run();
+        database
+            .prepare(
+                `DELETE
+                 FROM Track
+                 WHERE ${ClauseCreator.createNumericInClause('TrackID', trackIds)};`,
+            )
+            .run();
     }
 
     public getVisibleTracks(): Track[] | undefined {
@@ -252,7 +258,10 @@ export class TrackRepository implements TrackRepositoryBase {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
-            `UPDATE Track SET PlayCount=@playCount, DateLastPlayed=@dateLastPlayedInTicks WHERE TrackID=@trackId;`,
+            `UPDATE Track
+             SET PlayCount=@playCount,
+                 DateLastPlayed=@dateLastPlayedInTicks
+             WHERE TrackID = @trackId;`,
         );
 
         statement.run({
@@ -265,7 +274,9 @@ export class TrackRepository implements TrackRepositoryBase {
     public updateSkipCount(trackId: number, skipCount: number): void {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare(`UPDATE Track SET SkipCount=@skipCount WHERE TrackID=@trackId;`);
+        const statement = database.prepare(`UPDATE Track
+                                            SET SkipCount=@skipCount
+                                            WHERE TrackID = @trackId;`);
 
         statement.run({
             trackId: trackId,
@@ -276,7 +287,9 @@ export class TrackRepository implements TrackRepositoryBase {
     public updateRating(trackId: number, rating: number): void {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare(`UPDATE Track SET Rating=@rating WHERE TrackID=@trackId;`);
+        const statement = database.prepare(`UPDATE Track
+                                            SET Rating=@rating
+                                            WHERE TrackID = @trackId;`);
 
         statement.run({
             trackId: trackId,
@@ -287,7 +300,9 @@ export class TrackRepository implements TrackRepositoryBase {
     public updateLove(trackId: number, love: number): void {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare(`UPDATE Track SET Love=@love WHERE TrackID=@trackId;`);
+        const statement = database.prepare(`UPDATE Track
+                                            SET Love=@love
+                                            WHERE TrackID = @trackId;`);
 
         statement.run({
             trackId: trackId,
@@ -303,8 +318,93 @@ export class TrackRepository implements TrackRepositoryBase {
 
     public disableNeedsAlbumArtworkIndexing(albumKey: string): void {
         const database: any = this.databaseFactory.create();
-        const statement: any = database.prepare(`UPDATE Track SET NeedsAlbumArtworkIndexing=0 WHERE AlbumKey=?;`);
+        const statement: any = database.prepare(`UPDATE Track
+                                                 SET NeedsAlbumArtworkIndexing=0
+                                                 WHERE AlbumKey = ?;`);
 
         statement.run(albumKey);
+    }
+
+    public updateTrack(track: Track): void {
+        const database: any = this.databaseFactory.create();
+
+        const statement: any = database.prepare(
+            `UPDATE Track
+             SET Artists=@artists,
+                 Genres=@genres,
+                 AlbumTitle=@albumTitle,
+                 AlbumArtists=@albumArtists,
+                 AlbumKey=@albumKey,
+                 AlbumKey2=@albumKey2,
+                 AlbumKey3=@albumKey3,
+                 Path=@path,
+                 SafePath=@safePath,
+                 FileName=@fileName,
+                 MimeType=@mimeType,
+                 FileSize=@fileSize,
+                 BitRate=@bitRate,
+                 SampleRate=@sampleRate,
+                 TrackTitle=@trackTitle,
+                 TrackNumber=@trackNumber,
+                 TrackCount=@trackCount,
+                 DiscNumber=@discNumber,
+                 DiscCount=@discCount,
+                 Duration=@duration,
+                 Year=@year,
+                 HasLyrics=@hasLyrics,
+                 DateAdded=@dateAdded,
+                 DateFileCreated=@dateFileCreated,
+                 DateLastSynced=@dateLastSynced,
+                 DateFileModified=@dateFileModified,
+                 NeedsIndexing=@needsIndexing,
+                 NeedsAlbumArtworkIndexing=@needsAlbumArtworkIndexing,
+                 IndexingSuccess=@indexingSuccess,
+                 IndexingFailureReason=@indexingFailureReason,
+                 Rating=@rating,
+                 Love=@love,
+                 PlayCount=@playCount,
+                 SkipCount=@skipCount,
+                 DateLastPlayed=@dateLastPlayed
+             WHERE TrackID = @trackId;`,
+        );
+
+        statement.run({
+            trackId: track.trackId,
+            artists: track.artists,
+            genres: track.genres,
+            albumTitle: track.albumTitle,
+            albumArtists: track.albumArtists,
+            albumKey: track.albumKey,
+            albumKey2: track.albumKey2,
+            albumKey3: track.albumKey3,
+            path: track.path,
+            safePath: track.path.toLowerCase(),
+            fileName: track.fileName,
+            mimeType: track.mimeType,
+            fileSize: track.fileSize,
+            bitRate: track.bitRate,
+            sampleRate: track.sampleRate,
+            trackTitle: track.trackTitle,
+            trackNumber: track.trackNumber,
+            trackCount: track.trackCount,
+            discNumber: track.discNumber,
+            discCount: track.discCount,
+            duration: track.duration,
+            year: track.year,
+            hasLyrics: track.hasLyrics,
+            dateAdded: track.dateAdded,
+            dateFileCreated: track.dateFileCreated,
+            dateLastSynced: track.dateLastSynced,
+            dateFileModified: track.dateFileModified,
+            needsIndexing: track.needsIndexing,
+            needsAlbumArtworkIndexing: track.needsAlbumArtworkIndexing,
+            indexingSuccess: track.indexingSuccess,
+            indexingFailureReason: track.indexingFailureReason,
+            rating: track.rating,
+            love: track.love,
+            playCount: track.playCount,
+            skipCount: track.skipCount,
+            dateLastPlayed: track.dateLastPlayed,
+        });
     }
 }

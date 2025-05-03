@@ -27,4 +27,5 @@ export abstract class TrackRepositoryBase {
     public abstract updateLove(trackId: number, love: number): void;
     public abstract getLastModifiedTrackForAlbumKeyAsync(albumKeyIndex: string, albumKey: string): Track | undefined;
     public abstract disableNeedsAlbumArtworkIndexing(albumKey: string): void;
+    public abstract updateTrack(track: Track): void;
 }

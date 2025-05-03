@@ -27,7 +27,25 @@ export class TrackFiller {
     public async addFileMetadataToTrackAsync(track: Track, fillOnlyEssentialMetadata: boolean): Promise<Track> {
         try {
             const fileMetadata: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
+            return this.addGivenFileMetadataToTrackAsync(track, fileMetadata, fillOnlyEssentialMetadata);
+        } catch (e: unknown) {
+            this.logger.error(
+                e,
+                'Error while retrieving tag information for file ${track.path}',
+                'TrackFiller',
+                'addGivenFileMetadataToTrackAsync',
+            );
+        }
 
+        return track;
+    }
+
+    public async addGivenFileMetadataToTrackAsync(
+        track: Track,
+        fileMetadata: IFileMetadata,
+        fillOnlyEssentialMetadata: boolean,
+    ): Promise<Track> {
+        try {
             track.artists = this.trackFieldCreator.createMultiTextField(
                 this.metadataPatcher.joinUnsplittableMetadata(fileMetadata.artists),
             );

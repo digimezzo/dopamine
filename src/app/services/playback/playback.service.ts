@@ -23,7 +23,6 @@ import { QueueRestoreInfo } from './queue-restore-info';
 import { AudioPlayerFactory } from './audio-player/audio-player.factory';
 import { IAudioPlayer } from './audio-player/i-audio-player';
 import { MediaSessionService } from '../media-session/media-session.service';
-import { Track } from '../../data/entities/track';
 
 @Injectable({ providedIn: 'root' })
 export class PlaybackService {

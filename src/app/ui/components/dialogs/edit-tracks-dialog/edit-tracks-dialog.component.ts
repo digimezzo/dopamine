@@ -299,8 +299,12 @@ export class EditTracksDialogComponent implements OnInit {
         }
 
         try {
-            this.indexingService.indexAfterTagChange(this._fileMetaDatas.map((x) => x.path));
-        } catch {}
+            await this.indexingService.indexAfterTagChangeAsync(this._fileMetaDatas);
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                this.logger.error(e, 'Failed to index', 'EditTracksDialogComponent', 'saveMetadata');
+            }
+        }
     }
 
     private saveGetNumberAsString(number: number): string {
