@@ -248,4 +248,8 @@ export class TrackModel implements ISelectable {
     public clone(): TrackModel {
         return new TrackModel(this.track, this.dateTime, this.translatorService, this.albumKeyIndex);
     }
+
+    public setTrack(track: Track): void {
+        this.track = track;
+    }
 }

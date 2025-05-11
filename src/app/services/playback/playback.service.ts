@@ -23,6 +23,7 @@ import { QueueRestoreInfo } from './queue-restore-info';
 import { AudioPlayerFactory } from './audio-player/audio-player.factory';
 import { IAudioPlayer } from './audio-player/i-audio-player';
 import { MediaSessionService } from '../media-session/media-session.service';
+import { Track } from '../../data/entities/track';
 
 @Injectable({ providedIn: 'root' })
 export class PlaybackService {
@@ -632,5 +633,21 @@ export class PlaybackService {
 
     public pauseUpdatingProgress(): void {
         this._shouldReportProgress = false;
+    }
+
+    public updateQueueTracks(tracks: Track[]): void {
+        const tracksInQueue: TrackModel[] = this.queue.tracks.filter((qt) => tracks.map((t) => t.path).includes(qt.path));
+
+        for (const trackInQueue of tracksInQueue) {
+            const trackToSet = tracks.find((t) => t.path === trackInQueue.path);
+
+            if (trackToSet) {
+                trackInQueue.setTrack(trackToSet);
+
+                if (trackToSet.path === this.currentTrack?.path) {
+                    this.currentTrack.setTrack(trackToSet);
+                }
+            }
+        }
     }
 }

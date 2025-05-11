@@ -14,6 +14,7 @@ import { TrackRepositoryBase } from '../../data/repositories/track-repository.ba
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { Track } from '../../data/entities/track';
 import { TrackFiller } from './track-filler';
+import { PlaybackService } from '../playback/playback.service';
 
 @Injectable()
 export class IndexingService implements OnDestroy {
@@ -25,6 +26,7 @@ export class IndexingService implements OnDestroy {
     public constructor(
         private notificationService: NotificationServiceBase,
         private folderService: FolderServiceBase,
+        private playbackService: PlaybackService,
         private albumArtworkIndexer: AlbumArtworkIndexer,
         private trackRepository: TrackRepositoryBase,
         private trackFiller: TrackFiller,
@@ -186,6 +188,7 @@ export class IndexingService implements OnDestroy {
         await this.indexAlbumArtworkOnlyAsync(false);
 
         // Refresh UI
+        this.playbackService.updateQueueTracks(tracks);
         this.indexingFinished.next();
     }
 }
