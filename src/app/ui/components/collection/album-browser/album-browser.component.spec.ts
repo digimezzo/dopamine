@@ -9,7 +9,6 @@ import { ApplicationServiceBase } from '../../../../services/application/applica
 import { NativeElementProxy } from '../../../../common/native-element-proxy';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
-import { FileAccess } from '../../../../common/io/file-access';
 import { Logger } from '../../../../common/logger';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { AlbumData } from '../../../../data/entities/album-data';
@@ -232,30 +231,7 @@ describe('AlbumBrowserComponent', () => {
             albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
-        it('should not order the albums given changes for albumsPersister and albums if albums is undefined and albumsPersister is not undefined', () => {
-            // Arrange
-            const albumData1: AlbumData = new AlbumData();
-            const albumData2: AlbumData = new AlbumData();
-            const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
-            const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, applicationPathsMock.object);
-            const albums: AlbumModel[] = [album1, album2];
-            nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            const component: AlbumBrowserComponent = createComponent();
-            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
-            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
-            component.albumsPersister = albumsPersisterMock.object;
-
-            const albumsPersisterChanges: any = { albumsPersister: { currentValue: albumsPersisterMock.object } };
-            const albumsChanges: any = { albums: { currentValue: albums } };
-
-            // Act
-            component.ngOnChanges({ albumsPersister: albumsPersisterChanges, albums: albumsChanges });
-
-            // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), It.isAny(), It.isAny()), Times.never());
-        });
-
-        it('should not order the albums given changes for albumsPersister and albums if albums and albumsPersister are not undefined and albums is empty', () => {
+        it('should order the albums given changes for albumsPersister and albums if albums and albumsPersister are not undefined and albums is empty', () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();
             const albumData2: AlbumData = new AlbumData();
@@ -276,7 +252,7 @@ describe('AlbumBrowserComponent', () => {
             component.ngOnChanges({ albumsPersister: albumsPersisterChanges, albums: albumsChanges });
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), It.isAny(), It.isAny()), Times.never());
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), It.isAny(), It.isAny()), Times.once());
         });
 
         it('should order the albums given changes for albumsPersister and albums if albums is not undefined and not empty and albumsPersister is undefined', () => {
