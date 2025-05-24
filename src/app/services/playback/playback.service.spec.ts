@@ -26,6 +26,7 @@ import { QueuePersister } from './queue-persister';
 import { AudioPlayerFactory } from './audio-player/audio-player.factory';
 import { IAudioPlayer } from './audio-player/i-audio-player';
 import { MediaSessionService } from '../media-session/media-session.service';
+import { PlaybackProgress } from './playback-progress';
 
 describe('PlaybackService', () => {
     let audioPlayerFactoryMock: IMock<AudioPlayerFactory>;
@@ -1468,9 +1469,17 @@ describe('PlaybackService', () => {
         it('should stop playback if a next track is not found', () => {
             // Arrange
             const service: PlaybackService = createService();
+            Object.defineProperty(service, '_progress', { value: new PlaybackProgress(10, 20) });
 
             queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => undefined);
             audioPlayerMock.reset();
+
+            let progressChanged: boolean = false;
+            subscription.add(
+                service.progressChanged$.subscribe(() => {
+                    progressChanged = true;
+                }),
+            );
 
             // Act
             service.playNext();
@@ -1484,6 +1493,7 @@ describe('PlaybackService', () => {
             expect(service.progress.progressSeconds).toEqual(0);
             expect(service.progress.totalSeconds).toEqual(0);
             expect(service.currentTrack).toBeUndefined();
+            expect(progressChanged).toBeTruthy();
         });
 
         it('should raise an event that playback is stopped if a next track is not found', () => {
