@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 -   Updated Simplified Brazilian Portuguese translation
+-   Updated Simplified Russian translation
 
 ### Fixed
 
