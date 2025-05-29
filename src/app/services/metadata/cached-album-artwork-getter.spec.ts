@@ -5,6 +5,7 @@ import { FileAccessBase } from '../../common/io/file-access.base';
 import { AlbumData } from '../../data/entities/album-data';
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { SettingsMock } from '../../testing/settings-mock';
+import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 
 describe('CachedAlbumArtworkGetter', () => {
     let trackRepositoryMock: IMock<TrackRepositoryBase>;

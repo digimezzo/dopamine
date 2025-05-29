@@ -3,8 +3,6 @@ import { IMock, Mock, Times } from 'typemoq';
 import { ImageProcessor } from '../../common/image-processor';
 import { FanartApi } from '../../common/api/fanart/fanart.api';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('OnlineArtistImageGetter', () => {
     let imageProcessorMock: IMock<ImageProcessor>;
     let fanartApiMock: IMock<FanartApi>;

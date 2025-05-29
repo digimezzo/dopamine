@@ -4,7 +4,7 @@ import { NavigationServiceBase } from '../../../services/navigation/navigation.s
 import { DatabaseMigratorBase } from '../../../data/database-migrator.base';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { UpdateServiceBase } from '../../../services/update/update.service.base';
-import { IndexingServiceBase } from '../../../services/indexing/indexing.service.base';
+import { IndexingService } from '../../../services/indexing/indexing.service';
 import { FileServiceBase } from '../../../services/file/file.service.base';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 
@@ -14,7 +14,7 @@ describe('LoadingComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let settingsStub: any;
     let updateServiceMock: IMock<UpdateServiceBase>;
-    let indexingServiceMock: IMock<IndexingServiceBase>;
+    let indexingServiceMock: IMock<IndexingService>;
     let fileServiceMock: IMock<FileServiceBase>;
     let schedulerMock: IMock<SchedulerBase>;
 
@@ -37,7 +37,7 @@ describe('LoadingComponent', () => {
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         settingsStub = { showWelcome: false, refreshCollectionAutomatically: false };
         updateServiceMock = Mock.ofType<UpdateServiceBase>();
-        indexingServiceMock = Mock.ofType<IndexingServiceBase>();
+        indexingServiceMock = Mock.ofType<IndexingService>();
         fileServiceMock = Mock.ofType<FileServiceBase>();
         schedulerMock = Mock.ofType<SchedulerBase>();
     });

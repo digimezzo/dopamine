@@ -1,4 +1,5 @@
 import {
+    ByteVector,
     File,
     Id3v2FrameClassType,
     Id3v2FrameIdentifiers,
@@ -51,6 +52,35 @@ export class TagLibFileMetadata implements IFileMetadata {
             this.writeRatingToFile(tagLibFile, this.rating);
             this.ratingHasChanged = false;
         }
+
+        tagLibFile.tag.title = this.title;
+        tagLibFile.tag.performers = this.artists;
+        tagLibFile.tag.album = this.album;
+        tagLibFile.tag.albumArtists = this.albumArtists;
+        tagLibFile.tag.year = this.year;
+        tagLibFile.tag.genres = this.genres;
+        tagLibFile.tag.track = this.trackNumber;
+        tagLibFile.tag.trackCount = this.trackCount;
+        tagLibFile.tag.disc = this.discNumber;
+        tagLibFile.tag.discCount = this.discCount;
+        tagLibFile.tag.grouping = this.grouping;
+        tagLibFile.tag.comment = this.comment;
+
+        if (this.picture) {
+            const picture = {
+                data: ByteVector.fromByteArray(this.picture),
+                mimeType: 'image/png',
+                type: PictureType.FrontCover,
+                filename: '', // Not required
+                description: '', // Not required
+            };
+
+            tagLibFile.tag.pictures = [picture];
+        } else {
+            tagLibFile.tag.pictures = [];
+        }
+
+        // tagLibFile.tag.lyrics = this.lyrics;
 
         tagLibFile.save();
         tagLibFile.dispose();

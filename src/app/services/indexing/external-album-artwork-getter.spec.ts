@@ -5,8 +5,6 @@ import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { ExternalAlbumArtworkGetter } from './external-album-artwork-getter';
 import { ExternalArtworkPathGetter } from './external-artwork-path-getter';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('ExternalAlbumArtworkGetter', () => {
     let externalArtworkPathGetterMock: IMock<ExternalArtworkPathGetter>;
     let imageProcessorMock: IMock<ImageProcessor>;

@@ -3,8 +3,6 @@ import { IMock, Mock } from 'typemoq';
 import { PlaylistModelFactory } from '../playlist/playlist-model-factory';
 import { DialogService } from './dialog.service';
 
-jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
-
 describe('DialogService', () => {
     let matDialogMock: IMock<MatDialog>;
     let playlistModelFactoryMock: IMock<PlaylistModelFactory>;

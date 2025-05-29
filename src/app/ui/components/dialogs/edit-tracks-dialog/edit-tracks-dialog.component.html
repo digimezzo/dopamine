@@ -1,0 +1,130 @@
+<app-dialog-header icon="las la-pen" title="{{ 'edit-track' | translate }}"></app-dialog-header>
+<mat-dialog-content>
+    <div class="d-flex flex-row">
+        <div class="d-flex flex-column">
+            <div class="edit-tracks__image pointer">
+                <div
+                    class="edit-tracks__image__placeholder"
+                    matTooltip="{{ 'change-image' | translate }}"
+                    (click)="this.changeImageAsync()"
+                >
+                    <svg width="256" height="256" viewBox="0 0 256 256">
+                        <path
+                            d="M 208.79492 0 L 208.79492 85.669922 A 104.26329 104.26329 0 0 0 128.05273 47.373047 A 104.26329 104.26329 0 0 0 23.789062 151.63672 A 104.26329 104.26329 0 0 0 128.05273 255.90039 A 104.26329 104.26329 0 0 0 232.31641 151.63672 A 104.26329 104.26329 0 0 0 232.30859 150.50391 L 232.31055 150.50391 L 232.31055 0 L 208.79492 0 z M 128.05273 71.195312 A 80.750832 80.441704 0 0 1 208.79492 150.50391 A 80.750832 80.441704 0 0 1 208.80273 151.63672 A 80.750832 80.441704 0 0 1 128.05273 232.07812 A 80.750832 80.441704 0 0 1 47.302734 151.63672 A 80.750832 80.441704 0 0 1 128.05273 71.195312 z M 127.9707 134.98047 A 16.65657 16.65657 0 0 0 111.39648 151.63672 A 16.65657 16.65657 0 0 0 128.05273 168.29297 A 16.65657 16.65657 0 0 0 144.70898 151.63672 A 16.65657 16.65657 0 0 0 128.05273 134.98047 A 16.65657 16.65657 0 0 0 127.9707 134.98047 z "
+                        />
+                    </svg>
+                </div>
+                <div
+                    *ngIf="this.canShowRemoveButton"
+                    class="d-flex align-items-center justify-content-center"
+                    matTooltip="{{ 'change-image' | translate }}"
+                    (click)="this.changeImageAsync()"
+                >
+                    <div *ngIf="this.imageComparisonStatus === imageComparisonStatusEnum.Identical">
+                        <img [src]="this.imagePath" width="180" height="180" loading="lazy" draggable="false" />
+                    </div>
+                    <div *ngIf="this.imageComparisonStatus === imageComparisonStatusEnum.Different">
+                        {{ 'multiple-images' | translate }}
+                    </div>
+                </div>
+                <div
+                    class="edit-tracks__remove-button d-flex justify-content-center align-items-center"
+                    *ngIf="this.canShowRemoveButton"
+                    matTooltip="{{ 'remove-image' | translate }}"
+                    (click)="this.removeImage()"
+                >
+                    <i class="las la-times"></i>
+                </div>
+            </div>
+            <app-transparent-button
+                class="mt-3"
+                [fill]="true"
+                (click)="this.exportImageAsync()"
+                [ngClass]="{ inactive: !this.canExportImage }"
+            >
+                {{ 'export' | translate }}...
+            </app-transparent-button>
+            <app-transparent-button class="mt-3" [fill]="true" (click)="this.downloadImageAsync()">
+                {{ 'download' | translate }}
+            </app-transparent-button>
+        </div>
+        <div class="d-flex flex-column ml-3">
+            <div class="d-flex flex-row">
+                <div class="flex-1 mr-3">{{ 'title' | translate }}</div>
+                <mat-form-field class="flex-2">
+                    <input matInput [(ngModel)]="this.title" />
+                </mat-form-field>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="flex-1 mr-3">{{ 'artists' | translate }}</div>
+                <mat-form-field class="flex-2">
+                    <input matInput [(ngModel)]="this.artists" />
+                </mat-form-field>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="flex-1 mr-3">{{ 'album' | translate }}</div>
+                <mat-form-field class="flex-2">
+                    <input matInput [(ngModel)]="this.albumTitle" />
+                </mat-form-field>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="flex-1 mr-3">{{ 'album-artists' | translate }}</div>
+                <mat-form-field class="flex-2">
+                    <input matInput [(ngModel)]="this.albumArtists" />
+                </mat-form-field>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="flex-1 mr-3">{{ 'year' | translate }}</div>
+                <mat-form-field class="flex-2">
+                    <input matInput [(ngModel)]="this.year" />
+                </mat-form-field>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="flex-1 mr-3">{{ 'genres' | translate }}</div>
+                <mat-form-field class="flex-2">
+                    <input matInput [(ngModel)]="this.genres" />
+                </mat-form-field>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="flex-1 mr-3">{{ 'track-number' | translate }}</div>
+                <mat-form-field class="flex-2">
+                    <input matInput [(ngModel)]="this.trackNumber" />
+                </mat-form-field>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="flex-1 mr-3">{{ 'track-count' | translate }}</div>
+                <mat-form-field class="flex-2">
+                    <input matInput [(ngModel)]="this.trackCount" />
+                </mat-form-field>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="flex-1 mr-3">{{ 'disc-number' | translate }}</div>
+                <mat-form-field class="flex-2">
+                    <input matInput [(ngModel)]="this.discNumber" />
+                </mat-form-field>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="flex-1 mr-3">{{ 'disc-count' | translate }}</div>
+                <mat-form-field class="flex-2">
+                    <input matInput [(ngModel)]="this.discCount" />
+                </mat-form-field>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="flex-1 mr-3">{{ 'grouping' | translate }}</div>
+                <mat-form-field class="flex-2">
+                    <input matInput [(ngModel)]="this.grouping" />
+                </mat-form-field>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="flex-1 mr-3">{{ 'comment' | translate }}</div>
+                <mat-form-field class="flex-2">
+                    <input matInput [(ngModel)]="this.comment" />
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <app-accent-button class="mr-2" [mat-dialog-close]="true" (click)="this.saveMetadataAsync()">{{ 'ok' | translate }}</app-accent-button>
+    <app-transparent-button [mat-dialog-close]="false">{{ 'cancel' | translate }}</app-transparent-button>
+</mat-dialog-actions>

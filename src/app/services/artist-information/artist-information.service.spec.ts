@@ -15,8 +15,6 @@ import { DesktopBase } from '../../common/io/desktop.base';
 import { OnlineArtistImageGetter } from './online-artist-image-getter';
 import { SettingsMock } from '../../testing/settings-mock';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('ArtistInformationService', () => {
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let artistInformationFactoryMock: IMock<ArtistInformationFactory>;

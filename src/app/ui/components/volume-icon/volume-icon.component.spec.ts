@@ -2,8 +2,6 @@ import { Mock } from 'typemoq';
 import { VolumeIconComponent } from './volume-icon.component';
 import { PlaybackService } from '../../../services/playback/playback.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('VolumeIconComponent', () => {
     let playbackServiceMock: any;
 

@@ -16,7 +16,7 @@ import { SearchServiceBase } from '../../../../services/search/search.service.ba
 import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
 import { FolderServiceBase } from '../../../../services/folder/folder.service.base';
 import { PlaybackService } from '../../../../services/playback/playback.service';
-import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
+import { IndexingService } from '../../../../services/indexing/indexing.service';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { NavigationServiceBase } from '../../../../services/navigation/navigation.service.base';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
@@ -48,7 +48,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         public addToPlaylistMenu: AddToPlaylistMenu,
-        private indexingService: IndexingServiceBase,
+        private indexingService: IndexingService,
         private collectionService: CollectionServiceBase,
         private settings: SettingsBase,
         private navigationService: NavigationServiceBase,

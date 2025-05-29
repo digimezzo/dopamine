@@ -7,7 +7,7 @@ import { GenresAlbumsPersister } from './genres-albums-persister';
 import { GenresPersister } from './genres-persister';
 import { GenresTracksPersister } from './genres-tracks-persister';
 import { SearchServiceBase } from '../../../../services/search/search.service.base';
-import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
+import { IndexingService } from '../../../../services/indexing/indexing.service';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { GenreServiceBase } from '../../../../services/genre/genre.service.base';
 import { AlbumServiceBase } from '../../../../services/album/album-service.base';
@@ -30,7 +30,7 @@ describe('CollectionGenresComponent', () => {
     let genresPersisterMock: IMock<GenresPersister>;
     let albumsPersisterMock: IMock<GenresAlbumsPersister>;
     let tracksPersisterMock: IMock<GenresTracksPersister>;
-    let indexingServiceMock: IMock<IndexingServiceBase>;
+    let indexingServiceMock: IMock<IndexingService>;
     let collectionServiceMock: IMock<CollectionServiceBase>;
     let genreServiceMock: IMock<GenreServiceBase>;
     let albumServiceMock: IMock<AlbumServiceBase>;
@@ -105,7 +105,7 @@ describe('CollectionGenresComponent', () => {
         genresPersisterMock = Mock.ofType<GenresPersister>();
         albumsPersisterMock = Mock.ofType<GenresAlbumsPersister>();
         tracksPersisterMock = Mock.ofType<GenresTracksPersister>();
-        indexingServiceMock = Mock.ofType<IndexingServiceBase>();
+        indexingServiceMock = Mock.ofType<IndexingService>();
         collectionServiceMock = Mock.ofType<CollectionServiceBase>();
         genreServiceMock = Mock.ofType<GenreServiceBase>();
         albumServiceMock = Mock.ofType<AlbumServiceBase>();

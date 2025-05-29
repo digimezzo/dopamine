@@ -7,7 +7,7 @@ import { ArtistsPersister } from './artists-persister';
 import { ArtistsTracksPersister } from './artists-tracks-persister';
 import { CollectionArtistsComponent } from './collection-artists.component';
 import { SearchServiceBase } from '../../../../services/search/search.service.base';
-import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
+import { IndexingService } from '../../../../services/indexing/indexing.service';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { ArtistServiceBase } from '../../../../services/artist/artist.service.base';
 import { AlbumServiceBase } from '../../../../services/album/album-service.base';
@@ -31,7 +31,7 @@ describe('CollectionArtistsComponent', () => {
     let artistsPersisterMock: IMock<ArtistsPersister>;
     let albumsPersisterMock: IMock<ArtistsAlbumsPersister>;
     let tracksPersisterMock: IMock<ArtistsTracksPersister>;
-    let indexingServiceMock: IMock<IndexingServiceBase>;
+    let indexingServiceMock: IMock<IndexingService>;
     let collectionServiceMock: IMock<CollectionServiceBase>;
     let artistServiceMock: IMock<ArtistServiceBase>;
     let albumServiceMock: IMock<AlbumServiceBase>;
@@ -111,7 +111,7 @@ describe('CollectionArtistsComponent', () => {
         artistsPersisterMock = Mock.ofType<ArtistsPersister>();
         albumsPersisterMock = Mock.ofType<ArtistsAlbumsPersister>();
         tracksPersisterMock = Mock.ofType<ArtistsTracksPersister>();
-        indexingServiceMock = Mock.ofType<IndexingServiceBase>();
+        indexingServiceMock = Mock.ofType<IndexingService>();
         collectionServiceMock = Mock.ofType<CollectionServiceBase>();
         artistServiceMock = Mock.ofType<ArtistServiceBase>();
         albumServiceMock = Mock.ofType<AlbumServiceBase>();

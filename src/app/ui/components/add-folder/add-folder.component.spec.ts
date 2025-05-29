@@ -6,7 +6,7 @@ import { DesktopBase } from '../../../common/io/desktop.base';
 import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
 import { FolderServiceBase } from '../../../services/folder/folder.service.base';
 import { DialogServiceBase } from '../../../services/dialog/dialog.service.base';
-import { IndexingServiceBase } from '../../../services/indexing/indexing.service.base';
+import { IndexingService } from '../../../services/indexing/indexing.service';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { Folder } from '../../../data/entities/folder';
 
@@ -15,7 +15,7 @@ describe('AddFolderComponent', () => {
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let folderServiceMock: IMock<FolderServiceBase>;
     let dialogServiceMock: IMock<DialogServiceBase>;
-    let indexingServiceMock: IMock<IndexingServiceBase>;
+    let indexingServiceMock: IMock<IndexingService>;
     let loggerMock: IMock<Logger>;
     let settingsStub: any;
     let settingsMock: IMock<SettingsBase>;
@@ -27,7 +27,7 @@ describe('AddFolderComponent', () => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         folderServiceMock = Mock.ofType<FolderServiceBase>();
         dialogServiceMock = Mock.ofType<DialogServiceBase>();
-        indexingServiceMock = Mock.ofType<IndexingServiceBase>();
+        indexingServiceMock = Mock.ofType<IndexingService>();
         loggerMock = Mock.ofType<Logger>();
         settingsStub = { showAllFoldersInCollection: false };
         settingsMock = Mock.ofType<SettingsBase>();

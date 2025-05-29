@@ -7,7 +7,7 @@ import { FolderTracksPersister } from './folder-tracks-persister';
 import { FoldersPersister } from './folders-persister';
 import { SearchServiceBase } from '../../../../services/search/search.service.base';
 import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
-import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
+import { IndexingService } from '../../../../services/indexing/indexing.service';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { PlaybackService } from '../../../../services/playback/playback.service';
 import { FolderServiceBase } from '../../../../services/folder/folder.service.base';
@@ -32,13 +32,11 @@ import { Constants } from '../../../../common/application/constants';
 import { DesktopBase } from '../../../../common/io/desktop.base';
 import { MetadataService } from '../../../../services/metadata/metadata.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('CollectionFoldersComponent', () => {
     let settingsStub: any;
     let searchServiceMock: IMock<SearchServiceBase>;
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
-    let indexingServiceMock: IMock<IndexingServiceBase>;
+    let indexingServiceMock: IMock<IndexingService>;
     let collectionServiceMock: IMock<CollectionServiceBase>;
     let metadataServiceMock: IMock<MetadataService>;
     let playbackServiceMock: IMock<PlaybackService>;
@@ -113,7 +111,7 @@ describe('CollectionFoldersComponent', () => {
         settingsStub = { foldersLeftPaneWidthPercent: 30 };
         searchServiceMock = Mock.ofType<SearchServiceBase>();
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
-        indexingServiceMock = Mock.ofType<IndexingServiceBase>();
+        indexingServiceMock = Mock.ofType<IndexingService>();
         collectionServiceMock = Mock.ofType<CollectionServiceBase>();
         metadataServiceMock = Mock.ofType<MetadataService>();
         playbackServiceMock = Mock.ofType<PlaybackService>();

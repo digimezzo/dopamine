@@ -13,7 +13,7 @@ import { ArtistsAlbumsPersister } from './artists-albums-persister';
 import { ArtistsPersister } from './artists-persister';
 import { ArtistsTracksPersister } from './artists-tracks-persister';
 import { SearchServiceBase } from '../../../../services/search/search.service.base';
-import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
+import { IndexingService } from '../../../../services/indexing/indexing.service';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { ArtistServiceBase } from '../../../../services/artist/artist.service.base';
 import { AlbumServiceBase } from '../../../../services/album/album-service.base';
@@ -36,7 +36,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         public artistsPersister: ArtistsPersister,
         public albumsPersister: ArtistsAlbumsPersister,
         public tracksPersister: ArtistsTracksPersister,
-        private indexingService: IndexingServiceBase,
+        private indexingService: IndexingService,
         private collectionService: CollectionServiceBase,
         private artistService: ArtistServiceBase,
         private albumService: AlbumServiceBase,

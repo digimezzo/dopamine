@@ -56,6 +56,10 @@
             <span>{{ 'show-in-folder' | translate }}</span>
         </button>
         <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onEdit()">
+            <span>{{ 'edit' | translate }}</span>
+        </button>
+        <mat-divider></mat-divider>
         <button mat-menu-item (click)="onDeleteAsync()">
             <span>{{ 'delete' | translate }}</span>
         </button>

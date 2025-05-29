@@ -19,8 +19,6 @@ import { GuidFactory } from '../../../../../common/guid.factory';
 import { ArtistSorter } from '../../../../../common/sorting/artist-sorter';
 import { PlaybackService } from '../../../../../services/playback/playback.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 export class CdkVirtualScrollViewportMock {
     private _scrollToIndexIndex: number = -1;
     private _scrollToIndexBehavior: ScrollBehavior | undefined;
