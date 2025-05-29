@@ -6,6 +6,7 @@ import { PlaybackInformation } from '../../../services/playback-information/play
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { Constants } from '../../../common/application/constants';
 import { PlaybackInformationService } from '../../../services/playback-information/playback-information.service';
+import { IndexingService } from '../../../services/indexing/indexing.service';
 
 @Component({
     selector: 'app-playback-cover-art',
@@ -51,6 +52,7 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
     public constructor(
         private playbackInformationService: PlaybackInformationService,
         private scheduler: SchedulerBase,
+        private indexingService: IndexingService,
     ) {}
 
     public contentAnimation: string = 'down';
@@ -100,6 +102,14 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
         this.subscription.add(
             this.playbackInformationService.playingNoTrack$.subscribe((playbackInformation: PlaybackInformation) => {
                 PromiseUtils.noAwait(this.switchUp(playbackInformation.imageUrl));
+            }),
+        );
+
+        this.subscription.add(
+            this.indexingService.indexingFinished$.subscribe(async (_) => {
+                const currentPlaybackInformation: PlaybackInformation =
+                    await this.playbackInformationService.getCurrentPlaybackInformationAsync();
+                await this.switchDown(currentPlaybackInformation.imageUrl, false);
             }),
         );
     }

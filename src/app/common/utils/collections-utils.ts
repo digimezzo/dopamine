@@ -65,4 +65,45 @@ export class CollectionUtils {
 
         return itemsAsString!.slice(1, -1).split('][');
     }
+
+    public static toCommaSeparatedString(items: (string | undefined)[] | undefined): string {
+        if (!items) {
+            return '';
+        }
+
+        if (items.length === 0) {
+            return '';
+        }
+
+        return items
+            .filter((x) => !StringUtils.isNullOrWhiteSpace(x))
+            .map((x) => x!.trim())
+            .join(', ');
+    }
+
+    public static toSemicolonSeparatedString(items: (string | undefined)[] | undefined): string {
+        if (!items) {
+            return '';
+        }
+
+        if (items.length === 0) {
+            return '';
+        }
+
+        return items
+            .filter((x) => !StringUtils.isNullOrWhiteSpace(x))
+            .map((x) => x!.trim())
+            .join(';');
+    }
+
+    public static fromSemicolonSeparatedString(itemsAsString: string | undefined): string[] {
+        if (StringUtils.isNullOrWhiteSpace(itemsAsString)) {
+            return [];
+        }
+
+        return itemsAsString!
+            .split(';')
+            .map((item) => item.trim())
+            .filter((item) => item.length > 0);
+    }
 }

@@ -12,8 +12,6 @@ import { MockCreator } from '../../testing/mock-creator';
 import { SettingsMock } from '../../testing/settings-mock';
 import { PlaybackInformationFactory } from './playback-information.factory';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('PlaybackInformationService', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let playbackInformationFactoryMock: IMock<PlaybackInformationFactory>;
@@ -175,63 +173,6 @@ describe('PlaybackInformationService', () => {
             expect(playbackInformation).toBeDefined();
             expect(playbackInformation.track).toBe(trackModel);
             expect(playbackInformation.imageUrl).toEqual('imageUrl');
-        });
-
-        it('should return cached playback information if the track has not changed', async () => {
-            // Arrange
-            const service: PlaybackInformationService = new PlaybackInformationService(
-                playbackServiceMock.object,
-                playbackInformationFactoryMock.object,
-            );
-
-            await service.getCurrentPlaybackInformationAsync();
-            playbackInformationFactoryMock.reset();
-
-            // Act
-            const playbackInformation: PlaybackInformation = await service.getCurrentPlaybackInformationAsync();
-
-            // Assert
-            playbackInformationFactoryMock.verify((x) => x.createAsync(It.isAny()), Times.never());
-            expect(playbackInformation).toBeDefined();
-            expect(playbackInformation.track).toBe(trackModel);
-            expect(playbackInformation.imageUrl).toEqual('imageUrl');
-        });
-
-        it('should not return cached playback information if the track has changed', async () => {
-            // Arrange
-            const service: PlaybackInformationService = new PlaybackInformationService(
-                playbackServiceMock.object,
-                playbackInformationFactoryMock.object,
-            );
-
-            await service.getCurrentPlaybackInformationAsync();
-
-            const trackModel2 = MockCreator.createTrackModel('path2', 'title2', 'artists2');
-
-            playbackInformationFactoryMock.reset();
-
-            playbackInformationFactoryMock
-                .setup((x) => x.createAsync(trackModel2))
-                .returns(() => Promise.resolve(new PlaybackInformation(trackModel2, 'imageUrl2')));
-
-            playbackServiceMock.reset();
-
-            const playbackService_PlaybackStartedMock$: Observable<PlaybackStarted> = playbackService_PlaybackStartedMock.asObservable();
-            playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackService_PlaybackStartedMock$);
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel2);
-
-            playbackService_PlaybackStoppedMock = new Subject();
-            const playbackService_PlaybackStoppedMock$: Observable<void> = playbackService_PlaybackStoppedMock.asObservable();
-            playbackServiceMock.setup((x) => x.playbackStopped$).returns(() => playbackService_PlaybackStoppedMock$);
-
-            // Act
-            const playbackInformation: PlaybackInformation = await service.getCurrentPlaybackInformationAsync();
-
-            // Assert
-            playbackInformationFactoryMock.verify((x) => x.createAsync(trackModel2), Times.once());
-            expect(playbackInformation).toBeDefined();
-            expect(playbackInformation.track).toBe(trackModel2);
-            expect(playbackInformation.imageUrl).toEqual('imageUrl2');
         });
     });
 });

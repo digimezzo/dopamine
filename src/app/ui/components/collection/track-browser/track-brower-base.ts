@@ -8,8 +8,8 @@ import { CollectionServiceBase } from '../../../../services/collection/collectio
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { DesktopBase } from '../../../../common/io/desktop.base';
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
-import {ContextMenuOpener} from "../../context-menu-opener";
-import {PlaybackService} from "../../../../services/playback/playback.service";
+import { ContextMenuOpener } from '../../context-menu-opener';
+import { PlaybackService } from '../../../../services/playback/playback.service';
 
 @Directive()
 export class TrackBrowserBase {
@@ -41,6 +41,24 @@ export class TrackBrowserBase {
 
         if (tracks.length > 0) {
             this.desktop.showFileInDirectory(tracks[0].path);
+        }
+    }
+
+    public async onEdit(): Promise<void> {
+        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems as TrackModel[];
+        const userHasConfirmed: boolean = await this.dialogService.showEditTracksAsync(tracks);
+
+        if (userHasConfirmed) {
+            // try {
+            //     if (!(await this.collectionService.deleteTracksAsync(tracks))) {
+            //         throw new Error('deleteTracksAsync returned false');
+            //     }
+            // } catch (e: unknown) {
+            //     this.logger.error(e, 'Could not delete all files', 'TrackBrowserBase', 'onDelete');
+            //
+            //     const errorText: string = await this.translatorService.getAsync('delete-songs-error');
+            //     this.dialogService.showErrorDialog(errorText);
+            // }
         }
     }
 

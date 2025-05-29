@@ -1,6 +1,4 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
-import { IndexingServiceBase } from '../../../services/indexing/indexing.service.base';
 import { SwitchPlayerService } from '../../../services/player-switcher/switch-player.service';
 
 @Component({

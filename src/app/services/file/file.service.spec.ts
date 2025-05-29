@@ -16,8 +16,6 @@ import { SettingsMock } from '../../testing/settings-mock';
 import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('FileService', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let eventListenerServiceMock: IMock<EventListenerServiceBase>;

@@ -14,8 +14,6 @@ import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { ScrobblingServiceBase } from './scrobbling.service.base';
 import { Track } from '../../data/entities/track';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('ScrobblingService', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let lastfmApiMock: IMock<LastfmApi>;

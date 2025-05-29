@@ -2,8 +2,6 @@ import { Mock, Times } from 'typemoq';
 import { VolumeControlComponent } from './volume-control.component';
 import { PlaybackService } from '../../../services/playback/playback.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('VolumeControlComponent', () => {
     let playbackServiceMock: any;
 

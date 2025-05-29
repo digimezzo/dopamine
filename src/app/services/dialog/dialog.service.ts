@@ -13,6 +13,10 @@ import { ErrorData } from './error-data';
 import { InputData } from './input-data';
 import { PlaylistData } from './playlist-data';
 import { DialogServiceBase } from './dialog.service.base';
+import { TrackModel } from '../track/track-model';
+import { EditTracksDialogComponent } from '../../ui/components/dialogs/edit-tracks-dialog/edit-tracks-dialog.component';
+import { InfoDialogComponent } from '../../ui/components/dialogs/info-dialog/info-dialog.component';
+import { InfoData } from './info-data';
 
 @Injectable()
 export class DialogService implements DialogServiceBase {
@@ -29,11 +33,7 @@ export class DialogService implements DialogServiceBase {
 
         const result: boolean | undefined = await dialogRef.afterClosed().toPromise();
 
-        if (result != undefined && result) {
-            return true;
-        }
-
-        return false;
+        return result != undefined && result;
     }
 
     public async showInputDialogAsync(
@@ -57,6 +57,13 @@ export class DialogService implements DialogServiceBase {
         this.dialog.open(ErrorDialogComponent, {
             width: '450px',
             data: new ErrorData(errorText, false),
+        });
+    }
+
+    public showInfoDialog(infoText: string): void {
+        this.dialog.open(InfoDialogComponent, {
+            width: '450px',
+            data: new InfoData(infoText),
         });
     }
 
@@ -93,5 +100,15 @@ export class DialogService implements DialogServiceBase {
         });
 
         await dialogRef.afterClosed().toPromise();
+    }
+
+    public async showEditTracksAsync(tracks: TrackModel[]): Promise<boolean> {
+        const dialogRef: MatDialogRef<EditTracksDialogComponent, boolean> = this.dialog.open(EditTracksDialogComponent, {
+            data: tracks,
+        });
+
+        const result: boolean | undefined = await dialogRef.afterClosed().toPromise();
+
+        return result != undefined && result;
     }
 }

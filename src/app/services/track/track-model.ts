@@ -4,6 +4,7 @@ import { DateTime } from '../../common/date-time';
 import { StringUtils } from '../../common/utils/string-utils';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { ISelectable } from '../../ui/interfaces/i-selectable';
+import { CollectionUtils } from '../../common/utils/collections-utils';
 
 export class TrackModel implements ISelectable {
     public constructor(
@@ -55,6 +56,10 @@ export class TrackModel implements ISelectable {
         return this.track.fileName;
     }
 
+    public set title(v: string) {
+        this.track.trackTitle = v;
+    }
+
     public get rawTitle(): string {
         if (StringUtils.isNullOrWhiteSpace(this.track.trackTitle)) {
             return '';
@@ -74,10 +79,7 @@ export class TrackModel implements ISelectable {
             return this.translatorService.get('unknown-artist');
         }
 
-        const commaSeparatedArtists: string = trackArtists
-            .filter((x) => !StringUtils.isNullOrWhiteSpace(x))
-            .map((x) => x.trim())
-            .join(', ');
+        const commaSeparatedArtists: string = CollectionUtils.toCommaSeparatedString(trackArtists);
 
         if (commaSeparatedArtists.length === 0) {
             return this.translatorService.get('unknown-artist');
@@ -117,7 +119,7 @@ export class TrackModel implements ISelectable {
             return this.translatorService.get('unknown-genre');
         }
 
-        const commaSeparatedGenres: string = trackGenres.filter((x) => !StringUtils.isNullOrWhiteSpace(x)).join(', ');
+        const commaSeparatedGenres: string = CollectionUtils.toCommaSeparatedString(trackGenres);
 
         if (commaSeparatedGenres.length === 0) {
             return this.translatorService.get('unknown-genre');
@@ -245,5 +247,9 @@ export class TrackModel implements ISelectable {
 
     public clone(): TrackModel {
         return new TrackModel(this.track, this.dateTime, this.translatorService, this.albumKeyIndex);
+    }
+
+    public setTrack(track: Track): void {
+        this.track = track;
     }
 }

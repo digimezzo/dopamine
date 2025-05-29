@@ -2,11 +2,11 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { UpdateServiceBase } from '../../../services/update/update.service.base';
-import { IndexingServiceBase } from '../../../services/indexing/indexing.service.base';
 import { FileServiceBase } from '../../../services/file/file.service.base';
 import { DatabaseMigratorBase } from '../../../data/database-migrator.base';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { SettingsBase } from '../../../common/settings/settings.base';
+import { IndexingService } from '../../../services/indexing/indexing.service';
 
 @Component({
     selector: 'app-loading',
@@ -22,7 +22,7 @@ export class LoadingComponent implements OnInit {
         public appearanceService: AppearanceServiceBase,
         private settings: SettingsBase,
         private updateService: UpdateServiceBase,
-        private indexingService: IndexingServiceBase,
+        private indexingService: IndexingService,
         private fileService: FileServiceBase,
         private scheduler: SchedulerBase,
     ) {}

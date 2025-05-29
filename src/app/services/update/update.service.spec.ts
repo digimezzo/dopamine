@@ -6,8 +6,6 @@ import { UpdateService } from './update.service';
 import { GitHubApi } from '../../common/api/git-hub/git-hub.api';
 import { DesktopBase } from '../../common/io/desktop.base';
 
-jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
-
 describe('UpdateService', () => {
     let settingsMock: IMock<SettingsBase>;
     let loggerMock: IMock<Logger>;

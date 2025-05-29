@@ -9,7 +9,7 @@ export class PlaybackInformationFactory {
 
     public async createAsync(track: TrackModel | undefined): Promise<PlaybackInformation> {
         if (track != undefined) {
-            const newImage: string = await this.metadataService.createImageUrlAsync(track, 0);
+            const newImage: string = await this.metadataService.createAlbumImageUrlAsync(track, 0);
 
             return new PlaybackInformation(track, newImage);
         }

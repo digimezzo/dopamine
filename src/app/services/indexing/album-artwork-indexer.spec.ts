@@ -5,8 +5,6 @@ import { AlbumArtworkIndexer } from './album-artwork-indexer';
 import { AlbumArtworkRemover } from './album-artwork-remover';
 import { NotificationServiceBase } from '../notification/notification.service.base';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('AlbumArtworkIndexer', () => {
     let albumArtworkRemoverMock: IMock<AlbumArtworkRemover>;
     let albumArtworkAdderMock: IMock<AlbumArtworkAdder>;

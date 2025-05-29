@@ -27,8 +27,6 @@ import { AudioPlayerFactory } from './audio-player/audio-player.factory';
 import { IAudioPlayer } from './audio-player/i-audio-player';
 import { MediaSessionService } from '../media-session/media-session.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('PlaybackService', () => {
     let audioPlayerFactoryMock: IMock<AudioPlayerFactory>;
     let audioPlayerMock: IMock<IAudioPlayer>;

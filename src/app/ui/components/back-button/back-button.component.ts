@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
-import { IndexingServiceBase } from '../../../services/indexing/indexing.service.base';
+import { IndexingService } from '../../../services/indexing/indexing.service';
 
 @Component({
     selector: 'app-back-button',
@@ -12,7 +12,7 @@ import { IndexingServiceBase } from '../../../services/indexing/indexing.service
 export class BackButtonComponent {
     public constructor(
         public navigationService: NavigationServiceBase,
-        private indexingService: IndexingServiceBase,
+        private indexingService: IndexingService,
     ) {}
 
     public async goBackToCollectionAsync(): Promise<void> {

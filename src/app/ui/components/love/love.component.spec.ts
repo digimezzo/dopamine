@@ -10,8 +10,6 @@ import { TrackModel } from '../../../services/track/track-model';
 import { SettingsMock } from '../../../testing/settings-mock';
 import { MetadataService } from '../../../services/metadata/metadata.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('LoveComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let scrobblingServiceMock: IMock<ScrobblingServiceBase>;

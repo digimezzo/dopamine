@@ -37,4 +37,14 @@ export class AlbumArtworkGetter {
 
         return undefined;
     }
+
+    public async getEmbeddedAlbumArtworkOnlyAsync(fileMetadata: IFileMetadata): Promise<Buffer | undefined> {
+        const embeddedArtwork: Buffer | undefined = this.embeddedAlbumArtworkGetter.getEmbeddedArtwork(fileMetadata);
+
+        if (embeddedArtwork != undefined) {
+            return embeddedArtwork;
+        }
+
+        return undefined;
+    }
 }
