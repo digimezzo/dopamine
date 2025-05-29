@@ -17,8 +17,6 @@ import { AlbumModel } from '../../../../services/album/album-model';
 import { ApplicationPaths } from '../../../../common/application/application-paths';
 import { PlaybackService } from '../../../../services/playback/playback.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('AlbumBrowserComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let applicationServiceMock: IMock<ApplicationServiceBase>;

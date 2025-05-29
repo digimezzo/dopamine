@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-transparent-button',
@@ -8,4 +8,7 @@ import { Component } from '@angular/core';
         style: 'display: inline-block',
     },
 })
-export class TransparentButtonComponent {}
+export class TransparentButtonComponent {
+    @Input()
+    public fill: boolean = false;
+}

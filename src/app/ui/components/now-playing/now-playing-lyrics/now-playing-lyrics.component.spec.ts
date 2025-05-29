@@ -10,8 +10,6 @@ import { LyricsModel } from '../../../../services/lyrics/lyrics-model';
 import { LyricsSourceType } from '../../../../common/api/lyrics/lyrics-source-type';
 import { PlaybackInformationService } from '../../../../services/playback-information/playback-information.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('NowPlayingLyricsComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let playbackInformationServiceMock: IMock<PlaybackInformationService>;

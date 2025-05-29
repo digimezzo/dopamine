@@ -10,20 +10,20 @@ import { PlaybackInformation } from '../../../services/playback-information/play
 import { Constants } from '../../../common/application/constants';
 import { SettingsMock } from '../../../testing/settings-mock';
 import { PlaybackInformationService } from '../../../services/playback-information/playback-information.service';
+import { IndexingService } from '../../../services/indexing/indexing.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
-describe('PlaybackInformationComponent', () => {
-    let component: PlaybackCoverArtComponent;
+describe('PlaybackCoverArtComponent', () => {
     let playbackInformationServiceMock: IMock<PlaybackInformationService>;
     let schedulerMock: IMock<Scheduler>;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let indexingServiceMock: IMock<IndexingService>;
     let settingsMock: any;
 
-    let playbackInformationService_PlayingNextTrack: Subject<PlaybackInformation>;
-    let playbackInformationService_PlayingPreviousTrack: Subject<PlaybackInformation>;
-    let playbackInformationService_PlayingNoTrack: Subject<PlaybackInformation>;
+    let playbackInformationService_playingNextTrack: Subject<PlaybackInformation>;
+    let playbackInformationService_playingPreviousTrack: Subject<PlaybackInformation>;
+    let playbackInformationService_playingNoTrack: Subject<PlaybackInformation>;
+    let indexingService_indexingFinished: Subject<void>;
 
     const track1: Track = new Track('/home/user/Music/track1.mp3');
     track1.artists = 'My artist';
@@ -34,6 +34,7 @@ describe('PlaybackInformationComponent', () => {
     beforeEach(() => {
         playbackInformationServiceMock = Mock.ofType<PlaybackInformationService>();
         schedulerMock = Mock.ofType<Scheduler>();
+        indexingServiceMock = Mock.ofType<IndexingService>();
 
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
@@ -41,67 +42,68 @@ describe('PlaybackInformationComponent', () => {
 
         trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object, settingsMock);
 
-        playbackInformationService_PlayingNextTrack = new Subject();
+        playbackInformationService_playingNextTrack = new Subject();
         const playbackInformationService_PlayingNextTrack$: Observable<PlaybackInformation> =
-            playbackInformationService_PlayingNextTrack.asObservable();
+            playbackInformationService_playingNextTrack.asObservable();
         playbackInformationServiceMock.setup((x) => x.playingNextTrack$).returns(() => playbackInformationService_PlayingNextTrack$);
 
-        playbackInformationService_PlayingPreviousTrack = new Subject();
+        playbackInformationService_playingPreviousTrack = new Subject();
         const playbackInformationService_PlayingPreviousTrack$: Observable<PlaybackInformation> =
-            playbackInformationService_PlayingPreviousTrack.asObservable();
+            playbackInformationService_playingPreviousTrack.asObservable();
         playbackInformationServiceMock
             .setup((x) => x.playingPreviousTrack$)
             .returns(() => playbackInformationService_PlayingPreviousTrack$);
 
-        playbackInformationService_PlayingNoTrack = new Subject();
+        playbackInformationService_playingNoTrack = new Subject();
         const playbackInformationService_PlayingNoTrack$: Observable<PlaybackInformation> =
-            playbackInformationService_PlayingNoTrack.asObservable();
+            playbackInformationService_playingNoTrack.asObservable();
         playbackInformationServiceMock.setup((x) => x.playingNoTrack$).returns(() => playbackInformationService_PlayingNoTrack$);
 
-        component = new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object);
+        indexingService_indexingFinished = new Subject<void>();
+        const indexingService_indexingFinished$: Observable<void> = indexingService_indexingFinished.asObservable();
+        indexingServiceMock.setup((x) => x.indexingFinished$).returns(() => indexingService_indexingFinished$);
     });
+
+    function createComponent(): PlaybackCoverArtComponent {
+        return new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object, indexingServiceMock.object);
+    }
 
     describe('constructor', () => {
         it('should create', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
+            const component: PlaybackCoverArtComponent = createComponent();
 
             // Assert
             expect(component).toBeDefined();
         });
 
         it('should initialize contentAnimation as "down"', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
+            const component: PlaybackCoverArtComponent = createComponent();
 
             // Assert
             expect(component.contentAnimation).toEqual('down');
         });
 
         it('should initialize topImageUrl as empty', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
+            const component: PlaybackCoverArtComponent = createComponent();
 
             // Assert
             expect(component.topImageUrl).toEqual('');
         });
 
         it('should initialize bottomImageUrl as empty', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
+            const component: PlaybackCoverArtComponent = createComponent();
 
             // Assert
             expect(component.bottomImageUrl).toEqual('');
         });
 
         it('should initialize size as 0', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
+            const component: PlaybackCoverArtComponent = createComponent();
 
             // Assert
             expect(component.size).toEqual(0);
@@ -114,7 +116,7 @@ describe('PlaybackInformationComponent', () => {
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
                 .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
-            component = new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object);
+            const component: PlaybackCoverArtComponent = createComponent();
 
             // Act
             await component.ngOnInit();
@@ -130,12 +132,12 @@ describe('PlaybackInformationComponent', () => {
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
                 .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
-            component = new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object);
+            const component: PlaybackCoverArtComponent = createComponent();
 
             // Act
             await component.ngOnInit();
             component.bottomImageUrl = '';
-            playbackInformationService_PlayingNextTrack.next(new PlaybackInformation(trackModel1, 'image-url-mock'));
+            playbackInformationService_playingNextTrack.next(new PlaybackInformation(trackModel1, 'image-url-mock'));
 
             while (component.bottomImageUrl === '') {
                 await scheduler.sleepAsync(10);
@@ -152,12 +154,12 @@ describe('PlaybackInformationComponent', () => {
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
                 .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
-            component = new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object);
+            const component: PlaybackCoverArtComponent = createComponent();
 
             // Act
             await component.ngOnInit();
             component.topImageUrl = '';
-            playbackInformationService_PlayingPreviousTrack.next(new PlaybackInformation(trackModel1, 'image-url-mock'));
+            playbackInformationService_playingPreviousTrack.next(new PlaybackInformation(trackModel1, 'image-url-mock'));
 
             while (component.topImageUrl === '') {
                 await scheduler.sleepAsync(10);
@@ -174,12 +176,12 @@ describe('PlaybackInformationComponent', () => {
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
                 .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
-            component = new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object);
+            const component: PlaybackCoverArtComponent = createComponent();
 
             // Act
             await component.ngOnInit();
             component.bottomImageUrl = 'image-url-mock';
-            playbackInformationService_PlayingNoTrack.next(new PlaybackInformation(undefined, ''));
+            playbackInformationService_playingNoTrack.next(new PlaybackInformation(undefined, ''));
 
             while (component.bottomImageUrl === 'image-url-mock') {
                 await scheduler.sleepAsync(10);
@@ -197,7 +199,7 @@ describe('PlaybackInformationComponent', () => {
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
                 .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
-            component = new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object);
+            const component: PlaybackCoverArtComponent = createComponent();
             await component.ngOnInit();
             component.topImageUrl = 'image url';
 
@@ -210,7 +212,7 @@ describe('PlaybackInformationComponent', () => {
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
                 .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
-            component = new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object);
+            const component: PlaybackCoverArtComponent = createComponent();
             await component.ngOnInit();
             component.topImageUrl = Constants.emptyImage;
 
@@ -225,7 +227,7 @@ describe('PlaybackInformationComponent', () => {
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
                 .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
-            component = new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object);
+            const component: PlaybackCoverArtComponent = createComponent();
             await component.ngOnInit();
             component.bottomImageUrl = 'image url';
 
@@ -238,7 +240,7 @@ describe('PlaybackInformationComponent', () => {
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
                 .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
-            component = new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object);
+            const component: PlaybackCoverArtComponent = createComponent();
             await component.ngOnInit();
             component.bottomImageUrl = Constants.emptyImage;
 

@@ -9,8 +9,6 @@ import { AlbumArtworkCacheService } from './album-artwork-cache.service';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { ApplicationPaths } from '../../common/application/application-paths';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('AlbumArtworkCacheService', () => {
     let albumArtworkCacheIdFactoryMock: IMock<AlbumArtworkCacheIdFactory>;
     let imageProcessorMock: IMock<ImageProcessor>;

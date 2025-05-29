@@ -5,7 +5,7 @@ import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
 import { FolderServiceBase } from '../../../services/folder/folder.service.base';
-import { IndexingServiceBase } from '../../../services/indexing/indexing.service.base';
+import { IndexingService } from '../../../services/indexing/indexing.service';
 import { DialogServiceBase } from '../../../services/dialog/dialog.service.base';
 import { DesktopBase } from '../../../common/io/desktop.base';
 import { SettingsBase } from '../../../common/settings/settings.base';
@@ -23,7 +23,7 @@ export class AddFolderComponent implements OnInit {
         private translatorService: TranslatorServiceBase,
         private folderService: FolderServiceBase,
         private dialogService: DialogServiceBase,
-        public indexingService: IndexingServiceBase,
+        public indexingService: IndexingService,
         private settings: SettingsBase,
         private logger: Logger,
     ) {}

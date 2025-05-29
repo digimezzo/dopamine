@@ -29,9 +29,8 @@ export class AlbumArtworkAdder {
     public async addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync(): Promise<void> {
         try {
             const albumKeyIndex = this.settings.albumKeyIndex;
-            
-            const albumDataThatNeedsIndexing: AlbumData[] =
-                this.trackRepository.getAlbumDataThatNeedsIndexing(albumKeyIndex) ?? [];
+
+            const albumDataThatNeedsIndexing: AlbumData[] = this.trackRepository.getAlbumDataThatNeedsIndexing(albumKeyIndex) ?? [];
 
             if (albumDataThatNeedsIndexing.length === 0) {
                 this.logger.info(
@@ -78,7 +77,7 @@ export class AlbumArtworkAdder {
         }
     }
 
-    private async addAlbumArtworkAsync(albumKeyIndex:string, albumKey: string): Promise<void> {
+    private async addAlbumArtworkAsync(albumKeyIndex: string, albumKey: string): Promise<void> {
         const track: Track | undefined = this.trackRepository.getLastModifiedTrackForAlbumKeyAsync(albumKeyIndex, albumKey);
 
         if (track == undefined) {

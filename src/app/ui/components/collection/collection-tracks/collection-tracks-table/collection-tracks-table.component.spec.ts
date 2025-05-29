@@ -25,8 +25,6 @@ import { SettingsMock } from '../../../../../testing/settings-mock';
 import { PlaybackService } from '../../../../../services/playback/playback.service';
 import { MetadataService } from '../../../../../services/metadata/metadata.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('CollectionTracksTableComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;

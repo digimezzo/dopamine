@@ -6,8 +6,6 @@ import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { OnlineAlbumArtworkGetter } from './online-album-artwork-getter';
 import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('OnlineAlbumArtworkGetter', () => {
     let imageProcessorMock: IMock<ImageProcessor>;
     let lastfmApiMock: IMock<LastfmApi>;

@@ -7,8 +7,6 @@ import { DialogServiceBase } from '../../../../services/dialog/dialog.service.ba
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { Logger } from '../../../../common/logger';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('BehaviorSettingsComponent', () => {
     let component: BehaviorSettingsComponent;
     let trayServiceMock: IMock<TrayServiceBase>;

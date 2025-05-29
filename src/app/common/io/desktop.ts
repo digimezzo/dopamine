@@ -3,6 +3,7 @@ import * as remote from '@electron/remote';
 import { OpenDialogReturnValue } from 'electron';
 import { Observable, Subject } from 'rxjs';
 import { DesktopBase } from './desktop.base';
+import SaveDialogReturnValue = Electron.SaveDialogReturnValue;
 
 @Injectable()
 export class Desktop implements DesktopBase {
@@ -54,6 +55,16 @@ export class Desktop implements DesktopBase {
         }
 
         return '';
+    }
+
+    public async showSaveFileDialogAsync(dialogTitle: string, defaultPath: string): Promise<string> {
+        const saveDialogReturnValue: SaveDialogReturnValue = await remote.dialog.showSaveDialog({
+            title: dialogTitle,
+            defaultPath: defaultPath,
+            filters: [{ name: 'Images', extensions: ['png', 'jpg', 'jpeg'] }],
+        });
+
+        return saveDialogReturnValue.filePath ? saveDialogReturnValue.filePath : '';
     }
 
     public async openLinkAsync(url: string): Promise<void> {

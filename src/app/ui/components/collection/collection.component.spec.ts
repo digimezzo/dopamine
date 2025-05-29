@@ -7,8 +7,6 @@ import { DocumentProxy } from '../../../common/io/document-proxy';
 import { CollectionNavigationService } from '../../../services/collection-navigation/collection-navigation.service';
 import { PlaybackService } from '../../../services/playback/playback.service';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('CollectionComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let collectionNavigationServiceMock: IMock<CollectionNavigationService>;

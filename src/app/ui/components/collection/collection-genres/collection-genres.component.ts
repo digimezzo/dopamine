@@ -12,7 +12,7 @@ import { GenresAlbumsPersister } from './genres-albums-persister';
 import { GenresPersister } from './genres-persister';
 import { GenresTracksPersister } from './genres-tracks-persister';
 import { SearchServiceBase } from '../../../../services/search/search.service.base';
-import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
+import { IndexingService } from '../../../../services/indexing/indexing.service';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { GenreServiceBase } from '../../../../services/genre/genre.service.base';
 import { AlbumServiceBase } from '../../../../services/album/album-service.base';
@@ -35,7 +35,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         public genresPersister: GenresPersister,
         public albumsPersister: GenresAlbumsPersister,
         public tracksPersister: GenresTracksPersister,
-        private indexingService: IndexingServiceBase,
+        private indexingService: IndexingService,
         private collectionService: CollectionServiceBase,
         private genreService: GenreServiceBase,
         private albumService: AlbumServiceBase,

@@ -4,8 +4,6 @@ import { PlaybackService } from '../../../../services/playback/playback.service'
 import { NowPlayingNothingPlayingComponent } from './now-playing-nothing-playing.component';
 import { TrackModels } from '../../../../services/track/track-models';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 describe('NowPlayingNothingPlayingComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let trackServiceMock: IMock<TrackServiceBase>;

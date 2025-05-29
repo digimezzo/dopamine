@@ -17,8 +17,6 @@ import { FileAccessBase } from '../../common/io/file-access.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
 
-jest.mock('jimp', () => ({ exec: jest.fn() }));
-
 class FileMetadataImplementation implements IFileMetadata {
     public path: string;
     public bitRate: number;
@@ -108,7 +106,7 @@ describe('MetadataService', () => {
             const service: MetadataService = createService();
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(undefined, 0);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(undefined, 0);
 
             // Assert
             expect(imageUrl).toEqual(Constants.emptyImage);
@@ -123,7 +121,7 @@ describe('MetadataService', () => {
             cachedAlbumArtworkGetterMock.setup((x) => x.getCachedAlbumArtworkPath('albumKey1')).returns(() => '');
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track, 0);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(track, 0);
 
             // Assert
             expect(imageUrl).toEqual(Constants.emptyImage);
@@ -139,7 +137,7 @@ describe('MetadataService', () => {
             fileAccessMock.setup((x) => x.pathExists('cachedAlbumArtworkPath1')).returns(() => true);
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track, 0);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(track, 0);
 
             // Assert
             expect(imageUrl).toEqual('file:///cachedAlbumArtworkPath1');
@@ -155,7 +153,7 @@ describe('MetadataService', () => {
             cachedAlbumArtworkGetterMock.setup((x) => x.getCachedAlbumArtworkPath('albumKey1')).returns(() => '');
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track, 0);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(track, 0);
 
             // Assert
             expect(imageUrl).toEqual(Constants.emptyImage);
@@ -173,7 +171,7 @@ describe('MetadataService', () => {
             cachedAlbumArtworkGetterMock.setup((x) => x.getCachedAlbumArtworkPath('albumKey1')).returns(() => 'cachedAlbumArtworkPath1');
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track, 0);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(track, 0);
 
             // Assert
             expect(imageUrl).toEqual(Constants.emptyImage);
@@ -191,7 +189,7 @@ describe('MetadataService', () => {
             imageProcessorMock.setup((x) => x.toJpegBufferAsync(coverArt, 80)).returns(() => Promise.resolve(coverArt));
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track, 0);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(track, 0);
 
             // Assert
             expect(imageUrl).toEqual('bufferAsImageUrl');
@@ -208,7 +206,7 @@ describe('MetadataService', () => {
             imageProcessorMock.setup((x) => x.convertBufferToImageUrl(coverArt)).returns(() => 'bufferAsImageUrl');
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track, 0);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(track, 0);
 
             // Assert
             imageProcessorMock.verify((x) => x.toResizedJpegBufferAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
@@ -225,7 +223,7 @@ describe('MetadataService', () => {
             imageProcessorMock.setup((x) => x.convertBufferToImageUrl(coverArt)).returns(() => 'bufferAsImageUrl');
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track, -1);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(track, -1);
 
             // Assert
             imageProcessorMock.verify((x) => x.toResizedJpegBufferAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
@@ -242,7 +240,7 @@ describe('MetadataService', () => {
             imageProcessorMock.setup((x) => x.convertBufferToImageUrl(coverArt)).returns(() => 'bufferAsImageUrl');
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track, 500);
+            const imageUrl: string = await service.createAlbumImageUrlAsync(track, 500);
 
             // Assert
             imageProcessorMock.verify((x) => x.toResizedJpegBufferAsync(coverArt, 500, 500, 80), Times.once());
