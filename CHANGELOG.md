@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Added tagging support
 
+### Changed
+
+-   Updated Simplified Brazilian Portuguese translation
+
 ### Fixed
 
 -   Fixed more problems with Discord Rich Presence
