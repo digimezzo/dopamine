@@ -10,11 +10,16 @@ import { AlbumArtworkIndexer } from './album-artwork-indexer';
 import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 import { IIndexingMessage } from './messages/i-indexing-message';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { PlaybackService } from '../playback/playback.service';
+import { FolderService } from '../folder/folder.service';
+import { TrackFiller } from './track-filler';
 
 describe('IndexingService', () => {
     let notificationServiceMock: IMock<NotificationServiceBase>;
     let folderServiceMock: IMock<FolderServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let albumArtworkIndexerMock: IMock<AlbumArtworkIndexer>;
+    let trackFillerMock: IMock<TrackFiller>;
     let desktopMock: IMock<DesktopBase>;
     let settingsMock: IMock<SettingsBase>;
     let ipcProxyMock: IMock<IpcProxyBase>;
@@ -29,6 +34,8 @@ describe('IndexingService', () => {
     beforeEach(() => {
         notificationServiceMock = Mock.ofType<NotificationServiceBase>();
         folderServiceMock = Mock.ofType<FolderServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
+        trackFillerMock = Mock.ofType<TrackFiller>();
         desktopMock = Mock.ofType<DesktopBase>();
         albumArtworkIndexerMock = Mock.ofType<AlbumArtworkIndexer>();
         settingsMock = Mock.ofType<SettingsBase>();
@@ -53,12 +60,14 @@ describe('IndexingService', () => {
         return new IndexingService(
             notificationServiceMock.object,
             folderServiceMock.object,
+            playbackServiceMock.object,
             albumArtworkIndexerMock.object,
+            trackRepositoryMock.object,
+            trackFillerMock.object,
             desktopMock.object,
             settingsMock.object,
             ipcProxyMock.object,
             loggerMock.object,
-            trackRepositoryMock.object,
         );
     }
 

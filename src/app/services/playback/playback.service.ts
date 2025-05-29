@@ -644,8 +644,9 @@ export class PlaybackService {
             if (trackToSet) {
                 trackInQueue.setTrack(trackToSet);
 
-                if (trackToSet.path === this.currentTrack?.path) {
-                    this.currentTrack.setTrack(trackToSet);
+                if (this.currentTrack && this.currentTrack.path === trackInQueue.path) {
+                    this.currentTrack = trackInQueue;
+                    // this.playbackStarted.next(new PlaybackStarted(trackInQueue, false));
                 }
             }
         }

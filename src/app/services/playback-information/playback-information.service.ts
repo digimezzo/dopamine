@@ -4,7 +4,7 @@ import { PromiseUtils } from '../../common/utils/promise-utils';
 import { PlaybackStarted } from '../playback/playback-started';
 import { PlaybackInformation } from './playback-information';
 import { PlaybackService } from '../playback/playback.service';
-import {PlaybackInformationFactory} from "./playback-information.factory";
+import { PlaybackInformationFactory } from './playback-information.factory';
 
 @Injectable({ providedIn: 'root' })
 export class PlaybackInformationService {
@@ -12,8 +12,6 @@ export class PlaybackInformationService {
     private playingNextTrack: Subject<PlaybackInformation> = new Subject();
     private playingPreviousTrack: Subject<PlaybackInformation> = new Subject();
     private playingNoTrack: Subject<PlaybackInformation> = new Subject();
-
-    private cachedPlaybackinformation: PlaybackInformation | undefined;
 
     public constructor(
         private playbackService: PlaybackService,
@@ -37,17 +35,7 @@ export class PlaybackInformationService {
     public playingNoTrack$: Observable<PlaybackInformation> = this.playingNoTrack.asObservable();
 
     public async getCurrentPlaybackInformationAsync(): Promise<PlaybackInformation> {
-        if (
-            this.cachedPlaybackinformation?.track != undefined &&
-            this.playbackService.currentTrack != undefined &&
-            this.cachedPlaybackinformation.track.path === this.playbackService.currentTrack.path
-        ) {
-            return this.cachedPlaybackinformation;
-        }
-
-        this.cachedPlaybackinformation = await this.playbackInformationFactory.createAsync(this.playbackService.currentTrack);
-
-        return this.cachedPlaybackinformation;
+        return await this.playbackInformationFactory.createAsync(this.playbackService.currentTrack);
     }
 
     private async handlePlaybackStartedAsync(playbackStarted: PlaybackStarted): Promise<void> {
