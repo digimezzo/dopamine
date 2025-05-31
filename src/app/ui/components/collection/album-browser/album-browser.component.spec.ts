@@ -232,54 +232,7 @@ describe('AlbumBrowserComponent', () => {
             albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
-        it('should not order the albums given changes for albumsPersister and albums if albums is undefined and albumsPersister is not undefined', () => {
-            // Arrange
-            const albumData1: AlbumData = new AlbumData();
-            const albumData2: AlbumData = new AlbumData();
-            const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
-            const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, applicationPathsMock.object);
-            const albums: AlbumModel[] = [album1, album2];
-            nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            const component: AlbumBrowserComponent = createComponent();
-            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
-            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
-            component.albumsPersister = albumsPersisterMock.object;
-
-            const albumsPersisterChanges: any = { albumsPersister: { currentValue: albumsPersisterMock.object } };
-            const albumsChanges: any = { albums: { currentValue: albums } };
-
-            // Act
-            component.ngOnChanges({ albumsPersister: albumsPersisterChanges, albums: albumsChanges });
-
-            // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), It.isAny(), It.isAny()), Times.never());
-        });
-
-        it('should not order the albums given changes for albumsPersister and albums if albums and albumsPersister are not undefined and albums is empty', () => {
-            // Arrange
-            const albumData1: AlbumData = new AlbumData();
-            const albumData2: AlbumData = new AlbumData();
-            const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
-            const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, applicationPathsMock.object);
-            const albums: AlbumModel[] = [album1, album2];
-            nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            const component: AlbumBrowserComponent = createComponent();
-            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
-            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
-            component.albumsPersister = albumsPersisterMock.object;
-            component.albums = [];
-
-            const albumsPersisterChanges: any = { albumsPersister: { currentValue: albumsPersisterMock.object } };
-            const albumsChanges: any = { albums: { currentValue: albums } };
-
-            // Act
-            component.ngOnChanges({ albumsPersister: albumsPersisterChanges, albums: albumsChanges });
-
-            // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), It.isAny(), It.isAny()), Times.never());
-        });
-
-        it('should order the albums given changes for albumsPersister and albums if albums is not undefined and not empty and albumsPersister is undefined', () => {
+        it('should not order the albums given changes for albumsPersister and albumsPersister is undefined', () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();
             const albumData2: AlbumData = new AlbumData();
@@ -302,7 +255,7 @@ describe('AlbumBrowserComponent', () => {
             albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
-        it('should order the albums given changes for albumsPersister and albums if albums and albumsPersister are not undefined and albums is not empty', () => {
+        it('should order the albums given changes for albumsPersister and albums if albumsPersister is not undefined', () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();
             const albumData2: AlbumData = new AlbumData();
