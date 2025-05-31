@@ -23,6 +23,7 @@ export class Constants {
         new Language('ku', 'Kurdish', 'Kurdî', false),
         new Language('ru', 'Russian', 'русский', true),
         new Language('sv', 'Swedish', 'Svenska', false),
+        new Language('tr', 'Turkish', 'Türkçe', false),
         new Language('vi', 'Vietnamese', 'Tiếng Việt', false),
         new Language('zh-CN', 'Simplified Chinese', '简体中文', true),
         new Language('zh-TW', 'Traditional Chinese', '繁體中文', true),
