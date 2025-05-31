@@ -1,5 +1,7 @@
 <div class="app-transparent-button-wrap">
     <div class="app-transparent-button-button" [ngClass]="{ 'w-100': this.fill }">
-        <ng-content></ng-content>
+        <span class="app-transparent-button-text ellipsis">
+            <ng-content></ng-content>
+        </span>
     </div>
 </div>
