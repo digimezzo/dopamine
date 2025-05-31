@@ -23,6 +23,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     private _nextBuffer: AudioBuffer | undefined;
     private _sourceNode: AudioBufferSourceNode | undefined;
     private _gainNode: GainNode;
+    private _currentTrack: TrackModel | undefined;
     private _preloadedTrack: TrackModel | undefined;
     private _isPlaying: boolean = false;
     private _isPaused: boolean = false;
@@ -88,6 +89,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     }
 
     public play(track: TrackModel): void {
+        this._currentTrack = track;
         const playableAudioFilePath: string = this.replaceUnplayableCharacters(track.path);
         this.loadAudioWithWebAudioAsync(playableAudioFilePath, false);
 
@@ -187,9 +189,15 @@ export class GaplessAudioPlayer implements IAudioPlayer {
             this._sourceNode.connect(this._gainNode);
 
             this._sourceNode.onended = () => {
-                if (this._nextBuffer && this._preloadedTrack) {
+                if (
+                    this._nextBuffer &&
+                    this._preloadedTrack &&
+                    this._currentTrack &&
+                    this._preloadedTrack.number === this._currentTrack.number + 1
+                ) {
                     this.transitionToNextBuffer();
                     this._playingPreloadedTrack.next(this._preloadedTrack);
+                    this._currentTrack = this._preloadedTrack;
                     this._preloadedTrack = undefined;
                 } else {
                     this._playbackFinished.next();
