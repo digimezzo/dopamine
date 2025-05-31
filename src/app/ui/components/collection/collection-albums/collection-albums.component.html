@@ -11,7 +11,7 @@
             ><div class="right-side-pane">
                 <app-track-browser
                     class="p-3 fill"
-                    [tracks]="this.tracks | tracksFilter: this.searchService.delayedSearchText"
+                    [tracks]="this.tracks"
                     [(tracksPersister)]="this.tracksPersister"
                 ></app-track-browser></div
         ></as-split-area>
