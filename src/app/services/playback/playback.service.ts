@@ -628,7 +628,8 @@ export class PlaybackService {
 
     public stopUpdatingProgress(): void {
         this.pauseUpdatingProgress();
-        this.progressChanged.next(new PlaybackProgress(0, 0));
+        this._progress = new PlaybackProgress(0, 0);
+        this.progressChanged.next(this._progress);
     }
 
     public pauseUpdatingProgress(): void {
