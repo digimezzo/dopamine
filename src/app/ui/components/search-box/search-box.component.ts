@@ -17,6 +17,7 @@ export class SearchBoxComponent {
     public handleKeyboardEvent(event: KeyboardEvent): void {
         if (event.target instanceof HTMLInputElement && event.target.id === this._searchBoxId) {
             if (event.key === 'Escape') {
+                this.searchService.searchText = '';
                 event.preventDefault();
                 event.target.blur();
             }
