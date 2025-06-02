@@ -48,7 +48,7 @@ export class AlbumBrowserComponent implements AfterViewInit, OnChanges, OnDestro
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes['albums'] || changes['albumsPersister']) {
-            if (this.albums && this.albums.length > 0 && this.albumsPersister) {
+            if (this.albumsPersister) {
                 this.orderAlbums();
             }
         }

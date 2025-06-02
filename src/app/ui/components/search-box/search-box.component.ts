@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, ViewEncapsulation } from '@angular/core';
 import { SearchServiceBase } from '../../../services/search/search.service.base';
 
 @Component({
@@ -10,6 +10,28 @@ import { SearchServiceBase } from '../../../services/search/search.service.base'
 })
 export class SearchBoxComponent {
     public constructor(public searchService: SearchServiceBase) {}
+
+    private readonly _searchBoxId = 'app-search-box';
+
+    @HostListener('document:keydown', ['$event'])
+    public handleKeyboardEvent(event: KeyboardEvent): void {
+        if (event.target instanceof HTMLInputElement && event.target.id === this._searchBoxId) {
+            if (event.key === 'Escape') {
+                this.clearSearchText();
+                event.preventDefault();
+                event.target.blur();
+            }
+            return;
+        }
+
+        if ((event.ctrlKey || event.metaKey) && !event.shiftKey && event.code === 'KeyF') {
+            const appSearchBox = document.getElementById(this._searchBoxId);
+            if (appSearchBox) {
+                event.preventDefault();
+                (<HTMLInputElement>appSearchBox).focus();
+            }
+        }
+    }
 
     public clearSearchText(): void {
         this.searchService.searchText = '';
