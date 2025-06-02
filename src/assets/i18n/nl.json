@@ -315,5 +315,6 @@
     "download-image-error": "Er is een fout opgetreden bij het downloaden van de afbeelding. Controleer de log als u meer informatie nodig heeft.",
     "Information": "Informatie",
     "no-image-found-online": "Geen afbeelding gevonden",
-    "image": "Afbeelding"
+    "image": "Afbeelding",
+    "choose-order": "Choose an order"
 }

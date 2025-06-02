@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Constants } from '../../../../common/application/constants';
@@ -6,7 +6,7 @@ import { Logger } from '../../../../common/logger';
 import { NativeElementProxy } from '../../../../common/native-element-proxy';
 import { AlbumModel } from '../../../../services/album/album-model';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
-import { AlbumOrder } from '../album-order';
+import { AlbumOrder, albumOrderKey } from '../album-order';
 import { BaseAlbumsPersister } from '../base-albums-persister';
 import { AlbumRow } from './album-row';
 import { AlbumRowsGetter } from './album-rows-getter';
@@ -112,41 +112,8 @@ export class AlbumBrowserComponent implements AfterViewInit, OnChanges, OnDestro
         this.albumsPersister.setSelectedAlbums(this.mouseSelectionWatcher.selectedItems as AlbumModel[]);
     }
 
-    public toggleAlbumOrder(): void {
-        switch (this.selectedAlbumOrder) {
-            case AlbumOrder.byAlbumTitleAscending:
-                this.selectedAlbumOrder = AlbumOrder.byAlbumTitleDescending;
-                break;
-            case AlbumOrder.byAlbumTitleDescending:
-                this.selectedAlbumOrder = AlbumOrder.byDateAdded;
-                break;
-            case AlbumOrder.byDateAdded:
-                this.selectedAlbumOrder = AlbumOrder.byDateCreated;
-                break;
-            case AlbumOrder.byDateCreated:
-                this.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
-                break;
-            case AlbumOrder.byAlbumArtist:
-                this.selectedAlbumOrder = AlbumOrder.byYearAscending;
-                break;
-            case AlbumOrder.byYearAscending:
-                this.selectedAlbumOrder = AlbumOrder.byYearDescending;
-                break;
-            case AlbumOrder.byYearDescending:
-                this.selectedAlbumOrder = AlbumOrder.byLastPlayed;
-                break;
-            case AlbumOrder.byLastPlayed:
-                this.selectedAlbumOrder = AlbumOrder.random;
-                break;
-            case AlbumOrder.random:
-                this.selectedAlbumOrder = AlbumOrder.byAlbumTitleAscending;
-                break;
-            default: {
-                this.selectedAlbumOrder = AlbumOrder.byAlbumTitleAscending;
-                break;
-            }
-        }
-
+    public applyAlbumOrder(albumOrder: AlbumOrder): void {
+        this.selectedAlbumOrder = albumOrder;
         this.albumsPersister.setSelectedAlbumOrder(this.selectedAlbumOrder);
         this.orderAlbums();
     }
@@ -206,4 +173,7 @@ export class AlbumBrowserComponent implements AfterViewInit, OnChanges, OnDestro
     public async onAddToQueueAsync(album: AlbumModel): Promise<void> {
         await this.playbackService.addAlbumToQueueAsync(album);
     }
+
+    protected readonly albumOrders: AlbumOrder[] = Object.values(AlbumOrder).filter((x): x is AlbumOrder => typeof x === 'number');
+    protected readonly albumOrderKey = albumOrderKey;
 }
