@@ -14,13 +14,8 @@
                 (click)="createPlaylistAsync()"
             ></app-icon-button>
 
-            <div class="pointer" (click)="this.togglePlaylistOrder()">
-                <div class="secondary-text" *ngIf="this.selectedPlaylistOrder === playlistOrderEnum.byPlaylistNameAscending">
-                    {{ 'by-playlist-name-ascending' | translate }}
-                </div>
-                <div class="secondary-text" *ngIf="this.selectedPlaylistOrder === playlistOrderEnum.byPlaylistNameDescending">
-                    {{ 'by-playlist-name-descending' | translate }}
-                </div>
+            <div class="window-button order-button" [matMenuTriggerFor]="orderMenu" matTooltip="{{ 'choose-order' | translate }}">
+                {{ playlistOrderKey(this.selectedPlaylistOrder) | translate }}<i class="ml-1 las la-angle-down secondary-text"></i>
             </div>
         </div>
     </div>
@@ -67,4 +62,13 @@
             <span>{{ 'add-to-playback-queue' | translate }}</span>
         </button>
     </ng-template>
+</mat-menu>
+
+<mat-menu #orderMenu="matMenu">
+    <ng-container *ngFor="let order of playlistOrders; let last = last">
+        <button mat-menu-item (click)="applyPlaylistOrder(order)">
+            {{ playlistOrderKey(order) | translate }}
+        </button>
+        <mat-divider *ngIf="!last"></mat-divider>
+    </ng-container>
 </mat-menu>
