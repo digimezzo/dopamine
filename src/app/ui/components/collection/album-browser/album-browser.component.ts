@@ -112,11 +112,11 @@ export class AlbumBrowserComponent implements AfterViewInit, OnChanges, OnDestro
         this.albumsPersister.setSelectedAlbums(this.mouseSelectionWatcher.selectedItems as AlbumModel[]);
     }
 
-    public applyAlbumOrder(albumOrder: AlbumOrder): void {
+    public applyAlbumOrder = (albumOrder: AlbumOrder): void => {
         this.selectedAlbumOrder = albumOrder;
         this.albumsPersister.setSelectedAlbumOrder(this.selectedAlbumOrder);
         this.orderAlbums();
-    }
+    };
 
     private applySelectedAlbums(): void {
         const selectedAlbums: AlbumModel[] = this.albumsPersister.getSelectedAlbums(this.albums);

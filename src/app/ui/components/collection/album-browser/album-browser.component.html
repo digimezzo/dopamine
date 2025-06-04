@@ -5,10 +5,13 @@
             <div *ngIf="this.albums.length === 1">{{ 'album' | translate }}</div>
             <div *ngIf="this.albums.length !== 1">{{ 'albums' | translate }}</div>
         </div>
-
-        <div class="window-button order-button" [matMenuTriggerFor]="orderMenu" matTooltip="{{ 'choose-order' | translate }}">
-            {{ albumOrderKey(this.selectedAlbumOrder) | translate }}<i class="ml-1 las la-angle-down secondary-text"></i>
-        </div>
+        <app-iterable-menu
+            [tooltipKey]="'choose-order'"
+            [currentItem]="selectedAlbumOrder"
+            [items]="albumOrders"
+            [itemKeyFn]="albumOrderKey"
+            [applyItemFn]="applyAlbumOrder">
+        </app-iterable-menu>
     </div>
     <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="170">
         <div *cdkVirtualFor="let albumRow of this.albumRows">
@@ -71,13 +74,4 @@
             </mat-menu>
         </ng-container>
     </div>
-</mat-menu>
-
-<mat-menu #orderMenu="matMenu">
-    <ng-container *ngFor="let order of albumOrders; let last = last">
-        <button mat-menu-item (click)="applyAlbumOrder(order)">
-            {{ albumOrderKey(order) | translate }}
-        </button>
-        <mat-divider *ngIf="!last"></mat-divider>
-    </ng-container>
 </mat-menu>

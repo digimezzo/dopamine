@@ -5,9 +5,13 @@
             <div *ngIf="this.tracks.numberOfTracks === 1">{{ 'track' | translate }}</div>
             <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
         </div>
-        <div class="window-button order-button" [matMenuTriggerFor]="orderMenu" matTooltip="{{ 'choose-order' | translate }}">
-            {{ trackOrderKey(this.selectedTrackOrder) | translate }}<i class="ml-1 las la-angle-down secondary-text"></i>
-        </div>
+        <app-iterable-menu
+            [tooltipKey]="'choose-order'"
+            [currentItem]="selectedTrackOrder"
+            [items]="trackOrders"
+            [itemKeyFn]="trackOrderKey"
+            [applyItemFn]="applyTrackOrder">
+        </app-iterable-menu>
     </div>
     <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="46">
         <div *cdkVirtualFor="let track of this.orderedTracks" (mousedown)="setSelectedTracks($event, track)">
@@ -82,13 +86,4 @@
             </mat-menu>
         </ng-container>
     </div>
-</mat-menu>
-
-<mat-menu #orderMenu="matMenu">
-    <ng-container *ngFor="let order of trackOrders; let last = last">
-        <button mat-menu-item (click)="applyTrackOrder(order)">
-            {{ trackOrderKey(order) | translate }}
-        </button>
-        <mat-divider *ngIf="!last"></mat-divider>
-    </ng-container>
 </mat-menu>

@@ -142,11 +142,11 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
         this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
     }
 
-    public applyTrackOrder(trackOrder: TrackOrder): void {
+    public applyTrackOrder = (trackOrder: TrackOrder): void => {
         this.selectedTrackOrder = trackOrder;
         this.tracksPersister.setSelectedTrackOrder(this.selectedTrackOrder);
         this.orderTracks();
-    }
+    };
 
     private orderTracks(): void {
         let orderedTracks: TrackModel[] = [];

@@ -118,16 +118,16 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         }
     }
 
-    public applyArtistType(artistType: ArtistType): void {
+    public applyArtistType = (artistType: ArtistType): void => {
         this.selectedArtistType = artistType;
         this.artistsPersister.setSelectedArtistType(this.selectedArtistType);
-    }
+    };
 
-    public applyArtistOrder(artistOrder: ArtistOrder): void {
+    public applyArtistOrder = (artistOrder: ArtistOrder): void => {
         this.selectedArtistOrder = artistOrder;
         this.artistsPersister.setSelectedArtistOrder(this.selectedArtistOrder);
         this.orderArtists();
-    }
+    };
 
     public onArtistContextMenu(event: MouseEvent, artist: ArtistModel): void {
         this.contextMenuOpener.open(this.artistContextMenu, event, artist);

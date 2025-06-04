@@ -113,11 +113,11 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         }
     }
 
-    public applyGenreOrder(genreOrder: GenreOrder): void {
+    public applyGenreOrder = (genreOrder: GenreOrder): void => {
         this.selectedGenreOrder = genreOrder;
         this.genresPersister.setSelectedGenreOrder(this.selectedGenreOrder);
         this.orderGenres();
-    }
+    };
 
     public onGenreContextMenu(event: MouseEvent, genre: GenreModel): void {
         this.contextMenuOpener.open(this.genreContextMenu, event, genre);

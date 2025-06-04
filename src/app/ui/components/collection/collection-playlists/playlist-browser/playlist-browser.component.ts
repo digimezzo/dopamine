@@ -118,11 +118,11 @@ export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDes
         this.playlistsPersister.setSelectedPlaylists(this.mouseSelectionWatcher.selectedItems as PlaylistModel[]);
     }
 
-    public applyPlaylistOrder(playlistOrder: PlaylistOrder): void {
+    public applyPlaylistOrder = (playlistOrder: PlaylistOrder): void => {
         this.selectedPlaylistOrder = playlistOrder;
         this.playlistsPersister.setSelectedPlaylistOrder(this.selectedPlaylistOrder);
         this.orderPlaylists();
-    }
+    };
 
     public onPlaylistContextMenu(event: MouseEvent, playlist: PlaylistModel): void {
         this.contextMenuOpener.open(this.playlistContextMenu, event, playlist);
