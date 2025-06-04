@@ -1,6 +1,5 @@
 .fit-width {
-    width: fit-content;
-    max-width: 100%;
+    width: min(100%, 300px);
 }
 
 .fit-width * {
