@@ -609,83 +609,47 @@ describe('GenreBrowserComponent', () => {
         });
     });
 
-    describe('toggleGenreOrder', () => {
-        it('should toggle selectedGenreOrder from byGenreAscending to byGenreDescending', () => {
-            // Arrange
-            const component: GenreBrowserComponent = createComponent();
-            component.genres = [genre1, genre2];
-            component.genresPersister = genresPersisterMock.object;
-            component.selectedGenreOrder = GenreOrder.byGenreAscending;
-
-            // Act
-            component.toggleGenreOrder();
-
-            // Assert
-            expect(component.selectedGenreOrder).toEqual(GenreOrder.byGenreDescending);
-        });
-
-        it('should toggle selectedGenreOrder from byGenreDescending to byGenreAscending', () => {
-            // Arrange
-            const component: GenreBrowserComponent = createComponent();
-            component.genres = [genre1, genre2];
-            component.genresPersister = genresPersisterMock.object;
-            component.selectedGenreOrder = GenreOrder.byGenreDescending;
-
-            // Act
-            component.toggleGenreOrder();
-
-            // Assert
-            expect(component.selectedGenreOrder).toEqual(GenreOrder.byGenreAscending);
-        });
-
-        it('should persist the selected genre order', () => {
-            // Arrange
-            const component: GenreBrowserComponent = createComponent();
-            component.genres = [genre1, genre2];
-            component.genresPersister = genresPersisterMock.object;
-            component.selectedGenreOrder = GenreOrder.byGenreDescending;
-
-            // Act
-            component.toggleGenreOrder();
-
-            // Assert
-            genresPersisterMock.verify((x) => x.setSelectedGenreOrder(component.selectedGenreOrder), Times.once());
-        });
-
-        it('should order the genres by genre descending if the selected genre order is byGenreAscending', () => {
-            // Arrange
-            genresPersisterMock.reset();
-            genresPersisterMock.setup((x) => x.getSelectedGenreOrder()).returns(() => GenreOrder.byGenreAscending);
-
-            const component: GenreBrowserComponent = createComponent();
-
-            component.genres = [genre1, genre2];
-            component.genresPersister = genresPersisterMock.object;
-
-            // Act
-            component.toggleGenreOrder();
-
-            // Assert
-            expect(component.orderedGenres[1]).toEqual(genre2);
-            expect(component.orderedGenres[3]).toEqual(genre1);
-        });
-
-        it('should order the genres by genre ascending if the selected genre order is byGenreDescending', () => {
+    describe('applyGenreOrder', () => {
+        it('should apply genre order by genre ascending', () => {
             // Arrange
             genresPersisterMock.reset();
             genresPersisterMock.setup((x) => x.getSelectedGenreOrder()).returns(() => GenreOrder.byGenreDescending);
 
             const component: GenreBrowserComponent = createComponent();
-
             component.genres = [genre1, genre2];
             component.genresPersister = genresPersisterMock.object;
 
+            const genreOrder = GenreOrder.byGenreAscending;
+
             // Act
-            component.toggleGenreOrder();
+            component.applyGenreOrder(genreOrder);
 
             // Assert
+            expect(component.selectedGenreOrder).toEqual(genreOrder);
+            genresPersisterMock.verify((x) => x.setSelectedGenreOrder(genreOrder), Times.once());
             expect(component.orderedGenres[1]).toEqual(genre1);
             expect(component.orderedGenres[3]).toEqual(genre2);
+        });
+
+        it('should apply genre order by genre descending', () => {
+            // Arrange
+            genresPersisterMock.reset();
+            genresPersisterMock.setup((x) => x.getSelectedGenreOrder()).returns(() => GenreOrder.byGenreAscending);
+
+            const component: GenreBrowserComponent = createComponent();
+            component.genres = [genre1, genre2];
+            component.genresPersister = genresPersisterMock.object;
+
+            const genreOrder = GenreOrder.byGenreDescending;
+
+            // Act
+            component.applyGenreOrder(genreOrder);
+
+            // Assert
+            expect(component.selectedGenreOrder).toEqual(genreOrder);
+            genresPersisterMock.verify((x) => x.setSelectedGenreOrder(genreOrder), Times.once());
+            expect(component.orderedGenres[1]).toEqual(genre2);
+            expect(component.orderedGenres[3]).toEqual(genre1);
         });
 
         it('should show the headers for the ordered genres', () => {
@@ -703,7 +667,7 @@ describe('GenreBrowserComponent', () => {
             semanticZoomHeaderAdderMock.setup((x) => x.addZoomHeaders([genre1, genre2])).returns(() => [genre1, genre2]);
 
             // Act
-            component.toggleGenreOrder();
+            component.applyGenreOrder(GenreOrder.byGenreAscending);
 
             // Assert
             semanticZoomHeaderAdderMock.verify((x) => x.addZoomHeaders(component.orderedGenres), Times.once());

@@ -9,7 +9,7 @@ import { PromiseUtils } from '../../../../../common/utils/promise-utils';
 import { GenreModel } from '../../../../../services/genre/genre-model';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { GenresPersister } from '../genres-persister';
-import { GenreOrder } from './genre-order';
+import { GenreOrder, genreOrderKey } from './genre-order';
 import { PlaybackService } from '../../../../../services/playback/playback.service';
 import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/semantic-zoom.service.base';
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
@@ -113,20 +113,8 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         }
     }
 
-    public toggleGenreOrder(): void {
-        switch (this.selectedGenreOrder) {
-            case GenreOrder.byGenreAscending:
-                this.selectedGenreOrder = GenreOrder.byGenreDescending;
-                break;
-            case GenreOrder.byGenreDescending:
-                this.selectedGenreOrder = GenreOrder.byGenreAscending;
-                break;
-            default: {
-                this.selectedGenreOrder = GenreOrder.byGenreAscending;
-                break;
-            }
-        }
-
+    public applyGenreOrder(genreOrder: GenreOrder): void {
+        this.selectedGenreOrder = genreOrder;
         this.genresPersister.setSelectedGenreOrder(this.selectedGenreOrder);
         this.orderGenres();
     }
@@ -199,4 +187,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
             this.viewPort.scrollToIndex(selectedIndex, 'smooth');
         }
     }
+
+    protected readonly genreOrders: GenreOrder[] = Object.values(GenreOrder).filter((x): x is GenreOrder => typeof x === 'number');
+    protected readonly genreOrderKey = genreOrderKey;
 }
