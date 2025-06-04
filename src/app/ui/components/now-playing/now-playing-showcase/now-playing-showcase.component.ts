@@ -48,7 +48,7 @@ export class NowPlayingShowcaseComponent implements OnInit {
         }
 
         this.playbackInformationHeight = this.coverArtSize;
-        this.playbackInformationLargeFontSize = this.playbackInformationHeight / 5.6;
-        this.playbackInformationSmallFontSize = this.playbackInformationLargeFontSize / 2;
+        this.playbackInformationLargeFontSize = this.playbackInformationHeight / 8;
+        this.playbackInformationSmallFontSize = this.playbackInformationLargeFontSize / 1.5;
     }
 }
