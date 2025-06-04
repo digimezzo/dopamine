@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0-preview.39] - 2025-06-03
+## [3.0.0-preview.39] - 2025-06-04
 
 ### Added
 
@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Fixed an issue where a random song would start playing after the queue ended when using gapless playback.
 -   Fixed an issue where album lists were not refreshed after a search returned no results.
 -   Fixed an issue where progress was not reset to 0 when playback has finished
+-   Fixed an issue where a track that is longer than 4 minutes was scrobbled to Last.fm immediately after it started playing
 
 ## [3.0.0-preview.38] - 2025-05-29
 
