@@ -84,8 +84,8 @@ describe('NowPlayingShowcaseComponent', () => {
             // Assert
             expect(component.coverArtSize).toEqual(242);
             expect(component.playbackInformationHeight).toEqual(242);
-            expect(component.playbackInformationLargeFontSize).toEqual(43.214285714285715);
-            expect(component.playbackInformationSmallFontSize).toEqual(21.607142857142858);
+            expect(component.playbackInformationLargeFontSize).toEqual(30.25);
+            expect(component.playbackInformationSmallFontSize).toEqual(20.166666666666668);
         });
 
         it('should set the now playing sizes in relation to window width if width is too small', () => {
@@ -100,8 +100,8 @@ describe('NowPlayingShowcaseComponent', () => {
             // Assert
             expect(component.coverArtSize).toEqual(150);
             expect(component.playbackInformationHeight).toEqual(150);
-            expect(component.playbackInformationLargeFontSize).toEqual(26.78571428571429);
-            expect(component.playbackInformationSmallFontSize).toEqual(13.392857142857144);
+            expect(component.playbackInformationLargeFontSize).toEqual(18.75);
+            expect(component.playbackInformationSmallFontSize).toEqual(12.5);
         });
     });
 
@@ -117,8 +117,8 @@ describe('NowPlayingShowcaseComponent', () => {
             // Assert
             expect(component.coverArtSize).toEqual(242);
             expect(component.playbackInformationHeight).toEqual(242);
-            expect(component.playbackInformationLargeFontSize).toEqual(43.214285714285715);
-            expect(component.playbackInformationSmallFontSize).toEqual(21.607142857142858);
+            expect(component.playbackInformationLargeFontSize).toEqual(30.25);
+            expect(component.playbackInformationSmallFontSize).toEqual(20.166666666666668);
         });
 
         it('should set the now playing sizes in relation to window width if width is too small', () => {
@@ -134,8 +134,8 @@ describe('NowPlayingShowcaseComponent', () => {
             // Assert
             expect(component.coverArtSize).toEqual(150);
             expect(component.playbackInformationHeight).toEqual(150);
-            expect(component.playbackInformationLargeFontSize).toEqual(26.78571428571429);
-            expect(component.playbackInformationSmallFontSize).toEqual(13.392857142857144);
+            expect(component.playbackInformationLargeFontSize).toEqual(18.75);
+            expect(component.playbackInformationSmallFontSize).toEqual(12.5);
         });
     });
 });

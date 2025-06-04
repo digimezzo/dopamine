@@ -22,6 +22,7 @@ describe('TracksFilterPipe', () => {
         const track1: Track = new Track('/path1/file1.mp3');
         track1.fileName = 'file1.mp3';
         track1.trackTitle = 'title1';
+        track1.albumTitle = 'album1';
         track1.albumArtists = ';album_artist1_1;;album_artist1_2;';
         track1.artists = ';artist1_1;;artist1_2;';
         track1.year = 2001;
@@ -29,6 +30,7 @@ describe('TracksFilterPipe', () => {
         const track2: Track = new Track('/path2/file2.mp3');
         track2.fileName = 'file2.mp3';
         track2.trackTitle = 'title2';
+        track2.albumTitle = 'album2';
         track2.albumArtists = ';album_artist2_1;;album_artist2_2;';
         track2.artists = ';artist2_1;;artist2_2;';
         track2.year = 2002;
@@ -86,7 +88,7 @@ describe('TracksFilterPipe', () => {
             expect(filteredTrackModels).toEqual(trackModels);
         });
 
-        it('performs search once for each track, searching "title", "album artists", "artists", "fileName", "year" and "genres', () => {
+        it('performs search once for each track, searching "title", "album title", "album artists", "artists", "fileName", "year" and "genres', () => {
             // Arrange
             const trackModels: TrackModels = createTrackModels();
             const pipe: TracksFilterPipe = createPipe();
@@ -96,9 +98,9 @@ describe('TracksFilterPipe', () => {
 
             // Assert
             const expectedTextToSearchTrack1 =
-                'title1 album_artist1_1, album_artist1_2 artist1_1, artist1_2 file1.mp3 2001 genre1_1, genre1_2';
+                'title1 album1 album_artist1_1, album_artist1_2 artist1_1, artist1_2 file1.mp3 2001 genre1_1, genre1_2';
             const expectedTextToSearchTrack2 =
-                'title2 album_artist2_1, album_artist2_2 artist2_1, artist2_2 file2.mp3 2002 genre2_1, genre2_2';
+                'title2 album2 album_artist2_1, album_artist2_2 artist2_1, artist2_2 file2.mp3 2002 genre2_1, genre2_2';
 
             searchServiceMock.verify((x) => x.matchesSearchText(expectedTextToSearchTrack1, 'dummy'), Times.once());
             searchServiceMock.verify((x) => x.matchesSearchText(expectedTextToSearchTrack2, 'dummy'), Times.once());
