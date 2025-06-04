@@ -15,9 +15,15 @@ export class TracksFilterPipe implements PipeTransform {
         const filteredTracks: TrackModels = new TrackModels();
 
         for (const track of tracks.tracks) {
-            const textToSearch = [track.title, track.albumArtists, track.artists, track.fileName, track.year.toString(), track.genres].join(
-                ' ',
-            );
+            const textToSearch = [
+                track.title,
+                track.albumTitle,
+                track.albumArtists,
+                track.artists,
+                track.fileName,
+                track.year.toString(),
+                track.genres,
+            ].join(' ');
 
             if (this.searchService.matchesSearchText(textToSearch, textToContain!)) {
                 filteredTracks.addTrack(track);
