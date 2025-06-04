@@ -2,23 +2,12 @@
     <div class="h-24px align-items-center justify-content-between d-flex flex-row m-1">
         <div class="d-flex flex-row align-items-center">
             <div class="mr-2 accent-color">{{ this.artists.length }}</div>
-            <div class="pointer" *ngIf="this.selectedArtistType === artistTypeEnum.trackArtists" (click)="this.toggleArtistType()">
-                {{ 'track-artists' | translate }}
-            </div>
-            <div class="pointer" *ngIf="this.selectedArtistType === artistTypeEnum.albumArtists" (click)="this.toggleArtistType()">
-                {{ 'album-artists' | translate }}
-            </div>
-            <div class="pointer" *ngIf="this.selectedArtistType === artistTypeEnum.allArtists" (click)="this.toggleArtistType()">
-                {{ 'all-artists' | translate }}
+            <div class="window-button order-button" [matMenuTriggerFor]="artistTypeMenu" matTooltip="{{ 'choose-type' | translate }}">
+                {{ artistTypeKey(this.selectedArtistType) | translate }}<i class="ml-1 las la-angle-down secondary-text"></i>
             </div>
         </div>
-        <div class="pointer" (click)="toggleArtistOrder()">
-            <div class="secondary-text" *ngIf="this.selectedArtistOrder === artistOrderEnum.byArtistAscending">
-                {{ 'by-artist-ascending' | translate }}
-            </div>
-            <div class="secondary-text" *ngIf="this.selectedArtistOrder === artistOrderEnum.byArtistDescending">
-                {{ 'by-artist-descending' | translate }}
-            </div>
+        <div class="window-button order-button" [matMenuTriggerFor]="orderMenu" matTooltip="{{ 'choose-order' | translate }}">
+            {{ artistOrderKey(this.selectedArtistOrder) | translate }}<i class="ml-1 las la-angle-down secondary-text"></i>
         </div>
     </div>
     <app-semantic-zoom *ngIf="this.shouldZoomOut" class="mt-3" [SemanticZoomables]="this.orderedArtists"></app-semantic-zoom>
@@ -76,4 +65,22 @@
             </mat-menu>
         </ng-container>
     </div>
+</mat-menu>
+
+<mat-menu #artistTypeMenu="matMenu">
+    <ng-container *ngFor="let artistType of artistTypes; let last = last">
+        <button mat-menu-item (click)="applyArtistType(artistType)">
+            {{ artistTypeKey(artistType) | translate }}
+        </button>
+        <mat-divider *ngIf="!last"></mat-divider>
+    </ng-container>
+</mat-menu>
+
+<mat-menu #orderMenu="matMenu">
+    <ng-container *ngFor="let order of artistOrders; let last = last">
+        <button mat-menu-item (click)="applyArtistOrder(order)">
+            {{ artistOrderKey(order) | translate }}
+        </button>
+        <mat-divider *ngIf="!last"></mat-divider>
+    </ng-container>
 </mat-menu>

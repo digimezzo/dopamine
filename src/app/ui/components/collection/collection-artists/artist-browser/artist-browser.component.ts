@@ -7,10 +7,10 @@ import { Logger } from '../../../../../common/logger';
 import { SemanticZoomHeaderAdder } from '../../../../../common/semantic-zoom-header-adder';
 import { PromiseUtils } from '../../../../../common/utils/promise-utils';
 import { ArtistModel } from '../../../../../services/artist/artist-model';
-import { ArtistType } from '../../../../../services/artist/artist-type';
+import { ArtistType, artistTypeKey } from '../../../../../services/artist/artist-type';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { ArtistsPersister } from '../artists-persister';
-import { ArtistOrder } from './artist-order';
+import { ArtistOrder, artistOrderKey } from './artist-order';
 import { PlaybackService } from '../../../../../services/playback/playback.service';
 import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/semantic-zoom.service.base';
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
@@ -118,40 +118,13 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         }
     }
 
-    public toggleArtistType(): void {
-        switch (this.selectedArtistType) {
-            case ArtistType.trackArtists:
-                this.selectedArtistType = ArtistType.albumArtists;
-                break;
-            case ArtistType.albumArtists:
-                this.selectedArtistType = ArtistType.allArtists;
-                break;
-            case ArtistType.allArtists:
-                this.selectedArtistType = ArtistType.trackArtists;
-                break;
-            default: {
-                this.selectedArtistType = ArtistType.trackArtists;
-                break;
-            }
-        }
-
+    public applyArtistType(artistType: ArtistType): void {
+        this.selectedArtistType = artistType;
         this.artistsPersister.setSelectedArtistType(this.selectedArtistType);
     }
 
-    public toggleArtistOrder(): void {
-        switch (this.selectedArtistOrder) {
-            case ArtistOrder.byArtistAscending:
-                this.selectedArtistOrder = ArtistOrder.byArtistDescending;
-                break;
-            case ArtistOrder.byArtistDescending:
-                this.selectedArtistOrder = ArtistOrder.byArtistAscending;
-                break;
-            default: {
-                this.selectedArtistOrder = ArtistOrder.byArtistAscending;
-                break;
-            }
-        }
-
+    public applyArtistOrder(artistOrder: ArtistOrder): void {
+        this.selectedArtistOrder = artistOrder;
         this.artistsPersister.setSelectedArtistOrder(this.selectedArtistOrder);
         this.orderArtists();
     }
@@ -205,10 +178,6 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
     private applySelectedArtists(): void {
         const selectedArtists: ArtistModel[] = this.artistsPersister.getSelectedArtists(this.artists);
 
-        if (selectedArtists == undefined) {
-            return;
-        }
-
         for (const selectedArtist of selectedArtists) {
             selectedArtist.isSelected = true;
         }
@@ -224,4 +193,10 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
             this.viewPort.scrollToIndex(selectedIndex, 'smooth');
         }
     }
+
+    protected readonly artistTypes: ArtistType[] = Object.values(ArtistType).filter((x): x is ArtistType => typeof x === 'number');
+    protected readonly artistTypeKey = artistTypeKey;
+
+    protected readonly artistOrders: ArtistOrder[] = Object.values(ArtistOrder).filter((x): x is ArtistOrder => typeof x === 'number');
+    protected readonly artistOrderKey = artistOrderKey;
 }

@@ -316,5 +316,6 @@
     "Information": "Información",
     "no-image-found-online": "No se pudo encontrar ninguna imagen en línea.",
     "image": "Imagen",
-    "choose-order": "Choose an order"
+    "choose-order": "Choose an order",
+    "choose-type": "Choose a type"
 }
