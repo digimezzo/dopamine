@@ -302,7 +302,7 @@ describe('ScrobblingService', () => {
     });
 
     describe('PlaybackService.progressChanged', () => {
-        it('Should scrobble when the track is longer than 30 seconds has been played for at least half its duration', async () => {
+        it('Should scrobble when the track is longer than 30 seconds and has been played for at least half its duration', async () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
@@ -329,7 +329,34 @@ describe('ScrobblingService', () => {
             );
         });
 
-        it('Should scrobble when the track is longer than 30 seconds has been played for 4 minutes even if it did not play for half its duration', async () => {
+        it('Should not scrobble when the track is longer than 4 minutes and has been played for less than 4 minutes', async () => {
+            // Arrange
+            const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
+            dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
+            lastfmApiMock
+                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
+                .returns(() => Promise.resolve(true));
+            createSettingsMock(true, 'user', 'password', 'key');
+            const service: ScrobblingService = createService();
+            service.initialize();
+
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 900000);
+            const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
+            playbackService_playbackStarted.next(playbackStarted);
+            const playbackProgress: PlaybackProgress = new PlaybackProgress(150, 900);
+
+            // Act
+            playbackService_progressChanged.next(playbackProgress);
+            await flushPromises();
+
+            // Assert
+            lastfmApiMock.verify(
+                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
+                Times.never(),
+            );
+        });
+
+        it('Should scrobble when the track is longer than 30 seconds and has been played for 4 minutes even if it did not play for half its duration', async () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
