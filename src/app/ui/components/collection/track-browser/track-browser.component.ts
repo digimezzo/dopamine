@@ -8,7 +8,7 @@ import { TrackModel } from '../../../../services/track/track-model';
 import { TrackModels } from '../../../../services/track/track-models';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { BaseTracksPersister } from '../base-tracks-persister';
-import { TrackOrder } from '../track-order';
+import { TrackOrder, trackOrderKey } from '../track-order';
 import { TrackBrowserBase } from './track-brower-base';
 import { PlaybackIndicationServiceBase } from '../../../../services/playback-indication/playback-indication.service.base';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
@@ -68,7 +68,6 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
 
     public orderedTracks: TrackModel[] = [];
 
-    public trackOrderEnum: typeof TrackOrder = TrackOrder;
     public selectedTrackOrder: TrackOrder;
 
     public get tracksPersister(): BaseTracksPersister {
@@ -143,23 +142,8 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
         this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
     }
 
-    public toggleTrackOrder(): void {
-        switch (this.selectedTrackOrder) {
-            case TrackOrder.byTrackTitleAscending:
-                this.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
-                break;
-            case TrackOrder.byTrackTitleDescending:
-                this.selectedTrackOrder = TrackOrder.byAlbum;
-                break;
-            case TrackOrder.byAlbum:
-                this.selectedTrackOrder = TrackOrder.byTrackTitleAscending;
-                break;
-            default: {
-                this.selectedTrackOrder = TrackOrder.byTrackTitleAscending;
-                break;
-            }
-        }
-
+    public applyTrackOrder(trackOrder: TrackOrder): void {
+        this.selectedTrackOrder = trackOrder;
         this.tracksPersister.setSelectedTrackOrder(this.selectedTrackOrder);
         this.orderTracks();
     }
@@ -230,4 +214,11 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
             previousDiscNumber = track.discNumber;
         }
     }
+
+    protected readonly trackOrders: TrackOrder[] = [
+        TrackOrder.byTrackTitleAscending,
+        TrackOrder.byTrackTitleDescending,
+        TrackOrder.byAlbum,
+    ];
+    protected readonly trackOrderKey = trackOrderKey;
 }

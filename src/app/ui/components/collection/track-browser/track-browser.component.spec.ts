@@ -180,16 +180,6 @@ describe('TrackBrowserComponent', () => {
             expect(component).toBeDefined();
         });
 
-        it('should define trackOrderEnum', () => {
-            // Arrange
-
-            // Act
-            const component: TrackBrowserComponent = createComponent();
-
-            // Assert
-            expect(component.trackOrderEnum).toBeDefined();
-        });
-
         it('should define tracks as empty', () => {
             // Arrange
 
@@ -401,19 +391,45 @@ describe('TrackBrowserComponent', () => {
         });
     });
 
-    describe('toggleTrackOrder', () => {
-        it('should change TrackOrder from byTrackTitleAscending to byTrackTitleDescending', () => {
+    describe('applyTrackOrder', () => {
+        it('should apply track order by track title ascending', () => {
+            // Arrange
+            const component: TrackBrowserComponent = createComponent();
+            component.tracksPersister = tracksPersisterMock.object;
+            component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
+            component.tracks = tracks;
+
+            const trackOrder = TrackOrder.byTrackTitleAscending;
+
+            // Act
+            component.applyTrackOrder(trackOrder);
+
+            // Assert
+            expect(component.selectedTrackOrder).toEqual(trackOrder);
+            expect(component.orderedTracks[0]).toBe(trackModel1);
+            expect(component.orderedTracks[0].showHeader).toBeFalsy();
+            expect(component.orderedTracks[1]).toBe(trackModel2);
+            expect(component.orderedTracks[1].showHeader).toBeFalsy();
+            expect(component.orderedTracks[2]).toBe(trackModel3);
+            expect(component.orderedTracks[2].showHeader).toBeFalsy();
+            expect(component.orderedTracks[3]).toBe(trackModel4);
+            expect(component.orderedTracks[3].showHeader).toBeFalsy();
+        });
+
+        it('should apply track order by track title descending', () => {
             // Arrange
             const component: TrackBrowserComponent = createComponent();
             component.tracksPersister = tracksPersisterMock.object;
             component.selectedTrackOrder = TrackOrder.byTrackTitleAscending;
             component.tracks = tracks;
 
+            const trackOrder = TrackOrder.byTrackTitleDescending;
+
             // Act
-            component.toggleTrackOrder();
+            component.applyTrackOrder(trackOrder);
 
             // Assert
-            expect(component.selectedTrackOrder).toEqual(TrackOrder.byTrackTitleDescending);
+            expect(component.selectedTrackOrder).toEqual(trackOrder);
             expect(component.orderedTracks[0]).toBe(trackModel4);
             expect(component.orderedTracks[0].showHeader).toBeFalsy();
             expect(component.orderedTracks[1]).toBe(trackModel3);
@@ -424,18 +440,20 @@ describe('TrackBrowserComponent', () => {
             expect(component.orderedTracks[3].showHeader).toBeFalsy();
         });
 
-        it('should change TrackOrder from byTrackTitleDescending to byAlbum', () => {
+        it('should apply track order by album', () => {
             // Arrange
             const component: TrackBrowserComponent = createComponent();
             component.tracksPersister = tracksPersisterMock.object;
             component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
             component.tracks = tracks;
 
+            const trackOrder = TrackOrder.byAlbum;
+
             // Act
-            component.toggleTrackOrder();
+            component.applyTrackOrder(trackOrder);
 
             // Assert
-            expect(component.selectedTrackOrder).toEqual(TrackOrder.byAlbum);
+            expect(component.selectedTrackOrder).toEqual(trackOrder);
             expect(component.orderedTracks[0]).toBe(trackModel1);
             expect(component.orderedTracks[0].showHeader).toBeTruthy();
             expect(component.orderedTracks[1]).toBe(trackModel2);
@@ -446,49 +464,28 @@ describe('TrackBrowserComponent', () => {
             expect(component.orderedTracks[3].showHeader).toBeFalsy();
         });
 
-        it('should change TrackOrder from byAlbum to byTrackTitleAscending', () => {
-            // Arrange
-            const component: TrackBrowserComponent = createComponent();
-            component.tracksPersister = tracksPersisterMock.object;
-            component.selectedTrackOrder = TrackOrder.byAlbum;
-            component.tracks = tracks;
-
-            // Act
-            component.toggleTrackOrder();
-
-            // Assert
-            expect(component.selectedTrackOrder).toEqual(TrackOrder.byTrackTitleAscending);
-            expect(component.orderedTracks[0]).toBe(trackModel1);
-            expect(component.orderedTracks[0].showHeader).toBeFalsy();
-            expect(component.orderedTracks[1]).toBe(trackModel2);
-            expect(component.orderedTracks[1].showHeader).toBeFalsy();
-            expect(component.orderedTracks[2]).toBe(trackModel3);
-            expect(component.orderedTracks[2].showHeader).toBeFalsy();
-            expect(component.orderedTracks[3]).toBe(trackModel4);
-            expect(component.orderedTracks[3].showHeader).toBeFalsy();
-        });
-
         it('should persist the selected track order', () => {
             // Arrange
             const component: TrackBrowserComponent = createComponent();
             component.tracksPersister = tracksPersisterMock.object;
             component.selectedTrackOrder = TrackOrder.byAlbum;
 
+            const trackOrder = TrackOrder.byTrackTitleAscending;
+
             // Act
-            component.toggleTrackOrder();
+            component.applyTrackOrder(trackOrder);
 
             // Assert
-            tracksPersisterMock.verify((x) => x.setSelectedTrackOrder(TrackOrder.byTrackTitleAscending), Times.exactly(1));
+            tracksPersisterMock.verify((x) => x.setSelectedTrackOrder(trackOrder), Times.exactly(1));
         });
 
         it('should set the playing track', () => {
             // Arrange
             const component: TrackBrowserComponent = createComponent();
             component.tracksPersister = tracksPersisterMock.object;
-            component.selectedTrackOrder = TrackOrder.byAlbum;
 
             // Act
-            component.toggleTrackOrder();
+            component.applyTrackOrder(TrackOrder.byAlbum);
 
             // Assert
             playbackIndicationServiceMock.verify((x) => x.setPlayingTrack(component.orderedTracks, trackModel1), Times.exactly(1));
