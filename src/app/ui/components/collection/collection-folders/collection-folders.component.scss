@@ -1,3 +1,13 @@
+.fit-width {
+    width: fit-content;
+    max-width: 100%;
+}
+
+.fit-width * {
+    width: inherit;
+    max-width: inherit;
+}
+
 .subfolder {
     height: 30px;
 }
