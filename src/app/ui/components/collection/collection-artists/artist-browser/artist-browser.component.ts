@@ -30,6 +30,12 @@ import { Timer } from '../../../../../common/scheduling/timer';
 export class ArtistBrowserComponent implements OnInit, OnDestroy {
     @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
 
+    public readonly artistTypes: ArtistType[] = Object.values(ArtistType).filter((x): x is ArtistType => typeof x === 'number');
+    public readonly artistTypeKey = artistTypeKey;
+
+    public readonly artistOrders: ArtistOrder[] = Object.values(ArtistOrder).filter((x): x is ArtistOrder => typeof x === 'number');
+    public readonly artistOrderKey = artistOrderKey;
+
     private _artists: ArtistModel[] = [];
     private _artistsPersister: ArtistsPersister;
     private subscription: Subscription = new Subscription();
@@ -54,10 +60,8 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
 
     public orderedArtists: ArtistModel[] = [];
 
-    public artistOrderEnum: typeof ArtistOrder = ArtistOrder;
     public selectedArtistOrder: ArtistOrder;
 
-    public artistTypeEnum: typeof ArtistType = ArtistType;
     public selectedArtistType: ArtistType;
 
     public get artistsPersister(): ArtistsPersister {
@@ -193,10 +197,4 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
             this.viewPort.scrollToIndex(selectedIndex, 'smooth');
         }
     }
-
-    protected readonly artistTypes: ArtistType[] = Object.values(ArtistType).filter((x): x is ArtistType => typeof x === 'number');
-    protected readonly artistTypeKey = artistTypeKey;
-
-    protected readonly artistOrders: ArtistOrder[] = Object.values(ArtistOrder).filter((x): x is ArtistOrder => typeof x === 'number');
-    protected readonly artistOrderKey = artistOrderKey;
 }

@@ -29,6 +29,9 @@ import { Timer } from '../../../../../common/scheduling/timer';
 export class GenreBrowserComponent implements OnInit, OnDestroy {
     @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
 
+    public readonly genreOrders: GenreOrder[] = Object.values(GenreOrder).filter((x): x is GenreOrder => typeof x === 'number');
+    public readonly genreOrderKey = genreOrderKey;
+
     private _genres: GenreModel[] = [];
     private _genresPersister: GenresPersister;
     private subscription: Subscription = new Subscription();
@@ -53,7 +56,6 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
 
     public orderedGenres: GenreModel[] = [];
 
-    public genreOrderEnum: typeof GenreOrder = GenreOrder;
     public selectedGenreOrder: GenreOrder;
 
     public get genresPersister(): GenresPersister {
@@ -187,7 +189,4 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
             this.viewPort.scrollToIndex(selectedIndex, 'smooth');
         }
     }
-
-    protected readonly genreOrders: GenreOrder[] = Object.values(GenreOrder).filter((x): x is GenreOrder => typeof x === 'number');
-    protected readonly genreOrderKey = genreOrderKey;
 }

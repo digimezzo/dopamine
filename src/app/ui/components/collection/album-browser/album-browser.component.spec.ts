@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
-import { AlbumOrder } from '../album-order';
+import { AlbumOrder, albumOrderKey } from '../album-order';
 import { BaseAlbumsPersister } from '../base-albums-persister';
 import { AlbumBrowserComponent } from './album-browser.component';
 import { AlbumRowsGetter } from './album-rows-getter';
@@ -75,16 +75,6 @@ describe('AlbumBrowserComponent', () => {
 
             // Assert
             expect(component).toBeDefined();
-        });
-
-        it('should define albumOrderEnum', () => {
-            // Arrange
-
-            // Act
-            const component: AlbumBrowserComponent = createComponent();
-
-            // Assert
-            expect(component.albumOrderEnum).toBeDefined();
         });
 
         it('should define albumRows as empty', () => {
@@ -166,6 +156,36 @@ describe('AlbumBrowserComponent', () => {
 
             // Assert
             expect(component.addToPlaylistMenu).toBeDefined();
+        });
+
+        it('should define albumOrderKey', () => {
+            // Arrange
+
+            // Act
+            const component: AlbumBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.albumOrderKey).toEqual(albumOrderKey);
+        });
+
+        it('should define albumOrders', () => {
+            // Arrange
+
+            // Act
+            const component: AlbumBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.albumOrders).toEqual([
+                AlbumOrder.byAlbumTitleAscending,
+                AlbumOrder.byAlbumTitleDescending,
+                AlbumOrder.byDateAdded,
+                AlbumOrder.byDateCreated,
+                AlbumOrder.byAlbumArtist,
+                AlbumOrder.byYearAscending,
+                AlbumOrder.byYearDescending,
+                AlbumOrder.byLastPlayed,
+                AlbumOrder.random,
+            ]);
         });
     });
 

@@ -3,7 +3,7 @@ import { IMock, It, Mock, Times } from 'typemoq';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { GenresPersister } from '../genres-persister';
 import { GenreBrowserComponent } from './genre-browser.component';
-import { GenreOrder } from './genre-order';
+import { GenreOrder, genreOrderKey } from './genre-order';
 import { PlaybackService } from '../../../../../services/playback/playback.service';
 import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/semantic-zoom.service.base';
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
@@ -157,16 +157,6 @@ describe('GenreBrowserComponent', () => {
             expect(component.orderedGenres.length).toEqual(0);
         });
 
-        it('should define genreOrderEnum', () => {
-            // Arrange
-
-            // Act
-            const component: GenreBrowserComponent = createComponent();
-
-            // Assert
-            expect(component.genreOrderEnum).toBeDefined();
-        });
-
         it('should declare selectedGenreOrder', () => {
             // Arrange
 
@@ -245,6 +235,26 @@ describe('GenreBrowserComponent', () => {
 
             // Assert
             expect(component.shouldZoomOut).toBeFalsy();
+        });
+
+        it('should define genreOrders', () => {
+            // Arrange
+
+            // Act
+            const component: GenreBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.genreOrders).toEqual([GenreOrder.byGenreAscending, GenreOrder.byGenreDescending]);
+        });
+
+        it('should define genreOrderKey', () => {
+            // Arrange
+
+            // Act
+            const component: GenreBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.genreOrderKey).toEqual(genreOrderKey);
         });
     });
 

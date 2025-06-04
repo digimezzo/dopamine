@@ -4,7 +4,7 @@ import { Track } from '../../../../data/entities/track';
 import { TrackModel } from '../../../../services/track/track-model';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { BaseTracksPersister } from '../base-tracks-persister';
-import { TrackOrder } from '../track-order';
+import { TrackOrder, trackOrderKey } from '../track-order';
 import { TrackBrowserComponent } from './track-browser.component';
 import { TrackModels } from '../../../../services/track/track-models';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
@@ -219,6 +219,30 @@ describe('TrackBrowserComponent', () => {
 
             // Assert
             expect(component.trackContextMenu).toBeUndefined();
+        });
+
+        it('should define trackOrders', () => {
+            // Arrange
+
+            // Act
+            const component: TrackBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.trackOrders).toEqual([
+                TrackOrder.byTrackTitleAscending,
+                TrackOrder.byTrackTitleDescending,
+                TrackOrder.byAlbum,
+            ]);
+        });
+
+        it('should define trackOrderKey', () => {
+            // Arrange
+
+            // Act
+            const component: TrackBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.trackOrderKey).toEqual(trackOrderKey);
         });
     });
 

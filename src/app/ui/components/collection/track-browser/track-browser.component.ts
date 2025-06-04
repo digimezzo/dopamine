@@ -31,6 +31,9 @@ import { MetadataService } from '../../../../services/metadata/metadata.service'
     encapsulation: ViewEncapsulation.None,
 })
 export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, OnDestroy {
+    public readonly trackOrders: TrackOrder[] = [TrackOrder.byTrackTitleAscending, TrackOrder.byTrackTitleDescending, TrackOrder.byAlbum];
+    public readonly trackOrderKey = trackOrderKey;
+
     private _tracks: TrackModels = new TrackModels();
     private _tracksPersister: BaseTracksPersister;
     private subscription: Subscription = new Subscription();
@@ -214,11 +217,4 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
             previousDiscNumber = track.discNumber;
         }
     }
-
-    protected readonly trackOrders: TrackOrder[] = [
-        TrackOrder.byTrackTitleAscending,
-        TrackOrder.byTrackTitleDescending,
-        TrackOrder.byAlbum,
-    ];
-    protected readonly trackOrderKey = trackOrderKey;
 }

@@ -26,6 +26,9 @@ import { Constants } from '../../../../../common/application/constants';
     providers: [MouseSelectionWatcher],
 })
 export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDestroy {
+    public readonly playlistOrders: PlaylistOrder[] = Object.values(PlaylistOrder).filter((x): x is PlaylistOrder => typeof x === 'number');
+    public readonly playlistOrderKey = playlistOrderKey;
+
     private _playlists: PlaylistModel[] = [];
     private _playlistsPersister: PlaylistsPersister;
     private availableWidthInPixels: number = 0;
@@ -196,7 +199,4 @@ export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDes
 
         return true;
     }
-
-    protected readonly playlistOrders: PlaylistOrder[] = Object.values(PlaylistOrder).filter((x): x is PlaylistOrder => typeof x === 'number');
-    protected readonly playlistOrderKey = playlistOrderKey;
 }

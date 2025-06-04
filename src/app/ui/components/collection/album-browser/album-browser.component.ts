@@ -25,6 +25,9 @@ import { PlaybackService } from '../../../../services/playback/playback.service'
     providers: [MouseSelectionWatcher],
 })
 export class AlbumBrowserComponent implements AfterViewInit, OnChanges, OnDestroy {
+    public readonly albumOrders: AlbumOrder[] = Object.values(AlbumOrder).filter((x): x is AlbumOrder => typeof x === 'number');
+    public readonly albumOrderKey = albumOrderKey;
+
     private _albums: AlbumModel[] = [];
     private _albumsPersister: BaseAlbumsPersister;
     private availableWidthInPixels: number = 0;
@@ -57,7 +60,6 @@ export class AlbumBrowserComponent implements AfterViewInit, OnChanges, OnDestro
     @ViewChild('albumContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public albumContextMenu: MatMenuTrigger;
 
-    public albumOrderEnum: typeof AlbumOrder = AlbumOrder;
     public albumRows: AlbumRow[] = [];
 
     public selectedAlbumOrder: AlbumOrder;
@@ -173,7 +175,4 @@ export class AlbumBrowserComponent implements AfterViewInit, OnChanges, OnDestro
     public async onAddToQueueAsync(album: AlbumModel): Promise<void> {
         await this.playbackService.addAlbumToQueueAsync(album);
     }
-
-    protected readonly albumOrders: AlbumOrder[] = Object.values(AlbumOrder).filter((x): x is AlbumOrder => typeof x === 'number');
-    protected readonly albumOrderKey = albumOrderKey;
 }

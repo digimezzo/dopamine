@@ -11,7 +11,7 @@ import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { Logger } from '../../../../../common/logger';
 import { Observable, Subject } from 'rxjs';
-import { PlaylistOrder } from '../playlist-order';
+import { PlaylistOrder, playlistOrderKey } from '../playlist-order';
 import { PlaylistsPersister } from '../playlists-persister';
 import { PlaylistModel } from '../../../../../services/playlist/playlist-model';
 import { PlaylistRow } from './playlist-row';
@@ -87,6 +87,28 @@ describe('PlaylistBrowserComponent', () => {
         playlistRow.playlists = [playlistModel1, playlistModel2];
 
         playlistRows = [playlistRow];
+    });
+
+    describe('constructor', () => {
+        it('should define playlistOrders', () => {
+            // Arrange
+
+            // Act
+            const component = createComponent();
+
+            // Assert
+            expect(component.playlistOrders).toEqual([PlaylistOrder.byPlaylistNameAscending, PlaylistOrder.byPlaylistNameDescending]);
+        });
+
+        it('should define playlistOrderKey', () => {
+            // Arrange
+
+            // Act
+            const component = createComponent();
+
+            // Assert
+            expect(component.playlistOrderKey).toEqual(playlistOrderKey);
+        });
     });
 
     describe('applyPlaylistOrder', () => {
