@@ -11,12 +11,11 @@ import { PlaybackStarted } from '../playback/playback-started';
 import { TrackModel } from '../track/track-model';
 
 import { SignInState } from './sign-in-state';
-import { ScrobblingServiceBase } from './scrobbling.service.base';
 import { PlaybackService } from '../playback/playback.service';
 import { SettingsBase } from '../../common/settings/settings.base';
 
-@Injectable()
-export class ScrobblingService implements ScrobblingServiceBase {
+@Injectable({ providedIn: 'root' })
+export class ScrobblingService {
     private _signInState: SignInState = SignInState.SignedOut;
 
     private sessionKey: string = '';

@@ -7,7 +7,7 @@ import { IntegrationTestRunner } from './testing/integration-test-runner';
 import { EventListenerServiceBase } from './services/event-listener/event-listener.service.base';
 import { MediaSessionService } from './services/media-session/media-session.service';
 import { TrayServiceBase } from './services/tray/tray.service.base';
-import { ScrobblingServiceBase } from './services/scrobbling/scrobbling.service.base';
+import { ScrobblingService } from './services/scrobbling/scrobbling.service';
 import { DiscordService } from './services/discord/discord.service';
 import { TranslatorServiceBase } from './services/translator/translator.service.base';
 import { AppearanceServiceBase } from './services/appearance/appearance.service.base';
@@ -26,7 +26,7 @@ describe('AppComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let discordServiceMock: IMock<DiscordService>;
-    let scrobblingServiceMock: IMock<ScrobblingServiceBase>;
+    let scrobblingServiceMock: IMock<ScrobblingService>;
     let trayServiceMock: IMock<TrayServiceBase>;
     let mediaSessionServiceMock: IMock<MediaSessionService>;
     let eventListenerServiceMock: IMock<EventListenerServiceBase>;
@@ -70,7 +70,7 @@ describe('AppComponent', () => {
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         discordServiceMock = Mock.ofType<DiscordService>();
-        scrobblingServiceMock = Mock.ofType<ScrobblingServiceBase>();
+        scrobblingServiceMock = Mock.ofType<ScrobblingService>();
         trayServiceMock = Mock.ofType<TrayServiceBase>();
         mediaSessionServiceMock = Mock.ofType<MediaSessionService>();
         eventListenerServiceMock = Mock.ofType<EventListenerServiceBase>();

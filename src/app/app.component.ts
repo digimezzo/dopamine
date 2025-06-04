@@ -11,7 +11,7 @@ import { AppConfig } from '../environments/environment';
 import { NavigationServiceBase } from './services/navigation/navigation.service.base';
 import { AppearanceServiceBase } from './services/appearance/appearance.service.base';
 import { TranslatorServiceBase } from './services/translator/translator.service.base';
-import { ScrobblingServiceBase } from './services/scrobbling/scrobbling.service.base';
+import { ScrobblingService } from './services/scrobbling/scrobbling.service';
 import { TrayServiceBase } from './services/tray/tray.service.base';
 import { MediaSessionService } from './services/media-session/media-session.service';
 import { EventListenerServiceBase } from './services/event-listener/event-listener.service.base';
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
         private appearanceService: AppearanceServiceBase,
         private translatorService: TranslatorServiceBase,
         private discordService: DiscordService,
-        private scrobblingService: ScrobblingServiceBase,
+        private scrobblingService: ScrobblingService,
         private trayService: TrayServiceBase,
         private mediaSessionService: MediaSessionService,
         private eventListenerService: EventListenerServiceBase,

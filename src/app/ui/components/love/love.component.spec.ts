@@ -1,7 +1,7 @@
 import { IMock, It, Mock, Times } from 'typemoq';
 import { LoveComponent } from './love.component';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
-import { ScrobblingServiceBase } from '../../../services/scrobbling/scrobbling.service.base';
+import { ScrobblingService } from '../../../services/scrobbling/scrobbling.service';
 import { DialogServiceBase } from '../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
 import { DateTime } from '../../../common/date-time';
@@ -12,7 +12,7 @@ import { MetadataService } from '../../../services/metadata/metadata.service';
 
 describe('LoveComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
-    let scrobblingServiceMock: IMock<ScrobblingServiceBase>;
+    let scrobblingServiceMock: IMock<ScrobblingService>;
     let metadataServiceMock: IMock<MetadataService>;
     let dialogServiceMock: IMock<DialogServiceBase>;
     let dateTimeMock: IMock<DateTime>;
@@ -31,7 +31,7 @@ describe('LoveComponent', () => {
 
     beforeEach(() => {
         metadataServiceMock = Mock.ofType<MetadataService>();
-        scrobblingServiceMock = Mock.ofType<ScrobblingServiceBase>();
+        scrobblingServiceMock = Mock.ofType<ScrobblingService>();
         dialogServiceMock = Mock.ofType<DialogServiceBase>();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();

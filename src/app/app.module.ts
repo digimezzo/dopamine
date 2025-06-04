@@ -185,7 +185,6 @@ import { PlaylistDecoder } from './services/playlist/playlist-decoder';
 import { PlaylistFileManager } from './services/playlist/playlist-file-manager';
 import { PlaylistModelFactory } from './services/playlist/playlist-model-factory';
 import { PlaylistService } from './services/playlist/playlist.service';
-import { ScrobblingService } from './services/scrobbling/scrobbling.service';
 import { SearchService } from './services/search/search.service';
 import { SemanticZoomService } from './services/semantic-zoom/semantic-zoom.service';
 import { TracksColumnsOrdering } from './services/track-columns/tracks-columns-ordering';
@@ -206,7 +205,6 @@ import { EventListenerServiceBase } from './services/event-listener/event-listen
 import { LyricsServiceBase } from './services/lyrics/lyrics.service.base';
 import { ArtistInformationServiceBase } from './services/artist-information/artist-information.service.base';
 import { NowPlayingNavigationServiceBase } from './services/now-playing-navigation/now-playing-navigation.service.base';
-import { ScrobblingServiceBase } from './services/scrobbling/scrobbling.service.base';
 import { TracksColumnsServiceBase } from './services/track-columns/tracks-columns.service.base';
 import { SemanticZoomServiceBase } from './services/semantic-zoom/semantic-zoom.service.base';
 import { TrayServiceBase } from './services/tray/tray.service.base';
@@ -589,7 +587,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: TrayServiceBase, useClass: TrayService },
         { provide: SemanticZoomServiceBase, useClass: SemanticZoomService },
         { provide: TracksColumnsServiceBase, useClass: TracksColumnsService },
-        { provide: ScrobblingServiceBase, useClass: ScrobblingService },
         { provide: NowPlayingNavigationServiceBase, useClass: NowPlayingNavigationService },
         { provide: ArtistInformationServiceBase, useClass: ArtistInformationService },
         { provide: WelcomeServiceBase, useClass: WelcomeService },
