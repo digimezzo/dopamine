@@ -3,22 +3,24 @@
         <as-split-area [size]="leftPaneSize" minSize="5" maxSize="95">
             <div class="left-side-pane">
                 <div class="h-100 d-flex flex-column p-3">
-                    <!-- Folders in collection -->
-                    <div *ngIf="this.folderService.collectionHasFolders" class="d-flex flex-row m-1">
-                        <div class="flex-grow">{{ 'folder' | translate }}</div>
+                    <div class="folder-row" *ngIf="this.folderService.collectionHasFolders">
+                        <div class="folder__column1">{{ 'folder' | translate }}</div>
                         <div
-                            mat-icon-button
+                            class="folder__column2"
                             [matMenuTriggerFor]="menu"
                             matTooltip="{{ 'choose-folder' | translate }}"
                             (click)="getFolders()"
                         >
-                            <div class="pointer secondary-text">
-                                {{ openedFolder | folderName }}<i class="ml-1 las la-angle-down secondary-text"></i>
+                            <div class="folder-inner-row pointer">
+                                <div class="folder-inner-row__text secondary-text">{{ openedFolder | folderName }}</div>
+                                <div class="folder-inner-row__chevron"><i class="ml-1 las la-angle-down secondary-text"></i></div>
                             </div>
                         </div>
                         <mat-menu #menu="matMenu">
                             <button mat-menu-item *ngFor="let folder of folders" (click)="setOpenedFolderAsync(folder)">
-                                {{ folder | folderName }}
+                                <div class="folder-selector-item ellipsis">
+                                    {{ folder | folderName }}
+                                </div>
                             </button>
                         </mat-menu>
                     </div>
