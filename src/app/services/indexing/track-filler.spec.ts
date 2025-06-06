@@ -124,6 +124,7 @@ describe('TrackFiller', () => {
         it('should fill in track genres with a multi value track field', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
             fileMetadataStub.genres = ['Genre 1', 'Genre 2'];
 
             fileMetadataFactoryMock
@@ -147,6 +148,7 @@ describe('TrackFiller', () => {
         it('should fill in track albumTitle with a single value track field', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
             fileMetadataStub.album = 'Album title';
 
             fileMetadataFactoryMock
@@ -215,6 +217,64 @@ describe('TrackFiller', () => {
             expect(track.albumKey).toEqual(';Album title;;Album artist 1;;Album artist 2;');
         });
 
+        it('should fill in track albumKey with a generated album key when albumArtists is empty and artists is not empty', async () => {
+            // Arrange
+            const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = [];
+            fileMetadataStub.artists = ['Artist 1', 'Artist 2'];
+            fileMetadataStub.album = 'Album title';
+
+            fileMetadataFactoryMock
+                .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
+                .returns(() => Promise.resolve(fileMetadataStub));
+            fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
+            const trackFiller: TrackFiller = createTrackFiller();
+            const track: Track = new Track('/home/user/Music/Track 1.mp3');
+
+            metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Artist 1', 'Artist 2'])).returns(() => ['Artist 1', 'Artist 2']);
+
+            albumKeyGeneratorMock.reset();
+            albumKeyGeneratorMock
+                .setup((x) => x.generateAlbumKey('Album title', ['Artist 1', 'Artist 2']))
+                .returns(() => ';Album title;;Artist 1;;Artist 2;');
+
+            // Act
+            await trackFiller.addFileMetadataToTrackAsync(track, false);
+
+            // Assert
+            metadataPatcherMock.verify((x) => x.joinUnsplittableMetadata(['Artist 1', 'Artist 2']), Times.exactly(2));
+            albumKeyGeneratorMock.verify((x) => x.generateAlbumKey('Album title', ['Artist 1', 'Artist 2']), Times.once());
+            expect(track.albumKey).toEqual(';Album title;;Artist 1;;Artist 2;');
+        });
+
+        it('should fill in track albumKey with a generated album key when albumArtists and artists are empty', async () => {
+            // Arrange
+            const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = [];
+            fileMetadataStub.artists = [];
+            fileMetadataStub.album = 'Album title';
+
+            fileMetadataFactoryMock
+                .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
+                .returns(() => Promise.resolve(fileMetadataStub));
+            fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
+            const trackFiller: TrackFiller = createTrackFiller();
+            const track: Track = new Track('/home/user/Music/Track 1.mp3');
+
+            metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata([])).returns(() => []);
+
+            albumKeyGeneratorMock.reset();
+            albumKeyGeneratorMock.setup((x) => x.generateAlbumKey('Album title', [])).returns(() => ';Album title;');
+
+            // Act
+            await trackFiller.addFileMetadataToTrackAsync(track, false);
+
+            // Assert
+            metadataPatcherMock.verify((x) => x.joinUnsplittableMetadata([]), Times.exactly(3));
+            albumKeyGeneratorMock.verify((x) => x.generateAlbumKey('Album title', []), Times.once());
+            expect(track.albumKey).toEqual(';Album title;');
+        });
+
         it('should fill in track fileName with the file name of the audio file', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
@@ -237,6 +297,7 @@ describe('TrackFiller', () => {
         it('should fill in track mimeType with the mime type of the audio file', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
 
             fileMetadataFactoryMock
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
@@ -277,6 +338,7 @@ describe('TrackFiller', () => {
         it('should fill in track bitRate with the bit rate of the audio file', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
             fileMetadataStub.bitRate = 320;
 
             fileMetadataFactoryMock
@@ -297,6 +359,7 @@ describe('TrackFiller', () => {
         it('should fill in track sampleRate with the sample rate of the audio file', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
             fileMetadataStub.sampleRate = 44;
 
             fileMetadataFactoryMock
@@ -357,6 +420,7 @@ describe('TrackFiller', () => {
         it('should fill in track trackCount with the track count of the audio file', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
             fileMetadataStub.trackCount = 15;
 
             fileMetadataFactoryMock
@@ -377,6 +441,7 @@ describe('TrackFiller', () => {
         it('should fill in track discNumber with the disc number of the audio file', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
             fileMetadataStub.discNumber = 1;
 
             fileMetadataFactoryMock
@@ -397,6 +462,7 @@ describe('TrackFiller', () => {
         it('should fill in track discCount with the disc count of the audio file', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
             fileMetadataStub.discCount = 2;
 
             fileMetadataFactoryMock
@@ -440,6 +506,7 @@ describe('TrackFiller', () => {
         it('should fill in track year with the year of the audio file', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
             fileMetadataStub.year = 2020;
 
             fileMetadataFactoryMock
@@ -480,6 +547,7 @@ describe('TrackFiller', () => {
         it('should fill in track hasLyrics with 0 if the audio file lyrics are not empty', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
             fileMetadataStub.lyrics = 'Blabla';
 
             fileMetadataFactoryMock
@@ -500,6 +568,7 @@ describe('TrackFiller', () => {
         it('should fill in track dateAdded wit hthe current date and time in ticks', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
 
             fileMetadataFactoryMock
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
@@ -520,6 +589,7 @@ describe('TrackFiller', () => {
         it('should fill in track dateFileCreated with the date that the file was created in ticks', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
 
             fileMetadataFactoryMock
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
@@ -539,6 +609,7 @@ describe('TrackFiller', () => {
         it('should fill in track dateLastSynced with the current date and time in ticks', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
 
             fileMetadataFactoryMock
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
@@ -559,6 +630,7 @@ describe('TrackFiller', () => {
         it('should fill in track dateFileModified with the date that the file was modified in ticks', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
 
             fileMetadataFactoryMock
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
@@ -597,6 +669,7 @@ describe('TrackFiller', () => {
         it('should fill in track needsAlbumArtworkIndexing with 1', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
 
             fileMetadataFactoryMock
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
@@ -637,6 +710,7 @@ describe('TrackFiller', () => {
         it('should fill in track indexingSuccess with 1 if no errors occur', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
 
             fileMetadataFactoryMock
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
@@ -656,6 +730,7 @@ describe('TrackFiller', () => {
         it('should fill in an empty track indexingFailureReason if no errors occur', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
 
             fileMetadataFactoryMock
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
@@ -694,6 +769,7 @@ describe('TrackFiller', () => {
         it('should fill in track indexingFailureReason with the error text if an error occur', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
 
             fileMetadataFactoryMock
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
