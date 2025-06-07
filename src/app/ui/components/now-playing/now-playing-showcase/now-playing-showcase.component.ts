@@ -39,13 +39,8 @@ export class NowPlayingShowcaseComponent implements OnInit {
         const availableWidth: number = applicationWindowSize.width - horizontalMargin;
         const availableHeight: number = applicationWindowSize.height - (playbackControlsHeight + windowControlsHeight);
 
-        const proposedCoverArtSize: number = availableHeight / 2;
-
-        if (proposedCoverArtSize * 3 > availableWidth) {
-            this.coverArtSize = availableWidth / 3;
-        } else {
-            this.coverArtSize = proposedCoverArtSize;
-        }
+        const meanSize = Math.sqrt(availableWidth * availableHeight);
+        this.coverArtSize = meanSize / 3; // Tweak divisor to taste
 
         this.playbackInformationHeight = this.coverArtSize;
         this.playbackInformationLargeFontSize = this.playbackInformationHeight / 8;
