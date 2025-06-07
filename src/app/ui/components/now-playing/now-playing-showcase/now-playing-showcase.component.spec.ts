@@ -82,10 +82,10 @@ describe('NowPlayingShowcaseComponent', () => {
             component.onResize();
 
             // Assert
-            expect(component.coverArtSize).toEqual(242);
-            expect(component.playbackInformationHeight).toEqual(242);
-            expect(component.playbackInformationLargeFontSize).toEqual(30.25);
-            expect(component.playbackInformationSmallFontSize).toEqual(20.166666666666668);
+            expect(component.coverArtSize).toEqual(220);
+            expect(component.playbackInformationHeight).toEqual(220);
+            expect(component.playbackInformationLargeFontSize).toEqual(27.5);
+            expect(component.playbackInformationSmallFontSize).toEqual(18.333333333333332);
         });
 
         it('should set the now playing sizes in relation to window width if width is too small', () => {
@@ -98,10 +98,10 @@ describe('NowPlayingShowcaseComponent', () => {
             component.onResize();
 
             // Assert
-            expect(component.coverArtSize).toEqual(150);
-            expect(component.playbackInformationHeight).toEqual(150);
-            expect(component.playbackInformationLargeFontSize).toEqual(18.75);
-            expect(component.playbackInformationSmallFontSize).toEqual(12.5);
+            expect(component.coverArtSize).toEqual(155.56349186104046);
+            expect(component.playbackInformationHeight).toEqual(155.56349186104046);
+            expect(component.playbackInformationLargeFontSize).toEqual(19.445436482630058);
+            expect(component.playbackInformationSmallFontSize).toEqual(12.963624321753372);
         });
     });
 
@@ -115,10 +115,10 @@ describe('NowPlayingShowcaseComponent', () => {
             component.ngOnInit();
 
             // Assert
-            expect(component.coverArtSize).toEqual(242);
-            expect(component.playbackInformationHeight).toEqual(242);
-            expect(component.playbackInformationLargeFontSize).toEqual(30.25);
-            expect(component.playbackInformationSmallFontSize).toEqual(20.166666666666668);
+            expect(component.coverArtSize).toEqual(220);
+            expect(component.playbackInformationHeight).toEqual(220);
+            expect(component.playbackInformationLargeFontSize).toEqual(27.5);
+            expect(component.playbackInformationSmallFontSize).toEqual(18.333333333333332);
         });
 
         it('should set the now playing sizes in relation to window width if width is too small', () => {
