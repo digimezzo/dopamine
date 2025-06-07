@@ -315,5 +315,7 @@
     "download-image-error": "Ocurrió un error al descargar la imagen. Por favor, verifique el archivo de registro si necesita más información.",
     "Information": "Información",
     "no-image-found-online": "No se pudo encontrar ninguna imagen en línea.",
-    "image": "Imagen"
+    "image": "Imagen",
+    "choose-order": "Choose an order",
+    "choose-type": "Choose a type"
 }

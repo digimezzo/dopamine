@@ -315,5 +315,7 @@
     "download-image-error": "Đã xảy ra lỗi khi tải xuống ảnh. Vui lòng xem tập tin log để biết thêm thông tin.",
     "Information": "Thông tin",
     "no-image-found-online": "Không tìm thấy ảnh online hợp lệ.",
-    "image": "Ảnh"
+    "image": "Ảnh",
+    "choose-order": "Choose an order",
+    "choose-type": "Choose a type"
 }

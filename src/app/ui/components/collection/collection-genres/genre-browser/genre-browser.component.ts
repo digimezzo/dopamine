@@ -9,7 +9,7 @@ import { PromiseUtils } from '../../../../../common/utils/promise-utils';
 import { GenreModel } from '../../../../../services/genre/genre-model';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { GenresPersister } from '../genres-persister';
-import { GenreOrder } from './genre-order';
+import { GenreOrder, genreOrderKey } from './genre-order';
 import { PlaybackService } from '../../../../../services/playback/playback.service';
 import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/semantic-zoom.service.base';
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
@@ -28,6 +28,9 @@ import { Timer } from '../../../../../common/scheduling/timer';
 })
 export class GenreBrowserComponent implements OnInit, OnDestroy {
     @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
+
+    public readonly genreOrders: GenreOrder[] = Object.values(GenreOrder).filter((x): x is GenreOrder => typeof x === 'number');
+    public readonly genreOrderKey = genreOrderKey;
 
     private _genres: GenreModel[] = [];
     private _genresPersister: GenresPersister;
@@ -53,7 +56,6 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
 
     public orderedGenres: GenreModel[] = [];
 
-    public genreOrderEnum: typeof GenreOrder = GenreOrder;
     public selectedGenreOrder: GenreOrder;
 
     public get genresPersister(): GenresPersister {
@@ -113,23 +115,11 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         }
     }
 
-    public toggleGenreOrder(): void {
-        switch (this.selectedGenreOrder) {
-            case GenreOrder.byGenreAscending:
-                this.selectedGenreOrder = GenreOrder.byGenreDescending;
-                break;
-            case GenreOrder.byGenreDescending:
-                this.selectedGenreOrder = GenreOrder.byGenreAscending;
-                break;
-            default: {
-                this.selectedGenreOrder = GenreOrder.byGenreAscending;
-                break;
-            }
-        }
-
+    public applyGenreOrder = (genreOrder: GenreOrder): void => {
+        this.selectedGenreOrder = genreOrder;
         this.genresPersister.setSelectedGenreOrder(this.selectedGenreOrder);
         this.orderGenres();
-    }
+    };
 
     public onGenreContextMenu(event: MouseEvent, genre: GenreModel): void {
         this.contextMenuOpener.open(this.genreContextMenu, event, genre);

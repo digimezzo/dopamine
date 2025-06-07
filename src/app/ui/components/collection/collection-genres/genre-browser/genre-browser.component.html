@@ -5,14 +5,13 @@
             <div *ngIf="this.genres.length === 1">{{ 'genre' | translate }}</div>
             <div *ngIf="this.genres.length !== 1">{{ 'genres' | translate }}</div>
         </div>
-        <div class="pointer" (click)="toggleGenreOrder()">
-            <div class="secondary-text" *ngIf="this.selectedGenreOrder === genreOrderEnum.byGenreAscending">
-                {{ 'by-genre-ascending' | translate }}
-            </div>
-            <div class="secondary-text" *ngIf="this.selectedGenreOrder === genreOrderEnum.byGenreDescending">
-                {{ 'by-genre-descending' | translate }}
-            </div>
-        </div>
+        <app-iterable-menu
+            [tooltipKey]="'choose-order'"
+            [currentItem]="selectedGenreOrder"
+            [items]="genreOrders"
+            [itemKeyFn]="genreOrderKey"
+            [applyItemFn]="applyGenreOrder">
+        </app-iterable-menu>
     </div>
     <app-semantic-zoom *ngIf="this.shouldZoomOut" class="mt-3" [SemanticZoomables]="this.orderedGenres"></app-semantic-zoom>
     <cdk-virtual-scroll-viewport *ngIf="!this.shouldZoomOut" class="flex-grow mt-3" itemSize="30">

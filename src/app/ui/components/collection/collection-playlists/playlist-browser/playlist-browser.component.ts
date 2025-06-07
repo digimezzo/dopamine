@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Logger } from '../../../../../common/logger';
 import { NativeElementProxy } from '../../../../../common/native-element-proxy';
 import { PlaylistModel } from '../../../../../services/playlist/playlist-model';
 import { PlaylistRowsGetter } from '../playlist-folder-browser/playlist-rows-getter';
-import { PlaylistOrder } from '../playlist-order';
+import { PlaylistOrder, playlistOrderKey } from '../playlist-order';
 import { PlaylistsPersister } from '../playlists-persister';
 import { PlaylistRow } from './playlist-row';
 import { PlaybackService } from '../../../../../services/playback/playback.service';
@@ -26,6 +26,9 @@ import { Constants } from '../../../../../common/application/constants';
     providers: [MouseSelectionWatcher],
 })
 export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDestroy {
+    public readonly playlistOrders: PlaylistOrder[] = Object.values(PlaylistOrder).filter((x): x is PlaylistOrder => typeof x === 'number');
+    public readonly playlistOrderKey = playlistOrderKey;
+
     private _playlists: PlaylistModel[] = [];
     private _playlistsPersister: PlaylistsPersister;
     private availableWidthInPixels: number = 0;
@@ -44,7 +47,6 @@ export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDes
         private logger: Logger,
     ) {}
 
-    public playlistOrderEnum: typeof PlaylistOrder = PlaylistOrder;
     public playlistRows: PlaylistRow[] = [];
 
     public selectedPlaylistOrder: PlaylistOrder;
@@ -119,23 +121,11 @@ export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDes
         this.playlistsPersister.setSelectedPlaylists(this.mouseSelectionWatcher.selectedItems as PlaylistModel[]);
     }
 
-    public togglePlaylistOrder(): void {
-        switch (this.selectedPlaylistOrder) {
-            case PlaylistOrder.byPlaylistNameAscending:
-                this.selectedPlaylistOrder = PlaylistOrder.byPlaylistNameDescending;
-                break;
-            case PlaylistOrder.byPlaylistNameDescending:
-                this.selectedPlaylistOrder = PlaylistOrder.byPlaylistNameAscending;
-                break;
-            default: {
-                this.selectedPlaylistOrder = PlaylistOrder.byPlaylistNameDescending;
-                break;
-            }
-        }
-
+    public applyPlaylistOrder = (playlistOrder: PlaylistOrder): void => {
+        this.selectedPlaylistOrder = playlistOrder;
         this.playlistsPersister.setSelectedPlaylistOrder(this.selectedPlaylistOrder);
         this.orderPlaylists();
-    }
+    };
 
     public onPlaylistContextMenu(event: MouseEvent, playlist: PlaylistModel): void {
         this.contextMenuOpener.open(this.playlistContextMenu, event, playlist);
@@ -143,10 +133,6 @@ export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDes
 
     private applySelectedPlaylists(): void {
         const selectedPlaylists: PlaylistModel[] = this.playlistsPersister.getSelectedPlaylists(this.playlists);
-
-        if (selectedPlaylists == undefined) {
-            return;
-        }
 
         for (const selectedPlaylist of selectedPlaylists) {
             selectedPlaylist.isSelected = true;

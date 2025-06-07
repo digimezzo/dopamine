@@ -3,13 +3,13 @@ import { IMock, It, Mock, Times } from 'typemoq';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { ArtistsPersister } from '../artists-persister';
 import { ArtistBrowserComponent } from './artist-browser.component';
-import { ArtistOrder } from './artist-order';
+import { ArtistOrder, artistOrderKey } from './artist-order';
 import { ArtistModel } from '../../../../../services/artist/artist-model';
 import { Logger } from '../../../../../common/logger';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { SemanticZoomHeaderAdder } from '../../../../../common/semantic-zoom-header-adder';
-import { ArtistType } from '../../../../../services/artist/artist-type';
+import { ArtistType, artistTypeKey } from '../../../../../services/artist/artist-type';
 import { Constants } from '../../../../../common/application/constants';
 import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/semantic-zoom.service.base';
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
@@ -157,16 +157,6 @@ describe('ArtistBrowserComponent', () => {
             expect(component.orderedArtists.length).toEqual(0);
         });
 
-        it('should define artistOrderEnum', () => {
-            // Arrange
-
-            // Act
-            const component: ArtistBrowserComponent = createComponent();
-
-            // Assert
-            expect(component.artistOrderEnum).toBeDefined();
-        });
-
         it('should declare selectedArtistOrder', () => {
             // Arrange
 
@@ -175,16 +165,6 @@ describe('ArtistBrowserComponent', () => {
 
             // Assert
             expect(component.selectedArtistOrder).toBeUndefined();
-        });
-
-        it('should define artistTypeEnum', () => {
-            // Arrange
-
-            // Act
-            const component: ArtistBrowserComponent = createComponent();
-
-            // Assert
-            expect(component.artistTypeEnum).toBeDefined();
         });
 
         it('should declare selectedArtistType', () => {
@@ -265,6 +245,46 @@ describe('ArtistBrowserComponent', () => {
 
             // Assert
             expect(component.shouldZoomOut).toBeFalsy();
+        });
+
+        it('should define artistTypes', () => {
+            // Arrange
+
+            // Act
+            const component: ArtistBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.artistTypes).toEqual([ArtistType.trackArtists, ArtistType.albumArtists, ArtistType.allArtists]);
+        });
+
+        it('should define artistTypeKey', () => {
+            // Arrange
+
+            // Act
+            const component: ArtistBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.artistTypeKey).toEqual(artistTypeKey);
+        });
+
+        it('should define artistOrders', () => {
+            // Arrange
+
+            // Act
+            const component: ArtistBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.artistOrders).toEqual([ArtistOrder.byArtistAscending, ArtistOrder.byArtistDescending]);
+        });
+
+        it('should define artistOrderKey', () => {
+            // Arrange
+
+            // Act
+            const component: ArtistBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.artistOrderKey).toEqual(artistOrderKey);
         });
     });
 
@@ -629,83 +649,47 @@ describe('ArtistBrowserComponent', () => {
         });
     });
 
-    describe('toggleArtistOrder', () => {
-        it('should toggle selectedArtistOrder from byArtistAscending to byArtistDescending', () => {
-            // Arrange
-            const component: ArtistBrowserComponent = createComponent();
-            component.artists = [artist1, artist2];
-            component.artistsPersister = artistsPersisterMock.object;
-            component.selectedArtistOrder = ArtistOrder.byArtistAscending;
-
-            // Act
-            component.toggleArtistOrder();
-
-            // Assert
-            expect(component.selectedArtistOrder).toEqual(ArtistOrder.byArtistDescending);
-        });
-
-        it('should toggle selectedArtistOrder from byArtistDescending to byArtistAscending', () => {
-            // Arrange
-            const component: ArtistBrowserComponent = createComponent();
-            component.artists = [artist1, artist2];
-            component.artistsPersister = artistsPersisterMock.object;
-            component.selectedArtistOrder = ArtistOrder.byArtistDescending;
-
-            // Act
-            component.toggleArtistOrder();
-
-            // Assert
-            expect(component.selectedArtistOrder).toEqual(ArtistOrder.byArtistAscending);
-        });
-
-        it('should persist the selected artist order', () => {
-            // Arrange
-            const component: ArtistBrowserComponent = createComponent();
-            component.artists = [artist1, artist2];
-            component.artistsPersister = artistsPersisterMock.object;
-            component.selectedArtistOrder = ArtistOrder.byArtistDescending;
-
-            // Act
-            component.toggleArtistOrder();
-
-            // Assert
-            artistsPersisterMock.verify((x) => x.setSelectedArtistOrder(component.selectedArtistOrder), Times.once());
-        });
-
-        it('should order the artists by artist descending if the selected artist order is byArtistAscending', () => {
-            // Arrange
-            artistsPersisterMock.reset();
-            artistsPersisterMock.setup((x) => x.getSelectedArtistOrder()).returns(() => ArtistOrder.byArtistAscending);
-
-            const component: ArtistBrowserComponent = createComponent();
-
-            component.artists = [artist1, artist2];
-            component.artistsPersister = artistsPersisterMock.object;
-
-            // Act
-            component.toggleArtistOrder();
-
-            // Assert
-            expect(component.orderedArtists[1]).toEqual(artist2);
-            expect(component.orderedArtists[3]).toEqual(artist1);
-        });
-
-        it('should order the artists by artist ascending if the selected artist order is byArtistDescending', () => {
+    describe('applyArtistOrder', () => {
+        it('should apply artist order by artist ascending', () => {
             // Arrange
             artistsPersisterMock.reset();
             artistsPersisterMock.setup((x) => x.getSelectedArtistOrder()).returns(() => ArtistOrder.byArtistDescending);
 
             const component: ArtistBrowserComponent = createComponent();
-
             component.artists = [artist1, artist2];
             component.artistsPersister = artistsPersisterMock.object;
 
+            const artistOrder = ArtistOrder.byArtistAscending;
+
             // Act
-            component.toggleArtistOrder();
+            component.applyArtistOrder(artistOrder);
 
             // Assert
+            expect(component.selectedArtistOrder).toEqual(artistOrder);
+            artistsPersisterMock.verify((x) => x.setSelectedArtistOrder(artistOrder), Times.once());
             expect(component.orderedArtists[1]).toEqual(artist1);
             expect(component.orderedArtists[3]).toEqual(artist2);
+        });
+
+        it('should apply artist order by artist descending', () => {
+            // Arrange
+            artistsPersisterMock.reset();
+            artistsPersisterMock.setup((x) => x.getSelectedArtistOrder()).returns(() => ArtistOrder.byArtistAscending);
+
+            const component: ArtistBrowserComponent = createComponent();
+            component.artists = [artist1, artist2];
+            component.artistsPersister = artistsPersisterMock.object;
+
+            const artistOrder = ArtistOrder.byArtistDescending;
+
+            // Act
+            component.applyArtistOrder(artistOrder);
+
+            // Assert
+            expect(component.selectedArtistOrder).toEqual(artistOrder);
+            artistsPersisterMock.verify((x) => x.setSelectedArtistOrder(artistOrder), Times.once());
+            expect(component.orderedArtists[1]).toEqual(artist2);
+            expect(component.orderedArtists[3]).toEqual(artist1);
         });
 
         it('should show the headers for the ordered artists', () => {
@@ -723,68 +707,29 @@ describe('ArtistBrowserComponent', () => {
             semanticZoomHeaderAdderMock.setup((x) => x.addZoomHeaders([artist1, artist2])).returns(() => [artist1, artist2]);
 
             // Act
-            component.toggleArtistOrder();
+            component.applyArtistOrder(ArtistOrder.byArtistAscending);
 
             // Assert
             semanticZoomHeaderAdderMock.verify((x) => x.addZoomHeaders(component.orderedArtists), Times.once());
         });
     });
 
-    describe('toggleArtistType', () => {
-        it('should toggle selectedArtistType from trackArtists to albumArtists', () => {
+    describe('applyArtistType', () => {
+        it('should apply artist type', () => {
             // Arrange
             const component: ArtistBrowserComponent = createComponent();
             component.artists = [artist1, artist2];
             component.artistsPersister = artistsPersisterMock.object;
             component.selectedArtistType = ArtistType.trackArtists;
 
-            // Act
-            component.toggleArtistType();
-
-            // Assert
-            expect(component.selectedArtistType).toEqual(ArtistType.albumArtists);
-        });
-
-        it('should toggle selectedArtistType from albumArtists to allArtists', () => {
-            // Arrange
-            const component: ArtistBrowserComponent = createComponent();
-            component.artists = [artist1, artist2];
-            component.artistsPersister = artistsPersisterMock.object;
-            component.selectedArtistType = ArtistType.albumArtists;
+            const artistType = ArtistType.allArtists;
 
             // Act
-            component.toggleArtistType();
+            component.applyArtistType(artistType);
 
             // Assert
-            expect(component.selectedArtistType).toEqual(ArtistType.allArtists);
-        });
-
-        it('should toggle selectedArtistType from allArtists to trackArtists', () => {
-            // Arrange
-            const component: ArtistBrowserComponent = createComponent();
-            component.artists = [artist1, artist2];
-            component.artistsPersister = artistsPersisterMock.object;
-            component.selectedArtistType = ArtistType.allArtists;
-
-            // Act
-            component.toggleArtistType();
-
-            // Assert
-            expect(component.selectedArtistType).toEqual(ArtistType.trackArtists);
-        });
-
-        it('should persist the selected artist type', () => {
-            // Arrange
-            const component: ArtistBrowserComponent = createComponent();
-            component.artists = [artist1, artist2];
-            component.artistsPersister = artistsPersisterMock.object;
-            component.selectedArtistType = ArtistType.allArtists;
-
-            // Act
-            component.toggleArtistType();
-
-            // Assert
-            artistsPersisterMock.verify((x) => x.setSelectedArtistType(component.selectedArtistType), Times.once());
+            expect(component.selectedArtistType).toEqual(artistType);
+            artistsPersisterMock.verify((x) => x.setSelectedArtistType(artistType), Times.once());
         });
     });
 
