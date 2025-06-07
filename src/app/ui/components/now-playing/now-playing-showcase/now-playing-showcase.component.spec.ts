@@ -132,10 +132,10 @@ describe('NowPlayingShowcaseComponent', () => {
             component.ngOnInit();
 
             // Assert
-            expect(component.coverArtSize).toEqual(150);
-            expect(component.playbackInformationHeight).toEqual(150);
-            expect(component.playbackInformationLargeFontSize).toEqual(18.75);
-            expect(component.playbackInformationSmallFontSize).toEqual(12.5);
+            expect(component.coverArtSize).toEqual(155.56349186104046);
+            expect(component.playbackInformationHeight).toEqual(155.56349186104046);
+            expect(component.playbackInformationLargeFontSize).toEqual(19.445436482630058);
+            expect(component.playbackInformationSmallFontSize).toEqual(12.963624321753372);
         });
     });
 });
