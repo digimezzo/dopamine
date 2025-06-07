@@ -268,5 +268,27 @@ describe('StringUtils', () => {
             // Assert
             expect(sortableString).toEqual('gathering');
         });
+
+        it('should trim leading and trailing spaces if there are no separators', () => {
+            // Arrange
+            const sourceString: string = ' Their big reward ';
+
+            // Act
+            const sortableString: string = StringUtils.getSortableString(sourceString, true);
+
+            // Assert
+            expect(sortableString).toEqual('their big reward');
+        });
+
+        it('should trim leading and trailing spaces if there are separators', () => {
+            // Arrange
+            const sourceString: string = ' The Gathering ';
+
+            // Act
+            const sortableString: string = StringUtils.getSortableString(sourceString, true);
+
+            // Assert
+            expect(sortableString).toEqual('gathering');
+        });
     });
 });

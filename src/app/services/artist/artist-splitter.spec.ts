@@ -22,6 +22,8 @@ describe('ArtistSplitter', () => {
         'Artist6 | Artist7',
         '',
         'Artist2ft.Artist3& Artist4',
+        ' Artist8 ',
+        ' Artist9 ft. Artist10 ',
     ];
 
     beforeEach(() => {
@@ -61,7 +63,7 @@ describe('ArtistSplitter', () => {
             const splitArtists: ArtistModel[] = splitter.splitArtists(artists);
 
             // Assert
-            expect(splitArtists.length).toEqual(10);
+            expect(splitArtists.length).toEqual(13);
 
             expect(splitArtists[0].displayName).toEqual('Artist1');
             expect(splitArtists[1].displayName).toEqual('Artist2');
@@ -73,6 +75,9 @@ describe('ArtistSplitter', () => {
             expect(splitArtists[7].displayName).toEqual('Artist6 | Artist7');
             expect(splitArtists[8].displayName).toEqual('Unknown artist');
             expect(splitArtists[9].displayName).toEqual('Artist2ft.Artist3& Artist4');
+            expect(splitArtists[10].displayName).toEqual(' Artist8 ');
+            expect(splitArtists[11].displayName).toEqual(' Artist9');
+            expect(splitArtists[12].displayName).toEqual('Artist10 ');
         });
 
         it('should split without duplicates on all configured separators excluding pipe for substrings that are not in the exception list', () => {
@@ -86,7 +91,7 @@ describe('ArtistSplitter', () => {
             const splitArtists: ArtistModel[] = splitter.splitArtists(artists);
 
             // Assert
-            expect(splitArtists.length).toEqual(9);
+            expect(splitArtists.length).toEqual(12);
 
             expect(splitArtists[0].displayName).toEqual('Artist1');
             expect(splitArtists[1].displayName).toEqual('Artist2');
@@ -97,6 +102,9 @@ describe('ArtistSplitter', () => {
             expect(splitArtists[6].displayName).toEqual('Artist6 | Artist7');
             expect(splitArtists[7].displayName).toEqual('Unknown artist');
             expect(splitArtists[8].displayName).toEqual('Artist2ft.Artist3& Artist4');
+            expect(splitArtists[9].displayName).toEqual(' Artist8 ');
+            expect(splitArtists[10].displayName).toEqual(' Artist9');
+            expect(splitArtists[11].displayName).toEqual('Artist10 ');
         });
 
         it('should not split on anything without duplicates when there are no separators', () => {
@@ -110,7 +118,7 @@ describe('ArtistSplitter', () => {
             const splitArtists: ArtistModel[] = splitter.splitArtists(artists);
 
             // Assert
-            expect(splitArtists.length).toEqual(11);
+            expect(splitArtists.length).toEqual(13);
             expect(splitArtists[0].displayName).toEqual('Artist1');
             expect(splitArtists[1].displayName).toEqual('Artist2');
             expect(splitArtists[2].displayName).toEqual('Artist1 ft. Artist2 feat. Artist3');
@@ -122,6 +130,8 @@ describe('ArtistSplitter', () => {
             expect(splitArtists[8].displayName).toEqual('Artist6 | Artist7');
             expect(splitArtists[9].displayName).toEqual('Unknown artist');
             expect(splitArtists[10].displayName).toEqual('Artist2ft.Artist3& Artist4');
+            expect(splitArtists[11].displayName).toEqual(' Artist8 ');
+            expect(splitArtists[12].displayName).toEqual(' Artist9 ft. Artist10 ');
         });
     });
 });

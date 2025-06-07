@@ -238,7 +238,7 @@ describe('ArtistService', () => {
 
             const service: ArtistService = createService();
 
-            const artists = service.getArtists(ArtistType.trackArtists);
+            service.getArtists(ArtistType.trackArtists);
 
             // Act
             const sourceArtists1: string[] = service.getSourceArtists([createArtistModel('Artist1')]);
@@ -350,6 +350,66 @@ describe('ArtistService', () => {
 
             expect(sourceArtists24.length).toEqual(1);
             expect(sourceArtists24[0]).toEqual('Gee Rock & Tha CND Coalition feat. Skee Love');
+        });
+
+        it('should get the source artists for a given list of artists when there are no split separators', () => {
+            // Arrange
+            let artistDatas: ArtistData[] = [new ArtistData(';Artist1;'), new ArtistData(';Artist2;'), new ArtistData(';Artist3;')];
+
+            settingsMock.artistSplitSeparators = '';
+            settingsMock.artistSplitExceptions = '';
+            trackRepositoryMock.setup((x) => x.getTrackArtistData()).returns(() => artistDatas);
+
+            const service: ArtistService = createService();
+
+            service.getArtists(ArtistType.trackArtists);
+
+            // Act
+            const sourceArtists1: string[] = service.getSourceArtists([createArtistModel('Artist1')]);
+            const sourceArtists2: string[] = service.getSourceArtists([createArtistModel('Artist2')]);
+            const sourceArtists3: string[] = service.getSourceArtists([createArtistModel('Artist3')]);
+
+            // Assert
+            expect(sourceArtists1.length).toEqual(1);
+            expect(sourceArtists1[0]).toEqual('Artist1');
+
+            expect(sourceArtists2.length).toEqual(1);
+            expect(sourceArtists2[0]).toEqual('Artist2');
+
+            expect(sourceArtists3.length).toEqual(1);
+            expect(sourceArtists3[0]).toEqual('Artist3');
+        });
+
+        it('should get the source artists for a given list of artists where source artists start or end with spaces', () => {
+            // Arrange
+            let artistDatas: ArtistData[] = [
+                new ArtistData(';Artist1 ;'),
+                new ArtistData('; Artist2;'),
+                new ArtistData('; Artist3 ft. Artist4 ;'),
+            ];
+
+            settingsMock.artistSplitSeparators = '[ft.]';
+            settingsMock.artistSplitExceptions = '';
+            trackRepositoryMock.setup((x) => x.getTrackArtistData()).returns(() => artistDatas);
+
+            const service: ArtistService = createService();
+
+            service.getArtists(ArtistType.trackArtists);
+
+            // Act
+            const sourceArtists1: string[] = service.getSourceArtists([createArtistModel('Artist1 ')]);
+            const sourceArtists2: string[] = service.getSourceArtists([createArtistModel(' Artist2')]);
+            const sourceArtists3: string[] = service.getSourceArtists([createArtistModel('Artist3')]);
+
+            // Assert
+            expect(sourceArtists1.length).toEqual(1);
+            expect(sourceArtists1[0]).toEqual('Artist1 ');
+
+            expect(sourceArtists2.length).toEqual(1);
+            expect(sourceArtists2[0]).toEqual(' Artist2');
+
+            expect(sourceArtists3.length).toEqual(1);
+            expect(sourceArtists3[0]).toEqual(' Artist3 ft. Artist4 ');
         });
     });
 });

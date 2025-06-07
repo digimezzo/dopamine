@@ -54,7 +54,7 @@ export class ArtistSplitter {
         // Also adds a space before and after the separator
         const escapedSeparators = separators.map((separator) => ` ${separator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} `);
         const regex: RegExp = new RegExp(escapedSeparators.join('|'), 'i');
-        artists.push(...artist.split(regex).map((a: string) => new ArtistModel(a.trim(), this.translatorService)));
+        artists.push(...artist.split(regex).map((a: string) => new ArtistModel(a, this.translatorService)));
 
         return artists.filter((a: ArtistModel): boolean => a.name !== '¨');
     }
