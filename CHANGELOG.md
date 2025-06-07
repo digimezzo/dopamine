@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 -   Slightly improved the look of the mini player
+-   Improved scaling of text on Now Playing screen for smaller screens
 -   Updated the Brazilian Portuguese translation
 -   Updated the Spanish translation
 -   Updated the Vietnamese translation
