@@ -233,79 +233,85 @@ describe('PlaybackInformationComponent', () => {
     });
 
     describe('largeFontClasses', () => {
-        it('should be "ellipsis-two-lines" when position is top and largeFontSize is smaller than 20', () => {
-            // Arrange
-            const component: PlaybackInformationComponent = createComponent();
-            component.position = 'top';
-            component.largeFontSize = 19;
+        describe('position is top', () => {
+            it('should be "ellipsis-two-lines" when largeFontSize is smaller than 20', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'top';
+                component.largeFontSize = 19;
 
-            // Act, Assert
-            expect(component.largeFontClasses).toEqual('ellipsis-two-lines');
+                // Act, Assert
+                expect(component.largeFontClasses).toEqual('ellipsis-two-lines');
+            });
+
+            it('should be "ellipsis-two-lines thinner" when largeFontSize is larger than 20', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'top';
+                component.largeFontSize = 21;
+
+                // Act, Assert
+                expect(component.largeFontClasses).toEqual('ellipsis-two-lines thinner');
+            });
         });
 
-        it('should be "ellipsis" when position is center and largeFontSize is smaller than 20', () => {
-            // Arrange
-            const component: PlaybackInformationComponent = createComponent();
-            component.position = 'center';
-            component.largeFontSize = 19;
+        describe('position is bottom', () => {
+            it('should be "ellipsis-two-lines" when largeFontSize is smaller than 20', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'bottom';
+                component.largeFontSize = 19;
 
-            // Act, Assert
-            expect(component.largeFontClasses).toEqual('ellipsis');
+                // Act, Assert
+                expect(component.largeFontClasses).toEqual('ellipsis-two-lines');
+            });
+
+            it('should be "ellipsis-two-lines thinner" when largeFontSize is larger than 20', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'bottom';
+                component.largeFontSize = 21;
+
+                // Act, Assert
+                expect(component.largeFontClasses).toEqual('ellipsis-two-lines thinner');
+            });
         });
 
-        it('should be "ellipsis-two-lines" when position is bottom and largeFontSize is smaller than 20', () => {
-            // Arrange
-            const component: PlaybackInformationComponent = createComponent();
-            component.position = 'bottom';
-            component.largeFontSize = 19;
+        describe('position is center', () => {
+            it('should be "ellipsis" when largeFontSize is smaller than 20', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'center';
+                component.largeFontSize = 19;
 
-            // Act, Assert
-            expect(component.largeFontClasses).toEqual('ellipsis-two-lines');
+                // Act, Assert
+                expect(component.largeFontClasses).toEqual('ellipsis');
+            });
+
+            it('should be "ellipsis thinner" when largeFontSize is larger than 20', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'center';
+                component.largeFontSize = 21;
+
+                // Act, Assert
+                expect(component.largeFontClasses).toEqual('ellipsis thinner');
+            });
         });
 
-        it('should be "ellipsis" when position is empty and largeFontSize is smaller than 20', () => {
-            // Arrange
-            const component: PlaybackInformationComponent = createComponent();
-            component.position = '';
-            component.largeFontSize = 19;
+        describe('position is empty', () => {
+            it('should be "ellipsis" when largeFontSize is smaller than 20', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = '';
+                component.largeFontSize = 19;
 
-            // Act, Assert
-            expect(component.largeFontClasses).toEqual('ellipsis');
+                // Act, Assert
+                expect(component.largeFontClasses).toEqual('ellipsis');
+            });
         });
 
-        // YO
-
-        it('should be "ellipsis-two-lines thinner" when position is top and largeFontSize is larger than 20', () => {
-            // Arrange
-            const component: PlaybackInformationComponent = createComponent();
-            component.position = 'top';
-            component.largeFontSize = 21;
-
-            // Act, Assert
-            expect(component.largeFontClasses).toEqual('ellipsis-two-lines thinner');
-        });
-
-        it('should be "ellipsis thinner" when position is center and largeFontSize is larger than 20', () => {
-            // Arrange
-            const component: PlaybackInformationComponent = createComponent();
-            component.position = 'center';
-            component.largeFontSize = 21;
-
-            // Act, Assert
-            expect(component.largeFontClasses).toEqual('ellipsis thinner');
-        });
-
-        it('should be "ellipsis-two-lines thinner" when position is bottom and largeFontSize is larger than 20', () => {
-            // Arrange
-            const component: PlaybackInformationComponent = createComponent();
-            component.position = 'bottom';
-            component.largeFontSize = 21;
-
-            // Act, Assert
-            expect(component.largeFontClasses).toEqual('ellipsis-two-lines thinner');
-        });
-
-        it('should be "ellipsis thinner" when position is empty and largeFontSize is larger than 20', () => {
+        it('should be "ellipsis thinner" when largeFontSize is larger than 20', () => {
             // Arrange
             const component: PlaybackInformationComponent = createComponent();
             component.position = '';
@@ -317,22 +323,186 @@ describe('PlaybackInformationComponent', () => {
     });
 
     describe('smallFontClasses', () => {
-        it('should be "" when smallFontSize is smaller than 20', () => {
-            // Arrange
-            const component: PlaybackInformationComponent = createComponent();
-            component.smallFontSize = 19;
+        describe('position is top', () => {
+            it('should be "ellipsis-two-lines secondary-text" when smallFontSize is smaller than 20 and highContrast is false', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'top';
+                component.smallFontSize = 19;
+                component.highContrast = false;
 
-            // Act, Assert
-            expect(component.smallFontClasses).toEqual('');
+                // Act, Assert
+                expect(component.smallFontClasses).toEqual('ellipsis-two-lines secondary-text');
+            });
+
+            it('should be "ellipsis-two-lines" when smallFontSize is smaller than 20 and highContrast is true', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'top';
+                component.smallFontSize = 19;
+                component.highContrast = true;
+
+                // Act, Assert
+                expect(component.smallFontClasses).toEqual('ellipsis-two-lines');
+            });
+
+            it('should be "ellipsis-two-lines secondary-text thinner" when smallFontSize is larger than 20 and highContrast is false', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'top';
+                component.smallFontSize = 21;
+                component.highContrast = false;
+
+                // Act, Assert
+                expect(component.smallFontClasses).toEqual('ellipsis-two-lines secondary-text thinner');
+            });
+
+            it('should be "ellipsis-two-lines thinner" when smallFontSize is larger than 20 and highContrast is true', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'top';
+                component.smallFontSize = 21;
+                component.highContrast = true;
+
+                // Act, Assert
+                expect(component.smallFontClasses).toEqual('ellipsis-two-lines  thinner');
+            });
+        });
+        describe('position is bottom', () => {
+            it('should be "ellipsis-two-lines secondary-text" when smallFontSize is smaller than 20 and highContrast is false', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'bottom';
+                component.smallFontSize = 19;
+                component.highContrast = false;
+
+                // Act, Assert
+                expect(component.smallFontClasses).toEqual('ellipsis-two-lines secondary-text');
+            });
+
+            it('should be "ellipsis-two-lines" when smallFontSize is smaller than 20 and highContrast is true', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'bottom';
+                component.smallFontSize = 19;
+                component.highContrast = true;
+
+                // Act, Assert
+                expect(component.smallFontClasses).toEqual('ellipsis-two-lines');
+            });
+
+            it('should be "ellipsis-two-lines secondary-text thinner" when smallFontSize is larger than 20 and highContrast is false', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'bottom';
+                component.smallFontSize = 21;
+                component.highContrast = false;
+
+                // Act, Assert
+                expect(component.smallFontClasses).toEqual('ellipsis-two-lines secondary-text thinner');
+            });
+
+            it('should be "ellipsis-two-lines thinner" when smallFontSize is larger than 20 and highContrast is true', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'bottom';
+                component.smallFontSize = 21;
+                component.highContrast = true;
+
+                // Act, Assert
+                expect(component.smallFontClasses).toEqual('ellipsis-two-lines  thinner');
+            });
         });
 
-        it('should be "thinner" when smallFontSize is larger than 20', () => {
-            // Arrange
-            const component: PlaybackInformationComponent = createComponent();
-            component.smallFontSize = 21;
+        describe('position is center', () => {
+            it('should be "ellipsis-two-lines secondary-text" when smallFontSize is smaller than 20 and highContrast is false', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'center';
+                component.smallFontSize = 19;
+                component.highContrast = false;
 
-            // Act, Assert
-            expect(component.smallFontClasses).toEqual('thinner');
+                // Act, Assert
+                expect(component.smallFontClasses).toEqual('ellipsis secondary-text');
+            });
+
+            it('should be "ellipsis-two-lines" when smallFontSize is smaller than 20 and highContrast is true', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'center';
+                component.smallFontSize = 19;
+                component.highContrast = true;
+
+                // Act, Assert
+                expect(component.smallFontClasses).toEqual('ellipsis');
+            });
+
+            it('should be "ellipsis-two-lines secondary-text thinner" when smallFontSize is larger than 20 and highContrast is false', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'center';
+                component.smallFontSize = 21;
+                component.highContrast = false;
+
+                // Act, Assert
+                expect(component.smallFontClasses).toEqual('ellipsis secondary-text thinner');
+            });
+
+            it('should be "ellipsis-two-lines thinner" when smallFontSize is larger than 20 and highContrast is true', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = 'center';
+                component.smallFontSize = 21;
+                component.highContrast = true;
+
+                // Act, Assert
+                expect(component.smallFontClasses).toEqual('ellipsis  thinner');
+            });
+        });
+        describe('position is empty', () => {
+            it('should be "ellipsis-two-lines secondary-text" when smallFontSize is smaller than 20 and highContrast is false', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = '';
+                component.smallFontSize = 19;
+                component.highContrast = false;
+
+                // Act, Assert
+                expect(component.smallFontClasses).toEqual('ellipsis secondary-text');
+            });
+
+            it('should be "ellipsis-two-lines" when smallFontSize is smaller than 20 and highContrast is true', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = '';
+                component.smallFontSize = 19;
+                component.highContrast = true;
+
+                // Act, Assert
+                expect(component.smallFontClasses).toEqual('ellipsis');
+            });
+
+            it('should be "ellipsis-two-lines secondary-text thinner" when smallFontSize is larger than 20 and highContrast is false', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = '';
+                component.smallFontSize = 21;
+                component.highContrast = false;
+
+                // Act, Assert
+                expect(component.smallFontClasses).toEqual('ellipsis secondary-text thinner');
+            });
+
+            it('should be "ellipsis-two-lines thinner" when smallFontSize is larger than 20 and highContrast is true', () => {
+                // Arrange
+                const component: PlaybackInformationComponent = createComponent();
+                component.position = '';
+                component.smallFontSize = 21;
+                component.highContrast = true;
+
+                // Act, Assert
+                expect(component.smallFontClasses).toEqual('ellipsis  thinner');
+            });
         });
     });
 

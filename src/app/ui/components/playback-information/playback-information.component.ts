@@ -124,7 +124,20 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     }
 
     public get smallFontClasses(): string {
-        return this.getSmallFontWeightClass();
+        switch (this.position) {
+            case 'top': {
+                return `ellipsis-two-lines ${this.getSmallFontColorClass()} ${this.getSmallFontWeightClass()}`.trim();
+            }
+            case 'center': {
+                return `ellipsis ${this.getSmallFontColorClass()} ${this.getSmallFontWeightClass()}`.trim();
+            }
+            case 'bottom': {
+                return `ellipsis-two-lines ${this.getSmallFontColorClass()} ${this.getSmallFontWeightClass()}`.trim();
+            }
+            default: {
+                return `ellipsis ${this.getSmallFontColorClass()} ${this.getSmallFontWeightClass()}`.trim();
+            }
+        }
     }
 
     private getLargeFontWeightClass(): string {
@@ -141,6 +154,14 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         }
 
         return '';
+    }
+
+    public getSmallFontColorClass(): string {
+        if (this.highContrast) {
+            return '';
+        } else {
+            return 'secondary-text';
+        }
     }
 
     public async ngOnInit(): Promise<void> {
