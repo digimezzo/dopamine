@@ -5,17 +5,13 @@
             <div *ngIf="this.tracks.numberOfTracks === 1">{{ 'track' | translate }}</div>
             <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
         </div>
-        <div class="pointer" (click)="toggleTrackOrder()">
-            <div class="secondary-text" *ngIf="this.selectedTrackOrder === trackOrderEnum.byTrackTitleAscending">
-                {{ 'by-track-title-ascending' | translate }}
-            </div>
-            <div class="secondary-text" *ngIf="this.selectedTrackOrder === trackOrderEnum.byTrackTitleDescending">
-                {{ 'by-track-title-descending' | translate }}
-            </div>
-            <div class="secondary-text" *ngIf="this.selectedTrackOrder === trackOrderEnum.byAlbum">
-                {{ 'by-album' | translate }}
-            </div>
-        </div>
+        <app-iterable-menu
+            [tooltipKey]="'choose-order'"
+            [currentItem]="selectedTrackOrder"
+            [items]="trackOrders"
+            [itemKeyFn]="trackOrderKey"
+            [applyItemFn]="applyTrackOrder">
+        </app-iterable-menu>
     </div>
     <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="46">
         <div *cdkVirtualFor="let track of this.orderedTracks" (mousedown)="setSelectedTracks($event, track)">

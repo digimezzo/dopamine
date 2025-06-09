@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
-import { AlbumOrder } from '../album-order';
+import { AlbumOrder, albumOrderKey } from '../album-order';
 import { BaseAlbumsPersister } from '../base-albums-persister';
 import { AlbumBrowserComponent } from './album-browser.component';
 import { AlbumRowsGetter } from './album-rows-getter';
@@ -9,7 +9,6 @@ import { ApplicationServiceBase } from '../../../../services/application/applica
 import { NativeElementProxy } from '../../../../common/native-element-proxy';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
-import { FileAccess } from '../../../../common/io/file-access';
 import { Logger } from '../../../../common/logger';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { AlbumData } from '../../../../data/entities/album-data';
@@ -76,16 +75,6 @@ describe('AlbumBrowserComponent', () => {
 
             // Assert
             expect(component).toBeDefined();
-        });
-
-        it('should define albumOrderEnum', () => {
-            // Arrange
-
-            // Act
-            const component: AlbumBrowserComponent = createComponent();
-
-            // Assert
-            expect(component.albumOrderEnum).toBeDefined();
         });
 
         it('should define albumRows as empty', () => {
@@ -167,6 +156,36 @@ describe('AlbumBrowserComponent', () => {
 
             // Assert
             expect(component.addToPlaylistMenu).toBeDefined();
+        });
+
+        it('should define albumOrderKey', () => {
+            // Arrange
+
+            // Act
+            const component: AlbumBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.albumOrderKey).toEqual(albumOrderKey);
+        });
+
+        it('should define albumOrders', () => {
+            // Arrange
+
+            // Act
+            const component: AlbumBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.albumOrders).toEqual([
+                AlbumOrder.byAlbumTitleAscending,
+                AlbumOrder.byAlbumTitleDescending,
+                AlbumOrder.byDateAdded,
+                AlbumOrder.byDateCreated,
+                AlbumOrder.byAlbumArtist,
+                AlbumOrder.byYearAscending,
+                AlbumOrder.byYearDescending,
+                AlbumOrder.byLastPlayed,
+                AlbumOrder.random,
+            ]);
         });
     });
 
@@ -469,124 +488,7 @@ describe('AlbumBrowserComponent', () => {
         });
     });
 
-    describe('toggleAlbumOrder', () => {
-        it('should change AlbumOrder from byAlbumTitleAscending to byAlbumTitleDescending', () => {
-            // Arrange
-            const component: AlbumBrowserComponent = createComponent();
-            component.albumsPersister = albumsPersisterMock.object;
-            component.selectedAlbumOrder = AlbumOrder.byAlbumTitleAscending;
-
-            // Act
-            component.toggleAlbumOrder();
-
-            // Assert
-            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byAlbumTitleDescending);
-        });
-
-        it('should change AlbumOrder from byAlbumTitleDescending to byDateAdded', () => {
-            // Arrange
-            const component: AlbumBrowserComponent = createComponent();
-            component.albumsPersister = albumsPersisterMock.object;
-            component.selectedAlbumOrder = AlbumOrder.byAlbumTitleDescending;
-
-            // Act
-            component.toggleAlbumOrder();
-
-            // Assert
-            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byDateAdded);
-        });
-
-        it('should change AlbumOrder from byDateAdded to byDateCreated', () => {
-            // Arrange
-            const component: AlbumBrowserComponent = createComponent();
-            component.albumsPersister = albumsPersisterMock.object;
-            component.selectedAlbumOrder = AlbumOrder.byDateAdded;
-
-            // Act
-            component.toggleAlbumOrder();
-
-            // Assert
-            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byDateCreated);
-        });
-
-        it('should change AlbumOrder from byDateCreated to byAlbumArtist', () => {
-            // Arrange
-            const component: AlbumBrowserComponent = createComponent();
-            component.albumsPersister = albumsPersisterMock.object;
-            component.selectedAlbumOrder = AlbumOrder.byDateCreated;
-
-            // Act
-            component.toggleAlbumOrder();
-
-            // Assert
-            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byAlbumArtist);
-        });
-
-        it('should change AlbumOrder from byAlbumArtist to byYearAscending', () => {
-            // Arrange
-            const component: AlbumBrowserComponent = createComponent();
-            component.albumsPersister = albumsPersisterMock.object;
-            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
-
-            // Act
-            component.toggleAlbumOrder();
-
-            // Assert
-            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
-        });
-
-        it('should change AlbumOrder from byYearAscending to byYearDescending', () => {
-            // Arrange
-            const component: AlbumBrowserComponent = createComponent();
-            component.albumsPersister = albumsPersisterMock.object;
-            component.selectedAlbumOrder = AlbumOrder.byYearAscending;
-
-            // Act
-            component.toggleAlbumOrder();
-
-            // Assert
-            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byYearDescending);
-        });
-
-        it('should change AlbumOrder from byYearDescending to byLastPlayed', () => {
-            // Arrange
-            const component: AlbumBrowserComponent = createComponent();
-            component.albumsPersister = albumsPersisterMock.object;
-            component.selectedAlbumOrder = AlbumOrder.byYearDescending;
-
-            // Act
-            component.toggleAlbumOrder();
-
-            // Assert
-            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byLastPlayed);
-        });
-
-        it('should change AlbumOrder from byLastPlayed to random', () => {
-            // Arrange
-            const component: AlbumBrowserComponent = createComponent();
-            component.albumsPersister = albumsPersisterMock.object;
-            component.selectedAlbumOrder = AlbumOrder.byLastPlayed;
-
-            // Act
-            component.toggleAlbumOrder();
-
-            // Assert
-            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.random);
-        });
-
-        it('should change AlbumOrder from random to byAlbumTitleAscending', () => {
-            // Arrange
-            const component: AlbumBrowserComponent = createComponent();
-            component.selectedAlbumOrder = AlbumOrder.random;
-            component.albumsPersister = albumsPersisterMock.object;
-
-            // Act
-            component.toggleAlbumOrder();
-
-            // Assert
-            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byAlbumTitleAscending);
-        });
-
+    describe('applyAlbumOrder', () => {
         it('should fill the album rows', () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();
@@ -597,14 +499,14 @@ describe('AlbumBrowserComponent', () => {
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
             const component: AlbumBrowserComponent = createComponent();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
-            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.random;
             component.albumsPersister = albumsPersisterMock.object;
 
             component.albums = albums;
             albumRowsGetterMock.reset();
 
             // Act
-            component.toggleAlbumOrder();
+            component.applyAlbumOrder(AlbumOrder.byYearAscending);
 
             // Assert
             albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byYearAscending), Times.exactly(1));
@@ -623,7 +525,7 @@ describe('AlbumBrowserComponent', () => {
             const component: AlbumBrowserComponent = createComponent();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => [album2]);
-            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.random;
             component.albumsPersister = albumsPersisterMock.object;
 
             component.albums = albums;
@@ -631,7 +533,7 @@ describe('AlbumBrowserComponent', () => {
             albums[1].isSelected = false;
 
             // Act
-            component.toggleAlbumOrder();
+            component.applyAlbumOrder(AlbumOrder.byAlbumArtist);
 
             // Assert
             expect(albums[0].isSelected).toBeFalsy();
@@ -648,17 +550,17 @@ describe('AlbumBrowserComponent', () => {
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
             const component: AlbumBrowserComponent = createComponent();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
-            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.random;
             component.albumsPersister = albumsPersisterMock.object;
 
             component.albums = albums;
             albumRowsGetterMock.reset();
 
             // Act
-            component.toggleAlbumOrder();
+            component.applyAlbumOrder(AlbumOrder.byAlbumArtist);
 
             // Assert
-            albumsPersisterMock.verify((x) => x.setSelectedAlbumOrder(AlbumOrder.byYearAscending), Times.exactly(1));
+            albumsPersisterMock.verify((x) => x.setSelectedAlbumOrder(AlbumOrder.byAlbumArtist), Times.exactly(1));
         });
     });
 

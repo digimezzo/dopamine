@@ -5,36 +5,13 @@
             <div *ngIf="this.albums.length === 1">{{ 'album' | translate }}</div>
             <div *ngIf="this.albums.length !== 1">{{ 'albums' | translate }}</div>
         </div>
-
-        <div class="pointer" (click)="toggleAlbumOrder()">
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumTitleAscending">
-                {{ 'by-album-title-ascending' | translate }}
-            </div>
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumTitleDescending">
-                {{ 'by-album-title-descending' | translate }}
-            </div>
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byDateAdded">
-                {{ 'by-date-added' | translate }}
-            </div>
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byDateCreated">
-                {{ 'by-date-created' | translate }}
-            </div>
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumArtist">
-                {{ 'by-album-artist' | translate }}
-            </div>
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byYearAscending">
-                {{ 'by-year-ascending' | translate }}
-            </div>
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byYearDescending">
-                {{ 'by-year-descending' | translate }}
-            </div>
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byLastPlayed">
-                {{ 'by-last-played' | translate }}
-            </div>
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.random">
-                {{ 'random' | translate }}
-            </div>
-        </div>
+        <app-iterable-menu
+            [tooltipKey]="'choose-order'"
+            [currentItem]="selectedAlbumOrder"
+            [items]="albumOrders"
+            [itemKeyFn]="albumOrderKey"
+            [applyItemFn]="applyAlbumOrder">
+        </app-iterable-menu>
     </div>
     <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="170">
         <div *cdkVirtualFor="let albumRow of this.albumRows">

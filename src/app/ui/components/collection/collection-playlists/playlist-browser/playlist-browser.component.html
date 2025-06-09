@@ -14,14 +14,13 @@
                 (click)="createPlaylistAsync()"
             ></app-icon-button>
 
-            <div class="pointer" (click)="this.togglePlaylistOrder()">
-                <div class="secondary-text" *ngIf="this.selectedPlaylistOrder === playlistOrderEnum.byPlaylistNameAscending">
-                    {{ 'by-playlist-name-ascending' | translate }}
-                </div>
-                <div class="secondary-text" *ngIf="this.selectedPlaylistOrder === playlistOrderEnum.byPlaylistNameDescending">
-                    {{ 'by-playlist-name-descending' | translate }}
-                </div>
-            </div>
+            <app-iterable-menu
+                [tooltipKey]="'choose-order'"
+                [currentItem]="selectedPlaylistOrder"
+                [items]="playlistOrders"
+                [itemKeyFn]="playlistOrderKey"
+                [applyItemFn]="applyPlaylistOrder">
+            </app-iterable-menu>
         </div>
     </div>
     <div class="d-flex flex-grow align-items-center justify-content-center" *ngIf="!this.hasPlaylists">
