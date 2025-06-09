@@ -3,11 +3,13 @@
         <div class="d-flex flex-row align-items-center">
             <div class="mr-2 accent-color">{{ this.artists.length }}</div>
             <app-iterable-menu
+                [highContrast]="true"
                 [tooltipKey]="'choose-type'"
                 [currentItem]="selectedArtistType"
                 [items]="artistTypes"
                 [itemKeyFn]="artistTypeKey"
-                [applyItemFn]="applyArtistType">
+                [applyItemFn]="applyArtistType"
+            >
             </app-iterable-menu>
         </div>
         <app-iterable-menu
@@ -15,7 +17,8 @@
             [currentItem]="selectedArtistOrder"
             [items]="artistOrders"
             [itemKeyFn]="artistOrderKey"
-            [applyItemFn]="applyArtistOrder">
+            [applyItemFn]="applyArtistOrder"
+        >
         </app-iterable-menu>
     </div>
     <app-semantic-zoom *ngIf="this.shouldZoomOut" class="mt-3" [SemanticZoomables]="this.orderedArtists"></app-semantic-zoom>

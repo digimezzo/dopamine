@@ -1,0 +1,11 @@
+.iterable-menu-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content !important;
+    height: 100%;
+    user-select: none;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+    padding: 5px;
+}
