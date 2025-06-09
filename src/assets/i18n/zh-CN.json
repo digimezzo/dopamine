@@ -269,7 +269,7 @@
     "grouping": "分组",
     "albums-defined-by-folders-on-computer": "识别专辑按所在本机的文件夹判定",
     "albums-defined-by-tag-album-title": "识别专辑按'专辑'内嵌标识判定",
-    "albums-defined-by-tags-album-title-and-album-artist": "识别专辑按'专辑'和'专辑艺术家'内嵌标识判定",
+    "albums-defined-by-tags-album-title-and-album-artist": "Albums are defined by the 'Album' and 'Album Artist' tags (or 'Artist' if 'Album Artist' is not set)",
     "changing-will-trigger-album-cover-refresh": "更改此项会刷新专辑封面",
     "select-playlist-folder": "请选择一个播放列表文件夹",
     "follow-album-cover-color": "跟随专辑封面色",

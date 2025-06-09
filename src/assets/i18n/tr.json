@@ -269,7 +269,7 @@
     "grouping": "Gruplandırma",
     "albums-defined-by-folders-on-computer": "Albümler bilgisayarınızdaki klasörlerine göre tanımlanır",
     "albums-defined-by-tag-album-title": "Albümler 'Albüm' etiketi ile tanımlanır",
-    "albums-defined-by-tags-album-title-and-album-artist": "Albümler 'Albüm' ve 'Albüm Sanatçısı' etiketleri ile tanımlanır",
+    "albums-defined-by-tags-album-title-and-album-artist": "Albums are defined by the 'Album' and 'Album Artist' tags (or 'Artist' if 'Album Artist' is not set)",
     "changing-will-trigger-album-cover-refresh": "Bu seçeneğin değiştirilmesi albüm kapaklarınızın yenilenmesini tetikleyecektir",
     "select-playlist-folder": "Lütfen bir Çalma listesi klasörü seçin",
     "follow-album-cover-color": "Albüm kapak rengini takip edin",
