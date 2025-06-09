@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0-preview.39] - 2025-06-07
+## [3.0.0-preview.39] - 2025-06-09
 
 ### Added
 
@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Slightly improved the look of the mini player
 -   Improved scaling of text on Now Playing screen for smaller screens
+-   Order selections are now menus instead of toggle buttons
 -   Updated the Brazilian Portuguese translation
 -   Updated the Spanish translation
 -   Updated the Vietnamese translation
