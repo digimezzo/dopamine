@@ -1,5 +1,6 @@
-import { Component, HostListener, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, ViewEncapsulation } from '@angular/core';
 import { SearchServiceBase } from '../../../services/search/search.service.base';
+import { DocumentProxy } from '../../../common/io/document-proxy';
 
 @Component({
     selector: 'app-search-box',
@@ -9,31 +10,52 @@ import { SearchServiceBase } from '../../../services/search/search.service.base'
     encapsulation: ViewEncapsulation.None,
 })
 export class SearchBoxComponent {
-    public constructor(public searchService: SearchServiceBase) {}
+    @ViewChild('appSearchBox') public appSearchBoxRef?: ElementRef<HTMLInputElement>;
 
-    private readonly _searchBoxId = 'app-search-box';
+    public constructor(
+        public searchService: SearchServiceBase,
+        private documentProxy: DocumentProxy,
+    ) {}
 
     @HostListener('document:keydown', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
-        if (event.target instanceof HTMLInputElement && event.target.id === this._searchBoxId) {
-            if (event.key === 'Escape') {
-                this.clearSearchText();
-                event.preventDefault();
-                event.target.blur();
-            }
+        const input = this.appSearchBoxRef?.nativeElement;
+        if (!input) {
             return;
         }
 
-        if ((event.ctrlKey || event.metaKey) && !event.shiftKey && event.code === 'KeyF') {
-            const appSearchBox = document.getElementById(this._searchBoxId);
-            if (appSearchBox) {
-                event.preventDefault();
-                (<HTMLInputElement>appSearchBox).focus();
-            }
+        if (this.isSearchBoxFocused(input)) {
+            this.handleSearchBoxKeys(event, input);
+            return;
+        }
+
+        if (this.isSearchShortcut(event)) {
+            this.focusSearchBox(event, input);
         }
     }
 
     public clearSearchText(): void {
         this.searchService.searchText = '';
+    }
+
+    private isSearchBoxFocused(input: HTMLInputElement): boolean {
+        return input === this.documentProxy.getActiveElement();
+    }
+
+    private handleSearchBoxKeys(event: KeyboardEvent, input: HTMLInputElement): void {
+        if (event.key === 'Escape') {
+            this.clearSearchText();
+            event.preventDefault();
+            input.blur();
+        }
+    }
+
+    private isSearchShortcut(event: KeyboardEvent): boolean {
+        return (event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey && event.code === 'KeyF';
+    }
+
+    private focusSearchBox(event: KeyboardEvent, input: HTMLInputElement): void {
+        event.preventDefault();
+        input.focus();
     }
 }
