@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Fixed an issue where progress was not reset to 0 when playback has finished
 -   Fixed an issue where a track that is longer than 4 minutes was scrobbled to Last.fm immediately after it started playing
 -   Fixed some sizing issues on the "Folders" screen
+-   Fixed search problems
 
 ## [3.0.0-preview.38] - 2025-05-29
 
