@@ -209,12 +209,13 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
         let previousDiscNumber: number = -1;
 
         for (const track of orderedTracks) {
-            if (track.albumKey !== previousAlbumKey || track.discNumber !== previousDiscNumber) {
-                track.showHeader = true;
-            }
+            const albumKey = track.albumKey;
+            const discNumber = track.discNumber;
 
-            previousAlbumKey = track.albumKey;
-            previousDiscNumber = track.discNumber;
+            track.showHeader = albumKey !== previousAlbumKey || discNumber !== previousDiscNumber;
+
+            previousAlbumKey = albumKey;
+            previousDiscNumber = discNumber;
         }
     }
 }

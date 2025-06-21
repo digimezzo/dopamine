@@ -488,6 +488,43 @@ describe('TrackBrowserComponent', () => {
             expect(component.orderedTracks[3].showHeader).toBeFalsy();
         });
 
+        it('should apply track order by album and override showHeader', () => {
+            // Arrange
+            const component: TrackBrowserComponent = createComponent();
+            component.tracksPersister = tracksPersisterMock.object;
+            component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
+            component.tracks = tracks;
+            track1.albumKey = 'albumKey1';
+            track1.discNumber = 1;
+            trackModel1.showHeader = false;
+            track2.albumKey = 'albumKey1';
+            track2.discNumber = 1;
+            trackModel2.showHeader = true;
+
+            track3.albumKey = 'albumKey2';
+            track3.discNumber = 1;
+            trackModel3.showHeader = false;
+            track4.albumKey = 'albumKey2';
+            track4.discNumber = 2;
+            trackModel4.showHeader = false;
+
+            const trackOrder = TrackOrder.byAlbum;
+
+            // Act
+            component.applyTrackOrder(trackOrder);
+
+            // Assert
+            expect(component.selectedTrackOrder).toEqual(trackOrder);
+            expect(component.orderedTracks[0]).toBe(trackModel1);
+            expect(component.orderedTracks[0].showHeader).toBeTruthy();
+            expect(component.orderedTracks[1]).toBe(trackModel2);
+            expect(component.orderedTracks[1].showHeader).toBeFalsy();
+            expect(component.orderedTracks[2]).toBe(trackModel3);
+            expect(component.orderedTracks[2].showHeader).toBeTruthy();
+            expect(component.orderedTracks[3]).toBe(trackModel4);
+            expect(component.orderedTracks[3].showHeader).toBeTruthy();
+        });
+
         it('should persist the selected track order', () => {
             // Arrange
             const component: TrackBrowserComponent = createComponent();
