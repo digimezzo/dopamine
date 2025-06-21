@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Order selections are now menus instead of toggle buttons
 -   Updated the Brazilian Portuguese translation
 -   Updated the Spanish translation
+-   Updated the Turkish translation
 -   Updated the Vietnamese translation
 
 ### Fixed
