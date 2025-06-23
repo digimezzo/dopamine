@@ -5,6 +5,7 @@ export class Constants {
     public static readonly logFileName: string = 'Dopamine.log';
 
     public static readonly languages: Language[] = [
+        new Language('ar', 'Arabic', 'العربية', true),
         new Language('bg', 'Bulgarian', 'български', true),
         new Language('cs', 'Czech', 'Čeština', false),
         new Language('de', 'German', 'Deutsch', false),
