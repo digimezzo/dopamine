@@ -2,18 +2,24 @@ class DataDelimiter {
     static delimiter = ';';
 
     static toDelimitedString(stringArray) {
-        if (stringArray === undefined) {
+        if (!Array.isArray(stringArray) || stringArray.length === 0) {
             return '';
         }
 
-        if (stringArray.length === 0) {
-            return '';
+        const result = [];
+
+        for (const item of stringArray) {
+            const parts = item
+                .split(';') // Split by semicolon
+                .map((x) => x.trim()) // Trim whitespace
+                .filter((x) => x !== ''); // Remove empty strings
+
+            for (const part of parts) {
+                result.push(this.addDelimiters(part));
+            }
         }
 
-        return stringArray
-            .filter((x) => x !== '')
-            .map((x) => this.addDelimiters(x.trim()))
-            .join('');
+        return result.join('');
     }
 
     static fromDelimitedString(delimitedString) {

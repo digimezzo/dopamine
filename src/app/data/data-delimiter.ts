@@ -6,20 +6,24 @@ export class DataDelimiter {
     private static doubleDelimiter: string = `${DataDelimiter.delimiter}${DataDelimiter.delimiter}`;
 
     public static toDelimitedString(stringArray: string[] | undefined): string {
-        if (stringArray == undefined) {
+        if (!Array.isArray(stringArray) || stringArray.length === 0) {
             return '';
         }
 
-        if (stringArray.length === 0) {
-            return '';
+        const result: string[] = [];
+
+        for (const item of stringArray) {
+            const parts = item
+                .split(';') // Split by semicolon
+                .map((x) => x.trim()) // Trim whitespace
+                .filter((x) => x !== ''); // Remove empty strings
+
+            for (const part of parts) {
+                result.push(this.addDelimiters(part));
+            }
         }
 
-        const delimitedString: string = stringArray
-            .filter((x) => x !== '')
-            .map((x) => this.addDelimiters(x.trim()))
-            .join('');
-
-        return delimitedString;
+        return result.join('');
     }
 
     public static fromDelimitedString(delimitedString: string | undefined): string[] {
