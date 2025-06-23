@@ -67,27 +67,20 @@ export class ArtistService implements ArtistServiceBase {
 
         const sourceArtistsSurroundedBySpaces = this.sourceArtists.map((artist) => ` ${artist} `);
         for (const sourceArtist of sourceArtistsSurroundedBySpaces) {
-            const sourceArtistLower = sourceArtist.toLowerCase();
-            const matches =
-                separators.length === 0
-                    ? [...lowerCaseArtistNames].some((name) => sourceArtistLower === ` ${name} `)
-                    : [...lowerCaseArtistNames].some((name) =>
-                          separators.some(
-                              (separator) =>
-                                  sourceArtistLower === ` ${name} ` ||
-                                  sourceArtistLower.includes(` ${separator} ${name} `) ||
-                                  sourceArtistLower.includes(` ${name} ${separator} `),
-                          ),
-                      );
-            if (matches) {
-                filteredSourceArtists.push(this.trimOneSpace(sourceArtist));
+            if (
+                [...lowerCaseArtistNames].some((name) =>
+                    separators.some(
+                        (separator) =>
+                            sourceArtist.toLowerCase() === ` ${name} ` ||
+                            sourceArtist.toLowerCase().includes(` ${separator} ${name} `) ||
+                            sourceArtist.toLowerCase().includes(` ${name} ${separator} `),
+                    ),
+                )
+            ) {
+                filteredSourceArtists.push(sourceArtist.trim());
             }
         }
 
         return filteredSourceArtists;
-    }
-
-    private trimOneSpace(str: string): string {
-        return str.replace(/^ /, '').replace(/ $/, '');
     }
 }
