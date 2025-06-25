@@ -10,7 +10,8 @@
             [currentItem]="selectedAlbumOrder"
             [items]="albumOrders"
             [itemKeyFn]="albumOrderKey"
-            [applyItemFn]="applyAlbumOrder">
+            [applyItemFn]="applyAlbumOrder"
+        >
         </app-iterable-menu>
     </div>
     <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="170">
@@ -43,7 +44,6 @@
         <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
             <span>{{ 'add-to-playlist' | translate }}</span>
         </button>
-        <mat-divider></mat-divider>
         <button mat-menu-item (click)="onAddToQueueAsync(album)">
             <span>{{ 'add-to-playback-queue' | translate }}</span>
         </button>
