@@ -9,6 +9,7 @@
     align-items: center;
     justify-content: center;
     padding: 2px;
+    border-radius: 6px;
 }
 
 .app-playlist-border:hover {
@@ -27,6 +28,7 @@
     background: var(--theme-album-cover-background);
     display: grid;
     grid-template-columns: 1fr;
+    border-radius: 6px;
 }
 
 .app-playlist__cover div {
@@ -60,4 +62,8 @@
     font-size: 12px;
     padding-top: 2px;
     text-align: var(--theme-album-info-text-align);
+}
+
+.app-playlist__image {
+    border-radius: 6px;
 }
