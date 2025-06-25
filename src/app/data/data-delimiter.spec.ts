@@ -78,6 +78,17 @@ describe('DataDelimiter', () => {
             // Assert
             expect(delimitedString).toEqual(';String 1;;String 2;');
         });
+
+        it('should split entries containing the semicolon separator', () => {
+            // Arrange
+            const stringArray: string[] = ['String 1', 'String 2', 'String 3; String 4'];
+
+            // Act
+            const delimitedString: string = DataDelimiter.toDelimitedString(stringArray);
+
+            // Assert
+            expect(delimitedString).toEqual(';String 1;;String 2;;String 3;;String 4;');
+        });
     });
 
     describe('fromDelimitedString', () => {
