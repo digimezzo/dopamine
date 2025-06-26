@@ -6,6 +6,7 @@
             <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
         </div>
         <app-iterable-menu
+            *ngIf="this.showOrdering"
             [tooltipKey]="'choose-order'"
             [currentItem]="selectedTrackOrder"
             [items]="trackOrders"

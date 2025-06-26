@@ -80,6 +80,7 @@
                     class="fill"
                     [tracks]="this.tracks | tracksFilter: this.searchService.delayedSearchText"
                     [(tracksPersister)]="this.tracksPersister"
+                    [showOrdering]="false"
                 ></app-track-browser>
             </div>
         </as-split-area>
