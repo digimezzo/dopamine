@@ -9,6 +9,7 @@
     align-items: center;
     justify-content: center;
     padding: 2px;
+    border-radius: 6px;
 }
 
 .app-album-border:hover {
@@ -43,6 +44,7 @@
     background: var(--theme-album-cover-background);
     display: grid;
     grid-template-columns: 1fr;
+    border-radius: 6px;
 }
 
 .app-album__cover div {
@@ -89,4 +91,8 @@
     padding-left: 4px;
     padding-right: 4px;
     text-align: var(--theme-album-info-text-align);
+}
+
+.app-album__image {
+    border-radius: 6px;
 }

@@ -16,7 +16,14 @@
                     </svg>
                 </div>
                 <div>
-                    <img [attr.src]="album.artworkPath" width="120" height="120" loading="lazy" draggable="false" />
+                    <img
+                        class="app-album__image"
+                        [attr.src]="album.artworkPath"
+                        width="120"
+                        height="120"
+                        loading="lazy"
+                        draggable="false"
+                    />
                 </div>
             </div>
             <div class="app-album__information">

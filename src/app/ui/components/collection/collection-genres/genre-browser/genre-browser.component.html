@@ -10,7 +10,8 @@
             [currentItem]="selectedGenreOrder"
             [items]="genreOrders"
             [itemKeyFn]="genreOrderKey"
-            [applyItemFn]="applyGenreOrder">
+            [applyItemFn]="applyGenreOrder"
+        >
         </app-iterable-menu>
     </div>
     <app-semantic-zoom *ngIf="this.shouldZoomOut" class="mt-3" [SemanticZoomables]="this.orderedGenres"></app-semantic-zoom>
@@ -38,7 +39,6 @@
         <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
             <span>{{ 'add-to-playlist' | translate }}</span>
         </button>
-        <mat-divider></mat-divider>
         <button mat-menu-item (click)="onAddToQueueAsync(genre)">
             <span>{{ 'add-to-playback-queue' | translate }}</span>
         </button>

@@ -60,6 +60,9 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
     @Input()
     public size: number = 0;
 
+    @Input()
+    public borderRadius: number = 0;
+
     public topImageUrl: string = '';
     public bottomImageUrl: string = '';
 
