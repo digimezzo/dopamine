@@ -35,10 +35,12 @@ export class Settings implements SettingsBase {
     private setCachedAlbumKeyIndex(): void {
         if (this.albumsDefinedByFolders) {
             this.cachedAlbumKeyIndex = '3';
+            return;
         }
 
         if (this.albumsDefinedByTitle) {
             this.cachedAlbumKeyIndex = '2';
+            return;
         }
 
         this.cachedAlbumKeyIndex = '';
