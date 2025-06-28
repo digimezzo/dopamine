@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs';
-import { IMock, Mock } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { GenreOrder } from './genre-browser/genre-order';
 import { GenresPersister } from './genres-persister';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
@@ -29,7 +29,7 @@ describe('GenresPersister', () => {
 
         genre1 = new GenreModel('genre 1', translatorServiceMock.object);
         genre2 = new GenreModel('genre 2', translatorServiceMock.object);
-        genre3 = new GenreModel('genre 3', translatorServiceMock.object);
+        genre3 = new GenreModel('', translatorServiceMock.object);
     });
 
     describe('constructor', () => {
@@ -51,8 +51,9 @@ describe('GenresPersister', () => {
             // Act
 
             // Assert
-            expect(persister.getSelectedGenres([genre1, genre2])).toEqual([genre1]);
+            expect(persister.getSelectedGenres([genre1, genre2, genre3])).toEqual([genre1]);
             expect(persister.getSelectedGenreOrder()).toEqual(GenreOrder.byGenreDescending);
+            translatorServiceMock.verify((x) => x.get(It.isAny()), Times.never());
         });
     });
 
@@ -92,6 +93,7 @@ describe('GenresPersister', () => {
 
             // Assert
             expect(selectedGenres).toEqual([]);
+            translatorServiceMock.verify((x) => x.get(It.isAny()), Times.never());
         });
 
         it('should return the selected genres if the selected genres are found in availableGenres', () => {
@@ -105,19 +107,21 @@ describe('GenresPersister', () => {
 
             // Assert
             expect(selectedGenres).toEqual([genre1, genre2]);
+            translatorServiceMock.verify((x) => x.get(It.isAny()), Times.never());
         });
     });
 
     describe('setSelectedGenres', () => {
         it('should clear the selected genres if selectedGenres is undefined', () => {
             // Arrange
-            persister.setSelectedGenres([genre1, genre2]);
+            persister.setSelectedGenres([genre1, genre2, genre3]);
 
             // Act
             persister.setSelectedGenres(undefined);
 
             // Assert
-            expect(persister.getSelectedGenres([genre1, genre2])).toEqual([]);
+            expect(persister.getSelectedGenres([genre1, genre2, genre3])).toEqual([]);
+            translatorServiceMock.verify((x) => x.get(It.isAny()), Times.never());
         });
 
         it('should clear the selected genres if selectedGenres is empty', () => {
@@ -131,6 +135,7 @@ describe('GenresPersister', () => {
             // Assert
             expect(persister.getSelectedGenres([genre1, genre2])).toEqual([]);
             expect(settingsStub.genresTabSelectedGenre).toEqual('');
+            translatorServiceMock.verify((x) => x.get(It.isAny()), Times.never());
         });
 
         it('should set the selected genres if selectedGenres has elements', () => {
@@ -143,6 +148,7 @@ describe('GenresPersister', () => {
             // Assert
             expect(persister.getSelectedGenres([genre3])).toEqual([genre3]);
             expect(settingsStub.genresTabSelectedGenre).toEqual('genre 1');
+            translatorServiceMock.verify((x) => x.get(It.isAny()), Times.never());
         });
 
         it('should notify that the selected genres have changed', () => {
@@ -161,8 +167,9 @@ describe('GenresPersister', () => {
             // Assert
             expect(receivedGenreNames.length).toEqual(2);
             expect(receivedGenreNames[0]).toEqual('genre 1');
-            expect(receivedGenreNames[1]).toEqual('genre 3');
+            expect(receivedGenreNames[1]).toEqual('');
             subscription.unsubscribe();
+            translatorServiceMock.verify((x) => x.get(It.isAny()), Times.never());
         });
     });
 

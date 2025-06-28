@@ -54,6 +54,10 @@ export class AlbumModel implements ISelectable {
     }
 
     public get genres(): string[] {
+        if (StringUtils.isNullOrWhiteSpace(this.albumData.genres)) {
+            return [this.translatorService.get(Constants.unknownGenre)];
+        }
+
         return DataDelimiter.fromDelimitedString(this.albumData.genres);
     }
 
