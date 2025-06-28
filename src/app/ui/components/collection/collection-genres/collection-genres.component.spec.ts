@@ -16,7 +16,6 @@ import { Scheduler } from '../../../../common/scheduling/scheduler';
 import { Logger } from '../../../../common/logger';
 import { DateTime } from '../../../../common/date-time';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
-import { FileAccess } from '../../../../common/io/file-access';
 import { GenreModel } from '../../../../services/genre/genre-model';
 import { AlbumModel } from '../../../../services/album/album-model';
 import { AlbumData } from '../../../../data/entities/album-data';
@@ -42,7 +41,6 @@ describe('CollectionGenresComponent', () => {
 
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
-    let fileAccessMock: IMock<FileAccess>;
 
     let selectedGenresChangedMock: Subject<string[]>;
     let selectedGenresChangedMock$: Observable<string[]>;
@@ -115,7 +113,6 @@ describe('CollectionGenresComponent', () => {
         loggerMock = Mock.ofType<Logger>();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
-        fileAccessMock = Mock.ofType<FileAccess>();
         applicationPathsMock = Mock.ofType<ApplicationPaths>();
 
         selectedGenresChangedMock = new Subject();

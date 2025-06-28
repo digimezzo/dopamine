@@ -5,6 +5,7 @@ import { StringUtils } from '../../common/utils/string-utils';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { ISelectable } from '../../ui/interfaces/i-selectable';
 import { CollectionUtils } from '../../common/utils/collections-utils';
+import { Constants } from '../../common/application/constants';
 
 export class TrackModel implements ISelectable {
     public constructor(
@@ -116,13 +117,13 @@ export class TrackModel implements ISelectable {
         const trackGenres: string[] = DataDelimiter.fromDelimitedString(this.track.genres);
 
         if (trackGenres == undefined || trackGenres.length === 0) {
-            return this.translatorService.get('unknown-genre');
+            return this.translatorService.get(Constants.unknownGenre);
         }
 
         const commaSeparatedGenres: string = CollectionUtils.toCommaSeparatedString(trackGenres);
 
         if (commaSeparatedGenres.length === 0) {
-            return this.translatorService.get('unknown-genre');
+            return this.translatorService.get(Constants.unknownGenre);
         }
 
         return commaSeparatedGenres;
