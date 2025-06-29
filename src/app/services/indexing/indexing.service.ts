@@ -46,14 +46,6 @@ export class IndexingService implements OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    public indexCollectionIfOutdated(): void {
-        this.indexCollection('outdated');
-    }
-
-    public indexCollectionAlways(): void {
-        this.indexCollection('always');
-    }
-
     public initializeSubscriptions(): void {
         this.subscription.add(
             this.folderService.foldersChanged$.subscribe(() => {
@@ -72,6 +64,14 @@ export class IndexingService implements OnDestroy {
         });
     }
 
+    public indexCollectionIfOutdated(): void {
+        this.indexCollection('outdated');
+    }
+
+    public indexCollectionAlways(): void {
+        this.indexCollection('always');
+    }
+
     public async indexCollectionIfOptionsHaveChangedAsync(): Promise<void> {
         if (this.foldersHaveChanged) {
             this.logger.info('Folders have changed. Indexing collection.', 'IndexingService', 'indexCollectionIfOptionsHaveChanged');
@@ -84,6 +84,34 @@ export class IndexingService implements OnDestroy {
             );
             await this.indexAlbumArtworkOnlyAsync(false);
         }
+    }
+
+    public async indexAfterTagChangeAsync(fileMetaDatas: IFileMetadata[]): Promise<void> {
+        const tracks: Track[] | undefined = this.trackRepository.getTracksForPaths(fileMetaDatas.map((f) => f.path));
+
+        if (!tracks) {
+            return;
+        }
+
+        // Update track metadata in the database
+        for (const track of tracks) {
+            const fileMetaData: IFileMetadata | undefined = fileMetaDatas.find((f) => f.path === track.path);
+
+            if (!fileMetaData) {
+                continue;
+            }
+
+            const updatedTrack: Track = await this.trackFiller.addGivenFileMetadataToTrackAsync(track, fileMetaData, false);
+
+            this.trackRepository.updateTrack(updatedTrack);
+        }
+
+        // Trigger album artwork indexing
+        await this.indexAlbumArtworkOnlyAsync(false);
+
+        // Refresh UI
+        this.playbackService.updateQueueTracks(tracks);
+        this.indexingFinished.next();
     }
 
     public async indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover: boolean): Promise<void> {
@@ -99,6 +127,9 @@ export class IndexingService implements OnDestroy {
         this.logger.info('Indexing collection.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
 
         await this.albumArtworkIndexer.indexAlbumArtworkAsync();
+
+        this.isIndexingCollection = false;
+        this.indexingFinished.next();
     }
 
     public onAlbumGroupingChanged(): void {
@@ -162,33 +193,5 @@ export class IndexingService implements OnDestroy {
         this.logger.info('Indexing collection.', 'IndexingService', 'indexCollection');
 
         this.ipcProxy.sendToMainProcess('indexing-worker', this.createWorkerArgs(task));
-    }
-
-    public async indexAfterTagChangeAsync(fileMetaDatas: IFileMetadata[]): Promise<void> {
-        const tracks: Track[] | undefined = this.trackRepository.getTracksForPaths(fileMetaDatas.map((f) => f.path));
-
-        if (!tracks) {
-            return;
-        }
-
-        // Update track metadata in the database
-        for (const track of tracks) {
-            const fileMetaData: IFileMetadata | undefined = fileMetaDatas.find((f) => f.path === track.path);
-
-            if (!fileMetaData) {
-                continue;
-            }
-
-            const updatedTrack: Track = await this.trackFiller.addGivenFileMetadataToTrackAsync(track, fileMetaData, false);
-
-            this.trackRepository.updateTrack(updatedTrack);
-        }
-
-        // Trigger album artwork indexing
-        await this.indexAlbumArtworkOnlyAsync(false);
-
-        // Refresh UI
-        this.playbackService.updateQueueTracks(tracks);
-        this.indexingFinished.next();
     }
 }

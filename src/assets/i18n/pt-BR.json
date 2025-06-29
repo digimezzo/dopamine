@@ -269,7 +269,7 @@
     "grouping": "Agrupamento",
     "albums-defined-by-folders-on-computer": "Os álbuns são definidos pelas pastas em seu computador",
     "albums-defined-by-tag-album-title": "Os álbuns são definidos pela tag \"Álbum\"",
-    "albums-defined-by-tags-album-title-and-album-artist": "Albums are defined by the 'Album' and 'Album Artist' tags (or 'Artist' if 'Album Artist' is not set)",
+    "albums-defined-by-tags-album-title-and-album-artist": "Os álbuns são definidos pelas tags \"Álbum\" e \"Artista do álbum\"",
     "changing-will-trigger-album-cover-refresh": "Ao alterar essa opção, as capas dos álbuns serão atualizadas",
     "select-playlist-folder": "Selecione uma pasta para a lista de reprodução",
     "follow-album-cover-color": "Seguir a cor da capa do álbum",

@@ -78,6 +78,9 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
     }
 
     @Input()
+    public showOrdering: boolean = true;
+
+    @Input()
     public set tracksPersister(v: BaseTracksPersister) {
         this._tracksPersister = v;
         this.selectedTrackOrder = this.tracksPersister.getSelectedTrackOrder();

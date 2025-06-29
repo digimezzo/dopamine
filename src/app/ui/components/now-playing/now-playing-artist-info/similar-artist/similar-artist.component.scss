@@ -7,6 +7,11 @@
     height: 120px;
 }
 
+.similar-artist__picture,
+.similar-artist__picture * {
+    border-radius: 6px;
+}
+
 .similar-artist__picture div {
     grid-row-start: 1;
     grid-column-start: 1;
