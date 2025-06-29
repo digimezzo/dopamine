@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 -   Images now have round corners
+-   Updated the Spanish translation
 
 ### Fixed
 
