@@ -31,7 +31,7 @@ export class GenresPersister {
         }
 
         try {
-            return availableGenres.filter((x) => this.selectedGenreNames.includes(x.displayName));
+            return availableGenres.filter((x) => this.selectedGenreNames.includes(x.name));
         } catch (e: unknown) {
             this.logger.error(e, 'Could not get selected genres', 'GenresPersister', 'getSelectedGenres');
         }
@@ -42,7 +42,7 @@ export class GenresPersister {
     public setSelectedGenres(selectedGenres: GenreModel[] | undefined): void {
         try {
             if (selectedGenres != undefined && selectedGenres.length > 0) {
-                this.selectedGenreNames = selectedGenres.map((x) => x.displayName);
+                this.selectedGenreNames = selectedGenres.map((x) => x.name);
             } else {
                 this.selectedGenreNames = [];
             }

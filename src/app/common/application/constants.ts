@@ -108,6 +108,8 @@ export class Constants {
 
     public static readonly removablePrefixes: string[] = ['the', 'le', 'les', 'a', 'and'];
 
+    public static readonly unknownGenre: string = 'unknown-genre';
+
     public static readonly externalComponents: ExternalComponent[] = [
         new ExternalComponent(
             'Angular',
