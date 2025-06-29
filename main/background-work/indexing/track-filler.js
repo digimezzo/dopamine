@@ -29,7 +29,7 @@ class TrackFiller {
             track.fileSize = this.fileAccess.getFileSizeInBytes(track.path);
             track.albumKey = this.albumKeyGenerator.generateAlbumKey(
                 fileMetadata.album,
-                this.metadataPatcher.joinUnsplittableMetadata(this.#albumKeyArtists(fileMetadata)),
+                this.metadataPatcher.joinUnsplittableMetadata(fileMetadata.albumArtists),
             );
             track.albumKey2 = this.albumKeyGenerator.generateAlbumKey2(fileMetadata.album);
             track.albumKey3 = this.albumKeyGenerator.generateAlbumKey3(this.fileAccess.getDirectoryPath(track.path));
@@ -87,18 +87,6 @@ class TrackFiller {
         }
 
         return 0;
-    }
-
-    #albumKeyArtists(fileMetadata) {
-        if (fileMetadata.albumArtists && fileMetadata.albumArtists.length > 0) {
-            return fileMetadata.albumArtists;
-        }
-
-        if (fileMetadata.artists && fileMetadata.artists.length > 0) {
-            return fileMetadata.artists;
-        }
-
-        return [];
     }
 }
 
