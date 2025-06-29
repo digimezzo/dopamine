@@ -269,7 +269,7 @@
     "grouping": "Группировка",
     "albums-defined-by-folders-on-computer": "Определять альбомы папками на вашем компьютере",
     "albums-defined-by-tag-album-title": "Определять альбомы по тегу «Альбом»",
-    "albums-defined-by-tags-album-title-and-album-artist": "Albums are defined by the 'Album' and 'Album Artist' tags (or 'Artist' if 'Album Artist' is not set)",
+    "albums-defined-by-tags-album-title-and-album-artist": "Определять альбомы по тегу «Альбом» и «Исполнитель альбома»",
     "changing-will-trigger-album-cover-refresh": "Смена этого параметра приведёт к обновлению обложек ваших альбомов",
     "select-playlist-folder": "Пожалуйста, выберите папку с плейлистом",
     "follow-album-cover-color": "Наследовать цвет обложки альбома",

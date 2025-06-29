@@ -6,11 +6,13 @@
             <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
         </div>
         <app-iterable-menu
+            *ngIf="this.showOrdering"
             [tooltipKey]="'choose-order'"
             [currentItem]="selectedTrackOrder"
             [items]="trackOrders"
             [itemKeyFn]="trackOrderKey"
-            [applyItemFn]="applyTrackOrder">
+            [applyItemFn]="applyTrackOrder"
+        >
         </app-iterable-menu>
     </div>
     <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="46">
@@ -43,7 +45,6 @@
         <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
             <span>{{ 'add-to-playlist' | translate }}</span>
         </button>
-        <mat-divider></mat-divider>
         <button mat-menu-item (click)="onAddToQueueAsync()">
             <span>{{ 'add-to-playback-queue' | translate }}</span>
         </button>
@@ -55,7 +56,6 @@
         <button mat-menu-item (click)="onEdit()">
             <span>{{ 'edit' | translate }}</span>
         </button>
-        <mat-divider></mat-divider>
         <button mat-menu-item (click)="onDeleteAsync()">
             <span>{{ 'delete' | translate }}</span>
         </button>

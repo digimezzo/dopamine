@@ -269,7 +269,7 @@
     "grouping": "Gruplandırma",
     "albums-defined-by-folders-on-computer": "Albümler bilgisayarınızdaki klasörlerine göre tanımlanır",
     "albums-defined-by-tag-album-title": "Albümler 'Albüm' etiketi ile tanımlanır",
-    "albums-defined-by-tags-album-title-and-album-artist": "Albümler 'Albüm' ve 'Albüm Sanatçısı' etiketleri (veya 'Albüm Sanatçısı' ayarlanmamışsa 'Sanatçı') ile tanımlanır",
+    "albums-defined-by-tags-album-title-and-album-artist": "Albümler 'Albüm' ve 'Albüm Sanatçısı' etiketleri ile tanımlanır",
     "changing-will-trigger-album-cover-refresh": "Bu seçeneğin değiştirilmesi albüm kapaklarınızın yenilenmesini tetikleyecektir",
     "select-playlist-folder": "Lütfen bir Çalma listesi klasörü seçin",
     "follow-album-cover-color": "Albüm kapak rengini takip edin",
@@ -315,5 +315,7 @@
     "download-image-error": "Görüntü indirilirken bir hata oluştu. Daha fazla bilgiye ihtiyacınız varsa lütfen günlük dosyasını kontrol edin.",
     "Information": "Bilgi",
     "no-image-found-online": "İnternette herhangi bir resim bulunamadı.",
-    "image": "Resim"
+    "image": "Resim",
+    "choose-order": "Choose an order",
+    "choose-type": "Choose a type"
 }

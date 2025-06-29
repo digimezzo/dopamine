@@ -14,6 +14,7 @@ import { DatabaseMigratorBase } from './database-migrator.base';
 import { Migration4 } from './migrations/migration4';
 import { Migration5 } from './migrations/migration5';
 import { Migration6 } from './migrations/migration6';
+import { Migration7 } from './migrations/migration7';
 
 @Injectable()
 export class DatabaseMigrator implements DatabaseMigratorBase {
@@ -24,6 +25,7 @@ export class DatabaseMigrator implements DatabaseMigratorBase {
         new Migration4(),
         new Migration5(),
         new Migration6(),
+        new Migration7(),
     ];
 
     public constructor(

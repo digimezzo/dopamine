@@ -3,8 +3,9 @@
     <div class="app-collection-playback-pane__controls">
         <div class="app-collection-playback-pane-controls__left">
             <app-playback-cover-art
-                class="pointer"
-                [size]="75"
+                class="app-collection-playback-pane__cover pointer"
+                [size]="59"
+                [borderRadius]="4"
                 (click)="this.showNowPlayingAsync()"
                 matTooltip="{{ 'now-playing' | translate }}"
             ></app-playback-cover-art
