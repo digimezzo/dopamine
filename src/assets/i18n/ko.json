@@ -269,7 +269,7 @@
     "grouping": "Grouping",
     "albums-defined-by-folders-on-computer": "Albums are defined by their folders on your computer",
     "albums-defined-by-tag-album-title": "Albums are defined by the 'Album' tag",
-    "albums-defined-by-tags-album-title-and-album-artist": "Albums are defined by the 'Album' and 'Album Artist' tags (or 'Artist' if 'Album Artist' is not set)",
+    "albums-defined-by-tags-album-title-and-album-artist": "Albums are defined by the 'Album' and 'Album Artist' tags",
     "changing-will-trigger-album-cover-refresh": "Changing this option will trigger a refresh of your album covers",
     "select-playlist-folder": "Please select a playlist folder",
     "follow-album-cover-color": "Follow the album cover color",

@@ -10,7 +10,14 @@
                     </svg>
                 </div>
                 <div>
-                    <img [attr.src]="this.playlist.imagePath | imageToFilePath" width="120" height="120" loading="lazy" draggable="false" />
+                    <img
+                        class="app-playlist__image"
+                        [attr.src]="this.playlist.imagePath | imageToFilePath"
+                        width="120"
+                        height="120"
+                        loading="lazy"
+                        draggable="false"
+                    />
                 </div>
             </div>
             <div class="app-playlist__information ellipsis" matTooltip="{{ playlist.name }}">

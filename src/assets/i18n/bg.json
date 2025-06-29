@@ -269,7 +269,7 @@
     "grouping": "Групиране",
     "albums-defined-by-folders-on-computer": "Албумите се определят от техните папки на вашия компютър",
     "albums-defined-by-tag-album-title": "Албумите се определят от етикета „Албум",
-    "albums-defined-by-tags-album-title-and-album-artist": "Albums are defined by the 'Album' and 'Album Artist' tags (or 'Artist' if 'Album Artist' is not set)",
+    "albums-defined-by-tags-album-title-and-album-artist": "Албумите се определят от етикетите „Албум“ и „Изпълнител на албума",
     "changing-will-trigger-album-cover-refresh": "Промяната на тази опция ще задейства опресняване на кориците на вашите албуми",
     "select-playlist-folder": "Моля, изберете папка с плейлист",
     "follow-album-cover-color": "Следвай цвета на корицата на албума",

@@ -19,9 +19,6 @@
     background-color: var(--theme-side-pane-background) !important;
 }
 
-.mat-mdc-dialog-container {
-    background-color: var(--theme-dialog-background) !important;
-}
 .mat-mdc-select-panel {
     background-color: var(--theme-dialog-background) !important;
 }
@@ -103,7 +100,15 @@
 
 .mat-mdc-menu-content .mat-divider {
     border-top-color: var(--theme-context-menu-separators) !important;
-    margin: 4px;
+    margin: 4px 0 4px 0;
+}
+
+.mat-mdc-menu-content {
+    padding: 4px !important;
+}
+
+.mat-mdc-menu-item {
+    border-radius: 6px;
 }
 
 .mat-mdc-menu-item:hover {

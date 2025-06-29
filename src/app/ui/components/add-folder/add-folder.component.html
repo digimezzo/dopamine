@@ -1,10 +1,10 @@
 <div class="add-folder-component" [ngClass]="{ inactive: indexingService.isIndexingCollection }">
     <div class="mb-3">
-        <app-icon-text-button (click)="addFolderAsync()" icon="las la-plus">{{ 'add-folder' | translate }}</app-icon-text-button>
+        <app-icon-text-button (click)="addFolderAsync()" icon="las la-plus">{{ 'add-folder' | translate }} </app-icon-text-button>
     </div>
     <app-toggle-switch class="mb-2" [(isChecked)]="showAllFoldersInCollection" *ngIf="showCheckBoxes">
-        {{ 'show-all-folders-in-the-collection' | translate }}</app-toggle-switch
-    >
+        {{ 'show-all-folders-in-the-collection' | translate }}
+    </app-toggle-switch>
     <div class="mt-1">
         <div *ngFor="let folder of folders">
             <div class="d-flex flex-row align-items-center">
@@ -18,14 +18,13 @@
                 <div
                     class="folder d-flex flex-grow align-items-center"
                     matRipple
-                    [ngClass]="{
-                        'selected-item-background-important': folder === selectedFolder,
-                        inactive: showCheckBoxes && !folder.showInCollection
-                    }"
+                    [ngClass]="{ 'selected-item-background-important': folder === selectedFolder }"
                     (mousedown)="setSelectedFolder(folder)"
                 >
-                    <i class="folder__icon m-1 lar la-folder"></i>
-                    <div class="folder__path ellipsis m-1" matTooltip="{{ folder.path }}">{{ folder.path }}</div>
+                    <div class="d-flex flex-row flex-grow" [ngClass]="{ inactive: showCheckBoxes && !folder.showInCollection }">
+                        <i class="folder__icon m-1 lar la-folder"></i>
+                        <div class="folder__path ellipsis m-1" matTooltip="{{ folder.path }}">{{ folder.path }}</div>
+                    </div>
                     <i
                         class="folder__action m-1 las la-times"
                         [ngStyle]="{ display: folder === selectedFolder ? 'block' : 'none' }"

@@ -70,9 +70,9 @@ export class StringUtils {
             return '';
         }
 
-        const trimmedAndLowerCasedOriginalString: string = originalString!.trim().toLowerCase();
-
         try {
+            const trimmedAndLowerCasedOriginalString: string = originalString!.trim().toLowerCase();
+
             if (!removePrefixes) {
                 return trimmedAndLowerCasedOriginalString;
             }
@@ -88,6 +88,6 @@ export class StringUtils {
             // Ignore this error
         }
 
-        return trimmedAndLowerCasedOriginalString;
+        return originalString!.toLowerCase();
     }
 }

@@ -269,7 +269,7 @@
     "grouping": "Grupiranje",
     "albums-defined-by-folders-on-computer": "Albumi su definirani prema mapama na tvom računalu",
     "albums-defined-by-tag-album-title": "Albumi su definirani prema oznaci 'Album'",
-    "albums-defined-by-tags-album-title-and-album-artist": "Albums are defined by the 'Album' and 'Album Artist' tags (or 'Artist' if 'Album Artist' is not set)",
+    "albums-defined-by-tags-album-title-and-album-artist": "Albumi su definirani prema oznakama 'Album' i 'Izvođač albuma'",
     "changing-will-trigger-album-cover-refresh": "Promjena ove opcije prouzročit će osvježavanje naslovnica albuma",
     "select-playlist-folder": "Odaberi mapu popisa za reprodukciju",
     "follow-album-cover-color": "Slijedi boju naslovnice albuma",

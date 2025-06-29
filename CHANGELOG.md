@@ -3,6 +3,19 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0-preview.40] - 2025-06-28
+
+### Changed
+
+-   Images now have round corners
+
+### Fixed
+
+-   Fixed a bug where artists that are separated by a semicolon ';' were not indexed correctly
+-   Fixed a bug where the folders screen had an empty sorting button
+-   Fixed a bug where it was not possible to remove a folder that is not displayed in the collection
+-   Fixed a bug where changing the album grouping settings had no effect on the collection
+
 ## [3.0.0-preview.39] - 2025-06-21
 
 ### Added

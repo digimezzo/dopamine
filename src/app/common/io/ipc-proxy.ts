@@ -18,7 +18,7 @@ export class IpcProxy implements IpcProxyBase {
             this.onIndexingWorkerMessage.next(message);
         });
 
-        ipcRenderer.on('indexing-worker-exit', async () => {
+        ipcRenderer.on('indexing-worker-exit', () => {
             this.onIndexingWorkerExit.next();
         });
 

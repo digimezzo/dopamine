@@ -217,64 +217,6 @@ describe('TrackFiller', () => {
             expect(track.albumKey).toEqual(';Album title;;Album artist 1;;Album artist 2;');
         });
 
-        it('should fill in track albumKey with a generated album key when albumArtists is empty and artists is not empty', async () => {
-            // Arrange
-            const fileMetadataStub = new FileMetadataImplementation();
-            fileMetadataStub.albumArtists = [];
-            fileMetadataStub.artists = ['Artist 1', 'Artist 2'];
-            fileMetadataStub.album = 'Album title';
-
-            fileMetadataFactoryMock
-                .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
-                .returns(() => Promise.resolve(fileMetadataStub));
-            fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
-            const track: Track = new Track('/home/user/Music/Track 1.mp3');
-
-            metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Artist 1', 'Artist 2'])).returns(() => ['Artist 1', 'Artist 2']);
-
-            albumKeyGeneratorMock.reset();
-            albumKeyGeneratorMock
-                .setup((x) => x.generateAlbumKey('Album title', ['Artist 1', 'Artist 2']))
-                .returns(() => ';Album title;;Artist 1;;Artist 2;');
-
-            // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
-
-            // Assert
-            metadataPatcherMock.verify((x) => x.joinUnsplittableMetadata(['Artist 1', 'Artist 2']), Times.exactly(2));
-            albumKeyGeneratorMock.verify((x) => x.generateAlbumKey('Album title', ['Artist 1', 'Artist 2']), Times.once());
-            expect(track.albumKey).toEqual(';Album title;;Artist 1;;Artist 2;');
-        });
-
-        it('should fill in track albumKey with a generated album key when albumArtists and artists are empty', async () => {
-            // Arrange
-            const fileMetadataStub = new FileMetadataImplementation();
-            fileMetadataStub.albumArtists = [];
-            fileMetadataStub.artists = [];
-            fileMetadataStub.album = 'Album title';
-
-            fileMetadataFactoryMock
-                .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
-                .returns(() => Promise.resolve(fileMetadataStub));
-            fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
-            const track: Track = new Track('/home/user/Music/Track 1.mp3');
-
-            metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata([])).returns(() => []);
-
-            albumKeyGeneratorMock.reset();
-            albumKeyGeneratorMock.setup((x) => x.generateAlbumKey('Album title', [])).returns(() => ';Album title;');
-
-            // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
-
-            // Assert
-            metadataPatcherMock.verify((x) => x.joinUnsplittableMetadata([]), Times.exactly(3));
-            albumKeyGeneratorMock.verify((x) => x.generateAlbumKey('Album title', []), Times.once());
-            expect(track.albumKey).toEqual(';Album title;');
-        });
-
         it('should fill in track fileName with the file name of the audio file', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
