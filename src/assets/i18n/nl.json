@@ -269,7 +269,7 @@
     "grouping": "Groepering",
     "albums-defined-by-folders-on-computer": "Albums worden gedefinieerd aan de hand van hun mappen op uw computer",
     "albums-defined-by-tag-album-title": "Albums worden gedefinieerd door de tag 'Album'",
-    "albums-defined-by-tags-album-title-and-album-artist": "Albums worden gedefinieerd door de tags 'Album' en 'Albumartiest' (of 'Artiest' als 'Albumartiest' niet is ingesteld)",
+    "albums-defined-by-tags-album-title-and-album-artist": "Albums worden gedefinieerd door de tags 'Album' en 'Albumartiest'",
     "changing-will-trigger-album-cover-refresh": "Als je deze optie wijzigt, worden jouw albumhoezen ververst.",
     "select-playlist-folder": "Selecteer een afspeellijstmap",
     "follow-album-cover-color": "Volg de kleur van de albumhoes",
