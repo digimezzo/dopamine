@@ -40,7 +40,7 @@ jobs:
       # 6. שליפת גרסה מתוך package.json
       - name: Fetch current version
         id: ver_name
-        uses: notiz-dev/github-action-json-property@v2
+        uses: notiz-dev/github-action-json-property@release
         with:
           path: package.json
           prop_path: version
