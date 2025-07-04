@@ -131,7 +131,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
 
     private getAlbums(): void {
         const selectedGenres: GenreModel[] = this.genresPersister.getSelectedGenres(this.genres);
-        this.getAlbumsForGenres(selectedGenres.map((x) => x.displayName));
+        this.getAlbumsForGenres(selectedGenres.map((x) => x.name));
     }
 
     private getTracks(): void {
@@ -141,7 +141,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
             this.getTracksForAlbumKeys(selectedAlbums.map((x) => x.albumKey));
         } else {
             const selectedGenres: GenreModel[] = this.genresPersister.getSelectedGenres(this.genres);
-            this.getTracksForGenres(selectedGenres.map((x) => x.displayName));
+            this.getTracksForGenres(selectedGenres.map((x) => x.name));
         }
     }
 
