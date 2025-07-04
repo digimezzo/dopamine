@@ -76,14 +76,14 @@ export class TrackModel implements ISelectable {
     public get artists(): string {
         const trackArtists: string[] = DataDelimiter.fromDelimitedString(this.track.artists);
 
-        if (trackArtists == undefined || trackArtists.length === 0) {
-            return this.translatorService.get('unknown-artist');
+        if (DataDelimiter.isUnknownValue(trackArtists)) {
+            return this.translatorService.get(Constants.unknownArtist);
         }
 
         const commaSeparatedArtists: string = CollectionUtils.toCommaSeparatedString(trackArtists);
 
         if (commaSeparatedArtists.length === 0) {
-            return this.translatorService.get('unknown-artist');
+            return this.translatorService.get(Constants.unknownArtist);
         }
 
         return commaSeparatedArtists;
@@ -92,7 +92,7 @@ export class TrackModel implements ISelectable {
     public get rawArtists(): string[] {
         const trackArtists: string[] = DataDelimiter.fromDelimitedString(this.track.artists);
 
-        if (trackArtists == undefined) {
+        if (DataDelimiter.isUnknownValue(trackArtists)) {
             return [];
         }
 
@@ -116,7 +116,7 @@ export class TrackModel implements ISelectable {
     public get genres(): string {
         const trackGenres: string[] = DataDelimiter.fromDelimitedString(this.track.genres);
 
-        if (trackGenres == undefined || trackGenres.length === 0) {
+        if (DataDelimiter.isUnknownValue(trackGenres)) {
             return this.translatorService.get(Constants.unknownGenre);
         }
 
@@ -164,17 +164,17 @@ export class TrackModel implements ISelectable {
     public get albumArtists(): string {
         const albumArtists: string[] = DataDelimiter.fromDelimitedString(this.track.albumArtists);
 
-        if (albumArtists != undefined && albumArtists.length > 0) {
+        if (!DataDelimiter.isUnknownValue(albumArtists)) {
             return albumArtists.join(', ');
         }
 
         const trackArtists: string[] = DataDelimiter.fromDelimitedString(this.track.artists);
 
-        if (trackArtists != undefined && trackArtists.length > 0) {
+        if (!DataDelimiter.isUnknownValue(trackArtists)) {
             return trackArtists.join(', ');
         }
 
-        return this.translatorService.get('unknown-artist');
+        return this.translatorService.get(Constants.unknownArtist);
     }
 
     public get sortableAlbumArtists(): string {

@@ -92,7 +92,7 @@ describe('DataDelimiter', () => {
     });
 
     describe('fromDelimitedString', () => {
-        it('should return an empty collection if the delimited string is undefined', () => {
+        it('should return a collection with an empty string if the delimited string is undefined', () => {
             // Arrange
             const delimitedString: string | undefined = undefined;
 
@@ -100,10 +100,10 @@ describe('DataDelimiter', () => {
             const collection: string[] = DataDelimiter.fromDelimitedString(delimitedString);
 
             // Assert
-            expect(collection).toEqual([]);
+            expect(collection).toEqual(['']);
         });
 
-        it('should return an empty collection if the delimited string is empty', () => {
+        it('should return a collection with an empty string if the delimited string is empty', () => {
             // Arrange
             const delimitedString: string = '';
 
@@ -111,7 +111,7 @@ describe('DataDelimiter', () => {
             const collection: string[] = DataDelimiter.fromDelimitedString(delimitedString);
 
             // Assert
-            expect(collection).toEqual([]);
+            expect(collection).toEqual(['']);
         });
 
         it('should return a collection containing just the string if it does not have delimiters', () => {
@@ -156,6 +156,85 @@ describe('DataDelimiter', () => {
 
             // Assert
             expect(collection).toEqual(['the string 1', 'the string 2']);
+        });
+    });
+
+    describe('isUnknownValue', () => {
+        it('should return true when values is undefined', () => {
+            // Arrange
+            const values: string[] | undefined = undefined;
+
+            // Act
+            const result: boolean = DataDelimiter.isUnknownValue(values);
+
+            // Assert
+            expect(result).toBeTruthy();
+        });
+
+        it('should return true when values is empty', () => {
+            // Arrange
+            const values: string[] = [];
+
+            // Act
+            const result: boolean = DataDelimiter.isUnknownValue(values);
+
+            // Assert
+            expect(result).toBeTruthy();
+        });
+
+        it('should return true when values contains one empty string', () => {
+            // Arrange
+            const values: string[] = [''];
+
+            // Act
+            const result: boolean = DataDelimiter.isUnknownValue(values);
+
+            // Assert
+            expect(result).toBeTruthy();
+        });
+
+        it('should return true when values contains one blank string', () => {
+            // Arrange
+            const values: string[] = [' '];
+
+            // Act
+            const result: boolean = DataDelimiter.isUnknownValue(values);
+
+            // Assert
+            expect(result).toBeTruthy();
+        });
+
+        it('should return false when values contains one non-empty string', () => {
+            // Arrange
+            const values: string[] = ['foo'];
+
+            // Act
+            const result: boolean = DataDelimiter.isUnknownValue(values);
+
+            // Assert
+            expect(result).toBeFalsy();
+        });
+
+        it('should return false when values contains not only an empty string', () => {
+            // Arrange
+            const values: string[] = ['', 'foo'];
+
+            // Act
+            const result: boolean = DataDelimiter.isUnknownValue(values);
+
+            // Assert
+            expect(result).toBeFalsy();
+        });
+
+        it('should return false when values contains more than one non-empty string', () => {
+            // Arrange
+            const values: string[] = ['foo', 'bar'];
+
+            // Act
+            const result: boolean = DataDelimiter.isUnknownValue(values);
+
+            // Assert
+            expect(result).toBeFalsy();
         });
     });
 });

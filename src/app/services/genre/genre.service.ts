@@ -27,10 +27,6 @@ export class GenreService implements GenreServiceBase {
         for (const genreData of genreDatas) {
             const genres: string[] = DataDelimiter.fromDelimitedString(genreData.genres);
 
-            if (genres.length === 0) {
-                genres.push('');
-            }
-
             for (const genre of genres) {
                 const processedGenre: string = genre.toLowerCase().trim();
 

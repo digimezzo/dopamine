@@ -108,7 +108,9 @@ export class Constants {
 
     public static readonly removablePrefixes: string[] = ['the', 'le', 'les', 'a', 'and'];
 
+    public static readonly unknownArtist: string = 'unknown-artist';
     public static readonly unknownGenre: string = 'unknown-genre';
+    public static readonly unknownTitle: string = 'unknown-title';
 
     public static readonly externalComponents: ExternalComponent[] = [
         new ExternalComponent(
