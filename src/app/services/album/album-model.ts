@@ -28,22 +28,22 @@ export class AlbumModel implements ISelectable {
     public get albumArtist(): string {
         const albumArtists = DataDelimiter.fromDelimitedString(this.albumData.albumArtists);
 
-        if (albumArtists != undefined && albumArtists.length > 0) {
+        if (!DataDelimiter.isUnknownValue(albumArtists)) {
             return albumArtists[0];
         }
 
         const trackArtists = DataDelimiter.fromDelimitedString(this.albumData.artists);
 
-        if (trackArtists != undefined && trackArtists.length > 0) {
+        if (!DataDelimiter.isUnknownValue(trackArtists)) {
             return trackArtists[0];
         }
 
-        return this.translatorService.get('unknown-artist');
+        return this.translatorService.get(Constants.unknownArtist);
     }
 
     public get albumTitle(): string {
         if (StringUtils.isNullOrWhiteSpace(this.albumData.albumTitle)) {
-            return this.translatorService.get('unknown-title');
+            return this.translatorService.get(Constants.unknownTitle);
         }
 
         return this.albumData.albumTitle!;
@@ -54,7 +54,13 @@ export class AlbumModel implements ISelectable {
     }
 
     public get genres(): string[] {
-        return DataDelimiter.fromDelimitedString(this.albumData.genres);
+        const genres = DataDelimiter.fromDelimitedString(this.albumData.genres);
+
+        if (DataDelimiter.isUnknownValue(genres)) {
+            return [this.translatorService.get(Constants.unknownGenre)];
+        }
+
+        return genres;
     }
 
     public get albumKey(): string {
