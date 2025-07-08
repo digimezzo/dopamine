@@ -83,7 +83,7 @@ jobs:
                   path: release/Dopamine-*.dmg
 
     merge_build_on_win:
-        runs-on: windows-2019
+        runs-on: windows-2022
         if: github.event.pull_request.merged == true
         steps:
           - uses: actions/checkout@v2

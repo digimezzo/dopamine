@@ -82,7 +82,7 @@ jobs:
                   path: release/Dopamine-*.dmg
 
     nightly_build_on_win:
-      runs-on: windows-2019
+      runs-on: windows-2022
       steps:
         - uses: actions/checkout@v2
         - uses: actions/setup-node@master
