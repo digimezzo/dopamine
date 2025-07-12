@@ -73,7 +73,7 @@
     "refresh-collection-now": "Làm mới ngay",
     "automatic-refresh": "Làm mới tự động",
     "manual-refresh": "Làm mới thủ công",
-    "download": "Lấy từ online",
+    "download": "Tải xuống",
     "download-missing-album-covers": "Tải ảnh bìa album còn thiếu",
     "refresh-all-covers": "Tải lại ảnh bìa cho tất cả album, kể cả album đã có ảnh bìa.",
     "refresh-missing-covers": "Chỉ tải lại ảnh bìa cho các album chưa có ảnh bìa.",
@@ -303,7 +303,7 @@
     "disc-number": "Thứ tự đĩa",
     "disc-count": "Tổng đĩa",
     "comment": "Bình luận",
-    "export": "Lưu ra",
+    "export": "Trích xuất",
     "update-album-cover": "Cập nhật ảnh bìa album",
     "multiple-values": "Nhiều giá trị",
     "multiple-images": "Nhiều ảnh",
@@ -316,6 +316,6 @@
     "Information": "Thông tin",
     "no-image-found-online": "Không tìm thấy ảnh online hợp lệ.",
     "image": "Ảnh",
-    "choose-order": "Choose an order",
-    "choose-type": "Choose a type"
+    "choose-order": "Xếp theo",
+    "choose-type": "Chọn một loại"
 }
