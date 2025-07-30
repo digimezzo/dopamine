@@ -29,6 +29,10 @@
     min-width: 0;
 }
 
+.app-transparent-button-text:hover {
+    color: var(--theme-highlight-foreground);
+}
+
 .app-transparent-button-button:hover {
     background-color: var(--theme-accent-color);
     box-shadow: 0 5px 15px rgba(var(--theme-rgb-accent), 0.4);
