@@ -1,4 +1,4 @@
-import { IMock, Mock } from 'typemoq';
+import { IMock, Mock, Times } from 'typemoq';
 import { ArtistModel } from './artist-model';
 import { ArtistType } from './artist-type';
 import { ArtistService } from './artist.service';
@@ -24,6 +24,8 @@ describe('ArtistService', () => {
         settingsMock = new SettingsMock();
         settingsMock.artistSplitSeparators = '';
         settingsMock.artistSplitExceptions = '';
+
+        translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
     });
 
     function createService(): ArtistService {
@@ -63,6 +65,8 @@ describe('ArtistService', () => {
             trackArtistDatas.push(new ArtistData(';Metallica;;Madonna;'));
             trackArtistDatas.push(new ArtistData(';metallica;'));
             trackArtistDatas.push(new ArtistData(';Scorpions;'));
+            trackArtistDatas.push(new ArtistData(''));
+            trackArtistDatas.push(new ArtistData(''));
 
             const albumArtistDatas: ArtistData[] = [];
 
@@ -87,13 +91,30 @@ describe('ArtistService', () => {
             const artists: ArtistModel[] = service.getArtists(ArtistType.trackArtists);
 
             // Assert
-            expect(artists.length).toEqual(6);
+            expect(artists.length).toEqual(7);
+
+            expect(artists[0].name).toEqual('Aerosmith');
             expect(artists[0].displayName).toEqual('Aerosmith');
+
+            expect(artists[1].name).toEqual('Alanis Morissette');
             expect(artists[1].displayName).toEqual('Alanis Morissette');
+
+            expect(artists[2].name).toEqual('Bon Jovi');
             expect(artists[2].displayName).toEqual('Bon Jovi');
+
+            expect(artists[3].name).toEqual('Madonna');
             expect(artists[3].displayName).toEqual('Madonna');
+
+            expect(artists[4].name).toEqual('Metallica');
             expect(artists[4].displayName).toEqual('Metallica');
+
+            expect(artists[5].name).toEqual('Scorpions');
             expect(artists[5].displayName).toEqual('Scorpions');
+
+            expect(artists[6].name).toEqual('');
+            expect(artists[6].displayName).toEqual('Unknown artist');
+
+            translatorServiceMock.verify((x) => x.get('unknown-artist'), Times.once());
         });
 
         it('should get all album artists without duplicates when given ArtistType.albumArtists', () => {
@@ -126,6 +147,8 @@ describe('ArtistService', () => {
             albumArtistDatas.push(new ArtistData(';Rihanna;Jennifer Lopez;'));
             albumArtistDatas.push(new ArtistData(';Jennifer Lopez;'));
             albumArtistDatas.push(new ArtistData(';Madonna;;Jennifer Lopez;'));
+            albumArtistDatas.push(new ArtistData(''));
+            albumArtistDatas.push(new ArtistData(''));
 
             trackRepositoryMock.setup((x) => x.getTrackArtistData()).returns(() => trackArtistDatas);
             trackRepositoryMock.setup((x) => x.getAlbumArtistData()).returns(() => albumArtistDatas);
@@ -136,14 +159,33 @@ describe('ArtistService', () => {
             const artists: ArtistModel[] = service.getArtists(ArtistType.albumArtists);
 
             // Assert
-            expect(artists.length).toEqual(7);
+            expect(artists.length).toEqual(8);
+
+            expect(artists[0].name).toEqual('Aerosmith');
             expect(artists[0].displayName).toEqual('Aerosmith');
+
+            expect(artists[1].name).toEqual('Alanis Morissette');
             expect(artists[1].displayName).toEqual('Alanis Morissette');
+
+            expect(artists[2].name).toEqual('Bon Jovi');
             expect(artists[2].displayName).toEqual('Bon Jovi');
+
+            expect(artists[3].name).toEqual('Madonna');
             expect(artists[3].displayName).toEqual('Madonna');
+
+            expect(artists[4].name).toEqual('Megadeth');
             expect(artists[4].displayName).toEqual('Megadeth');
+
+            expect(artists[5].name).toEqual('Rihanna');
             expect(artists[5].displayName).toEqual('Rihanna');
+
+            expect(artists[6].name).toEqual('Jennifer Lopez');
             expect(artists[6].displayName).toEqual('Jennifer Lopez');
+
+            expect(artists[7].name).toEqual('');
+            expect(artists[7].displayName).toEqual('Unknown artist');
+
+            translatorServiceMock.verify((x) => x.get('unknown-artist'), Times.once());
         });
 
         it('should get all track and album artists without duplicates when given ArtistType.allArtists', () => {
@@ -162,6 +204,8 @@ describe('ArtistService', () => {
             trackArtistDatas.push(new ArtistData(';Metallica;;Madonna;'));
             trackArtistDatas.push(new ArtistData(';metallica;'));
             trackArtistDatas.push(new ArtistData(';Scorpions;'));
+            trackArtistDatas.push(new ArtistData(''));
+            trackArtistDatas.push(new ArtistData(''));
 
             const albumArtistDatas: ArtistData[] = [];
 
@@ -176,6 +220,8 @@ describe('ArtistService', () => {
             albumArtistDatas.push(new ArtistData(';Rihanna;Jennifer Lopez;'));
             albumArtistDatas.push(new ArtistData(';Jennifer Lopez;'));
             albumArtistDatas.push(new ArtistData(';Madonna;;Jennifer Lopez;'));
+            albumArtistDatas.push(new ArtistData(''));
+            albumArtistDatas.push(new ArtistData(''));
 
             trackRepositoryMock.setup((x) => x.getTrackArtistData()).returns(() => trackArtistDatas);
             trackRepositoryMock.setup((x) => x.getAlbumArtistData()).returns(() => albumArtistDatas);
@@ -186,16 +232,39 @@ describe('ArtistService', () => {
             const artists: ArtistModel[] = service.getArtists(ArtistType.allArtists);
 
             // Assert
-            expect(artists.length).toEqual(9);
+            expect(artists.length).toEqual(10);
+
+            expect(artists[0].name).toEqual('Aerosmith');
             expect(artists[0].displayName).toEqual('Aerosmith');
+
+            expect(artists[1].name).toEqual('Alanis Morissette');
             expect(artists[1].displayName).toEqual('Alanis Morissette');
+
+            expect(artists[2].name).toEqual('Bon Jovi');
             expect(artists[2].displayName).toEqual('Bon Jovi');
+
+            expect(artists[3].name).toEqual('Madonna');
             expect(artists[3].displayName).toEqual('Madonna');
+
+            expect(artists[4].name).toEqual('Metallica');
             expect(artists[4].displayName).toEqual('Metallica');
+
+            expect(artists[5].name).toEqual('Scorpions');
             expect(artists[5].displayName).toEqual('Scorpions');
-            expect(artists[6].displayName).toEqual('Megadeth');
-            expect(artists[7].displayName).toEqual('Rihanna');
-            expect(artists[8].displayName).toEqual('Jennifer Lopez');
+
+            expect(artists[6].name).toEqual('');
+            expect(artists[6].displayName).toEqual('Unknown artist');
+
+            expect(artists[7].name).toEqual('Megadeth');
+            expect(artists[7].displayName).toEqual('Megadeth');
+
+            expect(artists[8].name).toEqual('Rihanna');
+            expect(artists[8].displayName).toEqual('Rihanna');
+
+            expect(artists[9].name).toEqual('Jennifer Lopez');
+            expect(artists[9].displayName).toEqual('Jennifer Lopez');
+
+            translatorServiceMock.verify((x) => x.get('unknown-artist'), Times.once());
         });
     });
 

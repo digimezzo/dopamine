@@ -28,12 +28,16 @@ export class DataDelimiter {
 
     public static fromDelimitedString(delimitedString: string | undefined): string[] {
         if (StringUtils.isNullOrWhiteSpace(delimitedString)) {
-            return [];
+            return [''];
         }
 
         const delimitedStrings: string[] = delimitedString!.split(DataDelimiter.delimiter);
 
         return delimitedStrings.filter((x) => x !== '').map((x) => this.removeDelimiters(x));
+    }
+
+    public static isUnknownValue(values: string[] = []): boolean {
+        return values.length === 0 || (values.length === 1 && StringUtils.isNullOrWhiteSpace(values[0]));
     }
 
     private static addDelimiters(originalString: string): string {

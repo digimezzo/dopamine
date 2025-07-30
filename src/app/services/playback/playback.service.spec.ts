@@ -950,14 +950,32 @@ describe('PlaybackService', () => {
             // Arrange
             const service: PlaybackService = createService();
 
-            const genreToPlay: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
+            const genreName = 'genre1';
+            const genreToPlay: GenreModel = new GenreModel(genreName, translatorServiceMock.object);
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
 
             // Act
             service.enqueueAndPlayGenre(genreToPlay);
 
             // Assert
-            trackServiceMock.verify((x) => x.getTracksForGenres([genreToPlay.displayName]), Times.exactly(1));
+            trackServiceMock.verify((x) => x.getTracksForGenres([genreName]), Times.once());
+            translatorServiceMock.verify((x) => x.get(It.isAny()), Times.never());
+        });
+
+        it('should get tracks for unknown genre', () => {
+            // Arrange
+            const service: PlaybackService = createService();
+
+            const genreName = '';
+            const genreToPlay: GenreModel = new GenreModel(genreName, translatorServiceMock.object);
+            queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
+
+            // Act
+            service.enqueueAndPlayGenre(genreToPlay);
+
+            // Assert
+            trackServiceMock.verify((x) => x.getTracksForGenres([genreName]), Times.once());
+            translatorServiceMock.verify((x) => x.get(It.isAny()), Times.never());
         });
 
         it('should order tracks for the artist byAlbum', () => {
@@ -2109,13 +2127,29 @@ describe('PlaybackService', () => {
         it('should get tracks for the given genre', async () => {
             // Arrange
             const service: PlaybackService = createService();
-            const genreToAdd: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
+            const genreName = 'genre1';
+            const genreToAdd: GenreModel = new GenreModel(genreName, translatorServiceMock.object);
 
             // Act
             await service.addGenreToQueueAsync(genreToAdd);
 
             // Assert
-            trackServiceMock.verify((x) => x.getTracksForGenres([genreToAdd.displayName]), Times.exactly(1));
+            trackServiceMock.verify((x) => x.getTracksForGenres([genreName]), Times.once());
+            translatorServiceMock.verify((x) => x.get(It.isAny()), Times.never());
+        });
+
+        it('should get tracks for unknown genre', async () => {
+            // Arrange
+            const service: PlaybackService = createService();
+            const genreName = '';
+            const genreToAdd: GenreModel = new GenreModel(genreName, translatorServiceMock.object);
+
+            // Act
+            await service.addGenreToQueueAsync(genreToAdd);
+
+            // Assert
+            trackServiceMock.verify((x) => x.getTracksForGenres([genreName]), Times.once());
+            translatorServiceMock.verify((x) => x.get(It.isAny()), Times.never());
         });
 
         it('should order tracks for the artist byAlbum', async () => {
