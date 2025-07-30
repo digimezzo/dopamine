@@ -6,7 +6,7 @@ export class Constants {
 
     public static readonly languages: Language[] = [
         new Language('ar', 'Arabic', 'العربية', true),
-        new Language('bg', 'Bulgarian', 'български', true),
+        new Language('bg', 'Bulgarian', 'Български', true),
         new Language('cs', 'Czech', 'Čeština', false),
         new Language('de', 'German', 'Deutsch', false),
         new Language('el', 'Greek', 'Ελληνικά', true),
@@ -22,7 +22,7 @@ export class Constants {
         new Language('ja-JP', 'Japanese', '日本語', true),
         new Language('ko', 'Korean', '한국어', true),
         new Language('ku', 'Kurdish', 'Kurdî', false),
-        new Language('ru', 'Russian', 'русский', true),
+        new Language('ru', 'Russian', 'Русский', true),
         new Language('sv', 'Swedish', 'Svenska', false),
         new Language('tr', 'Turkish', 'Türkçe', false),
         new Language('vi', 'Vietnamese', 'Tiếng Việt', false),
