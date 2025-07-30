@@ -1,35 +1,964 @@
 import { Injectable } from '@angular/core';
-import * as Store from 'electron-store';
+import Store from 'electron-store';
 import { SettingsBase } from './settings.base';
+import { Setting } from './setting';
+import { StoreProxy } from './store-proxy';
 
 @Injectable()
 export class Settings implements SettingsBase {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private settings: Store<any> = new Store();
+    private readonly settings: Store<any>;
 
-    private cachedAlbumKeyIndex: string = '-1';
+    private readonly _defaultLanguage = 'en';
+    private readonly defaultCachedAlbumKeyIndex = '-1';
+    private cachedAlbumKeyIndex: string = this.defaultCachedAlbumKeyIndex;
 
-    public constructor() {
+    private readonly _language = new Setting('language', this._defaultLanguage);
+    private readonly _checkForUpdates = new Setting('checkForUpdates', true);
+    private readonly _checkForUpdatesIncludesPreReleases = new Setting('checkForUpdatesIncludesPreReleases', true);
+    private readonly _useSystemTitleBar = new Setting('useSystemTitleBar', false);
+    private readonly _fontSize = new Setting('fontSize', 13);
+    private readonly _theme = new Setting('theme', 'Dopamine');
+    private readonly _showWelcome = new Setting('showWelcome', true);
+    private readonly _followSystemTheme = new Setting('followSystemTheme', false);
+    private readonly _useLightBackgroundTheme = new Setting('useLightBackgroundTheme', false);
+    private readonly _followSystemColor = new Setting('followSystemColor', false);
+    private readonly _followAlbumCoverColor = new Setting('followAlbumCoverColor', false);
+    private readonly _skipRemovedFilesDuringRefresh = new Setting('skipRemovedFilesDuringRefresh', true);
+    private readonly _downloadMissingAlbumCovers = new Setting('downloadMissingAlbumCovers', true);
+    private readonly _showAllFoldersInCollection = new Setting('showAllFoldersInCollection', true);
+    private readonly _refreshCollectionAutomatically = new Setting('refreshCollectionAutomatically', true);
+    private readonly _albumsRightPaneWidthPercent = new Setting('albumsRightPaneWidthPercent', 30);
+    private readonly _foldersLeftPaneWidthPercent = new Setting('foldersLeftPaneWidthPercent', 30);
+    private readonly _artistsLeftPaneWidthPercent = new Setting('artistsLeftPaneWidthPercent', 25);
+    private readonly _artistsRightPaneWidthPercent = new Setting('artistsRightPaneWidthPercent', 25);
+    private readonly _genresLeftPaneWidthPercent = new Setting('genresLeftPaneWidthPercent', 25);
+    private readonly _genresRightPaneWidthPercent = new Setting('genresRightPaneWidthPercent', 25);
+    private readonly _playlistsLeftPaneWidthPercent = new Setting('playlistsLeftPaneWidthPercent', 25);
+    private readonly _playlistsRightPaneWidthPercent = new Setting('playlistsRightPaneWidthPercent', 25);
+    private readonly _volume = new Setting('volume', 0.5);
+    private readonly _selectedCollectionPage = new Setting('selectedCollectionPage', 0);
+    private readonly _foldersTabOpenedFolder = new Setting('foldersTabOpenedFolder', '');
+    private readonly _foldersTabOpenedSubfolder = new Setting('foldersTabOpenedSubfolder', '');
+    private readonly _albumsTabSelectedAlbum = new Setting('albumsTabSelectedAlbum', '');
+    private readonly _albumsTabSelectedAlbumOrder = new Setting('albumsTabSelectedAlbumOrder', '');
+    private readonly _albumsTabSelectedTrackOrder = new Setting('albumsTabSelectedTrackOrder', '');
+    private readonly _artistsTabSelectedArtistType = new Setting('artistsTabSelectedArtistType', '');
+    private readonly _artistsTabSelectedArtist = new Setting('artistsTabSelectedArtist', '');
+    private readonly _artistsTabSelectedArtistOrder = new Setting('artistsTabSelectedArtistOrder', '');
+    private readonly _artistsTabSelectedAlbum = new Setting('artistsTabSelectedAlbum', '');
+    private readonly _artistsTabSelectedAlbumOrder = new Setting('artistsTabSelectedAlbumOrder', '');
+    private readonly _artistsTabSelectedTrackOrder = new Setting('artistsTabSelectedTrackOrder', '');
+    private readonly _genresTabSelectedGenre = new Setting('genresTabSelectedGenre', '');
+    private readonly _genresTabSelectedAlbum = new Setting('genresTabSelectedAlbum', '');
+    private readonly _genresTabSelectedGenreOrder = new Setting('genresTabSelectedGenreOrder', '');
+    private readonly _genresTabSelectedAlbumOrder = new Setting('genresTabSelectedAlbumOrder', '');
+    private readonly _genresTabSelectedTrackOrder = new Setting('genresTabSelectedTrackOrder', '');
+    private readonly _playlistsTabSelectedPlaylistFolder = new Setting('playlistsTabSelectedPlaylistFolder', '');
+    private readonly _playlistsTabSelectedPlaylist = new Setting('playlistsTabSelectedPlaylist', '');
+    private readonly _playlistsTabSelectedPlaylistOrder = new Setting('playlistsTabSelectedPlaylistOrder', '');
+    private readonly _playlistsTabSelectedTrackOrder = new Setting('playlistsTabSelectedTrackOrder', '');
+    private readonly _enableDiscordRichPresence = new Setting('enableDiscordRichPresence', false);
+    private readonly _enableLastFmScrobbling = new Setting('enableLastFmScrobbling', false);
+    private readonly _showIconInNotificationArea = new Setting('showIconInNotificationArea', true);
+    private readonly _minimizeToNotificationArea = new Setting('minimizeToNotificationArea', false);
+    private readonly _closeToNotificationArea = new Setting('closeToNotificationArea', false);
+    private readonly _invertNotificationAreaIconColor = new Setting('invertNotificationAreaIconColor', false);
+    private readonly _showArtistsPage = new Setting('showArtistsPage', true);
+    private readonly _showGenresPage = new Setting('showGenresPage', true);
+    private readonly _showAlbumsPage = new Setting('showAlbumsPage', false);
+    private readonly _showTracksPage = new Setting('showTracksPage', true);
+    private readonly _showPlaylistsPage = new Setting('showPlaylistsPage', true);
+    private readonly _showFoldersPage = new Setting('showFoldersPage', true);
+    private readonly _showRating = new Setting('showRating', true);
+    private readonly _saveRatingToAudioFiles = new Setting('saveRatingToAudioFiles', false);
+    private readonly _tracksPageVisibleColumns = new Setting('tracksPageVisibleColumns', 'rating;artists;duration;number');
+    private readonly _tracksPageColumnsOrder = new Setting('tracksPageColumnsOrder', '');
+    private readonly _lastFmUsername = new Setting('lastFmUsername', '');
+    private readonly _lastFmPassword = new Setting('lastFmPassword', '');
+    private readonly _lastFmSessionKey = new Setting('lastFmSessionKey', '');
+    private readonly _showLove = new Setting('showLove', false);
+    private readonly _downloadArtistInformationFromLastFm = new Setting('downloadArtistInformationFromLastFm', true);
+    private readonly _downloadLyricsOnline = new Setting('downloadLyricsOnline', true);
+    private readonly _showAudioVisualizer = new Setting('showAudioVisualizer', true);
+    private readonly _audioVisualizerStyle = new Setting('audioVisualizerStyle', 'flames');
+    private readonly _audioVisualizerFrameRate = new Setting('audioVisualizerFrameRate', 10);
+    private readonly _keepPlaybackControlsVisibleOnNowPlayingPage = new Setting('keepPlaybackControlsVisibleOnNowPlayingPage', false);
+    private readonly _albumsDefinedByTitleAndArtist = new Setting('albumsDefinedByTitleAndArtist', true);
+    private readonly _albumsDefinedByTitle = new Setting('albumsDefinedByTitle', false);
+    private readonly _albumsDefinedByFolders = new Setting('albumsDefinedByFolders', false);
+    private readonly _playbackControlsLoop = new Setting('playbackControlsLoop', 0);
+    private readonly _playbackControlsShuffle = new Setting('playbackControlsShuffle', 0);
+    private readonly _rememberPlaybackStateAfterRestart = new Setting('rememberPlaybackStateAfterRestart', true);
+    private readonly _artistSplitSeparators = new Setting('artistSplitSeparators', '[feat.][ft.]');
+    private readonly _artistSplitExceptions = new Setting('artistSplitExceptions', '');
+    private readonly _playerType = new Setting('playerType', 'full');
+    private readonly _fullPlayerPositionSizeMaximized = new Setting('fullPlayerPositionSizeMaximized', '50;50;1000;650;0');
+    private readonly _coverPlayerPosition = new Setting('coverPlayerPosition', '50;50');
+    private readonly _useGaplessPlayback = new Setting('useGaplessPlayback', false);
+
+    private readonly allSettings = [
+        this._language,
+        this._checkForUpdates,
+        this._checkForUpdatesIncludesPreReleases,
+        this._useSystemTitleBar,
+        this._fontSize,
+        this._theme,
+        this._showWelcome,
+        this._followSystemTheme,
+        this._useLightBackgroundTheme,
+        this._followSystemColor,
+        this._followAlbumCoverColor,
+        this._skipRemovedFilesDuringRefresh,
+        this._downloadMissingAlbumCovers,
+        this._showAllFoldersInCollection,
+        this._refreshCollectionAutomatically,
+        this._albumsRightPaneWidthPercent,
+        this._foldersLeftPaneWidthPercent,
+        this._artistsLeftPaneWidthPercent,
+        this._artistsRightPaneWidthPercent,
+        this._genresLeftPaneWidthPercent,
+        this._genresRightPaneWidthPercent,
+        this._playlistsLeftPaneWidthPercent,
+        this._playlistsRightPaneWidthPercent,
+        this._volume,
+        this._selectedCollectionPage,
+        this._foldersTabOpenedFolder,
+        this._foldersTabOpenedSubfolder,
+        this._albumsTabSelectedAlbum,
+        this._albumsTabSelectedAlbumOrder,
+        this._albumsTabSelectedTrackOrder,
+        this._artistsTabSelectedArtistType,
+        this._artistsTabSelectedArtist,
+        this._artistsTabSelectedArtistOrder,
+        this._artistsTabSelectedAlbum,
+        this._artistsTabSelectedAlbumOrder,
+        this._artistsTabSelectedTrackOrder,
+        this._genresTabSelectedGenre,
+        this._genresTabSelectedAlbum,
+        this._genresTabSelectedGenreOrder,
+        this._genresTabSelectedAlbumOrder,
+        this._genresTabSelectedTrackOrder,
+        this._playlistsTabSelectedPlaylistFolder,
+        this._playlistsTabSelectedPlaylist,
+        this._playlistsTabSelectedPlaylistOrder,
+        this._playlistsTabSelectedTrackOrder,
+        this._enableDiscordRichPresence,
+        this._enableLastFmScrobbling,
+        this._showIconInNotificationArea,
+        this._minimizeToNotificationArea,
+        this._closeToNotificationArea,
+        this._invertNotificationAreaIconColor,
+        this._showArtistsPage,
+        this._showGenresPage,
+        this._showAlbumsPage,
+        this._showTracksPage,
+        this._showPlaylistsPage,
+        this._showFoldersPage,
+        this._showRating,
+        this._saveRatingToAudioFiles,
+        this._tracksPageVisibleColumns,
+        this._tracksPageColumnsOrder,
+        this._lastFmUsername,
+        this._lastFmPassword,
+        this._lastFmSessionKey,
+        this._showLove,
+        this._downloadArtistInformationFromLastFm,
+        this._downloadLyricsOnline,
+        this._showAudioVisualizer,
+        this._audioVisualizerStyle,
+        this._audioVisualizerFrameRate,
+        this._keepPlaybackControlsVisibleOnNowPlayingPage,
+        this._albumsDefinedByTitleAndArtist,
+        this._albumsDefinedByTitle,
+        this._albumsDefinedByFolders,
+        this._playbackControlsLoop,
+        this._playbackControlsShuffle,
+        this._rememberPlaybackStateAfterRestart,
+        this._artistSplitSeparators,
+        this._artistSplitExceptions,
+        this._playerType,
+        this._fullPlayerPositionSizeMaximized,
+        this._coverPlayerPosition,
+        this._useGaplessPlayback,
+    ];
+
+    public constructor(storeProxy: StoreProxy) {
+        this.settings = storeProxy.store;
         this.initialize();
     }
 
     // defaultLanguage
     public get defaultLanguage(): string {
-        return 'en';
-    }
-
-    // language
-    public get language(): string {
-        return <string>this.settings.get('language');
+        return this._defaultLanguage;
     }
 
     // albumKeyIndex
     public get albumKeyIndex(): string {
-        if (this.cachedAlbumKeyIndex === '-1') {
+        if (this.cachedAlbumKeyIndex === this.defaultCachedAlbumKeyIndex) {
             this.setCachedAlbumKeyIndex();
         }
 
         return this.cachedAlbumKeyIndex;
+    }
+
+    // language
+    public get language(): string {
+        return <string>this.settings.get(this._language.key);
+    }
+
+    public set language(v: string) {
+        this.settings.set(this._language.key, v);
+    }
+
+    // checkForUpdates
+    public get checkForUpdates(): boolean {
+        return <boolean>this.settings.get(this._checkForUpdates.key);
+    }
+
+    public set checkForUpdates(v: boolean) {
+        this.settings.set(this._checkForUpdates.key, v);
+    }
+
+    // checkForUpdatesIncludesPreReleases
+    public get checkForUpdatesIncludesPreReleases(): boolean {
+        return <boolean>this.settings.get(this._checkForUpdatesIncludesPreReleases.key);
+    }
+
+    public set checkForUpdatesIncludesPreReleases(v: boolean) {
+        this.settings.set(this._checkForUpdatesIncludesPreReleases.key, v);
+    }
+
+    // useSystemTitleBar
+    public get useSystemTitleBar(): boolean {
+        return <boolean>this.settings.get(this._useSystemTitleBar.key);
+    }
+
+    public set useSystemTitleBar(v: boolean) {
+        this.settings.set(this._useSystemTitleBar.key, v);
+    }
+
+    // fontSize
+    public get fontSize(): number {
+        return <number>this.settings.get(this._fontSize.key);
+    }
+
+    public set fontSize(v: number) {
+        this.settings.set(this._fontSize.key, v);
+    }
+
+    // theme
+    public get theme(): string {
+        return <string>this.settings.get(this._theme.key);
+    }
+
+    public set theme(v: string) {
+        this.settings.set(this._theme.key, v);
+    }
+
+    // showWelcome
+    public get showWelcome(): boolean {
+        return <boolean>this.settings.get(this._showWelcome.key);
+    }
+
+    public set showWelcome(v: boolean) {
+        this.settings.set(this._showWelcome.key, v);
+    }
+
+    // followSystemTheme
+    public get followSystemTheme(): boolean {
+        return <boolean>this.settings.get(this._followSystemTheme.key);
+    }
+
+    public set followSystemTheme(v: boolean) {
+        this.settings.set(this._followSystemTheme.key, v);
+    }
+
+    // useLightBackgroundTheme
+    public get useLightBackgroundTheme(): boolean {
+        return <boolean>this.settings.get(this._useLightBackgroundTheme.key);
+    }
+
+    public set useLightBackgroundTheme(v: boolean) {
+        this.settings.set(this._useLightBackgroundTheme.key, v);
+    }
+
+    // followSystemColor
+    public get followSystemColor(): boolean {
+        return <boolean>this.settings.get(this._followSystemColor.key);
+    }
+
+    public set followSystemColor(v: boolean) {
+        this.settings.set(this._followSystemColor.key, v);
+    }
+
+    // followAlbumCoverColor
+    public get followAlbumCoverColor(): boolean {
+        return <boolean>this.settings.get(this._followAlbumCoverColor.key);
+    }
+
+    public set followAlbumCoverColor(v: boolean) {
+        this.settings.set(this._followAlbumCoverColor.key, v);
+    }
+
+    // skipRemovedFilesDuringRefresh
+    public get skipRemovedFilesDuringRefresh(): boolean {
+        return <boolean>this.settings.get(this._skipRemovedFilesDuringRefresh.key);
+    }
+
+    public set skipRemovedFilesDuringRefresh(v: boolean) {
+        this.settings.set(this._skipRemovedFilesDuringRefresh.key, v);
+    }
+
+    // downloadMissingAlbumCovers
+    public get downloadMissingAlbumCovers(): boolean {
+        return <boolean>this.settings.get(this._downloadMissingAlbumCovers.key);
+    }
+
+    public set downloadMissingAlbumCovers(v: boolean) {
+        this.settings.set(this._downloadMissingAlbumCovers.key, v);
+    }
+
+    // showAllFoldersInCollection
+    public get showAllFoldersInCollection(): boolean {
+        return <boolean>this.settings.get(this._showAllFoldersInCollection.key);
+    }
+
+    public set showAllFoldersInCollection(v: boolean) {
+        this.settings.set(this._showAllFoldersInCollection.key, v);
+    }
+
+    // refreshCollectionAutomatically
+    public get refreshCollectionAutomatically(): boolean {
+        return <boolean>this.settings.get(this._refreshCollectionAutomatically.key);
+    }
+
+    public set refreshCollectionAutomatically(v: boolean) {
+        this.settings.set(this._refreshCollectionAutomatically.key, v);
+    }
+
+    // albumsRightPaneWidthPercent
+    public get albumsRightPaneWidthPercent(): number {
+        return <number>this.settings.get(this._albumsRightPaneWidthPercent.key);
+    }
+
+    public set albumsRightPaneWidthPercent(v: number) {
+        this.settings.set(this._albumsRightPaneWidthPercent.key, v);
+    }
+
+    // foldersLeftPaneWidthPercent
+    public get foldersLeftPaneWidthPercent(): number {
+        return <number>this.settings.get(this._foldersLeftPaneWidthPercent.key);
+    }
+
+    public set foldersLeftPaneWidthPercent(v: number) {
+        this.settings.set(this._foldersLeftPaneWidthPercent.key, v);
+    }
+
+    // artistsLeftPaneWidthPercent
+    public get artistsLeftPaneWidthPercent(): number {
+        return <number>this.settings.get(this._artistsLeftPaneWidthPercent.key);
+    }
+
+    public set artistsLeftPaneWidthPercent(v: number) {
+        this.settings.set(this._artistsLeftPaneWidthPercent.key, v);
+    }
+
+    // artistsRightPaneWidthPercent
+    public get artistsRightPaneWidthPercent(): number {
+        return <number>this.settings.get(this._artistsRightPaneWidthPercent.key);
+    }
+
+    public set artistsRightPaneWidthPercent(v: number) {
+        this.settings.set(this._artistsRightPaneWidthPercent.key, v);
+    }
+
+    // genresLeftPaneWidthPercent
+    public get genresLeftPaneWidthPercent(): number {
+        return <number>this.settings.get(this._genresLeftPaneWidthPercent.key);
+    }
+
+    public set genresLeftPaneWidthPercent(v: number) {
+        this.settings.set(this._genresLeftPaneWidthPercent.key, v);
+    }
+
+    // genresRightPaneWidthPercent
+    public get genresRightPaneWidthPercent(): number {
+        return <number>this.settings.get(this._genresRightPaneWidthPercent.key);
+    }
+
+    public set genresRightPaneWidthPercent(v: number) {
+        this.settings.set(this._genresRightPaneWidthPercent.key, v);
+    }
+
+    // playlistsLeftPaneWidthPercent
+    public get playlistsLeftPaneWidthPercent(): number {
+        return <number>this.settings.get(this._playlistsLeftPaneWidthPercent.key);
+    }
+
+    public set playlistsLeftPaneWidthPercent(v: number) {
+        this.settings.set(this._playlistsLeftPaneWidthPercent.key, v);
+    }
+
+    // playlistsRightPaneWidthPercent
+    public get playlistsRightPaneWidthPercent(): number {
+        return <number>this.settings.get(this._playlistsRightPaneWidthPercent.key);
+    }
+
+    public set playlistsRightPaneWidthPercent(v: number) {
+        this.settings.set(this._playlistsRightPaneWidthPercent.key, v);
+    }
+
+    // volume
+    public get volume(): number {
+        return <number>this.settings.get(this._volume.key);
+    }
+
+    public set volume(v: number) {
+        this.settings.set(this._volume.key, v);
+    }
+
+    // selectedCollectionPage
+    public get selectedCollectionPage(): number {
+        return <number>this.settings.get(this._selectedCollectionPage.key);
+    }
+
+    public set selectedCollectionPage(v: number) {
+        this.settings.set(this._selectedCollectionPage.key, v);
+    }
+
+    // foldersTabOpenedFolder
+    public get foldersTabOpenedFolder(): string {
+        return <string>this.settings.get(this._foldersTabOpenedFolder.key);
+    }
+
+    public set foldersTabOpenedFolder(v: string) {
+        this.settings.set(this._foldersTabOpenedFolder.key, v);
+    }
+
+    // foldersTabOpenedSubfolder
+    public get foldersTabOpenedSubfolder(): string {
+        return <string>this.settings.get(this._foldersTabOpenedSubfolder.key);
+    }
+
+    public set foldersTabOpenedSubfolder(v: string) {
+        this.settings.set(this._foldersTabOpenedSubfolder.key, v);
+    }
+
+    // albumsTabSelectedAlbum
+    public get albumsTabSelectedAlbum(): string {
+        return <string>this.settings.get(this._albumsTabSelectedAlbum.key);
+    }
+
+    public set albumsTabSelectedAlbum(v: string) {
+        this.settings.set(this._albumsTabSelectedAlbum.key, v);
+    }
+
+    // albumsTabSelectedAlbumOrder
+    public get albumsTabSelectedAlbumOrder(): string {
+        return <string>this.settings.get(this._albumsTabSelectedAlbumOrder.key);
+    }
+
+    public set albumsTabSelectedAlbumOrder(v: string) {
+        this.settings.set(this._albumsTabSelectedAlbumOrder.key, v);
+    }
+
+    // albumsTabSelectedTrackOrder
+    public get albumsTabSelectedTrackOrder(): string {
+        return <string>this.settings.get(this._albumsTabSelectedTrackOrder.key);
+    }
+
+    public set albumsTabSelectedTrackOrder(v: string) {
+        this.settings.set(this._albumsTabSelectedTrackOrder.key, v);
+    }
+
+    // artistsTabSelectedArtistType
+    public get artistsTabSelectedArtistType(): string {
+        return <string>this.settings.get(this._artistsTabSelectedArtistType.key);
+    }
+
+    public set artistsTabSelectedArtistType(v: string) {
+        this.settings.set(this._artistsTabSelectedArtistType.key, v);
+    }
+
+    // artistsTabSelectedArtist
+    public get artistsTabSelectedArtist(): string {
+        return <string>this.settings.get(this._artistsTabSelectedArtist.key);
+    }
+
+    public set artistsTabSelectedArtist(v: string) {
+        this.settings.set(this._artistsTabSelectedArtist.key, v);
+    }
+
+    // artistsTabSelectedArtistOrder
+    public get artistsTabSelectedArtistOrder(): string {
+        return <string>this.settings.get(this._artistsTabSelectedArtistOrder.key);
+    }
+
+    public set artistsTabSelectedArtistOrder(v: string) {
+        this.settings.set(this._artistsTabSelectedArtistOrder.key, v);
+    }
+
+    // artistsTabSelectedAlbum
+    public get artistsTabSelectedAlbum(): string {
+        return <string>this.settings.get(this._artistsTabSelectedAlbum.key);
+    }
+
+    public set artistsTabSelectedAlbum(v: string) {
+        this.settings.set(this._artistsTabSelectedAlbum.key, v);
+    }
+
+    // artistsTabSelectedAlbumOrder
+    public get artistsTabSelectedAlbumOrder(): string {
+        return <string>this.settings.get(this._artistsTabSelectedAlbumOrder.key);
+    }
+
+    public set artistsTabSelectedAlbumOrder(v: string) {
+        this.settings.set(this._artistsTabSelectedAlbumOrder.key, v);
+    }
+
+    // artistsTabSelectedTrackOrder
+    public get artistsTabSelectedTrackOrder(): string {
+        return <string>this.settings.get(this._artistsTabSelectedTrackOrder.key);
+    }
+
+    public set artistsTabSelectedTrackOrder(v: string) {
+        this.settings.set(this._artistsTabSelectedTrackOrder.key, v);
+    }
+
+    // genresTabSelectedGenre
+    public get genresTabSelectedGenre(): string {
+        return <string>this.settings.get(this._genresTabSelectedGenre.key);
+    }
+
+    public set genresTabSelectedGenre(v: string) {
+        this.settings.set(this._genresTabSelectedGenre.key, v);
+    }
+
+    // genresTabSelectedAlbum
+    public get genresTabSelectedAlbum(): string {
+        return <string>this.settings.get(this._genresTabSelectedAlbum.key);
+    }
+
+    public set genresTabSelectedAlbum(v: string) {
+        this.settings.set(this._genresTabSelectedAlbum.key, v);
+    }
+
+    // genresTabSelectedGenreOrder
+    public get genresTabSelectedGenreOrder(): string {
+        return <string>this.settings.get(this._genresTabSelectedGenreOrder.key);
+    }
+
+    public set genresTabSelectedGenreOrder(v: string) {
+        this.settings.set(this._genresTabSelectedGenreOrder.key, v);
+    }
+
+    // genresTabSelectedAlbumOrder
+    public get genresTabSelectedAlbumOrder(): string {
+        return <string>this.settings.get(this._genresTabSelectedAlbumOrder.key);
+    }
+
+    public set genresTabSelectedAlbumOrder(v: string) {
+        this.settings.set(this._genresTabSelectedAlbumOrder.key, v);
+    }
+
+    // genresTabSelectedTrackOrder
+    public get genresTabSelectedTrackOrder(): string {
+        return <string>this.settings.get(this._genresTabSelectedTrackOrder.key);
+    }
+
+    public set genresTabSelectedTrackOrder(v: string) {
+        this.settings.set(this._genresTabSelectedTrackOrder.key, v);
+    }
+
+    // playlistsTabSelectedPlaylistFolder
+    public get playlistsTabSelectedPlaylistFolder(): string {
+        return <string>this.settings.get(this._playlistsTabSelectedPlaylistFolder.key);
+    }
+
+    public set playlistsTabSelectedPlaylistFolder(v: string) {
+        this.settings.set(this._playlistsTabSelectedPlaylistFolder.key, v);
+    }
+
+    // playlistsTabSelectedPlaylist
+    public get playlistsTabSelectedPlaylist(): string {
+        return <string>this.settings.get(this._playlistsTabSelectedPlaylist.key);
+    }
+
+    public set playlistsTabSelectedPlaylist(v: string) {
+        this.settings.set(this._playlistsTabSelectedPlaylist.key, v);
+    }
+
+    // playlistsTabSelectedPlaylistOrder
+    public get playlistsTabSelectedPlaylistOrder(): string {
+        return <string>this.settings.get(this._playlistsTabSelectedPlaylistOrder.key);
+    }
+
+    public set playlistsTabSelectedPlaylistOrder(v: string) {
+        this.settings.set(this._playlistsTabSelectedPlaylistOrder.key, v);
+    }
+
+    // playlistsTabSelectedTrackOrder
+    public get playlistsTabSelectedTrackOrder(): string {
+        return <string>this.settings.get(this._playlistsTabSelectedTrackOrder.key);
+    }
+
+    public set playlistsTabSelectedTrackOrder(v: string) {
+        this.settings.set(this._playlistsTabSelectedTrackOrder.key, v);
+    }
+
+    // enableDiscordRichPresence
+    public get enableDiscordRichPresence(): boolean {
+        return <boolean>this.settings.get(this._enableDiscordRichPresence.key);
+    }
+
+    public set enableDiscordRichPresence(v: boolean) {
+        this.settings.set(this._enableDiscordRichPresence.key, v);
+    }
+
+    // enableLastFmScrobbling
+    public get enableLastFmScrobbling(): boolean {
+        return <boolean>this.settings.get(this._enableLastFmScrobbling.key);
+    }
+
+    public set enableLastFmScrobbling(v: boolean) {
+        this.settings.set(this._enableLastFmScrobbling.key, v);
+    }
+
+    // showIconInNotificationArea
+    public get showIconInNotificationArea(): boolean {
+        return <boolean>this.settings.get(this._showIconInNotificationArea.key);
+    }
+
+    public set showIconInNotificationArea(v: boolean) {
+        this.settings.set(this._showIconInNotificationArea.key, v);
+    }
+
+    // minimizeToNotificationArea
+    public get minimizeToNotificationArea(): boolean {
+        return <boolean>this.settings.get(this._minimizeToNotificationArea.key);
+    }
+
+    public set minimizeToNotificationArea(v: boolean) {
+        this.settings.set(this._minimizeToNotificationArea.key, v);
+    }
+
+    // closeToNotificationArea
+    public get closeToNotificationArea(): boolean {
+        return <boolean>this.settings.get(this._closeToNotificationArea.key);
+    }
+
+    public set closeToNotificationArea(v: boolean) {
+        this.settings.set(this._closeToNotificationArea.key, v);
+    }
+
+    // invertNotificationAreaIconColor
+    public get invertNotificationAreaIconColor(): boolean {
+        return <boolean>this.settings.get(this._invertNotificationAreaIconColor.key);
+    }
+
+    public set invertNotificationAreaIconColor(v: boolean) {
+        this.settings.set(this._invertNotificationAreaIconColor.key, v);
+    }
+
+    // showArtistsPage
+    public get showArtistsPage(): boolean {
+        return <boolean>this.settings.get(this._showArtistsPage.key);
+    }
+
+    public set showArtistsPage(v: boolean) {
+        this.settings.set(this._showArtistsPage.key, v);
+    }
+
+    // showGenresPage
+    public get showGenresPage(): boolean {
+        return <boolean>this.settings.get(this._showGenresPage.key);
+    }
+
+    public set showGenresPage(v: boolean) {
+        this.settings.set(this._showGenresPage.key, v);
+    }
+
+    // showAlbumsPage
+    public get showAlbumsPage(): boolean {
+        return <boolean>this.settings.get(this._showAlbumsPage.key);
+    }
+
+    public set showAlbumsPage(v: boolean) {
+        this.settings.set(this._showAlbumsPage.key, v);
+    }
+
+    // showTracksPage
+    public get showTracksPage(): boolean {
+        return <boolean>this.settings.get(this._showTracksPage.key);
+    }
+
+    public set showTracksPage(v: boolean) {
+        this.settings.set(this._showTracksPage.key, v);
+    }
+
+    // showPlaylistsPage
+    public get showPlaylistsPage(): boolean {
+        return <boolean>this.settings.get(this._showPlaylistsPage.key);
+    }
+
+    public set showPlaylistsPage(v: boolean) {
+        this.settings.set(this._showPlaylistsPage.key, v);
+    }
+
+    // showFoldersPage
+    public get showFoldersPage(): boolean {
+        return <boolean>this.settings.get(this._showFoldersPage.key);
+    }
+
+    public set showFoldersPage(v: boolean) {
+        this.settings.set(this._showFoldersPage.key, v);
+    }
+
+    // saveRatingToAudioFiles
+    public get saveRatingToAudioFiles(): boolean {
+        return <boolean>this.settings.get(this._saveRatingToAudioFiles.key);
+    }
+
+    public set saveRatingToAudioFiles(v: boolean) {
+        this.settings.set(this._saveRatingToAudioFiles.key, v);
+    }
+
+    // showRating
+    public get showRating(): boolean {
+        return <boolean>this.settings.get(this._showRating.key);
+    }
+
+    public set showRating(v: boolean) {
+        this.settings.set(this._showRating.key, v);
+    }
+
+    // tracksPageVisibleColumns
+    public get tracksPageVisibleColumns(): string {
+        return <string>this.settings.get(this._tracksPageVisibleColumns.key);
+    }
+
+    public set tracksPageVisibleColumns(v: string) {
+        this.settings.set(this._tracksPageVisibleColumns.key, v);
+    }
+
+    // tracksPageColumnsOrder
+    public get tracksPageColumnsOrder(): string {
+        return <string>this.settings.get(this._tracksPageColumnsOrder.key);
+    }
+
+    public set tracksPageColumnsOrder(v: string) {
+        this.settings.set(this._tracksPageColumnsOrder.key, v);
+    }
+
+    // lastFmUsername
+    public get lastFmUsername(): string {
+        return <string>this.settings.get(this._lastFmUsername.key);
+    }
+
+    public set lastFmUsername(v: string) {
+        this.settings.set(this._lastFmUsername.key, v);
+    }
+
+    // lastFmPassword
+    public get lastFmPassword(): string {
+        return <string>this.settings.get(this._lastFmPassword.key);
+    }
+
+    public set lastFmPassword(v: string) {
+        this.settings.set(this._lastFmPassword.key, v);
+    }
+
+    // lastFmSessionKey
+    public get lastFmSessionKey(): string {
+        return <string>this.settings.get(this._lastFmSessionKey.key);
+    }
+
+    public set lastFmSessionKey(v: string) {
+        this.settings.set(this._lastFmSessionKey.key, v);
+    }
+
+    // showLove
+    public get showLove(): boolean {
+        return <boolean>this.settings.get(this._showLove.key);
+    }
+
+    public set showLove(v: boolean) {
+        this.settings.set(this._showLove.key, v);
+    }
+
+    // downloadArtistInformationFromLastFm
+    public get downloadArtistInformationFromLastFm(): boolean {
+        return <boolean>this.settings.get(this._downloadArtistInformationFromLastFm.key);
+    }
+
+    public set downloadArtistInformationFromLastFm(v: boolean) {
+        this.settings.set(this._downloadArtistInformationFromLastFm.key, v);
+    }
+
+    // downloadLyricsOnline
+    public get downloadLyricsOnline(): boolean {
+        return <boolean>this.settings.get(this._downloadLyricsOnline.key);
+    }
+
+    public set downloadLyricsOnline(v: boolean) {
+        this.settings.set(this._downloadLyricsOnline.key, v);
+    }
+
+    // showAudioVisualizer
+    public get showAudioVisualizer(): boolean {
+        return <boolean>this.settings.get(this._showAudioVisualizer.key);
+    }
+
+    public set showAudioVisualizer(v: boolean) {
+        this.settings.set(this._showAudioVisualizer.key, v);
+    }
+
+    // audioVisualizerStyle
+    public get audioVisualizerStyle(): string {
+        return <string>this.settings.get(this._audioVisualizerStyle.key);
+    }
+
+    public set audioVisualizerStyle(v: string) {
+        this.settings.set(this._audioVisualizerStyle.key, v);
+    }
+
+    // audioVisualizerFrameRate
+    public get audioVisualizerFrameRate(): number {
+        return <number>this.settings.get(this._audioVisualizerFrameRate.key);
+    }
+
+    public set audioVisualizerFrameRate(v: number) {
+        this.settings.set(this._audioVisualizerFrameRate.key, v);
+    }
+
+    // keepPlaybackControlsVisibleOnNowPlayingPage
+    public get keepPlaybackControlsVisibleOnNowPlayingPage(): boolean {
+        return <boolean>this.settings.get(this._keepPlaybackControlsVisibleOnNowPlayingPage.key);
+    }
+
+    public set keepPlaybackControlsVisibleOnNowPlayingPage(v: boolean) {
+        this.settings.set(this._keepPlaybackControlsVisibleOnNowPlayingPage.key, v);
+    }
+
+    // albumsDefinedByTitleAndArtist
+    public get albumsDefinedByTitleAndArtist(): boolean {
+        return <boolean>this.settings.get(this._albumsDefinedByTitleAndArtist.key);
+    }
+
+    public set albumsDefinedByTitleAndArtist(v: boolean) {
+        this.settings.set(this._albumsDefinedByTitleAndArtist.key, v);
+        this.setCachedAlbumKeyIndex();
+    }
+
+    // albumsDefinedByTitle
+    public get albumsDefinedByTitle(): boolean {
+        return <boolean>this.settings.get(this._albumsDefinedByTitle.key);
+    }
+
+    public set albumsDefinedByTitle(v: boolean) {
+        this.settings.set(this._albumsDefinedByTitle.key, v);
+        this.setCachedAlbumKeyIndex();
+    }
+
+    // albumsDefinedByFolders
+    public get albumsDefinedByFolders(): boolean {
+        return <boolean>this.settings.get(this._albumsDefinedByFolders.key);
+    }
+
+    public set albumsDefinedByFolders(v: boolean) {
+        this.settings.set(this._albumsDefinedByFolders.key, v);
+        this.setCachedAlbumKeyIndex();
+    }
+
+    // playbackControlsLoop
+    public get playbackControlsLoop(): number {
+        return <number>this.settings.get(this._playbackControlsLoop.key);
+    }
+
+    public set playbackControlsLoop(v: number) {
+        this.settings.set(this._playbackControlsLoop.key, v);
+    }
+
+    // playbackControlsShuffle
+    public get playbackControlsShuffle(): number {
+        return <number>this.settings.get(this._playbackControlsShuffle.key);
+    }
+
+    public set playbackControlsShuffle(v: number) {
+        this.settings.set(this._playbackControlsShuffle.key, v);
+    }
+
+    // rememberPlaybackStateAfterRestart
+    public get rememberPlaybackStateAfterRestart(): boolean {
+        return <boolean>this.settings.get(this._rememberPlaybackStateAfterRestart.key);
+    }
+
+    public set rememberPlaybackStateAfterRestart(v: boolean) {
+        this.settings.set(this._rememberPlaybackStateAfterRestart.key, v);
+    }
+
+    // artistSplitSeparators
+    public get artistSplitSeparators(): string {
+        return <string>this.settings.get(this._artistSplitSeparators.key);
+    }
+
+    public set artistSplitSeparators(v: string) {
+        this.settings.set(this._artistSplitSeparators.key, v);
+    }
+
+    // artistSplitExceptions
+    public get artistSplitExceptions(): string {
+        return <string>this.settings.get(this._artistSplitExceptions.key);
+    }
+
+    public set artistSplitExceptions(v: string) {
+        this.settings.set(this._artistSplitExceptions.key, v);
+    }
+
+    // playerType
+    public get playerType(): string {
+        return <string>this.settings.get(this._playerType.key);
+    }
+
+    public set playerType(v: string) {
+        this.settings.set(this._playerType.key, v);
+    }
+
+    // fullPlayerPositionSizeMaximized
+    public get fullPlayerPositionSizeMaximized(): string {
+        return <string>this.settings.get(this._fullPlayerPositionSizeMaximized.key);
+    }
+
+    public set fullPlayerPositionSizeMaximized(v: string) {
+        this.settings.set(this._fullPlayerPositionSizeMaximized.key, v);
+    }
+
+    // coverPlayerPosition
+    public get coverPlayerPosition(): string {
+        return <string>this.settings.get(this._coverPlayerPosition.key);
+    }
+
+    public set coverPlayerPosition(v: string) {
+        this.settings.set(this._coverPlayerPosition.key, v);
+    }
+
+    // useGaplessPlayback
+    public get useGaplessPlayback(): boolean {
+        return <boolean>this.settings.get(this._useGaplessPlayback.key);
+    }
+
+    public set useGaplessPlayback(v: boolean) {
+        this.settings.set(this._useGaplessPlayback.key, v);
+    }
+
+    // Initialize
+    private initialize(): void {
+        for (const setting of this.allSettings) {
+            if (!this.settings.has(setting.key)) {
+                this[setting.key] = setting.defaultValue;
+            }
+        }
     }
 
     private setCachedAlbumKeyIndex(): void {
@@ -44,1081 +973,5 @@ export class Settings implements SettingsBase {
         }
 
         this.cachedAlbumKeyIndex = '';
-    }
-
-    public set language(v: string) {
-        this.settings.set('language', v);
-    }
-
-    // checkForUpdates
-    public get checkForUpdates(): boolean {
-        return <boolean>this.settings.get('checkForUpdates');
-    }
-
-    public set checkForUpdates(v: boolean) {
-        this.settings.set('checkForUpdates', v);
-    }
-
-    // checkForUpdatesIncludesPreReleases
-    public get checkForUpdatesIncludesPreReleases(): boolean {
-        return <boolean>this.settings.get('checkForUpdatesIncludesPreReleases');
-    }
-
-    public set checkForUpdatesIncludesPreReleases(v: boolean) {
-        this.settings.set('checkForUpdatesIncludesPreReleases', v);
-    }
-
-    // useSystemTitleBar
-    public get useSystemTitleBar(): boolean {
-        return <boolean>this.settings.get('useSystemTitleBar');
-    }
-
-    public set useSystemTitleBar(v: boolean) {
-        this.settings.set('useSystemTitleBar', v);
-    }
-
-    // fontSize
-    public get fontSize(): number {
-        return <number>this.settings.get('fontSize');
-    }
-
-    public set fontSize(v: number) {
-        this.settings.set('fontSize', v);
-    }
-
-    // theme
-    public get theme(): string {
-        return <string>this.settings.get('theme');
-    }
-
-    public set theme(v: string) {
-        this.settings.set('theme', v);
-    }
-
-    // showWelcome
-    public get showWelcome(): boolean {
-        return <boolean>this.settings.get('showWelcome');
-    }
-
-    public set showWelcome(v: boolean) {
-        this.settings.set('showWelcome', v);
-    }
-
-    // followSystemTheme
-    public get followSystemTheme(): boolean {
-        return <boolean>this.settings.get('followSystemTheme');
-    }
-
-    public set followSystemTheme(v: boolean) {
-        this.settings.set('followSystemTheme', v);
-    }
-
-    // useLightBackgroundTheme
-    public get useLightBackgroundTheme(): boolean {
-        return <boolean>this.settings.get('useLightBackgroundTheme');
-    }
-
-    public set useLightBackgroundTheme(v: boolean) {
-        this.settings.set('useLightBackgroundTheme', v);
-    }
-
-    // followSystemColor
-    public get followSystemColor(): boolean {
-        return <boolean>this.settings.get('followSystemColor');
-    }
-
-    public set followSystemColor(v: boolean) {
-        this.settings.set('followSystemColor', v);
-    }
-
-    // followAlbumCoverColor
-    public get followAlbumCoverColor(): boolean {
-        return <boolean>this.settings.get('followAlbumCoverColor');
-    }
-
-    public set followAlbumCoverColor(v: boolean) {
-        this.settings.set('followAlbumCoverColor', v);
-    }
-
-    // skipRemovedFilesDuringRefresh
-    public get skipRemovedFilesDuringRefresh(): boolean {
-        return <boolean>this.settings.get('skipRemovedFilesDuringRefresh');
-    }
-
-    public set skipRemovedFilesDuringRefresh(v: boolean) {
-        this.settings.set('skipRemovedFilesDuringRefresh', v);
-    }
-
-    // downloadMissingAlbumCovers
-    public get downloadMissingAlbumCovers(): boolean {
-        return <boolean>this.settings.get('downloadMissingAlbumCovers');
-    }
-
-    public set downloadMissingAlbumCovers(v: boolean) {
-        this.settings.set('downloadMissingAlbumCovers', v);
-    }
-
-    // showAllFoldersInCollection
-    public get showAllFoldersInCollection(): boolean {
-        return <boolean>this.settings.get('showAllFoldersInCollection');
-    }
-
-    public set showAllFoldersInCollection(v: boolean) {
-        this.settings.set('showAllFoldersInCollection', v);
-    }
-
-    // refreshCollectionAutomatically
-    public get refreshCollectionAutomatically(): boolean {
-        return <boolean>this.settings.get('refreshCollectionAutomatically');
-    }
-
-    public set refreshCollectionAutomatically(v: boolean) {
-        this.settings.set('refreshCollectionAutomatically', v);
-    }
-
-    // albumsRightPaneWidthPercent
-    public get albumsRightPaneWidthPercent(): number {
-        return <number>this.settings.get('albumsRightPaneWidthPercent');
-    }
-
-    public set albumsRightPaneWidthPercent(v: number) {
-        this.settings.set('albumsRightPaneWidthPercent', v);
-    }
-
-    // foldersLeftPaneWidthPercent
-    public get foldersLeftPaneWidthPercent(): number {
-        return <number>this.settings.get('foldersLeftPaneWidthPercent');
-    }
-
-    public set foldersLeftPaneWidthPercent(v: number) {
-        this.settings.set('foldersLeftPaneWidthPercent', v);
-    }
-
-    // artistsLeftPaneWidthPercent
-    public get artistsLeftPaneWidthPercent(): number {
-        return <number>this.settings.get('artistsLeftPaneWidthPercent');
-    }
-
-    public set artistsLeftPaneWidthPercent(v: number) {
-        this.settings.set('artistsLeftPaneWidthPercent', v);
-    }
-
-    // artistsRightPaneWidthPercent
-    public get artistsRightPaneWidthPercent(): number {
-        return <number>this.settings.get('artistsRightPaneWidthPercent');
-    }
-
-    public set artistsRightPaneWidthPercent(v: number) {
-        this.settings.set('artistsRightPaneWidthPercent', v);
-    }
-
-    // genresLeftPaneWidthPercent
-    public get genresLeftPaneWidthPercent(): number {
-        return <number>this.settings.get('genresLeftPaneWidthPercent');
-    }
-
-    public set genresLeftPaneWidthPercent(v: number) {
-        this.settings.set('genresLeftPaneWidthPercent', v);
-    }
-
-    // genresRightPaneWidthPercent
-    public get genresRightPaneWidthPercent(): number {
-        return <number>this.settings.get('genresRightPaneWidthPercent');
-    }
-
-    public set genresRightPaneWidthPercent(v: number) {
-        this.settings.set('genresRightPaneWidthPercent', v);
-    }
-
-    // playlistsLeftPaneWidthPercent
-    public get playlistsLeftPaneWidthPercent(): number {
-        return <number>this.settings.get('playlistsLeftPaneWidthPercent');
-    }
-
-    public set playlistsLeftPaneWidthPercent(v: number) {
-        this.settings.set('playlistsLeftPaneWidthPercent', v);
-    }
-
-    // playlistsRightPaneWidthPercent
-    public get playlistsRightPaneWidthPercent(): number {
-        return <number>this.settings.get('playlistsRightPaneWidthPercent');
-    }
-
-    public set playlistsRightPaneWidthPercent(v: number) {
-        this.settings.set('playlistsRightPaneWidthPercent', v);
-    }
-
-    // volume
-    public get volume(): number {
-        return <number>this.settings.get('volume');
-    }
-
-    public set volume(v: number) {
-        this.settings.set('volume', v);
-    }
-
-    // selectedCollectionPage
-    public get selectedCollectionPage(): number {
-        return <number>this.settings.get('selectedCollectionPage');
-    }
-
-    public set selectedCollectionPage(v: number) {
-        this.settings.set('selectedCollectionPage', v);
-    }
-
-    // foldersTabOpenedFolder
-    public get foldersTabOpenedFolder(): string {
-        return <string>this.settings.get('foldersTabOpenedFolder');
-    }
-
-    public set foldersTabOpenedFolder(v: string) {
-        this.settings.set('foldersTabOpenedFolder', v);
-    }
-
-    // foldersTabOpenedSubfolder
-    public get foldersTabOpenedSubfolder(): string {
-        return <string>this.settings.get('foldersTabOpenedSubfolder');
-    }
-
-    public set foldersTabOpenedSubfolder(v: string) {
-        this.settings.set('foldersTabOpenedSubfolder', v);
-    }
-
-    // albumsTabSelectedAlbum
-    public get albumsTabSelectedAlbum(): string {
-        return <string>this.settings.get('albumsTabSelectedAlbum');
-    }
-
-    public set albumsTabSelectedAlbum(v: string) {
-        this.settings.set('albumsTabSelectedAlbum', v);
-    }
-
-    // albumsTabSelectedAlbumOrder
-    public get albumsTabSelectedAlbumOrder(): string {
-        return <string>this.settings.get('albumsTabSelectedAlbumOrder');
-    }
-
-    public set albumsTabSelectedAlbumOrder(v: string) {
-        this.settings.set('albumsTabSelectedAlbumOrder', v);
-    }
-
-    // albumsTabSelectedTrackOrder
-    public get albumsTabSelectedTrackOrder(): string {
-        return <string>this.settings.get('albumsTabSelectedTrackOrder');
-    }
-
-    public set albumsTabSelectedTrackOrder(v: string) {
-        this.settings.set('albumsTabSelectedTrackOrder', v);
-    }
-
-    // artistsTabSelectedArtistType
-    public get artistsTabSelectedArtistType(): string {
-        return <string>this.settings.get('artistsTabSelectedArtistType');
-    }
-
-    public set artistsTabSelectedArtistType(v: string) {
-        this.settings.set('artistsTabSelectedArtistType', v);
-    }
-
-    // artistsTabSelectedArtist
-    public get artistsTabSelectedArtist(): string {
-        return <string>this.settings.get('artistsTabSelectedArtist');
-    }
-
-    public set artistsTabSelectedArtist(v: string) {
-        this.settings.set('artistsTabSelectedArtist', v);
-    }
-
-    // artistsTabSelectedArtistOrder
-    public get artistsTabSelectedArtistOrder(): string {
-        return <string>this.settings.get('artistsTabSelectedArtistOrder');
-    }
-
-    public set artistsTabSelectedArtistOrder(v: string) {
-        this.settings.set('artistsTabSelectedArtistOrder', v);
-    }
-
-    // artistsTabSelectedAlbum
-    public get artistsTabSelectedAlbum(): string {
-        return <string>this.settings.get('artistsTabSelectedAlbum');
-    }
-
-    public set artistsTabSelectedAlbum(v: string) {
-        this.settings.set('artistsTabSelectedAlbum', v);
-    }
-
-    // artistsTabSelectedAlbumOrder
-    public get artistsTabSelectedAlbumOrder(): string {
-        return <string>this.settings.get('artistsTabSelectedAlbumOrder');
-    }
-
-    public set artistsTabSelectedAlbumOrder(v: string) {
-        this.settings.set('artistsTabSelectedAlbumOrder', v);
-    }
-
-    // artistsTabSelectedTrackOrder
-    public get artistsTabSelectedTrackOrder(): string {
-        return <string>this.settings.get('artistsTabSelectedTrackOrder');
-    }
-
-    public set artistsTabSelectedTrackOrder(v: string) {
-        this.settings.set('artistsTabSelectedTrackOrder', v);
-    }
-
-    // genresTabSelectedGenre
-    public get genresTabSelectedGenre(): string {
-        return <string>this.settings.get('genresTabSelectedGenre');
-    }
-
-    public set genresTabSelectedGenre(v: string) {
-        this.settings.set('genresTabSelectedGenre', v);
-    }
-
-    // genresTabSelectedAlbum
-    public get genresTabSelectedAlbum(): string {
-        return <string>this.settings.get('genresTabSelectedAlbum');
-    }
-
-    public set genresTabSelectedAlbum(v: string) {
-        this.settings.set('genresTabSelectedAlbum', v);
-    }
-
-    // genresTabSelectedGenreOrder
-    public get genresTabSelectedGenreOrder(): string {
-        return <string>this.settings.get('genresTabSelectedGenreOrder');
-    }
-
-    public set genresTabSelectedGenreOrder(v: string) {
-        this.settings.set('genresTabSelectedGenreOrder', v);
-    }
-
-    // genresTabSelectedAlbumOrder
-    public get genresTabSelectedAlbumOrder(): string {
-        return <string>this.settings.get('genresTabSelectedAlbumOrder');
-    }
-
-    public set genresTabSelectedAlbumOrder(v: string) {
-        this.settings.set('genresTabSelectedAlbumOrder', v);
-    }
-
-    // genresTabSelectedTrackOrder
-    public get genresTabSelectedTrackOrder(): string {
-        return <string>this.settings.get('genresTabSelectedTrackOrder');
-    }
-
-    public set genresTabSelectedTrackOrder(v: string) {
-        this.settings.set('genresTabSelectedTrackOrder', v);
-    }
-
-    // playlistsTabSelectedPlaylistFolder
-    public get playlistsTabSelectedPlaylistFolder(): string {
-        return <string>this.settings.get('playlistsTabSelectedPlaylistFolder');
-    }
-
-    public set playlistsTabSelectedPlaylistFolder(v: string) {
-        this.settings.set('playlistsTabSelectedPlaylistFolder', v);
-    }
-
-    // playlistsTabSelectedPlaylist
-    public get playlistsTabSelectedPlaylist(): string {
-        return <string>this.settings.get('playlistsTabSelectedPlaylist');
-    }
-
-    public set playlistsTabSelectedPlaylist(v: string) {
-        this.settings.set('playlistsTabSelectedPlaylist', v);
-    }
-
-    // playlistsTabSelectedPlaylistOrder
-    public get playlistsTabSelectedPlaylistOrder(): string {
-        return <string>this.settings.get('playlistsTabSelectedPlaylistOrder');
-    }
-
-    public set playlistsTabSelectedPlaylistOrder(v: string) {
-        this.settings.set('playlistsTabSelectedPlaylistOrder', v);
-    }
-
-    // playlistsTabSelectedTrackOrder
-    public get playlistsTabSelectedTrackOrder(): string {
-        return <string>this.settings.get('playlistsTabSelectedTrackOrder');
-    }
-
-    public set playlistsTabSelectedTrackOrder(v: string) {
-        this.settings.set('playlistsTabSelectedTrackOrder', v);
-    }
-
-    // enableDiscordRichPresence
-    public get enableDiscordRichPresence(): boolean {
-        return <boolean>this.settings.get('enableDiscordRichPresence');
-    }
-
-    public set enableDiscordRichPresence(v: boolean) {
-        this.settings.set('enableDiscordRichPresence', v);
-    }
-
-    // enableLastFmScrobbling
-    public get enableLastFmScrobbling(): boolean {
-        return <boolean>this.settings.get('enableLastFmScrobbling');
-    }
-
-    public set enableLastFmScrobbling(v: boolean) {
-        this.settings.set('enableLastFmScrobbling', v);
-    }
-
-    // showIconInNotificationArea
-    public get showIconInNotificationArea(): boolean {
-        return <boolean>this.settings.get('showIconInNotificationArea');
-    }
-
-    public set showIconInNotificationArea(v: boolean) {
-        this.settings.set('showIconInNotificationArea', v);
-    }
-
-    // minimizeToNotificationArea
-    public get minimizeToNotificationArea(): boolean {
-        return <boolean>this.settings.get('minimizeToNotificationArea');
-    }
-
-    public set minimizeToNotificationArea(v: boolean) {
-        this.settings.set('minimizeToNotificationArea', v);
-    }
-
-    // closeToNotificationArea
-    public get closeToNotificationArea(): boolean {
-        return <boolean>this.settings.get('closeToNotificationArea');
-    }
-
-    public set closeToNotificationArea(v: boolean) {
-        this.settings.set('closeToNotificationArea', v);
-    }
-
-    // invertNotificationAreaIconColor
-    public get invertNotificationAreaIconColor(): boolean {
-        return <boolean>this.settings.get('invertNotificationAreaIconColor');
-    }
-
-    public set invertNotificationAreaIconColor(v: boolean) {
-        this.settings.set('invertNotificationAreaIconColor', v);
-    }
-
-    // showArtistsPage
-    public get showArtistsPage(): boolean {
-        return <boolean>this.settings.get('showArtistsPage');
-    }
-
-    public set showArtistsPage(v: boolean) {
-        this.settings.set('showArtistsPage', v);
-    }
-
-    // showGenresPage
-    public get showGenresPage(): boolean {
-        return <boolean>this.settings.get('showGenresPage');
-    }
-
-    public set showGenresPage(v: boolean) {
-        this.settings.set('showGenresPage', v);
-    }
-
-    // showAlbumsPage
-    public get showAlbumsPage(): boolean {
-        return <boolean>this.settings.get('showAlbumsPage');
-    }
-
-    public set showAlbumsPage(v: boolean) {
-        this.settings.set('showAlbumsPage', v);
-    }
-
-    // showTracksPage
-    public get showTracksPage(): boolean {
-        return <boolean>this.settings.get('showTracksPage');
-    }
-
-    public set showTracksPage(v: boolean) {
-        this.settings.set('showTracksPage', v);
-    }
-
-    // showPlaylistsPage
-    public get showPlaylistsPage(): boolean {
-        return <boolean>this.settings.get('showPlaylistsPage');
-    }
-
-    public set showPlaylistsPage(v: boolean) {
-        this.settings.set('showPlaylistsPage', v);
-    }
-
-    // showFoldersPage
-    public get showFoldersPage(): boolean {
-        return <boolean>this.settings.get('showFoldersPage');
-    }
-
-    public set showFoldersPage(v: boolean) {
-        this.settings.set('showFoldersPage', v);
-    }
-
-    // saveRatingToAudioFiles
-    public get saveRatingToAudioFiles(): boolean {
-        return <boolean>this.settings.get('saveRatingToAudioFiles');
-    }
-
-    public set saveRatingToAudioFiles(v: boolean) {
-        this.settings.set('saveRatingToAudioFiles', v);
-    }
-
-    // showRating
-    public get showRating(): boolean {
-        return <boolean>this.settings.get('showRating');
-    }
-
-    public set showRating(v: boolean) {
-        this.settings.set('showRating', v);
-    }
-
-    // tracksPageVisibleColumns
-    public get tracksPageVisibleColumns(): string {
-        return <string>this.settings.get('tracksPageVisibleColumns');
-    }
-
-    public set tracksPageVisibleColumns(v: string) {
-        this.settings.set('tracksPageVisibleColumns', v);
-    }
-
-    // tracksPageColumnsOrder
-    public get tracksPageColumnsOrder(): string {
-        return <string>this.settings.get('tracksPageColumnsOrder');
-    }
-
-    public set tracksPageColumnsOrder(v: string) {
-        this.settings.set('tracksPageColumnsOrder', v);
-    }
-
-    // lastFmUsername
-    public get lastFmUsername(): string {
-        return <string>this.settings.get('lastFmUsername');
-    }
-
-    public set lastFmUsername(v: string) {
-        this.settings.set('lastFmUsername', v);
-    }
-
-    // lastFmPassword
-    public get lastFmPassword(): string {
-        return <string>this.settings.get('lastFmPassword');
-    }
-
-    public set lastFmPassword(v: string) {
-        this.settings.set('lastFmPassword', v);
-    }
-
-    // lastFmSessionKey
-    public get lastFmSessionKey(): string {
-        return <string>this.settings.get('lastFmSessionKey');
-    }
-
-    public set lastFmSessionKey(v: string) {
-        this.settings.set('lastFmSessionKey', v);
-    }
-
-    // showLove
-    public get showLove(): boolean {
-        return <boolean>this.settings.get('showLove');
-    }
-
-    public set showLove(v: boolean) {
-        this.settings.set('showLove', v);
-    }
-
-    // downloadArtistInformationFromLastFm
-    public get downloadArtistInformationFromLastFm(): boolean {
-        return <boolean>this.settings.get('downloadArtistInformationFromLastFm');
-    }
-
-    public set downloadArtistInformationFromLastFm(v: boolean) {
-        this.settings.set('downloadArtistInformationFromLastFm', v);
-    }
-
-    // downloadLyricsOnline
-    public get downloadLyricsOnline(): boolean {
-        return <boolean>this.settings.get('downloadLyricsOnline');
-    }
-
-    public set downloadLyricsOnline(v: boolean) {
-        this.settings.set('downloadLyricsOnline', v);
-    }
-
-    // showAudioVisualizer
-    public get showAudioVisualizer(): boolean {
-        return <boolean>this.settings.get('showAudioVisualizer');
-    }
-
-    public set showAudioVisualizer(v: boolean) {
-        this.settings.set('showAudioVisualizer', v);
-    }
-
-    // audioVisualizerStyle
-    public get audioVisualizerStyle(): string {
-        return <string>this.settings.get('audioVisualizerStyle');
-    }
-
-    public set audioVisualizerStyle(v: string) {
-        this.settings.set('audioVisualizerStyle', v);
-    }
-
-    // audioVisualizerFrameRate
-
-    public get audioVisualizerFrameRate(): number {
-        return <number>this.settings.get('audioVisualizerFrameRate');
-    }
-
-    public set audioVisualizerFrameRate(v: number) {
-        this.settings.set('audioVisualizerFrameRate', v);
-    }
-
-    // keepPlaybackControlsVisibleOnNowPlayingPage
-    public get keepPlaybackControlsVisibleOnNowPlayingPage(): boolean {
-        return <boolean>this.settings.get('keepPlaybackControlsVisibleOnNowPlayingPage');
-    }
-
-    public set keepPlaybackControlsVisibleOnNowPlayingPage(v: boolean) {
-        this.settings.set('keepPlaybackControlsVisibleOnNowPlayingPage', v);
-    }
-
-    // albumsDefinedByTitleAndArtist
-    public get albumsDefinedByTitleAndArtist(): boolean {
-        return <boolean>this.settings.get('albumsDefinedByTitleAndArtist');
-    }
-
-    public set albumsDefinedByTitleAndArtist(v: boolean) {
-        this.settings.set('albumsDefinedByTitleAndArtist', v);
-        this.setCachedAlbumKeyIndex();
-    }
-
-    // albumsDefinedByTitle
-    public get albumsDefinedByTitle(): boolean {
-        return <boolean>this.settings.get('albumsDefinedByTitle');
-    }
-
-    public set albumsDefinedByTitle(v: boolean) {
-        this.settings.set('albumsDefinedByTitle', v);
-        this.setCachedAlbumKeyIndex();
-    }
-
-    // albumsDefinedByFolders
-    public get albumsDefinedByFolders(): boolean {
-        return <boolean>this.settings.get('albumsDefinedByFolders');
-    }
-
-    public set albumsDefinedByFolders(v: boolean) {
-        this.settings.set('albumsDefinedByFolders', v);
-        this.setCachedAlbumKeyIndex();
-    }
-
-    // playbackControlsLoop
-    public get playbackControlsLoop(): number {
-        return <number>this.settings.get('playbackControlsLoop');
-    }
-
-    public set playbackControlsLoop(v: number) {
-        this.settings.set('playbackControlsLoop', v);
-    }
-
-    // playbackControlsShuffle
-    public get playbackControlsShuffle(): number {
-        return <number>this.settings.get('playbackControlsShuffle');
-    }
-
-    public set playbackControlsShuffle(v: number) {
-        this.settings.set('playbackControlsShuffle', v);
-    }
-
-    // rememberPlaybackStateAfterRestart
-    public get rememberPlaybackStateAfterRestart(): boolean {
-        return <boolean>this.settings.get('rememberPlaybackStateAfterRestart');
-    }
-
-    public set rememberPlaybackStateAfterRestart(v: boolean) {
-        this.settings.set('rememberPlaybackStateAfterRestart', v);
-    }
-
-    // artistSplitSeparators
-    public get artistSplitSeparators(): string {
-        return <string>this.settings.get('artistSplitSeparators');
-    }
-
-    public set artistSplitSeparators(v: string) {
-        this.settings.set('artistSplitSeparators', v);
-    }
-
-    // artistSplitExceptions
-    public get artistSplitExceptions(): string {
-        return <string>this.settings.get('artistSplitExceptions');
-    }
-
-    public set artistSplitExceptions(v: string) {
-        this.settings.set('artistSplitExceptions', v);
-    }
-
-    // playerType
-    public get playerType(): string {
-        return <string>this.settings.get('playerType');
-    }
-
-    public set playerType(v: string) {
-        this.settings.set('playerType', v);
-    }
-
-    // fullPlayerPositionSizeMaximized
-    public get fullPlayerPositionSizeMaximized(): string {
-        return <string>this.settings.get('fullPlayerPositionSizeMaximized');
-    }
-
-    public set fullPlayerPositionSizeMaximized(v: string) {
-        this.settings.set('fullPlayerPositionSizeMaximized', v);
-    }
-
-    // coverPlayerPosition
-    public get coverPlayerPosition(): string {
-        return <string>this.settings.get('coverPlayerPosition');
-    }
-
-    public set coverPlayerPositionAndSize(v: string) {
-        this.settings.set('coverPlayerPosition', v);
-    }
-
-    // useGaplessPlayback
-    public get useGaplessPlayback(): boolean {
-        return <boolean>this.settings.get('useGaplessPlayback');
-    }
-    public set useGaplessPlayback(v: boolean) {
-        this.settings.set('useGaplessPlayback', v);
-    }
-
-    // Initialize
-    private initialize(): void {
-        if (!this.settings.has('language')) {
-            this.settings.set('language', 'en');
-        }
-
-        if (!this.settings.has('checkForUpdates')) {
-            this.settings.set('checkForUpdates', true);
-        }
-
-        if (!this.settings.has('checkForUpdatesIncludesPreReleases')) {
-            this.settings.set('checkForUpdatesIncludesPreReleases', true);
-        }
-
-        if (!this.settings.has('useSystemTitleBar')) {
-            this.settings.set('useSystemTitleBar', false);
-        }
-
-        if (!this.settings.has('fontSize')) {
-            this.settings.set('fontSize', 13);
-        }
-
-        if (!this.settings.has('theme')) {
-            this.settings.set('theme', 'Dopamine');
-        }
-
-        if (!this.settings.has('showWelcome')) {
-            this.settings.set('showWelcome', true);
-        }
-
-        if (!this.settings.has('followSystemTheme')) {
-            this.settings.set('followSystemTheme', false);
-        }
-
-        if (!this.settings.has('useLightBackgroundTheme')) {
-            this.settings.set('useLightBackgroundTheme', false);
-        }
-
-        if (!this.settings.has('followSystemColor')) {
-            this.settings.set('followSystemColor', false);
-        }
-
-        if (!this.settings.has('followAlbumCoverColor')) {
-            this.settings.set('followAlbumCoverColor', false);
-        }
-
-        if (!this.settings.has('skipRemovedFilesDuringRefresh')) {
-            this.settings.set('skipRemovedFilesDuringRefresh', true);
-        }
-
-        if (!this.settings.has('downloadMissingAlbumCovers')) {
-            this.settings.set('downloadMissingAlbumCovers', true);
-        }
-
-        if (!this.settings.has('showAllFoldersInCollection')) {
-            this.settings.set('showAllFoldersInCollection', true);
-        }
-
-        if (!this.settings.has('refreshCollectionAutomatically')) {
-            this.settings.set('refreshCollectionAutomatically', true);
-        }
-
-        if (!this.settings.has('albumsRightPaneWidthPercent')) {
-            this.settings.set('albumsRightPaneWidthPercent', 30);
-        }
-
-        if (!this.settings.has('foldersLeftPaneWidthPercent')) {
-            this.settings.set('foldersLeftPaneWidthPercent', 30);
-        }
-
-        if (!this.settings.has('artistsLeftPaneWidthPercent')) {
-            this.settings.set('artistsLeftPaneWidthPercent', 25);
-        }
-
-        if (!this.settings.has('artistsRightPaneWidthPercent')) {
-            this.settings.set('artistsRightPaneWidthPercent', 25);
-        }
-
-        if (!this.settings.has('genresLeftPaneWidthPercent')) {
-            this.settings.set('genresLeftPaneWidthPercent', 25);
-        }
-
-        if (!this.settings.has('genresRightPaneWidthPercent')) {
-            this.settings.set('genresRightPaneWidthPercent', 25);
-        }
-
-        if (!this.settings.has('playlistsLeftPaneWidthPercent')) {
-            this.settings.set('playlistsLeftPaneWidthPercent', 25);
-        }
-
-        if (!this.settings.has('playlistsRightPaneWidthPercent')) {
-            this.settings.set('playlistsRightPaneWidthPercent', 25);
-        }
-
-        if (!this.settings.has('volume')) {
-            this.settings.set('volume', 0.5);
-        }
-
-        if (!this.settings.has('selectedCollectionPage')) {
-            this.settings.set('selectedCollectionPage', 0);
-        }
-
-        if (!this.settings.has('foldersTabOpenedFolder')) {
-            this.settings.set('foldersTabOpenedFolder', '');
-        }
-
-        if (!this.settings.has('foldersTabOpenedSubfolder')) {
-            this.settings.set('foldersTabOpenedSubfolder', '');
-        }
-
-        if (!this.settings.has('albumsTabSelectedAlbum')) {
-            this.settings.set('albumsTabSelectedAlbum', '');
-        }
-
-        if (!this.settings.has('albumsTabSelectedAlbumOrder')) {
-            this.settings.set('albumsTabSelectedAlbumOrder', '');
-        }
-
-        if (!this.settings.has('albumsTabSelectedTrackOrder')) {
-            this.settings.set('albumsTabSelectedTrackOrder', '');
-        }
-
-        if (!this.settings.has('artistsTabSelectedArtistType')) {
-            this.settings.set('artistsTabSelectedArtistType', '');
-        }
-
-        if (!this.settings.has('artistsTabSelectedArtist')) {
-            this.settings.set('artistsTabSelectedArtist', '');
-        }
-
-        if (!this.settings.has('artistsTabSelectedArtistOrder')) {
-            this.settings.set('artistsTabSelectedArtistOrder', '');
-        }
-
-        if (!this.settings.has('artistsTabSelectedAlbum')) {
-            this.settings.set('artistsTabSelectedAlbum', '');
-        }
-
-        if (!this.settings.has('artistsTabSelectedAlbumOrder')) {
-            this.settings.set('artistsTabSelectedAlbumOrder', '');
-        }
-
-        if (!this.settings.has('artistsTabSelectedTrackOrder')) {
-            this.settings.set('artistsTabSelectedTrackOrder', '');
-        }
-
-        if (!this.settings.has('genresTabSelectedGenre')) {
-            this.settings.set('genresTabSelectedGenre', '');
-        }
-
-        if (!this.settings.has('genresTabSelectedAlbum')) {
-            this.settings.set('genresTabSelectedAlbum', '');
-        }
-
-        if (!this.settings.has('genresTabSelectedGenreOrder')) {
-            this.settings.set('genresTabSelectedGenreOrder', '');
-        }
-
-        if (!this.settings.has('genresTabSelectedAlbumOrder')) {
-            this.settings.set('genresTabSelectedAlbumOrder', '');
-        }
-
-        if (!this.settings.has('genresTabSelectedTrackOrder')) {
-            this.settings.set('genresTabSelectedTrackOrder', '');
-        }
-
-        if (!this.settings.has('playlistsTabSelectedPlaylistFolder')) {
-            this.settings.set('playlistsTabSelectedPlaylistFolder', '');
-        }
-
-        if (!this.settings.has('playlistsTabSelectedPlaylist')) {
-            this.settings.set('playlistsTabSelectedPlaylist', '');
-        }
-
-        if (!this.settings.has('playlistsTabSelectedPlaylistOrder')) {
-            this.settings.set('playlistsTabSelectedPlaylistOrder', '');
-        }
-
-        if (!this.settings.has('enableDiscordRichPresence')) {
-            this.settings.set('enableDiscordRichPresence', false);
-        }
-
-        if (!this.settings.has('enableLastFmScrobbling')) {
-            this.settings.set('enableLastFmScrobbling', false);
-        }
-
-        if (!this.settings.has('showIconInNotificationArea')) {
-            this.settings.set('showIconInNotificationArea', true);
-        }
-
-        if (!this.settings.has('minimizeToNotificationArea')) {
-            this.settings.set('minimizeToNotificationArea', false);
-        }
-
-        if (!this.settings.has('closeToNotificationArea')) {
-            this.settings.set('closeToNotificationArea', false);
-        }
-
-        if (!this.settings.has('invertNotificationAreaIconColor')) {
-            this.settings.set('invertNotificationAreaIconColor', false);
-        }
-
-        if (!this.settings.has('showArtistsPage')) {
-            this.settings.set('showArtistsPage', true);
-        }
-
-        if (!this.settings.has('showGenresPage')) {
-            this.settings.set('showGenresPage', true);
-        }
-
-        if (!this.settings.has('showAlbumsPage')) {
-            this.settings.set('showAlbumsPage', false);
-        }
-
-        if (!this.settings.has('showTracksPage')) {
-            this.settings.set('showTracksPage', true);
-        }
-
-        if (!this.settings.has('showPlaylistsPage')) {
-            this.settings.set('showPlaylistsPage', true);
-        }
-
-        if (!this.settings.has('showFoldersPage')) {
-            this.settings.set('showFoldersPage', true);
-        }
-
-        if (!this.settings.has('showRating')) {
-            this.settings.set('showRating', true);
-        }
-
-        if (!this.settings.has('saveRatingToAudioFiles')) {
-            this.settings.set('saveRatingToAudioFiles', false);
-        }
-
-        if (!this.settings.has('tracksPageVisibleColumns')) {
-            this.settings.set('tracksPageVisibleColumns', 'rating;artists;duration;number');
-        }
-
-        if (!this.settings.has('tracksPageColumnsOrder')) {
-            this.settings.set('tracksPageColumnsOrder', '');
-        }
-
-        if (!this.settings.has('lastFmUsername')) {
-            this.settings.set('lastFmUsername', '');
-        }
-
-        if (!this.settings.has('lastFmPassword')) {
-            this.settings.set('lastFmPassword', '');
-        }
-
-        if (!this.settings.has('lastFmSessionKey')) {
-            this.settings.set('lastFmSessionKey', '');
-        }
-
-        if (!this.settings.has('showLove')) {
-            this.settings.set('showLove', false);
-        }
-
-        if (!this.settings.has('downloadArtistInformationFromLastFm')) {
-            this.settings.set('downloadArtistInformationFromLastFm', true);
-        }
-
-        if (!this.settings.has('downloadLyricsOnline')) {
-            this.settings.set('downloadLyricsOnline', true);
-        }
-
-        if (!this.settings.has('showAudioVisualizer')) {
-            this.settings.set('showAudioVisualizer', true);
-        }
-
-        if (!this.settings.has('audioVisualizerStyle')) {
-            this.settings.set('audioVisualizerStyle', 'flames');
-        }
-
-        if (!this.settings.has('audioVisualizerFrameRate')) {
-            this.settings.set('audioVisualizerFrameRate', 10);
-        }
-
-        if (!this.settings.has('keepPlaybackControlsVisibleOnNowPlayingPage')) {
-            this.settings.set('keepPlaybackControlsVisibleOnNowPlayingPage', false);
-        }
-
-        if (!this.settings.has('albumsDefinedByTitleAndArtist')) {
-            this.settings.set('albumsDefinedByTitleAndArtist', true);
-        }
-
-        if (!this.settings.has('albumsDefinedByTitle')) {
-            this.settings.set('albumsDefinedByTitle', false);
-        }
-
-        if (!this.settings.has('albumsDefinedByFolders')) {
-            this.settings.set('albumsDefinedByFolders', false);
-        }
-
-        if (!this.settings.has('playbackControlsLoop')) {
-            this.settings.set('playbackControlsLoop', 0);
-        }
-
-        if (!this.settings.has('playbackControlsShuffle')) {
-            this.settings.set('playbackControlsShuffle', false);
-        }
-
-        if (!this.settings.has('rememberPlaybackStateAfterRestart')) {
-            this.settings.set('rememberPlaybackStateAfterRestart', true);
-        }
-
-        if (!this.settings.has('artistSplitSeparators')) {
-            this.settings.set('artistSplitSeparators', '[feat.][ft.]');
-        }
-
-        if (!this.settings.has('artistSplitExceptions')) {
-            this.settings.set('artistSplitExceptions', '');
-        }
-
-        if (!this.settings.has('playerType')) {
-            this.settings.set('playerType', 'full');
-        }
-
-        if (!this.settings.has('fullPlayerPositionSizeMaximized')) {
-            this.settings.set('fullPlayerPositionSizeMaximized', '50;50;1000;650;0');
-        }
-
-        if (!this.settings.has('coverPlayerPosition')) {
-            this.settings.set('coverPlayerPosition', '50;50');
-        }
-
-        if (!this.settings.has('useGaplessPlayback')) {
-            this.settings.set('useGaplessPlayback', false);
-        }
     }
 }
