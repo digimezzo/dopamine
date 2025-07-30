@@ -45,7 +45,7 @@
   "check-for-updates": "Granska uppdateringar",
   "also-check-for-pre-releases": "Kolla även efter förhandsversioner",
   "welcome-screen": "Välkomstskärm",
-  "show-welcome-screen": "Visa välkomstskärmen vid nästa omstart",
+  "show-welcome-screen-on-next-restart": "Visa välkomstskärmen vid nästa omstart",
   "online": "Uppkopplad",
   "discord": "Discord",
   "enable-discord-rich-presence": "Använd Discord Aktivitetsstatus",
