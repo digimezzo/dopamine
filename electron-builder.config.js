@@ -55,7 +55,17 @@ const config = {
     directories: {
         output: 'release',
     },
-    files: ['**/*'],
+    files: [
+        'dist/',
+        'main/',
+        'static/',
+        'main.js',
+        'package.json',
+        '!main/background-work/mocks',
+        '!**/*.map',
+        '!**/*.ts',
+        '!**/*.spec.*',
+    ],
     extraResources: ['LICENSE'],
     win: {
         target: ['nsis'],
