@@ -15,6 +15,8 @@ describe('ArtistSorter', () => {
     let artistModel8: ArtistModel;
     let artistModel9: ArtistModel;
     let artistModel10: ArtistModel;
+    let artistModel11: ArtistModel;
+    let artistModel12: ArtistModel;
 
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let loggerMock: IMock<Logger>;
@@ -36,6 +38,8 @@ describe('ArtistSorter', () => {
         artistModel8 = new ArtistModel('Artist8', translatorServiceMock.object);
         artistModel9 = new ArtistModel('Artist9', translatorServiceMock.object);
         artistModel10 = new ArtistModel('Artist10', translatorServiceMock.object);
+        artistModel11 = new ArtistModel('', translatorServiceMock.object);
+        artistModel12 = new ArtistModel('Артист', translatorServiceMock.object);
 
         artists = [
             artistModel2,
@@ -47,6 +51,8 @@ describe('ArtistSorter', () => {
             artistModel1,
             artistModel7,
             artistModel5,
+            artistModel11,
+            artistModel12,
             artistModel3,
         ];
 
@@ -81,16 +87,19 @@ describe('ArtistSorter', () => {
             const sortedArtists: ArtistModel[] = artistSorter.sortAscending(artists);
 
             // Assert
-            expect(sortedArtists[0]).toBe(artistModel1);
-            expect(sortedArtists[1]).toBe(artistModel2);
-            expect(sortedArtists[2]).toBe(artistModel3);
-            expect(sortedArtists[3]).toBe(artistModel4);
-            expect(sortedArtists[4]).toBe(artistModel5);
-            expect(sortedArtists[5]).toBe(artistModel6);
-            expect(sortedArtists[6]).toBe(artistModel7);
-            expect(sortedArtists[7]).toBe(artistModel8);
-            expect(sortedArtists[8]).toBe(artistModel9);
-            expect(sortedArtists[9]).toBe(artistModel10);
+            expect(sortedArtists.length).toEqual(12);
+            expect(sortedArtists[0]).toBe(artistModel11);
+            expect(sortedArtists[1]).toBe(artistModel12);
+            expect(sortedArtists[2]).toBe(artistModel1);
+            expect(sortedArtists[3]).toBe(artistModel2);
+            expect(sortedArtists[4]).toBe(artistModel3);
+            expect(sortedArtists[5]).toBe(artistModel4);
+            expect(sortedArtists[6]).toBe(artistModel5);
+            expect(sortedArtists[7]).toBe(artistModel6);
+            expect(sortedArtists[8]).toBe(artistModel7);
+            expect(sortedArtists[9]).toBe(artistModel8);
+            expect(sortedArtists[10]).toBe(artistModel9);
+            expect(sortedArtists[11]).toBe(artistModel10);
         });
     });
 
@@ -122,6 +131,7 @@ describe('ArtistSorter', () => {
             const sortedArtists: ArtistModel[] = artistSorter.sortDescending(artists);
 
             // Assert
+            expect(sortedArtists.length).toEqual(12);
             expect(sortedArtists[0]).toBe(artistModel10);
             expect(sortedArtists[1]).toBe(artistModel9);
             expect(sortedArtists[2]).toBe(artistModel8);
@@ -132,6 +142,8 @@ describe('ArtistSorter', () => {
             expect(sortedArtists[7]).toBe(artistModel3);
             expect(sortedArtists[8]).toBe(artistModel2);
             expect(sortedArtists[9]).toBe(artistModel1);
+            expect(sortedArtists[10]).toBe(artistModel12);
+            expect(sortedArtists[11]).toBe(artistModel11);
         });
     });
 });

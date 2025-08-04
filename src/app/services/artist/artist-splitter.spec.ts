@@ -26,7 +26,7 @@ describe('ArtistSplitter', () => {
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
-        translatorServiceMock.setup((x) => x.get('Artist.UnknownArtist')).returns(() => 'Unknown artist');
+        translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
 
         settingsMock = new SettingsMock();
     });

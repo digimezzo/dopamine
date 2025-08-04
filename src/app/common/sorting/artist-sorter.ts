@@ -6,55 +6,45 @@ import { Logger } from '../logger';
 
 @Injectable({ providedIn: 'root' })
 export class ArtistSorter {
+    private readonly collator: Intl.Collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+    private readonly compare = this.collator.compare.bind(this.collator) as (a: string, b: string) => number;
+
     public constructor(private logger: Logger) {}
 
-    public sortAscending(artists: ArtistModel[] | undefined): ArtistModel[] {
-        if (artists == undefined) {
-            return [];
-        }
-
-        const timer = new Timer();
-        timer.start();
-
-        const sorted: ArtistModel[] = sort(artists!).by([
-            {
-                asc: (a) => a.sortableName,
-                comparer: new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' }).compare,
-            },
-        ]);
-
-        timer.stop();
-
-        this.logger.info(
-            `Finished sorting artists ascending. Time required: ${timer.elapsedMilliseconds} ms`,
-            'ArtistSorter',
-            'sortAscending',
-        );
-
-        return sorted;
+    public sortAscending(artists: ArtistModel[] = []): ArtistModel[] {
+        return this.sortArtists(artists, true);
     }
 
-    public sortDescending(artists: ArtistModel[] | undefined): ArtistModel[] {
-        if (artists == undefined) {
+    public sortDescending(artists: ArtistModel[] = []): ArtistModel[] {
+        return this.sortArtists(artists, false);
+    }
+
+    private sortArtists(artists: ArtistModel[], ascending: boolean): ArtistModel[] {
+        if (artists.length === 0) {
             return [];
         }
 
         const timer = new Timer();
         timer.start();
 
-        const sorted: ArtistModel[] = sort(artists!).by([
-            {
-                desc: (a) => a.sortableName,
-                comparer: new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' }).compare,
-            },
-        ]);
+        const sortConfig = ascending
+            ? [
+                  { asc: (a: ArtistModel) => a.zoomHeader, comparer: this.compare },
+                  { asc: (a: ArtistModel) => a.sortableName, comparer: this.compare },
+              ]
+            : [
+                  { desc: (a: ArtistModel) => a.zoomHeader, comparer: this.compare },
+                  { desc: (a: ArtistModel) => a.sortableName, comparer: this.compare },
+              ];
+
+        const sorted = sort(artists).by(sortConfig);
 
         timer.stop();
 
         this.logger.info(
-            `Finished sorting artists descending. Time required: ${timer.elapsedMilliseconds} ms`,
+            `Finished sorting artists ${ascending ? 'ascending' : 'descending'}. Time required: ${timer.elapsedMilliseconds} ms`,
             'ArtistSorter',
-            'sortDescending',
+            'sortArtists',
         );
 
         return sorted;

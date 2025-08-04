@@ -1,7 +1,6 @@
-import { IMock, Mock } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { AlbumModel } from './album-model';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
-import { FileAccessBase } from '../../common/io/file-access.base';
 import { AlbumData } from '../../data/entities/album-data';
 import { ApplicationPaths } from '../../common/application/application-paths';
 
@@ -21,12 +20,14 @@ describe('AlbumModel', () => {
         albumData.dateFileCreated = 987654321;
         albumData.dateLastPlayed = 12369845;
         albumData.year = 2021;
+        albumData.genres = ';Foo;;Bar/Baz;';
 
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         applicationPathsMock = Mock.ofType<ApplicationPaths>();
 
         translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
         translatorServiceMock.setup((x) => x.get('unknown-title')).returns(() => 'Unknown title');
+        translatorServiceMock.setup((x) => x.get('unknown-genre')).returns(() => 'Unknown genre');
         albumModel = new AlbumModel(albumData, translatorServiceMock.object, applicationPathsMock.object);
     });
 
@@ -315,6 +316,73 @@ describe('AlbumModel', () => {
 
             // Assert
             expect(albumTitle).toEqual(expectedAlbumTitle);
+        });
+    });
+
+    describe('genres', () => {
+        it('should return "Unknown genre" if albumData genres is undefined', () => {
+            // Arrange
+            albumData.genres = undefined;
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, applicationPathsMock.object);
+
+            // Act
+            const genres: string[] = albumModel.genres;
+
+            // Assert
+            expect(genres).toEqual(['Unknown genre']);
+            translatorServiceMock.verify((x) => x.get('unknown-genre'), Times.once());
+        });
+
+        it('should return "Unknown genre" if albumData genres is empty', () => {
+            // Arrange
+            albumData.genres = '';
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, applicationPathsMock.object);
+
+            // Act
+            const genres: string[] = albumModel.genres;
+
+            // Assert
+            expect(genres).toEqual(['Unknown genre']);
+            translatorServiceMock.verify((x) => x.get('unknown-genre'), Times.once());
+        });
+
+        it('should return "Unknown genre" if albumData genres is white space', () => {
+            // Arrange
+            albumData.genres = ' ';
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, applicationPathsMock.object);
+
+            // Act
+            const genres: string[] = albumModel.genres;
+
+            // Assert
+            expect(genres).toEqual(['Unknown genre']);
+            translatorServiceMock.verify((x) => x.get('unknown-genre'), Times.once());
+        });
+
+        it('should return albumData genres when there is one genre', () => {
+            // Arrange
+            albumData.genres = ';Foo;';
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, applicationPathsMock.object);
+
+            // Act
+            const genres: string[] = albumModel.genres;
+
+            // Assert
+            expect(genres).toEqual(['Foo']);
+            translatorServiceMock.verify((x) => x.get(It.isAny()), Times.never());
+        });
+
+        it('should return albumData genres when there are several genres', () => {
+            // Arrange
+            albumData.genres = ';Foo;;Bar/Baz;';
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, applicationPathsMock.object);
+
+            // Act
+            const genres: string[] = albumModel.genres;
+
+            // Assert
+            expect(genres).toEqual(['Foo', 'Bar/Baz']);
+            translatorServiceMock.verify((x) => x.get(It.isAny()), Times.never());
         });
     });
 

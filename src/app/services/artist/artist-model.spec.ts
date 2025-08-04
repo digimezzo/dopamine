@@ -9,7 +9,7 @@ describe('ArtistModel', () => {
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
-        translatorServiceMock.setup((x) => x.get('Artist.UnknownArtist')).returns(() => 'Unknown artist');
+        translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
         artistModel = new ArtistModel('My artist', translatorServiceMock.object);
     });
 

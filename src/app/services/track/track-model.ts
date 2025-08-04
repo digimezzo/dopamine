@@ -5,6 +5,7 @@ import { StringUtils } from '../../common/utils/string-utils';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { ISelectable } from '../../ui/interfaces/i-selectable';
 import { CollectionUtils } from '../../common/utils/collections-utils';
+import { Constants } from '../../common/application/constants';
 
 export class TrackModel implements ISelectable {
     public constructor(
@@ -75,14 +76,14 @@ export class TrackModel implements ISelectable {
     public get artists(): string {
         const trackArtists: string[] = DataDelimiter.fromDelimitedString(this.track.artists);
 
-        if (trackArtists == undefined || trackArtists.length === 0) {
-            return this.translatorService.get('unknown-artist');
+        if (DataDelimiter.isUnknownValue(trackArtists)) {
+            return this.translatorService.get(Constants.unknownArtist);
         }
 
         const commaSeparatedArtists: string = CollectionUtils.toCommaSeparatedString(trackArtists);
 
         if (commaSeparatedArtists.length === 0) {
-            return this.translatorService.get('unknown-artist');
+            return this.translatorService.get(Constants.unknownArtist);
         }
 
         return commaSeparatedArtists;
@@ -91,7 +92,7 @@ export class TrackModel implements ISelectable {
     public get rawArtists(): string[] {
         const trackArtists: string[] = DataDelimiter.fromDelimitedString(this.track.artists);
 
-        if (trackArtists == undefined) {
+        if (DataDelimiter.isUnknownValue(trackArtists)) {
             return [];
         }
 
@@ -115,14 +116,14 @@ export class TrackModel implements ISelectable {
     public get genres(): string {
         const trackGenres: string[] = DataDelimiter.fromDelimitedString(this.track.genres);
 
-        if (trackGenres == undefined || trackGenres.length === 0) {
-            return this.translatorService.get('unknown-genre');
+        if (DataDelimiter.isUnknownValue(trackGenres)) {
+            return this.translatorService.get(Constants.unknownGenre);
         }
 
         const commaSeparatedGenres: string = CollectionUtils.toCommaSeparatedString(trackGenres);
 
         if (commaSeparatedGenres.length === 0) {
-            return this.translatorService.get('unknown-genre');
+            return this.translatorService.get(Constants.unknownGenre);
         }
 
         return commaSeparatedGenres;
@@ -163,17 +164,17 @@ export class TrackModel implements ISelectable {
     public get albumArtists(): string {
         const albumArtists: string[] = DataDelimiter.fromDelimitedString(this.track.albumArtists);
 
-        if (albumArtists != undefined && albumArtists.length > 0) {
+        if (!DataDelimiter.isUnknownValue(albumArtists)) {
             return albumArtists.join(', ');
         }
 
         const trackArtists: string[] = DataDelimiter.fromDelimitedString(this.track.artists);
 
-        if (trackArtists != undefined && trackArtists.length > 0) {
+        if (!DataDelimiter.isUnknownValue(trackArtists)) {
             return trackArtists.join(', ');
         }
 
-        return this.translatorService.get('unknown-artist');
+        return this.translatorService.get(Constants.unknownArtist);
     }
 
     public get sortableAlbumArtists(): string {

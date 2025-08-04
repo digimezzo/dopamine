@@ -159,7 +159,7 @@ export class PlaybackService {
     }
 
     public enqueueAndPlayGenre(genreToPlay: GenreModel): void {
-        const tracksForGenre: TrackModels = this.trackService.getTracksForGenres([genreToPlay.displayName]);
+        const tracksForGenre: TrackModels = this.trackService.getTracksForGenres([genreToPlay.name]);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForGenre.tracks);
         this.enqueueAndPlayTracks(orderedTracks);
     }
@@ -195,7 +195,7 @@ export class PlaybackService {
             return;
         }
 
-        const tracksForGenre: TrackModels = this.trackService.getTracksForGenres([genreToAdd.displayName]);
+        const tracksForGenre: TrackModels = this.trackService.getTracksForGenres([genreToAdd.name]);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForGenre.tracks);
         await this.addTracksToQueueAsync(orderedTracks);
     }
