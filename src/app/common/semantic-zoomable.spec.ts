@@ -33,7 +33,7 @@ describe('SemanticZoomable', () => {
         it('should return a sortable name', () => {
             // Arrange
             semanticZoomable = new SemanticZoomableImplementation();
-            semanticZoomable.name = 'The Text';
+            semanticZoomable.displayName = 'The Text';
 
             // Act
             const sortableName: string = semanticZoomable.sortableName;
@@ -47,7 +47,7 @@ describe('SemanticZoomable', () => {
         it('should return a header containing a letter if the first letter is known as alphabetical header', () => {
             // Arrange
             semanticZoomable = new SemanticZoomableImplementation();
-            semanticZoomable.name = 'The Text';
+            semanticZoomable.displayName = 'The Text';
 
             // Act
             const header: string = semanticZoomable.zoomHeader;
@@ -59,7 +59,7 @@ describe('SemanticZoomable', () => {
         it('should return a header containing a letter if the first letter is not known as alphabetical header', () => {
             // Arrange
             semanticZoomable = new SemanticZoomableImplementation();
-            semanticZoomable.name = '1 Text';
+            semanticZoomable.displayName = '1 Text';
 
             // Act
             const header: string = semanticZoomable.zoomHeader;

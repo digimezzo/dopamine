@@ -13,13 +13,13 @@ describe('SemanticZoomHeaderAdder', () => {
     let semanticZoomHeaderAdder: SemanticZoomHeaderAdder;
 
     const semanticZoomable1: SemanticZoomable = new SemanticZoomableImplementation();
-    semanticZoomable1.name = 'Zoomable 1';
+    semanticZoomable1.displayName = 'Zoomable 1';
     const semanticZoomable2: SemanticZoomable = new SemanticZoomableImplementation();
-    semanticZoomable2.name = 'Zoomable 2';
+    semanticZoomable2.displayName = 'Zoomable 2';
     const semanticZoomable3: SemanticZoomable = new SemanticZoomableImplementation();
-    semanticZoomable3.name = 'Another zoomable 1';
+    semanticZoomable3.displayName = 'Another zoomable 1';
     const semanticZoomable4: SemanticZoomable = new SemanticZoomableImplementation();
-    semanticZoomable4.name = 'Another zoomable 2';
+    semanticZoomable4.displayName = 'Another zoomable 2';
 
     beforeEach(() => {
         guidFactoryMock = Mock.ofType<GuidFactory>();

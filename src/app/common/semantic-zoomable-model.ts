@@ -7,11 +7,7 @@ export class SemanticZoomableModel extends SemanticZoomable {
         this.isZoomHeader = true;
     }
 
-    public get name(): string {
-        return this.semanticZoomable.name;
-    }
-
     public get displayName(): string {
-        return '';
+        return this.semanticZoomable.displayName;
     }
 }
