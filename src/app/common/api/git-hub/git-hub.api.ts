@@ -11,24 +11,24 @@ import { StringUtils } from '../../utils/string-utils';
 
 @Injectable()
 export class GitHubApi {
+    private readonly _tagPrefix = 'v';
+
     public constructor(private httpClient: HttpClient) {}
 
     public async getLatestReleaseAsync(owner: string, repo: string, includePrereleases: boolean): Promise<string> {
         const url: string = `https://api.github.com/repos/${owner}/${repo}/releases`;
         const releasesResponse: any = await this.httpClient.get<any>(url).toPromise();
 
-        let latestRelease: any = releasesResponse.find((x) => x.prerelease);
-
-        if (includePrereleases) {
-            latestRelease = releasesResponse.find((x) => x.prerelease);
-        } else {
-            latestRelease = releasesResponse.find((x) => !x.prerelease);
+        const latestRelease = releasesResponse.find((x: { prerelease: boolean }) => x.prerelease === includePrereleases);
+        if (latestRelease == undefined || latestRelease.tag_name == undefined) {
+            return '';
         }
 
-        if (latestRelease != undefined && latestRelease.tag_name != undefined) {
-            return StringUtils.replaceFirst(latestRelease.tag_name, 'v', '');
+        const tag = latestRelease.tag_name;
+        if (tag.startsWith(this._tagPrefix)) {
+            return StringUtils.replaceFirst(tag, this._tagPrefix, '');
         }
 
-        return '';
+        return tag;
     }
 }
