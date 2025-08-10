@@ -8,6 +8,7 @@ import { SettingsBase } from '../../common/settings/settings.base';
 import { LyricsModel } from './lyrics-model';
 import { Logger } from '../../common/logger';
 import { LyricsServiceBase } from './lyrics.service.base';
+import { SrtLyricsGetter } from './srt-lyrics-getter';
 
 @Injectable()
 export class LyricsService implements LyricsServiceBase {
@@ -15,6 +16,7 @@ export class LyricsService implements LyricsServiceBase {
         private embeddedLyricsGetter: EmbeddedLyricsGetter,
         private lrcLyricsGetter: LrcLyricsGetter,
         private onlineLyricsGetter: OnlineLyricsGetter,
+        private srtLyricsGetter: SrtLyricsGetter,
         private settings: SettingsBase,
         private logger: Logger,
     ) {}
@@ -33,6 +35,16 @@ export class LyricsService implements LyricsServiceBase {
         let lyrics: LyricsModel = LyricsModel.empty(track);
 
         if (this.showRichLyrics) {
+            try {
+                lyrics = await this.srtLyricsGetter.getLyricsAsync(track);
+            } catch (e) {
+                this.logger.error(e, 'Could not get SRT lyrics', 'LyricsService', 'getLyricsAsync');
+            }
+
+            if (!StringUtils.isNullOrWhiteSpace(lyrics.text)) {
+                return lyrics;
+            }
+
             try {
                 lyrics = await this.lrcLyricsGetter.getLyricsAsync(track);
             } catch (e: unknown) {

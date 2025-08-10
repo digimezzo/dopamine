@@ -43,6 +43,8 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     public largeFontSize: number = this.appearanceService.selectedFontSize * 1.7;
     public smallFontSize: number = this.appearanceService.selectedFontSize;
 
+    public widthPercent: number = 0;
+
     public get isBusy(): boolean {
         return this._isBusy;
     }
@@ -55,12 +57,20 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
         return this._lyrics != null && this._lyrics.lyricList != undefined && this._lyrics.lyricList.length > 0 && this._lyrics.timeStamps != undefined && this._lyrics.timeStamps.length == this._lyrics.lyricList.length;
     }
 
+    public get hasTimeEnds(): boolean {
+        return this._lyrics != null && this._lyrics.timeStampEnds != undefined;
+    }
+
     public get showRichLyrics(): boolean {
         return this.lyricsService.showRichLyrics;
     }
 
     public get lyrics(): LyricsModel | undefined {
         return this._lyrics;
+    }
+
+    public get percentage(): string {
+        return String(this.widthPercent);
     }
 
     public ngOnDestroy(): void {
@@ -80,6 +90,11 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
                 }
                 this.cd.detectChanges();
             }, 250);
+            setInterval(() => {
+                if (this.hasTimeEnds) {
+                    this.calculatePercentage();
+                }
+            }, 5);
         }
     }
 
@@ -109,6 +124,7 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
 
     private async showLyricsAsync(track: TrackModel | undefined): Promise<void> {
         this.currentLyric = 0;
+        this.widthPercent = 0;
         if (track == undefined) {
             this._lyrics = undefined;
             return;
@@ -154,7 +170,7 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
         }
 
         let forward = this.linesOutsideMain;
-        while (this.currentLyric + forward > this._lyrics.lyricList.length) {
+        while (this.currentLyric + forward >= this._lyrics.lyricList.length) {
             forward--;
         }
 
@@ -181,19 +197,36 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
         }
 
         const currentTime = this.playbackService.getCurrentProgress().progressSeconds;
-        let nextTimeStrings = lyrics.timeStamps[this.currentLyric + 1].replace(new RegExp('\\.\\d+'), '').split(':');
-        let nextTime = (Number(nextTimeStrings[0]) * 60) + Number(nextTimeStrings[1]);
+        let nextTime = lyrics.timeStamps[this.currentLyric + 1];
 
         while (currentTime >= nextTime) {
             this.currentLyric += 1;
             if (this.currentLyric + 1 < lyrics.lyricList.length) {
-                nextTimeStrings = lyrics.timeStamps[this.currentLyric + 1].replace(new RegExp('\\.\\d+'), '').split(':');
-                nextTime = Number(nextTimeStrings[0]) * 60 + Number(nextTimeStrings[1]);
+                nextTime = lyrics.timeStamps[this.currentLyric + 1];
             } else {
                 break;
             }
         }
 
         return lyrics.lyricList[this.currentLyric];
+    }
+
+    private calculatePercentage() {
+        const lyrics = this._lyrics;
+
+        if (lyrics == null || lyrics.lyricList == undefined || lyrics.timeStamps == undefined) {
+            return;
+        }
+
+        if (lyrics.timeStampEnds != null) {
+            const currentTime = this.playbackService.getCurrentProgress().progressSeconds;
+            const gap = lyrics.timeStampEnds[this.currentLyric] - lyrics.timeStamps[this.currentLyric];
+            const current = currentTime - lyrics.timeStamps[this.currentLyric];
+            let percent = (current / gap) * 100;
+            percent = Math.round(percent);
+            percent = percent < 100 ? percent : 100;
+
+            this.widthPercent = percent;
+        }
     }
 }

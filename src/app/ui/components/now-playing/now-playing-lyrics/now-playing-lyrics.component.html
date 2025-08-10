@@ -30,7 +30,7 @@
         <div class="break-on-newline">
             <div class="rich-contain" *ngIf="this.hasRichLyrics && this.showRichLyrics">
                 <div class="rich-side secondary-text">{{this.pText}}</div>
-                <div class="rich-main">{{this.cText}}</div>
+                <div class="rich-main" [style.background-image]="'linear-gradient(to right, red ' + this.percentage + '%, white 1%)'">{{this.cText}}</div>
                 <div class="rich-side secondary-text">{{this.nText}}</div>
             </div>
             <div *ngIf="this.hasLyrics && (!this.hasRichLyrics || !this.showRichLyrics)" [innerText]="this.lyrics?.text"></div>

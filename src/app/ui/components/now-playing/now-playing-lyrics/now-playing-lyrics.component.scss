@@ -34,7 +34,7 @@
 
 .rich-contain {
   width: 100%;
-  height: 100%;
+  height: 50%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -42,15 +42,18 @@
 }
 
 .rich-side {
-  font-size: 50px;
+  font-size: 2vmin;
   text-wrap: wrap;
   line-height: normal;
   width: 100%;
 }
 
 .rich-main {
-  font-size: 100px;
-  text-wrap: wrap;
+  font-size: 4vmin;
+  text-wrap: nowrap;
   line-height: normal;
+  background-image: linear-gradient(to right, red 0%, white 1%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   width: 100%;
 }
