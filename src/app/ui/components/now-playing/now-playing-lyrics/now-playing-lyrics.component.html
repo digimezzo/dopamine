@@ -28,7 +28,12 @@
     </div>
     <div *ngIf="!this.isBusy" class="app-now-playing-lyrics__text">
         <div class="break-on-newline">
-            <div *ngIf="this.hasLyrics" [innerText]="this.lyrics?.text"></div>
+            <div class="rich-contain" *ngIf="this.hasRichLyrics && this.showRichLyrics">
+                <div class="rich-side secondary-text">{{this.pText}}</div>
+                <div class="rich-main">{{this.cText}}</div>
+                <div class="rich-side secondary-text">{{this.nText}}</div>
+            </div>
+            <div *ngIf="this.hasLyrics && (!this.hasRichLyrics || !this.showRichLyrics)" [innerText]="this.lyrics?.text"></div>
             <div *ngIf="!this.hasLyrics">{{ 'no-lyrics-found' | translate }}</div>
         </div>
     </div>

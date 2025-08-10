@@ -7,9 +7,11 @@ export class LyricsModel {
         public sourceName: string,
         public sourceType: LyricsSourceType,
         public text: string,
+        public lyricList: string[] | undefined,
+        public timeStamps: string[] | undefined
     ) {}
 
     public static empty(track: TrackModel | undefined): LyricsModel {
-        return new LyricsModel(track, '', LyricsSourceType.none, '');
+        return new LyricsModel(track, '', LyricsSourceType.none, '', undefined, undefined);
     }
 }

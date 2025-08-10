@@ -317,5 +317,7 @@
     "no-image-found-online": "No image could be found online.",
     "image": "Image",
     "choose-order": "Choose an order",
-    "choose-type": "Choose a type"
+    "choose-type": "Choose a type",
+    "rich-lyrics": "Rich Lyrics",
+    "show-rich-lyrics": "Show rich lyrics"
 }

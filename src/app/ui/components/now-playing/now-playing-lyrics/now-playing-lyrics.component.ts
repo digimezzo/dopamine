@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { TrackModel } from '../../../../services/track/track-model';
@@ -9,6 +9,7 @@ import { AppearanceServiceBase } from '../../../../services/appearance/appearanc
 import { LyricsServiceBase } from '../../../../services/lyrics/lyrics.service.base';
 import { StringUtils } from '../../../../common/utils/string-utils';
 import { PlaybackInformationService } from '../../../../services/playback-information/playback-information.service';
+import { PlaybackService } from '../../../../services/playback/playback.service';
 
 @Component({
     selector: 'app-now-playing-lyrics',
@@ -22,11 +23,19 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     private _lyrics: LyricsModel | undefined;
     private previousTrackPath: string = '';
     private _isBusy: boolean = false;
+    private currentLyric: number = 0;
+    private linesOutsideMain: number = 2;
+    private lyricChanger: NodeJS.Timeout;
+    public cText: string = '';
+    public nText: string = '';
+    public pText: string = '';
 
     public constructor(
         private appearanceService: AppearanceServiceBase,
+        private playbackService: PlaybackService,
         private playbackInformationService: PlaybackInformationService,
         private lyricsService: LyricsServiceBase,
+        private cd: ChangeDetectorRef,
     ) {}
 
     public lyricsSourceTypeEnum: typeof LyricsSourceType = LyricsSourceType;
@@ -42,6 +51,14 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
         return this._lyrics != undefined && !StringUtils.isNullOrWhiteSpace(this._lyrics.text);
     }
 
+    public get hasRichLyrics(): boolean {
+        return this._lyrics != null && this._lyrics.lyricList != undefined && this._lyrics.lyricList.length > 0 && this._lyrics.timeStamps != undefined && this._lyrics.timeStamps.length == this._lyrics.lyricList.length;
+    }
+
+    public get showRichLyrics(): boolean {
+        return this.lyricsService.showRichLyrics;
+    }
+
     public get lyrics(): LyricsModel | undefined {
         return this._lyrics;
     }
@@ -49,10 +66,21 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         this.destroySubscriptions();
     }
+
     public async ngOnInit(): Promise<void> {
         this.initializeSubscriptions();
         const currentPlaybackInformation: PlaybackInformation = await this.playbackInformationService.getCurrentPlaybackInformationAsync();
         await this.showLyricsAsync(currentPlaybackInformation.track);
+        if (this.showRichLyrics) {
+            setInterval(() => {
+                if (this.hasRichLyrics) {
+                    this.cText = this.currentRichLyric();
+                    this.nText = this.nextLyrics();
+                    this.pText = this.previousLyrics();
+                }
+                this.cd.detectChanges();
+            }, 250);
+        }
     }
 
     private initializeSubscriptions(): void {
@@ -80,6 +108,7 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     }
 
     private async showLyricsAsync(track: TrackModel | undefined): Promise<void> {
+        this.currentLyric = 0;
         if (track == undefined) {
             this._lyrics = undefined;
             return;
@@ -94,5 +123,77 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
         this._isBusy = false;
 
         this.previousTrackPath = track.path;
+    }
+
+    private previousLyrics(): string {
+        if (this._lyrics == undefined || this._lyrics.lyricList == undefined) {
+            return '\n';
+        }
+
+        let back = this.linesOutsideMain;
+        while (this.currentLyric - back < 0) {
+            back--;
+        }
+
+        if (back < 1) {
+            return '\n';
+        }
+
+        let prevLyrics = '';
+
+        for (let i = 1; i <= back; i++) {
+            prevLyrics += this._lyrics.lyricList[this.currentLyric - i] + "\n";
+        }
+
+        return prevLyrics;
+    }
+
+     private nextLyrics(): string {
+        if (this._lyrics == undefined || this._lyrics.lyricList == undefined) {
+            return '\n';
+        }
+
+        let forward = this.linesOutsideMain;
+        while (this.currentLyric + forward > this._lyrics.lyricList.length) {
+            forward--;
+        }
+
+        if (forward < 1) {
+            return '\n';
+        }
+
+        let nextLyrics = '';
+
+        for (let i = 1; i <= forward; i++) {
+            nextLyrics += this._lyrics.lyricList[this.currentLyric + i] + "\n";
+        }
+
+        return nextLyrics;
+    }
+
+     private currentRichLyric(): string {
+        const lyrics = this._lyrics;
+
+        if (lyrics == null || lyrics.lyricList == undefined || lyrics.timeStamps == undefined) {
+            return '';
+        } else if (this.currentLyric + 1 >= lyrics.lyricList.length) {
+            return lyrics.lyricList[this.currentLyric];
+        }
+
+        const currentTime = this.playbackService.getCurrentProgress().progressSeconds;
+        let nextTimeStrings = lyrics.timeStamps[this.currentLyric + 1].replace(new RegExp('\\.\\d+'), '').split(':');
+        let nextTime = (Number(nextTimeStrings[0]) * 60) + Number(nextTimeStrings[1]);
+
+        while (currentTime >= nextTime) {
+            this.currentLyric += 1;
+            if (this.currentLyric + 1 < lyrics.lyricList.length) {
+                nextTimeStrings = lyrics.timeStamps[this.currentLyric + 1].replace(new RegExp('\\.\\d+'), '').split(':');
+                nextTime = Number(nextTimeStrings[0]) * 60 + Number(nextTimeStrings[1]);
+            } else {
+                break;
+            }
+        }
+
+        return lyrics.lyricList[this.currentLyric];
     }
 }

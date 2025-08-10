@@ -111,4 +111,9 @@
             </mat-select>
         </mat-form-field>
     </div>
+    <mat-divider class="my-4"></mat-divider>
+    <div class="title">{{'rich-lyrics' | translate}}</div>
+    <div class="mt-2">
+        <app-toggle-switch [(isChecked)]="this.lyricsService.showRichLyrics">{{'show-rich-lyrics' | translate}}</app-toggle-switch>
+    </div>
 </div>

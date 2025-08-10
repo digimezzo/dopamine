@@ -37,14 +37,14 @@ describe('LyricsService', () => {
 
         trackMock = MockCreator.createTrackModel('path', 'title', 'artists');
 
-        fullEmbeddedLyricsMock = new LyricsModel(trackMock, 'embedded source', LyricsSourceType.embedded, 'embedded text');
-        emptyEmbeddedLyricsMock = new LyricsModel(trackMock, '', LyricsSourceType.none, '');
+        fullEmbeddedLyricsMock = new LyricsModel(trackMock, 'embedded source', LyricsSourceType.embedded, 'embedded text', undefined, undefined);
+        emptyEmbeddedLyricsMock = new LyricsModel(trackMock, '', LyricsSourceType.none, '', undefined, undefined);
 
-        fullLrcLyricsMock = new LyricsModel(trackMock, 'lrc source', LyricsSourceType.lrc, 'lrc text');
-        emptyLrcLyricsMock = new LyricsModel(trackMock, '', LyricsSourceType.none, '');
+        fullLrcLyricsMock = new LyricsModel(trackMock, 'lrc source', LyricsSourceType.lrc, 'lrc text', undefined, undefined);
+        emptyLrcLyricsMock = new LyricsModel(trackMock, '', LyricsSourceType.none, '', undefined, undefined);
 
-        fullOnlineLyricsMock = new LyricsModel(trackMock, 'online source', LyricsSourceType.online, 'online text');
-        emptyOnlineLyricsMock = new LyricsModel(trackMock, '', LyricsSourceType.none, '');
+        fullOnlineLyricsMock = new LyricsModel(trackMock, 'online source', LyricsSourceType.online, 'online text', undefined, undefined);
+        emptyOnlineLyricsMock = new LyricsModel(trackMock, '', LyricsSourceType.none, '', undefined, undefined);
     });
 
     function createSut(): LyricsServiceBase {
@@ -228,7 +228,7 @@ describe('LyricsService', () => {
             lrcLyricsGetterMock.reset();
             onlineLyricsGetterMock.reset();
 
-            const fullOnlineLyricsMock2 = new LyricsModel(trackMock2, 'online source', LyricsSourceType.online, 'online text 2');
+            const fullOnlineLyricsMock2 = new LyricsModel(trackMock2, 'online source', LyricsSourceType.online, 'online text 2', undefined, undefined);
             embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock2)).returns(() => Promise.resolve(emptyEmbeddedLyricsMock));
             lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock2)).returns(() => Promise.resolve(emptyLrcLyricsMock));
             onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock2)).returns(() => Promise.resolve(fullOnlineLyricsMock2));
