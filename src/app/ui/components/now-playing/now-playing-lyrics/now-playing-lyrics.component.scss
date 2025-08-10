@@ -52,7 +52,7 @@
   font-size: 4vmin;
   text-wrap: nowrap;
   line-height: normal;
-  background-image: linear-gradient(to right, red 0%, white 1%);
+  background-image: linear-gradient(to right, var(--theme-secondary-color) 0%, var(--theme-highlight-foreground) 1%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   width: 100%;

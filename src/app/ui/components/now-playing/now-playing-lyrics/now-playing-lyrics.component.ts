@@ -116,6 +116,11 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
                 PromiseUtils.noAwait(this.showLyricsAsync(playbackInformation.track));
             }),
         );
+        this.subscription.add(
+            this.playbackService.playbackSkipped$.subscribe(() => {
+                this.currentLyric = 0;
+            }),
+        );
     }
 
     private destroySubscriptions(): void {
