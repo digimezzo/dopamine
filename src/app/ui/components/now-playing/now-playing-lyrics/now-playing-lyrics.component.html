@@ -11,6 +11,9 @@
             <div class="secondary-text d-flex align-items-center" *ngIf="this.lyrics?.sourceType === lyricsSourceTypeEnum.lrc">
                 {{ 'lrc-lyrics' | translate }}<i class="secondary-text las la-file-alt ml-1"></i>
             </div>
+            <div class="secondary-text d-flex align-items-center" *ngIf="this.lyrics?.sourceType === lyricsSourceTypeEnum.srt">
+                {{ 'srt-lyrics' | translate }}<i class="secondary-text las la-file-alt ml-1"></i>
+            </div>
             <div class="secondary-text d-flex align-items-center" *ngIf="this.lyrics?.sourceType === lyricsSourceTypeEnum.online">
                 {{ this.lyrics?.sourceName }}<i class="secondary-text las la-globe ml-1"></i>
             </div>
