@@ -23,9 +23,9 @@ export class LrcLyricsGetter implements ILyricsGetter {
         const timeStamps: number[] = [];
 
         for (let i = 0; i < lines.length; i++) {
-            const regex = new RegExp('(\\[\\d+:)((\\d+:?)+)?(\\.\\d+\\])');
-            const lineWithoutTimestamp: string = lines[i].replace(regex, '');
-            const timeStamp: string = lines[i].replace('[', '').split(']')[0];
+            const lineParts = lines[i].replace('[', '').split(']');
+            const lineWithoutTimestamp: string = lineParts[1];
+            const timeStamp: string = lineParts[0];
 
             const timeList = timeStamp.split(':');
 
@@ -34,7 +34,7 @@ export class LrcLyricsGetter implements ILyricsGetter {
             lyricLines.push(lineWithoutTimestamp);
             timeStamps.push(startTime);
 
-            if (!StringUtils.isNullOrWhiteSpace(lineWithoutTimestamp) && !lineWithoutTimestamp.startsWith('[')) {
+            if (!StringUtils.isNullOrWhiteSpace(lineWithoutTimestamp)) {
                 lyricsText += `${lineWithoutTimestamp}`;
 
                 if (i < lines.length - 1) {
