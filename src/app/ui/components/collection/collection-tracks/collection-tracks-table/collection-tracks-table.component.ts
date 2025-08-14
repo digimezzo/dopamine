@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Logger } from '../../../../../common/logger';
 import { PlaybackStarted } from '../../../../../services/playback/playback-started';
@@ -33,6 +33,20 @@ import {MetadataService} from "../../../../../services/metadata/metadata.service
 export class CollectionTracksTableComponent extends TrackBrowserBase implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
     private _tracks: TrackModels = new TrackModels();
+
+    @ViewChild('scrollViewport', { read: ElementRef }) private scrollContainer?: ElementRef<HTMLElement>;
+
+    public scrollToPlayingTrack(): void {        
+        const playingIndex = this.orderedTracks.findIndex(t => t.isPlaying);
+        if (playingIndex >= 0) {
+            setTimeout(() => {
+                this.scrollContainer?.nativeElement.scrollTo({ 
+                    behavior: 'smooth', 
+                    top: (playingIndex - 5) * 28, // Scroll to 5 tracks higher than the current one, giving some breathing
+                });
+            });
+        }
+    }
 
     public constructor(
         public playbackService: PlaybackService,
@@ -125,6 +139,7 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 this.playbackIndicationService.setPlayingTrack(this.orderedTracks, playbackStarted.currentTrack);
+                this.scrollToPlayingTrack();
             }),
         );
 
@@ -166,6 +181,7 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
         this._tracks = v;
         this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
         this.orderTracks();
+        this.scrollToPlayingTrack();
     }
 
     public ngOnDestroy(): void {
