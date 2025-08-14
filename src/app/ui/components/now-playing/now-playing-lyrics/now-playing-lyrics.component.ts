@@ -128,8 +128,6 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     }
 
     private async showLyricsAsync(track: TrackModel | undefined): Promise<void> {
-        this.currentLyric = 0;
-        this.widthPercent = 0;
         if (track == undefined) {
             this._lyrics = undefined;
             return;
@@ -144,6 +142,9 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
         this._isBusy = false;
 
         this.previousTrackPath = track.path;
+
+        this.currentLyric = 0;
+        this.widthPercent = 0;
     }
 
     private previousLyrics(): string {
