@@ -4,4 +4,5 @@ import { LyricsModel } from './lyrics-model';
 
 export abstract class LyricsServiceBase implements ILyricsGetter {
     public abstract getLyricsAsync(track: TrackModel): Promise<LyricsModel>;
+    public abstract showRichLyrics: boolean;
 }
