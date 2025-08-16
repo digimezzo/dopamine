@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Constants } from '../../../../common/application/constants';
-import { Shuffler } from '../../../../common/shuffler';
 import { AlbumModel } from '../../../../services/album/album-model';
 import { AlbumOrder } from '../album-order';
 import { ItemSpaceCalculator } from '../item-space-calculator';
@@ -12,7 +11,6 @@ export class AlbumRowsGetter {
     public constructor(
         private albumSpaceCalculator: ItemSpaceCalculator,
         private albumSorter: AlbumSorter,
-        private shuffler: Shuffler,
     ) {}
 
     public getAlbumRows(availableWidthInPixels: number, albums: AlbumModel[], albumOrder: AlbumOrder): AlbumRow[] {
@@ -27,7 +25,7 @@ export class AlbumRowsGetter {
             availableWidthInPixels,
         );
 
-        const sortedAlbums: AlbumModel[] = this.getSortedAlbums(albums, albumOrder);
+        const sortedAlbums: AlbumModel[] = this.albumSorter.sortAlbums(albums, albumOrder);
 
         let lastYear: number = -1;
         const alreadyUsedYearHeaders: string[] = [];
@@ -78,44 +76,5 @@ export class AlbumRowsGetter {
         }
 
         return albumRows;
-    }
-    private getSortedAlbums(unsortedAlbums: AlbumModel[], albumOrder: AlbumOrder): AlbumModel[] {
-        let sortedAlbums: AlbumModel[] = [];
-
-        switch (albumOrder) {
-            case AlbumOrder.byAlbumTitleAscending:
-                sortedAlbums = this.albumSorter.sortByAlbumTitleAscending(unsortedAlbums);
-                break;
-            case AlbumOrder.byAlbumTitleDescending:
-                sortedAlbums = this.albumSorter.sortByAlbumTitleDescending(unsortedAlbums);
-                break;
-            case AlbumOrder.byDateAdded:
-                sortedAlbums = this.albumSorter.sortByDateAdded(unsortedAlbums);
-                break;
-            case AlbumOrder.byDateCreated:
-                sortedAlbums = this.albumSorter.sortByDateCreated(unsortedAlbums);
-                break;
-            case AlbumOrder.byAlbumArtist:
-                sortedAlbums = this.albumSorter.sortByAlbumArtist(unsortedAlbums);
-                break;
-            case AlbumOrder.byYearAscending:
-                sortedAlbums = this.albumSorter.sortByYearAscending(unsortedAlbums);
-                break;
-            case AlbumOrder.byYearDescending:
-                sortedAlbums = this.albumSorter.sortByYearDescending(unsortedAlbums);
-                break;
-            case AlbumOrder.byLastPlayed:
-                sortedAlbums = this.albumSorter.sortByDateLastPlayed(unsortedAlbums);
-                break;
-            case AlbumOrder.random:
-                sortedAlbums = this.shuffler.shuffle(unsortedAlbums);
-                break;
-            default: {
-                sortedAlbums = this.albumSorter.sortByAlbumTitleAscending(unsortedAlbums);
-                break;
-            }
-        }
-
-        return sortedAlbums;
     }
 }
