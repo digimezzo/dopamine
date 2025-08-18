@@ -27,7 +27,7 @@ describe('GitHubApi', () => {
                         of([
                             {
                                 prerelease: false,
-                                tag_name: 'v3.0.0-not-preview',
+                                tag_name: 'v3.0.0',
                             },
                             {
                                 prerelease: true,
@@ -49,7 +49,7 @@ describe('GitHubApi', () => {
             });
         });
 
-        ['v3.0.0-not-preview', '3.0.0-not-preview'].forEach((tag) => {
+        ['v3.0.0', '3.0.0'].forEach((tag) => {
             it(`should return latest release version for tag "${tag}"`, async () => {
                 // Arrange
                 const gitHubApi = createGitHubApi();
@@ -78,7 +78,7 @@ describe('GitHubApi', () => {
                 const result = await gitHubApi.getLatestReleaseAsync('foo', 'bar', false);
 
                 // Assert
-                expect(result).toEqual('3.0.0-not-preview');
+                expect(result).toEqual('3.0.0');
                 httpClientMock.verify((x) => x.get<any>(url), Times.once());
             });
         });
