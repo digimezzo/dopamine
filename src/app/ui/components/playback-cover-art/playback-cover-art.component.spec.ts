@@ -108,6 +108,14 @@ describe('PlaybackCoverArtComponent', () => {
             // Assert
             expect(component.size).toEqual(0);
         });
+
+        it('should initialize extraTopClasses as empty', () => {
+            // Arrange, Act
+            const component: PlaybackCoverArtComponent = createComponent();
+
+            // Assert
+            expect(component.extraTopClasses).toEqual('');
+        });
     });
 
     describe('ngOnInit', () => {
@@ -246,6 +254,26 @@ describe('PlaybackCoverArtComponent', () => {
 
             // Act, Assert
             expect(component.bottomImageBackgroundClass).toEqual('');
+        });
+    });
+
+    describe('topClasses', () => {
+        it('should return "app-playback-cover-art" when extraTopClasses is empty', async () => {
+            // Arrange
+            const component: PlaybackCoverArtComponent = createComponent();
+            component.extraTopClasses = '';
+
+            // Act, Assert
+            expect(component.topClasses).toEqual('app-playback-cover-art');
+        });
+
+        it('should return "app-playback-cover-art" plus extraTopClasses when extraTopClasses is not empty', async () => {
+            // Arrange
+            const component: PlaybackCoverArtComponent = createComponent();
+            component.extraTopClasses = "foo bar";
+
+            // Act, Assert
+            expect(component.topClasses).toEqual('app-playback-cover-art foo bar');
         });
     });
 });
