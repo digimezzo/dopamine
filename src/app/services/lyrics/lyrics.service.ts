@@ -29,6 +29,22 @@ export class LyricsService implements LyricsServiceBase {
         this.settings.showRichLyrics = v;
     }
 
+    public get richLyricsLineCount(): number {
+        return this.settings.richLyricsLineCount;
+    }
+
+    public set richLyricsLineCount(v: number) {
+        this.settings.richLyricsLineCount = v;
+    }
+
+    public get richLyricsFontSize(): number {
+        return this.settings.richLyricsFontSize;
+    }
+
+    public set richLyricsFontSize(v: number) {
+        this.settings.richLyricsFontSize = v;
+    }
+
     private cachedLyrics: LyricsModel | undefined;
 
     public async getLyricsAsync(track: TrackModel): Promise<LyricsModel> {

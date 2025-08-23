@@ -29,6 +29,8 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     public cText: string = '';
     public nText: string = '';
     public pText: string = '';
+    public mainRichLyricSize = 2;
+    public sideRichLyricSize = 2;
 
     public constructor(
         private appearanceService: AppearanceServiceBase,
@@ -65,6 +67,14 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
         return this.lyricsService.showRichLyrics;
     }
 
+    public get mainRichLyricFontSize(): number {
+        return this.mainRichLyricSize;
+    }
+
+    public get sideRichLyricFontSize(): number {
+        return this.sideRichLyricSize;
+    }
+
     public get lyrics(): LyricsModel | undefined {
         return this._lyrics;
     }
@@ -78,6 +88,8 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     }
 
     public async ngOnInit(): Promise<void> {
+        this.setRichLyricsLineCount();
+        this.setRichLyricSize();
         this.initializeSubscriptions();
         const currentPlaybackInformation: PlaybackInformation = await this.playbackInformationService.getCurrentPlaybackInformationAsync();
         await this.showLyricsAsync(currentPlaybackInformation.track);
@@ -87,6 +99,7 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
                     this.cText = this.currentRichLyric();
                     this.nText = this.nextLyrics();
                     this.pText = this.previousLyrics();
+                    this.calculateFontSize();
                 }
                 this.cd.detectChanges();
             }, 250);
@@ -94,7 +107,7 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
                 if (this.hasTimeEnds) {
                     this.calculatePercentage();
                 }
-            }, 5);
+            }, 10);
         }
     }
 
@@ -207,6 +220,7 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
 
         while (currentTime >= nextTime) {
             this.currentLyric += 1;
+            this.setRichLyricSize();
             if (this.currentLyric + 1 < lyrics.lyricList.length) {
                 nextTime = lyrics.timeStamps[this.currentLyric + 1];
             } else {
@@ -229,10 +243,37 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
             const gap = lyrics.timeStampEnds[this.currentLyric] - lyrics.timeStamps[this.currentLyric];
             const current = currentTime - lyrics.timeStamps[this.currentLyric];
             let percent = (current / gap) * 100;
-            percent = Math.round(percent);
+            percent = percent;
             percent = percent < 100 ? percent : 100;
 
             this.widthPercent = percent;
+        }
+    }
+
+    private setRichLyricsLineCount() {
+        this.linesOutsideMain = this.lyricsService.richLyricsLineCount;
+    }
+
+    private setRichLyricSize() {
+        this.mainRichLyricSize = this.lyricsService.richLyricsFontSize;
+        this.sideRichLyricSize = this.lyricsService.richLyricsFontSize;
+    }
+
+    private calculateFontSize() {
+        const lyrics = this._lyrics;
+
+        if (lyrics == null || lyrics.lyricList == undefined) {
+            return;
+        }
+
+        let main = document.getElementsByClassName("rich-main")[0] as (HTMLElement);
+        let parent = document.getElementsByClassName("rich-contain")[0];
+
+        if (main != undefined && parent != undefined) {
+            while (main.offsetWidth < main.scrollWidth) {
+                this.mainRichLyricSize -= 0.05;
+                this.cd.detectChanges();
+            }
         }
     }
 }

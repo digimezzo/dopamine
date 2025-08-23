@@ -800,6 +800,24 @@ export class Settings implements SettingsBase {
         this.settings.set('showRichLyrics', v);
     }
 
+    // richLyricsLineCount
+    public get richLyricsLineCount(): number {
+        return <number>this.settings.get('richLyricsLineCount');
+    }
+
+    public set richLyricsLineCount(v: number) {
+        this.settings.set('richLyricsLineCount', v)
+    }
+
+    // richLyricsFontSize
+    public get richLyricsFontSize(): number {
+        return <number>this.settings.get('richLyricsFontSize');
+    }
+
+    public set richLyricsFontSize(v: number) {
+        this.settings.set('richLyricsFontSize', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -1132,6 +1150,14 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('showRichLyrics')) {
             this.settings.set('showRichLyrics', false);
+        }
+
+        if (!this.settings.has('richLyricsLineCount')) {
+            this.settings.set('richLyricsLineCount', 2);
+        }
+
+        if (!this.settings.has('richLyricsFontSize')) {
+            this.settings.set('richLyricsFontSize', 2);
         }
     }
 }

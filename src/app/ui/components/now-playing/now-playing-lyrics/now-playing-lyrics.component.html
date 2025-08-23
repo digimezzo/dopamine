@@ -32,9 +32,9 @@
     <div *ngIf="!this.isBusy" class="app-now-playing-lyrics__text">
         <div class="break-on-newline">
             <div class="rich-contain" *ngIf="this.hasRichLyrics && this.showRichLyrics">
-                <div class="rich-side secondary-text">{{this.pText}}</div>
-                <div class="rich-main" [style.background-image]="'linear-gradient(to right, var(--theme-secondary-color) ' + this.percentage + '%, var(--theme-highlight-foreground) 1%)'">{{this.cText}}</div>
-                <div class="rich-side secondary-text">{{this.nText}}</div>
+                <div class="rich-side secondary-text" [style.font-size]="this.sideRichLyricSize + 'vmin'">{{this.pText}}</div>
+                <div class="rich-main" [style.font-size]="(this.mainRichLyricSize * 2) + 'vmin'" [style.background-image]="'linear-gradient(to right, var(--theme-secondary-color) ' + this.percentage + '%, var(--theme-highlight-foreground) 1%)'">{{this.cText}}</div>
+                <div class="rich-side secondary-text" [style.font-size]="this.sideRichLyricSize + 'vmin'">{{this.nText}}</div>
             </div>
             <div *ngIf="this.hasLyrics && (!this.hasRichLyrics || !this.showRichLyrics)" [innerText]="this.lyrics?.text"></div>
             <div *ngIf="!this.hasLyrics">{{ 'no-lyrics-found' | translate }}</div>
