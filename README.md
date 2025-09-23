@@ -82,12 +82,18 @@ $ npm run electron:linux     # Build for Linux
 $ npm run electron:mac       # Build for Mac
 ```
 
-## Pacman installation notes
+## Pacman installation
 
 The pacman package can be installed using this command (replace x.y.z with the correct version number):
 
-`$ sudo pacman -U Dopamine-x.y.z.pacman`
+`sudo pacman -U Dopamine-x.y.z.pacman`
 
 If you're getting an error concerning a missing package libappindicator-sharp, use this command to perform the installation instead (replace x.y.z with the correct version number):
 
-`$ sudo pacman -U Dopamine-x.y.z.pacman --assume-installed libappindicator-sharp`
+`sudo pacman -U Dopamine-x.y.z.pacman --assume-installed libappindicator-sharp`
+
+## Rpm installation
+
+The rpm package can be installed using this command (replace x.y.z with the correct version number):
+
+`sudo dnf install Dopamine-x.y.z.rpm`
