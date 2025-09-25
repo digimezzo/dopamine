@@ -5,6 +5,8 @@ import { IMock, Mock } from 'typemoq';
 import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
 import { ApplicationPaths } from '../application/application-paths';
 import { Logger } from '../logger';
+import { Shuffler } from '../shuffler';
+import { AlbumOrder } from '../../ui/components/collection/album-order';
 
 describe('AlbumSorter', () => {
     let albumModel1: AlbumModel;
@@ -20,6 +22,7 @@ describe('AlbumSorter', () => {
 
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let applicationPathsMock: IMock<ApplicationPaths>;
+    let shufflerMock: IMock<Shuffler>;
     let loggerMock: IMock<Logger>;
 
     let albumSorter: AlbumSorter;
@@ -51,6 +54,7 @@ describe('AlbumSorter', () => {
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         applicationPathsMock = Mock.ofType<ApplicationPaths>();
+        shufflerMock = Mock.ofType<Shuffler>();
         loggerMock = Mock.ofType<Logger>();
 
         albumModel1 = createAlbumModel('Album 1', ['Artist 10'], ['Artist 1'], 2001, 10, 1, 2);
@@ -77,25 +81,15 @@ describe('AlbumSorter', () => {
             albumModel3,
         ];
 
-        albumSorter = new AlbumSorter(loggerMock.object);
+        albumSorter = new AlbumSorter(shufflerMock.object, loggerMock.object);
     });
 
     describe('sortByAlbumTitleAscending', () => {
-        it('should return an empty collection when undefined is provided', () => {
-            // Arrange
-
-            // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByAlbumTitleAscending(undefined);
-
-            // Assert
-            expect(sortedAlbums.length).toEqual(0);
-        });
-
         it('should return an empty collection if empty is provided', () => {
             // Arrange
 
             // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByAlbumTitleAscending([]);
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums([], AlbumOrder.byAlbumTitleAscending);
 
             // Assert
             expect(sortedAlbums.length).toEqual(0);
@@ -105,7 +99,7 @@ describe('AlbumSorter', () => {
             // Arrange
 
             // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByAlbumTitleAscending(albums);
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums(albums, AlbumOrder.byAlbumTitleAscending);
 
             // Assert
             expect(sortedAlbums[0]).toBe(albumModel1);
@@ -122,21 +116,11 @@ describe('AlbumSorter', () => {
     });
 
     describe('sortByAlbumTitleDescending', () => {
-        it('should return an empty collection when undefined is provided', () => {
-            // Arrange
-
-            // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByAlbumTitleDescending(undefined);
-
-            // Assert
-            expect(sortedAlbums.length).toEqual(0);
-        });
-
         it('should return an empty collection if empty is provided', () => {
             // Arrange
 
             // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByAlbumTitleDescending([]);
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums([], AlbumOrder.byAlbumTitleDescending);
 
             // Assert
             expect(sortedAlbums.length).toEqual(0);
@@ -146,7 +130,7 @@ describe('AlbumSorter', () => {
             // Arrange
 
             // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByAlbumTitleDescending(albums);
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums(albums, AlbumOrder.byAlbumTitleDescending);
 
             // Assert
             expect(sortedAlbums[0]).toBe(albumModel10);
@@ -163,21 +147,11 @@ describe('AlbumSorter', () => {
     });
 
     describe('sortByDateAdded', () => {
-        it('should return an empty collection when undefined is provided', () => {
-            // Arrange
-
-            // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByDateAdded(undefined);
-
-            // Assert
-            expect(sortedAlbums.length).toEqual(0);
-        });
-
         it('should return an empty collection if empty is provided', () => {
             // Arrange
 
             // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByDateAdded([]);
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums([], AlbumOrder.byDateAdded);
 
             // Assert
             expect(sortedAlbums.length).toEqual(0);
@@ -187,7 +161,7 @@ describe('AlbumSorter', () => {
             // Arrange
 
             // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByDateAdded(albums);
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums(albums, AlbumOrder.byDateAdded);
 
             // Assert
             expect(sortedAlbums[0]).toBe(albumModel6);
@@ -204,21 +178,11 @@ describe('AlbumSorter', () => {
     });
 
     describe('sortByDateCreated', () => {
-        it('should return an empty collection when undefined is provided', () => {
-            // Arrange
-
-            // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByDateCreated(undefined);
-
-            // Assert
-            expect(sortedAlbums.length).toEqual(0);
-        });
-
         it('should return an empty collection if empty is provided', () => {
             // Arrange
 
             // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByDateCreated([]);
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums([], AlbumOrder.byDateCreated);
 
             // Assert
             expect(sortedAlbums.length).toEqual(0);
@@ -228,7 +192,7 @@ describe('AlbumSorter', () => {
             // Arrange
 
             // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByDateCreated(albums);
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums(albums, AlbumOrder.byDateCreated);
 
             // Assert
             expect(sortedAlbums[0]).toBe(albumModel1);
@@ -245,31 +209,21 @@ describe('AlbumSorter', () => {
     });
 
     describe('sortByAlbumArtist', () => {
-        it('should return an empty collection when undefined is provided', () => {
-            // Arrange
-
-            // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByAlbumArtist(undefined);
-
-            // Assert
-            expect(sortedAlbums.length).toEqual(0);
-        });
-
         it('should return an empty collection if empty is provided', () => {
             // Arrange
 
             // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByAlbumArtist([]);
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums([], AlbumOrder.byAlbumArtist);
 
             // Assert
             expect(sortedAlbums.length).toEqual(0);
         });
 
-        it('should sort by date added', () => {
+        it('should sort by album artist', () => {
             // Arrange
 
             // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByAlbumArtist(albums);
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums(albums, AlbumOrder.byAlbumArtist);
 
             // Assert
             expect(sortedAlbums[0]).toBe(albumModel10);
@@ -286,31 +240,21 @@ describe('AlbumSorter', () => {
     });
 
     describe('sortByYearAscending', () => {
-        it('should return an empty collection when undefined is provided', () => {
-            // Arrange
-
-            // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByYearAscending(undefined);
-
-            // Assert
-            expect(sortedAlbums.length).toEqual(0);
-        });
-
         it('should return an empty collection if empty is provided', () => {
             // Arrange
 
             // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByYearAscending([]);
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums([], AlbumOrder.byYearAscending);
 
             // Assert
             expect(sortedAlbums.length).toEqual(0);
         });
 
-        it('should sort by date added', () => {
+        it('should sort by year ascending', () => {
             // Arrange
 
             // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByYearAscending(albums);
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums(albums, AlbumOrder.byYearAscending);
 
             // Assert
             expect(sortedAlbums[0]).toBe(albumModel1);
@@ -327,31 +271,21 @@ describe('AlbumSorter', () => {
     });
 
     describe('sortByYearDescending', () => {
-        it('should return an empty collection when undefined is provided', () => {
-            // Arrange
-
-            // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByYearDescending(undefined);
-
-            // Assert
-            expect(sortedAlbums.length).toEqual(0);
-        });
-
         it('should return an empty collection if empty is provided', () => {
             // Arrange
 
             // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByYearAscending([]);
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums([], AlbumOrder.byYearDescending);
 
             // Assert
             expect(sortedAlbums.length).toEqual(0);
         });
 
-        it('should sort by date added', () => {
+        it('should sort by year descending', () => {
             // Arrange
 
             // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByYearDescending(albums);
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums(albums, AlbumOrder.byYearDescending);
 
             // Assert
             expect(sortedAlbums[0]).toBe(albumModel10);
@@ -368,31 +302,21 @@ describe('AlbumSorter', () => {
     });
 
     describe('sortByDateLastPlayed', () => {
-        it('should return an empty collection when undefined is provided', () => {
-            // Arrange
-
-            // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByDateLastPlayed(undefined);
-
-            // Assert
-            expect(sortedAlbums.length).toEqual(0);
-        });
-
         it('should return an empty collection if empty is provided', () => {
             // Arrange
 
             // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByDateLastPlayed([]);
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums([], AlbumOrder.byLastPlayed);
 
             // Assert
             expect(sortedAlbums.length).toEqual(0);
         });
 
-        it('should sort by date added', () => {
+        it('should sort by last played', () => {
             // Arrange
 
             // Act
-            const sortedAlbums: AlbumModel[] = albumSorter.sortByDateLastPlayed(albums);
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums(albums, AlbumOrder.byLastPlayed);
 
             // Assert
             expect(sortedAlbums[0]).toBe(albumModel9);
@@ -405,6 +329,42 @@ describe('AlbumSorter', () => {
             expect(sortedAlbums[7]).toBe(albumModel3);
             expect(sortedAlbums[8]).toBe(albumModel1);
             expect(sortedAlbums[9]).toBe(albumModel2);
+        });
+    });
+
+    describe('random', () => {
+        it('should return an empty collection if empty is provided', () => {
+            // Arrange
+            shufflerMock.setup((x) => x.shuffle([])).returns(() => []);
+
+            // Act
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums([], AlbumOrder.random);
+
+            // Assert
+            expect(sortedAlbums.length).toEqual(0);
+        });
+
+        it('should sort by random', () => {
+            // Arrange
+            const randomizedAlbums = [
+                albumModel9,
+                albumModel6,
+                albumModel2,
+                albumModel1,
+                albumModel4,
+                albumModel3,
+                albumModel8,
+                albumModel10,
+                albumModel5,
+                albumModel7,
+            ];
+            shufflerMock.setup((x) => x.shuffle(albums)).returns(() => randomizedAlbums);
+
+            // Act
+            const sortedAlbums: AlbumModel[] = albumSorter.sortAlbums(albums, AlbumOrder.random);
+
+            // Assert
+            expect(sortedAlbums).toBe(randomizedAlbums);
         });
     });
 });
