@@ -295,6 +295,7 @@ import { VolumeIconComponent } from './ui/components/volume-icon/volume-icon.com
 import { EditTracksDialogComponent } from './ui/components/dialogs/edit-tracks-dialog/edit-tracks-dialog.component';
 import { InfoDialogComponent } from './ui/components/dialogs/info-dialog/info-dialog.component';
 import { IterableMenuComponent } from './ui/components/common/iterable-menu.component';
+import { StoreProxy } from './common/settings/store-proxy';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -561,6 +562,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         OnlineAlbumArtworkGetter,
         ExternalArtworkPathGetter,
         IndexingService,
+        StoreProxy,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: FileAccessBase, useClass: FileAccess },
         { provide: TrackRepositoryBase, useClass: TrackRepository },
