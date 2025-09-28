@@ -317,5 +317,7 @@
     "no-image-found-online": "未找到在线图像",
     "image": "图像",
     "choose-order": "选择一个顺序",
-    "choose-type": "选择一个类型"
+    "choose-type": "选择一个类型",
+    "follow-song": "Follow song",
+    "jump-to-playing-song": "Automatically scroll to the playing song"
 }

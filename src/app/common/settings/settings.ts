@@ -96,6 +96,7 @@ export class Settings implements SettingsBase {
     private readonly _fullPlayerPositionSizeMaximized = new Setting('fullPlayerPositionSizeMaximized', '50;50;1000;650;0');
     private readonly _coverPlayerPosition = new Setting('coverPlayerPosition', '50;50');
     private readonly _useGaplessPlayback = new Setting('useGaplessPlayback', false);
+    private readonly _jumpToPlayingSong = new Setting('jumpToPlayingSong', true);
 
     private readonly allSettings = [
         this._language,
@@ -181,6 +182,7 @@ export class Settings implements SettingsBase {
         this._fullPlayerPositionSizeMaximized,
         this._coverPlayerPosition,
         this._useGaplessPlayback,
+        this._jumpToPlayingSong,
     ];
 
     public constructor(storeProxy: StoreProxy) {
@@ -950,6 +952,15 @@ export class Settings implements SettingsBase {
 
     public set useGaplessPlayback(v: boolean) {
         this.settings.set(this._useGaplessPlayback.key, v);
+    }
+
+    // jumpToPlayingSong
+    public get jumpToPlayingSong(): boolean {
+        return <boolean>this.settings.get(this._jumpToPlayingSong.key);
+    }
+
+    public set jumpToPlayingSong(v: boolean) {
+        this.settings.set(this._jumpToPlayingSong.key, v);
     }
 
     // Initialize
