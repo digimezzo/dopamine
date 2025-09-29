@@ -21,7 +21,8 @@ import { DesktopBase } from '../../../../../common/io/desktop.base';
 import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { MetadataService } from '../../../../../services/metadata/metadata.service';
-import { SettingsBase } from '../../../../../common/settings/settings.base';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { TrackServiceBase } from '../../../../../services/track/track.service.base';
 
 @Component({
     selector: 'app-collection-tracks-table',
@@ -35,7 +36,7 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
     private subscription: Subscription = new Subscription();
     private _tracks: TrackModels = new TrackModels();
 
-    @ViewChild('scrollViewport', { read: ElementRef }) private scrollContainer?: ElementRef<HTMLElement>;
+    @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
 
     public constructor(
         public playbackService: PlaybackService,
@@ -46,7 +47,7 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
         private playbackIndicationService: PlaybackIndicationServiceBase,
         private tracksColumnsService: TracksColumnsServiceBase,
         private tracksColumnsOrdering: TracksColumnsOrdering,
-        private settings: SettingsBase,
+        private trackService: TrackServiceBase,
         collectionService: CollectionServiceBase,
         dialogService: DialogServiceBase,
         translatorService: TranslatorServiceBase,
@@ -129,13 +130,13 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 this.playbackIndicationService.setPlayingTrack(this.orderedTracks, playbackStarted.currentTrack);
-                this.scrollToPlayingTrack();
+                this.trackService.scrollToPlayingTrack(this.orderedTracks, this.viewPort);
             }),
         );
 
         this.subscription.add(
             this.playbackService.playbackResumed$.subscribe(() => {
-                this.scrollToPlayingTrack();
+                this.trackService.scrollToPlayingTrack(this.orderedTracks, this.viewPort);
             }),
         );
 
@@ -177,27 +178,10 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
         this._tracks = v;
         this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
         this.orderTracks();
-        this.scrollToPlayingTrack();
     }
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
-    }
-
-    private scrollToPlayingTrack(): void {
-        if (!this.settings.jumpToPlayingSong) {
-            return;
-        }
-
-        const playingIndex = this.orderedTracks.findIndex((t) => t.isPlaying);
-        if (playingIndex >= 0) {
-            setTimeout(() => {
-                this.scrollContainer?.nativeElement.scrollTo({
-                    behavior: 'smooth',
-                    top: (playingIndex - 1) * 28, // Scroll to 1 track higher than the current one, giving some breathing room.
-                });
-            });
-        }
     }
 
     public setSelectedTracks(event: MouseEvent, trackToSelect: TrackModel): void {
@@ -287,6 +271,7 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
 
         this.orderedTracks = [...orderedTracks];
         this.playbackIndicationService.setPlayingTrack(this.orderedTracks, this.playbackService.currentTrack);
+        this.trackService.scrollToPlayingTrack(this.orderedTracks, this.viewPort);
     }
 
     private updateTrackRating(trackWithUpToDateRating: TrackModel): void {

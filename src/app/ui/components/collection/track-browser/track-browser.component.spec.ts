@@ -22,6 +22,7 @@ import { TrackSorter } from '../../../../common/sorting/track-sorter';
 import { SettingsMock } from '../../../../testing/settings-mock';
 import { PlaybackService } from '../../../../services/playback/playback.service';
 import { MetadataService } from '../../../../services/metadata/metadata.service';
+import { TrackServiceBase } from '../../../../services/track/track.service.base';
 
 describe('TrackBrowserComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
@@ -31,6 +32,7 @@ describe('TrackBrowserComponent', () => {
     let metadataServiceMock: IMock<MetadataService>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let trackSorterMock: IMock<TrackSorter>;
+    let trackServiceMock: IMock<TrackServiceBase>;
     let desktopMock: IMock<DesktopBase>;
     let loggerMock: IMock<Logger>;
     let tracksPersisterMock: IMock<BaseTracksPersister>;
@@ -43,6 +45,9 @@ describe('TrackBrowserComponent', () => {
 
     let playbackStartedMock: Subject<PlaybackStarted>;
     let playbackStartedMock$: Observable<PlaybackStarted>;
+
+    let playbackResumedMock: Subject<void>;
+    let playbackResumedMock$: Observable<void>;
 
     let playbackStoppedMock: Subject<void>;
     let playbackStoppedMock$: Observable<void>;
@@ -71,6 +76,7 @@ describe('TrackBrowserComponent', () => {
         dialogServiceMock = Mock.ofType<DialogServiceBase>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         trackSorterMock = Mock.ofType<TrackSorter>();
+        trackServiceMock = Mock.ofType<TrackServiceBase>();
         desktopMock = Mock.ofType<DesktopBase>();
         loggerMock = Mock.ofType<Logger>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
@@ -81,9 +87,12 @@ describe('TrackBrowserComponent', () => {
 
         playbackStartedMock = new Subject();
         playbackStartedMock$ = playbackStartedMock.asObservable();
+        playbackResumedMock = new Subject();
+        playbackResumedMock$ = playbackResumedMock.asObservable();
         playbackStoppedMock = new Subject();
         playbackStoppedMock$ = playbackStoppedMock.asObservable();
         playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackStartedMock$);
+        playbackServiceMock.setup((x) => x.playbackResumed$).returns(() => playbackResumedMock$);
         playbackServiceMock.setup((x) => x.playbackStopped$).returns(() => playbackStoppedMock$);
         playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
         tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleDescending);
@@ -161,6 +170,7 @@ describe('TrackBrowserComponent', () => {
             playbackIndicationServiceMock.object,
             guidFactoryMock.object,
             trackSorterMock.object,
+            trackServiceMock.object,
             collectionServiceMock.object,
             translatorServiceMock.object,
             dialogServiceMock.object,
