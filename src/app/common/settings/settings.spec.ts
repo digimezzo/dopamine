@@ -102,6 +102,7 @@ describe('Settings', () => {
             fullPlayerPositionSizeMaximized: '50;50;1000;650;0',
             coverPlayerPosition: '50;50',
             useGaplessPlayback: false,
+            jumpToPlayingSong: true,
         };
 
         Object.entries(defaultSettings).forEach(([key, value]) => {

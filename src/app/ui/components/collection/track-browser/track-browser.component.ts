@@ -21,6 +21,8 @@ import { TrackSorter } from '../../../../common/sorting/track-sorter';
 import { Timer } from '../../../../common/scheduling/timer';
 import { PlaybackService } from '../../../../services/playback/playback.service';
 import { MetadataService } from '../../../../services/metadata/metadata.service';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { TrackServiceBase } from '../../../../services/track/track.service.base';
 
 @Component({
     selector: 'app-track-browser',
@@ -31,6 +33,7 @@ import { MetadataService } from '../../../../services/metadata/metadata.service'
     encapsulation: ViewEncapsulation.None,
 })
 export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, OnDestroy {
+    @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
     public readonly trackOrders: TrackOrder[] = [TrackOrder.byTrackTitleAscending, TrackOrder.byTrackTitleDescending, TrackOrder.byAlbum];
     public readonly trackOrderKey = trackOrderKey;
 
@@ -47,6 +50,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
         private playbackIndicationService: PlaybackIndicationServiceBase,
         private guidFactory: GuidFactory,
         private trackSorter: TrackSorter,
+        private trackService: TrackServiceBase,
         collectionService: CollectionServiceBase,
         translatorService: TranslatorServiceBase,
         dialogService: DialogServiceBase,
@@ -106,6 +110,13 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 this.playbackIndicationService.setPlayingTrack(this.orderedTracks, playbackStarted.currentTrack);
+                this.trackService.scrollToPlayingTrack(this.orderedTracks, this.viewPort);
+            }),
+        );
+
+        this.subscription.add(
+            this.playbackService.playbackResumed$.subscribe(() => {
+                this.trackService.scrollToPlayingTrack(this.orderedTracks, this.viewPort);
             }),
         );
 
@@ -199,6 +210,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
         );
 
         this.playbackIndicationService.setPlayingTrack(this.orderedTracks, this.playbackService.currentTrack);
+        this.trackService.scrollToPlayingTrack(this.orderedTracks, this.viewPort);
     }
 
     private hideAllHeaders(orderedTracks: TrackModel[]): void {

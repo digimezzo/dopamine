@@ -317,5 +317,7 @@
     "no-image-found-online": "Изображение на найдено онлайн.",
     "image": "Изображение",
     "choose-order": "Выбрать сортировку",
-    "choose-type": "Выбрать тип"
+    "choose-type": "Выбрать тип",
+    "follow-song": "Follow song",
+    "jump-to-playing-song": "Automatically scroll to the playing song"
 }

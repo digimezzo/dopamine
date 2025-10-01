@@ -317,5 +317,7 @@
     "no-image-found-online": "İnternette herhangi bir resim bulunamadı.",
     "image": "Resim",
     "choose-order": "Choose an order",
-    "choose-type": "Choose a type"
+    "choose-type": "Choose a type",
+    "follow-song": "Follow song",
+    "jump-to-playing-song": "Automatically scroll to the playing song"
 }
