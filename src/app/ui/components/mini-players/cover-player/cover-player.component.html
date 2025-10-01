@@ -28,19 +28,21 @@
     </div>
     <div class="cover-player__playback-pane">
         <app-playback-progress class="cover-player__progressbar"></app-playback-progress>
-
-        <div class="cover-player__playback-controls">
-            <i
-                class="cover-player-playback-controls__buttons las la-tasks pointer mr-3"
-                (click)="this.openPlaybackQueue()"
-                matTooltip="{{ 'playback-queue' | translate }}"
-            ></i>
-            <app-playback-controls></app-playback-controls>
-            <app-volume-icon
-                class="ml-3 pointer"
-                matTooltip="{{ 'volume' | translate }}"
-                (click)="this.openVolumeControl()"
-            ></app-volume-icon>
+        <div class="cover-player__playback-controls__container" >
+            <canvas id="coverPlayerAudioVisualizer" class="app-cover-player-controls__audio-visualizer"></canvas>
+            <div class="cover-player__playback-controls">
+                <i
+                    class="cover-player-playback-controls__buttons las la-tasks pointer mr-3"
+                    (click)="this.openPlaybackQueue()"
+                    matTooltip="{{ 'playback-queue' | translate }}"
+                ></i>
+                <app-playback-controls></app-playback-controls>
+                <app-volume-icon
+                    class="ml-3 pointer"
+                    matTooltip="{{ 'volume' | translate }}"
+                    (click)="this.openVolumeControl()"
+                ></app-volume-icon>
+            </div>
         </div>
     </div>
 </div>
