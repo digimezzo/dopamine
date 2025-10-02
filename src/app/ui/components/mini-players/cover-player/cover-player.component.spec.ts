@@ -3,11 +3,15 @@ import { AppearanceServiceBase } from '../../../../services/appearance/appearanc
 import { IMock, Mock } from 'typemoq';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { NavigationServiceBase } from '../../../../services/navigation/navigation.service.base';
+import { AudioVisualizer } from '../../../../services/playback/audio-visualizer';
+import { DocumentProxy } from '../../../../common/io/document-proxy';
 
 describe('CoverPlayerComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let navigationServiceMock: IMock<NavigationServiceBase>;
     let matBottomSheetMock: IMock<MatBottomSheet>;
+    let audioVisualizerMock: IMock<AudioVisualizer>;
+    let documentProxyMock: IMock<DocumentProxy>;
 
     let component: CoverPlayerComponent;
 
@@ -15,7 +19,15 @@ describe('CoverPlayerComponent', () => {
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
         matBottomSheetMock = Mock.ofType<MatBottomSheet>();
-        component = new CoverPlayerComponent(appearanceServiceMock.object, navigationServiceMock.object, matBottomSheetMock.object);
+        audioVisualizerMock = Mock.ofType<AudioVisualizer>();
+        documentProxyMock = Mock.ofType<DocumentProxy>();
+        component = new CoverPlayerComponent(
+            appearanceServiceMock.object,
+            navigationServiceMock.object,
+            matBottomSheetMock.object,
+            audioVisualizerMock.object,
+            documentProxyMock.object,
+        );
     });
 
     describe('constructor', () => {
