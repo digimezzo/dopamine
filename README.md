@@ -15,6 +15,10 @@ Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 
 ![Dopaminescreenshot](Dopamine.screenshot.png)
 
+![Dopaminescreenshot 2](Dopamine.screenshot.2.png)
+
+![Dopaminescreenshot 3](Dopamine.screenshot.3.png)
+
 ## Thank you JetBrains!
 
  <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" width="150" height="150">
