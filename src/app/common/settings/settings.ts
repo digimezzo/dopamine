@@ -791,6 +791,15 @@ export class Settings implements SettingsBase {
         this.settings.set('useGaplessPlayback', v);
     }
 
+    // jumpToPlayingSong
+    public get jumpToPlayingSong(): boolean {
+        return <boolean>this.settings.get('jumpToPlayingSong');
+    }
+
+    public set jumpToPlayingSong(v: boolean) {
+        this.settings.set('jumpToPlayingSong', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -1119,6 +1128,10 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('useGaplessPlayback')) {
             this.settings.set('useGaplessPlayback', false);
+        }
+
+        if (!this.settings.has('jumpToPlayingSong')) {
+            this.settings.set('jumpToPlayingSong', true);
         }
     }
 }
