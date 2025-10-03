@@ -5,11 +5,6 @@
     grid-template-columns: 1fr;
 }
 
-.app-playback-cover-art * {
-    width: inherit;
-    height: inherit;
-}
-
 .app-playback-cover-art div {
     grid-row-start: 1;
     grid-column-start: 1;
