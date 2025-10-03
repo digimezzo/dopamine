@@ -11,19 +11,13 @@ Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 [![Issues](https://img.shields.io/github/issues/digimezzo/dopamine.svg?style=flat-square)](https://github.com/digimezzo/dopamine/issues)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8)
 
-<a href='https://ko-fi.com/S6S11K63U' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+<a href='https://ko-fi.com/S6S11K63U' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 ![Dopaminescreenshot](Dopamine.screenshot.png)
 
 ![Dopaminescreenshot 2](Dopamine.screenshot.2.png)
 
 ![Dopaminescreenshot 3](Dopamine.screenshot.3.png)
-
-## Thank you JetBrains!
-
- <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" width="150" height="150">
-
-Thank you [JetBrains](https://www.jetbrains.com/community/opensource/?utm_campaign=opensource&utm_content=approved&utm_medium=email&utm_source=newsletter&utm_term=jblogo#support) for supporting this project!
 
 ## Debugging
 
