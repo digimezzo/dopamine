@@ -791,6 +791,33 @@ export class Settings implements SettingsBase {
         this.settings.set('useGaplessPlayback', v);
     }
 
+    // showRichLyrics
+    public get showRichLyrics(): boolean {
+        return <boolean>this.settings.get('showRichLyrics');
+    }
+
+    public set showRichLyrics(v: boolean) {
+        this.settings.set('showRichLyrics', v);
+    }
+
+    // richLyricsLineCount
+    public get richLyricsLineCount(): number {
+        return <number>this.settings.get('richLyricsLineCount');
+    }
+
+    public set richLyricsLineCount(v: number) {
+        this.settings.set('richLyricsLineCount', v)
+    }
+
+    // richLyricsFontSize
+    public get richLyricsFontSize(): number {
+        return <number>this.settings.get('richLyricsFontSize');
+    }
+
+    public set richLyricsFontSize(v: number) {
+        this.settings.set('richLyricsFontSize', v);
+    }
+
     // jumpToPlayingSong
     public get jumpToPlayingSong(): boolean {
         return <boolean>this.settings.get('jumpToPlayingSong');
@@ -1130,6 +1157,18 @@ export class Settings implements SettingsBase {
             this.settings.set('useGaplessPlayback', false);
         }
 
+        if (!this.settings.has('showRichLyrics')) {
+            this.settings.set('showRichLyrics', false);
+        }
+
+        if (!this.settings.has('richLyricsLineCount')) {
+            this.settings.set('richLyricsLineCount', 2);
+        }
+
+        if (!this.settings.has('richLyricsFontSize')) {
+            this.settings.set('richLyricsFontSize', 2);
+        }
+        
         if (!this.settings.has('jumpToPlayingSong')) {
             this.settings.set('jumpToPlayingSong', true);
         }
