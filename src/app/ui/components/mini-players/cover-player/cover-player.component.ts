@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { CoverPlayerPlaybackQueueComponent } from './cover-player-playback-queue/cover-player-playback-queue.component';
@@ -6,8 +6,8 @@ import { CoverPlayerVolumeControlComponent } from './cover-player-volume-control
 import { NavigationServiceBase } from '../../../../services/navigation/navigation.service.base';
 import { enterLeftToRight, enterRightToLeft } from '../../../animations/animations';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { PromiseUtils } from '../../../../common/utils/promise-utils';
-import { NowPlayingPage } from '../../../../services/now-playing-navigation/now-playing-page';
+import { DocumentProxy } from '../../../../common/io/document-proxy';
+import { AudioVisualizer } from '../../../../services/playback/audio-visualizer';
 
 @Component({
     selector: 'app-cover-player',
@@ -36,13 +36,15 @@ import { NowPlayingPage } from '../../../../services/now-playing-navigation/now-
         ]),
     ],
 })
-export class CoverPlayerComponent implements OnInit {
+export class CoverPlayerComponent implements OnInit, AfterViewInit {
     private timerId: number = 0;
 
     public constructor(
         public appearanceService: AppearanceServiceBase,
         private navigationService: NavigationServiceBase,
         private _bottomSheet: MatBottomSheet,
+        private audioVisualizer: AudioVisualizer,
+        private documentProxy: DocumentProxy,
     ) {}
 
     public controlsVisibility: string = 'visible';
@@ -59,6 +61,15 @@ export class CoverPlayerComponent implements OnInit {
         });
 
         this.resetTimer();
+    }
+
+    public ngAfterViewInit(): void {
+        this.setAudioVisualizer();
+    }
+
+    private setAudioVisualizer(): void {
+        const canvas: HTMLCanvasElement = this.documentProxy.getCanvasById('coverPlayerAudioVisualizer');
+        this.audioVisualizer.connectCanvas(canvas);
     }
 
     private resetTimer(): void {

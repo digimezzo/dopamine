@@ -317,5 +317,7 @@
     "no-image-found-online": "Nenhuma imagem foi encontrada online.",
     "image": "Imagem",
     "choose-order": "Choose an order",
-    "choose-type": "Choose a type"
+    "choose-type": "Choose a type",
+    "follow-song": "Follow song",
+    "jump-to-playing-song": "Automatically scroll to the playing song"
 }

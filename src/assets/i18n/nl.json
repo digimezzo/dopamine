@@ -317,5 +317,7 @@
     "no-image-found-online": "Geen afbeelding gevonden",
     "image": "Afbeelding",
     "choose-order": "Choose an order",
-    "choose-type": "Choose a type"
+    "choose-type": "Choose a type",
+    "follow-song": "Nummer volgen",
+    "jump-to-playing-song": "Naar het afspelende nummer gaan"
 }

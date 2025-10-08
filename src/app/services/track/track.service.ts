@@ -14,6 +14,7 @@ import { ArtistModel } from '../artist/artist-model';
 import { Timer } from '../../common/scheduling/timer';
 import { Logger } from '../../common/logger';
 import { ArtistServiceBase } from '../artist/artist.service.base';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Injectable()
 export class TrackService implements TrackServiceBase {
@@ -227,5 +228,16 @@ export class TrackService implements TrackServiceBase {
 
     public saveSkipCount(track: TrackModel): void {
         this.trackRepository.updateSkipCount(track.id, track.skipCount);
+    }
+
+    public scrollToPlayingTrack(tracks: TrackModel[], viewPort: CdkVirtualScrollViewport): void {
+        if (!this.settings.jumpToPlayingSong) {
+            return;
+        }
+
+        const playingIndex = tracks.findIndex((t) => t.isPlaying);
+        if (playingIndex > -1) {
+            setTimeout(() => viewPort.scrollToIndex(playingIndex - 1, 'smooth')); // Scroll to 1 track higher than the current one, giving some breathing room.
+        }
     }
 }

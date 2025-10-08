@@ -31,8 +31,27 @@
     margin-bottom: -4px;
 }
 
-.cover-player__playback-controls {
+.app-cover-player-controls__audio-visualizer {
+    position: absolute;
+    z-index: 0;
+    left: 50%;
+    bottom: 0;
+    height: 30px;
+    width: 300px;
+    transform: translateX(-50%);
+}
+
+.cover-player__playback-controls__container {
+    position: relative;
     height: 100%;
+}
+
+.cover-player__playback-controls {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;

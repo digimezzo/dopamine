@@ -89,6 +89,7 @@ export class SettingsMock implements SettingsBase {
     public showRichLyrics: boolean;
     public richLyricsLineCount: number;
     public richLyricsFontSize: number;
+    public jumpToPlayingSong: boolean;
 
     public get albumKeyIndex(): string {
         return this.albumKeyIndexMock;

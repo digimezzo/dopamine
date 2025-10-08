@@ -1,10 +1,8 @@
 <div class="app-now-playing-showcase">
     <div class="app-now-playing-showcase__song">
-        <app-playback-cover-art
-            extraTopClasses="app-now-playing-showcase__cover"
-            [size]="coverArtSize"
-            [borderRadius]="10">
-        </app-playback-cover-art>
+        <div class="app-now-playing-showcase__cover">
+            <app-playback-cover-art [size]="coverArtSize" [borderRadius]="10"></app-playback-cover-art>
+        </div>
 
         <div class="app-now-playing-showcase__songinfo" [style.height.px]="coverArtSize">
             <app-playback-information

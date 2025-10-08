@@ -24,6 +24,7 @@ import { CollectionServiceBase } from '../../../../../services/collection/collec
 import { SettingsMock } from '../../../../../testing/settings-mock';
 import { PlaybackService } from '../../../../../services/playback/playback.service';
 import { MetadataService } from '../../../../../services/metadata/metadata.service';
+import { TrackServiceBase } from '../../../../../services/track/track.service.base';
 
 describe('CollectionTracksTableComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
@@ -34,6 +35,7 @@ describe('CollectionTracksTableComponent', () => {
     let playbackIndicationServiceMock: IMock<PlaybackIndicationServiceBase>;
     let tracksColumnsServiceMock: IMock<TracksColumnsServiceBase>;
     let tracksColumnsOrderingMock: IMock<TracksColumnsOrdering>;
+    let trackServiceMock: IMock<TrackServiceBase>;
     let dateTimeMock: IMock<DateTime>;
 
     let collectionServiceMock: IMock<CollectionServiceBase>;
@@ -45,6 +47,9 @@ describe('CollectionTracksTableComponent', () => {
 
     let playbackStartedMock: Subject<PlaybackStarted>;
     let playbackStartedMock$: Observable<PlaybackStarted>;
+
+    let playbackResumedMock: Subject<void>;
+    let playbackResumedMock$: Observable<void>;
 
     let playbackStoppedMock: Subject<void>;
     let playbackStoppedMock$: Observable<void>;
@@ -73,6 +78,7 @@ describe('CollectionTracksTableComponent', () => {
             playbackIndicationServiceMock.object,
             tracksColumnsServiceMock.object,
             tracksColumnsOrderingMock.object,
+            trackServiceMock.object,
             collectionServiceMock.object,
             dialogServiceMock.object,
             translatorServiceMock.object,
@@ -92,6 +98,7 @@ describe('CollectionTracksTableComponent', () => {
         playbackIndicationServiceMock = Mock.ofType<PlaybackIndicationServiceBase>();
         tracksColumnsServiceMock = Mock.ofType<TracksColumnsServiceBase>();
         tracksColumnsOrderingMock = Mock.ofType<TracksColumnsOrdering>();
+        trackServiceMock = Mock.ofType<TrackServiceBase>();
         dateTimeMock = Mock.ofType<DateTime>();
 
         collectionServiceMock = Mock.ofType<CollectionServiceBase>();
@@ -103,9 +110,12 @@ describe('CollectionTracksTableComponent', () => {
 
         playbackStartedMock = new Subject();
         playbackStartedMock$ = playbackStartedMock.asObservable();
+        playbackResumedMock = new Subject();
+        playbackResumedMock$ = playbackResumedMock.asObservable();
         playbackStoppedMock = new Subject();
         playbackStoppedMock$ = playbackStoppedMock.asObservable();
         playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackStartedMock$);
+        playbackServiceMock.setup((x) => x.playbackResumed$).returns(() => playbackResumedMock$);
         playbackServiceMock.setup((x) => x.playbackStopped$).returns(() => playbackStoppedMock$);
         playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
 

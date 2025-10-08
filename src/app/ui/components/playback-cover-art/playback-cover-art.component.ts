@@ -7,7 +7,6 @@ import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { Constants } from '../../../common/application/constants';
 import { PlaybackInformationService } from '../../../services/playback-information/playback-information.service';
 import { IndexingService } from '../../../services/indexing/indexing.service';
-import { StringUtils } from '../../../common/utils/string-utils';
 
 @Component({
     selector: 'app-playback-cover-art',
@@ -47,7 +46,6 @@ import { StringUtils } from '../../../common/utils/string-utils';
     ],
 })
 export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
-    private readonly defaultTopClasses: string = 'app-playback-cover-art';
     private subscription: Subscription = new Subscription();
     private currentImageUrl: string = '';
 
@@ -64,9 +62,6 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
 
     @Input()
     public borderRadius: number = 0;
-
-    @Input()
-    public extraTopClasses: string = '';
 
     public topImageUrl: string = '';
     public bottomImageUrl: string = '';
@@ -85,14 +80,6 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
         }
 
         return '';
-    }
-
-    public get topClasses(): string {
-        if (StringUtils.isNullOrWhiteSpace(this.extraTopClasses)) {
-            return this.defaultTopClasses;
-        }
-
-        return `${this.defaultTopClasses} ${this.extraTopClasses}`;
     }
 
     public ngOnDestroy(): void {

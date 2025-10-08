@@ -21,6 +21,13 @@
         >
     </div>
     <mat-divider class="my-4"></mat-divider>
+    <div class="title">{{ 'follow-song' | translate }}</div>
+    <div>
+        <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.jumpToPlayingSong">
+            {{ 'jump-to-playing-song' | translate }}</app-toggle-switch
+        >
+    </div>
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'rating' | translate }}</div>
     <div>
         <app-toggle-switch [(isChecked)]="this.settings.showRating"> {{ 'show-rating' | translate }}</app-toggle-switch>

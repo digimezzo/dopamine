@@ -3,17 +3,26 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0-preview.40] - 2025-08-04
+## [3.0.0-preview.41] - 2025-10-03
+
+### Fixed
+
+-   Cover art glitches on Now Playing screen when switching to the next song
+
+## [3.0.0-preview.40] - 2025-10-02
 
 ### Added
 
 -   Added Arabic translation
+-   Added option to automatically scroll to the playing song
+-   Added audio visualization to mini player
 
 ### Changed
 
 -   Images now have round corners
 -   Updated the Hebrew translation
 -   Updated the Russian translation
+-   Updated the Simplified Chinese translation
 -   Updated the Spanish translation
 -   Updated the Vietnamese translation
 

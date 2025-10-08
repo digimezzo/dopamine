@@ -317,5 +317,7 @@
     "no-image-found-online": "Không tìm thấy ảnh online hợp lệ.",
     "image": "Ảnh",
     "choose-order": "Xếp theo",
-    "choose-type": "Chọn một loại"
+    "choose-type": "Chọn một loại",
+    "follow-song": "Follow song",
+    "jump-to-playing-song": "Automatically scroll to the playing song"
 }
