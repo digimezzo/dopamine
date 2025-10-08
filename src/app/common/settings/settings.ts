@@ -816,6 +816,8 @@ export class Settings implements SettingsBase {
 
     public set richLyricsFontSize(v: number) {
         this.settings.set('richLyricsFontSize', v);
+    }
+
     // jumpToPlayingSong
     public get jumpToPlayingSong(): boolean {
         return <boolean>this.settings.get('jumpToPlayingSong');
@@ -1165,6 +1167,8 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('richLyricsFontSize')) {
             this.settings.set('richLyricsFontSize', 2);
+        }
+        
         if (!this.settings.has('jumpToPlayingSong')) {
             this.settings.set('jumpToPlayingSong', true);
         }
