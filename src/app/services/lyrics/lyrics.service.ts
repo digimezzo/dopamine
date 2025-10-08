@@ -63,7 +63,7 @@ export class LyricsService implements LyricsServiceBase {
 
             try {
                 lyrics = await this.lrcLyricsGetter.getLyricsAsync(track);
-            } catch (e: unknown) {
+            } catch (e) {
                 this.logger.error(e, 'Could not get LRC lyrics', 'LyricsService', 'getLyricsAsync');
             }
 
