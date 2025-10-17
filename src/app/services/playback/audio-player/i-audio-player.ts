@@ -1,9 +1,7 @@
 import { Observable } from 'rxjs';
-import { AudioChangedEvent } from './audio-changed-event';
 import { TrackModel } from '../../track/track-model';
 
 export interface IAudioPlayer {
-    audioChanged$: Observable<AudioChangedEvent>;
     playbackFinished$: Observable<void>;
     playingPreloadedTrack$: Observable<TrackModel>;
     progressSeconds: number;
