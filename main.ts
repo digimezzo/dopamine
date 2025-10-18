@@ -167,6 +167,8 @@ function setInitialWindowState(mainWindow: BrowserWindow): void {
 
         if (settings.get('playerType') === 'cover') {
             windowPositionSizeMaximizedAsString = `${settings.get('coverPlayerPosition')};350;430;0`;
+        } else if (settings.get('playerType') === 'dopamp') {
+            windowPositionSizeMaximizedAsString = `${settings.get('dopampPlayerPosition')};550;200;0`;
         }
 
         const windowPositionSizeMaximized: number[] = windowPositionSizeMaximizedAsString.split(';').map(Number);
@@ -326,6 +328,8 @@ function createMainWindow(): void {
                     settings.set('fullPlayerPositionSizeMaximized', `${position[0]};${position[1]};${size[0]};${size[1]};${isMaximized}`);
                 } else if (settings.get('playerType') === 'cover') {
                     settings.set('coverPlayerPosition', `${position[0]};${position[1]};350;430`);
+                } else if (settings.get('playerType') === 'dopamp') {
+                    settings.set('dopampPlayerPosition', `${position[0]};${position[1]};550;200`);
                 }
             }
         }, 300),
@@ -343,6 +347,8 @@ function createMainWindow(): void {
                     settings.set('fullPlayerPositionSizeMaximized', `${position[0]};${position[1]};${size[0]};${size[1]};${isMaximized}`);
                 } else if (settings.get('playerType') === 'cover') {
                     settings.set('coverPlayerPosition', `${position[0]};${position[1]}`);
+                } else if (settings.get('playerType') === 'dopamp') {
+                    settings.set('dopampPlayerPosition', `${position[0]};${position[1]}`);
                 }
             }
         }, 300),
@@ -384,25 +390,35 @@ function createMainWindow(): void {
         }
 
         // if mode is not cover anymore, return
-        if (settings.get('playerType') !== 'cover') {
+        if (settings.get('playerType') === 'cover') {
+            setCoverPlayer(mainWindow);
+        } else if (settings.get('playerType') === 'dopamp') {
+            setDopampPlayer(mainWindow);
+        } else {
             return;
         }
-
-        setCoverPlayer(mainWindow);
     });
 }
 
 function setCoverPlayer(mainWindow: BrowserWindow): void {
-    const coverPlayerPositionAsString: string = settings.get('coverPlayerPosition');
-    const coverPlayerPosition: number[] = coverPlayerPositionAsString.split(';').map(Number);
+    setMiniPlayer(mainWindow, 'coverPlayerPosition', 350, 430);
+}
+
+function setDopampPlayer(mainWindow: BrowserWindow): void {
+    setMiniPlayer(mainWindow, 'dopampPlayerPosition', 550, 200);
+}
+
+function setMiniPlayer(mainWindow: BrowserWindow, settingName: string, width: number, height: number): void {
+    const playerPositionAsString: string = settings.get(settingName);
+    const playerPosition: number[] = playerPositionAsString.split(';').map(Number);
 
     if (isMacOS()) {
         mainWindow.fullScreenable = false;
     }
     mainWindow.resizable = false;
     mainWindow.maximizable = false;
-    mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
-    mainWindow.setContentSize(350, 430);
+    mainWindow.setPosition(playerPosition[0], playerPosition[1]);
+    mainWindow.setContentSize(width, height);
 }
 
 function pushFilesToQueue(files: string[], functionName: string): void {
@@ -610,6 +626,23 @@ try {
 
                 mainWindow.unmaximize();
                 setCoverPlayer(mainWindow);
+            }
+        });
+
+        ipcMain.on('set-dopamp-player', (event: any, arg: any) => {
+            log.info('[Main] [set-dopamp-player] Setting playerType to dopamp player');
+            if (mainWindow) {
+                // We cannot resize the window when it is still in full screen mode on macOS.
+                if (isMacOS() && mainWindow.isFullScreen()) {
+                    // If for whatever reason fullScreenable will be set to false
+                    // mainWindow.fullScreen = false; will not work on macOS.
+                    mainWindow.fullScreenable = true;
+                    mainWindow.fullScreen = false;
+                    return;
+                }
+
+                mainWindow.unmaximize();
+                setDopampPlayer(mainWindow);
             }
         });
 

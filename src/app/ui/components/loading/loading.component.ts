@@ -39,12 +39,16 @@ export class LoadingComponent implements OnInit {
 
                 if (this.settings.playerType === 'cover') {
                     await this.navigationService.navigateToCoverPlayerAsync();
+                } else if (this.settings.playerType === 'dopamp') {
+                    await this.navigationService.navigateToDopampPlayerAsync();
                 } else {
                     await this.navigationService.navigateToNowPlayingAsync();
                 }
             } else {
                 if (this.settings.playerType === 'cover') {
                     await this.navigationService.navigateToCoverPlayerAsync();
+                } else if (this.settings.playerType === 'dopamp') {
+                    await this.navigationService.navigateToDopampPlayerAsync();
                 } else {
                     await this.navigationService.navigateToCollectionAsync();
                 }

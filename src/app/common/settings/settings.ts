@@ -779,8 +779,17 @@ export class Settings implements SettingsBase {
         return <string>this.settings.get('coverPlayerPosition');
     }
 
-    public set coverPlayerPositionAndSize(v: string) {
+    public set coverPlayerPosition(v: string) {
         this.settings.set('coverPlayerPosition', v);
+    }
+
+    // dopampPlayerPosition
+    public get dopampPlayerPosition(): string {
+        return <string>this.settings.get('dopampPlayerPosition');
+    }
+
+    public set dopampPlayerPosition(v: string) {
+        this.settings.set('dopampPlayerPosition', v);
     }
 
     // useGaplessPlayback
@@ -1124,6 +1133,10 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('coverPlayerPosition')) {
             this.settings.set('coverPlayerPosition', '50;50');
+        }
+
+        if (!this.settings.has('dopampPlayerPosition')) {
+            this.settings.set('dopampPlayerPosition', '50;50');
         }
 
         if (!this.settings.has('useGaplessPlayback')) {

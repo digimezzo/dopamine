@@ -17,6 +17,12 @@ export class SwitchPlayerService {
         this.logger.info('Switching player', 'SwitchPlayerService', 'togglePlayerAsync');
         if (this.settings.playerType === 'cover') {
             this.logger.info('Detected playerType cover.', 'SwitchPlayerService', 'togglePlayerAsync');
+            this.settings.playerType = 'dopamp';
+            await this.navigationService.navigateToDopampPlayerAsync();
+            this.logger.info('Requesting to set dopamp player.', 'SwitchPlayerService', 'togglePlayerAsync');
+            this.ipcProxy.sendToMainProcess('set-dopamp-player', undefined);
+        } else if (this.settings.playerType === 'dopamp') {
+            this.logger.info('Detected playerType dopamp.', 'SwitchPlayerService', 'togglePlayerAsync');
             this.settings.playerType = 'full';
             await this.navigationService.navigateToCollectionAsync();
             this.logger.info('Requesting to set full player.', 'SwitchPlayerService', 'togglePlayerAsync');

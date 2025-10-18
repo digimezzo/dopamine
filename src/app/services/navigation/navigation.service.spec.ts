@@ -141,6 +141,30 @@ describe('NavigationService', () => {
         });
     });
 
+    describe('navigateToCoverPlayerAsync', () => {
+        it('should navigate to now cover player', async () => {
+            // Arrange
+
+            // Act
+            await service.navigateToCoverPlayerAsync();
+
+            // Assert
+            routerMock.verify((x) => x.navigate(['/coverplayer']), Times.exactly(1));
+        });
+    });
+
+    describe('navigateToDopampPlayer', () => {
+        it('should navigate to dopamp player', async () => {
+            // Arrange
+
+            // Act
+            await service.navigateToDopampPlayerAsync();
+
+            // Assert
+            routerMock.verify((x) => x.navigate(['/dopampplayer']), Times.exactly(1));
+        });
+    });
+
     describe('showPlaybackQueue', () => {
         it('should request to show the playback queue', () => {
             // Arrange

@@ -52,6 +52,10 @@ export class NavigationService implements NavigationServiceBase {
         await this.router.navigate(['/coverplayer']);
     }
 
+    public async navigateToDopampPlayerAsync(): Promise<void> {
+        await this.router.navigate(['/dopampplayer']);
+    }
+
     public showPlaybackQueue(): void {
         this.showPlaybackQueueRequested.next();
         this.refreshPlaybackQueueListRequested.next();

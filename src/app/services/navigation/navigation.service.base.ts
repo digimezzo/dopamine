@@ -11,6 +11,7 @@ export abstract class NavigationServiceBase {
     public abstract navigateToManageCollectionAsync(): Promise<void>;
     public abstract navigateToNowPlayingAsync(): Promise<void>;
     public abstract navigateToCoverPlayerAsync(): Promise<void>;
+    public abstract navigateToDopampPlayerAsync(): Promise<void>;
     public abstract showPlaybackQueue(): void;
     public abstract refreshPlaybackQueueList(): void;
 }
