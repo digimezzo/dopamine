@@ -1,3 +1,5 @@
+@import 'colors';
+
 .similar-artist__picture {
     overflow: hidden;
     background: var(--theme-album-cover-background);
@@ -26,7 +28,7 @@
 }
 
 .similar-artist__picture--logo i {
-    color: var(--theme-album-cover-logo);
+    @extend .font-icon-accent-gradient;
     font-size: 80px;
 }
 

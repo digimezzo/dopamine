@@ -13,7 +13,6 @@ export class ThemeNeutralColors {
         public secondaryText: string,
         public sliderBackground: string,
         public sliderThumbBackground: string,
-        public albumCoverLogo: string,
         public albumCoverBackground: string,
         public headerSeparator: string,
         public paneSeparators: string,
