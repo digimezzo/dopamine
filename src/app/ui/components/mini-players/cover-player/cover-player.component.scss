@@ -58,13 +58,13 @@
     justify-content: center;
 }
 
-.cover-player__cover-pane {
+.cover-player__top-pane {
     position: relative;
     width: 350px;
     height: 350px;
 }
 
-.cover-player-cover-pane__cover {
+.cover-player-top-pane__cover {
     position: absolute;
     width: 350px;
     height: 350px;
@@ -73,7 +73,7 @@
     left: 0;
 }
 
-.cover-player-cover-pane__songinfo {
+.cover-player-top-pane__songinfo {
     position: absolute;
     width: 350px;
     height: 100px;
@@ -85,4 +85,43 @@
 
 .cover-player-playback-controls__buttons {
     font-size: 18px;
+}
+
+.cover-player__playback-pane {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cover-player__progressbar {
+    margin-top: -4px;
+    margin-bottom: -4px;
+}
+
+.app-cover-player-controls__audio-visualizer {
+    position: absolute;
+    z-index: 0;
+    left: 50%;
+    bottom: 0;
+    height: 30px;
+    width: 300px;
+    transform: translateX(-50%);
+}
+
+.cover-player__playback-controls__container {
+    position: relative;
+    height: 100%;
+}
+
+.cover-player__playback-controls {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }

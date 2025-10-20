@@ -1,1 +1,37 @@
-Dopamp
+<div class="dopamp-player__titlebar draggable">
+    <div class="d-flex flex-grow"></div>
+    <div class="d-flex">
+        <app-switch-player-button [highContrast]="true"></app-switch-player-button>
+        <app-window-controls
+                *ngIf="appearanceService.needsCustomWindowControls"
+                [showMaximize]="false"
+                [highContrast]="true"
+        ></app-window-controls>
+    </div>
+</div>
+
+<div class="dopamp-player__content">
+    <div class="dopamp-player__top-pane">
+    </div>
+    <div class="dopamp-player__playback-pane">
+        <app-playback-progress class="dopamp-player__progressbar"></app-playback-progress>
+        <div class="dopamp-player__playback-controls__container">
+            <div class="dopamp-player__playback-controls__container__left">
+                <i
+                        class="dopamp-player-playback-controls__buttons las la-tasks pointer ml-3"
+                        (click)="this.openPlaybackQueue()"
+                        matTooltip="{{ 'playback-queue' | translate }}"
+                ></i>
+            </div>
+            <div class="dopamp-player__playback-controls__container__center">
+                <canvas id="dopampPlayerAudioVisualizer" class="app-dopamp-player-controls__audio-visualizer"></canvas>
+                <div class="dopamp-player__playback-controls">
+                    <app-playback-controls></app-playback-controls>
+                </div>
+            </div>
+            <div class="dopamp-player__playback-controls__container__right">
+                <app-volume-control class="dopamp-player__volume mr-3"></app-volume-control>
+            </div>
+        </div>
+    </div>
+</div>
