@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AfterViewInit, Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { NowPlayingPage } from '../../../services/now-playing-navigation/now-playing-page';
@@ -88,7 +88,7 @@ import { SettingsBase } from '../../../common/settings/settings.base';
         ]),
     ],
 })
-export class NowPlayingComponent extends AnimatedPage implements OnInit, AfterViewInit {
+export class NowPlayingComponent extends AnimatedPage implements OnInit, OnDestroy, AfterViewInit {
     private timerId: number = 0;
     private subscription: Subscription = new Subscription();
 
@@ -120,6 +120,10 @@ export class NowPlayingComponent extends AnimatedPage implements OnInit, AfterVi
         if (event.key === ' ' && !(event.target instanceof HTMLInputElement)) {
             this.playbackService.togglePlayback();
         }
+    }
+
+    public ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 
     public ngOnInit(): void {

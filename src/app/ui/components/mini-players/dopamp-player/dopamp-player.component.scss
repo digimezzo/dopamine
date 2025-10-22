@@ -1,5 +1,23 @@
 @import 'variables';
 
+.dopamp__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.dopamp__foreground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
 .dopamp-player__titlebar {
     width: 100%;
     height: $titlebar-height;
@@ -8,6 +26,7 @@
     position: fixed;
     top: 0;
     z-index: 1000;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 40%, rgba(0, 0, 0, 0.1) 80%, rgba(0, 0, 0, 0) 100%);
 }
 
 .dopamp-player__content {
@@ -20,8 +39,10 @@
 
 .dopamp-player__top-pane {
     position: relative;
-    width: 100vw;
+    width: 100%;
     height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: row;
 }
 
 .dopamp-player__playback-pane {
@@ -31,12 +52,23 @@
     flex-direction: column;
 }
 
+.dopamp-playback-pane__controls {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+}
+
 .dopamp-player__progressbar {
     margin-top: -4px;
     margin-bottom: -4px;
 }
 
-.app-dopamp-player-controls__audio-visualizer {
+.dopamp-player__playback-controls__container {
+    position: relative;
+    height: 100%;
+}
+
+.dopamp-player-controls__audio-visualizer {
     position: absolute;
     z-index: 0;
     left: 50%;
@@ -44,40 +76,6 @@
     height: 30px;
     width: 300px;
     transform: translateX(-50%);
-}
-
-.dopamp-player__playback-controls__container {
-    position: relative;
-    display: flex;
-    flex: 1;
-    flex-direction: row;
-}
-
-.dopamp-player__playback-controls__container__left {
-    height: 100%;
-    width: 33.33vw;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.dopamp-player__playback-controls__container__center {
-    height: 100%;
-    width: 33.33vw;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.dopamp-player__playback-controls__container__right {
-    height: 100%;
-    width: 33.33vw;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
 }
 
 .dopamp-player__playback-controls {
@@ -96,6 +94,56 @@
     font-size: 18px;
 }
 
-.dopamp-player__volume {
+.dopamp-player__playback-pane__left {
+    height: 100%;
+    width: 33.33vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.dopamp-player__playback-pane__center {
+    height: 100%;
+    width: 33.33vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.dopamp-player__playback-pane__right {
+    height: 100%;
+    width: 33.33vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.dopamp-playback-pane_volume {
     width: 110px;
+}
+
+.dopamp__cover {
+    margin: 16px;
+}
+
+.dopamp__playbackinformation {
+    margin: 16px 16px 16px 0;
+}
+
+.dopamp__backgroundimage {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+    height: 100%;
+    filter: blur(8px);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }

@@ -168,7 +168,7 @@ function setInitialWindowState(mainWindow: BrowserWindow): void {
         if (settings.get('playerType') === 'cover') {
             windowPositionSizeMaximizedAsString = `${settings.get('coverPlayerPosition')};350;430;0`;
         } else if (settings.get('playerType') === 'dopamp') {
-            windowPositionSizeMaximizedAsString = `${settings.get('dopampPlayerPosition')};550;200;0`;
+            windowPositionSizeMaximizedAsString = `${settings.get('dopampPlayerPosition')};550;220;0`;
         }
 
         const windowPositionSizeMaximized: number[] = windowPositionSizeMaximizedAsString.split(';').map(Number);
@@ -329,7 +329,7 @@ function createMainWindow(): void {
                 } else if (settings.get('playerType') === 'cover') {
                     settings.set('coverPlayerPosition', `${position[0]};${position[1]};350;430`);
                 } else if (settings.get('playerType') === 'dopamp') {
-                    settings.set('dopampPlayerPosition', `${position[0]};${position[1]};550;200`);
+                    settings.set('dopampPlayerPosition', `${position[0]};${position[1]};550;220`);
                 }
             }
         }, 300),
@@ -405,7 +405,7 @@ function setCoverPlayer(mainWindow: BrowserWindow): void {
 }
 
 function setDopampPlayer(mainWindow: BrowserWindow): void {
-    setMiniPlayer(mainWindow, 'dopampPlayerPosition', 550, 200);
+    setMiniPlayer(mainWindow, 'dopampPlayerPosition', 550, 220);
 }
 
 function setMiniPlayer(mainWindow: BrowserWindow, settingName: string, width: number, height: number): void {
