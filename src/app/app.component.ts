@@ -21,6 +21,7 @@ import { LifetimeService } from './services/lifetime/lifetime.service';
 import { PlaybackService } from './services/playback/playback.service';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
 import { DiscordService } from './services/discord/discord.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-root',
@@ -62,36 +63,40 @@ export class AppComponent implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
-        if (!AppConfig.production) {
-            this.logger.info('Executing integration tests', 'AppComponent', 'ngOnInit');
-            // await this.integrationTestRunner.executeTestsAsync();
+        if (window.location.href.includes('playlistwindow')) {
+            await this.navigationService.navigateToPlaylistWindowAsync();
+        } else {
+            if (!AppConfig.production) {
+                this.logger.info('Executing integration tests', 'AppComponent', 'ngOnInit');
+                // await this.integrationTestRunner.executeTestsAsync();
+            }
+
+            this.logger.info(
+                `+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`,
+                'AppComponent',
+                'ngOnInit',
+            );
+
+            this.subscription.add(
+                this.navigationService.showPlaybackQueueRequested$.subscribe(() => {
+                    if (this.playbackQueueDrawer != undefined) {
+                        PromiseUtils.noAwait(this.playbackQueueDrawer.toggle());
+                    }
+                }),
+            );
+
+            this.audioVisualizer.initialize();
+            await this.addToPlaylistMenu.initializeAsync();
+            this.discordService.initialize();
+            await this.appearanceService.applyAppearanceAsync();
+            this.translatorService.applyLanguage();
+            this.trayService.updateTrayContextMenu();
+            this.mediaSessionService.initialize();
+            this.scrobblingService.initialize();
+            this.eventListenerService.listenToEvents();
+            await this.navigationService.navigateToLoadingAsync();
+            await this.playbackService.initializeAsync();
+            this.lifetimeService.initialize();
         }
-
-        this.logger.info(
-            `+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`,
-            'AppComponent',
-            'ngOnInit',
-        );
-
-        this.subscription.add(
-            this.navigationService.showPlaybackQueueRequested$.subscribe(() => {
-                if (this.playbackQueueDrawer != undefined) {
-                    PromiseUtils.noAwait(this.playbackQueueDrawer.toggle());
-                }
-            }),
-        );
-
-        this.audioVisualizer.initialize();
-        await this.addToPlaylistMenu.initializeAsync();
-        this.discordService.initialize();
-        await this.appearanceService.applyAppearanceAsync();
-        this.translatorService.applyLanguage();
-        this.trayService.updateTrayContextMenu();
-        this.mediaSessionService.initialize();
-        this.scrobblingService.initialize();
-        this.eventListenerService.listenToEvents();
-        await this.navigationService.navigateToLoadingAsync();
-        await this.playbackService.initializeAsync();
-        this.lifetimeService.initialize();
     }
 }

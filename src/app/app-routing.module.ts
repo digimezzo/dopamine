@@ -9,6 +9,7 @@ import { SettingsComponent } from './ui/components/settings/settings.component';
 import { WelcomeComponent } from './ui/components/welcome/welcome.component';
 import { CoverPlayerComponent } from './ui/components/mini-players/cover-player/cover-player.component';
 import { DopampPlayerComponent } from './ui/components/mini-players/dopamp-player/dopamp-player.component';
+import { PlaylistWindowComponent } from './ui/components/playlist-window/playlist-window.component';
 
 const routes: Routes = [
     {
@@ -46,6 +47,10 @@ const routes: Routes = [
     {
         path: 'information',
         component: InformationComponent,
+    },
+    {
+        path: 'playlistwindow',
+        component: PlaylistWindowComponent,
     },
 ];
 

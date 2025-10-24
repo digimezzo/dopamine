@@ -86,6 +86,7 @@ export class SettingsMock implements SettingsBase {
     public fullPlayerPositionSizeMaximized: string;
     public coverPlayerPosition: string;
     public dopampPlayerPosition: string;
+    public dopampPlaylistPositionSizeMaximized: string;
     public useGaplessPlayback: boolean;
     public jumpToPlayingSong: boolean;
 

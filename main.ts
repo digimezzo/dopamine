@@ -42,10 +42,20 @@ const isServing: boolean = args.some((val) => val === '--serve');
 const discordApi = new DiscordApi(SensitiveInformation.discordClientId);
 
 let mainWindow: BrowserWindow | undefined;
+let playlistWindow: BrowserWindow | undefined;
 let tray: Tray;
 let isQuitting: boolean;
 let isQuit: boolean;
 let fileProcessingTimeout: NodeJS.Timeout;
+
+const coverPlayerWidth = 350;
+const coverPlayerHeight = 430;
+
+const dopampPlayerWidth = 550;
+const dopampPlayerHeight = 240;
+
+const remoteMain = require('@electron/remote/main');
+remoteMain.initialize();
 
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
@@ -149,7 +159,7 @@ function getTrayIcon(): string {
     }
 }
 
-function setInitialWindowState(mainWindow: BrowserWindow): void {
+function setInitialMainWindowState(mainWindow: BrowserWindow): void {
     try {
         if (!settings.has('playerType')) {
             settings.set('playerType', 'full');
@@ -166,9 +176,9 @@ function setInitialWindowState(mainWindow: BrowserWindow): void {
         let windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
 
         if (settings.get('playerType') === 'cover') {
-            windowPositionSizeMaximizedAsString = `${settings.get('coverPlayerPosition')};350;430;0`;
+            windowPositionSizeMaximizedAsString = `${settings.get('coverPlayerPosition')};${coverPlayerWidth};${coverPlayerHeight};0`;
         } else if (settings.get('playerType') === 'dopamp') {
-            windowPositionSizeMaximizedAsString = `${settings.get('dopampPlayerPosition')};550;240;0`;
+            windowPositionSizeMaximizedAsString = `${settings.get('dopampPlayerPosition')};${dopampPlayerWidth};${dopampPlayerHeight};0`;
         }
 
         const windowPositionSizeMaximized: number[] = windowPositionSizeMaximizedAsString.split(';').map(Number);
@@ -210,9 +220,6 @@ function createMainWindow(): void {
     // Suppress the default menu
     Menu.setApplicationMenu(null);
 
-    const remoteMain = require('@electron/remote/main');
-    remoteMain.initialize();
-
     // Create the browser window
     mainWindow = new BrowserWindow({
         backgroundColor: '#fff',
@@ -228,7 +235,7 @@ function createMainWindow(): void {
         show: false,
     });
 
-    setInitialWindowState(mainWindow);
+    setInitialMainWindowState(mainWindow);
 
     remoteMain.enable(mainWindow.webContents);
 
@@ -327,9 +334,9 @@ function createMainWindow(): void {
                     const isMaximized: number = mainWindow.isMaximized() ? 1 : 0;
                     settings.set('fullPlayerPositionSizeMaximized', `${position[0]};${position[1]};${size[0]};${size[1]};${isMaximized}`);
                 } else if (settings.get('playerType') === 'cover') {
-                    settings.set('coverPlayerPosition', `${position[0]};${position[1]};350;430`);
+                    settings.set('coverPlayerPosition', `${position[0]};${position[1]};${coverPlayerWidth};${coverPlayerHeight}`);
                 } else if (settings.get('playerType') === 'dopamp') {
-                    settings.set('dopampPlayerPosition', `${position[0]};${position[1]};550;240`);
+                    settings.set('dopampPlayerPosition', `${position[0]};${position[1]};${dopampPlayerWidth};${dopampPlayerHeight}`);
                 }
             }
         }, 300),
@@ -400,12 +407,79 @@ function createMainWindow(): void {
     });
 }
 
+function createPlaylistWindow(playerType: string): void {
+    playlistWindow = new BrowserWindow({
+        backgroundColor: '#fff',
+        frame: windowHasFrame(),
+        titleBarStyle: titleBarStyle(),
+        trafficLightPosition: isMacOS() ? { x: 10, y: 15 } : undefined,
+        icon: path.join(globalAny.__static, isWindows() ? 'icons/icon.ico' : 'icons/64x64.png'),
+        webPreferences: {
+            webSecurity: false,
+            nodeIntegration: true,
+            contextIsolation: false,
+        },
+        show: false,
+    });
+
+    setInitialPlaylistWindowState(playlistWindow, playerType);
+
+    remoteMain.enable(playlistWindow.webContents);
+
+    if (isServing) {
+        require('electron-reload')(__dirname, {
+            electron: require(`${__dirname}/node_modules/electron`),
+        });
+        playlistWindow.loadURL('http://localhost:4200/playlistwindow');
+    } else {
+        playlistWindow.loadURL(
+            url.format({
+                pathname: path.join(__dirname, 'dist/index.html/playlistwindow'),
+                protocol: 'file:',
+                slashes: true,
+            }),
+        );
+    }
+
+    playlistWindow.on('ready-to-show', () => {
+        if (playlistWindow) {
+            playlistWindow.show();
+            playlistWindow.focus();
+        }
+    });
+}
+
+function setInitialPlaylistWindowState(playlistWindow: BrowserWindow, playerType: string): void {
+    let playerWindowPositionAsString: string = '';
+    let playerBottomleftX: number = 0;
+    let playerBottomleftY: number = 0;
+    let playlistWindowPositionSizeMaximized: number[] = [];
+
+    if (playerType === 'cover') {
+        // TODO?
+    } else if (playerType === 'dopamp') {
+        playerWindowPositionAsString = settings.get('dopampPlayerPosition');
+        const playerWindowPosition: number[] = playerWindowPositionAsString.split(';').map(Number);
+        const playlistWindowPositionSizeMaximizedAsString: string = settings.get('dopampPlaylistPositionSizeMaximized');
+        playlistWindowPositionSizeMaximized = playlistWindowPositionSizeMaximizedAsString.split(';').map(Number);
+        playerBottomleftX = playerWindowPosition[0];
+        playerBottomleftY = playerWindowPosition[1] + dopampPlayerHeight;
+    }
+
+    playlistWindow.setPosition(
+        playlistWindowPositionSizeMaximized[0] === -1 ? playerBottomleftX : playlistWindowPositionSizeMaximized[0],
+        playlistWindowPositionSizeMaximized[1] === -1 ? playerBottomleftY : playlistWindowPositionSizeMaximized[1],
+    );
+
+    // playlistWindow.setSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
+}
+
 function setCoverPlayer(mainWindow: BrowserWindow): void {
-    setMiniPlayer(mainWindow, 'coverPlayerPosition', 350, 430);
+    setMiniPlayer(mainWindow, 'coverPlayerPosition', coverPlayerWidth, coverPlayerHeight);
 }
 
 function setDopampPlayer(mainWindow: BrowserWindow): void {
-    setMiniPlayer(mainWindow, 'dopampPlayerPosition', 550, 240);
+    setMiniPlayer(mainWindow, 'dopampPlayerPosition', dopampPlayerWidth, dopampPlayerHeight);
 }
 
 function setMiniPlayer(mainWindow: BrowserWindow, settingName: string, width: number, height: number): void {
@@ -533,6 +607,10 @@ try {
             }
 
             tray.setImage(getTrayIcon());
+        });
+
+        ipcMain.on('open-playlist-window', (event: any, arg: any) => {
+            createPlaylistWindow(arg.playerType);
         });
 
         ipcMain.on('update-tray-context-menu', (event: any, arg: any) => {

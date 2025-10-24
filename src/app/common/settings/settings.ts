@@ -792,6 +792,15 @@ export class Settings implements SettingsBase {
         this.settings.set('dopampPlayerPosition', v);
     }
 
+    // dopampPlaylistPositionSizeMaximized
+    public get dopampPlaylistPositionSizeMaximized(): string {
+        return <string>this.settings.get('dopampPlaylistPositionSizeMaximized');
+    }
+
+    public set dopampPlaylistPositionSizeMaximized(v: string) {
+        this.settings.set('dopampPlaylistPositionSizeMaximized', v);
+    }
+
     // useGaplessPlayback
     public get useGaplessPlayback(): boolean {
         return <boolean>this.settings.get('useGaplessPlayback');
@@ -1137,6 +1146,10 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('dopampPlayerPosition')) {
             this.settings.set('dopampPlayerPosition', '50;50');
+        }
+
+        if (!this.settings.has('dopampPlaylistPositionSizeMaximized')) {
+            this.settings.set('dopampPlaylistPositionSizeMaximized', '-1;-1;-1;-1;0');
         }
 
         if (!this.settings.has('useGaplessPlayback')) {

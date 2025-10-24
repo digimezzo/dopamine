@@ -21,6 +21,10 @@ export class NavigationService implements NavigationServiceBase {
         await this.router.navigate(['/loading']);
     }
 
+    public async navigateToPlaylistWindowAsync(): Promise<void> {
+        await this.router.navigate(['/playlistwindow']);
+    }
+
     public async navigateToCollectionAsync(): Promise<void> {
         await this.router.navigate(['/collection']);
         this.appearanceService.applyMargins(true);

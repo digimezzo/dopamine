@@ -296,6 +296,7 @@ import { EditTracksDialogComponent } from './ui/components/dialogs/edit-tracks-d
 import { InfoDialogComponent } from './ui/components/dialogs/info-dialog/info-dialog.component';
 import { IterableMenuComponent } from './ui/components/common/iterable-menu.component';
 import { DopampPlayerComponent } from './ui/components/mini-players/dopamp-player/dopamp-player.component';
+import { PlaylistWindowComponent } from './ui/components/playlist-window/playlist-window.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -455,6 +456,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         VolumeIconComponent,
         EditTracksDialogComponent,
         IterableMenuComponent,
+        PlaylistWindowComponent,
     ],
     imports: [
         BrowserAnimationsModule,

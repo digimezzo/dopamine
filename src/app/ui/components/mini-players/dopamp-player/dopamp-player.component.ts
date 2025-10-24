@@ -9,6 +9,7 @@ import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { Subscription } from 'rxjs';
 import { PlaybackService } from '../../../../services/playback/playback.service';
 import { MetadataService } from '../../../../services/metadata/metadata.service';
+import { IpcProxyBase } from '../../../../common/io/ipc-proxy.base';
 
 @Component({
     selector: 'app-cover-player',
@@ -93,6 +94,7 @@ export class DopampPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
         private metadataService: MetadataService,
         private audioVisualizer: AudioVisualizer,
         private documentProxy: DocumentProxy,
+        private ipcProxy: IpcProxyBase,
         public settings: SettingsBase,
     ) {}
 
@@ -137,7 +139,9 @@ export class DopampPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
         this.resetTimer();
     }
 
-    public openPlaybackQueue(): void {}
+    public openPlaylistWindow(): void {
+        this.ipcProxy.sendToMainProcess('open-playlist-window', { playerType: 'dopamp' });
+    }
 
     private setAudioVisualizer(): void {
         const canvas: HTMLCanvasElement = this.documentProxy.getCanvasById('dopampPlayerAudioVisualizer');
