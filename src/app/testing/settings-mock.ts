@@ -86,6 +86,9 @@ export class SettingsMock implements SettingsBase {
     public fullPlayerPositionSizeMaximized: string;
     public coverPlayerPosition: string;
     public useGaplessPlayback: boolean;
+    public showRichLyrics: boolean;
+    public richLyricsLineCount: number;
+    public richLyricsFontSize: number;
     public jumpToPlayingSong: boolean;
 
     public get albumKeyIndex(): string {
