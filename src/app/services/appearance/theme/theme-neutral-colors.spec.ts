@@ -16,7 +16,6 @@ describe('ThemeNeutralColors', () => {
             '#fff',
             '#222',
             '#333',
-            '#444',
             '#555',
             '#667',
             '#666',
@@ -175,16 +174,6 @@ describe('ThemeNeutralColors', () => {
 
             // Assert
             expect(colors.sliderThumbBackground).toEqual('#333');
-        });
-
-        it('should set albumCoverLogo', () => {
-            // Arrange
-
-            // Act
-            const colors: ThemeNeutralColors = createNeutralColors();
-
-            // Assert
-            expect(colors.albumCoverLogo).toEqual('#444');
         });
 
         it('should set albumCoverBackground', () => {
