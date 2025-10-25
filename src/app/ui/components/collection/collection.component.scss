@@ -4,9 +4,6 @@
     flex-grow: 1;
 }
 
-.collection-component__playbackpane {
-}
-
 .app-collection-playback-controls__container {
     /* 
    Absolute positioning because pagination of mat-tab-group does not work in flex container.

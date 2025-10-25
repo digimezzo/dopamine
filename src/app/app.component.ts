@@ -63,6 +63,9 @@ export class AppComponent implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
+        await this.appearanceService.applyAppearanceAsync();
+        this.translatorService.applyLanguage();
+
         if (window.location.href.includes('playlistwindow')) {
             await this.navigationService.navigateToPlaylistWindowAsync();
         } else {
@@ -88,8 +91,6 @@ export class AppComponent implements OnInit {
             this.audioVisualizer.initialize();
             await this.addToPlaylistMenu.initializeAsync();
             this.discordService.initialize();
-            await this.appearanceService.applyAppearanceAsync();
-            this.translatorService.applyLanguage();
             this.trayService.updateTrayContextMenu();
             this.mediaSessionService.initialize();
             this.scrobblingService.initialize();

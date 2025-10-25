@@ -54,6 +54,9 @@ const coverPlayerHeight = 430;
 const dopampPlayerWidth = 550;
 const dopampPlayerHeight = 240;
 
+const snapRange: number = 50;
+let isSnapped: boolean = false;
+
 const remoteMain = require('@electron/remote/main');
 remoteMain.initialize();
 
@@ -323,15 +326,25 @@ function createMainWindow(): void {
         }
     });
 
-    mainWindow.on(
-        'move',
+    mainWindow.on('move', () => {
+        if (mainWindow && playlistWindow) {
+            const mainWindowPosition = mainWindow.getPosition();
+
+            if (settings.get('playerType') === 'dopamp') {
+                // Move playlistWindow together with mainWindow if snapped
+                if (isSnapped) {
+                    playlistWindow.setPosition(mainWindowPosition[0], mainWindowPosition[1] + dopampPlayerHeight);
+                }
+            }
+        }
+
         debounce(() => {
             if (mainWindow && !mainWindow.isMaximized()) {
-                const position: number[] = mainWindow.getPosition();
-                const size: number[] = mainWindow.getSize();
+                const position = mainWindow.getPosition();
+                const size = mainWindow.getSize();
 
                 if (settings.get('playerType') === 'full') {
-                    const isMaximized: number = mainWindow.isMaximized() ? 1 : 0;
+                    const isMaximized = mainWindow.isMaximized() ? 1 : 0;
                     settings.set('fullPlayerPositionSizeMaximized', `${position[0]};${position[1]};${size[0]};${size[1]};${isMaximized}`);
                 } else if (settings.get('playerType') === 'cover') {
                     settings.set('coverPlayerPosition', `${position[0]};${position[1]};${coverPlayerWidth};${coverPlayerHeight}`);
@@ -339,8 +352,8 @@ function createMainWindow(): void {
                     settings.set('dopampPlayerPosition', `${position[0]};${position[1]};${dopampPlayerWidth};${dopampPlayerHeight}`);
                 }
             }
-        }, 300),
-    );
+        }, 300)();
+    });
 
     mainWindow.on(
         'resize',
@@ -447,6 +460,56 @@ function createPlaylistWindow(playerType: string): void {
             playlistWindow.focus();
         }
     });
+
+    playlistWindow.on('closed', () => {
+        playlistWindow = undefined;
+    });
+
+    playlistWindow.on(
+        'resize',
+        debounce(() => {
+            if (mainWindow && playlistWindow) {
+                const playlistWindowSize = playlistWindow.getSize();
+                const playlistWindowPosition = playlistWindow.getPosition();
+
+                const mainWindowSize = mainWindow.getSize();
+                const mainWindowPosition = mainWindow.getPosition();
+
+                if (settings.get('playerType') === 'dopamp') {
+                    // Snap right side
+                    if (
+                        playlistWindowPosition[0] === mainWindowPosition[0] &&
+                        isWithinRange(playlistWindowSize[0], mainWindowSize[0], snapRange)
+                    ) {
+                        playlistWindow.setSize(mainWindowSize[0], playlistWindowSize[1]);
+                    }
+                }
+            }
+        }, 300),
+    );
+
+    playlistWindow.on(
+        'move',
+        debounce(() => {
+            if (mainWindow && playlistWindow) {
+                const playlistWindowPosition = playlistWindow.getPosition();
+                const mainWindowPosition = mainWindow.getPosition();
+
+                if (settings.get('playerType') === 'dopamp') {
+                    // Snap left and top side
+                    if (
+                        isWithinRange(playlistWindowPosition[0], mainWindowPosition[0], snapRange) &&
+                        isWithinRange(playlistWindowPosition[1], mainWindowPosition[1] + dopampPlayerHeight, snapRange)
+                    ) {
+                        playlistWindow.setPosition(mainWindowPosition[0], mainWindowPosition[1] + dopampPlayerHeight);
+                        isSnapped = true;
+                    } else {
+                        isSnapped = false;
+                    }
+                }
+            }
+        }, 300),
+    );
 }
 
 function setInitialPlaylistWindowState(playlistWindow: BrowserWindow, playerType: string): void {
@@ -471,7 +534,7 @@ function setInitialPlaylistWindowState(playlistWindow: BrowserWindow, playerType
         playlistWindowPositionSizeMaximized[1] === -1 ? playerBottomleftY : playlistWindowPositionSizeMaximized[1],
     );
 
-    // playlistWindow.setSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
+    isSnapped = playlistWindowPositionSizeMaximized[0] === -1 && playlistWindowPositionSizeMaximized[1] === -1;
 }
 
 function setCoverPlayer(mainWindow: BrowserWindow): void {
@@ -509,6 +572,10 @@ function processFileQueue(): void {
             mainWindow.webContents.send('arguments-received', globalAny.fileQueue);
         }
     }
+}
+
+function isWithinRange(value, target, range) {
+    return Math.abs(value - target) <= range;
 }
 
 const debounceDelay: number = 100;
@@ -610,6 +677,10 @@ try {
         });
 
         ipcMain.on('open-playlist-window', (event: any, arg: any) => {
+            if (playlistWindow) {
+                return;
+            }
+
             createPlaylistWindow(arg.playerType);
         });
 
