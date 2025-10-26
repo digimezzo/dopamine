@@ -162,7 +162,11 @@ function getTrayIcon(): string {
     }
 }
 
-function setInitialMainWindowState(mainWindow: BrowserWindow): void {
+function setInitialMainWindowState(): void {
+    if (!mainWindow) {
+        return;
+    }
+
     try {
         if (!settings.has('playerType')) {
             settings.set('playerType', 'full');
@@ -238,7 +242,7 @@ function createMainWindow(): void {
         show: false,
     });
 
-    setInitialMainWindowState(mainWindow);
+    setInitialMainWindowState();
 
     remoteMain.enable(mainWindow.webContents);
 
@@ -302,6 +306,16 @@ function createMainWindow(): void {
             if (mainWindow) {
                 mainWindow.hide();
             }
+        }
+
+        if (playlistWindow) {
+            playlistWindow.hide();
+        }
+    });
+
+    mainWindow.on('restore', (event: any) => {
+        if (playlistWindow) {
+            playlistWindow.restore();
         }
     });
 
@@ -435,7 +449,7 @@ function createPlaylistWindow(playerType: string): void {
         show: false,
     });
 
-    setInitialPlaylistWindowState(playlistWindow, playerType);
+    setInitialPlaylistWindowState();
 
     remoteMain.enable(playlistWindow.webContents);
 
@@ -485,6 +499,7 @@ function createPlaylistWindow(playerType: string): void {
                     }
                 }
             }
+            savePlaylistSettings();
         }, 300),
     );
 
@@ -508,15 +523,48 @@ function createPlaylistWindow(playerType: string): void {
                     }
                 }
             }
+            savePlaylistSettings();
+        }, 300),
+    );
+
+    playlistWindow.on(
+        'maximize',
+        debounce(() => {
+            savePlaylistSettings();
+        }, 300),
+    );
+
+    playlistWindow.on(
+        'unmaximize',
+        debounce(() => {
+            savePlaylistSettings();
         }, 300),
     );
 }
 
-function setInitialPlaylistWindowState(playlistWindow: BrowserWindow, playerType: string): void {
+function savePlaylistSettings(): void {
+    if (playlistWindow) {
+        const position = playlistWindow.getPosition();
+        const size = playlistWindow.getSize();
+        const isMaximized = playlistWindow.isMaximized() ? 1 : 0;
+
+        if (settings.get('playerType') === 'dopamp') {
+            settings.set('dopampPlaylistPositionSizeMaximized', `${position[0]};${position[1]};${size[0]};${size[1]};${isMaximized}`);
+        }
+    }
+}
+
+function setInitialPlaylistWindowState(): void {
+    if (!playlistWindow) {
+        return;
+    }
+
     let playerWindowPositionAsString: string = '';
-    let playerBottomleftX: number = 0;
-    let playerBottomleftY: number = 0;
+    let playerBottomLeftX: number = 0;
+    let playerBottomLeftY: number = 0;
     let playlistWindowPositionSizeMaximized: number[] = [];
+
+    const playerType = settings.get('playerType');
 
     if (playerType === 'cover') {
         // TODO?
@@ -525,16 +573,27 @@ function setInitialPlaylistWindowState(playlistWindow: BrowserWindow, playerType
         const playerWindowPosition: number[] = playerWindowPositionAsString.split(';').map(Number);
         const playlistWindowPositionSizeMaximizedAsString: string = settings.get('dopampPlaylistPositionSizeMaximized');
         playlistWindowPositionSizeMaximized = playlistWindowPositionSizeMaximizedAsString.split(';').map(Number);
-        playerBottomleftX = playerWindowPosition[0];
-        playerBottomleftY = playerWindowPosition[1] + dopampPlayerHeight;
+        playerBottomLeftX = playerWindowPosition[0];
+        playerBottomLeftY = playerWindowPosition[1] + dopampPlayerHeight;
     }
 
     playlistWindow.setPosition(
-        playlistWindowPositionSizeMaximized[0] === -1 ? playerBottomleftX : playlistWindowPositionSizeMaximized[0],
-        playlistWindowPositionSizeMaximized[1] === -1 ? playerBottomleftY : playlistWindowPositionSizeMaximized[1],
+        playlistWindowPositionSizeMaximized[0] === -1 ? playerBottomLeftX : playlistWindowPositionSizeMaximized[0],
+        playlistWindowPositionSizeMaximized[1] === -1 ? playerBottomLeftY : playlistWindowPositionSizeMaximized[1],
     );
 
-    isSnapped = playlistWindowPositionSizeMaximized[0] === -1 && playlistWindowPositionSizeMaximized[1] === -1;
+    playlistWindow.setSize(
+        playlistWindowPositionSizeMaximized[2] === -1 ? dopampPlayerWidth : playlistWindowPositionSizeMaximized[2],
+        playlistWindowPositionSizeMaximized[3] === -1 ? 500 : playlistWindowPositionSizeMaximized[3],
+    );
+
+    if (playlistWindowPositionSizeMaximized[4] === 1) {
+        playlistWindow.maximize();
+    }
+
+    isSnapped =
+        isWithinRange(playlistWindowPositionSizeMaximized[0], playerBottomLeftX, snapRange) &&
+        isWithinRange(playlistWindowPositionSizeMaximized[1], playerBottomLeftY, snapRange);
 }
 
 function setCoverPlayer(mainWindow: BrowserWindow): void {
@@ -743,6 +802,10 @@ try {
         ipcMain.on('set-full-player', (event: any, arg: any) => {
             log.info('[Main] [set-full-player] Setting playerType to full player');
             if (mainWindow) {
+                if (playlistWindow) {
+                    playlistWindow.close();
+                }
+
                 const fullPlayerPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
                 console.log(fullPlayerPositionSizeMaximizedAsString);
                 const fullPlayerPositionSizeMaximized: number[] = fullPlayerPositionSizeMaximizedAsString.split(';').map(Number);
@@ -764,6 +827,10 @@ try {
         ipcMain.on('set-cover-player', (event: any, arg: any) => {
             log.info('[Main] [set-cover-player] Setting playerType to cover player');
             if (mainWindow) {
+                if (playlistWindow) {
+                    playlistWindow.close();
+                }
+
                 // We cannot resize the window when it is still in full screen mode on macOS.
                 if (isMacOS() && mainWindow.isFullScreen()) {
                     // If for whatever reason fullScreenable will be set to false
@@ -781,6 +848,10 @@ try {
         ipcMain.on('set-dopamp-player', (event: any, arg: any) => {
             log.info('[Main] [set-dopamp-player] Setting playerType to dopamp player');
             if (mainWindow) {
+                if (playlistWindow) {
+                    playlistWindow.close();
+                }
+
                 // We cannot resize the window when it is still in full screen mode on macOS.
                 if (isMacOS() && mainWindow.isFullScreen()) {
                     // If for whatever reason fullScreenable will be set to false
