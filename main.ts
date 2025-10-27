@@ -70,6 +70,11 @@ globalAny.windowHasFrame = windowHasFrame();
 globalAny.isMacOS = isMacOS();
 globalAny.fileQueue = [];
 
+// Workaround to send messages between Electron windows
+const EventEmitter = require('events');
+class GlobalEventEmitter extends EventEmitter {}
+globalAny.globalEmitter = new GlobalEventEmitter();
+
 /**
  * Functions
  */

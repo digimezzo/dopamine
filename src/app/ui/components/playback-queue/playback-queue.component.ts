@@ -3,11 +3,12 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { TrackModel } from '../../../services/track/track-model';
-import { PlaybackService } from '../../../services/playback/playback.service';
 import { PlaybackIndicationServiceBase } from '../../../services/playback-indication/playback-indication.service.base';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
 import { MouseSelectionWatcher } from '../mouse-selection-watcher';
 import { ContextMenuOpener } from '../context-menu-opener';
+import { IPlaybackQueueService } from '../../../services/playback-queue/i-playback-queue.service';
+import { TrackModels } from '../../../services/track/track-models';
 
 @Component({
     selector: 'app-playback-queue',
@@ -22,7 +23,6 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
     private _shouldShowList: boolean = false;
 
     public constructor(
-        public playbackService: PlaybackService,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         private playbackIndicationService: PlaybackIndicationServiceBase,
@@ -35,6 +35,9 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
     @Input()
     public showTitle: boolean = true;
 
+    @Input()
+    public playbackQueueService: IPlaybackQueueService;
+
     public get shouldShowList(): boolean {
         return this._shouldShowList;
     }
@@ -45,13 +48,14 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.subscription.add(
-            this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
-                this.playbackIndicationService.setPlayingTrack(this.playbackService.playbackQueue.tracks, playbackStarted.currentTrack);
+            this.playbackQueueService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
+                const queue: TrackModels = await this.playbackQueueService.getQueue$().toPromise();
+                this.playbackIndicationService.setPlayingTrack(queue.tracks, playbackStarted.currentTrack);
             }),
         );
 
         this.subscription.add(
-            this.navigationService.refreshPlaybackQueueListRequested$.subscribe(() => {
+            this.navigationService.refreshPlaybackQueueListRequested$.subscribe(async () => {
                 // HACK: thanks to Angular for breaking cdk virtual scroll or the drawer (who knows, do they even know themselves?)
                 // After Angular 14, the cdk virtual scroll does not render all items when opening the drawer. A resize of the window
                 // with the drawer open, fixes drawing of all items in the list. This hack is an automatic workaround.
@@ -62,7 +66,8 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
                     this._shouldShowList = true;
                 }, 250);
 
-                this.mouseSelectionWatcher.initialize(this.playbackService.playbackQueue.tracks);
+                const queue: TrackModels = await this.playbackQueueService.getQueue$().toPromise();
+                this.mouseSelectionWatcher.initialize(queue.tracks);
             }),
         );
     }
@@ -76,6 +81,6 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
     }
 
     public onRemoveFromQueue(): void {
-        this.playbackService.removeFromQueue(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
+        this.playbackQueueService.removeFromQueue(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
     }
 }

@@ -1,5 +1,6 @@
-import { Component, inject, ViewEncapsulation } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { PlaybackQueueServiceFactory } from '../../../../../services/playback-queue/playback-queue-service.factory';
+import { IPlaybackQueueService } from '../../../../../services/playback-queue/i-playback-queue.service';
 
 @Component({
     selector: 'app-cover-player-playback-queue',
@@ -8,4 +9,10 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
     styleUrls: ['./cover-player-playback-queue.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class CoverPlayerPlaybackQueueComponent {}
+export class CoverPlayerPlaybackQueueComponent {
+    public constructor(private playbackQueueServiceFactory: PlaybackQueueServiceFactory) {
+        this.playbackQueueService = playbackQueueServiceFactory.createLocal();
+    }
+
+    public playbackQueueService: IPlaybackQueueService;
+}

@@ -3,7 +3,7 @@
 </div>
 <mat-drawer-container *ngIf="!this.lifetimeService.isPerformingClosingTasks" class="mat-drawer-container" hasBackdrop="true">
     <mat-drawer class="mat-drawer-container__drawer" #playbackQueueDrawer mode="over" position="end">
-        <app-playback-queue class="vh-100 w-100 p-4"></app-playback-queue>
+        <app-playback-queue class="vh-100 w-100 p-4" [playbackQueueService]="this.playbackQueueService"></app-playback-queue>
     </mat-drawer>
     <mat-drawer-content>
         <router-outlet></router-outlet>

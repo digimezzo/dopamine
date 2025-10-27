@@ -21,7 +21,9 @@ import { LifetimeService } from './services/lifetime/lifetime.service';
 import { PlaybackService } from './services/playback/playback.service';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
 import { DiscordService } from './services/discord/discord.service';
-import { Router } from '@angular/router';
+import { IPlaybackQueueService } from './services/playback-queue/i-playback-queue.service';
+import { PlaybackQueueServiceFactory } from './services/playback-queue/playback-queue-service.factory';
+import { RemotePlaybackQueueServerService } from './services/playback-queue/remote-playback-queue-server.service';
 
 @Component({
     selector: 'app-root',
@@ -41,16 +43,22 @@ export class AppComponent implements OnInit {
         private trayService: TrayServiceBase,
         private mediaSessionService: MediaSessionService,
         private eventListenerService: EventListenerServiceBase,
+        private remotePlaybackQueueServerService: RemotePlaybackQueueServerService,
         public lifetimeService: LifetimeService,
         private addToPlaylistMenu: AddToPlaylistMenu,
         private desktop: DesktopBase,
         private logger: Logger,
         private audioVisualizer: AudioVisualizer,
         private integrationTestRunner: IntegrationTestRunner,
+        playbackQueueServiceFactory: PlaybackQueueServiceFactory,
     ) {
         log.create('renderer');
         log.transports.file.resolvePath = () => path.join(this.desktop.getApplicationDataDirectory(), 'logs', 'Dopamine.log');
+
+        this.playbackQueueService = playbackQueueServiceFactory.createLocal();
     }
+
+    public playbackQueueService: IPlaybackQueueService;
 
     @ViewChild('playbackQueueDrawer') public playbackQueueDrawer: MatDrawer;
 
@@ -98,6 +106,7 @@ export class AppComponent implements OnInit {
             await this.navigationService.navigateToLoadingAsync();
             await this.playbackService.initializeAsync();
             this.lifetimeService.initialize();
+            this.remotePlaybackQueueServerService.initialize();
         }
     }
 }
