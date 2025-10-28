@@ -9,6 +9,8 @@ import { SchedulerBase } from '../../common/scheduling/scheduler.base';
 export class RemotePlaybackQueueService implements IPlaybackQueueService {
     private playbackStarted: Subject<PlaybackStarted> = new Subject();
     private globalEmitter: any;
+    private _queue: TrackModels | undefined;
+    private gettingQueue: boolean = false;
 
     public constructor(
         private application: ApplicationBase,
@@ -20,7 +22,11 @@ export class RemotePlaybackQueueService implements IPlaybackQueueService {
     public playbackStarted$: Observable<PlaybackStarted> = this.playbackStarted.asObservable();
 
     public get queue(): TrackModels {
-        return new TrackModels();
+        if (!this._queue && !this.gettingQueue) {
+            this.getQueue();
+        }
+
+        return this._queue!;
     }
 
     public removeFromQueue(tracks: TrackModel[]): void {
@@ -31,15 +37,15 @@ export class RemotePlaybackQueueService implements IPlaybackQueueService {
         throw new Error('Method not implemented.');
     }
 
-    // private async getQueue(): Promise<TrackModels> {
-    //     let queue: TrackModels | undefined;
-    //
-    //     this.globalEmitter.emit('get-queue', (receivedQueue: TrackModels) => (queue = receivedQueue));
-    //
-    //     while (queue === undefined) {
-    //         await this.scheduler.sleepAsync(50);
-    //     }
-    //
-    //     return queue;
-    // }
+    private async getQueue(): Promise<void> {
+        this.gettingQueue = true;
+
+        this.globalEmitter.emit('get-queue', (receivedQueue: TrackModels) => (this._queue = receivedQueue));
+
+        while (this._queue === undefined) {
+            await this.scheduler.sleepAsync(50);
+        }
+
+        this.gettingQueue = false;
+    }
 }

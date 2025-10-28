@@ -47,13 +47,13 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.subscription.add(
-            this.playbackQueueService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
+            this.playbackQueueService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 this.playbackIndicationService.setPlayingTrack(this.playbackQueueService.queue.tracks, playbackStarted.currentTrack);
             }),
         );
 
         this.subscription.add(
-            this.navigationService.refreshPlaybackQueueListRequested$.subscribe(async () => {
+            this.navigationService.refreshPlaybackQueueListRequested$.subscribe(() => {
                 // HACK: thanks to Angular for breaking cdk virtual scroll or the drawer (who knows, do they even know themselves?)
                 // After Angular 14, the cdk virtual scroll does not render all items when opening the drawer. A resize of the window
                 // with the drawer open, fixes drawing of all items in the list. This hack is an automatic workaround.
