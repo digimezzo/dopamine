@@ -8,7 +8,6 @@ import { NavigationServiceBase } from '../../../services/navigation/navigation.s
 import { MouseSelectionWatcher } from '../mouse-selection-watcher';
 import { ContextMenuOpener } from '../context-menu-opener';
 import { IPlaybackQueueService } from '../../../services/playback-queue/i-playback-queue.service';
-import { TrackModels } from '../../../services/track/track-models';
 
 @Component({
     selector: 'app-playback-queue',
@@ -49,8 +48,7 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.subscription.add(
             this.playbackQueueService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
-                const queue: TrackModels = await this.playbackQueueService.getQueue$().toPromise();
-                this.playbackIndicationService.setPlayingTrack(queue.tracks, playbackStarted.currentTrack);
+                this.playbackIndicationService.setPlayingTrack(this.playbackQueueService.queue.tracks, playbackStarted.currentTrack);
             }),
         );
 
@@ -66,8 +64,7 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
                     this._shouldShowList = true;
                 }, 250);
 
-                const queue: TrackModels = await this.playbackQueueService.getQueue$().toPromise();
-                this.mouseSelectionWatcher.initialize(queue.tracks);
+                this.mouseSelectionWatcher.initialize(this.playbackQueueService.queue.tracks);
             }),
         );
     }

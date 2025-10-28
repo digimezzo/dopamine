@@ -1,10 +1,9 @@
 import { IPlaybackQueueService } from './i-playback-queue.service';
 import { PlaybackService } from '../playback/playback.service';
 import { TrackModel } from '../track/track-model';
-import { from, Observable, of, Subject, Subscription } from 'rxjs';
+import { Observable, of, Subject, Subscription } from 'rxjs';
 import { PlaybackStarted } from '../playback/playback-started';
 import { TrackModels } from '../track/track-models';
-import { ApplicationBase } from '../../common/io/application.base';
 
 export class LocalPlaybackQueueService implements IPlaybackQueueService {
     private subscription: Subscription = new Subscription();
@@ -20,8 +19,8 @@ export class LocalPlaybackQueueService implements IPlaybackQueueService {
 
     public playbackStarted$: Observable<PlaybackStarted> = this.playbackStarted.asObservable();
 
-    public getQueue$(): Observable<TrackModels> {
-        return of(this.playbackService.playbackQueue);
+    public get queue(): TrackModels {
+        return this.playbackService.playbackQueue;
     }
 
     public removeFromQueue(tracks: TrackModel[]): void {
