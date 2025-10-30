@@ -371,6 +371,8 @@ function createMainWindow(): void {
                     settings.set('dopampPlayerPosition', `${position[0]};${position[1]};${dopampPlayerWidth};${dopampPlayerHeight}`);
                 }
             }
+
+            savePlaylistSettings();
         }, 300)();
     });
 
@@ -554,7 +556,10 @@ function savePlaylistSettings(): void {
         const isMaximized = playlistWindow.isMaximized() ? 1 : 0;
 
         if (settings.get('playerType') === 'dopamp') {
-            settings.set('dopampPlaylistPositionSizeMaximized', `${position[0]};${position[1]};${size[0]};${size[1]};${isMaximized}`);
+            settings.set(
+                'dopampPlaylistPositionSizeMaximized',
+                `${isSnapped ? -1 : position[0]};${isSnapped ? -1 : position[1]};${size[0]};${size[1]};${isMaximized}`,
+            );
         }
     }
 }
@@ -597,8 +602,9 @@ function setInitialPlaylistWindowState(): void {
     }
 
     isSnapped =
-        isWithinRange(playlistWindowPositionSizeMaximized[0], playerBottomLeftX, snapRange) &&
-        isWithinRange(playlistWindowPositionSizeMaximized[1], playerBottomLeftY, snapRange);
+        (playlistWindowPositionSizeMaximized[0] === -1 && playlistWindowPositionSizeMaximized[1] === -1) ||
+        (isWithinRange(playlistWindowPositionSizeMaximized[0], playerBottomLeftX, snapRange) &&
+            isWithinRange(playlistWindowPositionSizeMaximized[1], playerBottomLeftY, snapRange));
 }
 
 function setCoverPlayer(mainWindow: BrowserWindow): void {

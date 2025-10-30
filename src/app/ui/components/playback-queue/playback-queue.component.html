@@ -1,7 +1,7 @@
 <div class="h-100 w-100 d-flex flex-column">
     <div class="title" *ngIf="this.showTitle">{{ 'playback-queue' | translate }}</div>
     <div class="d-flex flex-row m-1">
-        <div class="playback-queue__trackscount mr-2">{{ this.playbackQueueService.queue?.numberOfTracks }}</div>
+        <div class="playback-queue__trackscount mr-2">{{ this.playbackQueueService.queue?.numberOfTracks ?? 0 }}</div>
         <div *ngIf="this.playbackQueueService.queue?.numberOfTracks === 1">{{ 'track' | translate }}</div>
         <div *ngIf="this.playbackQueueService.queue?.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
     </div>

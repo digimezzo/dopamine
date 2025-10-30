@@ -19,6 +19,6 @@ export class RemotePlaybackQueueServerService {
     }
 
     private async getQueueHandler(callback: any): Promise<void> {
-        callback(this.playbackService.playbackQueue);
+        callback(JSON.stringify(this.playbackService.playbackQueue.toJSON()));
     }
 }

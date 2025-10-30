@@ -5,6 +5,6 @@
         <app-window-controls *ngIf="appearanceService.needsCustomWindowControls"></app-window-controls>
     </div>
     <div class="window-frame__content">
-        <app-playback-queue class="vh-100 w-100 p-2" [showTitle]="false" [playbackQueueService]="this.playbackQueueService"></app-playback-queue>
+        <app-playback-queue class="w-100 p-2" [showTitle]="false" [playbackQueueService]="this.playbackQueueService"></app-playback-queue>
     </div>
 </div>

@@ -253,4 +253,32 @@ export class TrackModel implements ISelectable {
     public setTrack(track: Track): void {
         this.track = track;
     }
+
+    /**
+     * Serialize to plain JSON-safe object.
+     * Only include raw data and state flags.
+     */
+    public toJSON(): any {
+        return {
+            track: this.track,
+            albumKeyIndex: this.albumKeyIndex,
+            isPlaying: this.isPlaying,
+            isSelected: this.isSelected,
+            showHeader: this.showHeader,
+            playlistPath: this.playlistPath,
+        };
+    }
+
+    /**
+     * Rehydrate from plain data into a functional TrackModel.
+     * Inject fresh service instances from your app’s service container.
+     */
+    public static fromJSON(data: any, dateTime: DateTime, translatorService: TranslatorServiceBase): TrackModel {
+        const model = new TrackModel(data.track, dateTime, translatorService, data.albumKeyIndex ?? '');
+        model.isPlaying = data.isPlaying ?? false;
+        model.isSelected = data.isSelected ?? false;
+        model.showHeader = data.showHeader ?? false;
+        model.playlistPath = data.playlistPath ?? '';
+        return model;
+    }
 }
