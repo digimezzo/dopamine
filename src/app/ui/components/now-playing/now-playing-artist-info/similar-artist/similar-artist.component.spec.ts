@@ -1,9 +1,17 @@
 import { SimilarArtistComponent } from './similar-artist.component';
+import { IMock, Mock } from 'typemoq';
+import { SettingsBase } from '../../../../../common/settings/settings.base';
 
 describe('NowPlayingArtistInfoComponent', () => {
+    let settingsMock: IMock<SettingsBase>;
+
     function createComponent(): SimilarArtistComponent {
-        return new SimilarArtistComponent();
+        return new SimilarArtistComponent(settingsMock.object);
     }
+
+    beforeEach(() => {
+        settingsMock = Mock.ofType<SettingsBase>();
+    });
 
     describe('constructor', () => {
         it('should create', () => {
