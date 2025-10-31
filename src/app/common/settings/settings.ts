@@ -818,6 +818,15 @@ export class Settings implements SettingsBase {
         this.settings.set('jumpToPlayingSong', v);
     }
 
+    // useSquareCovers
+    public get useSquareCovers(): boolean {
+        return <boolean>this.settings.get('useSquareCovers');
+    }
+
+    public set useSquareCovers(v: boolean) {
+        this.settings.set('useSquareCovers', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -1158,6 +1167,10 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('jumpToPlayingSong')) {
             this.settings.set('jumpToPlayingSong', true);
+        }
+
+        if (!this.settings.has('useSquareCovers')) {
+            this.settings.set('useSquareCovers', false);
         }
     }
 }

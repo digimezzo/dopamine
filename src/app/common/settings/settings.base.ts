@@ -87,4 +87,5 @@ export abstract class SettingsBase {
     public abstract dopampPlaylistPositionSizeMaximized: string;
     public abstract useGaplessPlayback: boolean;
     public abstract jumpToPlayingSong: boolean;
+    public abstract useSquareCovers: boolean;
 }
