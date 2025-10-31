@@ -87,6 +87,7 @@ export class SettingsMock implements SettingsBase {
     public coverPlayerPosition: string;
     public useGaplessPlayback: boolean;
     public jumpToPlayingSong: boolean;
+    public useSquareCovers: boolean;
 
     public get albumKeyIndex(): string {
         return this.albumKeyIndexMock;
