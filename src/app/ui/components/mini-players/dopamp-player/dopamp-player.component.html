@@ -27,7 +27,7 @@
             <app-playback-cover-art
                     class="dopamp__cover"
                     [size]="120"
-                    [borderRadius]="6"
+                    [borderRadius]="this.settings.useSquareCovers ? 0 : 6"
             ></app-playback-cover-art
             >
             <app-playback-information
