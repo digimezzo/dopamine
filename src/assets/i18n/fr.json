@@ -319,5 +319,8 @@
     "choose-order": "Choose an order",
     "choose-type": "Choose a type",
     "follow-song": "Suivre le morceau",
-    "jump-to-playing-song": "Aller vers le morceau en cours de lecture"
+    "jump-to-playing-song": "Aller vers le morceau en cours de lecture",
+    "gripes": "Plaintes",
+    "for-those-that-are-not-happy": "Pour ceux qui ne sont pas satisfaits",
+    "stop-removing-cover-information": "Cessez de supprimer des informations (des parties des pochettes d'album) pour des raisons de préférence personnelle, sinon je conserverai l'ancienne version."
 }

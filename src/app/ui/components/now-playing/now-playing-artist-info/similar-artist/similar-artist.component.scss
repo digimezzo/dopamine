@@ -9,11 +9,6 @@
     height: 120px;
 }
 
-.similar-artist__picture,
-.similar-artist__picture * {
-    border-radius: 6px;
-}
-
 .similar-artist__picture div {
     grid-row-start: 1;
     grid-column-start: 1;
@@ -43,4 +38,8 @@
 .similar-artist__picture--name p {
     padding: 0px;
     margin: 0px;
+}
+
+.similar-artist-rounded {
+    border-radius: 6px;
 }
