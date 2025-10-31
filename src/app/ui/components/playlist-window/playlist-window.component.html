@@ -1,10 +1,12 @@
-<div class="window-frame">
+<div [ngClass]="{ 'window-frame-native': this.appearanceService.windowHasNativeTitleBar, 'window-frame': !this.appearanceService.windowHasNativeTitleBar }">
     <div class="window-frame__titlebar">
         <div *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights"></div>
         <div class="window-frame__dragarea"></div>
         <app-window-controls *ngIf="appearanceService.needsCustomWindowControls"></app-window-controls>
     </div>
-    <div class="window-frame__content">
-        <app-playback-queue class="w-100 p-2" [showTitle]="false" [playbackQueueService]="this.playbackQueueService"></app-playback-queue>
+    <div [ngClass]="{ 'window-frame-native__content': this.appearanceService.windowHasNativeTitleBar, 'window-frame__content': !this.appearanceService.windowHasNativeTitleBar }">
+        <app-playback-queue class="w-100 p-2"
+                            [ngClass]="{ 'playback-window-height': !this.appearanceService.windowHasNativeTitleBar, 'playback-window-height-native': this.appearanceService.windowHasNativeTitleBar }"
+                            [showTitle]="false" [playbackQueueService]="this.playbackQueueService"></app-playback-queue>
     </div>
 </div>

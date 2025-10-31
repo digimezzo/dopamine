@@ -1,3 +1,13 @@
+@import 'variables';
+
 .playback-window__trackscount {
     color: var(--theme-accent-color);
+}
+
+.playback-window-height {
+    height: calc(100vh - $titlebar-height);
+}
+
+.playback-window-height-native {
+    height: 100vh;
 }
