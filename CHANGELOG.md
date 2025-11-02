@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 -   Updated the Bulgarian translation
+-   Updated the Simplified Chinese translation
 -   Updated the Swedish translation
 
 ### Fixed
