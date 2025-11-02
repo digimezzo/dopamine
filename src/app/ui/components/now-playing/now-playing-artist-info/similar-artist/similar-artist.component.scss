@@ -1,3 +1,5 @@
+@import 'colors';
+
 .similar-artist__picture {
     overflow: hidden;
     background: var(--theme-album-cover-background);
@@ -5,11 +7,6 @@
     grid-template-columns: 1fr;
     width: 120px;
     height: 120px;
-}
-
-.similar-artist__picture,
-.similar-artist__picture * {
-    border-radius: 6px;
 }
 
 .similar-artist__picture div {
@@ -26,7 +23,7 @@
 }
 
 .similar-artist__picture--logo i {
-    color: var(--theme-album-cover-logo);
+    @extend .font-icon-accent-gradient;
     font-size: 80px;
 }
 
@@ -41,4 +38,8 @@
 .similar-artist__picture--name p {
     padding: 0px;
     margin: 0px;
+}
+
+.similar-artist-rounded {
+    border-radius: 6px;
 }

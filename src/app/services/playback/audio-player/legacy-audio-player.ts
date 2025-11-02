@@ -1,20 +1,19 @@
 import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../../common/logger';
 import { MathExtensions } from '../../../common/math-extensions';
-import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { StringUtils } from '../../../common/utils/string-utils';
 import { IAudioPlayer } from './i-audio-player';
-import { AudioChangedEvent } from './audio-changed-event';
 import { TrackModel } from '../../track/track-model';
 
 export class LegacyAudioPlayer implements IAudioPlayer {
     private _audio: HTMLAudioElement;
-    private _audioChanged: Subject<AudioChangedEvent> = new Subject();
     private _playbackFinished: Subject<void> = new Subject();
     private _playingPreloadedTrack: Subject<TrackModel> = new Subject();
     private _audioContext: AudioContext;
     private _analyser: AnalyserNode;
     private _isPaused: boolean = false;
+    private shouldPauseAfterStarting: boolean = false;
+    private skipSecondsAfterStarting: number = 0;
 
     public constructor(
         private mathExtensions: MathExtensions,
@@ -45,7 +44,6 @@ export class LegacyAudioPlayer implements IAudioPlayer {
         this._audio.muted = false;
     }
 
-    public audioChanged$: Observable<AudioChangedEvent> = this._audioChanged.asObservable();
     public playbackFinished$: Observable<void> = this._playbackFinished.asObservable();
     public playingPreloadedTrack$: Observable<TrackModel> = this._playingPreloadedTrack.asObservable();
 
@@ -89,16 +87,24 @@ export class LegacyAudioPlayer implements IAudioPlayer {
 
         this.connectVisualizer();
 
-        this._audio.play();
-        this._audio.onended = () => this._playbackFinished.next();
+        this._isPaused = false;
 
-        this._audioChanged.next(new AudioChangedEvent(this._audio));
+        this._audio.play().then(() => {
+            this._audio.onended = () => this._playbackFinished.next();
+
+            if (this.shouldPauseAfterStarting) {
+                this.pause();
+                this.skipToSeconds(this.skipSecondsAfterStarting);
+                this.shouldPauseAfterStarting = false;
+                this.skipSecondsAfterStarting = 0;
+            }
+        });
     }
 
     public startPaused(track: TrackModel, skipSeconds: number): void {
+        this.shouldPauseAfterStarting = true;
+        this.skipSecondsAfterStarting = skipSeconds;
         this.play(track);
-        this.pause();
-        this.skipToSeconds(skipSeconds);
     }
 
     public stop(): void {
@@ -112,7 +118,7 @@ export class LegacyAudioPlayer implements IAudioPlayer {
     }
 
     public resume(): void {
-        PromiseUtils.noAwait(this._audio.play());
+        this._audio.play();
         this._isPaused = false;
     }
 

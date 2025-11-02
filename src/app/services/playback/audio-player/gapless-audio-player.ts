@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { AudioChangedEvent } from './audio-changed-event';
 import { IAudioPlayer } from './i-audio-player';
 import { MathExtensions } from '../../../common/math-extensions';
 import { Logger } from '../../../common/logger';
@@ -13,7 +12,6 @@ import { TrackModel } from '../../track/track-model';
 export class GaplessAudioPlayer implements IAudioPlayer {
     private _audio: HTMLAudioElement;
     private _tempAudio: HTMLAudioElement;
-    private _audioChanged: Subject<AudioChangedEvent> = new Subject();
     private _playbackFinished: Subject<void> = new Subject();
     private _playingPreloadedTrack: Subject<TrackModel> = new Subject();
     private _audioContext: AudioContext;
@@ -60,7 +58,6 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         this._audio.muted = false;
     }
 
-    public audioChanged$: Observable<AudioChangedEvent> = this._audioChanged.asObservable();
     public playbackFinished$: Observable<void> = this._playbackFinished.asObservable();
     public playingPreloadedTrack$: Observable<TrackModel> = this._playingPreloadedTrack.asObservable();
 

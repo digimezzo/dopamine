@@ -60,13 +60,10 @@ export class SliderComponent implements AfterViewInit {
     public sliderTrack: ElementRef;
 
     public showSliderThumb: boolean = false;
-    private isSliderThumbDown: boolean = false;
+    private isSliderThumbMovable: boolean = false;
 
     public sliderBarPosition: number = 0;
     public sliderThumbPosition: number = 0;
-
-    public isSliderDragged: boolean = false;
-    public isSliderContainerDown: boolean = false;
 
     public ngAfterViewInit(): void {
         // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
@@ -76,7 +73,7 @@ export class SliderComponent implements AfterViewInit {
     }
 
     public onSliderThumbMouseDown(): void {
-        this.isSliderThumbDown = true;
+        this.isSliderThumbMovable = true;
     }
 
     public onSliderContainerMouseEnter(): void {
@@ -87,12 +84,13 @@ export class SliderComponent implements AfterViewInit {
     public onSliderContainerMouseLeave(): void {
         this.mouseIsOverSlider = false;
 
-        if (!this.isSliderThumbDown) {
+        if (!this.isSliderThumbMovable) {
             this.showSliderThumb = false;
         }
     }
 
     public onSliderContainerMouseDown(e: MouseEvent): void {
+        this.isSliderThumbMovable = true;
         this.applyPositionAndValue(this.getMouseXPositionRelativeToSlider(e.clientX));
     }
 
@@ -108,24 +106,24 @@ export class SliderComponent implements AfterViewInit {
 
     @HostListener('document:mouseup')
     public onDocumentMouseUp(): void {
-        this.isSliderThumbDown = false;
+        this.isSliderThumbMovable = false;
     }
 
     @HostListener('document:touchend')
     public onDocumentTouchEnd(): void {
-        this.isSliderThumbDown = false;
+        this.isSliderThumbMovable = false;
     }
 
     @HostListener('document:mousemove', ['$event'])
     public onDocumentMouseMove(e: MouseEvent): void {
-        if (this.isSliderThumbDown) {
+        if (this.isSliderThumbMovable) {
             this.applyPositionAndValue(this.getMouseXPositionRelativeToSlider(e.clientX));
         }
     }
 
     @HostListener('document:touchmove', ['$event'])
     public onDocumentTouchMove(e: TouchEvent): void {
-        if (this.isSliderThumbDown) {
+        if (this.isSliderThumbMovable) {
             const touch: Touch = e.touches[0] != undefined ? e.touches[0] : e.changedTouches[0];
             this.applyPositionAndValue(this.getMouseXPositionRelativeToSlider(touch.pageX));
         }
