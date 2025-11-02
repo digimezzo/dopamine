@@ -318,8 +318,8 @@
     "image": "图像",
     "choose-order": "选择一个顺序",
     "choose-type": "选择一个类型",
-    "follow-song": "Follow song",
-    "jump-to-playing-song": "Automatically scroll to the playing song",
+    "follow-song": "跟随歌曲",
+    "jump-to-playing-song": "自动滚动到播放中的歌曲"
     "gripes": "Gripes",
     "for-those-that-are-not-happy": "For those that are not satisfied",
     "stop-removing-cover-information": "Stop removing information (parts of the cover) for the sake of your personal preference or I will stay on an old version"
