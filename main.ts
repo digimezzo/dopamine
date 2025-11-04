@@ -224,6 +224,8 @@ function createMainWindow(): void {
             contextIsolation: false,
         },
         show: false,
+        minWidth: 800,
+        minHeight: 600,
     });
 
     setInitialWindowState(mainWindow);
