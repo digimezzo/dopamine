@@ -68,6 +68,16 @@ describe('AboutComponent', () => {
             expect(blueskyUrl).toEqual(ContactInformation.blueskyUrl);
         });
 
+        it('should set Twitter URL', () => {
+            // Arrange
+
+            // Act
+            const twitterUrl: string = component.twitterUrl;
+
+            // Assert
+            expect(twitterUrl).toEqual(ContactInformation.twitterUrl);
+        });
+
         it('should set GitHub URL', () => {
             // Arrange
 
