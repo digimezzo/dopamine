@@ -325,6 +325,9 @@ describe('validate i18n', () => {
         'which-pages-should-be-visible',
         'year',
         'yes',
+        'gripes',
+        'for-those-that-are-not-happy',
+        'stop-removing-cover-information',
     ].sort();
 
     Constants.languages.forEach((language) => {

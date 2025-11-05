@@ -319,5 +319,8 @@
     "choose-order": "Choose an order",
     "choose-type": "Choose a type",
     "follow-song": "Follow song",
-    "jump-to-playing-song": "Automatically scroll to the playing song"
+    "jump-to-playing-song": "Automatically scroll to the playing song",
+    "gripes": "Gripes",
+    "for-those-that-are-not-happy": "For those that are not satisfied",
+    "stop-removing-cover-information": "Stop removing information (parts of the cover) for the sake of your personal preference or I will stay on an old version"
 }

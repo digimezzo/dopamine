@@ -1,3 +1,5 @@
+@import 'colors';
+
 .app-now-playing-artist-info {
     padding: 120px;
     height: 100%;
@@ -11,11 +13,6 @@
     box-shadow:
         0 4px 8px 0 rgba(0, 0, 0, 0.2),
         0 6px 20px 0 rgba(0, 0, 0, 0.2);
-}
-
-.app-now-playing-artist-info__picture,
-.app-now-playing-artist-info__picture * {
-    border-radius: 10px;
 }
 
 .app-now-playing-artist-info__spinner {
@@ -33,11 +30,15 @@
 }
 
 .app-now-playing-artist-info__icon {
-    color: var(--theme-album-cover-logo);
+    @extend .font-icon-accent-gradient;
     font-size: 200px;
     display: flex;
     width: 300px;
     height: 300px;
     justify-content: center;
     align-items: center;
+}
+
+.app-now-playing-artist-info-rounded {
+    border-radius: 10px;
 }
