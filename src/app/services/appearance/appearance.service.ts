@@ -382,7 +382,6 @@ export class AppearanceService implements AppearanceServiceBase {
         element.style.setProperty('--theme-secondary-text', neutralColors.secondaryText);
         element.style.setProperty('--theme-slider-background', neutralColors.sliderBackground);
         element.style.setProperty('--theme-slider-thumb-background', neutralColors.sliderThumbBackground);
-        element.style.setProperty('--theme-album-cover-logo', neutralColors.albumCoverLogo);
         element.style.setProperty('--theme-album-cover-background', neutralColors.albumCoverBackground);
         element.style.setProperty('--theme-header-separator', neutralColors.headerSeparator);
         element.style.setProperty('--theme-pane-separators', neutralColors.paneSeparators);

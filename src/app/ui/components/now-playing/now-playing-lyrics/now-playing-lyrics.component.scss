@@ -1,3 +1,5 @@
+@import 'colors';
+
 .app-now-playing-lyrics {
     padding: 120px;
     display: flex;
@@ -33,7 +35,7 @@
 }
 
 .app-now-playing-lyrics__icon {
-    color: var(--theme-album-cover-logo);
+    @extend .font-icon-accent-gradient;
     font-size: 200px;
     display: flex;
     width: 300px;

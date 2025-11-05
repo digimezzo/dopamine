@@ -1,14 +1,17 @@
 import { IMock, Mock } from 'typemoq';
 import { AlbumComponent } from './album.component';
 import { AppearanceServiceBase } from '../../../../../services/appearance/appearance.service.base';
+import { SettingsBase } from '../../../../../common/settings/settings.base';
 
 describe('AlbumComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
+    let settingsMock: IMock<SettingsBase>;
     let component: AlbumComponent;
 
     beforeEach(() => {
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
-        component = new AlbumComponent(appearanceServiceMock.object);
+        settingsMock = Mock.ofType<SettingsBase>();
+        component = new AlbumComponent(appearanceServiceMock.object, settingsMock.object);
     });
 
     describe('constructor', () => {

@@ -1,0 +1,9 @@
+.font-icon-accent-gradient {
+    /* gradient paint */
+    background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%);
+
+    /* clip gradient to the glyph */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* makes the glyph show the background */
+    background-clip: text; /* some browsers use this (keeps it safe) */
+}
