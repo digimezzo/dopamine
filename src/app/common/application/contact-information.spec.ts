@@ -37,18 +37,6 @@ describe('ContactInformation', () => {
         });
     });
 
-    describe('twitterUrl', () => {
-        it('should provide twitterUrl', () => {
-            // Arrange
-
-            // Act
-            const twitterUrl: string = ContactInformation.twitterUrl;
-
-            // Assert
-            expect(twitterUrl).toEqual('https://twitter.com/digimezzo');
-        });
-    });
-
     describe('githubUrl', () => {
         it('should provide githubUrl', () => {
             // Arrange

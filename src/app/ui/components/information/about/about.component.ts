@@ -22,7 +22,6 @@ export class AboutComponent {
     public websiteUrl: string = ContactInformation.websiteUrl;
     public mastodonUrl: string = ContactInformation.mastodonUrl;
     public blueskyUrl: string = ContactInformation.blueskyUrl;
-    public twitterUrl: string = ContactInformation.twitterUrl;
     public githubUrl: string = ContactInformation.githubUrl;
 
     public showLicenseDialog(): void {
