@@ -47,7 +47,7 @@ export class TrackService implements TrackServiceBase {
 
         const albumKeyIndex: string = this.settings.albumKeyIndex;
 
-        const tracksInDatabase: Track[] = this.trackRepository.getTracksForPaths(filesInDirectory) ?? [];
+        const tracksInDatabase: Track[] = (await this.trackRepository.getTracksForPathsAsync(filesInDirectory)) ?? [];
         const pathsInDatabaseSet = new Set(tracksInDatabase.map((x) => x.path));
 
         for (const file of filesInDirectory) {
@@ -79,11 +79,11 @@ export class TrackService implements TrackServiceBase {
         return trackModels;
     }
 
-    public getVisibleTracks(): TrackModels {
+    public async getVisibleTracksAsync(): Promise<TrackModels> {
         const timer = new Timer();
         timer.start();
 
-        const tracks: Track[] = this.trackRepository.getVisibleTracks() ?? [];
+        const tracks: Track[] = (await this.trackRepository.getVisibleTracksAsync()) ?? [];
         const trackModels: TrackModels = new TrackModels();
 
         const albumKeyIndex: string = this.settings.albumKeyIndex;
@@ -104,7 +104,7 @@ export class TrackService implements TrackServiceBase {
         return trackModels;
     }
 
-    public getTracksForAlbums(albumKeys: string[]): TrackModels {
+    public async getTracksForAlbumsAsync(albumKeys: string[]): Promise<TrackModels> {
         const timer = new Timer();
         timer.start();
 
@@ -114,7 +114,7 @@ export class TrackService implements TrackServiceBase {
             return trackModels;
         }
 
-        const tracks: Track[] = this.trackRepository.getTracksForAlbums(this.settings.albumKeyIndex, albumKeys) ?? [];
+        const tracks: Track[] = (await this.trackRepository.getTracksForAlbumsAsync(this.settings.albumKeyIndex, albumKeys)) ?? [];
 
         const albumKeyIndex: string = this.settings.albumKeyIndex;
 
@@ -134,7 +134,7 @@ export class TrackService implements TrackServiceBase {
         return trackModels;
     }
 
-    public getTracksForArtists(artists: ArtistModel[], artistType: ArtistType): TrackModels {
+    public async getTracksForArtistsAsync(artists: ArtistModel[], artistType: ArtistType): Promise<TrackModels> {
         const timer = new Timer();
         timer.start();
 
@@ -147,11 +147,11 @@ export class TrackService implements TrackServiceBase {
         const sourceArtists: string[] = this.artistService.getSourceArtists(artists);
 
         if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
-            this.addTracksForTrackOrAllArtists(sourceArtists, trackModels);
+            await this.addTracksForTrackOrAllArtistsAsync(sourceArtists, trackModels);
         }
 
         if (artistType === ArtistType.albumArtists || artistType === ArtistType.allArtists) {
-            this.addTracksForAlbumOrAllArtists(sourceArtists, trackModels);
+            await this.addTracksForAlbumOrAllArtistsAsync(sourceArtists, trackModels);
         }
 
         timer.stop();
@@ -165,7 +165,7 @@ export class TrackService implements TrackServiceBase {
         return trackModels;
     }
 
-    public getTracksForGenres(genres: string[]): TrackModels {
+    public async getTracksForGenresAsync(genres: string[]): Promise<TrackModels> {
         const timer = new Timer();
         timer.start();
 
@@ -175,7 +175,7 @@ export class TrackService implements TrackServiceBase {
             return trackModels;
         }
 
-        const tracks: Track[] = this.trackRepository.getTracksForGenres(genres) ?? [];
+        const tracks: Track[] = (await this.trackRepository.getTracksForGenresAsync(genres)) ?? [];
 
         const albumKeyIndex: string = this.settings.albumKeyIndex;
 
@@ -195,8 +195,8 @@ export class TrackService implements TrackServiceBase {
         return trackModels;
     }
 
-    private addTracksForTrackOrAllArtists(artists: string[], trackModels: TrackModels): void {
-        const trackArtistTracks: Track[] = this.trackRepository.getTracksForTrackArtists(artists) ?? [];
+    private async addTracksForTrackOrAllArtistsAsync(artists: string[], trackModels: TrackModels): Promise<void> {
+        const trackArtistTracks: Track[] = (await this.trackRepository.getTracksForTrackArtistsAsync(artists)) ?? [];
 
         const albumKeyIndex: string = this.settings.albumKeyIndex;
 
@@ -206,8 +206,8 @@ export class TrackService implements TrackServiceBase {
         }
     }
 
-    private addTracksForAlbumOrAllArtists(artists: string[], trackModels: TrackModels): void {
-        const albumArtistTracks: Track[] = this.trackRepository.getTracksForAlbumArtists(artists) ?? [];
+    private async addTracksForAlbumOrAllArtistsAsync(artists: string[], trackModels: TrackModels): Promise<void> {
+        const albumArtistTracks: Track[] = (await this.trackRepository.getTracksForAlbumArtistsAsync(artists)) ?? [];
 
         const albumKeyIndex: string = this.settings.albumKeyIndex;
 
@@ -222,12 +222,12 @@ export class TrackService implements TrackServiceBase {
         }
     }
 
-    public savePlayCountAndDateLastPlayed(track: TrackModel): void {
-        this.trackRepository.updatePlayCountAndDateLastPlayed(track.id, track.playCount, track.dateLastPlayed);
+    public async savePlayCountAndDateLastPlayedAsync(track: TrackModel): Promise<void> {
+        await this.trackRepository.updatePlayCountAndDateLastPlayedAsync(track.id, track.playCount, track.dateLastPlayed);
     }
 
-    public saveSkipCount(track: TrackModel): void {
-        this.trackRepository.updateSkipCount(track.id, track.skipCount);
+    public async saveSkipCountAsync(track: TrackModel): Promise<void> {
+        await this.trackRepository.updateSkipCountAsync(track.id, track.skipCount);
     }
 
     public scrollToPlayingTrack(tracks: TrackModel[], viewPort: CdkVirtualScrollViewport): void {

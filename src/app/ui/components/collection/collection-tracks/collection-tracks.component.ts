@@ -50,7 +50,7 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
 
         try {
             await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
-            this.getTracks();
+            await this.getTracksAsync();
         } catch (e: unknown) {
             this.logger.error(e, 'Could not fill lists', 'CollectionTracksComponent', 'fillListsAsync');
         }
@@ -60,7 +60,7 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
         this.tracks = new TrackModels();
     }
 
-    private getTracks(): void {
-        this.tracks = this.trackService.getVisibleTracks();
+    private async getTracksAsync(): Promise<void> {
+        this.tracks = await this.trackService.getVisibleTracksAsync();
     }
 }

@@ -13,8 +13,9 @@ export class CachedAlbumArtworkGetter {
         private settings: SettingsBase,
     ) {}
 
-    public getCachedAlbumArtworkPath(albumKey: string): string {
-        const albumDataForAlbumKey: AlbumData[] = this.trackRepository.getAlbumDataForAlbumKey(this.settings.albumKeyIndex, albumKey) ?? [];
+    public async getCachedAlbumArtworkPathAsync(albumKey: string): Promise<string> {
+        const albumDataForAlbumKey: AlbumData[] =
+            (await this.trackRepository.getAlbumDataForAlbumKeyAsync(this.settings.albumKeyIndex, albumKey)) ?? [];
 
         if (albumDataForAlbumKey.length > 0 && !StringUtils.isNullOrWhiteSpace(albumDataForAlbumKey[0].artworkId)) {
             return this.applicationPaths.coverArtFullPath(albumDataForAlbumKey[0].artworkId!);

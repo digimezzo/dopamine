@@ -13,7 +13,7 @@
                     [(isChecked)]="folder.showInCollection"
                     *ngIf="showCheckBoxes"
                     matTooltip="{{ 'show-in-the-collection' | translate }}"
-                    (isCheckedChange)="setFolderVisibility(folder)"
+                    (isCheckedChange)="setFolderVisibilityAsync(folder)"
                 ></app-toggle-switch>
                 <div
                     class="folder d-flex flex-grow align-items-center"

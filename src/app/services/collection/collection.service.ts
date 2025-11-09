@@ -23,10 +23,10 @@ export class CollectionService implements CollectionServiceBase {
     public async deleteTracksAsync(tracks: TrackModel[]): Promise<boolean> {
         let couldDeleteAllTracks: boolean = true;
 
-        this.trackRepository.deleteTracks(tracks.map((x) => x.id));
+        await this.trackRepository.deleteTracksAsync(tracks.map((x) => x.id));
 
         for (const track of tracks) {
-            this.playbackService.stopIfPlaying(track);
+            await this.playbackService.stopIfPlayingAsync(track);
 
             try {
                 await this.desktop.moveFileToTrashAsync(track.path);

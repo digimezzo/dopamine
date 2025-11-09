@@ -152,20 +152,20 @@ export class PlaybackService {
         this.stopAndPlay(enqueuedTrackToPlay, false);
     }
 
-    public enqueueAndPlayArtist(artistToPlay: ArtistModel, artistType: ArtistType): void {
-        const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToPlay], artistType);
+    public async enqueueAndPlayArtistAsync(artistToPlay: ArtistModel, artistType: ArtistType): Promise<void> {
+        const tracksForArtists: TrackModels = await this.trackService.getTracksForArtistsAsync([artistToPlay], artistType);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForArtists.tracks);
         this.enqueueAndPlayTracks(orderedTracks);
     }
 
-    public enqueueAndPlayGenre(genreToPlay: GenreModel): void {
-        const tracksForGenre: TrackModels = this.trackService.getTracksForGenres([genreToPlay.name]);
+    public async enqueueAndPlayGenreAsync(genreToPlay: GenreModel): Promise<void> {
+        const tracksForGenre: TrackModels = await this.trackService.getTracksForGenresAsync([genreToPlay.name]);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForGenre.tracks);
         this.enqueueAndPlayTracks(orderedTracks);
     }
 
-    public enqueueAndPlayAlbum(albumToPlay: AlbumModel): void {
-        const tracksForAlbum: TrackModels = this.trackService.getTracksForAlbums([albumToPlay.albumKey]);
+    public async enqueueAndPlayAlbumAsync(albumToPlay: AlbumModel): Promise<void> {
+        const tracksForAlbum: TrackModels = await this.trackService.getTracksForAlbumsAsync([albumToPlay.albumKey]);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForAlbum.tracks);
         this.enqueueAndPlayTracks(orderedTracks);
     }
@@ -185,7 +185,7 @@ export class PlaybackService {
     }
 
     public async addArtistToQueueAsync(artistToAdd: ArtistModel, artistType: ArtistType): Promise<void> {
-        const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToAdd], artistType);
+        const tracksForArtists: TrackModels = await this.trackService.getTracksForArtistsAsync([artistToAdd], artistType);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForArtists.tracks);
         await this.addTracksToQueueAsync(orderedTracks);
     }
@@ -195,13 +195,13 @@ export class PlaybackService {
             return;
         }
 
-        const tracksForGenre: TrackModels = this.trackService.getTracksForGenres([genreToAdd.name]);
+        const tracksForGenre: TrackModels = await this.trackService.getTracksForGenresAsync([genreToAdd.name]);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForGenre.tracks);
         await this.addTracksToQueueAsync(orderedTracks);
     }
 
     public async addAlbumToQueueAsync(albumToAdd: AlbumModel): Promise<void> {
-        const tracksForAlbum: TrackModels = this.trackService.getTracksForAlbums([albumToAdd.albumKey]);
+        const tracksForAlbum: TrackModels = await this.trackService.getTracksForAlbumsAsync([albumToAdd.albumKey]);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForAlbum.tracks);
         await this.addTracksToQueueAsync(orderedTracks);
     }
@@ -324,8 +324,8 @@ export class PlaybackService {
         this.stop();
     }
 
-    public playNext(): void {
-        this.increaseCountersForCurrentTrackBasedOnProgress();
+    public async playNextAsync(): Promise<void> {
+        await this.increaseCountersForCurrentTrackBasedOnProgressAsync();
 
         const allowWrapAround: boolean = this.loopMode === LoopMode.All;
         const trackToPlay: TrackModel | undefined = this.queue.getNextTrack(this.currentTrack, allowWrapAround);
@@ -360,12 +360,12 @@ export class PlaybackService {
         }
     }
 
-    public stopIfPlaying(track: TrackModel): void {
+    public async stopIfPlayingAsync(track: TrackModel): Promise<void> {
         if (this.currentTrack != undefined && this.currentTrack.path === track.path) {
             if (this.queue.numberOfTracks === 1) {
                 this.stop();
             } else {
-                this.playNext();
+                await this.playNextAsync();
             }
         }
     }
@@ -436,12 +436,12 @@ export class PlaybackService {
         this.playbackStopped.next();
     }
 
-    private playbackFinishedHandler(): void {
+    private async playbackFinishedHandlerAsync(): Promise<void> {
         if (this.currentTrack != undefined) {
             this.logger.info(`Track finished: '${this.currentTrack.path}'`, 'PlaybackService', 'playbackFinishedHandler');
         }
 
-        this.increasePlayCountAndDateLastPlayedForCurrentTrack();
+        await this.increasePlayCountAndDateLastPlayedForCurrentTrackAsync();
 
         if (this.loopMode === LoopMode.One) {
             if (this.currentTrack != undefined) {
@@ -463,13 +463,13 @@ export class PlaybackService {
         this.stop();
     }
 
-    private playingPreloadedTrackHandler(preloadedTrack: TrackModel): void {
-        this.increasePlayCountAndDateLastPlayedForCurrentTrack();
+    private async playingPreloadedTrackHandlerAsync(preloadedTrack: TrackModel): Promise<void> {
+        await this.increasePlayCountAndDateLastPlayedForCurrentTrackAsync();
 
         this.postPlay(preloadedTrack, false);
     }
 
-    private increaseCountersForCurrentTrackBasedOnProgress(): void {
+    private async increaseCountersForCurrentTrackBasedOnProgressAsync(): Promise<void> {
         if (this.progress == undefined) {
             this.logger.warn('Progress was undefined', 'PlaybackService', 'increaseCountersForCurrentTrackBasedOnProgress');
 
@@ -477,13 +477,13 @@ export class PlaybackService {
         }
 
         if (this.progress.progressPercent <= 80) {
-            this.increaseSkipCountForCurrentTrack();
+            await this.increaseSkipCountForCurrentTrackAsync();
         } else {
-            this.increasePlayCountAndDateLastPlayedForCurrentTrack();
+            await this.increasePlayCountAndDateLastPlayedForCurrentTrackAsync();
         }
     }
 
-    private increasePlayCountAndDateLastPlayedForCurrentTrack(): void {
+    private async increasePlayCountAndDateLastPlayedForCurrentTrackAsync(): Promise<void> {
         if (this.currentTrack == undefined) {
             this.logger.warn('CurrentTrack is undefined', 'PlaybackService', 'increasePlayCountAndDateLastPlayedForCurrentTrack');
 
@@ -491,10 +491,10 @@ export class PlaybackService {
         }
 
         this.currentTrack.increasePlayCountAndDateLastPlayed();
-        this.trackService.savePlayCountAndDateLastPlayed(this.currentTrack);
+        await this.trackService.savePlayCountAndDateLastPlayedAsync(this.currentTrack);
     }
 
-    private increaseSkipCountForCurrentTrack(): void {
+    private async increaseSkipCountForCurrentTrackAsync(): Promise<void> {
         if (this.currentTrack == undefined) {
             this.logger.warn('CurrentTrack is undefined', 'PlaybackService', 'increaseSkipCountForCurrentTrack');
 
@@ -502,19 +502,19 @@ export class PlaybackService {
         }
 
         this.currentTrack.increaseSkipCount();
-        this.trackService.saveSkipCount(this.currentTrack);
+        await this.trackService.saveSkipCountAsync(this.currentTrack);
     }
 
     private initializeSubscriptions(): void {
         this.subscription.add(
-            this.audioPlayer.playbackFinished$.subscribe(() => {
-                this.playbackFinishedHandler();
+            this.audioPlayer.playbackFinished$.subscribe(async () => {
+                await this.playbackFinishedHandlerAsync();
             }),
         );
 
         this.subscription.add(
-            this.audioPlayer.playingPreloadedTrack$.subscribe((preloadedTrack: TrackModel) => {
-                this.playingPreloadedTrackHandler(preloadedTrack);
+            this.audioPlayer.playingPreloadedTrack$.subscribe(async (preloadedTrack: TrackModel) => {
+                await this.playingPreloadedTrackHandlerAsync(preloadedTrack);
             }),
         );
 
@@ -537,8 +537,8 @@ export class PlaybackService {
         );
 
         this.subscription.add(
-            this.mediaSessionService.nextTrackEvent$.subscribe(() => {
-                this.playNext();
+            this.mediaSessionService.nextTrackEvent$.subscribe(async () => {
+                await this.playNextAsync();
             }),
         );
     }
@@ -577,9 +577,9 @@ export class PlaybackService {
         }
     }
 
-    public saveQueue(): void {
+    public async saveQueueAsync(): Promise<void> {
         if (this.settings.rememberPlaybackStateAfterRestart) {
-            this.queuePersister.save(this.queue, this.currentTrack, this.progress.progressSeconds);
+            await this.queuePersister.saveAsync(this.queue, this.currentTrack, this.progress.progressSeconds);
         }
     }
 

@@ -8,13 +8,13 @@ export class FolderServiceMock implements FolderServiceBase {
     public collectionHasFolders: boolean = false;
     public foldersChanged$: Observable<void> = this.foldersChanged.asObservable();
 
-    public onFoldersChanged(): void {
+    public async onFoldersChangedAsync(): Promise<void> {
         this.foldersChanged.next();
     }
 
     public async addFolderAsync(path: string): Promise<void> {}
 
-    public getFolders(): FolderModel[] {
+    public async getFoldersAsync(): Promise<FolderModel[]> {
         return [];
     }
 
@@ -26,9 +26,9 @@ export class FolderServiceMock implements FolderServiceBase {
         return [];
     }
 
-    public deleteFolder(folder: FolderModel): void {}
+    public async deleteFolderAsync(folder: FolderModel): Promise<void> {}
 
-    public setFolderVisibility(folder: FolderModel): void {}
+    public async setFolderVisibilityAsync(folder: FolderModel): Promise<void> {}
 
-    public setAllFoldersVisible(): void {}
+    public async setAllFoldersVisibleAsync(): Promise<void> {}
 }

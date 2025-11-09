@@ -61,8 +61,8 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
 
     public async ngOnInit(): Promise<void> {
         this.subscription.add(
-            this.albumsPersister.selectedAlbumsChanged$.subscribe((albumKeys: string[]) => {
-                this.getTracksForAlbumKeys(albumKeys);
+            this.albumsPersister.selectedAlbumsChanged$.subscribe(async (albumKeys: string[]) => {
+                await this.getTracksForAlbumKeysAsync(albumKeys);
             }),
         );
 
@@ -91,10 +91,10 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
 
         try {
             await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
-            this.getAlbums();
+            await this.getAlbumsAsync();
 
             await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
-            this.getTracks();
+            await this.getTracksAsync();
         } catch (e: unknown) {
             this.logger.error(e, 'Could not fill lists', 'CollectionAlbumsComponent', 'fillListsAsync');
         }
@@ -105,20 +105,20 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         this.tracks = new TrackModels();
     }
 
-    private getAlbums(): void {
-        this.albums = this.albumService.getAllAlbums();
+    private async getAlbumsAsync(): Promise<void> {
+        this.albums = await this.albumService.getAllAlbumsAsync();
     }
 
-    private getTracks(): void {
+    private async getTracksAsync(): Promise<void> {
         const selectedAlbums: AlbumModel[] = this.albumsPersister.getSelectedAlbums(this.albums);
-        this.getTracksForAlbumKeys(selectedAlbums.map((x) => x.albumKey));
+        await this.getTracksForAlbumKeysAsync(selectedAlbums.map((x) => x.albumKey));
     }
 
-    private getTracksForAlbumKeys(albumKeys: string[]): void {
+    private async getTracksForAlbumKeysAsync(albumKeys: string[]): Promise<void> {
         if (albumKeys.length > 0) {
-            this.tracks = this.trackService.getTracksForAlbums(albumKeys);
+            this.tracks = await this.trackService.getTracksForAlbumsAsync(albumKeys);
         } else {
-            this.tracks = this.trackService.getVisibleTracks();
+            this.tracks = await this.trackService.getVisibleTracksAsync();
         }
     }
 }

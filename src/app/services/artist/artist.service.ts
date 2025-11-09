@@ -22,19 +22,19 @@ export class ArtistService implements ArtistServiceBase {
         private logger: Logger,
     ) {}
 
-    public getArtists(artistType: ArtistType): ArtistModel[] {
+    public async getArtistsAsync(artistType: ArtistType): Promise<ArtistModel[]> {
         const timer = new Timer();
         timer.start();
 
         const artistDatas: ArtistData[] = [];
 
         if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
-            const trackArtistDatas: ArtistData[] = this.trackRepository.getTrackArtistData() ?? [];
+            const trackArtistDatas: ArtistData[] = (await this.trackRepository.getTrackArtistDataAsync()) ?? [];
             artistDatas.push(...trackArtistDatas);
         }
 
         if (artistType === ArtistType.albumArtists || artistType === ArtistType.allArtists) {
-            const albumArtistDatas: ArtistData[] = this.trackRepository.getAlbumArtistData() ?? [];
+            const albumArtistDatas: ArtistData[] = (await this.trackRepository.getAlbumArtistDataAsync()) ?? [];
             artistDatas.push(...albumArtistDatas);
         }
 

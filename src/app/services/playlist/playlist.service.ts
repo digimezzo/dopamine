@@ -24,7 +24,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Constants } from '../../common/application/constants';
 import { PlaylistUpdateInfo } from './playlist-update-info';
 import { PromiseUtils } from '../../common/utils/promise-utils';
-import {SettingsBase} from "../../common/settings/settings.base";
+import { SettingsBase } from '../../common/settings/settings.base';
 
 @Injectable()
 export class PlaylistService implements PlaylistServiceBase {
@@ -78,7 +78,7 @@ export class PlaylistService implements PlaylistServiceBase {
             throw new Error('artistsToAdd is undefined');
         }
 
-        const tracks: TrackModels = this.trackService.getTracksForArtists(artistsToAdd, ArtistType.allArtists);
+        const tracks: TrackModels = await this.trackService.getTracksForArtistsAsync(artistsToAdd, ArtistType.allArtists);
         await this.addTracksToPlaylistAsync(playlistPath, playlistName, tracks.tracks);
     }
 
@@ -92,7 +92,7 @@ export class PlaylistService implements PlaylistServiceBase {
         }
 
         const genreNames: string[] = genresToAdd.map((x) => x.name);
-        const tracks: TrackModels = this.trackService.getTracksForGenres(genreNames);
+        const tracks: TrackModels = await this.trackService.getTracksForGenresAsync(genreNames);
         await this.addTracksToPlaylistAsync(playlistPath, playlistName, tracks.tracks);
     }
 
@@ -106,7 +106,7 @@ export class PlaylistService implements PlaylistServiceBase {
         }
 
         const albumKeys: string[] = albumsToAdd.map((x) => x.albumKey);
-        const tracks: TrackModels = this.trackService.getTracksForAlbums(albumKeys);
+        const tracks: TrackModels = await this.trackService.getTracksForAlbumsAsync(albumKeys);
         await this.addTracksToPlaylistAsync(playlistPath, playlistName, tracks.tracks);
     }
 
@@ -283,8 +283,7 @@ export class PlaylistService implements PlaylistServiceBase {
             this.logger.error(e, `Could not decode playlist with path='${playlistPath}'`, 'PlaylistService', 'decodePlaylistAsync');
             throw new Error(e instanceof Error ? e.message : 'Unknown error');
         }
-        
-        
+
         const albumKeyIndex = this.settings.albumKeyIndex;
 
         for (const playlistEntry of playlistEntries) {

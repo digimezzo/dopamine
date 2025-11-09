@@ -42,23 +42,27 @@ export class AddFolderComponent implements OnInit {
 
         if (v) {
             try {
-                this.folderService.setAllFoldersVisible();
-                PromiseUtils.noAwait(this.getFoldersAsync());
+                this.setAllFoldersVisibleAndReloadAsync();
             } catch (e: unknown) {
                 this.logger.error(e, 'Could not set all folders visible', 'AddFolderComponent', 'showAllFoldersInCollection');
             }
         }
     }
 
+    private async setAllFoldersVisibleAndReloadAsync(): Promise<void> {
+        await this.folderService.setAllFoldersVisibleAsync();
+        this.getFoldersAsync();
+    }
+
     public async ngOnInit(): Promise<void> {
         await this.getFoldersAsync();
     }
 
-    public setFolderVisibility(folder: FolderModel): void {
+    public async setFolderVisibilityAsync(folder: FolderModel): Promise<void> {
         this.showAllFoldersInCollection = false;
 
         try {
-            this.folderService.setFolderVisibility(folder);
+            await this.folderService.setFolderVisibilityAsync(folder);
         } catch (e: unknown) {
             this.logger.error(e, 'Could not set folder visibility', 'AddFolderComponent', 'setFolderVisibility');
         }
@@ -66,7 +70,7 @@ export class AddFolderComponent implements OnInit {
 
     public async getFoldersAsync(): Promise<void> {
         try {
-            this.folders = this.folderService.getFolders();
+            this.folders = await this.folderService.getFoldersAsync();
         } catch (e: unknown) {
             this.logger.error(e, 'Could not get folders', 'AddFolderComponent', 'getFolders');
 
@@ -105,7 +109,7 @@ export class AddFolderComponent implements OnInit {
 
         if (userHasConfirmed) {
             try {
-                this.folderService.deleteFolder(folder);
+                await this.folderService.deleteFolderAsync(folder);
                 await this.getFoldersAsync();
             } catch (e: unknown) {
                 this.logger.error(e, 'Could not delete folder', 'AddFolderComponent', 'deleteFolderAsync');

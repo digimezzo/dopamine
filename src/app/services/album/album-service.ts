@@ -23,11 +23,11 @@ export class AlbumService implements AlbumServiceBase {
         private logger: Logger,
     ) {}
 
-    public getAllAlbums(): AlbumModel[] {
+    public async getAllAlbumsAsync(): Promise<AlbumModel[]> {
         const timer = new Timer();
         timer.start();
 
-        const albumDatas: AlbumData[] = this.trackRepository.getAllAlbumData(this.settings.albumKeyIndex) ?? [];
+        const albumDatas: AlbumData[] = (await this.trackRepository.getAllAlbumDataAsync(this.settings.albumKeyIndex)) ?? [];
         const albums: AlbumModel[] = this.createAlbumsFromAlbumData(albumDatas);
 
         timer.stop();
@@ -37,7 +37,7 @@ export class AlbumService implements AlbumServiceBase {
         return albums;
     }
 
-    public getAlbumsForArtists(artists: ArtistModel[], artistType: ArtistType): AlbumModel[] {
+    public async getAlbumsForArtistsAsync(artists: ArtistModel[], artistType: ArtistType): Promise<AlbumModel[]> {
         const timer = new Timer();
         timer.start();
 
@@ -48,11 +48,11 @@ export class AlbumService implements AlbumServiceBase {
         const albumKeyIndex = this.settings.albumKeyIndex;
 
         if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
-            this.addAlbumsForTrackOrAllArtists(albumKeyIndex, sourceArtists, albumDatas);
+            await this.addAlbumsForTrackOrAllArtistsAsync(albumKeyIndex, sourceArtists, albumDatas);
         }
 
         if (artistType === ArtistType.albumArtists || artistType === ArtistType.allArtists) {
-            this.addAlbumsForAlbumOrAllArtists(albumKeyIndex, sourceArtists, albumDatas);
+            await this.addAlbumsForAlbumOrAllArtistsAsync(albumKeyIndex, sourceArtists, albumDatas);
         }
 
         const albums: AlbumModel[] = this.createAlbumsFromAlbumData(albumDatas);
@@ -68,11 +68,11 @@ export class AlbumService implements AlbumServiceBase {
         return albums;
     }
 
-    public getAlbumsForGenres(genres: string[]): AlbumModel[] {
+    public async getAlbumsForGenresAsync(genres: string[]): Promise<AlbumModel[]> {
         const timer = new Timer();
         timer.start();
 
-        const albumDatas: AlbumData[] = this.trackRepository.getAlbumDataForGenres(this.settings.albumKeyIndex, genres) ?? [];
+        const albumDatas: AlbumData[] = (await this.trackRepository.getAlbumDataForGenresAsync(this.settings.albumKeyIndex, genres)) ?? [];
         const albums: AlbumModel[] = this.createAlbumsFromAlbumData(albumDatas);
 
         timer.stop();
@@ -86,16 +86,18 @@ export class AlbumService implements AlbumServiceBase {
         return albums;
     }
 
-    private addAlbumsForTrackOrAllArtists(albumKeyIndex: string, artists: string[], albumDatas: AlbumData[]): void {
-        const trackArtistsAlbumDatas: AlbumData[] = this.trackRepository.getAlbumDataForTrackArtists(albumKeyIndex, artists) ?? [];
+    private async addAlbumsForTrackOrAllArtistsAsync(albumKeyIndex: string, artists: string[], albumDatas: AlbumData[]): Promise<void> {
+        const trackArtistsAlbumDatas: AlbumData[] =
+            (await this.trackRepository.getAlbumDataForTrackArtistsAsync(albumKeyIndex, artists)) ?? [];
 
         for (const albumData of trackArtistsAlbumDatas) {
             albumDatas.push(albumData);
         }
     }
 
-    private addAlbumsForAlbumOrAllArtists(albumKeyIndex: string, artists: string[], albumDatas: AlbumData[]): void {
-        const albumArtistsAlbumDatas: AlbumData[] = this.trackRepository.getAlbumDataForAlbumArtists(albumKeyIndex, artists) ?? [];
+    private async addAlbumsForAlbumOrAllArtistsAsync(albumKeyIndex: string, artists: string[], albumDatas: AlbumData[]): Promise<void> {
+        const albumArtistsAlbumDatas: AlbumData[] =
+            (await this.trackRepository.getAlbumDataForAlbumArtistsAsync(albumKeyIndex, artists)) ?? [];
 
         for (const albumData of albumArtistsAlbumDatas) {
             // Avoid adding a track twice

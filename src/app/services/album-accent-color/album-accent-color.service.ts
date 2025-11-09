@@ -11,7 +11,7 @@ export class AlbumAccentColorService {
     ) {}
 
     public async getAlbumAccentColorAsync(albumKey: string): Promise<string> {
-        const albumArtworkPath: string = this.metadataService.getAlbumArtworkPath(albumKey);
+        const albumArtworkPath: string = await this.metadataService.getAlbumArtworkPathAsync(albumKey);
 
         try {
             const palette = await Vibrant.from(`file://${albumArtworkPath}`).getPalette();

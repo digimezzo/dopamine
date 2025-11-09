@@ -16,12 +16,12 @@ export class GenreService implements GenreServiceBase {
         private logger: Logger,
     ) {}
 
-    public getGenres(): GenreModel[] {
+    public async getGenresAsync(): Promise<GenreModel[]> {
         const timer = new Timer();
         timer.start();
 
         const addedGenres: string[] = [];
-        const genreDatas: GenreData[] = this.trackRepository.getGenreData() ?? [];
+        const genreDatas: GenreData[] = (await this.trackRepository.getGenreDataAsync()) ?? [];
         const genreModels: GenreModel[] = [];
 
         for (const genreData of genreDatas) {

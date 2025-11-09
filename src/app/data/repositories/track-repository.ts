@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@angular/core';
 import { ClauseCreator } from '../clause-creator';
 import { DatabaseFactory } from '../database-factory';
@@ -14,9 +9,7 @@ import { QueryParts } from '../query-parts';
 import { Constants } from '../../common/application/constants';
 import { TrackRepositoryBase } from './track-repository.base';
 import { PersistentDatabase } from '../persistent-database';
-import { AlbumArtwork } from '../entities/album-artwork';
 import { Statement } from 'sql.js';
-import { Folder } from '../entities/folder';
 
 @Injectable()
 export class TrackRepository implements TrackRepositoryBase {
@@ -340,7 +333,7 @@ export class TrackRepository implements TrackRepositoryBase {
             playCount: track.playCount,
             skipCount: track.skipCount,
             dateLastPlayed: track.dateLastPlayed,
-        });
+        } as any);
 
         statement.free();
     }

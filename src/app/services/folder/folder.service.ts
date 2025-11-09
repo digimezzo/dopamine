@@ -27,33 +27,33 @@ export class FolderService implements FolderServiceBase {
     public get collectionHasFolders(): boolean {
         if (this.shouldCheckIfCollectionHasFolders) {
             this.shouldCheckIfCollectionHasFolders = false;
-            this.checkIfCollectionHasFolders();
+            this.checkIfCollectionHasFoldersAsync();
         }
 
         return this._collectionHasFolders;
     }
 
-    public onFoldersChanged(): void {
-        this.checkIfCollectionHasFolders();
+    public async onFoldersChangedAsync(): Promise<void> {
+        await this.checkIfCollectionHasFoldersAsync();
         this.foldersChanged.next();
     }
 
     public async addFolderAsync(path: string): Promise<void> {
-        const existingFolder: Folder | undefined = this.folderRepository.getFolderByPath(path);
+        const existingFolder: Folder | undefined = await this.folderRepository.getFolderByPathAsync(path);
 
         if (existingFolder == undefined) {
             const newFolder: Folder = new Folder(path);
-            this.folderRepository.addFolder(newFolder);
+            await this.folderRepository.addFolderAsync(newFolder);
             this.logger.info(`Added folder with path '${path}'`, 'FolderService', 'addNewFolderAsync');
-            this.onFoldersChanged();
+            await this.onFoldersChangedAsync();
         } else {
             await this.notificationService.folderAlreadyAddedAsync();
             this.logger.info(`Folder with path '${path}' was already added`, 'FolderService', 'addNewFolderAsync');
         }
     }
 
-    public getFolders(): FolderModel[] {
-        const folders: Folder[] = this.folderRepository.getFolders() ?? [];
+    public async getFoldersAsync(): Promise<FolderModel[]> {
+        const folders: Folder[] = (await this.folderRepository.getFoldersAsync()) ?? [];
 
         if (folders.length > 0) {
             return folders.map((x) => new FolderModel(x));
@@ -111,15 +111,15 @@ export class FolderService implements FolderServiceBase {
         return subfolders;
     }
 
-    public deleteFolder(folder: FolderModel): void {
-        this.folderRepository.deleteFolder(folder.folderId);
+    public async deleteFolderAsync(folder: FolderModel): Promise<void> {
+        await this.folderRepository.deleteFolderAsync(folder.folderId);
         this.logger.info(`Deleted folder with path '${folder.path}'`, 'FolderService', 'deleteFolder');
-        this.onFoldersChanged();
+        await this.onFoldersChangedAsync();
     }
 
-    public setFolderVisibility(folder: FolderModel): void {
+    public async setFolderVisibilityAsync(folder: FolderModel): Promise<void> {
         const showInCollection: number = folder.showInCollection ? 1 : 0;
-        this.folderRepository.setFolderShowInCollection(folder.folderId, showInCollection);
+        await this.folderRepository.setFolderShowInCollectionAsync(folder.folderId, showInCollection);
         this.logger.info(
             `Set folder visibility: folderId=${folder.folderId}, path '${folder.path}', showInCollection=${showInCollection}`,
             'FolderService',
@@ -127,8 +127,8 @@ export class FolderService implements FolderServiceBase {
         );
     }
 
-    public setAllFoldersVisible(): void {
-        this.folderRepository.setAllFoldersShowInCollection(1);
+    public async setAllFoldersVisibleAsync(): Promise<void> {
+        await this.folderRepository.setAllFoldersShowInCollectionAsync(1);
         this.logger.info('Set all folders visible', 'FolderService', 'setAllFoldersVisible');
     }
 
@@ -153,8 +153,8 @@ export class FolderService implements FolderServiceBase {
         return subfolderBreadcrumbs.reverse();
     }
 
-    private checkIfCollectionHasFolders(): void {
-        const numberOfFoldersInCollection: number = this.getFolders().length;
+    private async checkIfCollectionHasFoldersAsync(): Promise<void> {
+        const numberOfFoldersInCollection: number = (await this.getFoldersAsync()).length;
         this._collectionHasFolders = numberOfFoldersInCollection > 0;
     }
 }

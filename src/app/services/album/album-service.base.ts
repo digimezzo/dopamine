@@ -3,7 +3,7 @@ import { AlbumModel } from './album-model';
 import { ArtistModel } from '../artist/artist-model';
 
 export abstract class AlbumServiceBase {
-    public abstract getAllAlbums(): AlbumModel[];
-    public abstract getAlbumsForArtists(artists: ArtistModel[], artistType: ArtistType): AlbumModel[];
-    public abstract getAlbumsForGenres(genres: string[]): AlbumModel[];
+    public abstract getAllAlbumsAsync(): Promise<AlbumModel[]>;
+    public abstract getAlbumsForArtistsAsync(artists: ArtistModel[], artistType: ArtistType): Promise<AlbumModel[]>;
+    public abstract getAlbumsForGenresAsync(genres: string[]): Promise<AlbumModel[]>;
 }

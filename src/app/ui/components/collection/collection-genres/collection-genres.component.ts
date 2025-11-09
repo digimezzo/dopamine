@@ -68,16 +68,16 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
 
     public async ngOnInit(): Promise<void> {
         this.subscription.add(
-            this.genresPersister.selectedGenresChanged$.subscribe((genres: string[]) => {
+            this.genresPersister.selectedGenresChanged$.subscribe(async (genres: string[]) => {
                 this.albumsPersister.resetSelectedAlbums();
-                this.getAlbumsForGenres(genres);
-                this.getTracksForGenres(genres);
+                await this.getAlbumsForGenresAsync(genres);
+                await this.getTracksForGenresAsync(genres);
             }),
         );
 
         this.subscription.add(
-            this.albumsPersister.selectedAlbumsChanged$.subscribe((albumKeys: string[]) => {
-                this.getTracksForAlbumKeys(albumKeys);
+            this.albumsPersister.selectedAlbumsChanged$.subscribe(async (albumKeys: string[]) => {
+                await this.getTracksForAlbumKeysAsync(albumKeys);
             }),
         );
 
@@ -107,13 +107,13 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
 
         try {
             await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
-            this.getGenres();
+            await this.getGenresAsync();
 
             await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
-            this.getAlbums();
+            await this.getAlbumsAsync();
 
             await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
-            this.getTracks();
+            await this.getTracksAsync();
         } catch (e: unknown) {
             this.logger.error(e, 'Could not fill lists', 'CollectionGenresComponent', 'fillListsAsync');
         }
@@ -125,47 +125,47 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         this.tracks = new TrackModels();
     }
 
-    private getGenres(): void {
-        this.genres = this.genreService.getGenres();
+    private async getGenresAsync(): Promise<void> {
+        this.genres = await this.genreService.getGenresAsync();
     }
 
-    private getAlbums(): void {
+    private async getAlbumsAsync(): Promise<void> {
         const selectedGenres: GenreModel[] = this.genresPersister.getSelectedGenres(this.genres);
-        this.getAlbumsForGenres(selectedGenres.map((x) => x.name));
+        await this.getAlbumsForGenresAsync(selectedGenres.map((x) => x.name));
     }
 
-    private getTracks(): void {
+    private async getTracksAsync(): Promise<void> {
         const selectedAlbums: AlbumModel[] = this.albumsPersister.getSelectedAlbums(this.albums);
 
         if (selectedAlbums.length > 0) {
-            this.getTracksForAlbumKeys(selectedAlbums.map((x) => x.albumKey));
+            await this.getTracksForAlbumKeysAsync(selectedAlbums.map((x) => x.albumKey));
         } else {
             const selectedGenres: GenreModel[] = this.genresPersister.getSelectedGenres(this.genres);
-            this.getTracksForGenres(selectedGenres.map((x) => x.name));
+            await this.getTracksForGenresAsync(selectedGenres.map((x) => x.name));
         }
     }
 
-    private getTracksForGenres(genres: string[]): void {
+    private async getTracksForGenresAsync(genres: string[]): Promise<void> {
         if (genres.length > 0) {
-            this.tracks = this.trackService.getTracksForGenres(genres);
+            this.tracks = await this.trackService.getTracksForGenresAsync(genres);
         } else {
-            this.tracks = this.trackService.getVisibleTracks();
+            this.tracks = await this.trackService.getVisibleTracksAsync();
         }
     }
 
-    private getTracksForAlbumKeys(albumKeys: string[]): void {
+    private async getTracksForAlbumKeysAsync(albumKeys: string[]): Promise<void> {
         if (albumKeys.length > 0) {
-            this.tracks = this.trackService.getTracksForAlbums(albumKeys);
+            this.tracks = await this.trackService.getTracksForAlbumsAsync(albumKeys);
         } else {
-            this.tracks = this.trackService.getVisibleTracks();
+            this.tracks = await this.trackService.getVisibleTracksAsync();
         }
     }
 
-    private getAlbumsForGenres(genres: string[]): void {
+    private async getAlbumsForGenresAsync(genres: string[]): Promise<void> {
         if (genres.length > 0) {
-            this.albums = this.albumService.getAlbumsForGenres(genres);
+            this.albums = await this.albumService.getAlbumsForGenresAsync(genres);
         } else {
-            this.albums = this.albumService.getAllAlbums();
+            this.albums = await this.albumService.getAllAlbumsAsync();
         }
     }
 }

@@ -1,14 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@angular/core';
 import { QueuedTrackRepositoryBase } from './queued-track-repository.base';
 import { DatabaseFactory } from '../database-factory';
 import { QueuedTrack } from '../entities/queued-track';
 import { PersistentDatabase } from '../persistent-database';
-import { Folder } from '../entities/folder';
 
 @Injectable()
 export class QueuedTrackRepository implements QueuedTrackRepositoryBase {

@@ -33,7 +33,7 @@ export class LifetimeService {
             await new Promise((resolve) => setTimeout(resolve, 100));
         }
 
-        this.playbackService.saveQueue();
+        await this.playbackService.saveQueueAsync();
 
         this.ipcProxy.sendToMainProcess('closing-tasks-performed', undefined);
     }

@@ -111,9 +111,9 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         this.settings.foldersLeftPaneWidthPercent = <number>event.sizes[0];
     }
 
-    public getFolders(): void {
+    public async getFoldersAsync(): Promise<void> {
         try {
-            this.folders = this.folderService.getFolders();
+            this.folders = await this.folderService.getFoldersAsync();
         } catch (e: unknown) {
             this.logger.error(e, 'Could not get folders', 'CollectionFoldersComponent', 'getFolders');
         }
@@ -172,7 +172,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
     private async fillListsAsync(): Promise<void> {
         await this.scheduler.sleepAsync(Constants.longListLoadDelayMilliseconds);
-        this.getFolders();
+        await this.getFoldersAsync();
 
         await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
         const persistedOpenedFolder: FolderModel | undefined = this.foldersPersister.getOpenedFolder(this.folders);

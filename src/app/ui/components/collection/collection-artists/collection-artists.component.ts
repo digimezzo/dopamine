@@ -70,24 +70,24 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
 
     public async ngOnInit(): Promise<void> {
         this.subscription.add(
-            this.artistsPersister.selectedArtistsChanged$.subscribe((displayNames: string[]) => {
+            this.artistsPersister.selectedArtistsChanged$.subscribe(async (displayNames: string[]) => {
                 this.albumsPersister.resetSelectedAlbums();
                 const artists: ArtistModel[] = this.getArtistsByDisplayNames(displayNames);
-                this.getAlbumsForArtists(artists);
-                this.getTracksForArtists(artists);
+                await this.getAlbumsForArtistsAsync(artists);
+                await this.getTracksForArtistsAsync(artists);
             }),
         );
 
         this.subscription.add(
-            this.artistsPersister.selectedArtistTypeChanged$.subscribe(() => {
+            this.artistsPersister.selectedArtistTypeChanged$.subscribe(async () => {
                 this.albumsPersister.resetSelectedAlbums();
-                this.getArtists();
+                await this.getArtistsAsync();
             }),
         );
 
         this.subscription.add(
-            this.albumsPersister.selectedAlbumsChanged$.subscribe((albumKeys: string[]) => {
-                this.getTracksForAlbumKeys(albumKeys);
+            this.albumsPersister.selectedAlbumsChanged$.subscribe(async (albumKeys: string[]) => {
+                await this.getTracksForAlbumKeysAsync(albumKeys);
             }),
         );
 
@@ -117,13 +117,13 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
 
         try {
             await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
-            this.getArtists();
+            await this.getArtistsAsync();
 
             await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
-            this.getAlbums();
+            await this.getAlbumsAsync();
 
             await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
-            this.getTracks();
+            await this.getTracksAsync();
         } catch (e: unknown) {
             this.logger.error(e, 'Could not fill lists', 'CollectionArtistsComponent', 'fillListsAsync');
         }
@@ -135,50 +135,50 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         this.tracks = new TrackModels();
     }
 
-    private getArtists(): void {
+    private async getArtistsAsync(): Promise<void> {
         const selectedArtistType: ArtistType = this.artistsPersister.getSelectedArtistType();
-        this.artists = this.artistService.getArtists(selectedArtistType);
+        this.artists = await this.artistService.getArtistsAsync(selectedArtistType);
     }
 
-    private getAlbums(): void {
+    private async getAlbumsAsync(): Promise<void> {
         const selectedArtists: ArtistModel[] = this.artistsPersister.getSelectedArtists(this.artists);
-        this.getAlbumsForArtists(selectedArtists);
+        await this.getAlbumsForArtistsAsync(selectedArtists);
     }
 
-    private getTracks(): void {
+    private async getTracksAsync(): Promise<void> {
         const selectedAlbums: AlbumModel[] = this.albumsPersister.getSelectedAlbums(this.albums);
 
         if (selectedAlbums.length > 0) {
-            this.getTracksForAlbumKeys(selectedAlbums.map((x) => x.albumKey));
+            await this.getTracksForAlbumKeysAsync(selectedAlbums.map((x) => x.albumKey));
         } else {
             const selectedArtists: ArtistModel[] = this.artistsPersister.getSelectedArtists(this.artists);
-            this.getTracksForArtists(selectedArtists);
+            await this.getTracksForArtistsAsync(selectedArtists);
         }
     }
 
-    private getTracksForArtists(artists: ArtistModel[]): void {
+    private async getTracksForArtistsAsync(artists: ArtistModel[]): Promise<void> {
         if (artists.length > 0) {
             const artistType: ArtistType = this.artistsPersister.getSelectedArtistType();
-            this.tracks = this.trackService.getTracksForArtists(artists, artistType);
+            this.tracks = await this.trackService.getTracksForArtistsAsync(artists, artistType);
         } else {
-            this.tracks = this.trackService.getVisibleTracks();
+            this.tracks = await this.trackService.getVisibleTracksAsync();
         }
     }
 
-    private getTracksForAlbumKeys(albumKeys: string[]): void {
+    private async getTracksForAlbumKeysAsync(albumKeys: string[]): Promise<void> {
         if (albumKeys.length > 0) {
-            this.tracks = this.trackService.getTracksForAlbums(albumKeys);
+            this.tracks = await this.trackService.getTracksForAlbumsAsync(albumKeys);
         } else {
-            this.tracks = this.trackService.getVisibleTracks();
+            this.tracks = await this.trackService.getVisibleTracksAsync();
         }
     }
 
-    private getAlbumsForArtists(artists: ArtistModel[]): void {
+    private async getAlbumsForArtistsAsync(artists: ArtistModel[]): Promise<void> {
         if (artists.length > 0) {
             const selectedArtistType: ArtistType = this.artistsPersister.getSelectedArtistType();
-            this.albums = this.albumService.getAlbumsForArtists(artists, selectedArtistType);
+            this.albums = await this.albumService.getAlbumsForArtistsAsync(artists, selectedArtistType);
         } else {
-            this.albums = this.albumService.getAllAlbums();
+            this.albums = await this.albumService.getAllAlbumsAsync();
         }
     }
 

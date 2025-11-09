@@ -30,7 +30,8 @@ export class AlbumArtworkAdder {
         try {
             const albumKeyIndex = this.settings.albumKeyIndex;
 
-            const albumDataThatNeedsIndexing: AlbumData[] = this.trackRepository.getAlbumDataThatNeedsIndexing(albumKeyIndex) ?? [];
+            const albumDataThatNeedsIndexing: AlbumData[] =
+                (await this.trackRepository.getAlbumDataThatNeedsIndexingAsync(albumKeyIndex)) ?? [];
 
             if (albumDataThatNeedsIndexing.length === 0) {
                 this.logger.info(
@@ -48,7 +49,7 @@ export class AlbumArtworkAdder {
                 'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
             );
 
-            const numberOfAlbumArtwork: number = this.albumArtworkRepository.getNumberOfAlbumArtwork();
+            const numberOfAlbumArtwork: number = await this.albumArtworkRepository.getNumberOfAlbumArtworkAsync();
 
             // Only show this notification the 1st time indexing runs.
             if (numberOfAlbumArtwork === 0) {
@@ -78,7 +79,7 @@ export class AlbumArtworkAdder {
     }
 
     private async addAlbumArtworkAsync(albumKeyIndex: string, albumKey: string): Promise<void> {
-        const track: Track | undefined = this.trackRepository.getLastModifiedTrackForAlbumKeyAsync(albumKeyIndex, albumKey);
+        const track: Track | undefined = await this.trackRepository.getLastModifiedTrackForAlbumKeyAsync(albumKeyIndex, albumKey);
 
         if (track == undefined) {
             return;
@@ -104,8 +105,8 @@ export class AlbumArtworkAdder {
             return;
         }
 
-        this.trackRepository.disableNeedsAlbumArtworkIndexing(albumKey);
+        await this.trackRepository.disableNeedsAlbumArtworkIndexingAsync(albumKey);
         const newAlbumArtwork: AlbumArtwork = new AlbumArtwork(albumKey, albumArtworkCacheId.id);
-        this.albumArtworkRepository.addAlbumArtwork(newAlbumArtwork);
+        await this.albumArtworkRepository.addAlbumArtworkAsync(newAlbumArtwork);
     }
 }

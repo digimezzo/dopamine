@@ -28,7 +28,7 @@ export class LoadingComponent implements OnInit {
     ) {}
 
     public async ngOnInit(): Promise<void> {
-        this.databaseMigrator.migrate();
+        await this.databaseMigrator.migrateAsync();
 
         if (this.settings.showWelcome) {
             this.settings.showWelcome = false;

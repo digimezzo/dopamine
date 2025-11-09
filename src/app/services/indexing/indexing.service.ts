@@ -87,7 +87,7 @@ export class IndexingService implements OnDestroy {
     }
 
     public async indexAfterTagChangeAsync(fileMetaDatas: IFileMetadata[]): Promise<void> {
-        const tracks: Track[] | undefined = this.trackRepository.getTracksForPaths(fileMetaDatas.map((f) => f.path));
+        const tracks: Track[] | undefined = await this.trackRepository.getTracksForPathsAsync(fileMetaDatas.map((f) => f.path));
 
         if (!tracks) {
             return;
@@ -103,7 +103,7 @@ export class IndexingService implements OnDestroy {
 
             const updatedTrack: Track = await this.trackFiller.addGivenFileMetadataToTrackAsync(track, fileMetaData, false);
 
-            this.trackRepository.updateTrack(updatedTrack);
+            await this.trackRepository.updateTrackAsync(updatedTrack);
         }
 
         // Trigger album artwork indexing

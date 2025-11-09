@@ -9,7 +9,7 @@
                             class="folder__column2"
                             [matMenuTriggerFor]="menu"
                             matTooltip="{{ 'choose-folder' | translate }}"
-                            (click)="getFolders()"
+                            (click)="getFoldersAsync()"
                         >
                             <div class="folder-inner-row pointer">
                                 <div class="folder-inner-row__text secondary-text">{{ openedFolder | folderName }}</div>

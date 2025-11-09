@@ -21,7 +21,7 @@ export class QueuePersister {
         private logger: Logger,
     ) {}
 
-    public save(queue: Queue, playingTrack: TrackModel | undefined, progressSeconds: number): void {
+    public async saveAsync(queue: Queue, playingTrack: TrackModel | undefined, progressSeconds: number): Promise<void> {
         this.logger.info(`Saving queue`, 'QueuePersister', 'save');
 
         const queuedTracks: QueuedTrack[] = [];
@@ -41,7 +41,7 @@ export class QueuePersister {
                 queuedTracks.push(queuedTrack);
             }
 
-            this.queuedTrackRepository.saveQueuedTracks(queuedTracks);
+            await this.queuedTrackRepository.saveQueuedTracksAsync(queuedTracks);
 
             this.logger.info(`Saved queue of ${queuedTracks.length} tracks`, 'QueuePersister', 'save');
         } catch (e: unknown) {
@@ -57,7 +57,7 @@ export class QueuePersister {
         this.logger.info(`Restoring queue`, 'QueuePersister', 'restore');
 
         try {
-            const savedQueuedTracks: QueuedTrack[] | undefined = this.queuedTrackRepository.getSavedQueuedTracks();
+            const savedQueuedTracks: QueuedTrack[] | undefined = await this.queuedTrackRepository.getSavedQueuedTracksAsync();
 
             if (!savedQueuedTracks || savedQueuedTracks.length === 0) {
                 this.logger.info(`No saved queued tracks found`, 'QueuePersister', 'restore');
@@ -69,7 +69,7 @@ export class QueuePersister {
             let playingTrack: TrackModel | undefined = undefined;
             let progressSeconds: number = 0;
 
-            const tracks: Track[] | undefined = this.trackRepository.getTracksForPaths(savedQueuedTracks.map((x) => x.path));
+            const tracks: Track[] | undefined = await this.trackRepository.getTracksForPathsAsync(savedQueuedTracks.map((x) => x.path));
 
             if (!tracks || tracks.length === 0) {
                 this.logger.info(`No tracks found for saved queued tracks.`, 'QueuePersister', 'restore');

@@ -57,7 +57,7 @@ export class MetadataService {
                 }
             }
 
-            const cachedAlbumArtworkPath: string = this.cachedAlbumArtworkGetter.getCachedAlbumArtworkPath(track.albumKey);
+            const cachedAlbumArtworkPath: string = await this.cachedAlbumArtworkGetter.getCachedAlbumArtworkPathAsync(track.albumKey);
 
             if (!StringUtils.isNullOrWhiteSpace(cachedAlbumArtworkPath) && this.fileAccess.pathExists(cachedAlbumArtworkPath)) {
                 return 'file:///' + cachedAlbumArtworkPath;
@@ -108,7 +108,7 @@ export class MetadataService {
 
     public async saveTrackRatingAsync(track: TrackModel): Promise<void> {
         try {
-            this.trackRepository.updateRating(track.id, track.rating);
+            await this.trackRepository.updateRatingAsync(track.id, track.rating);
 
             if (this.settings.saveRatingToAudioFiles && this.fileAccess.getFileExtension(track.path).toLowerCase() === FileFormats.mp3) {
                 const fileMetaData: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
@@ -124,9 +124,9 @@ export class MetadataService {
         }
     }
 
-    public saveTrackLove(track: TrackModel): void {
+    public async saveTrackLoveAsync(track: TrackModel): Promise<void> {
         try {
-            this.trackRepository.updateLove(track.id, track.love);
+            await this.trackRepository.updateLoveAsync(track.id, track.love);
             this.loveSaved.next(track);
         } catch (e: unknown) {
             this.logger.error(e, 'Could not save love', 'MetadataService', 'saveTrackRatingAsync');
@@ -134,8 +134,8 @@ export class MetadataService {
         }
     }
 
-    public getAlbumArtworkPath(albumKey: string): string {
-        return this.cachedAlbumArtworkGetter.getCachedAlbumArtworkPath(albumKey);
+    public async getAlbumArtworkPathAsync(albumKey: string): Promise<string> {
+        return await this.cachedAlbumArtworkGetter.getCachedAlbumArtworkPathAsync(albumKey);
     }
 
     public compareImages(fileMetadatas: IFileMetadata[]): ImageComparisonStatus {
