@@ -13,60 +13,51 @@ import { Track } from '../entities/track';
 import { QueryParts } from '../query-parts';
 import { Constants } from '../../common/application/constants';
 import { TrackRepositoryBase } from './track-repository.base';
+import { PersistentDatabase } from '../persistent-database';
+import { AlbumArtwork } from '../entities/album-artwork';
+import { Statement } from 'sql.js';
+import { Folder } from '../entities/folder';
 
 @Injectable()
 export class TrackRepository implements TrackRepositoryBase {
     public constructor(private databaseFactory: DatabaseFactory) {}
 
-    public getNumberOfTracksThatDoNotBelongFolders(): number {
-        const database: any = this.databaseFactory.create();
+    public async getNumberOfTracksThatDoNotBelongFoldersAsync(): Promise<number> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
+        const result = database.query<{ numberOfTracks: number }>(`SELECT COUNT(*) AS numberOfTracks
+                                                                   FROM Track
+                                                                   WHERE TrackID IN (SELECT TrackID
+                                                                                     FROM FolderTrack
+                                                                                     WHERE FolderID NOT IN (SELECT FolderID FROM Folder));`);
 
-        const statement = database.prepare(`SELECT COUNT(*) AS numberOfTracks
-                                            FROM Track
-                                            WHERE TrackID IN (SELECT TrackID
-                                                              FROM FolderTrack
-                                                              WHERE FolderID NOT IN (SELECT FolderID FROM Folder));`);
-
-        const result: any = statement.get();
-
-        return result.numberOfTracks;
+        return result[0]?.numberOfTracks ?? 0;
     }
 
-    public deleteTracks(trackIds: number[]): void {
-        const database: any = this.databaseFactory.create();
-        database
-            .prepare(
-                `DELETE
+    public async deleteTracksAsync(trackIds: number[]): Promise<void> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
+        database.run(
+            `DELETE
                  FROM Track
                  WHERE ${ClauseCreator.createNumericInClause('TrackID', trackIds)};`,
-            )
-            .run();
+        );
     }
 
-    public getVisibleTracks(): Track[] | undefined {
-        const database: any = this.databaseFactory.create();
+    public async getVisibleTracksAsync(): Promise<Track[] | undefined> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
-        const statement = database.prepare(QueryParts.selectTracksQueryPart(true));
-
-        const tracks: Track[] | undefined = statement.all();
-
-        return tracks;
+        return database.query<Track>(QueryParts.selectTracksQueryPart(true));
     }
 
-    public getTracksForAlbums(albumKeyIndex: string, albumKeys: string[]): Track[] | undefined {
-        const database: any = this.databaseFactory.create();
+    public async getTracksForAlbumsAsync(albumKeyIndex: string, albumKeys: string[]): Promise<Track[] | undefined> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
-        const statement = database.prepare(
+        return database.query<Track>(
             `${QueryParts.selectTracksQueryPart(true)} AND ${ClauseCreator.createTextInClause(`t.AlbumKey${albumKeyIndex}`, albumKeys)}`,
         );
-
-        const tracks: Track[] | undefined = statement.all();
-
-        return tracks;
     }
 
-    public getTracksForTrackArtists(trackArtists: string[]): Track[] | undefined {
-        const database: any = this.databaseFactory.create();
+    public async getTracksForTrackArtistsAsync(trackArtists: string[]): Promise<Track[] | undefined> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
         let filterQuery: string = '';
 
@@ -74,15 +65,11 @@ export class TrackRepository implements TrackRepositoryBase {
             filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.Artists', trackArtists, Constants.columnValueDelimiter)}`;
         }
 
-        const statement = database.prepare(`${QueryParts.selectTracksQueryPart(true)} ${filterQuery};`);
-
-        const tracks: Track[] | undefined = statement.all();
-
-        return tracks;
+        return database.query<Track>(`${QueryParts.selectTracksQueryPart(true)} ${filterQuery};`);
     }
 
-    public getTracksForAlbumArtists(albumArtists: string[]): Track[] | undefined {
-        const database: any = this.databaseFactory.create();
+    public async getTracksForAlbumArtistsAsync(albumArtists: string[]): Promise<Track[] | undefined> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
         let filterQuery: string = '';
 
@@ -90,15 +77,11 @@ export class TrackRepository implements TrackRepositoryBase {
             filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.AlbumArtists', albumArtists, Constants.columnValueDelimiter)}`;
         }
 
-        const statement = database.prepare(`${QueryParts.selectTracksQueryPart(true)} ${filterQuery};`);
-
-        const tracks: Track[] | undefined = statement.all();
-
-        return tracks;
+        return database.query<Track>(`${QueryParts.selectTracksQueryPart(true)} ${filterQuery};`);
     }
 
-    public getTracksForGenres(genres: string[]): Track[] | undefined {
-        const database: any = this.databaseFactory.create();
+    public async getTracksForGenresAsync(genres: string[]): Promise<Track[] | undefined> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
         let filterQuery: string = '';
 
@@ -106,15 +89,11 @@ export class TrackRepository implements TrackRepositoryBase {
             filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.Genres', genres, Constants.columnValueDelimiter)}`;
         }
 
-        const statement = database.prepare(`${QueryParts.selectTracksQueryPart(true)} ${filterQuery};`);
-
-        const tracks: Track[] | undefined = statement.all();
-
-        return tracks;
+        return database.query<Track>(`${QueryParts.selectTracksQueryPart(true)} ${filterQuery};`);
     }
 
-    public getTracksForPaths(paths: string[]): Track[] | undefined {
-        const database: any = this.databaseFactory.create();
+    public async getTracksForPathsAsync(paths: string[]): Promise<Track[] | undefined> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
         let filterQuery: string = '';
 
@@ -122,56 +101,36 @@ export class TrackRepository implements TrackRepositoryBase {
             filterQuery = ` AND ${ClauseCreator.createTextInClause('t.Path', paths)}`;
         }
 
-        const statement = database.prepare(`${QueryParts.selectTracksQueryPart(true)} ${filterQuery};`);
-
-        const tracks: Track[] | undefined = statement.all();
-
-        return tracks;
+        return database.query<Track>(`${QueryParts.selectTracksQueryPart(true)} ${filterQuery};`);
     }
 
-    public getAlbumDataThatNeedsIndexing(albumKeyIndex: string): AlbumData[] | undefined {
-        const database = this.databaseFactory.create();
+    public async getAlbumDataThatNeedsIndexingAsync(albumKeyIndex: string): Promise<AlbumData[] | undefined> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
-        const statement = database.prepare(
-            `${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, false)}
+        return database.query<AlbumData>(`${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, false)}
                 WHERE (t.AlbumKey${albumKeyIndex} IS NOT NULL AND t.AlbumKey${albumKeyIndex} <> ''
                 AND t.AlbumKey${albumKeyIndex} NOT IN (SELECT AlbumKey FROM AlbumArtwork)) OR NeedsAlbumArtworkIndexing=1
-                GROUP BY t.AlbumKey${albumKeyIndex};`,
-        );
-
-        return statement.all();
+                GROUP BY t.AlbumKey${albumKeyIndex};`);
     }
 
-    public getAlbumDataForAlbumKey(albumKeyIndex: string, albumKey: string): AlbumData[] | undefined {
-        const database: any = this.databaseFactory.create();
+    public async getAlbumDataForAlbumKeyAsync(albumKeyIndex: string, albumKey: string): Promise<AlbumData[] | undefined> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
-        const statement = database.prepare(
-            `${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, false)}
+        return database.query<AlbumData>(`${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, false)}
                 WHERE t.AlbumKey${albumKeyIndex} = '${albumKey}'
-                GROUP BY t.AlbumKey${albumKeyIndex};`,
-        );
-
-        const albumData: AlbumData[] | undefined = statement.all();
-
-        return albumData;
+                GROUP BY t.AlbumKey${albumKeyIndex};`);
     }
 
-    public getAllAlbumData(albumKeyIndex: string): AlbumData[] | undefined {
-        const database: any = this.databaseFactory.create();
+    public async getAllAlbumDataAsync(albumKeyIndex: string): Promise<AlbumData[] | undefined> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
-        const statement = database.prepare(
-            `${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, true)}
+        return database.query<AlbumData>(`${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, true)}
                 AND t.AlbumKey IS NOT NULL AND t.AlbumKey <> '' 
-                GROUP BY t.AlbumKey${albumKeyIndex};`,
-        );
-
-        const albumData: AlbumData[] | undefined = statement.all();
-
-        return albumData;
+                GROUP BY t.AlbumKey${albumKeyIndex};`);
     }
 
-    public getAlbumDataForTrackArtists(albumKeyIndex: string, trackArtists: string[]): AlbumData[] | undefined {
-        const database: any = this.databaseFactory.create();
+    public async getAlbumDataForTrackArtistsAsync(albumKeyIndex: string, trackArtists: string[]): Promise<AlbumData[] | undefined> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
         let filterQuery: string = '';
 
@@ -179,17 +138,13 @@ export class TrackRepository implements TrackRepositoryBase {
             filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.Artists', trackArtists, Constants.columnValueDelimiter)}`;
         }
 
-        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, true)} ${filterQuery}
+        return database.query<AlbumData>(`${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, true)} ${filterQuery}
                                                 AND t.AlbumKey IS NOT NULL AND t.AlbumKey <> ''
                                                 GROUP BY t.AlbumKey;`);
-
-        const albumData: AlbumData[] | undefined = statement.all();
-
-        return albumData;
     }
 
-    public getAlbumDataForAlbumArtists(albumKeyIndex: string, albumArtists: string[]): AlbumData[] | undefined {
-        const database: any = this.databaseFactory.create();
+    public async getAlbumDataForAlbumArtistsAsync(albumKeyIndex: string, albumArtists: string[]): Promise<AlbumData[] | undefined> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
         let filterQuery: string = '';
 
@@ -197,17 +152,13 @@ export class TrackRepository implements TrackRepositoryBase {
             filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.AlbumArtists', albumArtists, Constants.columnValueDelimiter)}`;
         }
 
-        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, true)} ${filterQuery}
+        return database.query<AlbumData>(`${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, true)} ${filterQuery}
                                                 AND t.AlbumKey IS NOT NULL AND t.AlbumKey <> ''
                                                 GROUP BY t.AlbumKey;`);
-
-        const albumData: AlbumData[] | undefined = statement.all();
-
-        return albumData;
     }
 
-    public getAlbumDataForGenres(albumKeyIndex: string, genres: string[]): AlbumData[] | undefined {
-        const database: any = this.databaseFactory.create();
+    public async getAlbumDataForGenresAsync(albumKeyIndex: string, genres: string[]): Promise<AlbumData[] | undefined> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
         let filterQuery: string = '';
 
@@ -215,53 +166,34 @@ export class TrackRepository implements TrackRepositoryBase {
             filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.Genres', genres, Constants.columnValueDelimiter)}`;
         }
 
-        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, true)} ${filterQuery}
+        return database.query<AlbumData>(`${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, true)} ${filterQuery}
                                                 AND t.AlbumKey IS NOT NULL AND t.AlbumKey <> '' 
                                                 GROUP BY t.AlbumKey;`);
-
-        const albumData: AlbumData[] | undefined = statement.all();
-
-        return albumData;
     }
 
-    public getTrackArtistData(): ArtistData[] | undefined {
-        const database: any = this.databaseFactory.create();
+    public async getTrackArtistDataAsync(): Promise<ArtistData[] | undefined> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
-        const statement = database.prepare(QueryParts.selectTrackArtistsQueryPart(true));
-
-        const trackArtistData: ArtistData[] | undefined = statement.all();
-
-        return trackArtistData;
+        return database.query<ArtistData>(QueryParts.selectTrackArtistsQueryPart(true));
     }
 
-    public getAlbumArtistData(): ArtistData[] | undefined {
-        const database: any = this.databaseFactory.create();
+    public async getAlbumArtistDataAsync(): Promise<ArtistData[] | undefined> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
-        const statement = database.prepare(QueryParts.selectAlbumArtistsQueryPart(true));
-
-        const albumArtistsData: ArtistData[] | undefined = statement.all();
-
-        return albumArtistsData;
+        return database.query<ArtistData>(QueryParts.selectAlbumArtistsQueryPart(true));
     }
 
-    public getGenreData(): GenreData[] | undefined {
-        const database: any = this.databaseFactory.create();
+    public async getGenreDataAsync(): Promise<GenreData[] | undefined> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
-        const statement = database.prepare(QueryParts.selectGenresQueryPart(true));
-
-        const genres: GenreData[] | undefined = statement.all();
-
-        return genres;
+        return database.query<GenreData>(QueryParts.selectGenresQueryPart(true));
     }
 
-    public updatePlayCountAndDateLastPlayed(trackId: number, playCount: number, dateLastPlayedInTicks: number): void {
-        const database: any = this.databaseFactory.create();
+    public async updatePlayCountAndDateLastPlayedAsync(trackId: number, playCount: number, dateLastPlayedInTicks: number): Promise<void> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
-        const statement = database.prepare(
-            `UPDATE Track
-             SET PlayCount=@playCount,
-                 DateLastPlayed=@dateLastPlayedInTicks
-             WHERE TrackID = @trackId;`,
+        const statement: Statement = database.prepare(
+            'UPDATE Track SET PlayCount=@playCount, DateLastPlayed=@dateLastPlayedInTicks WHERE TrackID = @trackId;',
         );
 
         statement.run({
@@ -269,66 +201,69 @@ export class TrackRepository implements TrackRepositoryBase {
             playCount: playCount,
             dateLastPlayedInTicks: dateLastPlayedInTicks,
         });
+
+        statement.free();
     }
 
-    public updateSkipCount(trackId: number, skipCount: number): void {
-        const database: any = this.databaseFactory.create();
+    public async updateSkipCountAsync(trackId: number, skipCount: number): Promise<void> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
-        const statement = database.prepare(`UPDATE Track
-                                            SET SkipCount=@skipCount
-                                            WHERE TrackID = @trackId;`);
+        const statement: Statement = database.prepare('UPDATE Track SET SkipCount=@skipCount WHERE TrackID = @trackId;');
 
         statement.run({
             trackId: trackId,
             skipCount: skipCount,
         });
+
+        statement.free();
     }
 
-    public updateRating(trackId: number, rating: number): void {
-        const database: any = this.databaseFactory.create();
+    public async updateRatingAsync(trackId: number, rating: number): Promise<void> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
-        const statement = database.prepare(`UPDATE Track
-                                            SET Rating=@rating
-                                            WHERE TrackID = @trackId;`);
+        const statement: Statement = database.prepare('UPDATE Track SET Rating=@rating WHERE TrackID = @trackId;');
 
         statement.run({
             trackId: trackId,
             rating: rating,
         });
+
+        statement.free();
     }
 
-    public updateLove(trackId: number, love: number): void {
-        const database: any = this.databaseFactory.create();
+    public async updateLoveAsync(trackId: number, love: number): Promise<void> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
-        const statement = database.prepare(`UPDATE Track
-                                            SET Love=@love
-                                            WHERE TrackID = @trackId;`);
+        const statement: Statement = database.prepare('UPDATE Track SET Love=@love WHERE TrackID = @trackId;');
 
         statement.run({
             trackId: trackId,
             love: love,
         });
+
+        statement.free();
     }
 
-    public getLastModifiedTrackForAlbumKeyAsync(albumKeyIndex: string, albumKey: string): Track | undefined {
-        const database: any = this.databaseFactory.create();
-        const statement = database.prepare(`${QueryParts.selectTracksQueryPart(false)} WHERE t.AlbumKey${albumKeyIndex}=?;`);
-        return statement.get(albumKey);
+    public async getLastModifiedTrackForAlbumKeyAsync(albumKeyIndex: string, albumKey: string): Promise<Track | undefined> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
+
+        const track: Track[] = database.query<Track>(`${QueryParts.selectTracksQueryPart(false)} WHERE t.AlbumKey${albumKeyIndex}=?;`);
+
+        return track[0] ?? undefined;
     }
 
-    public disableNeedsAlbumArtworkIndexing(albumKey: string): void {
-        const database: any = this.databaseFactory.create();
-        const statement: any = database.prepare(`UPDATE Track
-                                                 SET NeedsAlbumArtworkIndexing=0
-                                                 WHERE AlbumKey = ?;`);
+    public async disableNeedsAlbumArtworkIndexingAsync(albumKey: string): Promise<void> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
+        const statement: any = database.prepare('UPDATE Track SET NeedsAlbumArtworkIndexing=0 WHERE AlbumKey = ?;');
 
         statement.run(albumKey);
+        statement.free();
     }
 
-    public updateTrack(track: Track): void {
-        const database: any = this.databaseFactory.create();
+    public async updateTrackAsync(track: Track): Promise<void> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
-        const statement: any = database.prepare(
+        const statement: Statement = database.prepare(
             `UPDATE Track
              SET Artists=@artists,
                  Genres=@genres,
@@ -406,5 +341,7 @@ export class TrackRepository implements TrackRepositoryBase {
             skipCount: track.skipCount,
             dateLastPlayed: track.dateLastPlayed,
         });
+
+        statement.free();
     }
 }

@@ -3,9 +3,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import { Injectable } from '@angular/core';
-import Database from 'better-sqlite3';
 import { FileAccessBase } from '../common/io/file-access.base';
 import { DesktopBase } from '../common/io/desktop.base';
+import { PersistentDatabase } from './persistent-database';
 
 @Injectable()
 export class DatabaseFactory {
@@ -14,8 +14,8 @@ export class DatabaseFactory {
         private desktop: DesktopBase,
     ) {}
 
-    public create(): any {
+    public async createAsync(): Promise<PersistentDatabase> {
         const databaseFile: string = this.fileAccess.combinePath([this.desktop.getApplicationDataDirectory(), 'Dopamine.db']);
-        return new Database(databaseFile);
+        return await PersistentDatabase.createAsync(databaseFile);
     }
 }

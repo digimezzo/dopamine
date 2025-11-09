@@ -7,15 +7,17 @@ import { Injectable } from '@angular/core';
 import { QueuedTrackRepositoryBase } from './queued-track-repository.base';
 import { DatabaseFactory } from '../database-factory';
 import { QueuedTrack } from '../entities/queued-track';
+import { PersistentDatabase } from '../persistent-database';
+import { Folder } from '../entities/folder';
 
 @Injectable()
 export class QueuedTrackRepository implements QueuedTrackRepositoryBase {
     public constructor(private databaseFactory: DatabaseFactory) {}
 
-    public getSavedQueuedTracks(): QueuedTrack[] | undefined {
-        const database: any = this.databaseFactory.create();
+    public async getSavedQueuedTracksAsync(): Promise<QueuedTrack[] | undefined> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
-        const statement = database.prepare(
+        return database.query<QueuedTrack>(
             `SELECT QueuedTrackID   as queuedTrackId,
                     Path            as path,
                     IsPlaying       as isPlaying,
@@ -24,28 +26,27 @@ export class QueuedTrackRepository implements QueuedTrackRepositoryBase {
              FROM QueuedTrack
              ORDER BY QueuedTrackID;`,
         );
-
-        const queuedTracks: QueuedTrack[] | undefined = statement.all();
-
-        return queuedTracks;
     }
 
-    public saveQueuedTracks(tracks: QueuedTrack[]): void {
-        const database: any = this.databaseFactory.create();
+    public async saveQueuedTracksAsync(tracks: QueuedTrack[]): Promise<void> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
-        database.exec('BEGIN TRANSACTION;');
+        database.beginTransaction();
 
         // First, clear old queued tracks.
-        database.exec('DELETE FROM QueuedTrack;');
+        database.run('DELETE FROM QueuedTrack;');
 
         // Then, insert new queued tracks.
         for (const track of tracks) {
-            const statement = database.prepare(
-                'INSERT INTO QueuedTrack (Path, SafePath, IsPlaying, ProgressSeconds, OrderID) VALUES (?, ?, ?, ?, ?);',
-            );
-            statement.run(track.path, track.path.toLowerCase(), track.isPlaying, track.progressSeconds, track.orderId);
+            database.run('INSERT INTO QueuedTrack (Path, SafePath, IsPlaying, ProgressSeconds, OrderID) VALUES (?, ?, ?, ?, ?);', [
+                track.path,
+                track.path.toLowerCase(),
+                track.isPlaying,
+                track.progressSeconds,
+                track.orderId,
+            ]);
         }
 
-        database.exec('COMMIT;');
+        database.commit();
     }
 }

@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable } from '@angular/core';
 import { Logger } from '../common/logger';
 import { DatabaseFactory } from './database-factory';
@@ -15,6 +10,8 @@ import { Migration4 } from './migrations/migration4';
 import { Migration5 } from './migrations/migration5';
 import { Migration6 } from './migrations/migration6';
 import { Migration7 } from './migrations/migration7';
+import { PersistentDatabase } from './persistent-database';
+import { Statement } from 'sql.js';
 
 @Injectable()
 export class DatabaseMigrator implements DatabaseMigratorBase {
@@ -33,8 +30,8 @@ export class DatabaseMigrator implements DatabaseMigratorBase {
         private logger: Logger,
     ) {}
 
-    public migrate(): void {
-        const databaseVersion: number = this.getDatabaseVersion();
+    public async migrateAsync(): Promise<void> {
+        const databaseVersion: number = await this.getDatabaseVersionAsync();
         const mostRecentMigration: number = this.getMostRecentMigration();
         let migrationsToApply: Migration[] = [];
         let mustRevert: boolean = false;
@@ -50,7 +47,7 @@ export class DatabaseMigrator implements DatabaseMigratorBase {
             migrationsToApply = this.getMigrationsToApply(databaseVersion, true);
         }
 
-        const database: any = this.databaseFactory.create();
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
         if (migrationsToApply.length > 0) {
             this.logger.info(
@@ -75,20 +72,25 @@ export class DatabaseMigrator implements DatabaseMigratorBase {
 
                 this.logger.info(`${migrationAction} ${migration.name}`, 'DatabaseMigrator', 'migrateAsync');
 
-                database.prepare('BEGIN TRANSACTION;').run();
+                database.beginTransaction();
 
                 for (const statement of migration.statements) {
-                    database.prepare(statement).run();
+                    const migrationStatement: Statement = database.prepare(statement);
+                    migrationStatement.run();
+                    migrationStatement.free();
                 }
 
-                database.prepare(`PRAGMA user_version = ${newDatabaseVersion};`).run();
-                database.prepare('COMMIT;').run();
+                const userVersionStatement: Statement = database.prepare(`PRAGMA user_version = ${newDatabaseVersion};`);
+                userVersionStatement.run();
+                userVersionStatement.free();
+
+                database.commit();
 
                 this.logger.info(`Migration ${migration.name} success`, 'DatabaseMigrator', 'migrateAsync');
             } catch (e: unknown) {
                 this.logger.error(e, `Could not perform migration: ${migration.name}`, 'DatabaseMigrator', 'migrateAsync');
 
-                database.prepare('ROLLBACK;').run();
+                database.rollback();
             }
         }
     }
@@ -107,11 +109,10 @@ export class DatabaseMigrator implements DatabaseMigratorBase {
         return sortedMigrations;
     }
 
-    private getDatabaseVersion(): number {
-        const database: any = this.databaseFactory.create();
-        const result = database.prepare('PRAGMA user_version').get();
+    private async getDatabaseVersionAsync(): Promise<number> {
+        const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
-        return result.user_version;
+        return database.getUserVersion();
     }
 
     private getMostRecentMigration(): number {
