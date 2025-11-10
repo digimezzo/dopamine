@@ -66,22 +66,7 @@ const config = {
         artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
     },
     linux: {
-        target: [
-            'AppImage',
-            'deb',
-            'rpm',
-            'pacman',
-            {
-                target: 'snap',
-                arch: ['x64'],
-                options: {
-                    // Set Snap base compatible with your build and users
-                    base: 'core22', // use core22 if you target Ubuntu 22.04 users
-                    grade: 'stable',
-                    confinement: 'strict',
-                },
-            },
-        ],
+        target: ['AppImage', 'deb', 'rpm', 'pacman', 'snap'],
         category: 'Audio',
         artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
         desktop: {
