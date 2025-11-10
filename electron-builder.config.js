@@ -7,8 +7,24 @@ const config = {
         base: 'core22', // Must match build server (currently Ubuntu 22.04)
         grade: 'stable',
         confinement: 'strict',
-        extensions: ['gnome'],
-        plugs: ['home', 'removable-media', 'network', 'opengl'],
+        plugs: ['home', 'removable-media', 'network', 'opengl', 'wayland', 'x11'],
+        stagePackages: [
+            'libgtk-3-0',
+            'libnss3',
+            'libx11-xcb1',
+            'libxtst6',
+            'libxrandr2',
+            'libasound2',
+            'libgbm1',
+            'libxshmfence1',
+            'libgl1-mesa-dri',
+            'libgl1',
+            'libegl1',
+            'fonts-dejavu-core',
+            'fonts-freefont-ttf',
+            'fonts-ubuntu',
+            'fonts-noto-core',
+        ],
     },
     fileAssociations: [
         {
