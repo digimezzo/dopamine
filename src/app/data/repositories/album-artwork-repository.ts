@@ -41,7 +41,7 @@ export class AlbumArtworkRepository implements AlbumArtworkRepositoryBase {
 
     public async deleteAlbumArtworkThatHasNoTrackAsync(albumKeyIndex: string): Promise<number> {
         const database: PersistentDatabase = await this.databaseFactory.createAsync();
-        database.run('DELETE FROM AlbumArtwork WHERE AlbumKey NOT IN (SELECT AlbumKey${albumKeyIndex} FROM Track);');
+        database.run(`DELETE FROM AlbumArtwork WHERE AlbumKey NOT IN (SELECT AlbumKey${albumKeyIndex} FROM Track);`);
 
         return database.getRowsModified();
     }

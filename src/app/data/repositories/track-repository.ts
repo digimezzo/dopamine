@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Injectable } from '@angular/core';
 import { ClauseCreator } from '../clause-creator';
 import { DatabaseFactory } from '../database-factory';
@@ -237,7 +241,7 @@ export class TrackRepository implements TrackRepositoryBase {
         statement.free();
     }
 
-    public async getLastModifiedTrackForAlbumKeyAsync(albumKeyIndex: string, albumKey: string): Promise<Track | undefined> {
+    public async getLastModifiedTrackForAlbumKeyAsync(albumKeyIndex: string): Promise<Track | undefined> {
         const database: PersistentDatabase = await this.databaseFactory.createAsync();
 
         const track: Track[] = database.query<Track>(`${QueryParts.selectTracksQueryPart(false)} WHERE t.AlbumKey${albumKeyIndex}=?;`);
