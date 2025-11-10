@@ -296,6 +296,9 @@ export class TrackRepository implements TrackRepositoryBase {
              WHERE TrackID = @trackId;`,
         );
 
+        // Casting to any because BindParams is a union type that doesn’t allow objects with arbitrary properties.
+        // But our objects include undefined values (e.g., albumTitle?: string | undefined), so TypeScript rejects it
+        // because undefined is not part of that union.
         statement.run({
             trackId: track.trackId,
             artists: track.artists,
