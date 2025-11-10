@@ -7,6 +7,8 @@ const config = {
         base: 'core22', // Must match build server (currently Ubuntu 22.04)
         grade: 'stable',
         confinement: 'strict',
+        extensions: ['gnome'],
+        plugs: ['home', 'removable-media', 'network', 'opengl'],
     },
     fileAssociations: [
         {
