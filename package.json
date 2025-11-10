@@ -63,6 +63,7 @@
         "@types/sql.js": "^1.4.9",
         "@typescript-eslint/eslint-plugin": "5.48.2",
         "@typescript-eslint/parser": "5.48.2",
+        "copy-webpack-plugin": "^13.0.1",
         "core-js": "2.6.1",
         "electron": "^26.6.10",
         "electron-builder": "24.9.1",

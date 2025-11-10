@@ -1,5 +1,6 @@
 import fs from 'fs-extra';
 import initSqlJs, { Database, SqlJsStatic, Statement } from 'sql.js';
+import path from 'path';
 
 /**
  * A persistent SQLite wrapper around sql.js (WASM).
@@ -25,7 +26,9 @@ export class PersistentDatabase {
      */
     public static async createAsync(filePath: string, saveIntervalMs = 10000): Promise<PersistentDatabase> {
         if (!this.SQL) {
-            this.SQL = await initSqlJs();
+            this.SQL = await initSqlJs({
+                locateFile: () => path.join(__dirname, 'sql-wasm.wasm'),
+            });
         }
 
         let db: Database;

@@ -1,3 +1,6 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
+
 module.exports = {
     externals: {
         'better-sqlite3': 'commonjs better-sqlite3',
@@ -21,4 +24,14 @@ module.exports = {
         querystring: 'commonjs querystring',
         url: 'commonjs url',
     },
+    plugins: [
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, 'node_modules/sql.js/dist/sql-wasm.wasm'),
+                    to: path.resolve(__dirname, 'dist'), // or your output directory
+                },
+            ],
+        }),
+    ],
 };
