@@ -6,7 +6,7 @@ const config = {
     snap: {
         base: 'core22', // Must match build server (currently Ubuntu 22.04)
         grade: 'stable',
-        confinement: 'strict',
+        confinement: 'classic',
     },
     fileAssociations: [
         {
