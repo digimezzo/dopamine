@@ -66,18 +66,27 @@ const config = {
         artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
     },
     linux: {
-        target: ['AppImage', 'deb', 'rpm', 'pacman', 'snap'],
+        target: [
+            'AppImage',
+            'deb',
+            'rpm',
+            'pacman',
+            {
+                target: 'snap',
+                arch: ['x64'],
+                options: {
+                    // Set Snap base compatible with your build and users
+                    base: 'core22', // use core22 if you target Ubuntu 22.04 users
+                    grade: 'stable',
+                    confinement: 'strict',
+                },
+            },
+        ],
         category: 'Audio',
         artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
         desktop: {
             Name: 'Dopamine 3',
             Terminal: 'false',
-        },
-        snap: {
-            base: 'core22', // Must match build server (Currently Ubuntu 22.04)
-            grade: 'stable',
-            confinement: 'strict',
-            arch: ['amd64'],
         },
     },
 };
