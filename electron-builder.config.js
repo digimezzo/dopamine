@@ -7,7 +7,7 @@ const config = {
         base: 'core22', // Must match build server (currently Ubuntu 22.04)
         grade: 'stable',
         confinement: 'strict',
-        plugs: ['home', 'network', 'desktop', 'x11', 'fonts'],
+        plugs: ['home', 'network', 'desktop', 'desktop-legacy', 'x11', 'fonts'],
     },
     fileAssociations: [
         {
