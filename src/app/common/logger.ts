@@ -20,8 +20,20 @@ export class Logger {
     }
 
     private formattedMessageWithError(error: unknown, message: string, callerClass: string, callerMethod: string): string {
-        return `[${callerClass}] [${callerMethod}]  ${message.endsWith('.') ? message : message + '.'}${
-            error instanceof Error ? ' Error: ' + error.message : ''
-        }`;
+        const base = `[${callerClass}] [${callerMethod}]  ${message.endsWith('.') ? message : message + '.'}`;
+
+        if (error instanceof Error) {
+            return `${base} Error: ${error.message}\nStack:\n${error.stack ?? ''}`;
+        } else if (typeof error === 'string') {
+            return `${base} Error: ${error}`;
+        } else if (error !== undefined && error !== null) {
+            try {
+                return `${base} Error: ${JSON.stringify(error, undefined, 2)}`;
+            } catch {
+                return `${base} Error: ${String(error)}`;
+            }
+        } else {
+            return base;
+        }
     }
 }
