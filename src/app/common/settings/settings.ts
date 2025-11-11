@@ -23,6 +23,10 @@ export class Settings implements SettingsBase {
         return <string>this.settings.get('language');
     }
 
+    public set language(v: string) {
+        this.settings.set('language', v);
+    }
+
     // albumKeyIndex
     public get albumKeyIndex(): string {
         if (this.cachedAlbumKeyIndex === '-1') {
@@ -44,10 +48,6 @@ export class Settings implements SettingsBase {
         }
 
         this.cachedAlbumKeyIndex = '';
-    }
-
-    public set language(v: string) {
-        this.settings.set('language', v);
     }
 
     // checkForUpdates
