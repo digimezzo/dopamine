@@ -18,8 +18,6 @@ jobs:
               run: sudo apt update
             - name: install rpm and libarchive
               run: sudo apt install rpm libarchive-tools
-            - name: install flatpak dependencies
-              run: sudo apt install flatpak flatpak-builder elfutils
             - name: install dependencies
               run: npm install
             - name: run unit tests
