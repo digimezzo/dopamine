@@ -8,6 +8,20 @@ const config = {
         grade: 'stable',
         confinement: 'classic',
     },
+    flatpak: {
+        // org.freedesktop.Platform is common; pick version that matches your dependencies
+        runtime: 'org.freedesktop.Platform',
+        runtimeVersion: '23.08',
+        sdk: 'org.freedesktop.Sdk',
+
+        // Flatpak permissions
+        finishArgs: ['--share=network', '--socket=pulseaudio', '--filesystem=home', '--device=all'],
+
+        // Optional but recommended
+        branch: 'stable',
+        base: 'org.electronjs.Electron2.BaseApp',
+        baseVersion: '23.08',
+    },
     fileAssociations: [
         {
             name: 'MP3 Files',
@@ -71,7 +85,7 @@ const config = {
         artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
     },
     linux: {
-        target: ['AppImage', 'deb', 'rpm', 'pacman', 'snap'],
+        target: ['AppImage', 'deb', 'rpm', 'pacman', 'snap', 'flatpak'],
         category: 'Audio',
         artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
         desktop: {
