@@ -62,6 +62,13 @@ export class AppComponent implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
+        if (typeof window !== 'undefined') {
+            window.addEventListener('error', (e) => this.logger.warn(`Renderer error: ${e.error as string}`, 'AppComponent', 'ngOnInit'));
+            window.addEventListener('unhandledrejection', (e) =>
+                this.logger.warn(`Renderer rejection: ${e.reason as string}`, 'AppComponent', 'ngOnInit'),
+            );
+        }
+
         if (!AppConfig.production) {
             this.logger.info('Executing integration tests', 'AppComponent', 'ngOnInit');
             // await this.integrationTestRunner.executeTestsAsync();

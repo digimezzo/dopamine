@@ -32,6 +32,14 @@ app.commandLine.appendSwitch('disable-http-cache'); // Disables clearing of the 
 log.create('main');
 log.transports.file.resolvePath = () => path.join(app.getPath('userData'), 'logs', 'Dopamine.log');
 
+process.on('uncaughtException', (err) => {
+    log.error(`Uncaught exception in main process: ${err}`);
+});
+
+process.on('unhandledRejection', (reason) => {
+    log.error(`Unhandled rejection in main process: ${reason}`);
+});
+
 /**
  * Variables
  */
