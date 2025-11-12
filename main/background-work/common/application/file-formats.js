@@ -22,7 +22,7 @@ class FileFormats {
     static m3u = '.m3u';
     static m3u8 = '.m3u8';
 
-    static supportedPlaylistExtensions = [FileFormats.m3u, FileFormats.flac];
+    static supportedPlaylistExtensions = [FileFormats.m3u, FileFormats.m3u8];
 
     // Playlist image extensions
     static png = '.png';
