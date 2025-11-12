@@ -3,10 +3,10 @@
         <div class="d-flex flex-row h-100 w-100">
             <div class="d-flex flex-column">
                 <div class="app-now-playing-artist-info__picture d-flex justify-content-center align-items-center"
-                     [ngClass]="{ 'app-now-playing-artist-info-rounded': !this.settings.useSquareCovers }">
+                     [ngClass]="{ 'app-now-playing-artist-info-rounded': !this.settings.showSquareImages }">
                     <i class="app-now-playing-artist-info__icon las la-user" *ngIf="!this.artist.imageUrl"> </i>
                     <img *ngIf="this.artist.imageUrl" [src]="this.artist.imageUrl" [width]="300" [height]="300"
-                         draggable="false" [ngClass]="{ 'app-now-playing-artist-info-rounded': !this.settings.useSquareCovers }"/>
+                         draggable="false" [ngClass]="{ 'app-now-playing-artist-info-rounded': !this.settings.showSquareImages }"/>
                 </div>
                 <div class="mt-4">
                     <div class="largest" *ngIf="this.artist.name">

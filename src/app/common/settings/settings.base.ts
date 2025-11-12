@@ -85,5 +85,5 @@ export abstract class SettingsBase {
     public abstract coverPlayerPosition: string;
     public abstract useGaplessPlayback: boolean;
     public abstract jumpToPlayingSong: boolean;
-    public abstract useSquareCovers: boolean;
+    public abstract showSquareImages: boolean;
 }

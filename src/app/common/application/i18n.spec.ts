@@ -326,8 +326,8 @@ describe('validate i18n', () => {
         'year',
         'yes',
         'gripes',
-        'for-those-that-are-not-happy',
-        'stop-removing-cover-information',
+        'images',
+        'i-prefer-square-images',
     ].sort();
 
     Constants.languages.forEach((language) => {

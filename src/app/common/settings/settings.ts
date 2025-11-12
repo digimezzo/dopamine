@@ -23,6 +23,10 @@ export class Settings implements SettingsBase {
         return <string>this.settings.get('language');
     }
 
+    public set language(v: string) {
+        this.settings.set('language', v);
+    }
+
     // albumKeyIndex
     public get albumKeyIndex(): string {
         if (this.cachedAlbumKeyIndex === '-1') {
@@ -44,10 +48,6 @@ export class Settings implements SettingsBase {
         }
 
         this.cachedAlbumKeyIndex = '';
-    }
-
-    public set language(v: string) {
-        this.settings.set('language', v);
     }
 
     // checkForUpdates
@@ -800,13 +800,13 @@ export class Settings implements SettingsBase {
         this.settings.set('jumpToPlayingSong', v);
     }
 
-    // useSquareCovers
-    public get useSquareCovers(): boolean {
-        return <boolean>this.settings.get('useSquareCovers');
+    // showSquareImages
+    public get showSquareImages(): boolean {
+        return <boolean>this.settings.get('showSquareImages');
     }
 
-    public set useSquareCovers(v: boolean) {
-        this.settings.set('useSquareCovers', v);
+    public set showSquareImages(v: boolean) {
+        this.settings.set('showSquareImages', v);
     }
 
     // Initialize
@@ -1143,8 +1143,8 @@ export class Settings implements SettingsBase {
             this.settings.set('jumpToPlayingSong', true);
         }
 
-        if (!this.settings.has('useSquareCovers')) {
-            this.settings.set('useSquareCovers', false);
+        if (!this.settings.has('showSquareImages')) {
+            this.settings.set('showSquareImages', false);
         }
     }
 }
