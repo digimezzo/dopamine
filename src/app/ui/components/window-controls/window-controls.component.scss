@@ -5,3 +5,11 @@
     flex-direction: row;
     height: 100%;
 }
+
+@media (min-width: 600px) and (max-width: 1100px) {
+    .window-controls {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+}
