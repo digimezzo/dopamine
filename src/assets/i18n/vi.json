@@ -88,7 +88,7 @@
     "yes": "Đồng ý",
     "no": "Không",
     "ok": "OK",
-    "view-log": "Xem tập tin log",
+    "view-log": "Xem tệp log",
     "refresh-now": "Làm mới ngay",
     "refresh-all": "Làm mới tất cả",
     "refresh-missing": "Làm mới album còn thiếu",
@@ -321,6 +321,6 @@
     "follow-song": "Theo dõi bài hát",
     "jump-to-playing-song": "Tự động cuộn đến bài đang phát",
     "gripes": "Những lời phàn nàn",
-    "images": "Images",
-    "i-prefer-square-images": "I prefer square images"
+    "images": "Ảnh",
+    "i-prefer-square-images": "Tôi thích ảnh vuông"
 }
