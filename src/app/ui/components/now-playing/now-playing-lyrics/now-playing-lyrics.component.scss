@@ -1,37 +1,51 @@
 @import 'colors';
 
 .app-now-playing-lyrics {
-    padding: 120px;
-    display: flex;
-    flex-direction: row;
-    height: 100%;
-    width: 100%;
+  padding: 120px;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
 }
 
 .app-now-playing-lyrics__picture {
-    box-shadow:
-        0 4px 8px 0 rgba(0, 0, 0, 0.2),
-        0 6px 20px 0 rgba(0, 0, 0, 0.2);
+  box-shadow:
+          0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.2);
 }
 
 .app-now-playing-lyrics__spinner {
-    display: flex;
-    flex: 1;
-    margin-left: 50px;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex: 1;
+  margin-left: 50px;
+  justify-content: center;
+  align-items: center;
 }
 
 .app-now-playing-lyrics__text {
-    display: flex;
-    flex: 1;
     margin-left: 50px;
     overflow-y: auto;
-    overflow-x: hidden;
 }
 
 .app-now-playing-lyrics__playback-info {
-    width: 300px;
+  width: 300px;
+}
+
+.rich-contain {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: scroll;
+}
+
+.rich-side {
+  text-wrap: wrap;
+  line-height: normal;
+  margin: 0;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 10%;
 }
 
 .app-now-playing-lyrics__icon {
@@ -42,4 +56,17 @@
     height: 300px;
     justify-content: center;
     align-items: center;
+}
+
+.rich-main {
+  padding: 10% 0;
+  margin: 0;
+  width: fit-content;
+  max-width: 100%;
+  text-wrap: nowrap;
+  line-height: normal;
+  background-image: linear-gradient(to right, var(--theme-secondary-color) 0%, var(--theme-highlight-foreground) 1%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  overflow-x: scroll;
 }

@@ -808,6 +808,33 @@ export class Settings implements SettingsBase {
         this.set('useGaplessPlayback', v);
     }
 
+    // showRichLyrics
+    public get showRichLyrics(): boolean {
+        return <boolean>this.settings.get('showRichLyrics');
+    }
+
+    public set showRichLyrics(v: boolean) {
+        this.settings.set('showRichLyrics', v);
+    }
+
+    // richLyricsLineCount
+    public get richLyricsLineCount(): number {
+        return <number>this.settings.get('richLyricsLineCount');
+    }
+
+    public set richLyricsLineCount(v: number) {
+        this.settings.set('richLyricsLineCount', v)
+    }
+
+    // richLyricsFontSize
+    public get richLyricsFontSize(): number {
+        return <number>this.settings.get('richLyricsFontSize');
+    }
+
+    public set richLyricsFontSize(v: number) {
+        this.settings.set('richLyricsFontSize', v);
+    }
+
     // jumpToPlayingSong
     public get jumpToPlayingSong(): boolean {
         return this.get<boolean>('jumpToPlayingSong');
