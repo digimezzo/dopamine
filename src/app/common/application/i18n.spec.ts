@@ -325,6 +325,9 @@ describe('validate i18n', () => {
         'which-pages-should-be-visible',
         'year',
         'yes',
+        'gripes',
+        'images',
+        'i-prefer-square-images',
     ].sort();
 
     Constants.languages.forEach((language) => {

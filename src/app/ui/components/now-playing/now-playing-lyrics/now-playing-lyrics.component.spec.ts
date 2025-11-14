@@ -11,6 +11,7 @@ import { LyricsSourceType } from '../../../../common/api/lyrics/lyrics-source-ty
 import { PlaybackInformationService } from '../../../../services/playback-information/playback-information.service';
 import { PlaybackService } from '../../../../services/playback/playback.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 describe('NowPlayingLyricsComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
@@ -18,6 +19,7 @@ describe('NowPlayingLyricsComponent', () => {
     let lyricsServiceMock: IMock<LyricsServiceBase>;
     let playbackServiceMock: IMock<PlaybackService>;
     let cdMock: IMock<ChangeDetectorRef>;
+    let settingsMock: IMock<SettingsBase>;
 
     let playbackInformationService_playingNextTrack_Mock: Subject<PlaybackInformation>;
     let playbackInformationService_playingPreviousTrack_Mock: Subject<PlaybackInformation>;
@@ -29,6 +31,7 @@ describe('NowPlayingLyricsComponent', () => {
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         playbackInformationServiceMock = Mock.ofType<PlaybackInformationService>();
         lyricsServiceMock = Mock.ofType<LyricsServiceBase>();
+        settingsMock = Mock.ofType<SettingsBase>();
 
         playbackInformationService_playingNextTrack_Mock = new Subject();
         playbackInformationService_playingPreviousTrack_Mock = new Subject();
@@ -49,7 +52,7 @@ describe('NowPlayingLyricsComponent', () => {
     });
 
     function createComponent(): NowPlayingLyricsComponent {
-        return new NowPlayingLyricsComponent(appearanceServiceMock.object, playbackServiceMock.object, playbackInformationServiceMock.object, lyricsServiceMock.object, cdMock.object);
+        return new NowPlayingLyricsComponent(appearanceServiceMock.object, playbackServiceMock.object, playbackInformationServiceMock.object, lyricsServiceMock.object, cdMock.object, settingsMock.object);
     }
 
     describe('constructor', () => {

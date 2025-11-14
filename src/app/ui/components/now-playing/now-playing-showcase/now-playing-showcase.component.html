@@ -1,7 +1,7 @@
 <div class="app-now-playing-showcase">
     <div class="app-now-playing-showcase__song">
         <div class="app-now-playing-showcase__cover">
-            <app-playback-cover-art [size]="coverArtSize" [borderRadius]="10"></app-playback-cover-art>
+            <app-playback-cover-art [size]="coverArtSize" [borderRadius]="this.settings.showSquareImages ? 0 : 10"></app-playback-cover-art>
         </div>
 
         <div class="app-now-playing-showcase__songinfo" [style.height.px]="coverArtSize">

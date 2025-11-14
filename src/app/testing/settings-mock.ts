@@ -3,6 +3,9 @@ import { SettingsBase } from '../common/settings/settings.base';
 export class SettingsMock implements SettingsBase {
     public albumKeyIndexMock: string = '';
 
+    public async initializeAsync(): Promise<void> {
+        return Promise.resolve();
+    }
     public albumsDefinedByFolders: boolean;
     public albumsDefinedByTitle: boolean;
     public albumsDefinedByTitleAndArtist: boolean;
@@ -90,6 +93,7 @@ export class SettingsMock implements SettingsBase {
     public richLyricsLineCount: number;
     public richLyricsFontSize: number;
     public jumpToPlayingSong: boolean;
+    public showSquareImages: boolean;
 
     public get albumKeyIndex(): string {
         return this.albumKeyIndexMock;

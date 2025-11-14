@@ -1,6 +1,7 @@
 export abstract class SettingsBase {
     public abstract get defaultLanguage(): string;
     public abstract get albumKeyIndex(): string;
+    public abstract initializeAsync(): Promise<void>;
     public abstract language: string;
     public abstract checkForUpdates: boolean;
     public abstract checkForUpdatesIncludesPreReleases: boolean;
@@ -88,4 +89,5 @@ export abstract class SettingsBase {
     public abstract richLyricsLineCount: number;
     public abstract richLyricsFontSize: number;
     public abstract jumpToPlayingSong: boolean;
+    public abstract showSquareImages: boolean;
 }

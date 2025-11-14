@@ -1,6 +1,7 @@
 <div class="app-now-playing-lyrics">
     <div class="d-flex flex-column">
-        <app-playback-cover-art class="app-now-playing-lyrics__picture" [size]="300" [borderRadius]="10"></app-playback-cover-art>
+        <app-playback-cover-art class="app-now-playing-lyrics__picture" [size]="300" 
+                                [borderRadius]="this.settings.showSquareImages ? 0 : 10"></app-playback-cover-art>
         <div class="mt-3 mx-1">
             <div class="secondary-text d-flex align-items-center" *ngIf="this.lyrics?.sourceType === lyricsSourceTypeEnum.none">
                 {{ 'no-lyrics' | translate }}<i class="secondary-text las la-frown ml-1"></i>

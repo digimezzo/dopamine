@@ -6,8 +6,8 @@
             </div>
         </div>
 
-        <div class="app-album-border" [ngClass]="{ 'selected-item-background-important': this.isSelected }" matRipple>
-            <div class="app-album__cover">
+        <div class="app-album-border" [ngClass]="{ 'selected-item-background-important': this.isSelected, 'app-album-rounded': !this.settings.showSquareImages }" matRipple>
+            <div class="app-album__cover" [ngClass]="{ 'app-album-rounded': !this.settings.showSquareImages }">
                 <div class="app-album__cover__placeholder">
                     <svg width="256" height="256" viewBox="0 0 256 256">
                         <defs>
@@ -26,6 +26,7 @@
                 <div>
                     <img
                         class="app-album__image"
+                        [ngClass]="{ 'app-album-rounded': !this.settings.showSquareImages }"
                         [attr.src]="album.artworkPath"
                         width="120"
                         height="120"

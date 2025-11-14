@@ -14,7 +14,7 @@ export class AlbumAccentColorService {
         const albumArtworkPath: string = this.metadataService.getAlbumArtworkPath(albumKey);
 
         try {
-            const palette = await Vibrant.from(albumArtworkPath).getPalette();
+            const palette = await Vibrant.from(`file://${albumArtworkPath}`).getPalette();
             return palette.Vibrant?.getHex() ?? '';
         } catch (e) {
             this.logger.error(e, 'Could not extract accent color from album cover', 'AlbumAccentColorService', 'getAlbumAccentColorAsync');

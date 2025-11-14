@@ -10,6 +10,7 @@ import { LyricsServiceBase } from '../../../../services/lyrics/lyrics.service.ba
 import { StringUtils } from '../../../../common/utils/string-utils';
 import { PlaybackInformationService } from '../../../../services/playback-information/playback-information.service';
 import { PlaybackService } from '../../../../services/playback/playback.service';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-now-playing-lyrics',
@@ -38,6 +39,7 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
         private playbackInformationService: PlaybackInformationService,
         private lyricsService: LyricsServiceBase,
         private cd: ChangeDetectorRef,
+        public settings: SettingsBase,
     ) {}
 
     public lyricsSourceTypeEnum: typeof LyricsSourceType = LyricsSourceType;

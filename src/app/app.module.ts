@@ -296,6 +296,7 @@ import { EditTracksDialogComponent } from './ui/components/dialogs/edit-tracks-d
 import { InfoDialogComponent } from './ui/components/dialogs/info-dialog/info-dialog.component';
 import { IterableMenuComponent } from './ui/components/common/iterable-menu.component';
 import { SrtLyricsGetter } from './services/lyrics/srt-lyrics-getter';
+import { GripesSettingsComponent } from './ui/components/settings/gripes-settings/gripes-settings.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -332,11 +333,18 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         });
 }
 
+export function settingsInitializerFactory(settings: SettingsBase) {
+    return async () => {
+        await settings.initializeAsync();
+    };
+}
+
 @NgModule({
     declarations: [
         AppComponent,
         WebviewDirective,
         CdkVirtualScrollViewportPatchDirective,
+        GripesSettingsComponent,
         WelcomeComponent,
         CollectionComponent,
         WindowControlsComponent,
@@ -598,6 +606,12 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: EventListenerServiceBase, useClass: EventListenerService },
         { provide: AudioVisualizerServiceBase, useClass: AudioVisualizerService },
         { provide: SettingsBase, useClass: Settings },
+        {
+            provide: APP_INITIALIZER,
+            useFactory: settingsInitializerFactory,
+            deps: [SettingsBase],
+            multi: true,
+        },
         { provide: DatabaseMigratorBase, useClass: DatabaseMigrator },
         { provide: SchedulerBase, useClass: Scheduler },
         { provide: ApplicationBase, useClass: Application },

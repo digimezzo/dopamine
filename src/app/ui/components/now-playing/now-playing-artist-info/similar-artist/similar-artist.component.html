@@ -1,13 +1,15 @@
 <div
-    class="similar-artist__picture pointer"
-    (click)="this.similarArtist.browseToUrlAsync()"
-    matTooltip="{{ 'read-more-on-lastfm' | translate }}"
+        class="similar-artist__picture pointer"
+        (click)="this.similarArtist.browseToUrlAsync()"
+        matTooltip="{{ 'read-more-on-lastfm' | translate }}"
+        [ngClass]="{ 'similar-artist-rounded': !this.settings.showSquareImages }"
 >
     <div class="similar-artist__picture--logo">
         <i class="las la-user"> </i>
     </div>
     <div class="similar-artist__picture--content">
-        <img *ngIf="this.similarArtist.imageUrl" [src]="this.similarArtist.imageUrl" [width]="120" [height]="120" draggable="false" />
+        <img *ngIf="this.similarArtist.imageUrl" [src]="this.similarArtist.imageUrl" [width]="120" [height]="120"
+             draggable="false" [ngClass]="{ 'similar-artist-rounded': !this.settings.showSquareImages }"/>
     </div>
     <div class="similar-artist__picture--name">
         <p>{{ this.similarArtist.name }}</p>
