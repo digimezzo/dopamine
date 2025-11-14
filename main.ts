@@ -8,9 +8,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/ban-types */
 import { app, BrowserWindow, ipcMain, Menu, nativeTheme, protocol, Tray } from 'electron';
 import log from 'electron-log';
-import * as Store from 'electron-store';
 import * as path from 'path';
 import * as url from 'url';
 import { Worker } from 'worker_threads';
@@ -18,6 +18,7 @@ import { DiscordApi } from './main/api/discord/discord-api';
 import { SensitiveInformation } from './main/common/application/sensitive-information';
 import { DiscordApiCommand } from './main/api/discord/discord-api-command';
 import { DiscordApiCommandType } from './main/api/discord/discord-api-command-type';
+import { SettingsStore } from './main/common/settings/settings-store';
 
 /**
  * Command line parameters
@@ -25,6 +26,11 @@ import { DiscordApiCommandType } from './main/api/discord/discord-api-command-ty
 app.commandLine.appendSwitch('disable-color-correct-rendering'); // Prevents incorrect color rendering
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required'); // Prevents requiring user interaction to play audio
 app.commandLine.appendSwitch('disable-http-cache'); // Disables clearing of the cache folder at each startup
+
+/**
+ * Settings
+ */
+const settings = new SettingsStore();
 
 /**
  * Logging
@@ -36,7 +42,6 @@ log.transports.file.resolvePath = () => path.join(app.getPath('userData'), 'logs
  * Variables
  */
 const globalAny: any = global; // Global does not allow setting custom properties. We need to cast it to "any" first.
-const settings: Store<any> = new Store();
 const args: string[] = process.argv.slice(1);
 const isServing: boolean = args.some((val) => val === '--serve');
 const discordApi = new DiscordApi(SensitiveInformation.discordClientId);
@@ -75,10 +80,6 @@ function debounce(func: Function, wait: number) {
 }
 
 function windowHasFrame(): boolean {
-    if (!settings.has('useSystemTitleBar')) {
-        settings.set('useSystemTitleBar', false);
-    }
-
     return settings.get('useSystemTitleBar');
 }
 
@@ -91,7 +92,7 @@ function isWindows(): boolean {
 }
 
 function titleBarStyle(): 'hiddenInset' | 'default' {
-    if (settings.get('useSystemTitleBar')) {
+    if (settings.get<boolean>('useSystemTitleBar')) {
         return 'default';
     }
     // makes traffic lights visible on macOS
@@ -102,26 +103,14 @@ function titleBarStyle(): 'hiddenInset' | 'default' {
 }
 
 function shouldShowIconInNotificationArea(): boolean {
-    if (!settings.has('showIconInNotificationArea')) {
-        settings.set('showIconInNotificationArea', true);
-    }
-
     return settings.get('showIconInNotificationArea');
 }
 
 function shouldMinimizeToNotificationArea(): boolean {
-    if (!settings.has('minimizeToNotificationArea')) {
-        settings.set('minimizeToNotificationArea', false);
-    }
-
     return settings.get('minimizeToNotificationArea');
 }
 
 function shouldCloseToNotificationArea(): boolean {
-    if (!settings.has('closeToNotificationArea')) {
-        settings.set('closeToNotificationArea', false);
-    }
-
     return settings.get('closeToNotificationArea');
 }
 
@@ -151,18 +140,6 @@ function getTrayIcon(): string {
 
 function setInitialWindowState(mainWindow: BrowserWindow): void {
     try {
-        if (!settings.has('playerType')) {
-            settings.set('playerType', 'full');
-        }
-
-        if (!settings.has('fullPlayerPositionSizeMaximized')) {
-            settings.set('fullPlayerPositionSizeMaximized', '50;50;1000;650;0');
-        }
-
-        if (!settings.has('coverPlayerPosition')) {
-            settings.set('coverPlayerPosition', '50;50');
-        }
-
         let windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
 
         if (settings.get('playerType') === 'cover') {
@@ -194,7 +171,7 @@ function setInitialWindowState(mainWindow: BrowserWindow): void {
         settings.set('playerType', 'full');
         settings.set('fullPlayerPositionSizeMaximized', '50;50;1000;650;0');
         settings.set('coverPlayerPosition', '50;50');
-        let windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
+        const windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
         const windowPositionSizeMaximized: number[] = windowPositionSizeMaximizedAsString.split(';').map(Number);
         mainWindow.setPosition(windowPositionSizeMaximized[0], windowPositionSizeMaximized[1]);
         mainWindow.setSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
@@ -351,7 +328,7 @@ function createMainWindow(): void {
     mainWindow.on('maximize', (event: any) => {
         if (mainWindow) {
             if (settings.get('playerType') === 'full') {
-                let windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
+                const windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
                 const windowPositionSizeMaximized: number[] = windowPositionSizeMaximizedAsString.split(';').map(Number);
                 console.log(windowPositionSizeMaximized);
                 settings.set(
@@ -625,6 +602,9 @@ try {
                 discordApi.clearPresence();
             }
         });
+
+        ipcMain.handle('settings:getAll', () => settings.getAll());
+        ipcMain.handle('settings:set', (_, key: string, value: any) => settings.set(key, value));
     }
 } catch (e) {
     log.error(`[Main] [Main] Could not start. Error: ${e.message}`);

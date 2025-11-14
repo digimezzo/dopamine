@@ -332,6 +332,12 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         });
 }
 
+export function settingsInitializerFactory(settings: SettingsBase) {
+    return async () => {
+        await settings.initializeAsync();
+    };
+}
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -598,6 +604,12 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: EventListenerServiceBase, useClass: EventListenerService },
         { provide: AudioVisualizerServiceBase, useClass: AudioVisualizerService },
         { provide: SettingsBase, useClass: Settings },
+        {
+            provide: APP_INITIALIZER,
+            useFactory: settingsInitializerFactory,
+            deps: [SettingsBase],
+            multi: true,
+        },
         { provide: DatabaseMigratorBase, useClass: DatabaseMigrator },
         { provide: SchedulerBase, useClass: Scheduler },
         { provide: ApplicationBase, useClass: Application },
