@@ -4,7 +4,7 @@
 
 Dopamine is an elegant audio player which tries to make organizing and listening to music as simple and pretty as possible. This version is written using Electron, Angular and Typescript and works on Windows, Linux and Mac.
 
-<iframe src="https://snapcraft.io/dopamine/embedded?button=black&channels=true" frameborder="0" width="100%" height="400px" style="border: 1px solid #CCC; border-radius: 2px;"></iframe>
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/dopamine)
 
 The original Dopamine (for Windows), which is written in WPF and C#, remains available <a href="https://github.com/digimezzo/dopamine-windows">here</a>.
 
