@@ -5,6 +5,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.0.1] - 2025-11-25
 
+### Added
+
+### Changed
+
+-   Updated Swedish translation
+
+### Fixed
+
+-   m3u8 playlists are not recognized
+
 ## [3.0.0] - 2025-11-06
 
 First release!
