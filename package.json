@@ -1,6 +1,6 @@
 {
     "name": "Dopamine",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "versionSuffix": "",
     "copyright": "Copyright Digimezzo Ⓒ 2014 - 2025",
     "description": "Audio player",
@@ -91,7 +91,6 @@
         "cheerio": "1.0.0-rc.12",
         "discord-rpc": "4.0.1",
         "electron-log": "4.4.8",
-        "electron-store": "8.1.0",
         "fast-sort": "^3.4.1",
         "fast-xml-parser": "4.3.2",
         "fs-extra": "11.1.1",
