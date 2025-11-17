@@ -810,29 +810,29 @@ export class Settings implements SettingsBase {
 
     // showRichLyrics
     public get showRichLyrics(): boolean {
-        return <boolean>this.settings.get('showRichLyrics');
+        return this.get<boolean>('showRichLyrics');
     }
 
     public set showRichLyrics(v: boolean) {
-        this.settings.set('showRichLyrics', v);
+        this.set('showRichLyrics', v);
     }
 
     // richLyricsLineCount
     public get richLyricsLineCount(): number {
-        return <number>this.settings.get('richLyricsLineCount');
+        return this.get<number>('richLyricsLineCount');
     }
 
     public set richLyricsLineCount(v: number) {
-        this.settings.set('richLyricsLineCount', v)
+        this.set('richLyricsLineCount', v)
     }
 
     // richLyricsFontSize
     public get richLyricsFontSize(): number {
-        return <number>this.settings.get('richLyricsFontSize');
+        return this.get<number>('richLyricsFontSize');
     }
 
     public set richLyricsFontSize(v: number) {
-        this.settings.set('richLyricsFontSize', v);
+        this.set('richLyricsFontSize', v);
     }
 
     // jumpToPlayingSong
