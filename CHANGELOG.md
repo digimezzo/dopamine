@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 -   m3u8 playlists are not recognized
+-   Ratings were not read from files
 
 ## [3.0.0] - 2025-11-06
 
