@@ -36,24 +36,46 @@ export class RatingComponent {
         return this._track;
     }
 
-    public get star1Classes(): string {
-        return this._track.rating >= 1 ? 'fas fa-star accent-color-important' : 'far fa-star secondary-text';
+    public stars = [1, 2, 3, 4, 5];
+
+    public async onStarClickAsync(event: MouseEvent, starIndex: number): Promise<void> {
+        const target = event.currentTarget as HTMLElement;
+        const rect = target.getBoundingClientRect();
+        const clickX = event.clientX - rect.left;
+        const half = clickX < rect.width / 2; // left = half star
+
+        // Each star = 2 points
+        // star 1 → 0–2
+        // star 2 → 2–4 ...
+        let newRating = (starIndex - 1) * 2 + (half ? 1 : 2);
+
+        // Clicking same rating again resets to 0
+        if (this._track.rating === newRating) {
+            newRating = 0;
+        }
+
+        await this.setRatingAsync(newRating);
     }
 
-    public get star2Classes(): string {
-        return this._track.rating >= 2 ? 'fas fa-star accent-color-important' : 'far fa-star secondary-text';
-    }
+    public getStarClass(starIndex: number): string {
+        if (this._track == undefined) {
+            return 'far fa-star secondary-text';
+        }
 
-    public get star3Classes(): string {
-        return this._track.rating >= 3 ? 'fas fa-star accent-color-important' : 'far fa-star secondary-text';
-    }
+        const rating = this._track.rating;
 
-    public get star4Classes(): string {
-        return this._track.rating >= 4 ? 'fas fa-star accent-color-important' : 'far fa-star secondary-text';
-    }
+        const fullValue = starIndex * 2; // 2,4,6,8,10
+        const halfValue = fullValue - 1; // 1,3,5,7,9
 
-    public get star5Classes(): string {
-        return this._track.rating >= 5 ? 'fas fa-star accent-color-important' : 'far fa-star secondary-text';
+        if (rating >= fullValue) {
+            return 'fas fa-star accent-color-important'; // full
+        }
+
+        if (rating === halfValue) {
+            return 'fas fa-star-half-alt accent-color-important'; // half
+        }
+
+        return 'far fa-star secondary-text'; // empty
     }
 
     public async setRatingAsync(rating: number): Promise<void> {

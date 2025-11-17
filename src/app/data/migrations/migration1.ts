@@ -90,17 +90,4 @@ export class Migration1 extends Migration {
 
         this.sql('CREATE INDEX TrackStatisticSafePathIndex ON TrackStatistic(SafePath);');
     }
-
-    public down(): void {
-        this.sql('DROP TABLE Folder;');
-        this.sql('DROP TABLE Track;');
-        this.sql('DROP INDEX TrackPathIndex;');
-        this.sql('DROP INDEX TrackSafePathIndex;');
-        this.sql('DROP TABLE AlbumArtwork;');
-        this.sql('DROP TABLE FolderTrack;');
-        this.sql('DROP TABLE RemovedTrack;');
-        this.sql('DROP TABLE QueuedTrack;');
-        this.sql('DROP TABLE TrackStatistic;');
-        this.sql('DROP INDEX TrackStatisticSafePathIndex;');
-    }
 }

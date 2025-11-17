@@ -7,8 +7,4 @@ export class Migration7 extends Migration {
     public up(): void {
         this.sql('UPDATE Track SET NeedsIndexing=1;');
     }
-
-    public down(): void {
-        // Nothing to do
-    }
 }

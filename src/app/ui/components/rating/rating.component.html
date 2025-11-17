@@ -1,38 +1,12 @@
 <div class="d-flex flex-row">
-    <div class="w-4px pointer" (click)="this.setRatingAsync(0)"></div>
+    <div class="w-4px pointer" (click)="setRatingAsync(0)"></div>
+
     <div
-        class="pointer"
-        [ngClass]="this.star1Classes"
-        (click)="this.setRatingAsync(1)"
-        [style.font-size.px]="fontSize * 0.9"
-        [style.line-height]="lineHeight * 0.9"
-    ></div>
-    <div
-        class="pointer"
-        [ngClass]="this.star2Classes"
-        (click)="this.setRatingAsync(2)"
-        [style.font-size.px]="fontSize * 0.9"
-        [style.line-height]="lineHeight * 0.9"
-    ></div>
-    <div
-        class="pointer"
-        [ngClass]="this.star3Classes"
-        (click)="this.setRatingAsync(3)"
-        [style.font-size.px]="fontSize * 0.9"
-        [style.line-height]="lineHeight * 0.9"
-    ></div>
-    <div
-        class="pointer"
-        [ngClass]="this.star4Classes"
-        (click)="this.setRatingAsync(4)"
-        [style.font-size.px]="fontSize * 0.9"
-        [style.line-height]="lineHeight * 0.9"
-    ></div>
-    <div
-        class="pointer"
-        [ngClass]="this.star5Classes"
-        (click)="this.setRatingAsync(5)"
-        [style.font-size.px]="fontSize * 0.9"
-        [style.line-height]="lineHeight * 0.9"
+            class="pointer"
+            *ngFor="let star of stars; index as i"
+            [ngClass]="getStarClass(i + 1)"
+            (click)="onStarClickAsync($event, i + 1)"
+            [style.font-size.px]="fontSize * 0.9"
+            [style.line-height]="lineHeight * 0.9"
     ></div>
 </div>
