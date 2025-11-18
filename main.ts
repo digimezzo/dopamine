@@ -199,14 +199,10 @@ function createMainWindow(): void {
             webSecurity: false,
             nodeIntegration: true,
             contextIsolation: false,
+            devTools: !app.isPackaged,
         },
         show: false,
     });
-
-    // Only allow opening of Developer tools in debug
-    if (!isServing) {
-        mainWindow.webContents.openDevTools(false);
-    }
 
     setInitialWindowState(mainWindow);
 
