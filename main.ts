@@ -205,7 +205,7 @@ function createMainWindow(): void {
 
     // Only allow opening of Developer tools in debug
     if (!isServing) {
-        mainWindow.webContents.openDevTools();
+        mainWindow.webContents.openDevTools(false);
     }
 
     setInitialWindowState(mainWindow);
