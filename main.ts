@@ -203,6 +203,11 @@ function createMainWindow(): void {
         show: false,
     });
 
+    // Only allow opening of Developer tools in debug
+    if (!isServing) {
+        mainWindow.webContents.openDevTools();
+    }
+
     setInitialWindowState(mainWindow);
 
     remoteMain.enable(mainWindow.webContents);
