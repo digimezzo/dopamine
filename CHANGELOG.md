@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   m3u8 playlists are not recognized
 -   Ratings are not read from files
+-   Developer console opens when pressing F12
 
 ## [3.0.0] - 2025-11-06
 
