@@ -88,7 +88,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     public play(track: TrackModel): void {
         this._currentTrack = track;
         const playableAudioFilePath: string = this.replaceUnplayableCharacters(track.path);
-        this.loadAudioWithWebAudioAsync(playableAudioFilePath, false);
+        this.loadAudioWithWebAudio(playableAudioFilePath, false);
 
         this._tempAudio = new Audio();
         this._tempAudio.volume = 0;
@@ -150,7 +150,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     public preloadNext(track: TrackModel): void {
         this._preloadedTrack = track;
         const playableAudioFilePath: string = this.replaceUnplayableCharacters(track.path);
-        this.loadAudioWithWebAudioAsync(playableAudioFilePath, true);
+        this.loadAudioWithWebAudio(playableAudioFilePath, true);
     }
 
     private async fetchAudioFile(url: string): Promise<Blob> {
@@ -220,7 +220,9 @@ export class GaplessAudioPlayer implements IAudioPlayer {
                 this.skipSecondsAfterStarting = 0;
                 this._gainNode.gain.setValueAtTime(this._lastSetLogarithmicVolume, 0);
             }
-        } catch (error) {}
+        } catch (e) {
+            this.logger.error(e, `Could not play with web audio`, 'GaplessAudioPlayer', 'playWebAudio');
+        }
     }
 
     private transitionToNextBuffer(): void {
@@ -234,7 +236,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         this.playWebAudio(0);
     }
 
-    private async loadAudioWithWebAudioAsync(audioFilePath: string, preload: boolean): Promise<void> {
+    private loadAudioWithWebAudio(audioFilePath: string, preload: boolean): void {
         this.fetchAudioFile(audioFilePath)
             .then((blob) => {
                 const reader = new FileReader();
@@ -250,7 +252,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
                     }
                 };
             })
-            .catch((error) => console.error(error));
+            .catch((e: unknown) => this.logger.error(e, `Could not load with web audio`, 'GaplessAudioPlayer', 'loadAudioWithWebAudio'));
     }
 
     private replaceUnplayableCharacters(audioFilePath: string): string {

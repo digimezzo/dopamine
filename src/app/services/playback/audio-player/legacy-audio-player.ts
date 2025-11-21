@@ -89,16 +89,25 @@ export class LegacyAudioPlayer implements IAudioPlayer {
 
         this._isPaused = false;
 
-        this._audio.play().then(() => {
-            this._audio.onended = () => this._playbackFinished.next();
+        this._audio
+            .play()
+            .then(() => {
+                this._audio.onended = () => this._playbackFinished.next();
 
-            if (this.shouldPauseAfterStarting) {
-                this.pause();
-                this.skipToSeconds(this.skipSecondsAfterStarting);
+                if (this.shouldPauseAfterStarting) {
+                    this.pause();
+                    this.skipToSeconds(this.skipSecondsAfterStarting);
+                    this.shouldPauseAfterStarting = false;
+                    this.skipSecondsAfterStarting = 0;
+                }
+            })
+            .catch((e: unknown) => {
+                this.logger.error(e, `Audio src failed to load: ${this._audio.src}`, 'LegacyAudioPlayer', 'play');
+
+                this._playbackFinished.next();
                 this.shouldPauseAfterStarting = false;
                 this.skipSecondsAfterStarting = 0;
-            }
-        });
+            });
     }
 
     public startPaused(track: TrackModel, skipSeconds: number): void {
