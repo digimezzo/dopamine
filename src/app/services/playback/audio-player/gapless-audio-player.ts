@@ -237,7 +237,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     }
 
     private loadAudioWithWebAudio(audioFilePath: string, preload: boolean): void {
-        this.fetchAudioFile(audioFilePath)
+        this.fetchAudioFile(`file:///${audioFilePath}`)
             .then((blob) => {
                 const reader = new FileReader();
                 reader.readAsArrayBuffer(blob);

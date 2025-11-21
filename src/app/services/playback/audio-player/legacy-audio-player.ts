@@ -77,7 +77,7 @@ export class LegacyAudioPlayer implements IAudioPlayer {
         // This is a workaround to fix flickering of OS media controls when switching track from the media controls
         const tempAudio: HTMLAudioElement = new Audio();
         tempAudio.volume = this._audio.volume;
-        tempAudio.src = 'file:///' + playableAudioFilePath;
+        tempAudio.src = `file:///${playableAudioFilePath}`;
         tempAudio.muted = this._audio.muted;
         tempAudio.defaultPlaybackRate = this._audio.defaultPlaybackRate;
         tempAudio.playbackRate = this._audio.playbackRate;
