@@ -53,25 +53,47 @@ describe('MetadataPatcher', () => {
         it('should return joined values if the collection contains two-part unsplittable values with correct casing', () => {
             // Arrange
             const metadataPatcher: MetadataPatcher = new MetadataPatcher();
-            const possiblySplittedMetadata: string[] = ['Artist 1', 'AC', 'DC', 'Artist 2', 'De', 'Vision', 'Ghost', 'Light'];
+            const possiblySplittedMetadata: string[] = [
+                'Artist 1',
+                'AC',
+                'DC',
+                'Artist 2',
+                'De',
+                'Vision',
+                'Ghost',
+                'Light',
+                'Axwell ',
+                '\\ Ingrosso',
+            ];
 
             // Act
             const joinedMetadata: string[] = metadataPatcher.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
-            expect(joinedMetadata).toEqual(['Artist 1', 'AC/DC', 'Artist 2', 'De/Vision', 'Ghost/Light']);
+            expect(joinedMetadata).toEqual(['Artist 1', 'AC/DC', 'Artist 2', 'De/Vision', 'Ghost/Light', 'Axwell /\\ Ingrosso']);
         });
 
         it('should return joined values if the collection contains two-part unsplittable values with incorrect casing', () => {
             // Arrange
             const metadataPatcher: MetadataPatcher = new MetadataPatcher();
-            const possiblySplittedMetadata: string[] = ['Artist 1', 'ac', 'dC', 'Artist 2', 'dE', 'viSion', 'ghOst', 'LigHt'];
+            const possiblySplittedMetadata: string[] = [
+                'Artist 1',
+                'ac',
+                'dC',
+                'Artist 2',
+                'dE',
+                'viSion',
+                'ghOst',
+                'LigHt',
+                'aXwell ',
+                '\\ inGrosso',
+            ];
 
             // Act
             const joinedMetadata: string[] = metadataPatcher.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
-            expect(joinedMetadata).toEqual(['Artist 1', 'ac/dC', 'Artist 2', 'dE/viSion', 'ghOst/LigHt']);
+            expect(joinedMetadata).toEqual(['Artist 1', 'ac/dC', 'Artist 2', 'dE/viSion', 'ghOst/LigHt', 'aXwell /\\ inGrosso']);
         });
     });
 });

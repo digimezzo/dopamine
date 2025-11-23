@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class MetadataPatcher {
-    private unsplittableMetadata: string[] = ['AC/DC', 'De/Vision', 'Ghost/Light'];
+    private unsplittableMetadata: string[] = ['AC/DC', 'De/Vision', 'Ghost/Light', 'Axwell /\\ Ingrosso'];
 
     public joinUnsplittableMetadata(possiblySplittedMetadata: string[] | undefined): string[] {
         if (possiblySplittedMetadata == undefined) {
