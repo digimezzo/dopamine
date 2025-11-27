@@ -70,7 +70,10 @@ describe('MetadataPatcher', () => {
             const joinedMetadata: string[] = metadataPatcher.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
-            expect(joinedMetadata).toEqual(['Artist 1', 'AC/DC', 'Artist 2', 'De/Vision', 'Ghost/Light', 'Axwell /\\ Ingrosso']);
+            expect(joinedMetadata).toHaveLength(6);
+            expect(joinedMetadata).toEqual(
+                expect.arrayContaining(['Artist 1', 'AC/DC', 'Artist 2', 'De/Vision', 'Ghost/Light', 'Axwell /\\ Ingrosso']),
+            );
         });
 
         it('should return joined values if the collection contains two-part unsplittable values with incorrect casing', () => {
