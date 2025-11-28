@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.1] - 2025-11-21
+## [3.0.1] - 2025-11-28
 
 ### Added
 
@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+-   Better handling of artists containg a '/' character in their name
 -   Updated the Spanish translation
 -   Updated the Swedish translation
 -   Updated the Vietnamese translation
