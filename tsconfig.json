@@ -16,6 +16,9 @@
         "useDefineForClassFields": false,
         "skipLibCheck": true
     },
+    "angularCompilerOptions": {
+        "strictTemplates": true
+    },
     "include": ["main.ts", "src/**/*", "tsconfig.app.json"],
     "exclude": ["node_modules"]
 }
