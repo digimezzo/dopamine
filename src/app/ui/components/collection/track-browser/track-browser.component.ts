@@ -33,10 +33,6 @@ import { TrackServiceBase } from '../../../../services/track/track.service.base'
     encapsulation: ViewEncapsulation.None,
 })
 export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, OnDestroy {
-    @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
-    public readonly trackOrders: TrackOrder[] = [TrackOrder.byTrackTitleAscending, TrackOrder.byTrackTitleDescending, TrackOrder.byAlbum];
-    public readonly trackOrderKey = trackOrderKey;
-
     private _tracks: TrackModels = new TrackModels();
     private _tracksPersister: BaseTracksPersister;
     private subscription: Subscription = new Subscription();
@@ -69,6 +65,12 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
             desktop,
         );
     }
+
+    @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
+
+    @Input()
+    public readonly trackOrders: TrackOrder[] = [];
+    public readonly trackOrderKey = trackOrderKey;
 
     @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public trackContextMenu: MatMenuTrigger;
