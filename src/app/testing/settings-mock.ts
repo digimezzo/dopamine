@@ -34,6 +34,7 @@ export class SettingsMock implements SettingsBase {
     public foldersLeftPaneWidthPercent: number;
     public foldersTabOpenedFolder: string;
     public foldersTabOpenedSubfolder: string;
+    public foldersTabSelectedTrackOrder: string;
     public followSystemColor: boolean;
     public followAlbumCoverColor: boolean;
     public followSystemTheme: boolean;

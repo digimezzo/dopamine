@@ -13,9 +13,9 @@ export class FolderTracksPersister extends BaseTracksPersister {
     }
 
     public getSelectedTrackOrderFromSettings(): string {
-        return 'none';
+        return this.settings.foldersTabSelectedTrackOrder;
     }
-    public saveSelectedTrackOrderToSettings(): void {
-        // Do nothing
+    public saveSelectedTrackOrderToSettings(selectedTrackOrderName: string): void {
+        this.settings.foldersTabSelectedTrackOrder = selectedTrackOrderName;
     }
 }
