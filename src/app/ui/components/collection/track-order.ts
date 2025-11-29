@@ -29,6 +29,6 @@ export function trackOrderKey(trackOrder: TrackOrder): string {
         case TrackOrder.byDateCreatedDescending:
             return 'by-date-created-descending';
         case TrackOrder.none:
-            return '';
+            return 'none';
     }
 }

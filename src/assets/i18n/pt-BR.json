@@ -321,5 +321,6 @@
     "follow-song": "Acompanhar música",
     "jump-to-playing-song": "Ir automaticamente para a música tocando",
     "images": "Images",
-    "i-prefer-square-images": "I prefer square images"
+    "i-prefer-square-images": "I prefer square images",
+    "none": "None"
 }
