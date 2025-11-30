@@ -323,6 +323,6 @@
     "images": "Images",
     "i-prefer-square-images": "Je préfère les images carrées",
     "none": "Aucun",
-    "oldest-first": "Plus ancien en premier",
-    "newest-first": "Plus récent en premier"
+    "oldest-first": "Plus ancien d'abort",
+    "newest-first": "Plus récent d'abort"
 }
