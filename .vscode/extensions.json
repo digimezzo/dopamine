@@ -1,0 +1,17 @@
+{
+    "recommendations": [
+        "angular.ng-template",
+        "ciberturtle.sharp-icons",
+        "dbaeumer.vscode-eslint",
+        "donjayamanne.githistory",
+        "esbenp.prettier-vscode",
+        "github.copilot",
+        "github.copilot-chat",
+        "hypernym-studio.hypernym-icons",
+        "maattdd.gitless",
+        "marlosirapuan.nord-deep",
+        "mhutchie.git-graph",
+        "ms-vscode.vs-keybindings"
+    ],
+    "unwantedRecommendations": []
+}
