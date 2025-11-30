@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 -   Introduced half-star rating support, expanding the song rating scale to a range of 0–10.
+-   Added song sorting options on the 'Folders' screen
 
 ### Changed
 
