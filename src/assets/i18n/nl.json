@@ -321,5 +321,8 @@
     "follow-song": "Nummer volgen",
     "jump-to-playing-song": "Naar het afspelende nummer gaan",
     "images": "Afbeeldingen",
-    "i-prefer-square-images": "Ik geef de voorkeur aan vierkante afbeeldingen"
+    "i-prefer-square-images": "Ik geef de voorkeur aan vierkante afbeeldingen",
+    "none": "Geen",
+    "oldest-first": "Oudste eerst",
+    "newest-first": "Nieuwste eerst"
 }

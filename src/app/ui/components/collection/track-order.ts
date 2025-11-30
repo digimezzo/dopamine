@@ -3,7 +3,9 @@ export enum TrackOrder {
     byTrackTitleDescending = 2,
     byAlbum = 3,
     byRating = 4,
-    none = 5,
+    byDateCreatedAscending = 5,
+    byDateCreatedDescending = 6,
+    none = 7,
 }
 
 export function trackOrderKey(trackOrder: TrackOrder): string {
@@ -16,7 +18,11 @@ export function trackOrderKey(trackOrder: TrackOrder): string {
             return 'by-album';
         case TrackOrder.byRating:
             return 'by-rating';
+        case TrackOrder.byDateCreatedAscending:
+            return 'oldest-first';
+        case TrackOrder.byDateCreatedDescending:
+            return 'newest-first';
         case TrackOrder.none:
-            return '';
+            return 'none';
     }
 }

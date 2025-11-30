@@ -231,18 +231,14 @@ describe('TrackBrowserComponent', () => {
             expect(component.trackContextMenu).toBeUndefined();
         });
 
-        it('should define trackOrders', () => {
+        it('should define trackOrders as empty', () => {
             // Arrange
 
             // Act
             const component: TrackBrowserComponent = createComponent();
 
             // Assert
-            expect(component.trackOrders).toEqual([
-                TrackOrder.byTrackTitleAscending,
-                TrackOrder.byTrackTitleDescending,
-                TrackOrder.byAlbum,
-            ]);
+            expect(component.trackOrders).toEqual([]);
         });
 
         it('should define trackOrderKey', () => {

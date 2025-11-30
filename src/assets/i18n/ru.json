@@ -321,5 +321,8 @@
     "follow-song": "Следовать за песней",
     "jump-to-playing-song": "Автоматически прокручивать до активной песни",
     "images": "Изображения",
-    "i-prefer-square-images": "Я предпочитаю квадратные изображения"
+    "i-prefer-square-images": "Я предпочитаю квадратные изображения",
+    "none": "None",
+    "oldest-first": "Oldest first",
+    "newest-first": "Newest first"
 }

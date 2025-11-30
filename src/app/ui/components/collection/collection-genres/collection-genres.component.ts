@@ -19,6 +19,7 @@ import { AlbumServiceBase } from '../../../../services/album/album-service.base'
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
+import { TrackOrder } from '../track-order';
 
 @Component({
     selector: 'app-collection-genres',
@@ -44,6 +45,8 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         private scheduler: SchedulerBase,
         private logger: Logger,
     ) {}
+
+    public trackOrders: TrackOrder[] = [TrackOrder.byTrackTitleAscending, TrackOrder.byTrackTitleDescending, TrackOrder.byAlbum];
 
     public leftPaneSize: number = this.settings.genresLeftPaneWidthPercent;
     public centerPaneSize: number = 100 - this.settings.genresLeftPaneWidthPercent - this.settings.genresRightPaneWidthPercent;
