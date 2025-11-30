@@ -10,43 +10,63 @@ describe('FolderTracksPersister', () => {
     let persister: FolderTracksPersister;
 
     beforeEach(() => {
-        settingsStub = {};
+        settingsStub = { foldersTabSelectedTrackOrder: '' };
         loggerMock = Mock.ofType<Logger>();
         persister = new FolderTracksPersister(settingsStub, loggerMock.object);
     });
 
     describe('constructor', () => {
         it('should create', () => {
-            // Arrange, Act, Assert
+            // Arrange
+
+            // Act
+
+            // Assert
             expect(persister).toBeDefined();
         });
 
-        it('should initialize and set TrackOrder.none', () => {
+        it('should initialize from the settings', () => {
             // Arrange
+            settingsStub.foldersTabSelectedTrackOrder = 'byTrackTitleDescending';
             persister = new FolderTracksPersister(settingsStub, loggerMock.object);
 
             // Act
 
             // Assert
-            expect(persister.getSelectedTrackOrder()).toEqual(TrackOrder.none);
+            expect(persister.getSelectedTrackOrder()).toEqual(TrackOrder.byTrackTitleDescending);
         });
     });
 
     describe('getSelectedTrackOrderFromSettings', () => {
-        it('should return empty string', () => {
+        it('should get the selected track order from the settings', () => {
             // Arrange
+            settingsStub.foldersTabSelectedTrackOrder = 'byTrackTitleDescending';
             persister = new FolderTracksPersister(settingsStub, loggerMock.object);
 
             // Act
             const selectedTrackOrderFromSettings: string = persister.getSelectedTrackOrderFromSettings();
 
             // Assert
-            expect(selectedTrackOrderFromSettings).toEqual('none');
+            expect(selectedTrackOrderFromSettings).toEqual('byTrackTitleDescending');
+        });
+    });
+
+    describe('saveSelectedTrackOrderToSettings', () => {
+        it('should save the selected track order to the settings', () => {
+            // Arrange
+            settingsStub.foldersTabSelectedTrackOrder = '';
+            persister = new FolderTracksPersister(settingsStub, loggerMock.object);
+
+            // Act
+            persister.saveSelectedTrackOrderToSettings('byTrackTitleDescending');
+
+            // Assert
+            expect(settingsStub.foldersTabSelectedTrackOrder).toEqual('byTrackTitleDescending');
         });
     });
 
     describe('getSelectedTrackOrder', () => {
-        it('should return none', () => {
+        it('should return none if there is no selected track order', () => {
             // Arrange
 
             // Act
@@ -54,6 +74,40 @@ describe('FolderTracksPersister', () => {
 
             // Assert
             expect(selectedTrackOrder).toEqual(TrackOrder.none);
+        });
+
+        it('should return the selected track order if there is a selected track order', () => {
+            // Arrange
+            settingsStub.foldersTabSelectedTrackOrder = 'byTrackTitleDescending';
+            persister = new FolderTracksPersister(settingsStub, loggerMock.object);
+
+            // Act
+            const selectedTrackOrder: TrackOrder = persister.getSelectedTrackOrder();
+
+            // Assert
+            expect(selectedTrackOrder).toEqual(TrackOrder.byTrackTitleDescending);
+        });
+    });
+
+    describe('setSelectedTrackOrder', () => {
+        it('should set the selected track order', () => {
+            // Arrange
+
+            // Act
+            persister.setSelectedTrackOrder(TrackOrder.byTrackTitleDescending);
+
+            // Assert
+            expect(persister.getSelectedTrackOrder()).toEqual(TrackOrder.byTrackTitleDescending);
+        });
+
+        it('should save the selected track order to the settings', () => {
+            // Arrange
+
+            // Act
+            persister.setSelectedTrackOrder(TrackOrder.byTrackTitleDescending);
+
+            // Assert
+            expect(settingsStub.foldersTabSelectedTrackOrder).toEqual('byTrackTitleDescending');
         });
     });
 });

@@ -322,5 +322,7 @@
     "jump-to-playing-song": "Desplazar automáticamente hasta la canción en reproducción",
     "images": "Imágenes",
     "i-prefer-square-images": "Prefiero portadas cuadradas",
-    "none": "None"
+    "none": "None",
+    "oldest-first": "Oldest first",
+    "newest-first": "Newest first"
 }

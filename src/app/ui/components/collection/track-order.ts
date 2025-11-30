@@ -3,11 +3,9 @@ export enum TrackOrder {
     byTrackTitleDescending = 2,
     byAlbum = 3,
     byRating = 4,
-    byFileNameAscending = 5,
-    byFileNameDescending = 6,
-    byDateCreatedAscending = 7,
-    byDateCreatedDescending = 8,
-    none = 9,
+    byDateCreatedAscending = 5,
+    byDateCreatedDescending = 6,
+    none = 7,
 }
 
 export function trackOrderKey(trackOrder: TrackOrder): string {
@@ -20,14 +18,10 @@ export function trackOrderKey(trackOrder: TrackOrder): string {
             return 'by-album';
         case TrackOrder.byRating:
             return 'by-rating';
-        case TrackOrder.byFileNameAscending:
-            return 'by-file-name-ascending';
-        case TrackOrder.byFileNameDescending:
-            return 'by-file-name-descending';
         case TrackOrder.byDateCreatedAscending:
-            return 'by-date-created-ascending';
+            return 'oldest-first';
         case TrackOrder.byDateCreatedDescending:
-            return 'by-date-created-descending';
+            return 'newest-first';
         case TrackOrder.none:
             return 'none';
     }

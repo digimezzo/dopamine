@@ -62,7 +62,13 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         private desktop: DesktopBase,
     ) {}
 
-    public trackOrders: TrackOrder[] = [TrackOrder.none, TrackOrder.byTrackTitleAscending, TrackOrder.byTrackTitleDescending];
+    public trackOrders: TrackOrder[] = [
+        TrackOrder.none,
+        TrackOrder.byTrackTitleAscending,
+        TrackOrder.byTrackTitleDescending,
+        TrackOrder.byDateCreatedAscending,
+        TrackOrder.byDateCreatedDescending,
+    ];
 
     @ViewChild('subfolderContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public subfolderContextMenu: MatMenuTrigger;

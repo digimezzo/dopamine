@@ -322,5 +322,7 @@
     "jump-to-playing-song": "Tự động cuộn đến bài đang phát",
     "images": "Ảnh",
     "i-prefer-square-images": "Tôi thích ảnh vuông",
-    "none": "None"
+    "none": "None",
+    "oldest-first": "Oldest first",
+    "newest-first": "Newest first"
 }

@@ -322,5 +322,7 @@
     "jump-to-playing-song": "Naar het afspelende nummer gaan",
     "images": "Afbeeldingen",
     "i-prefer-square-images": "Ik geef de voorkeur aan vierkante afbeeldingen",
-    "none": "Geen"
+    "none": "Geen",
+    "oldest-first": "Oudste eerst",
+    "newest-first": "Nieuwste eerst"
 }

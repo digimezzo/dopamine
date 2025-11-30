@@ -322,5 +322,7 @@
     "jump-to-playing-song": "Çalan şarkıya zıpla",
     "images": "Images",
     "i-prefer-square-images": "I prefer square images",
-    "none": "None"
+    "none": "None",
+    "oldest-first": "Oldest first",
+    "newest-first": "Newest first"
 }

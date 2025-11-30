@@ -197,6 +197,10 @@ export class TrackModel implements ISelectable {
         return this.track.fileSize ?? 0;
     }
 
+    public get dateCreated(): number {
+        return this.track.dateFileCreated ?? 0;
+    }
+
     public get playCount(): number {
         return this.track.playCount ?? 0;
     }
