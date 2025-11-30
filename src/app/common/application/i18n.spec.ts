@@ -327,6 +327,9 @@ describe('validate i18n', () => {
         'yes',
         'images',
         'i-prefer-square-images',
+        'none',
+        'oldest-first',
+        'newest-first',
     ].sort();
 
     Constants.languages.forEach((language) => {

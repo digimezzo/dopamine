@@ -321,5 +321,8 @@
     "follow-song": "跟随歌曲",
     "jump-to-playing-song": "自动滚动到播放中的歌曲",
     "images": "Images",
-    "i-prefer-square-images": "I prefer square images"
+    "i-prefer-square-images": "I prefer square images",
+    "none": "None",
+    "oldest-first": "Oldest first",
+    "newest-first": "Newest first"
 }

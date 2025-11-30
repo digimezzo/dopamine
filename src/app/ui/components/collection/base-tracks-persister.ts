@@ -15,12 +15,14 @@ export abstract class BaseTracksPersister {
         this.initializeFromSettings();
     }
 
+    public defaultTrackOrder: TrackOrder = TrackOrder.byAlbum;
+
     public abstract getSelectedTrackOrderFromSettings(): string;
     public abstract saveSelectedTrackOrderToSettings(selectedTrackOrderName: string): void;
 
     public getSelectedTrackOrder(): TrackOrder {
         if (this.selectedTrackOrder == undefined) {
-            return TrackOrder.byAlbum;
+            return this.defaultTrackOrder;
         }
 
         return this.selectedTrackOrder;

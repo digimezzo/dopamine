@@ -321,5 +321,8 @@
     "follow-song": "Follow song",
     "jump-to-playing-song": "Jump to the playing song",
     "images": "Images",
-    "i-prefer-square-images": "I prefer square images"
+    "i-prefer-square-images": "I prefer square images",
+    "none": "None",
+    "oldest-first": "Oldest first",
+    "newest-first": "Newest first"
 }

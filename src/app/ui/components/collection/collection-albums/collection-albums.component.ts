@@ -16,6 +16,7 @@ import { CollectionServiceBase } from '../../../../services/collection/collectio
 import { IndexingService } from '../../../../services/indexing/indexing.service';
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
+import { TrackOrder } from '../track-order';
 
 @Component({
     selector: 'app-collection-albums',
@@ -39,6 +40,8 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         private scheduler: SchedulerBase,
         private logger: Logger,
     ) {}
+
+    public trackOrders: TrackOrder[] = [TrackOrder.byTrackTitleAscending, TrackOrder.byTrackTitleDescending, TrackOrder.byAlbum];
 
     public leftPaneSize: number = 100 - this.settings.albumsRightPaneWidthPercent;
     public rightPaneSize: number = this.settings.albumsRightPaneWidthPercent;

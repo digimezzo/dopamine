@@ -26,6 +26,7 @@ export const DEFAULT_SETTINGS = {
     selectedCollectionPage: 0,
     foldersTabOpenedFolder: '',
     foldersTabOpenedSubfolder: '',
+    foldersTabSelectedTrackOrder: '',
     albumsTabSelectedAlbum: '',
     albumsTabSelectedAlbumOrder: '',
     albumsTabSelectedTrackOrder: '',

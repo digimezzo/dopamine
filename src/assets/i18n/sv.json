@@ -321,5 +321,8 @@
     "follow-song": "Följ låt",
     "jump-to-playing-song": "Hoppa till låten som spelar",
     "images": "Bilder",
-    "i-prefer-square-images": "Jag föredrar fyrkantiga bilder"
+    "i-prefer-square-images": "Jag föredrar fyrkantiga bilder",
+    "none": "None",
+    "oldest-first": "Oldest first",
+    "newest-first": "Newest first"
 }

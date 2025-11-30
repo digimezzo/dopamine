@@ -21,6 +21,7 @@
                     class="p-3 fill"
                     [tracks]="this.tracks | tracksFilter: this.searchService.delayedSearchText"
                     [(tracksPersister)]="this.tracksPersister"
+                    [trackOrders]="this.trackOrders"
                 ></app-track-browser></div
         ></as-split-area>
     </as-split>
