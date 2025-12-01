@@ -5,14 +5,28 @@
             <div *ngIf="this.albums.length === 1">{{ 'album' | translate }}</div>
             <div *ngIf="this.albums.length !== 1">{{ 'albums' | translate }}</div>
         </div>
-        <app-iterable-menu
-            [tooltipKey]="'choose-order'"
-            [currentItem]="selectedAlbumOrder"
-            [items]="albumOrders"
-            [itemKeyFn]="albumOrderKey"
-            [applyItemFn]="applyAlbumOrder"
-        >
-        </app-iterable-menu>
+        <div class="d-flex flex-row align-items-center">
+            <div
+                class="mr-2"
+                *ngIf="
+                    this.selectedAlbumOrder === albumOrderEnum.byYearAscending ||
+                    this.selectedAlbumOrder === albumOrderEnum.byYearDescending
+                "
+            >
+                <div class="pointer d-flex flex-row align-items-center" (click)="this.toggleYearView()">
+                    <i *ngIf="!this.useCompactYearView" class="font-18px las la-compress-arrows-alt"></i>
+                    <i *ngIf="this.useCompactYearView" class="font-18px las la-compress-arrows-alt accent-color"></i>
+                </div>
+            </div>
+            <app-iterable-menu
+                [tooltipKey]="'choose-order'"
+                [currentItem]="selectedAlbumOrder"
+                [items]="albumOrders"
+                [itemKeyFn]="albumOrderKey"
+                [applyItemFn]="applyAlbumOrder"
+            >
+            </app-iterable-menu>
+        </div>
     </div>
     <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="170">
         <div *cdkVirtualFor="let albumRow of this.albumRows">

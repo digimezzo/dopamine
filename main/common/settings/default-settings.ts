@@ -84,4 +84,5 @@ export const DEFAULT_SETTINGS = {
     useGaplessPlayback: false,
     jumpToPlayingSong: true,
     showSquareImages: false,
+    useCompactYearView: false,
 } as const;
