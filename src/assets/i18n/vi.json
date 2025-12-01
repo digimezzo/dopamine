@@ -324,5 +324,7 @@
     "i-prefer-square-images": "Tôi thích ảnh vuông",
     "none": "None",
     "oldest-first": "Oldest first",
-    "newest-first": "Newest first"
+    "newest-first": "Newest first",
+    "compact-view": "Compact view",
+    "expanded-view": "Expanded view"
 }

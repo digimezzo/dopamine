@@ -324,5 +324,7 @@
     "i-prefer-square-images": "Ik geef de voorkeur aan vierkante afbeeldingen",
     "none": "Geen",
     "oldest-first": "Oudste eerst",
-    "newest-first": "Nieuwste eerst"
+    "newest-first": "Nieuwste eerst",
+    "compact-view": "Compacte weergave",
+    "expanded-view": "Uitgebreide weergave"
 }
