@@ -228,8 +228,6 @@ import { NavigationServiceBase } from './services/navigation/navigation.service.
 import { ApplicationServiceBase } from './services/application/application.service.base';
 import { AZLyricsApi } from './common/api/lyrics/a-z-lyrics.api';
 import { ChartLyricsApi } from './common/api/lyrics/chart-lyrics.api';
-import { WebSearchLyricsApi } from './common/api/lyrics/web-search-lyrics/web-search-lyrics.api';
-import { WebSearchApi } from './common/api/lyrics/web-search-lyrics/web-search.api';
 import { ArtistsFilterPipe } from './ui/pipes/artists-filter.pipe';
 import { TrackRepositoryBase } from './data/repositories/track-repository.base';
 import { FolderRepositoryBase } from './data/repositories/folder-repository.base';
@@ -519,8 +517,6 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         FanartApi,
         ChartLyricsApi,
         AZLyricsApi,
-        WebSearchLyricsApi,
-        WebSearchApi,
         MetadataPatcher,
         TracksColumnsOrdering,
         SemanticZoomHeaderAdder,
