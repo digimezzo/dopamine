@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Developer console opens when pressing F12
 -   Crash when trying to play a deleted file
 -   Song length in right sidebar displays double the time of the real length
+-   Some issues with fetching of lyrics
 
 ## [3.0.0] - 2025-11-06
 
