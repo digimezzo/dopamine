@@ -103,7 +103,7 @@ describe('AlbumRowsGetter', () => {
     describe('getAlbumRows', () => {
         it('should return empty album rows if albums is empty', () => {
             // Arrange, Act
-            const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, [], AlbumOrder.byAlbumTitleAscending);
+            const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, [], AlbumOrder.byAlbumTitleAscending, false);
 
             // Assert
             expect(albumRows.length).toBe(0);
@@ -114,7 +114,7 @@ describe('AlbumRowsGetter', () => {
             albumSorterMock.setup((x) => x.sortByAlbumTitleAscending(albums)).returns(() => albums);
 
             // Act
-            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byAlbumTitleAscending);
+            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byAlbumTitleAscending, false);
 
             // Assert
             albumSorterMock.verify((x) => x.sortByAlbumTitleAscending(albums), Times.once());
@@ -125,7 +125,7 @@ describe('AlbumRowsGetter', () => {
             albumSorterMock.setup((x) => x.sortByAlbumTitleDescending(albums)).returns(() => albums);
 
             // Act
-            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byAlbumTitleDescending);
+            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byAlbumTitleDescending, false);
 
             // Assert
             albumSorterMock.verify((x) => x.sortByAlbumTitleDescending(albums), Times.once());
@@ -136,7 +136,7 @@ describe('AlbumRowsGetter', () => {
             albumSorterMock.setup((x) => x.sortByDateAdded(albums)).returns(() => albums);
 
             // Act
-            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byDateAdded);
+            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byDateAdded, false);
 
             // Assert
             albumSorterMock.verify((x) => x.sortByDateAdded(albums), Times.once());
@@ -147,7 +147,7 @@ describe('AlbumRowsGetter', () => {
             albumSorterMock.setup((x) => x.sortByDateCreated(albums)).returns(() => albums);
 
             // Act
-            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byDateCreated);
+            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byDateCreated, false);
 
             // Assert
             albumSorterMock.verify((x) => x.sortByDateCreated(albums), Times.once());
@@ -158,7 +158,7 @@ describe('AlbumRowsGetter', () => {
             albumSorterMock.setup((x) => x.sortByYearAscending(albums)).returns(() => albums);
 
             // Act
-            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byYearAscending);
+            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byYearAscending, false);
 
             // Assert
             albumSorterMock.verify(
@@ -183,7 +183,7 @@ describe('AlbumRowsGetter', () => {
             albumSorterMock.setup((x) => x.sortByYearDescending(albums)).returns(() => albums);
 
             // Act
-            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byYearDescending);
+            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byYearDescending, false);
 
             // Assert
             albumSorterMock.verify(
@@ -208,7 +208,7 @@ describe('AlbumRowsGetter', () => {
             albumSorterMock.setup((x) => x.sortByDateLastPlayed(albums)).returns(() => albums);
 
             // Act
-            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byLastPlayed);
+            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byLastPlayed, false);
 
             // Assert
             albumSorterMock.verify((x) => x.sortByDateLastPlayed(albums), Times.once());
@@ -219,10 +219,247 @@ describe('AlbumRowsGetter', () => {
             shufflerMock.setup((x) => x.shuffle(albums)).returns(() => albums);
 
             // Act
-            const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.random);
+            const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.random, false);
 
             // Assert
             shufflerMock.verify((x) => x.shuffle(albums), Times.once());
+        });
+
+        describe('year display logic', () => {
+            it('should set showYear to false for all albums when not sorting by year', () => {
+                // Arrange
+                albumSorterMock.setup((x) => x.sortByAlbumTitleAscending(albums)).returns(() => albums);
+
+                // Act
+                const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byAlbumTitleAscending, false);
+
+                // Assert
+                for (const row of albumRows) {
+                    for (const album of row.albums) {
+                        expect(album.showYear).toBe(false);
+                    }
+                }
+            });
+
+            it('should set showYear to false for all albums when useCompactYearView is true', () => {
+                // Arrange
+                albumSorterMock.setup((x) => x.sortByYearAscending(albums)).returns(() => albums);
+
+                // Act
+                const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byYearAscending, true);
+
+                // Assert
+                for (const row of albumRows) {
+                    for (const album of row.albums) {
+                        expect(album.showYear).toBe(false);
+                    }
+                }
+            });
+
+            it('should set showYear to true for albums when sorting by year ascending and useCompactYearView is false', () => {
+                // Arrange
+                const testAlbums = [album1, album2, album3];
+                albumSorterMock.setup((x) => x.sortByYearAscending(testAlbums)).returns(() => testAlbums);
+
+                // Act
+                const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, testAlbums, AlbumOrder.byYearAscending, false);
+
+                // Assert
+                let albumCount = 0;
+                for (const row of albumRows) {
+                    for (const album of row.albums) {
+                        albumCount++;
+                        if (row.albums[0].yearHeader.length > 0) {
+                            expect(album.showYear).toBe(true);
+                        }
+                    }
+                }
+                expect(albumCount).toBeGreaterThan(0);
+            });
+
+            it('should set showYear to true for albums when sorting by year descending and useCompactYearView is false', () => {
+                // Arrange
+                const testAlbums = [album3, album1, album2];
+                albumSorterMock.setup((x) => x.sortByYearDescending(testAlbums)).returns(() => testAlbums);
+
+                // Act
+                const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, testAlbums, AlbumOrder.byYearDescending, false);
+
+                // Assert
+                let albumCount = 0;
+                for (const row of albumRows) {
+                    for (const album of row.albums) {
+                        albumCount++;
+                        if (row.albums[0].yearHeader.length > 0) {
+                            expect(album.showYear).toBe(true);
+                        }
+                    }
+                }
+                expect(albumCount).toBeGreaterThan(0);
+            });
+
+            it('should set yearHeader to formatted year for first album of each year group when sorting by year ascending', () => {
+                // Arrange
+                const albumsWithDifferentYears = [album4, album6, album1, album2, album3];
+                albumSorterMock.setup((x) => x.sortByYearAscending(albumsWithDifferentYears)).returns(() => albumsWithDifferentYears);
+
+                // Act
+                const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(
+                    280,
+                    albumsWithDifferentYears,
+                    AlbumOrder.byYearAscending,
+                    false,
+                );
+
+                // Assert
+                const firstAlbumOfEachYear: AlbumModel[] = [];
+                for (const row of albumRows) {
+                    if (row.albums[0].yearHeader.length > 0) {
+                        firstAlbumOfEachYear.push(row.albums[0]);
+                    }
+                }
+
+                expect(firstAlbumOfEachYear.length).toBeGreaterThan(0);
+                for (const album of firstAlbumOfEachYear) {
+                    expect(album.yearHeader).toBeTruthy();
+                    expect(album.yearHeader).not.toBe('');
+                }
+            });
+
+            it('should set yearHeader to formatted year for first album of each year group when sorting by year descending', () => {
+                // Arrange
+                const albumsWithDifferentYears = [album3, album1, album2, album6, album4];
+                albumSorterMock.setup((x) => x.sortByYearDescending(albumsWithDifferentYears)).returns(() => albumsWithDifferentYears);
+
+                // Act
+                const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(
+                    280,
+                    albumsWithDifferentYears,
+                    AlbumOrder.byYearDescending,
+                    false,
+                );
+
+                // Assert
+                const firstAlbumOfEachYear: AlbumModel[] = [];
+                for (const row of albumRows) {
+                    if (row.albums[0].yearHeader.length > 0) {
+                        firstAlbumOfEachYear.push(row.albums[0]);
+                    }
+                }
+
+                expect(firstAlbumOfEachYear.length).toBeGreaterThan(0);
+                for (const album of firstAlbumOfEachYear) {
+                    expect(album.yearHeader).toBeTruthy();
+                    expect(album.yearHeader).not.toBe('');
+                }
+            });
+
+            it('should not duplicate yearHeader for albums with the same year', () => {
+                // Arrange
+                const testAlbums = [album1, album2, album3];
+                albumSorterMock.setup((x) => x.sortByYearAscending(testAlbums)).returns(() => testAlbums);
+
+                // Act
+                const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, testAlbums, AlbumOrder.byYearAscending, false);
+
+                // Assert
+                const yearHeaders: string[] = [];
+                for (const row of albumRows) {
+                    for (const album of row.albums) {
+                        if (album.yearHeader && album.yearHeader.length > 0) {
+                            yearHeaders.push(album.yearHeader);
+                        }
+                    }
+                }
+
+                const uniqueYearHeaders = [...new Set(yearHeaders)];
+                expect(yearHeaders.length).toBe(uniqueYearHeaders.length);
+            });
+
+            it('should break row when year changes in non-compact view with year sorting', () => {
+                // Arrange
+                const albumsWithDifferentYears = [album4, album6, album1, album3];
+                albumSorterMock.setup((x) => x.sortByYearAscending(albumsWithDifferentYears)).returns(() => albumsWithDifferentYears);
+
+                // Act
+                const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(
+                    280,
+                    albumsWithDifferentYears,
+                    AlbumOrder.byYearAscending,
+                    false,
+                );
+
+                // Assert - each year should start a new row
+                const yearsInRows: number[][] = [];
+                for (const row of albumRows) {
+                    const yearsInThisRow: number[] = [];
+                    for (const album of row.albums) {
+                        yearsInThisRow.push(album.year);
+                    }
+                    yearsInRows.push(yearsInThisRow);
+                }
+
+                // Check that each row contains only one unique year
+                for (const yearsInRow of yearsInRows) {
+                    const uniqueYears = [...new Set(yearsInRow)];
+                    expect(uniqueYears.length).toBe(1);
+                }
+            });
+
+            it('should set yearHeader to empty string for albums that are not first in their year group', () => {
+                // Arrange
+                const testAlbums = [album1, album2, album3];
+                albumSorterMock.setup((x) => x.sortByYearAscending(testAlbums)).returns(() => testAlbums);
+
+                // Act
+                const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, testAlbums, AlbumOrder.byYearAscending, false);
+
+                // Assert
+                let foundHeader = false;
+                let foundEmpty = false;
+                for (const row of albumRows) {
+                    for (const album of row.albums) {
+                        if (album.yearHeader && album.yearHeader.length > 0) {
+                            foundHeader = true;
+                        } else if (album.year === 2020) {
+                            foundEmpty = true;
+                        }
+                    }
+                }
+
+                expect(foundHeader).toBe(true);
+                expect(foundEmpty).toBe(true);
+            });
+
+            it('should not set yearHeader for any albums when not sorting by year', () => {
+                // Arrange
+                albumSorterMock.setup((x) => x.sortByAlbumTitleAscending(albums)).returns(() => albums);
+
+                // Act
+                const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byAlbumTitleAscending, false);
+
+                // Assert
+                for (const row of albumRows) {
+                    for (const album of row.albums) {
+                        expect(album.yearHeader).toBe('');
+                    }
+                }
+            });
+
+            it('should not set yearHeader for any albums when useCompactYearView is true', () => {
+                // Arrange
+                albumSorterMock.setup((x) => x.sortByYearAscending(albums)).returns(() => albums);
+
+                // Act
+                const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byYearAscending, true);
+
+                // Assert
+                for (const row of albumRows) {
+                    for (const album of row.albums) {
+                        expect(album.yearHeader).toBe('');
+                    }
+                }
+            });
         });
     });
 });

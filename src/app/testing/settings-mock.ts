@@ -92,6 +92,7 @@ export class SettingsMock implements SettingsBase {
     public useGaplessPlayback: boolean;
     public jumpToPlayingSong: boolean;
     public showSquareImages: boolean;
+    public useCompactYearView: boolean;
 
     public get albumKeyIndex(): string {
         return this.albumKeyIndexMock;

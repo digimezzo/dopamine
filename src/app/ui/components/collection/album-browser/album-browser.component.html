@@ -5,14 +5,37 @@
             <div *ngIf="this.albums.length === 1">{{ 'album' | translate }}</div>
             <div *ngIf="this.albums.length !== 1">{{ 'albums' | translate }}</div>
         </div>
-        <app-iterable-menu
-            [tooltipKey]="'choose-order'"
-            [currentItem]="selectedAlbumOrder"
-            [items]="albumOrders"
-            [itemKeyFn]="albumOrderKey"
-            [applyItemFn]="applyAlbumOrder"
-        >
-        </app-iterable-menu>
+        <div class="d-flex flex-row align-items-center">
+            <div
+                class="d-flex mr-4"
+                style="margin-top: 1px"
+                *ngIf="
+                    this.selectedAlbumOrder === albumOrderEnum.byYearAscending ||
+                    this.selectedAlbumOrder === albumOrderEnum.byYearDescending
+                "
+            >
+                <app-icon-button
+                    *ngIf="!this.useCompactYearView"
+                    icon="las la-compress-arrows-alt"
+                    matTooltip="{{ 'compact-view' | translate }}"
+                    (click)="this.toggleYearView()"
+                ></app-icon-button>
+                <app-icon-button
+                    *ngIf="this.useCompactYearView"
+                    icon="las la-expand-arrows-alt"
+                    matTooltip="{{ 'expanded-view' | translate }}"
+                    (click)="this.toggleYearView()"
+                ></app-icon-button>
+            </div>
+            <app-iterable-menu
+                [tooltipKey]="'choose-order'"
+                [currentItem]="selectedAlbumOrder"
+                [items]="albumOrders"
+                [itemKeyFn]="albumOrderKey"
+                [applyItemFn]="applyAlbumOrder"
+            >
+            </app-iterable-menu>
+        </div>
     </div>
     <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="170">
         <div *cdkVirtualFor="let albumRow of this.albumRows">
@@ -22,6 +45,7 @@
                     *ngFor="let album of albumRow.albums"
                     [album]="album"
                     [isSelected]="album.isSelected"
+                    [useCompactYearView]="this.useCompactYearView"
                     (mousedown)="setSelectedAlbums($event, album)"
                     (dblclick)="this.playbackService.enqueueAndPlayAlbum(album)"
                     (contextmenu)="onAlbumContextMenu($event, album)"

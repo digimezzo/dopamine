@@ -88,4 +88,5 @@ export abstract class SettingsBase {
     public abstract useGaplessPlayback: boolean;
     public abstract jumpToPlayingSong: boolean;
     public abstract showSquareImages: boolean;
+    public abstract useCompactYearView: boolean;
 }

@@ -834,4 +834,13 @@ export class Settings implements SettingsBase {
     public set showSquareImages(v: boolean) {
         this.set('showSquareImages', v);
     }
+
+    // useCompactYearView
+    public get useCompactYearView(): boolean {
+        return this.get<boolean>('useCompactYearView');
+    }
+
+    public set useCompactYearView(v: boolean) {
+        this.set('useCompactYearView', v);
+    }
 }

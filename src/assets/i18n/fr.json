@@ -324,5 +324,7 @@
     "i-prefer-square-images": "Je préfère les images carrées",
     "none": "Aucun",
     "oldest-first": "Plus ancien d'abort",
-    "newest-first": "Plus récent d'abort"
+    "newest-first": "Plus récent d'abort",
+    "compact-view": "Vue compacte",
+    "expanded-view": "Vue agrandie"
 }
