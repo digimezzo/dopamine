@@ -58,6 +58,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
     public toggleYearView(): void {
         this.useCompactYearView = !this.useCompactYearView;
         this.settings.useCompactYearView = this.useCompactYearView;
+        this.orderAlbums();
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -152,7 +153,12 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
             const timer = new Timer();
             timer.start();
 
-            this.albumRows = this.albumRowsGetter.getAlbumRows(this.availableWidthInPixels, this.albums, this.selectedAlbumOrder);
+            this.albumRows = this.albumRowsGetter.getAlbumRows(
+                this.availableWidthInPixels,
+                this.albums,
+                this.selectedAlbumOrder,
+                this.useCompactYearView,
+            );
             this.applySelectedAlbums();
 
             timer.stop();

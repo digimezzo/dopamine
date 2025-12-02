@@ -7,16 +7,25 @@
         </div>
         <div class="d-flex flex-row align-items-center">
             <div
-                class="mr-2"
+                class="d-flex mr-4"
+                style="margin-top: 1px"
                 *ngIf="
                     this.selectedAlbumOrder === albumOrderEnum.byYearAscending ||
                     this.selectedAlbumOrder === albumOrderEnum.byYearDescending
                 "
             >
-                <div class="pointer d-flex flex-row align-items-center" (click)="this.toggleYearView()">
-                    <i *ngIf="!this.useCompactYearView" class="font-18px las la-compress-arrows-alt"></i>
-                    <i *ngIf="this.useCompactYearView" class="font-18px las la-compress-arrows-alt accent-color"></i>
-                </div>
+                <app-icon-button
+                    *ngIf="!this.useCompactYearView"
+                    icon="las la-compress-arrows-alt"
+                    matTooltip="{{ 'compact-view' | translate }}"
+                    (click)="this.toggleYearView()"
+                ></app-icon-button>
+                <app-icon-button
+                    *ngIf="this.useCompactYearView"
+                    icon="las la-expand-arrows-alt"
+                    matTooltip="{{ 'expanded-view' | translate }}"
+                    (click)="this.toggleYearView()"
+                ></app-icon-button>
             </div>
             <app-iterable-menu
                 [tooltipKey]="'choose-order'"
@@ -36,6 +45,7 @@
                     *ngFor="let album of albumRow.albums"
                     [album]="album"
                     [isSelected]="album.isSelected"
+                    [useCompactYearView]="this.useCompactYearView"
                     (mousedown)="setSelectedAlbums($event, album)"
                     (dblclick)="this.playbackService.enqueueAndPlayAlbum(album)"
                     (contextmenu)="onAlbumContextMenu($event, album)"

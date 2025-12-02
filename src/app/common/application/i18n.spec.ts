@@ -330,6 +330,8 @@ describe('validate i18n', () => {
         'none',
         'oldest-first',
         'newest-first',
+        'compact-view',
+        'expanded-view',
     ].sort();
 
     Constants.languages.forEach((language) => {
