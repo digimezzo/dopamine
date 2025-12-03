@@ -53,7 +53,7 @@ export class QueuePersister {
         return;
     }
 
-    public async restoreAsync(): Promise<QueueRestoreInfo> {
+    public restore(): QueueRestoreInfo {
         this.logger.info(`Restoring queue`, 'QueuePersister', 'restore');
 
         try {
@@ -104,7 +104,7 @@ export class QueuePersister {
                 tracksModels.push(trackModel);
                 playbackOrder[orderedTrack.orderId] = tracksModels.length - 1;
 
-                if (orderedTrack.isPlaying) {
+                if (orderedTrack.isPlaying === 1) {
                     playingTrack = trackModel;
                     progressSeconds = orderedTrack.progressSeconds;
                 }

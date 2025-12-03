@@ -563,7 +563,7 @@ export class PlaybackService {
         }
     }
 
-    public async initializeAsync(): Promise<void> {
+    public initialize(): void {
         if (this.settings.rememberPlaybackStateAfterRestart) {
             if (this.settings.playbackControlsLoop !== 0) {
                 this._loopMode = this.settings.playbackControlsLoop === 1 ? LoopMode.One : LoopMode.All;
@@ -573,7 +573,7 @@ export class PlaybackService {
                 this._isShuffled = true;
             }
 
-            await this.restoreQueueAsync();
+            this.restoreQueue();
         }
     }
 
@@ -590,13 +590,13 @@ export class PlaybackService {
         this.startUpdatingProgress();
     }
 
-    private async restoreQueueAsync(): Promise<void> {
+    private restoreQueue(): void {
         // If already playing (e.g. from double-clicking files), do not restore queue.
         if (this.currentTrack) {
             return;
         }
 
-        const info: QueueRestoreInfo = await this.queuePersister.restoreAsync();
+        const info: QueueRestoreInfo = this.queuePersister.restore();
         this.queue.restoreTracks(info.tracks, info.playbackOrder);
 
         if (info.playingTrack) {

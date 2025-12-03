@@ -18,8 +18,10 @@ import { AudioVisualizer } from './services/playback/audio-visualizer';
 import { LifetimeService } from './services/lifetime/lifetime.service';
 import { SwitchPlayerService } from './services/player-switcher/switch-player.service';
 import { PlaybackService } from './services/playback/playback.service';
+import { DatabaseMigratorBase } from './data/database-migrator.base';
 
 describe('AppComponent', () => {
+    let databaseMigratorMock: IMock<DatabaseMigratorBase>;
     let playerSwitcherServiceMock: IMock<SwitchPlayerService>;
     let playbackServiceMock: IMock<PlaybackService>;
     let navigationServiceMock: IMock<NavigationServiceBase>;
@@ -45,6 +47,7 @@ describe('AppComponent', () => {
 
     function createComponent(): AppComponent {
         return new AppComponent(
+            databaseMigratorMock.object,
             playbackServiceMock.object,
             navigationServiceMock.object,
             appearanceServiceMock.object,
@@ -64,6 +67,7 @@ describe('AppComponent', () => {
     }
 
     beforeEach(() => {
+        databaseMigratorMock = Mock.ofType<DatabaseMigratorBase>();
         playerSwitcherServiceMock = Mock.ofType<SwitchPlayerService>();
         playbackServiceMock = Mock.ofType<PlaybackService>();
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
@@ -177,6 +181,17 @@ describe('AppComponent', () => {
             navigationServiceMock.verify((x) => x.navigateToLoadingAsync(), Times.once());
         });
 
+        it('should perform database migrations', async () => {
+            // Arrange
+            const component: AppComponent = createComponent();
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            databaseMigratorMock.verify((x) => x.migrate(), Times.exactly(1));
+        });
+
         it('should initialize Discord', async () => {
             // Arrange
             const app: AppComponent = createComponent();
@@ -231,7 +246,7 @@ describe('AppComponent', () => {
             await app.ngOnInit();
 
             // Assert
-            playbackServiceMock.verify((x) => x.initializeAsync(), Times.once());
+            playbackServiceMock.verify((x) => x.initialize(), Times.once());
         });
 
         it('should initialize LifetimeService', async () => {
