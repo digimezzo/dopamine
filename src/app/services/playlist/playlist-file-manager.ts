@@ -11,6 +11,7 @@ import { FileAccessBase } from '../../common/io/file-access.base';
 import { CollectionUtils } from '../../common/utils/collections-utils';
 import { FileValidator } from '../../common/validation/file-validator';
 import { DesktopBase } from '../../common/io/desktop.base';
+import { StringUtils } from '../../common/utils/string-utils';
 
 @Injectable()
 export class PlaylistFileManager {
@@ -21,6 +22,7 @@ export class PlaylistFileManager {
         private guidFactory: GuidFactory,
         private fileValidator: FileValidator,
         private applicationPaths: ApplicationPaths,
+        private desktop: DesktopBase,
         private fileAccess: FileAccessBase,
         private logger: Logger,
     ) {
@@ -40,7 +42,29 @@ export class PlaylistFileManager {
     }
 
     private initialize(): void {
-        this._playlistsParentFolderPath = this.applicationPaths.playlistsDirectoryFullPath();
+        let musicDirectory: string = '';
+
+        try {
+            musicDirectory = this.desktop.getMusicDirectory();
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not access music directory', 'PlaylistFileManager', 'initialize');
+        }
+
+        if (!StringUtils.isNullOrWhiteSpace(musicDirectory) && this.fileAccess.pathExists(musicDirectory)) {
+            this._playlistsParentFolderPath = this.fileAccess.combinePath([musicDirectory, 'Dopamine', 'Playlists']);
+            this.logger.info(
+                `Music directory found at '${musicDirectory}'. Saving playlists to '${this._playlistsParentFolderPath}'`,
+                'PlaylistFileManager',
+                'initialize',
+            );
+        } else {
+            this._playlistsParentFolderPath = this.fileAccess.combinePath([this.desktop.getApplicationDataDirectory(), 'Playlists']);
+            this.logger.info(
+                `Music directory not found. Saving playlists to '${this._playlistsParentFolderPath}'`,
+                'PlaylistFileManager',
+                'initialize',
+            );
+        }
     }
 
     public async getPlaylistsInPathAsync(path: string): Promise<PlaylistModel[]> {
