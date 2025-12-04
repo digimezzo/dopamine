@@ -27,6 +27,8 @@ import { AudioPlayerFactory } from './audio-player/audio-player.factory';
 import { IAudioPlayer } from './audio-player/i-audio-player';
 import { MediaSessionService } from '../media-session/media-session.service';
 import { PlaybackProgress } from './playback-progress';
+import { DialogServiceBase } from '../dialog/dialog.service.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 describe('PlaybackService', () => {
     let audioPlayerFactoryMock: IMock<AudioPlayerFactory>;
@@ -34,14 +36,17 @@ describe('PlaybackService', () => {
     let trackServiceMock: IMock<TrackServiceBase>;
     let playlistServiceMock: IMock<PlaylistServiceBase>;
     let notificationServiceMock: IMock<NotificationServiceBase>;
+    let dialogServiceMock: IMock<DialogServiceBase>;
     let mediaSessionServiceMock: IMock<MediaSessionService>;
     let queuePersisterMock: IMock<QueuePersister>;
+    let fileAccessMock: IMock<FileAccessBase>;
     let trackSorterMock: IMock<TrackSorter>;
     let loggerMock: IMock<Logger>;
     let queueMock: IMock<Queue>;
     let mathExtensionsMock: IMock<MathExtensions>;
     let settingsStub: any;
     let playbackFinished: Subject<void>;
+    let playbackFailed: Subject<string>;
     let playingPreloadedTrack: Subject<TrackModel>;
     let playEvent: Subject<void>;
     let pauseEvent: Subject<void>;
@@ -80,9 +85,11 @@ describe('PlaybackService', () => {
         trackServiceMock = Mock.ofType<TrackServiceBase>();
         playlistServiceMock = Mock.ofType<PlaylistServiceBase>();
         notificationServiceMock = Mock.ofType<NotificationServiceBase>();
+        dialogServiceMock = Mock.ofType<DialogServiceBase>();
         mediaSessionServiceMock = Mock.ofType<MediaSessionService>();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        fileAccessMock = Mock.ofType<FileAccessBase>();
         queuePersisterMock = Mock.ofType<QueuePersister>();
         trackSorterMock = Mock.ofType<TrackSorter>();
         loggerMock = Mock.ofType<Logger>();
@@ -96,6 +103,7 @@ describe('PlaybackService', () => {
         settingsStub = { volume: 0.6 };
         playbackFinished = new Subject();
         playingPreloadedTrack = new Subject();
+        playbackFailed = new Subject();
         playEvent = new Subject();
         pauseEvent = new Subject();
         previousTrackEvent = new Subject();
@@ -105,6 +113,8 @@ describe('PlaybackService', () => {
         audioPlayerMock.setup((x) => x.playbackFinished$).returns(() => playbackFinished$);
         const playingPreloadedTrack$: Observable<TrackModel> = playingPreloadedTrack.asObservable();
         audioPlayerMock.setup((x) => x.playingPreloadedTrack$).returns(() => playingPreloadedTrack$);
+        const playbackFailed$: Observable<string> = playbackFailed.asObservable();
+        audioPlayerMock.setup((x) => x.playbackFailed$).returns(() => playbackFailed$);
 
         const playEvent$: Observable<void> = playEvent.asObservable();
         mediaSessionServiceMock.setup((x) => x.playEvent$).returns(() => playEvent$);
@@ -177,8 +187,10 @@ describe('PlaybackService', () => {
             trackServiceMock.object,
             playlistServiceMock.object,
             notificationServiceMock.object,
+            dialogServiceMock.object,
             mediaSessionServiceMock.object,
             queuePersisterMock.object,
+            fileAccessMock.object,
             trackSorterMock.object,
             queueMock.object,
             mathExtensionsMock.object,

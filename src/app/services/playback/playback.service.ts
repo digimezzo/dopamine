@@ -24,6 +24,9 @@ import { AudioPlayerFactory } from './audio-player/audio-player.factory';
 import { IAudioPlayer } from './audio-player/i-audio-player';
 import { MediaSessionService } from '../media-session/media-session.service';
 import { Track } from '../../data/entities/track';
+import { FileFormats } from '../../common/application/file-formats';
+import { DialogServiceBase } from '../dialog/dialog.service.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable({ providedIn: 'root' })
 export class PlaybackService {
@@ -52,8 +55,10 @@ export class PlaybackService {
         private trackService: TrackServiceBase,
         private playlistService: PlaylistServiceBase,
         private notificationService: NotificationServiceBase,
+        private dialogService: DialogServiceBase,
         private mediaSessionService: MediaSessionService,
         private queuePersister: QueuePersister,
+        private fileAccess: FileAccessBase,
         private trackSorter: TrackSorter,
         private queue: Queue,
         private mathExtensions: MathExtensions,
@@ -463,6 +468,18 @@ export class PlaybackService {
         this.stop();
     }
 
+    private async playbackFailedHandlerAsync(audioFilePath: string): Promise<void> {
+        const extension: string = this.fileAccess.getFileExtension(audioFilePath);
+
+        if (extension === FileFormats.m4a) {
+            await this.dialogService.cannotPlayM4aFileAsync();
+        } else {
+            await this.dialogService.cannotPlayAudioFileAsync();
+        }
+
+        this.stop();
+    }
+
     private playingPreloadedTrackHandler(preloadedTrack: TrackModel): void {
         this.increasePlayCountAndDateLastPlayedForCurrentTrack();
 
@@ -512,6 +529,11 @@ export class PlaybackService {
             }),
         );
 
+        this.subscription.add(
+            this.audioPlayer.playbackFailed$.subscribe((audioFilePath: string) => {
+                void this.playbackFailedHandlerAsync(audioFilePath);
+            }),
+        );
         this.subscription.add(
             this.audioPlayer.playingPreloadedTrack$.subscribe((preloadedTrack: TrackModel) => {
                 this.playingPreloadedTrackHandler(preloadedTrack);

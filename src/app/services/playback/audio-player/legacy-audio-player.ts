@@ -1,13 +1,14 @@
 import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../../common/logger';
 import { MathExtensions } from '../../../common/math-extensions';
-import { StringUtils } from '../../../common/utils/string-utils';
 import { IAudioPlayer } from './i-audio-player';
 import { TrackModel } from '../../track/track-model';
+import { PathUtils } from '../../../common/utils/path-utils';
 
 export class LegacyAudioPlayer implements IAudioPlayer {
     private _audio: HTMLAudioElement;
     private _playbackFinished: Subject<void> = new Subject();
+    private _playbackFailed: Subject<string> = new Subject();
     private _playingPreloadedTrack: Subject<TrackModel> = new Subject();
     private _audioContext: AudioContext;
     private _analyser: AnalyserNode;
@@ -45,6 +46,7 @@ export class LegacyAudioPlayer implements IAudioPlayer {
     }
 
     public playbackFinished$: Observable<void> = this._playbackFinished.asObservable();
+    public playbackFailed$: Observable<string> = this._playbackFailed.asObservable();
     public playingPreloadedTrack$: Observable<TrackModel> = this._playingPreloadedTrack.asObservable();
 
     public get analyser(): AnalyserNode {
@@ -72,12 +74,12 @@ export class LegacyAudioPlayer implements IAudioPlayer {
     }
 
     public play(track: TrackModel): void {
-        const playableAudioFilePath: string = this.replaceUnplayableCharacters(track.path);
+        const playableAudioFilePath: string = PathUtils.createPlayableAudioFilePath(track.path);
 
         // This is a workaround to fix flickering of OS media controls when switching track from the media controls
         const tempAudio: HTMLAudioElement = new Audio();
         tempAudio.volume = this._audio.volume;
-        tempAudio.src = `file:///${playableAudioFilePath}`;
+        tempAudio.src = playableAudioFilePath;
         tempAudio.muted = this._audio.muted;
         tempAudio.defaultPlaybackRate = this._audio.defaultPlaybackRate;
         tempAudio.playbackRate = this._audio.playbackRate;
@@ -103,10 +105,10 @@ export class LegacyAudioPlayer implements IAudioPlayer {
             })
             .catch((e: unknown) => {
                 this.logger.error(e, `Audio src failed to load: ${this._audio.src}`, 'LegacyAudioPlayer', 'play');
-
-                this._playbackFinished.next();
                 this.shouldPauseAfterStarting = false;
                 this.skipSecondsAfterStarting = 0;
+
+                this._playbackFailed.next(this._audio.src);
             });
     }
 
@@ -138,13 +140,6 @@ export class LegacyAudioPlayer implements IAudioPlayer {
 
     public skipToSeconds(seconds: number): void {
         this._audio.currentTime = seconds;
-    }
-
-    private replaceUnplayableCharacters(audioFilePath: string): string {
-        // HTMLAudioElement doesn't play paths which contain # and ?, so we escape them.
-        let playableAudioFilePath: string = StringUtils.replaceAll(audioFilePath, '#', '%23');
-        playableAudioFilePath = StringUtils.replaceAll(playableAudioFilePath, '?', '%3F');
-        return playableAudioFilePath;
     }
 
     public preloadNext(track: TrackModel): void {

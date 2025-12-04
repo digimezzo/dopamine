@@ -3,6 +3,7 @@ import { TrackModel } from '../../track/track-model';
 
 export interface IAudioPlayer {
     playbackFinished$: Observable<void>;
+    playbackFailed$: Observable<string>;
     playingPreloadedTrack$: Observable<TrackModel>;
     progressSeconds: number;
     totalSeconds: number;
