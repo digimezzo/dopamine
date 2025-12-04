@@ -17,12 +17,14 @@ import { TrackModel } from '../track/track-model';
 import { EditTracksDialogComponent } from '../../ui/components/dialogs/edit-tracks-dialog/edit-tracks-dialog.component';
 import { InfoDialogComponent } from '../../ui/components/dialogs/info-dialog/info-dialog.component';
 import { InfoData } from './info-data';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
 
 @Injectable()
 export class DialogService implements DialogServiceBase {
     public constructor(
         private dialog: MatDialog,
         private playlistModelFactory: PlaylistModelFactory,
+        private translatorService: TranslatorServiceBase,
     ) {}
 
     public async showConfirmationDialogAsync(dialogTitle: string, dialogText: string): Promise<boolean> {
@@ -110,5 +112,14 @@ export class DialogService implements DialogServiceBase {
         const result: boolean | undefined = await dialogRef.afterClosed().toPromise();
 
         return result != undefined && result;
+    }
+
+    public async cannotPlayM4aFileAsync(): Promise<void> {
+        const message: string = await this.translatorService.getAsync('cannot-play-m4a-file');
+        this.showErrorDialog(message);
+    }
+    public async cannotPlayAudioFileAsync(): Promise<void> {
+        const message: string = await this.translatorService.getAsync('cannot-play-audio-file');
+        this.showErrorDialog(message);
     }
 }
