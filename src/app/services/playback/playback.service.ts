@@ -476,6 +476,8 @@ export class PlaybackService {
         } else {
             await this.dialogService.cannotPlayAudioFileAsync();
         }
+
+        this.stop();
     }
 
     private playingPreloadedTrackHandler(preloadedTrack: TrackModel): void {
