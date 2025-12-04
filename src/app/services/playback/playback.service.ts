@@ -420,6 +420,9 @@ export class PlaybackService {
                 clearTimeout(this._preloadTimeoutId);
             }
             this._preloadTimeoutId = setTimeout(() => {
+                if (this.currentTrack === undefined) {
+                    return;
+                }
                 this._audioPlayer.preloadNext(nextTrack);
                 this.logger.info(`Preloaded '${nextTrack.path}'`, 'PlaybackService', 'preloadNextTrackAfterDelay');
             }, 2000);

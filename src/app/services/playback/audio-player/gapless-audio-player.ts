@@ -256,7 +256,6 @@ export class GaplessAudioPlayer implements IAudioPlayer {
                         }
                     } catch (e: unknown) {
                         this.logger.error(e, `Could not decode audio data`, 'GaplessAudioPlayer', 'loadAudioWithWebAudio');
-                        this._playbackFinished.next();
                         this._playbackFailed.next(audioFilePath);
                     }
                 };
