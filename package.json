@@ -1,13 +1,22 @@
 {
-    "name": "Dopamine",
+    "name": "dopamine",
     "version": "3.0.1",
     "versionSuffix": "",
     "copyright": "Copyright Digimezzo Ⓒ 2014 - 2025",
-    "description": "Audio player",
-    "homepage": "https://github.com/digimezzo/dopamine",
+    "description": "Dopamine is an elegant audio player which tries to make organizing and listening to music as simple and pretty as possible.",
+    "license": "GPL-3.0",
     "author": {
         "name": "Digimezzo",
-        "email": "digimezzo@outlook.com"
+        "email": "digimezzo@outlook.com",
+        "url": "https://github.com/digimezzo/dopamine"
+    },
+    "homepage": "https://github.com/digimezzo/dopamine",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/digimezzo/dopamine.git"
+    },
+    "bugs": {
+        "url": "https://github.com/digimezzo/dopamine/issues"
     },
     "keywords": [
         "angular",

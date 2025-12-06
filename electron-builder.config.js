@@ -75,9 +75,10 @@ const config = {
         category: 'Audio',
         artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
         desktop: {
-            Name: 'Dopamine 3',
+            Name: 'Dopamine',
             Terminal: 'false',
         },
+        productName: "Dopamine"
     },
 };
 
