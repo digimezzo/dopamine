@@ -9,7 +9,7 @@ describe('ProductInformation', () => {
             const applicationName: string = ProductInformation.applicationName;
 
             // Assert
-            expect(applicationName).toEqual('dopamine');
+            expect(applicationName).toEqual('Dopamine');
         });
     });
 
