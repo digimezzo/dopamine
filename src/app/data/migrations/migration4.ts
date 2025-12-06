@@ -8,8 +8,4 @@ export class Migration4 extends Migration {
         this.sql('ALTER TABLE Track ADD AlbumKey2 TEXT;');
         this.sql('ALTER TABLE Track ADD AlbumKey3 TEXT;');
     }
-
-    public down(): void {
-        // Nothing to do
-    }
 }

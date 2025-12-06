@@ -1,7 +1,6 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { LoadingComponent } from './loading.component';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
-import { DatabaseMigratorBase } from '../../../data/database-migrator.base';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { UpdateServiceBase } from '../../../services/update/update.service.base';
 import { IndexingService } from '../../../services/indexing/indexing.service';
@@ -10,7 +9,6 @@ import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 
 describe('LoadingComponent', () => {
     let navigationServiceMock: IMock<NavigationServiceBase>;
-    let databaseMigratorMock: IMock<DatabaseMigratorBase>;
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let settingsStub: any;
     let updateServiceMock: IMock<UpdateServiceBase>;
@@ -21,7 +19,6 @@ describe('LoadingComponent', () => {
     function createComponent(): LoadingComponent {
         return new LoadingComponent(
             navigationServiceMock.object,
-            databaseMigratorMock.object,
             appearanceServiceMock.object,
             settingsStub,
             updateServiceMock.object,
@@ -33,7 +30,6 @@ describe('LoadingComponent', () => {
 
     beforeEach(() => {
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
-        databaseMigratorMock = Mock.ofType<DatabaseMigratorBase>();
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         settingsStub = { showWelcome: false, refreshCollectionAutomatically: false };
         updateServiceMock = Mock.ofType<UpdateServiceBase>();
@@ -55,36 +51,6 @@ describe('LoadingComponent', () => {
     });
 
     describe('ngOnInit', () => {
-        it('should perform database migrations if welcome should be shown', async () => {
-            // Arrange
-            settingsStub.showWelcome = true;
-            settingsStub.refreshCollectionAutomatically = false;
-            fileServiceMock.setup((x) => x.hasPlayableFilesAsParameters()).returns(() => false);
-
-            const component: LoadingComponent = createComponent();
-
-            // Act
-            await component.ngOnInit();
-
-            // Assert
-            databaseMigratorMock.verify((x) => x.migrate(), Times.exactly(1));
-        });
-
-        it('should perform database migrations if welcome should not be shown', async () => {
-            // Arrange
-            settingsStub.showWelcome = false;
-            settingsStub.refreshCollectionAutomatically = false;
-            fileServiceMock.setup((x) => x.hasPlayableFilesAsParameters()).returns(() => false);
-
-            const component: LoadingComponent = createComponent();
-
-            // Act
-            await component.ngOnInit();
-
-            // Assert
-            databaseMigratorMock.verify((x) => x.migrate(), Times.exactly(1));
-        });
-
         it('should navigate to welcome if welcome should be shown', async () => {
             // Arrange
             settingsStub.showWelcome = true;

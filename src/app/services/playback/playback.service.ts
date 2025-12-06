@@ -24,6 +24,9 @@ import { AudioPlayerFactory } from './audio-player/audio-player.factory';
 import { IAudioPlayer } from './audio-player/i-audio-player';
 import { MediaSessionService } from '../media-session/media-session.service';
 import { Track } from '../../data/entities/track';
+import { FileFormats } from '../../common/application/file-formats';
+import { DialogServiceBase } from '../dialog/dialog.service.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable({ providedIn: 'root' })
 export class PlaybackService {
@@ -52,8 +55,10 @@ export class PlaybackService {
         private trackService: TrackServiceBase,
         private playlistService: PlaylistServiceBase,
         private notificationService: NotificationServiceBase,
+        private dialogService: DialogServiceBase,
         private mediaSessionService: MediaSessionService,
         private queuePersister: QueuePersister,
+        private fileAccess: FileAccessBase,
         private trackSorter: TrackSorter,
         private queue: Queue,
         private mathExtensions: MathExtensions,
@@ -415,6 +420,9 @@ export class PlaybackService {
                 clearTimeout(this._preloadTimeoutId);
             }
             this._preloadTimeoutId = setTimeout(() => {
+                if (this.currentTrack === undefined) {
+                    return;
+                }
                 this._audioPlayer.preloadNext(nextTrack);
                 this.logger.info(`Preloaded '${nextTrack.path}'`, 'PlaybackService', 'preloadNextTrackAfterDelay');
             }, 2000);
@@ -458,6 +466,18 @@ export class PlaybackService {
             this.play(trackToPlay, false);
 
             return;
+        }
+
+        this.stop();
+    }
+
+    private async playbackFailedHandlerAsync(audioFilePath: string): Promise<void> {
+        const extension: string = this.fileAccess.getFileExtension(audioFilePath);
+
+        if (extension === FileFormats.m4a) {
+            await this.dialogService.cannotPlayM4aFileAsync();
+        } else {
+            await this.dialogService.cannotPlayAudioFileAsync();
         }
 
         this.stop();
@@ -513,6 +533,11 @@ export class PlaybackService {
         );
 
         this.subscription.add(
+            this.audioPlayer.playbackFailed$.subscribe((audioFilePath: string) => {
+                void this.playbackFailedHandlerAsync(audioFilePath);
+            }),
+        );
+        this.subscription.add(
             this.audioPlayer.playingPreloadedTrack$.subscribe((preloadedTrack: TrackModel) => {
                 this.playingPreloadedTrackHandler(preloadedTrack);
             }),
@@ -563,7 +588,7 @@ export class PlaybackService {
         }
     }
 
-    public async initializeAsync(): Promise<void> {
+    public initialize(): void {
         if (this.settings.rememberPlaybackStateAfterRestart) {
             if (this.settings.playbackControlsLoop !== 0) {
                 this._loopMode = this.settings.playbackControlsLoop === 1 ? LoopMode.One : LoopMode.All;
@@ -573,7 +598,7 @@ export class PlaybackService {
                 this._isShuffled = true;
             }
 
-            await this.restoreQueueAsync();
+            this.restoreQueue();
         }
     }
 
@@ -590,13 +615,13 @@ export class PlaybackService {
         this.startUpdatingProgress();
     }
 
-    private async restoreQueueAsync(): Promise<void> {
+    private restoreQueue(): void {
         // If already playing (e.g. from double-clicking files), do not restore queue.
         if (this.currentTrack) {
             return;
         }
 
-        const info: QueueRestoreInfo = await this.queuePersister.restoreAsync();
+        const info: QueueRestoreInfo = this.queuePersister.restore();
         this.queue.restoreTracks(info.tracks, info.playbackOrder);
 
         if (info.playingTrack) {

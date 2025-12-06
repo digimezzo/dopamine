@@ -21,6 +21,7 @@ import { LifetimeService } from './services/lifetime/lifetime.service';
 import { PlaybackService } from './services/playback/playback.service';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
 import { DiscordService } from './services/discord/discord.service';
+import { DatabaseMigratorBase } from './data/database-migrator.base';
 
 @Component({
     selector: 'app-root',
@@ -31,6 +32,7 @@ export class AppComponent implements OnInit {
     private subscription: Subscription = new Subscription();
 
     public constructor(
+        private databaseMigrator: DatabaseMigratorBase,
         private playbackService: PlaybackService,
         private navigationService: NavigationServiceBase,
         private appearanceService: AppearanceServiceBase,
@@ -81,6 +83,7 @@ export class AppComponent implements OnInit {
             }),
         );
 
+        this.databaseMigrator.migrate();
         this.audioVisualizer.initialize();
         await this.addToPlaylistMenu.initializeAsync();
         this.discordService.initialize();
@@ -90,8 +93,8 @@ export class AppComponent implements OnInit {
         this.mediaSessionService.initialize();
         this.scrobblingService.initialize();
         this.eventListenerService.listenToEvents();
-        await this.navigationService.navigateToLoadingAsync();
-        await this.playbackService.initializeAsync();
+        this.playbackService.initialize();
         this.lifetimeService.initialize();
+        await this.navigationService.navigateToLoadingAsync();
     }
 }

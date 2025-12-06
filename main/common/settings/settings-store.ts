@@ -7,7 +7,7 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 import { DEFAULT_SETTINGS } from './default-settings';
 
-const SETTINGS_FILE = path.join(app.getPath('userData'), 'settings.json');
+const SETTINGS_FILE = path.join(app.getPath('userData'), 'config.json');
 
 export class SettingsStore {
     private data: Record<string, any> = {};

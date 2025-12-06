@@ -320,7 +320,13 @@
     "choose-type": "选择一个类型",
     "follow-song": "跟随歌曲",
     "jump-to-playing-song": "自动滚动到播放中的歌曲",
-    "gripes": "Gripes",
     "images": "Images",
-    "i-prefer-square-images": "I prefer square images"
+    "i-prefer-square-images": "I prefer square images",
+    "none": "None",
+    "oldest-first": "Oldest first",
+    "newest-first": "Newest first",
+    "compact-view": "Compact view",
+    "expanded-view": "Expanded view",
+    "cannot-play-m4a-file": "The M4A file cannot be played. Please note that Dopamine supports only AAC-encoded M4A files and does not support Apple ALAC-encoded M4A files. Please check the log file if you need more information.",
+    "cannot-play-audio-file": "The selected audio file cannot be played. Please check the log file if you need more information."
 }

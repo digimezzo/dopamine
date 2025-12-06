@@ -1,6 +1,5 @@
 /.angular/cache
 .idea/
-.vscode/
 .VSCodeCounter/
 node_modules/
 dist/
@@ -13,3 +12,5 @@ main/api/discord/*.js
 main/api/discord/*.js.map
 main/common/application/*.js
 main/common/application/*.js.map
+main/common/settings/*.js
+main/common/settings/*.js.map

@@ -80,7 +80,7 @@ export class QueryParts {
                                                              t.NeedsAlbumArtworkIndexing AS needsAlbumArtworkIndexing,
                                                              t.IndexingSuccess AS indexingSuccess,
                                                              t.IndexingFailureReason AS indexingFailureReason,
-                                                             t.Rating AS rating,
+                                                             t.NewRating AS rating,
                                                              t.Love AS love,
                                                              t.PlayCount AS playCount,
                                                              t.SkipCount AS skipCount,

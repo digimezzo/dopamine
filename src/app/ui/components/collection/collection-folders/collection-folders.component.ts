@@ -27,6 +27,7 @@ import { ContextMenuOpener } from '../../context-menu-opener';
 import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { DesktopBase } from '../../../../common/io/desktop.base';
+import { TrackOrder } from '../track-order';
 
 @Component({
     selector: 'app-collection-folders',
@@ -60,6 +61,14 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         private hacks: Hacks,
         private desktop: DesktopBase,
     ) {}
+
+    public trackOrders: TrackOrder[] = [
+        TrackOrder.none,
+        TrackOrder.byTrackTitleAscending,
+        TrackOrder.byTrackTitleDescending,
+        TrackOrder.byDateCreatedAscending,
+        TrackOrder.byDateCreatedDescending,
+    ];
 
     @ViewChild('subfolderContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public subfolderContextMenu: MatMenuTrigger;

@@ -34,6 +34,7 @@ export class SettingsMock implements SettingsBase {
     public foldersLeftPaneWidthPercent: number;
     public foldersTabOpenedFolder: string;
     public foldersTabOpenedSubfolder: string;
+    public foldersTabSelectedTrackOrder: string;
     public followSystemColor: boolean;
     public followAlbumCoverColor: boolean;
     public followSystemTheme: boolean;
@@ -94,6 +95,7 @@ export class SettingsMock implements SettingsBase {
     public richLyricsFontSize: number;
     public jumpToPlayingSong: boolean;
     public showSquareImages: boolean;
+    public useCompactYearView: boolean;
 
     public get albumKeyIndex(): string {
         return this.albumKeyIndexMock;

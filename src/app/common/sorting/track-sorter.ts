@@ -52,6 +52,42 @@ export class TrackSorter {
         return sorted;
     }
 
+    public sortByDateCreatedAscending(tracks: TrackModel[]): TrackModel[] {
+        const timer = new Timer();
+        timer.start();
+
+        // Use track number as a secondary key to ensure stable ordering when dateCreated values are equal
+        const sorted = sort(tracks).by([{ asc: (t) => t.dateCreated }, { asc: (t) => t.number }]);
+
+        timer.stop();
+
+        this.logger.info(
+            `Finished sorting tracks by date created ascending. Time required: ${timer.elapsedMilliseconds} ms`,
+            'TrackSorter',
+            'sortByDateCreatedAscending',
+        );
+
+        return sorted;
+    }
+
+    public sortByDateCreatedDescending(tracks: TrackModel[]): TrackModel[] {
+        const timer = new Timer();
+        timer.start();
+
+        // Use track number as a secondary key to ensure stable ordering when dateCreated values are equal
+        const sorted = sort(tracks).by([{ desc: (t) => t.dateCreated }, { desc: (t) => t.number }]);
+
+        timer.stop();
+
+        this.logger.info(
+            `Finished sorting tracks by date created descending. Time required: ${timer.elapsedMilliseconds} ms`,
+            'TrackSorter',
+            'sortByDateCreatedDescending',
+        );
+
+        return sorted;
+    }
+
     public sortByAlbum(tracks: TrackModel[]): TrackModel[] {
         const timer = new Timer();
         timer.start();

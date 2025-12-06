@@ -38,6 +38,13 @@
         }}</app-icon-text-button>
     </div>
     <mat-divider class="my-4"></mat-divider>
+    <div class="title">{{ 'images' | translate }}</div>
+    <div>
+        <app-toggle-switch [(isChecked)]="this.settings.showSquareImages">
+            {{ 'i-prefer-square-images' | translate }}</app-toggle-switch
+        >
+    </div>
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'title-bar' | translate }}</div>
     <app-toggle-switch [(isChecked)]="settings.useSystemTitleBar"> {{ 'use-system-title-bar' | translate }}</app-toggle-switch>
     <mat-divider class="my-4"></mat-divider>

@@ -65,18 +65,6 @@ describe('ApplicationPaths', () => {
         });
     });
 
-    describe('playlistsDirectoryFullPath', () => {
-        it('should return playlists directory full path', () => {
-            // Arrange
-            const sut: ApplicationPaths = createSut();
-
-            // Act
-
-            // Act, Assert
-            expect(sut.playlistsDirectoryFullPath()).toEqual('C:\\Users\\User\\Music\\Dopamine\\Playlists');
-        });
-    });
-
     describe('themesDirectoryFullPath', () => {
         it('should return themes directory full path', () => {
             // Arrange

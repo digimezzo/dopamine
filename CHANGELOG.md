@@ -3,6 +3,33 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.1] - 2025-12-04
+
+### Added
+
+-   Introduced half-star rating support, expanding the song rating scale to a range of 0–10.
+-   Added song sorting options on the 'Folders' screen
+-   Added a button to toggle between the default expanded album view and Dopamine 2's compact album view
+
+### Changed
+
+-   Updated the Russian translation
+-   Updated the Spanish translation
+-   Updated the Swedish translation
+-   Updated the Vietnamese translation
+
+### Fixed
+
+-   m3u8 playlists are not recognized
+-   Ratings are not read from files
+-   Developer console opens when pressing F12
+-   Crash when trying to play a deleted file
+-   Song length in right sidebar displays double the time of the real length
+-   Some issues with fetching of lyrics
+-   Folders context menu opens too much the left on the Folders screen
+-   Crash when the user has no Music directory
+-   Crash when trying to play ALAC M4A file. Those are not supported. Instead of a crash, the user is now informed why the file doesn't play.
+
 ## [3.0.0] - 2025-11-06
 
 First release!

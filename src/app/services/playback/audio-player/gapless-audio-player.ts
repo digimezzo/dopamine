@@ -3,8 +3,8 @@ import { Observable, Subject } from 'rxjs';
 import { IAudioPlayer } from './i-audio-player';
 import { MathExtensions } from '../../../common/math-extensions';
 import { Logger } from '../../../common/logger';
-import { StringUtils } from '../../../common/utils/string-utils';
 import { TrackModel } from '../../track/track-model';
+import { PathUtils } from '../../../common/utils/path-utils';
 
 @Injectable({
     providedIn: 'root',
@@ -13,6 +13,8 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     private _audio: HTMLAudioElement;
     private _tempAudio: HTMLAudioElement;
     private _playbackFinished: Subject<void> = new Subject();
+    private _playbackFailed: Subject<string> = new Subject();
+
     private _playingPreloadedTrack: Subject<TrackModel> = new Subject();
     private _audioContext: AudioContext;
     private _audioStartTime: number = 0;
@@ -59,6 +61,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     }
 
     public playbackFinished$: Observable<void> = this._playbackFinished.asObservable();
+    public playbackFailed$: Observable<string> = this._playbackFailed.asObservable();
     public playingPreloadedTrack$: Observable<TrackModel> = this._playingPreloadedTrack.asObservable();
 
     public get analyser(): AnalyserNode {
@@ -87,13 +90,13 @@ export class GaplessAudioPlayer implements IAudioPlayer {
 
     public play(track: TrackModel): void {
         this._currentTrack = track;
-        const playableAudioFilePath: string = this.replaceUnplayableCharacters(track.path);
-        this.loadAudioWithWebAudioAsync(playableAudioFilePath, false);
+        const playableAudioFilePath: string = PathUtils.createPlayableAudioFilePath(track.path);
+        this.loadAudioWithWebAudio(playableAudioFilePath, false);
 
         this._tempAudio = new Audio();
         this._tempAudio.volume = 0;
         this._tempAudio.muted = false;
-        this._tempAudio.src = 'file:///' + playableAudioFilePath;
+        this._tempAudio.src = playableAudioFilePath;
     }
     public stop(): void {
         this._isPlaying = false;
@@ -149,8 +152,8 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     }
     public preloadNext(track: TrackModel): void {
         this._preloadedTrack = track;
-        const playableAudioFilePath: string = this.replaceUnplayableCharacters(track.path);
-        this.loadAudioWithWebAudioAsync(playableAudioFilePath, true);
+        const playableAudioFilePath: string = PathUtils.createPlayableAudioFilePath(track.path);
+        this.loadAudioWithWebAudio(playableAudioFilePath, true);
     }
 
     private async fetchAudioFile(url: string): Promise<Blob> {
@@ -220,7 +223,9 @@ export class GaplessAudioPlayer implements IAudioPlayer {
                 this.skipSecondsAfterStarting = 0;
                 this._gainNode.gain.setValueAtTime(this._lastSetLogarithmicVolume, 0);
             }
-        } catch (error) {}
+        } catch (e) {
+            this.logger.error(e, `Could not play with web audio`, 'GaplessAudioPlayer', 'playWebAudio');
+        }
     }
 
     private transitionToNextBuffer(): void {
@@ -234,7 +239,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         this.playWebAudio(0);
     }
 
-    private async loadAudioWithWebAudioAsync(audioFilePath: string, preload: boolean): Promise<void> {
+    private loadAudioWithWebAudio(audioFilePath: string, preload: boolean): void {
         this.fetchAudioFile(audioFilePath)
             .then((blob) => {
                 const reader = new FileReader();
@@ -242,22 +247,20 @@ export class GaplessAudioPlayer implements IAudioPlayer {
                 reader.onloadend = async () => {
                     const arrayBuffer = reader.result as ArrayBuffer;
 
-                    if (preload) {
-                        this._nextBuffer = await this._audioContext.decodeAudioData(arrayBuffer);
-                    } else {
-                        this._currentBuffer = await this._audioContext.decodeAudioData(arrayBuffer);
-                        this.playWebAudio(0);
+                    try {
+                        if (preload) {
+                            this._nextBuffer = await this._audioContext.decodeAudioData(arrayBuffer);
+                        } else {
+                            this._currentBuffer = await this._audioContext.decodeAudioData(arrayBuffer);
+                            this.playWebAudio(0);
+                        }
+                    } catch (e: unknown) {
+                        this.logger.error(e, `Could not decode audio data`, 'GaplessAudioPlayer', 'loadAudioWithWebAudio');
+                        this._playbackFailed.next(audioFilePath);
                     }
                 };
             })
-            .catch((error) => console.error(error));
-    }
-
-    private replaceUnplayableCharacters(audioFilePath: string): string {
-        // HTMLAudioElement doesn't play paths which contain # and ?, so we escape them.
-        let playableAudioFilePath: string = StringUtils.replaceAll(audioFilePath, '#', '%23');
-        playableAudioFilePath = StringUtils.replaceAll(playableAudioFilePath, '?', '%3F');
-        return playableAudioFilePath;
+            .catch((e: unknown) => this.logger.error(e, `Could not load with web audio`, 'GaplessAudioPlayer', 'loadAudioWithWebAudio'));
     }
 
     public getAudio(): HTMLAudioElement | undefined {

@@ -1,4 +1,4 @@
-const { File, PictureType, TagTypes, Id3v2PopularimeterFrame, Id3v2FrameClassType } = require('node-taglib-sharp');
+const { File, PictureType, TagTypes, Id3v2FrameClassType } = require('node-taglib-sharp');
 const { RatingConverter } = require('./rating-converter');
 
 class TagLibFileMetadata {
@@ -140,10 +140,10 @@ class TagLibFileMetadata {
         const popularimeterFramesForWindowsUser = allPopularimeterFrames.filter((x) => x.user === this.#windowsPopMUser);
 
         if (popularimeterFramesForWindowsUser.length > 0) {
-            return RatingConverter.popM2StarRating(popularimeterFramesForWindowsUser[0].rating);
+            return RatingConverter.popMToStarRating(popularimeterFramesForWindowsUser[0].rating);
         }
 
-        return RatingConverter.popM2StarRating(allPopularimeterFrames[0].rating);
+        return RatingConverter.popMToStarRating(allPopularimeterFrames[0].rating);
     }
 }
 

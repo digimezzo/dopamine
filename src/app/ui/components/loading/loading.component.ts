@@ -3,7 +3,6 @@ import { NavigationServiceBase } from '../../../services/navigation/navigation.s
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { UpdateServiceBase } from '../../../services/update/update.service.base';
 import { FileServiceBase } from '../../../services/file/file.service.base';
-import { DatabaseMigratorBase } from '../../../data/database-migrator.base';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { SettingsBase } from '../../../common/settings/settings.base';
 import { IndexingService } from '../../../services/indexing/indexing.service';
@@ -18,7 +17,6 @@ import { IndexingService } from '../../../services/indexing/indexing.service';
 export class LoadingComponent implements OnInit {
     public constructor(
         public navigationService: NavigationServiceBase,
-        private databaseMigrator: DatabaseMigratorBase,
         public appearanceService: AppearanceServiceBase,
         private settings: SettingsBase,
         private updateService: UpdateServiceBase,
@@ -28,8 +26,6 @@ export class LoadingComponent implements OnInit {
     ) {}
 
     public async ngOnInit(): Promise<void> {
-        this.databaseMigrator.migrate();
-
         if (this.settings.showWelcome) {
             this.settings.showWelcome = false;
             await this.navigationService.navigateToWelcomeAsync();

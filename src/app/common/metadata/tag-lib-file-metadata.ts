@@ -205,10 +205,10 @@ export class TagLibFileMetadata implements IFileMetadata {
         );
 
         if (popularimeterFramesForWindowsUser.length > 0) {
-            return RatingConverter.popM2StarRating(popularimeterFramesForWindowsUser[0].rating);
+            return RatingConverter.popMToStarRating(popularimeterFramesForWindowsUser[0].rating);
         }
 
-        return RatingConverter.popM2StarRating(allPopularimeterFrames[0].rating);
+        return RatingConverter.popMToStarRating(allPopularimeterFrames[0].rating);
     }
 
     private writeRatingToFile(tagLibFile: File, rating: number): void {

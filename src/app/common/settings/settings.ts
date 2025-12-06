@@ -301,6 +301,15 @@ export class Settings implements SettingsBase {
         this.set('foldersTabOpenedSubfolder', v);
     }
 
+    // foldersTabSelectedTrackOrder
+    public get foldersTabSelectedTrackOrder(): string {
+        return this.get<string>('foldersTabSelectedTrackOrder');
+    }
+
+    public set foldersTabSelectedTrackOrder(v: string) {
+        this.set('foldersTabSelectedTrackOrder', v);
+    }
+
     // albumsTabSelectedAlbum
     public get albumsTabSelectedAlbum(): string {
         return this.get<string>('albumsTabSelectedAlbum');
@@ -851,5 +860,14 @@ export class Settings implements SettingsBase {
 
     public set showSquareImages(v: boolean) {
         this.set('showSquareImages', v);
+    }
+
+    // useCompactYearView
+    public get useCompactYearView(): boolean {
+        return this.get<boolean>('useCompactYearView');
+    }
+
+    public set useCompactYearView(v: boolean) {
+        this.set('useCompactYearView', v);
     }
 }

@@ -22,7 +22,7 @@ export class FileFormats {
     public static readonly m3u: string = '.m3u';
     public static readonly m3u8: string = '.m3u8';
 
-    public static readonly supportedPlaylistExtensions: string[] = [FileFormats.m3u, FileFormats.flac];
+    public static readonly supportedPlaylistExtensions: string[] = [FileFormats.m3u, FileFormats.m3u8];
 
     // Playlist image extensions
     public static readonly png: string = '.png';

@@ -199,6 +199,7 @@ function createMainWindow(): void {
             webSecurity: false,
             nodeIntegration: true,
             contextIsolation: false,
+            devTools: !app.isPackaged,
         },
         show: false,
     });

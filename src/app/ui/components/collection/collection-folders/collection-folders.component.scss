@@ -37,12 +37,13 @@
 }
 
 .folder__column1 {
+    flex: 1;
     white-space: nowrap;
     margin-right: 8px;
 }
 
 .folder__column2 {
-    flex: 1;
+    
     overflow: hidden;
 }
 
