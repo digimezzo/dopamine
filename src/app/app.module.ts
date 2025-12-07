@@ -293,6 +293,8 @@ import { VolumeIconComponent } from './ui/components/volume-icon/volume-icon.com
 import { EditTracksDialogComponent } from './ui/components/dialogs/edit-tracks-dialog/edit-tracks-dialog.component';
 import { InfoDialogComponent } from './ui/components/dialogs/info-dialog/info-dialog.component';
 import { IterableMenuComponent } from './ui/components/common/iterable-menu.component';
+import { SrtLyricsGetter } from './services/lyrics/srt-lyrics-getter';
+import { GripesSettingsComponent } from './ui/components/settings/gripes-settings/gripes-settings.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -551,6 +553,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         GuidFactory,
         EmbeddedLyricsGetter,
         LrcLyricsGetter,
+        SrtLyricsGetter,
         OnlineLyricsGetter,
         IntegrationTestRunner,
         AudioVisualizer,

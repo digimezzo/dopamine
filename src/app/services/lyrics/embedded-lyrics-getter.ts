@@ -18,6 +18,6 @@ export class EmbeddedLyricsGetter implements ILyricsGetter {
             return LyricsModel.empty(track);
         }
 
-        return new LyricsModel(track, '', LyricsSourceType.embedded, fileMetadata.lyrics);
+        return LyricsModel.createSimple(track, '', LyricsSourceType.embedded, fileMetadata.lyrics);
     }
 }
