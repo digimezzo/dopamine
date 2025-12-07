@@ -78,7 +78,6 @@ const config = {
             Name: 'Dopamine',
             Terminal: 'false',
         },
-        productName: "Dopamine"
     },
 };
 
