@@ -78,6 +78,8 @@ const config = {
             Name: 'Dopamine',
             Terminal: 'false',
         },
+        synopsis: 'The audio player that keeps it simple.',
+        description: 'Dopamine is an elegant audio player which tries to make organizing and listening to music as simple and pretty as possible.',
     },
 };
 
