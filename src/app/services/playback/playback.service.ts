@@ -609,6 +609,7 @@ export class PlaybackService {
     }
 
     private startPaused(track: TrackModel, skipSeconds: number): void {
+        this.logger.info(`Starting playback paused for track: ${track.path} at ${skipSeconds} seconds`, 'PlaybackService', 'startPaused');
         this.audioPlayer.startPaused(track, skipSeconds);
         this.postPlay(track, false);
         this.postPause();
@@ -618,13 +619,22 @@ export class PlaybackService {
     private restoreQueue(): void {
         // If already playing (e.g. from double-clicking files), do not restore queue.
         if (this.currentTrack) {
+            this.logger.info('Playback already in progress, not restoring playback queue', 'PlaybackService', 'restoreQueue');
             return;
         }
 
+        this.logger.info('Restoring playback queue', 'PlaybackService', 'restoreQueue');
+
         const info: QueueRestoreInfo = this.queuePersister.restore();
         this.queue.restoreTracks(info.tracks, info.playbackOrder);
+        this.logger.info(`Restored ${info.tracks.length} tracks to playback queue`, 'PlaybackService', 'restoreQueue');
 
         if (info.playingTrack) {
+            this.logger.info(
+                `Restoring playback to track: ${info.playingTrack.path} at ${info.progressSeconds} seconds`,
+                'PlaybackService',
+                'restoreQueue',
+            );
             this.startPaused(info.playingTrack, info.progressSeconds);
         }
     }

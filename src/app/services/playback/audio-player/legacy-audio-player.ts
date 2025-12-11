@@ -94,6 +94,7 @@ export class LegacyAudioPlayer implements IAudioPlayer {
         this._audio
             .play()
             .then(() => {
+                this.logger.info('this._audio.play()', 'LegacyAudioPlayer', 'play');
                 this._audio.onended = () => this._playbackFinished.next();
 
                 if (this.shouldPauseAfterStarting) {
@@ -121,15 +122,18 @@ export class LegacyAudioPlayer implements IAudioPlayer {
     public stop(): void {
         this._audio.currentTime = 0;
         this._audio.pause();
+        this.logger.info('this._audio.pause()', 'LegacyAudioPlayer', 'stop');
     }
 
     public pause(): void {
         this._isPaused = true;
         this._audio.pause();
+        this.logger.info('this._audio.pause()', 'LegacyAudioPlayer', 'pause');
     }
 
     public resume(): void {
         this._audio.play();
+        this.logger.info('this._audio.play()', 'LegacyAudioPlayer', 'resume');
         this._isPaused = false;
     }
 
