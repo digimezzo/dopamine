@@ -16,8 +16,10 @@ export class AudioPlayerFactory {
 
     public create(): IAudioPlayer {
         if (this.settings.useGaplessPlayback) {
+            this.logger.info('Creating GaplessAudioPlayer for audio playback.', 'AudioPlayerFactory', 'create');
             return new GaplessAudioPlayer(this.mathExtensions, this.logger);
         } else {
+            this.logger.info('Creating LegacyAudioPlayer for audio playback.', 'AudioPlayerFactory', 'create');
             return new LegacyAudioPlayer(this.mathExtensions, this.logger);
         }
     }
