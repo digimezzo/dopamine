@@ -246,7 +246,7 @@ describe('AppComponent', () => {
             await app.ngOnInit();
 
             // Assert
-            playbackServiceMock.verify((x) => x.initialize(), Times.once());
+            playbackServiceMock.verify((x) => x.initializeAsync(), Times.once());
         });
 
         it('should initialize LifetimeService', async () => {

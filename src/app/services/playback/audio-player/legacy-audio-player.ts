@@ -73,7 +73,7 @@ export class LegacyAudioPlayer implements IAudioPlayer {
         return this._audio.duration;
     }
 
-    public play(track: TrackModel): void {
+    public async playAsync(track: TrackModel): Promise<void> {
         const playableAudioFilePath: string = PathUtils.createPlayableAudioFilePath(track.path);
 
         // This is a workaround to fix flickering of OS media controls when switching track from the media controls
@@ -84,38 +84,39 @@ export class LegacyAudioPlayer implements IAudioPlayer {
         tempAudio.defaultPlaybackRate = this._audio.defaultPlaybackRate;
         tempAudio.playbackRate = this._audio.playbackRate;
 
-        this._audio.onended = () => {};
+        this._audio.onended = () => {
+            // Intentionally left blank
+        };
+
         this._audio = tempAudio;
 
         this.connectVisualizer();
 
         this._isPaused = false;
 
-        this._audio
-            .play()
-            .then(() => {
-                this._audio.onended = () => this._playbackFinished.next();
+        try {
+            await this._audio.play();
+            this._audio.onended = () => this._playbackFinished.next();
 
-                if (this.shouldPauseAfterStarting) {
-                    this.pause();
-                    this.skipToSeconds(this.skipSecondsAfterStarting);
-                    this.shouldPauseAfterStarting = false;
-                    this.skipSecondsAfterStarting = 0;
-                }
-            })
-            .catch((e: unknown) => {
-                this.logger.error(e, `Audio src failed to load: ${this._audio.src}`, 'LegacyAudioPlayer', 'play');
+            if (this.shouldPauseAfterStarting) {
+                this.pause();
+                await this.skipToSecondsAsync(this.skipSecondsAfterStarting);
                 this.shouldPauseAfterStarting = false;
                 this.skipSecondsAfterStarting = 0;
+            }
+        } catch (e: unknown) {
+            this.logger.error(e, `Audio src failed to load: ${this._audio.src}`, 'LegacyAudioPlayer', 'play');
+            this.shouldPauseAfterStarting = false;
+            this.skipSecondsAfterStarting = 0;
 
-                this._playbackFailed.next(this._audio.src);
-            });
+            this._playbackFailed.next(this._audio.src);
+        }
     }
 
-    public startPaused(track: TrackModel, skipSeconds: number): void {
+    public async startPausedAsync(track: TrackModel, skipSeconds: number): Promise<void> {
         this.shouldPauseAfterStarting = true;
         this.skipSecondsAfterStarting = skipSeconds;
-        this.play(track);
+        await this.playAsync(track);
     }
 
     public stop(): void {
@@ -128,8 +129,8 @@ export class LegacyAudioPlayer implements IAudioPlayer {
         this._audio.pause();
     }
 
-    public resume(): void {
-        this._audio.play();
+    public async resumeAsync(): Promise<void> {
+        await this._audio.play();
         this._isPaused = false;
     }
 
@@ -138,10 +139,12 @@ export class LegacyAudioPlayer implements IAudioPlayer {
         this._audio.volume = linearVolume > 0 ? this.mathExtensions.linearToLogarithmic(linearVolume, 0.01, 1) : 0;
     }
 
-    public skipToSeconds(seconds: number): void {
+    // eslint-disable-next-line @typescript-eslint/require-await
+    public async skipToSecondsAsync(seconds: number): Promise<void> {
         this._audio.currentTime = seconds;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public preloadNext(track: TrackModel): void {
         // Not implemented as not supported by legacy audio player.
     }
@@ -153,6 +156,6 @@ export class LegacyAudioPlayer implements IAudioPlayer {
     private connectVisualizer(): void {
         const mediaElementSource: MediaElementAudioSourceNode = this._audioContext.createMediaElementSource(this._audio);
         this._analyser.connect(this._audioContext.destination);
-        mediaElementSource!.connect(this._analyser);
+        mediaElementSource.connect(this._analyser);
     }
 }

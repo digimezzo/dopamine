@@ -32,7 +32,7 @@ export class CollectionComponent extends AnimatedPage implements AfterViewInit {
     @HostListener('document:keyup', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
         if (event.key === ' ' && !(event.target instanceof HTMLInputElement)) {
-            this.playbackService.togglePlayback();
+            void this.playbackService.togglePlaybackAsync();
         }
     }
 
