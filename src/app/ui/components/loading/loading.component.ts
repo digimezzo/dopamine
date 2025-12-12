@@ -6,6 +6,7 @@ import { FileServiceBase } from '../../../services/file/file.service.base';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { SettingsBase } from '../../../common/settings/settings.base';
 import { IndexingService } from '../../../services/indexing/indexing.service';
+import { PlaybackService } from '../../../services/playback/playback.service';
 
 @Component({
     selector: 'app-loading',
@@ -18,6 +19,7 @@ export class LoadingComponent implements OnInit {
     public constructor(
         public navigationService: NavigationServiceBase,
         public appearanceService: AppearanceServiceBase,
+        private playbackService: PlaybackService,
         private settings: SettingsBase,
         private updateService: UpdateServiceBase,
         private indexingService: IndexingService,
@@ -31,6 +33,7 @@ export class LoadingComponent implements OnInit {
             await this.navigationService.navigateToWelcomeAsync();
         } else {
             if (this.fileService.hasPlayableFilesAsParameters()) {
+                await this.playbackService.RestoreQueueIfNeededAsync(false);
                 await this.fileService.enqueueParameterFilesAsync();
 
                 if (this.settings.playerType === 'cover') {
@@ -39,6 +42,7 @@ export class LoadingComponent implements OnInit {
                     await this.navigationService.navigateToNowPlayingAsync();
                 }
             } else {
+                await this.playbackService.RestoreQueueIfNeededAsync(true);
                 if (this.settings.playerType === 'cover') {
                     await this.navigationService.navigateToCoverPlayerAsync();
                 } else {

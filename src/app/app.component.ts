@@ -18,7 +18,6 @@ import { EventListenerServiceBase } from './services/event-listener/event-listen
 import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
 import { DesktopBase } from './common/io/desktop.base';
 import { LifetimeService } from './services/lifetime/lifetime.service';
-import { PlaybackService } from './services/playback/playback.service';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
 import { DiscordService } from './services/discord/discord.service';
 import { DatabaseMigratorBase } from './data/database-migrator.base';
@@ -33,7 +32,6 @@ export class AppComponent implements OnInit {
 
     public constructor(
         private databaseMigrator: DatabaseMigratorBase,
-        private playbackService: PlaybackService,
         private navigationService: NavigationServiceBase,
         private appearanceService: AppearanceServiceBase,
         private translatorService: TranslatorServiceBase,
@@ -93,7 +91,6 @@ export class AppComponent implements OnInit {
         this.mediaSessionService.initialize();
         this.scrobblingService.initialize();
         this.eventListenerService.listenToEvents();
-        await this.playbackService.initializeAsync();
         this.lifetimeService.initialize();
         await this.navigationService.navigateToLoadingAsync();
     }

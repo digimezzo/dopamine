@@ -6,10 +6,12 @@ import { UpdateServiceBase } from '../../../services/update/update.service.base'
 import { IndexingService } from '../../../services/indexing/indexing.service';
 import { FileServiceBase } from '../../../services/file/file.service.base';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
+import { PlaybackService } from '../../../services/playback/playback.service';
 
 describe('LoadingComponent', () => {
     let navigationServiceMock: IMock<NavigationServiceBase>;
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
+    let playbackServiceMock: IMock<PlaybackService>;
     let settingsStub: any;
     let updateServiceMock: IMock<UpdateServiceBase>;
     let indexingServiceMock: IMock<IndexingService>;
@@ -20,6 +22,7 @@ describe('LoadingComponent', () => {
         return new LoadingComponent(
             navigationServiceMock.object,
             appearanceServiceMock.object,
+            playbackServiceMock.object,
             settingsStub,
             updateServiceMock.object,
             indexingServiceMock.object,
@@ -31,6 +34,7 @@ describe('LoadingComponent', () => {
     beforeEach(() => {
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
         settingsStub = { showWelcome: false, refreshCollectionAutomatically: false };
         updateServiceMock = Mock.ofType<UpdateServiceBase>();
         indexingServiceMock = Mock.ofType<IndexingService>();
@@ -96,6 +100,19 @@ describe('LoadingComponent', () => {
             navigationServiceMock.verify((x) => x.navigateToCollectionAsync(), Times.exactly(1));
         });
 
+        it('should restore playback state if there are no playable files as parameters', async () => {
+            // Arrange
+            fileServiceMock.setup((x) => x.hasPlayableFilesAsParameters()).returns(() => false);
+
+            const component: LoadingComponent = createComponent();
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.RestoreQueueIfNeededAsync(true), Times.exactly(1));
+        });
+
         it('should navigate to now playing if welcome should not be shown and there are playable files as parameters', async () => {
             // Arrange
             settingsStub.showWelcome = false;
@@ -124,6 +141,19 @@ describe('LoadingComponent', () => {
 
             // Assert
             fileServiceMock.verify((x) => x.enqueueParameterFilesAsync(), Times.exactly(1));
+        });
+
+        it('should not restore playback state if there are playable files as parameters', async () => {
+            // Arrange
+            fileServiceMock.setup((x) => x.hasPlayableFilesAsParameters()).returns(() => true);
+
+            const component: LoadingComponent = createComponent();
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.RestoreQueueIfNeededAsync(false), Times.exactly(1));
         });
 
         it('should check for updates when navigating to collection', async () => {
