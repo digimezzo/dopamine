@@ -93,7 +93,7 @@ export class AppComponent implements OnInit {
         this.mediaSessionService.initialize();
         this.scrobblingService.initialize();
         this.eventListenerService.listenToEvents();
-        this.playbackService.initialize();
+        await this.playbackService.initializeAsync();
         this.lifetimeService.initialize();
         await this.navigationService.navigateToLoadingAsync();
     }

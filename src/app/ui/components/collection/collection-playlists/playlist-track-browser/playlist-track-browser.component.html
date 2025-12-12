@@ -16,7 +16,7 @@
             <app-track
                 [track]="track"
                 canShowHeader="true"
-                (dblclick)="playbackService.enqueueAndPlayTracksStartingFromGivenTrack(this.orderedTracks, track)"
+                (dblclick)="playbackService.enqueueAndPlayTracksStartingFromGivenTrackAsync(this.orderedTracks, track)"
                 (contextmenu)="onPlaylistTrackContextMenu($event, track)"
             ></app-track>
         </div>

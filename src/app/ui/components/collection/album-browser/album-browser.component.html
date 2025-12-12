@@ -47,7 +47,7 @@
                     [isSelected]="album.isSelected"
                     [useCompactYearView]="this.useCompactYearView"
                     (mousedown)="setSelectedAlbums($event, album)"
-                    (dblclick)="this.playbackService.enqueueAndPlayAlbum(album)"
+                    (dblclick)="this.playbackService.enqueueAndPlayAlbumAsync(album)"
                     (contextmenu)="onAlbumContextMenu($event, album)"
                 ></app-album>
             </div>

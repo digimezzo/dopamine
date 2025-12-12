@@ -19,7 +19,7 @@
         <div *cdkVirtualFor="let genre of this.orderedGenres" (mousedown)="setSelectedGenres($event, genre)">
             <app-genre
                 [genre]="genre"
-                (dblclick)="this.playbackService.enqueueAndPlayGenre(genre)"
+                (dblclick)="this.playbackService.enqueueAndPlayGenreAsync(genre)"
                 (contextmenu)="onGenreContextMenu($event, genre)"
             ></app-genre>
         </div>

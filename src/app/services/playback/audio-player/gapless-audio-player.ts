@@ -88,7 +88,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         return this._isPlaying ? this._currentBuffer?.duration || 0 : 0;
     }
 
-    public play(track: TrackModel): void {
+    public async playAsync(track: TrackModel): Promise<void> {
         this._currentTrack = track;
         const playableAudioFilePath: string = PathUtils.createPlayableAudioFilePath(track.path);
         this.loadAudioWithWebAudio(playableAudioFilePath, false);
@@ -111,11 +111,11 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         this._audio.pause();
     }
 
-    public startPaused(track: TrackModel, skipSeconds: number): void {
+    public async startPausedAsync(track: TrackModel, skipSeconds: number): Promise<void> {
         this.shouldPauseAfterStarting = true;
         this.skipSecondsAfterStarting = skipSeconds;
         this._gainNode.gain.setValueAtTime(0, 0);
-        this.play(track);
+        await this.playAsync(track);
     }
 
     public pause(): void {
@@ -130,9 +130,9 @@ export class GaplessAudioPlayer implements IAudioPlayer {
 
         this._audio.pause();
     }
-    public resume(): void {
-        this.playWebAudio(this._audioPausedAt);
-        this._audio.play();
+    public async resumeAsync(): Promise<void> {
+        await this.playWebAudioAsync(this._audioPausedAt);
+        await this._audio.play();
         this._isPaused = false;
     }
     public setVolume(linearVolume: number): void {
@@ -141,9 +141,9 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         this._gainNode.gain.setValueAtTime(logarithmicVolume, 0);
         this._lastSetLogarithmicVolume = logarithmicVolume;
     }
-    public skipToSeconds(seconds: number): void {
+    public async skipToSecondsAsync(seconds: number): Promise<void> {
         const isPaused = this._isPaused;
-        this.playWebAudio(seconds);
+        await this.playWebAudioAsync(seconds);
         this._audio.currentTime = seconds;
 
         if (isPaused) {
@@ -164,7 +164,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         return await response.blob(); // Convert the response to a Blob
     }
 
-    private playWebAudio(offset: number): void {
+    private async playWebAudioAsync(offset: number): Promise<void> {
         if (!this._currentBuffer) {
             return;
         }
@@ -188,14 +188,14 @@ export class GaplessAudioPlayer implements IAudioPlayer {
             // Connect the source node to the gain node
             this._sourceNode.connect(this._gainNode);
 
-            this._sourceNode.onended = () => {
+            this._sourceNode.onended = async () => {
                 if (
                     this._nextBuffer &&
                     this._preloadedTrack &&
                     this._currentTrack &&
                     this._preloadedTrack.number === this._currentTrack.number + 1
                 ) {
-                    this.transitionToNextBuffer();
+                    await this.transitionToNextBufferAsync();
                     this._playingPreloadedTrack.next(this._preloadedTrack);
                     this._currentTrack = this._preloadedTrack;
                     this._preloadedTrack = undefined;
@@ -211,14 +211,14 @@ export class GaplessAudioPlayer implements IAudioPlayer {
             this._sourceNode.start(0, offset);
 
             this._audio = this._tempAudio;
-            this._audio.play();
+            await this._audio.play();
 
             this._isPlaying = true;
             this._isPaused = false;
 
             if (this.shouldPauseAfterStarting) {
                 this.pause();
-                this.skipToSeconds(this.skipSecondsAfterStarting);
+                await this.skipToSecondsAsync(this.skipSecondsAfterStarting);
                 this.shouldPauseAfterStarting = false;
                 this.skipSecondsAfterStarting = 0;
                 this._gainNode.gain.setValueAtTime(this._lastSetLogarithmicVolume, 0);
@@ -228,7 +228,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         }
     }
 
-    private transitionToNextBuffer(): void {
+    private async transitionToNextBufferAsync(): Promise<void> {
         if (!this._nextBuffer) {
             return;
         }
@@ -236,7 +236,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         this._currentBuffer = this._nextBuffer;
         this._nextBuffer = undefined;
 
-        this.playWebAudio(0);
+        await this.playWebAudioAsync(0);
     }
 
     private loadAudioWithWebAudio(audioFilePath: string, preload: boolean): void {
@@ -252,7 +252,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
                             this._nextBuffer = await this._audioContext.decodeAudioData(arrayBuffer);
                         } else {
                             this._currentBuffer = await this._audioContext.decodeAudioData(arrayBuffer);
-                            this.playWebAudio(0);
+                            await this.playWebAudioAsync(0);
                         }
                     } catch (e: unknown) {
                         this.logger.error(e, `Could not decode audio data`, 'GaplessAudioPlayer', 'loadAudioWithWebAudio');
