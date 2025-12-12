@@ -33,7 +33,6 @@ export class LoadingComponent implements OnInit {
             await this.navigationService.navigateToWelcomeAsync();
         } else {
             if (this.fileService.hasPlayableFilesAsParameters()) {
-                await this.playbackService.RestoreQueueIfNeededAsync(false);
                 await this.fileService.enqueueParameterFilesAsync();
 
                 if (this.settings.playerType === 'cover') {
@@ -42,7 +41,8 @@ export class LoadingComponent implements OnInit {
                     await this.navigationService.navigateToNowPlayingAsync();
                 }
             } else {
-                await this.playbackService.RestoreQueueIfNeededAsync(true);
+                await this.playbackService.RestoreQueueIfNeededAsync();
+
                 if (this.settings.playerType === 'cover') {
                     await this.navigationService.navigateToCoverPlayerAsync();
                 } else {

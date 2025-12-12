@@ -100,7 +100,7 @@ describe('LoadingComponent', () => {
             navigationServiceMock.verify((x) => x.navigateToCollectionAsync(), Times.exactly(1));
         });
 
-        it('should restore playback state if there are no playable files as parameters', async () => {
+        it('should restore playback queue if there are no playable files as parameters', async () => {
             // Arrange
             fileServiceMock.setup((x) => x.hasPlayableFilesAsParameters()).returns(() => false);
 
@@ -110,7 +110,7 @@ describe('LoadingComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            playbackServiceMock.verify((x) => x.RestoreQueueIfNeededAsync(true), Times.exactly(1));
+            playbackServiceMock.verify((x) => x.RestoreQueueIfNeededAsync(), Times.exactly(1));
         });
 
         it('should navigate to now playing if welcome should not be shown and there are playable files as parameters', async () => {
@@ -143,7 +143,7 @@ describe('LoadingComponent', () => {
             fileServiceMock.verify((x) => x.enqueueParameterFilesAsync(), Times.exactly(1));
         });
 
-        it('should not restore playback state if there are playable files as parameters', async () => {
+        it('should not restore playback queue if there are playable files as parameters', async () => {
             // Arrange
             fileServiceMock.setup((x) => x.hasPlayableFilesAsParameters()).returns(() => true);
 
@@ -153,7 +153,7 @@ describe('LoadingComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            playbackServiceMock.verify((x) => x.RestoreQueueIfNeededAsync(false), Times.exactly(1));
+            playbackServiceMock.verify((x) => x.RestoreQueueIfNeededAsync(), Times.never());
         });
 
         it('should check for updates when navigating to collection', async () => {

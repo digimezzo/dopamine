@@ -588,7 +588,7 @@ export class PlaybackService {
         }
     }
 
-    public async RestoreQueueIfNeededAsync(restorePlaybackProgress: boolean): Promise<void> {
+    public async RestoreQueueIfNeededAsync(): Promise<void> {
         if (this.settings.rememberPlaybackStateAfterRestart) {
             if (this.settings.playbackControlsLoop !== 0) {
                 this._loopMode = this.settings.playbackControlsLoop === 1 ? LoopMode.One : LoopMode.All;
@@ -598,7 +598,7 @@ export class PlaybackService {
                 this._isShuffled = true;
             }
 
-            await this.restoreQueueAsync(restorePlaybackProgress);
+            await this.restoreQueueAsync();
         }
     }
 
@@ -616,7 +616,7 @@ export class PlaybackService {
         this.startUpdatingProgress();
     }
 
-    private async restoreQueueAsync(restorePlaybackProgress: boolean): Promise<void> {
+    private async restoreQueueAsync(): Promise<void> {
         // If already playing (e.g. from double-clicking files), do not restore queue.
         if (this.currentTrack) {
             this.logger.info('Playback already in progress, not restoring playback queue', 'PlaybackService', 'restoreQueue');
@@ -629,7 +629,7 @@ export class PlaybackService {
         this.queue.restoreTracks(info.tracks, info.playbackOrder);
         this.logger.info(`Restored ${info.tracks.length} tracks to playback queue`, 'PlaybackService', 'restoreQueue');
 
-        if (restorePlaybackProgress && info.playingTrack) {
+        if (info.playingTrack) {
             this.logger.info(
                 `Restoring playback to track: ${info.playingTrack.path} at ${info.progressSeconds} seconds`,
                 'PlaybackService',
