@@ -157,6 +157,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
             this.pause();
         }
     }
+
     public preloadNext(track: TrackModel): void {
         this._preloadedTrack = track;
         const playableAudioFilePath: string = PathUtils.createPlayableAudioFilePath(track.path);
@@ -227,9 +228,8 @@ export class GaplessAudioPlayer implements IAudioPlayer {
 
             if (this.shouldPauseAfterStarting) {
                 this.pause();
-                await this.skipToSecondsAsync(this.skipSecondsAfterStarting);
+                this._audio.currentTime = offset;
                 this.shouldPauseAfterStarting = false;
-                this.skipSecondsAfterStarting = 0;
                 this._gainNode.gain.setValueAtTime(this._lastSetLogarithmicVolume, 0);
             }
         } catch (e) {
@@ -261,7 +261,8 @@ export class GaplessAudioPlayer implements IAudioPlayer {
                             this._nextBuffer = await this._audioContext.decodeAudioData(arrayBuffer);
                         } else {
                             this._currentBuffer = await this._audioContext.decodeAudioData(arrayBuffer);
-                            await this.playWebAudioAsync(0);
+                            await this.playWebAudioAsync(this.skipSecondsAfterStarting);
+                            this.skipSecondsAfterStarting = 0;
                         }
                     } catch (e: unknown) {
                         this.logger.error(e, `Could not decode audio data`, 'GaplessAudioPlayer', 'loadAudioWithWebAudio');
