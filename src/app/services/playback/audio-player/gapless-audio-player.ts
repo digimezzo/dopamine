@@ -85,9 +85,10 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     }
 
     public get totalSeconds(): number {
-        return this._isPlaying ? this._currentBuffer?.duration || 0 : 0;
+        return this._isPlaying ? this._currentBuffer?.duration ?? 0 : 0;
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     public async playAsync(track: TrackModel): Promise<void> {
         this._currentTrack = track;
         const playableAudioFilePath: string = PathUtils.createPlayableAudioFilePath(track.path);
@@ -102,7 +103,10 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         this._isPlaying = false;
 
         if (this._sourceNode) {
-            this._sourceNode.onended = () => {};
+            this._sourceNode.onended = () => {
+                // Intentionally left blank
+            };
+
             this._sourceNode.stop();
             this._sourceNode.disconnect();
         }
@@ -123,7 +127,10 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         this._audioPausedAt = this._audioContext.currentTime - this._audioStartTime;
 
         if (this._sourceNode) {
-            this._sourceNode.onended = () => {};
+            this._sourceNode.onended = () => {
+                // Intentionally left blank
+            };
+
             this._sourceNode.stop();
             this._sourceNode.disconnect();
         }
@@ -172,7 +179,9 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         try {
             // Make sure to stop any previous sourceNode if it's still playing
             if (this._sourceNode) {
-                this._sourceNode.onended = () => {};
+                this._sourceNode.onended = () => {
+                    // Intentionally left blank
+                };
 
                 this._sourceNode.stop();
                 this._sourceNode.disconnect(); // Disconnect the previous node to avoid issues

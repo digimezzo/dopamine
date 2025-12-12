@@ -84,7 +84,10 @@ export class LegacyAudioPlayer implements IAudioPlayer {
         tempAudio.defaultPlaybackRate = this._audio.defaultPlaybackRate;
         tempAudio.playbackRate = this._audio.playbackRate;
 
-        this._audio.onended = () => {};
+        this._audio.onended = () => {
+            // Intentionally left blank
+        };
+
         this._audio = tempAudio;
 
         this.connectVisualizer();
@@ -93,7 +96,6 @@ export class LegacyAudioPlayer implements IAudioPlayer {
 
         try {
             await this._audio.play();
-            this.logger.info('this._audio.play()', 'LegacyAudioPlayer', 'play');
             this._audio.onended = () => this._playbackFinished.next();
 
             if (this.shouldPauseAfterStarting) {
@@ -120,18 +122,15 @@ export class LegacyAudioPlayer implements IAudioPlayer {
     public stop(): void {
         this._audio.currentTime = 0;
         this._audio.pause();
-        this.logger.info('this._audio.pause()', 'LegacyAudioPlayer', 'stop');
     }
 
     public pause(): void {
         this._isPaused = true;
         this._audio.pause();
-        this.logger.info('this._audio.pause()', 'LegacyAudioPlayer', 'pause');
     }
 
     public async resumeAsync(): Promise<void> {
         await this._audio.play();
-        this.logger.info('this._audio.play()', 'LegacyAudioPlayer', 'resume');
         this._isPaused = false;
     }
 
@@ -140,10 +139,12 @@ export class LegacyAudioPlayer implements IAudioPlayer {
         this._audio.volume = linearVolume > 0 ? this.mathExtensions.linearToLogarithmic(linearVolume, 0.01, 1) : 0;
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     public async skipToSecondsAsync(seconds: number): Promise<void> {
         this._audio.currentTime = seconds;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public preloadNext(track: TrackModel): void {
         // Not implemented as not supported by legacy audio player.
     }
@@ -155,6 +156,6 @@ export class LegacyAudioPlayer implements IAudioPlayer {
     private connectVisualizer(): void {
         const mediaElementSource: MediaElementAudioSourceNode = this._audioContext.createMediaElementSource(this._audio);
         this._analyser.connect(this._audioContext.destination);
-        mediaElementSource!.connect(this._analyser);
+        mediaElementSource.connect(this._analyser);
     }
 }
