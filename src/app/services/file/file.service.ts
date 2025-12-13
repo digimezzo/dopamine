@@ -86,7 +86,7 @@ export class FileService implements FileServiceBase {
             }
 
             if (trackModels.length > 0) {
-                this.playbackService.enqueueAndPlayTracks(trackModels);
+                await this.playbackService.enqueueAndPlayTracksAsync(trackModels);
             }
         } catch (e: unknown) {
             this.logger.error(e, 'Could not enqueue given parameter files', 'FileService', 'enqueueGivenParameterFilesAsync');

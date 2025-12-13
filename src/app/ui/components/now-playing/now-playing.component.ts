@@ -118,7 +118,7 @@ export class NowPlayingComponent extends AnimatedPage implements OnInit, AfterVi
     @HostListener('document:keyup', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
         if (event.key === ' ' && !(event.target instanceof HTMLInputElement)) {
-            this.playbackService.togglePlayback();
+            void this.playbackService.togglePlaybackAsync();
         }
     }
 
