@@ -26,7 +26,6 @@ const config = {
             'home',
             'removable-media',
         ],
-        stagePackages: ['fonts-dejavu-core', 'fontconfig'],
     },
     fileAssociations: [
         {
