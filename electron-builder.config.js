@@ -7,6 +7,7 @@ const config = {
         base: 'core22', // Must match build server (currently Ubuntu 22.04)
         grade: 'stable',
         confinement: 'strict',
+        plugs: ['home', 'removable-media'],
     },
     fileAssociations: [
         {
@@ -75,7 +76,8 @@ const config = {
         category: 'Audio',
         artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
         synopsis: 'The audio player that keeps it simple.',
-        description: 'Dopamine is an elegant audio player which tries to make organizing and listening to music as simple and pretty as possible.',
+        description:
+            'Dopamine is an elegant audio player which tries to make organizing and listening to music as simple and pretty as possible.',
     },
 };
 
