@@ -7,7 +7,25 @@ const config = {
         base: 'core22', // Must match build server (currently Ubuntu 22.04)
         grade: 'stable',
         confinement: 'strict',
-        plugs: ['home', 'removable-media'],
+        plugs: [
+            // REQUIRED for Electron desktop apps
+            'desktop',
+            'desktop-legacy',
+            'wayland',
+            'x11',
+            'unity7',
+            'opengl',
+            'audio-playback',
+            'browser-support',
+            'network',
+            'network-bind',
+            'gsettings',
+            'screen-inhibit-control',
+
+            // File access
+            'home',
+            'removable-media',
+        ],
     },
     fileAssociations: [
         {
