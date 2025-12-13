@@ -9,6 +9,8 @@ on:
 jobs:
     nightly_build_on_linux:
         runs-on: ubuntu-22.04
+        env:
+            SNAPCRAFT_BUILD_ENVIRONMENT: host
         steps:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@master
@@ -18,6 +20,10 @@ jobs:
               run: sudo apt update
             - name: install rpm and libarchive
               run: sudo apt install rpm libarchive-tools
+            - name: Install snapcraft
+              run: sudo snap install snapcraft --classic
+            - name: Pre-install core22
+              run: sudo snap install core22
             - name: install dependencies
               run: npm install
             - name: run unit tests
