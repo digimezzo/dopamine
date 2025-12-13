@@ -9,6 +9,8 @@ on:
 jobs:
     nightly_build_on_linux:
         runs-on: ubuntu-22.04
+        env:
+            SNAPCRAFT_BUILD_ENVIRONMENT: destructive
         steps:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@master
