@@ -15,6 +15,7 @@ import { ImageRenderData } from '../../../../services/metadata/image-render-data
 import { OnlineAlbumArtworkGetter } from '../../../../services/indexing/online-album-artwork-getter';
 import { ImageProcessor } from '../../../../common/image-processor';
 import { IndexingService } from '../../../../services/indexing/indexing.service';
+import { MetadataPatcher } from '../../../../common/metadata/metadata-patcher';
 
 @Component({
     selector: 'app-edit-tracks-dialog',
@@ -33,6 +34,7 @@ export class EditTracksDialogComponent implements OnInit {
         private dialogService: DialogServiceBase,
         private translatorService: TranslatorServiceBase,
         private metadataService: MetadataService,
+        private metadataPatcher: MetadataPatcher,
         private indexingService: IndexingService,
         private fileMetadataFactory: FileMetadataFactoryBase,
         private onlineAlbumArtworkGetter: OnlineAlbumArtworkGetter,
@@ -170,11 +172,17 @@ export class EditTracksDialogComponent implements OnInit {
 
         if (this._fileMetaDatas.length === 1) {
             this.title = this._fileMetaDatas[0].title;
-            this.artists = CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].artists);
+            this.artists = CollectionUtils.toSemicolonSeparatedString(
+                this.metadataPatcher.joinUnsplittableMetadata(this._fileMetaDatas[0].artists),
+            );
             this.albumTitle = this._fileMetaDatas[0].album;
-            this.albumArtists = CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].albumArtists);
+            this.albumArtists = CollectionUtils.toSemicolonSeparatedString(
+                this.metadataPatcher.joinUnsplittableMetadata(this._fileMetaDatas[0].albumArtists),
+            );
             this.year = this.saveGetNumberAsString(this._fileMetaDatas[0].year);
-            this.genres = CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].genres);
+            this.genres = CollectionUtils.toSemicolonSeparatedString(
+                this.metadataPatcher.joinUnsplittableMetadata(this._fileMetaDatas[0].genres),
+            );
             this.trackNumber = this.saveGetNumberAsString(this._fileMetaDatas[0].trackNumber);
             this.trackCount = this.saveGetNumberAsString(this._fileMetaDatas[0].trackCount);
             this.discNumber = this.saveGetNumberAsString(this._fileMetaDatas[0].discNumber);
