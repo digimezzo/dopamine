@@ -26,6 +26,8 @@ import { SettingsStore } from './main/common/settings/settings-store';
 app.commandLine.appendSwitch('disable-color-correct-rendering'); // Prevents incorrect color rendering
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required'); // Prevents requiring user interaction to play audio
 app.commandLine.appendSwitch('disable-http-cache'); // Disables clearing of the cache folder at each startup
+app.commandLine.appendSwitch('enable-features', 'UsePortalDialogs');
+app.commandLine.appendSwitch('ozone-platform-hint', 'auto');
 
 /**
  * Settings
