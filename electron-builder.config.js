@@ -7,6 +7,10 @@ const config = {
         base: 'core22', // Must match build server (currently Ubuntu 22.04)
         grade: 'stable',
         confinement: 'strict',
+        environment: {
+            ELECTRON_OZONE_PLATFORM_HINT: 'x11',
+            ELECTRON_ENABLE_WAYLAND: '0',
+        },
         plugs: [
             // REQUIRED for Electron desktop apps
             'desktop',

@@ -27,15 +27,6 @@ app.commandLine.appendSwitch('disable-color-correct-rendering'); // Prevents inc
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required'); // Prevents requiring user interaction to play audio
 app.commandLine.appendSwitch('disable-http-cache'); // Disables clearing of the cache folder at each startup
 
-// Electron v31+ prefers Wayland on Linux (via Ozone), but it's unavailable in Snap sandboxes.
-// This causes "Failed to connect to Wayland display: No such file or directory" at startup.
-// Fall back to X11 if Wayland is not the active session:
-const useWayland: boolean = process.env.XDG_SESSION_TYPE === 'wayland';
-
-if (!useWayland) {
-    app.commandLine.appendSwitch('ozone-platform', 'x11');
-}
-
 /**
  * Settings
  */
