@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added half-star rating support, expanding the song rating scale to a range of 0–10.
 - Added song sorting options on the 'Folders' screen
 - Added a button to toggle between the default expanded album view and Dopamine 2's compact album view
+- Added the removable-media plug to the Snap configuration, allowing the Snap version of Dopamine to access /media.
 
 ### Changed
 
