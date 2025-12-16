@@ -34,6 +34,8 @@ class TrackAdder {
                     this.trackRepository.addTrack(newTrack);
                     const addedTrack = this.trackRepository.getTrackByPath(newTrack.path);
 
+                    this.logger.info(`Processing track '${newTrack.path}'`, 'TrackAdder', 'addTracksThatAreNotInTheDatabaseAsync');
+
                     this.folderTrackRepository.addFolderTrack(new FolderTrack(indexablePaths[i].folderId, addedTrack.trackId));
 
                     numberOfAddedTracks++;
