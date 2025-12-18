@@ -82,6 +82,8 @@ export const DEFAULT_SETTINGS = {
     fullPlayerPositionSizeMaximized: '50;50;1000;650;0',
     coverPlayerPosition: '50;50',
     useGaplessPlayback: false,
+    useCrossfade: false,
+    crossfadeDuration: 5,
     jumpToPlayingSong: true,
     showSquareImages: false,
     useCompactYearView: false,

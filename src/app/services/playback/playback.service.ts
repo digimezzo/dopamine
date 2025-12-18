@@ -425,7 +425,7 @@ export class PlaybackService {
                 }
                 this._audioPlayer.preloadNext(nextTrack);
                 this.logger.info(`Preloaded '${nextTrack.path}'`, 'PlaybackService', 'preloadNextTrackAfterDelay');
-            }, 2000);
+            }, 500); // Preload sooner to ensure crossfade is ready
         }
     }
 
