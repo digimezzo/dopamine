@@ -112,7 +112,7 @@ Dopamine is available in the AUR as `dopamine-official`. So the installation is 
 yay -S dopamine-official
 ```
 
-> Note: the `dopamine`package in the AUR is not maintained by me. My package is `dopamine-official`
+> Note: the `dopamine` package in the AUR is not maintained by me. My package is `dopamine-official`.
 
 ## Snap Store
 
