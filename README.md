@@ -102,7 +102,19 @@ The rpm package can be installed using this command (replace x.y.z with the corr
 
 `sudo dnf install Dopamine-x.y.z.rpm`
 
-## Snap
+## Arch User Repository (AUR)
+
+### Installation
+
+Dopamine is available in the AUR as `dopamine-official`. So the installation is as simple as:
+
+```
+yay -S dopamine-official
+```
+
+> Note: the `dopamine`package in the AUR is not maintained by me. My package is `dopamine-official`
+
+## Snap Store
 
 ### Installation
 
