@@ -6,6 +6,7 @@ import { ScrobblingService } from '../../../../services/scrobbling/scrobbling.se
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { NotificationServiceBase } from '../../../../services/notification/notification.service.base';
 import { DiscordService } from '../../../../services/discord/discord.service';
+import { UpdateServiceBase } from '../../../../services/update/update.service.base';
 
 @Component({
     selector: 'app-online-settings',
@@ -22,6 +23,7 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
         public discordService: DiscordService,
         private scrobblingService: ScrobblingService,
         private notificationService: NotificationServiceBase,
+        private updateService: UpdateServiceBase,
         public settings: SettingsBase,
     ) {}
 
@@ -85,5 +87,17 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
 
     public async signInToLastFmAsync(): Promise<void> {
         await this.scrobblingService.signInAsync();
+    }
+
+    public get checkForUpdates(): boolean {
+        return this.settings.checkForUpdates;
+    }
+
+    public set checkForUpdates(v: boolean) {
+        this.settings.checkForUpdates = v;
+
+        if (v) {
+            void this.updateService.checkForUpdatesAsync();
+        }
     }
 }
