@@ -1,9 +1,9 @@
 [Desktop Entry]
 Name=Dopamine
-Exec=dopamine
+Exec=dopamine %U
 Terminal=false
 Type=Application
 Icon=dopamine
 StartupWMClass=Dopamine
-Comment=The audio player that keeps it simple
-Categories=Utility;
+Comment=Dopamine is an elegant audio player which tries to make organizing and listening to music as simple and pretty as possible.
+Categories=Audio;
