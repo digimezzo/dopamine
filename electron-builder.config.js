@@ -93,6 +93,7 @@ const config = {
         target: ['AppImage', 'deb', 'rpm', 'pacman', 'snap'],
         category: 'Audio',
         artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
+        executableName: 'dopamine',
         synopsis: 'The audio player that keeps it simple.',
         description:
             'Dopamine is an elegant audio player which tries to make organizing and listening to music as simple and pretty as possible.',
