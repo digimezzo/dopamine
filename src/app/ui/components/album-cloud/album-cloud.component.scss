@@ -1,0 +1,155 @@
+.app-album-cloud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.app-album-cloud__content {
+    background: transparent !important;
+    flex: 1;
+    width: 100vw;
+    height: 100vh;
+    padding-bottom: 37px;
+}
+
+.app-album-cloud-playback-controls__container {
+    position: relative;
+}
+
+.app-album-cloud-playback-controls__background {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 0;
+}
+
+.app-album-cloud-playback-controls__audio-visualizer {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    bottom: 0;
+    height: 30px;
+    width: 300px;
+    transform: translateX(-50%);
+}
+
+.app-album-cloud-playback-controls__playback-pane {
+    position: absolute;
+    bottom: 0;
+    z-index: 2;
+}
+
+.stage {
+    padding: 100px;
+}
+
+.stage-left {
+    position: relative;
+    background: lightblue;
+    margin-right: 5px;
+}
+
+.stage-right {
+    position: relative;
+    background: lightgreen;
+    margin-left: 5px;
+}
+
+/* Base square */
+.square {
+    position: absolute;
+    background: red;
+}
+
+/* Left */
+.left-11 {
+    width: 90px;
+    height: 90px;
+    top: 0;
+    right: 0;
+}
+
+.left-21 {
+    width: 70px;
+    height: 70px;
+    top: 230px;
+    right: 350px;
+}
+
+.left-22 {
+    width: 130px;
+    height: 130px;
+    top: 170px;
+    right: 210px;
+}
+
+.left-23 {
+    width: 200px;
+    height: 200px;
+    top: 100px;
+    right: 0;
+}
+
+.left-31 {
+    width: 110px;
+    height: 110px;
+    top: 310px;
+    right: 160px;
+}
+
+.left-32 {
+    width: 150px;
+    height: 150px;
+    top: 310px;
+    right: 0;
+}
+
+/* Right */
+.right-11 {
+    width: 150px;
+    height: 150px;
+    top: 40px;
+    left: 0;
+}
+
+.right-12 {
+    width: 110px;
+    height: 110px;
+    top: 80px;
+    left: 160px;
+}
+
+.right-21 {
+    width: 200px;
+    height: 200px;
+    top: 200px;
+    left: 0;
+}
+
+.right-22 {
+    width: 130px;
+    height: 130px;
+    top: 200px;
+    left: 210px;
+}
+
+.right-23 {
+    width: 70px;
+    height: 70px;
+    top: 200px;
+    left: 350px;
+}
+
+.right-31 {
+    width: 90px;
+    height: 90px;
+    top: 410px;
+    left: 0;
+}

@@ -1,0 +1,49 @@
+<div class="window-frame">
+    <div class="window-frame__titlebar">
+        <div *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights"></div>
+        <div class="window-button back-button" (click)="this.goBackToCollectionAsync()" [@controlsVisibility]="controlsVisibility">
+            <i class="back-button__icon las la-arrow-left"></i>
+        </div>
+        <div class="window-frame__dragarea"></div>
+        <app-switch-player-button [@controlsVisibility]="controlsVisibility"></app-switch-player-button>
+        <app-window-controls
+            *ngIf="appearanceService.needsCustomWindowControls"
+            [@controlsVisibility]="controlsVisibility"
+        ></app-window-controls>
+    </div>
+    <div class="window-frame__content">
+        <div class="app-album-cloud">
+            <div class="app-album-cloud__content">
+                <div class="stage d-flex flex-row w-100 h-100">
+                    <div class="stage-left w-50 h-100">
+                        <div class="square left-11"></div>
+                        <div class="square left-21"></div>
+                        <div class="square left-22"></div>
+                        <div class="square left-23"></div>
+                        <div class="square left-31"></div>
+                        <div class="square left-32"></div>
+                    </div>
+                    <div class="stage-right w-50 h-100">
+                        <div class="square right-11"></div>
+                        <div class="square right-12"></div>
+                        <div class="square right-21"></div>
+                        <div class="square right-22"></div>
+                        <div class="square right-23"></div>
+                        <div class="square right-31"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="app-album-cloud-playback-controls__container">
+                <div
+                    class="app-album-cloud-playback-controls__background theme-footer-background"
+                    [@controlsVisibility]="controlsVisibility"
+                ></div>
+                <canvas id="nowPlayingAudioVisualizer" class="app-album-cloud-playback-controls__audio-visualizer"></canvas>
+                <app-now-playing-playback-pane
+                    class="app-album-cloud-playback-controls__playback-pane"
+                    [@controlsVisibility]="controlsVisibility"
+                ></app-now-playing-playback-pane>
+            </div>
+        </div>
+    </div>
+</div>

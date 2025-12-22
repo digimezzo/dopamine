@@ -8,6 +8,7 @@ import { NowPlayingComponent } from './ui/components/now-playing/now-playing.com
 import { SettingsComponent } from './ui/components/settings/settings.component';
 import { WelcomeComponent } from './ui/components/welcome/welcome.component';
 import { CoverPlayerComponent } from './ui/components/mini-players/cover-player/cover-player.component';
+import { AlbumCloudComponent } from './ui/components/album-cloud/album-cloud.component';
 
 const routes: Routes = [
     {
@@ -29,6 +30,10 @@ const routes: Routes = [
     {
         path: 'nowplaying',
         component: NowPlayingComponent,
+    },
+    {
+        path: 'albumcloud',
+        component: AlbumCloudComponent,
     },
     {
         path: 'managecollection',
