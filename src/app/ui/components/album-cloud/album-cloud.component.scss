@@ -47,109 +47,100 @@
 }
 
 .stage {
-    padding: 100px;
+    padding: 12.5vh;
 }
 
 .stage-left {
     position: relative;
     background: lightblue;
     margin-right: 5px;
+    height: 100%;
 }
 
 .stage-right {
     position: relative;
     background: lightgreen;
     margin-left: 5px;
+    height: 100%;
 }
 
 /* Base square */
 .square {
     position: absolute;
     background: red;
+    aspect-ratio: 1 / 1;
 }
 
 /* Left */
 .left-11 {
-    width: 90px;
-    height: 90px;
+    width: 11.25vh;
     top: 0;
     right: 0;
 }
 
 .left-21 {
-    width: 70px;
-    height: 70px;
-    top: 230px;
-    right: 350px;
+    width: 8.75vh;
+    top: 28.75vh;
+    right: 43.75vh;
 }
 
 .left-22 {
-    width: 130px;
-    height: 130px;
-    top: 170px;
-    right: 210px;
+    width: 16.25vh;
+    top: 21.25vh;
+    right: 26.25vh;
 }
 
 .left-23 {
-    width: 200px;
-    height: 200px;
-    top: 100px;
+    width: 25vh;
+    top: 12.5vh;
     right: 0;
 }
 
 .left-31 {
-    width: 110px;
-    height: 110px;
-    top: 310px;
-    right: 160px;
+    width: 13.75vh;
+    top: 38.75vh;
+    right: 20vh;
 }
 
 .left-32 {
-    width: 150px;
-    height: 150px;
-    top: 310px;
+    width: 18.75vh;
+    top: 38.75vh;
     right: 0;
 }
 
 /* Right */
 .right-11 {
-    width: 150px;
-    height: 150px;
-    top: 40px;
+    width: 18.75vh;
+    top: 5vh;
     left: 0;
 }
 
 .right-12 {
-    width: 110px;
-    height: 110px;
-    top: 80px;
-    left: 160px;
+    width: 13.75vh;
+    top: 10vh;
+    left: 20vh;
 }
 
 .right-21 {
-    width: 200px;
-    height: 200px;
-    top: 200px;
+    width: 25vh;
+    top: 25vh;
     left: 0;
 }
 
 .right-22 {
-    width: 130px;
-    height: 130px;
-    top: 200px;
-    left: 210px;
+    width: 16.25vh;
+    top: 25vh;
+    left: 26.25vh;
 }
 
 .right-23 {
-    width: 70px;
-    height: 70px;
-    top: 200px;
-    left: 350px;
+    width: 8.75vh;
+    top: 25vh;
+    left: 43.75vh;
 }
 
 .right-31 {
-    width: 90px;
-    height: 90px;
-    top: 410px;
+    width: 11.25vh;
+    top: 51.25vh;
     left: 0;
 }
