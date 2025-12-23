@@ -52,19 +52,20 @@
 
 .stage-left {
     position: relative;
-    background: lightblue;
-    margin-right: 1.25vh;
+    // background: lightblue;
+    margin-right: 1.35vh;
     height: 100%;
 }
 
 .stage-right {
     position: relative;
-    background: lightgreen;
+    // background: lightgreen;
     height: 100%;
 }
 
 /* Base square */
 .square {
+    --square-base-unit: 1.35vh;
     position: absolute;
     background: red;
     aspect-ratio: 1 / 1;
@@ -72,74 +73,74 @@
 
 /* Left */
 .left-11 {
-    width: 11.25vh;
+    width: calc(9 * var(--square-base-unit));
     top: 0;
     right: 0;
 }
 
 .left-21 {
-    width: 8.75vh;
-    top: 28.75vh;
-    right: 43.75vh;
+    width: calc(7 * var(--square-base-unit));
+    top: calc(23 * var(--square-base-unit));
+    right: calc(35 * var(--square-base-unit));
 }
 
-.left-22 {
-    width: 16.25vh;
-    top: 21.25vh;
-    right: 26.25vh;
+.left-22-5 {
+    width: calc(13 * var(--square-base-unit));
+    top: calc(17 * var(--square-base-unit));
+    right: calc(21 * var(--square-base-unit));
 }
 
-.left-23 {
-    width: 25vh;
-    top: 12.5vh;
+.left-23-1 {
+    width: calc(20 * var(--square-base-unit));
+    top: calc(10 * var(--square-base-unit));
     right: 0;
 }
 
-.left-31 {
-    width: 13.75vh;
-    top: 38.75vh;
-    right: 20vh;
+.left-31-7 {
+    width: calc(11 * var(--square-base-unit));
+    top: calc(31 * var(--square-base-unit));
+    right: calc(16 * var(--square-base-unit));
 }
 
-.left-32 {
-    width: 18.75vh;
-    top: 38.75vh;
+.left-32-4 {
+    width: calc(15 * var(--square-base-unit));
+    top: calc(31 * var(--square-base-unit));
     right: 0;
 }
 
 /* Right */
-.right-11 {
-    width: 18.75vh;
-    top: 5vh;
+.right-11-3 {
+    width: calc(15 * var(--square-base-unit));
+    top: calc(4 * var(--square-base-unit));
     left: 0;
 }
 
-.right-12 {
-    width: 13.75vh;
-    top: 10vh;
-    left: 20vh;
+.right-12-8 {
+    width: calc(11 * var(--square-base-unit));
+    top: calc(8 * var(--square-base-unit));
+    left: calc(16 * var(--square-base-unit));
 }
 
-.right-21 {
-    width: 25vh;
-    top: 25vh;
+.right-21-2 {
+    width: calc(20 * var(--square-base-unit));
+    top: calc(20 * var(--square-base-unit));
     left: 0;
 }
 
-.right-22 {
-    width: 16.25vh;
-    top: 25vh;
-    left: 26.25vh;
+.right-22-6 {
+    width: calc(13 * var(--square-base-unit));
+    top: calc(20 * var(--square-base-unit));
+    left: calc(21 * var(--square-base-unit));
 }
 
 .right-23 {
-    width: 8.75vh;
-    top: 25vh;
-    left: 43.75vh;
+    width: calc(7 * var(--square-base-unit));
+    top: calc(20 * var(--square-base-unit));
+    left: calc(35 * var(--square-base-unit));
 }
 
 .right-31 {
-    width: 11.25vh;
-    top: 51.25vh;
+    width: calc(9 * var(--square-base-unit));
+    top: calc(41 * var(--square-base-unit));
     left: 0;
 }
