@@ -53,7 +53,7 @@
 .stage-left {
     position: relative;
     // background: lightblue;
-    margin-right: 1.35vh;
+    margin-right: 1.25vh;
     height: 100%;
 }
 
@@ -65,7 +65,7 @@
 
 /* Base square */
 .square {
-    --square-base-unit: 1.35vh;
+    --square-base-unit: 1.25vh;
     position: absolute;
     background: red;
     aspect-ratio: 1 / 1;
@@ -79,68 +79,68 @@
 }
 
 .left-21-12 {
-    width: calc(7 * var(--square-base-unit));
-    top: calc(23 * var(--square-base-unit));
-    right: calc(35 * var(--square-base-unit));
+    width: calc(6 * var(--square-base-unit));
+    top: calc(28 * var(--square-base-unit));
+    right: calc(42 * var(--square-base-unit));
 }
 
 .left-22-5 {
-    width: calc(13 * var(--square-base-unit));
-    top: calc(17 * var(--square-base-unit));
-    right: calc(21 * var(--square-base-unit));
+    width: calc(16 * var(--square-base-unit));
+    top: calc(18 * var(--square-base-unit));
+    right: calc(25 * var(--square-base-unit));
 }
 
 .left-23-1 {
-    width: calc(20 * var(--square-base-unit));
+    width: calc(24 * var(--square-base-unit));
     top: calc(10 * var(--square-base-unit));
     right: 0;
 }
 
 .left-31-7 {
-    width: calc(11 * var(--square-base-unit));
-    top: calc(31 * var(--square-base-unit));
-    right: calc(16 * var(--square-base-unit));
+    width: calc(12 * var(--square-base-unit));
+    top: calc(35 * var(--square-base-unit));
+    right: calc(19 * var(--square-base-unit));
 }
 
 .left-32-4 {
-    width: calc(15 * var(--square-base-unit));
-    top: calc(31 * var(--square-base-unit));
+    width: calc(18 * var(--square-base-unit));
+    top: calc(35 * var(--square-base-unit));
     right: 0;
 }
 
 /* Right */
 .right-11-3 {
-    width: calc(15 * var(--square-base-unit));
+    width: calc(20 * var(--square-base-unit));
     top: calc(4 * var(--square-base-unit));
     left: 0;
 }
 
 .right-12-8 {
-    width: calc(11 * var(--square-base-unit));
-    top: calc(8 * var(--square-base-unit));
-    left: calc(16 * var(--square-base-unit));
+    width: calc(10 * var(--square-base-unit));
+    top: calc(14 * var(--square-base-unit));
+    left: calc(21 * var(--square-base-unit));
 }
 
 .right-21-2 {
-    width: calc(20 * var(--square-base-unit));
-    top: calc(20 * var(--square-base-unit));
+    width: calc(22 * var(--square-base-unit));
+    top: calc(25 * var(--square-base-unit));
     left: 0;
 }
 
 .right-22-6 {
-    width: calc(13 * var(--square-base-unit));
-    top: calc(20 * var(--square-base-unit));
-    left: calc(21 * var(--square-base-unit));
+    width: calc(14 * var(--square-base-unit));
+    top: calc(25 * var(--square-base-unit));
+    left: calc(23 * var(--square-base-unit));
 }
 
 .right-23-11 {
     width: calc(7 * var(--square-base-unit));
-    top: calc(20 * var(--square-base-unit));
-    left: calc(35 * var(--square-base-unit));
+    top: calc(25 * var(--square-base-unit));
+    left: calc(38 * var(--square-base-unit));
 }
 
 .right-31-10 {
-    width: calc(9 * var(--square-base-unit));
-    top: calc(41 * var(--square-base-unit));
+    width: calc(8 * var(--square-base-unit));
+    top: calc(48 * var(--square-base-unit));
     left: 0;
 }
