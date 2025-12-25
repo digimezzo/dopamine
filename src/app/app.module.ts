@@ -294,6 +294,7 @@ import { EditTracksDialogComponent } from './ui/components/dialogs/edit-tracks-d
 import { InfoDialogComponent } from './ui/components/dialogs/info-dialog/info-dialog.component';
 import { IterableMenuComponent } from './ui/components/common/iterable-menu.component';
 import { AlbumCloudComponent } from './ui/components/album-cloud/album-cloud.component';
+import { AlbumPlaceholderComponent } from './ui/components/album-cloud/album-placeholder.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -415,6 +416,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         PlaybackQueueComponent,
         NowPlayingComponent,
         AlbumCloudComponent,
+        AlbumPlaceholderComponent,
         NowPlayingPlaybackPaneComponent,
         SearchBoxComponent,
         PlaylistFolderBrowserComponent,

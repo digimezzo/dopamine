@@ -70,8 +70,13 @@
     background: transparent;
     aspect-ratio: 1 / 1;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+}
+
+.square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .square-image {
