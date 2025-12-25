@@ -67,8 +67,35 @@
 .square {
     --square-base-unit: 1.25vh;
     position: absolute;
-    background: red;
+    background: transparent;
     aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.square-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: albumFadeZoom 1.2s ease-out forwards;
+}
+
+@keyframes albumFadeZoom {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 /* Left */

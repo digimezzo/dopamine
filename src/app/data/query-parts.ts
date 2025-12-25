@@ -39,7 +39,8 @@ export class QueryParts {
                                                        GROUP_CONCAT(distinct t.Genres) AS genres,
                                                        MAX(t.DateFileCreated) AS dateFileCreated,
                                                        MAX(t.DateAdded) AS dateAdded,
-                                                       MAX(t.DateLastPlayed) AS dateLastPlayed FROM Track t
+                                                       MAX(t.DateLastPlayed) AS dateLastPlayed,
+                                                       SUM(t.PlayCount) AS playCount FROM Track t
                                                        LEFT JOIN AlbumArtwork a ON t.AlbumKey${albumKeyIndex}=a.AlbumKey`;
 
         if (onlyVisibleAlbumData) {
