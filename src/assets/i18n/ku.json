@@ -328,5 +328,6 @@
     "compact-view": "Dîtina kompakt",
     "expanded-view": "Dîtina berfirehkirî",
     "cannot-play-m4a-file": "Pelê M4A nayê lîstin. Tika bala xwe bidinê ku Dopamine tenê pelên M4A yên bi koda AAC piştgirî dike û pelên M4A yên bi koda Apple ALAC piştgirî nake. Ku tu bêtir zanyarî dixwazî, tika pelê têketinê kontrol bike.",
-    "cannot-play-audio-file": "Pelê dengî yê hilbijartî nayê lîstin. Ji bo bêtir zanyarî pelê têketinê kontrol bike."
+    "cannot-play-audio-file": "Pelê dengî yê hilbijartî nayê lîstin. Ji bo bêtir zanyarî pelê têketinê kontrol bike.",
+    "album-cloud": "Album cloud"
 }
