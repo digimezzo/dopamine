@@ -18,10 +18,11 @@
                 <div class="stage d-flex flex-row w-100 h-100">
                     <div class="stage-left w-50 h-100">
                         <div
-                            class="square left-11-9"
+                            class="square left-11-9 clickable"
                             [@albumFadeIn]
                             [style.animation-delay.s]="animationDelays[8]"
                             style="animation: shadowFadeIn 2.4s ease-out forwards"
+                            (click)="onAlbumClick(mostPlayedAlbums[8])"
                         >
                             <app-album-placeholder></app-album-placeholder>
                             <img
@@ -30,12 +31,17 @@
                                 [style.animation-delay.s]="animationDelays[8]"
                                 [src]="mostPlayedAlbums[8]?.artworkPath"
                             />
+                            <div class="play-count-overlay" *ngIf="mostPlayedAlbums[8]?.playCount">
+                                <i class="las la-play"></i>
+                                <span>{{ mostPlayedAlbums[8]?.playCount }}</span>
+                            </div>
                         </div>
                         <div
-                            class="square left-21-12"
+                            class="square left-21-12 clickable"
                             [@albumFadeIn]
                             [style.animation-delay.s]="animationDelays[11]"
                             style="animation: shadowFadeIn 2.4s ease-out forwards"
+                            (click)="onAlbumClick(mostPlayedAlbums[11])"
                         >
                             <app-album-placeholder></app-album-placeholder>
                             <img
@@ -44,12 +50,17 @@
                                 [style.animation-delay.s]="animationDelays[11]"
                                 [src]="mostPlayedAlbums[11]?.artworkPath"
                             />
+                            <div class="play-count-overlay" *ngIf="mostPlayedAlbums[11]?.playCount">
+                                <i class="las la-play"></i>
+                                <span>{{ mostPlayedAlbums[11]?.playCount }}</span>
+                            </div>
                         </div>
                         <div
-                            class="square left-22-5"
+                            class="square left-22-5 clickable"
                             [@albumFadeIn]
                             [style.animation-delay.s]="animationDelays[4]"
                             style="animation: shadowFadeIn 2.4s ease-out forwards"
+                            (click)="onAlbumClick(mostPlayedAlbums[4])"
                         >
                             <app-album-placeholder></app-album-placeholder>
                             <img
@@ -58,12 +69,17 @@
                                 [style.animation-delay.s]="animationDelays[4]"
                                 [src]="mostPlayedAlbums[4]?.artworkPath"
                             />
+                            <div class="play-count-overlay" *ngIf="mostPlayedAlbums[4]?.playCount">
+                                <i class="las la-play"></i>
+                                <span>{{ mostPlayedAlbums[4]?.playCount }}</span>
+                            </div>
                         </div>
                         <div
-                            class="square left-23-1"
+                            class="square left-23-1 clickable"
                             [@albumFadeIn]
                             [style.animation-delay.s]="animationDelays[0]"
                             style="animation: shadowFadeIn 2.4s ease-out forwards"
+                            (click)="onAlbumClick(mostPlayedAlbums[0])"
                         >
                             <app-album-placeholder></app-album-placeholder>
                             <img
@@ -72,12 +88,17 @@
                                 [style.animation-delay.s]="animationDelays[0]"
                                 [src]="mostPlayedAlbums[0]?.artworkPath"
                             />
+                            <div class="play-count-overlay" *ngIf="mostPlayedAlbums[0]?.playCount">
+                                <i class="las la-play"></i>
+                                <span>{{ mostPlayedAlbums[0]?.playCount }}</span>
+                            </div>
                         </div>
                         <div
-                            class="square left-31-7"
+                            class="square left-31-7 clickable"
                             [@albumFadeIn]
                             [style.animation-delay.s]="animationDelays[6]"
                             style="animation: shadowFadeIn 2.4s ease-out forwards"
+                            (click)="onAlbumClick(mostPlayedAlbums[6])"
                         >
                             <app-album-placeholder></app-album-placeholder>
                             <img
@@ -86,12 +107,17 @@
                                 [style.animation-delay.s]="animationDelays[6]"
                                 [src]="mostPlayedAlbums[6]?.artworkPath"
                             />
+                            <div class="play-count-overlay" *ngIf="mostPlayedAlbums[6]?.playCount">
+                                <i class="las la-play"></i>
+                                <span>{{ mostPlayedAlbums[6]?.playCount }}</span>
+                            </div>
                         </div>
                         <div
-                            class="square left-32-4"
+                            class="square left-32-4 clickable"
                             [@albumFadeIn]
                             [style.animation-delay.s]="animationDelays[3]"
                             style="animation: shadowFadeIn 2.4s ease-out forwards"
+                            (click)="onAlbumClick(mostPlayedAlbums[3])"
                         >
                             <app-album-placeholder></app-album-placeholder>
                             <img
@@ -100,14 +126,19 @@
                                 [style.animation-delay.s]="animationDelays[3]"
                                 [src]="mostPlayedAlbums[3]?.artworkPath"
                             />
+                            <div class="play-count-overlay" *ngIf="mostPlayedAlbums[3]?.playCount">
+                                <i class="las la-play"></i>
+                                <span>{{ mostPlayedAlbums[3]?.playCount }}</span>
+                            </div>
                         </div>
                     </div>
                     <div class="stage-right w-50 h-100">
                         <div
-                            class="square right-11-3"
+                            class="square right-11-3 clickable"
                             [@albumFadeIn]
                             [style.animation-delay.s]="animationDelays[2]"
                             style="animation: shadowFadeIn 2.4s ease-out forwards"
+                            (click)="onAlbumClick(mostPlayedAlbums[2])"
                         >
                             <app-album-placeholder></app-album-placeholder>
                             <img
@@ -116,12 +147,17 @@
                                 [style.animation-delay.s]="animationDelays[2]"
                                 [src]="mostPlayedAlbums[2]?.artworkPath"
                             />
+                            <div class="play-count-overlay" *ngIf="mostPlayedAlbums[2]?.playCount">
+                                <i class="las la-play"></i>
+                                <span>{{ mostPlayedAlbums[2]?.playCount }}</span>
+                            </div>
                         </div>
                         <div
-                            class="square right-12-8"
+                            class="square right-12-8 clickable"
                             [@albumFadeIn]
                             [style.animation-delay.s]="animationDelays[7]"
                             style="animation: shadowFadeIn 2.4s ease-out forwards"
+                            (click)="onAlbumClick(mostPlayedAlbums[7])"
                         >
                             <app-album-placeholder></app-album-placeholder>
                             <img
@@ -130,12 +166,17 @@
                                 [style.animation-delay.s]="animationDelays[7]"
                                 [src]="mostPlayedAlbums[7]?.artworkPath"
                             />
+                            <div class="play-count-overlay" *ngIf="mostPlayedAlbums[7]?.playCount">
+                                <i class="las la-play"></i>
+                                <span>{{ mostPlayedAlbums[7]?.playCount }}</span>
+                            </div>
                         </div>
                         <div
-                            class="square right-21-2"
+                            class="square right-21-2 clickable"
                             [@albumFadeIn]
                             [style.animation-delay.s]="animationDelays[1]"
                             style="animation: shadowFadeIn 2.4s ease-out forwards"
+                            (click)="onAlbumClick(mostPlayedAlbums[1])"
                         >
                             <app-album-placeholder></app-album-placeholder>
                             <img
@@ -144,12 +185,17 @@
                                 [style.animation-delay.s]="animationDelays[1]"
                                 [src]="mostPlayedAlbums[1]?.artworkPath"
                             />
+                            <div class="play-count-overlay" *ngIf="mostPlayedAlbums[1]?.playCount">
+                                <i class="las la-play"></i>
+                                <span>{{ mostPlayedAlbums[1]?.playCount }}</span>
+                            </div>
                         </div>
                         <div
-                            class="square right-22-6"
+                            class="square right-22-6 clickable"
                             [@albumFadeIn]
                             [style.animation-delay.s]="animationDelays[5]"
                             style="animation: shadowFadeIn 2.4s ease-out forwards"
+                            (click)="onAlbumClick(mostPlayedAlbums[5])"
                         >
                             <app-album-placeholder></app-album-placeholder>
                             <img
@@ -158,12 +204,17 @@
                                 [style.animation-delay.s]="animationDelays[5]"
                                 [src]="mostPlayedAlbums[5]?.artworkPath"
                             />
+                            <div class="play-count-overlay" *ngIf="mostPlayedAlbums[5]?.playCount">
+                                <i class="las la-play"></i>
+                                <span>{{ mostPlayedAlbums[5]?.playCount }}</span>
+                            </div>
                         </div>
                         <div
-                            class="square right-23-11"
+                            class="square right-23-11 clickable"
                             [@albumFadeIn]
                             [style.animation-delay.s]="animationDelays[10]"
                             style="animation: shadowFadeIn 2.4s ease-out forwards"
+                            (click)="onAlbumClick(mostPlayedAlbums[10])"
                         >
                             <app-album-placeholder></app-album-placeholder>
                             <img
@@ -172,12 +223,17 @@
                                 [style.animation-delay.s]="animationDelays[10]"
                                 [src]="mostPlayedAlbums[10]?.artworkPath"
                             />
+                            <div class="play-count-overlay" *ngIf="mostPlayedAlbums[10]?.playCount">
+                                <i class="las la-play"></i>
+                                <span>{{ mostPlayedAlbums[10]?.playCount }}</span>
+                            </div>
                         </div>
                         <div
-                            class="square right-31-10"
+                            class="square right-31-10 clickable"
                             [@albumFadeIn]
                             [style.animation-delay.s]="animationDelays[9]"
                             style="animation: shadowFadeIn 2.4s ease-out forwards"
+                            (click)="onAlbumClick(mostPlayedAlbums[9])"
                         >
                             <app-album-placeholder></app-album-placeholder>
                             <img
@@ -186,6 +242,10 @@
                                 [style.animation-delay.s]="animationDelays[9]"
                                 [src]="mostPlayedAlbums[9]?.artworkPath"
                             />
+                            <div class="play-count-overlay" *ngIf="mostPlayedAlbums[9]?.playCount">
+                                <i class="las la-play"></i>
+                                <span>{{ mostPlayedAlbums[9]?.playCount }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

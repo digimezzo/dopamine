@@ -102,6 +102,11 @@ export class AlbumCloudComponent extends AnimatedPage implements OnInit {
             this.controlsVisibility = 'hidden';
         }, 5000);
     }
+
+    public onAlbumClick(album: AlbumModel | undefined): void {
+        if (!album) {
+            return;
+        }
+        // TODO: Add function to play album here
+    }
 }
-
-
