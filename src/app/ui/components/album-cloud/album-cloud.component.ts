@@ -7,6 +7,7 @@ import { SettingsBase } from '../../../common/settings/settings.base';
 import { AnimatedPage } from '../animated-page';
 import { AlbumServiceBase } from '../../../services/album/album-service.base';
 import { AlbumModel } from '../../../services/album/album-model';
+import { PlaybackService } from '../../../services/playback/playback.service';
 
 @Component({
     selector: 'app-album-cloud',
@@ -49,6 +50,7 @@ export class AlbumCloudComponent extends AnimatedPage implements OnInit {
     public constructor(
         public appearanceService: AppearanceServiceBase,
         private navigationService: NavigationServiceBase,
+        private playbackService: PlaybackService,
         private settings: SettingsBase,
         private albumService: AlbumServiceBase,
     ) {
@@ -103,10 +105,11 @@ export class AlbumCloudComponent extends AnimatedPage implements OnInit {
         }, 5000);
     }
 
-    public onAlbumClick(album: AlbumModel | undefined): void {
+    public async onAlbumClickAsync(album: AlbumModel | undefined): Promise<void> {
         if (!album) {
             return;
         }
-        // TODO: Add function to play album here
+
+        await this.playbackService.enqueueAndPlayAlbumAsync(album);
     }
 }
