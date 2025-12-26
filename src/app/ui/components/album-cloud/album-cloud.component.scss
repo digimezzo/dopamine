@@ -1,3 +1,5 @@
+@import 'variables';
+
 .app-album-cloud {
     position: absolute;
     top: 0;
@@ -68,27 +70,27 @@
 }
 
 .stage {
-    padding: 12.5vh;
+    height: 100vh;
+    padding-top: $titlebar-height;
+    padding-bottom: 80px;
     position: relative;
     z-index: 1;
 }
 
 .stage-left {
     position: relative;
-    // background: lightblue;
     margin-right: 1.25vh;
     height: 100%;
 }
 
 .stage-right {
     position: relative;
-    // background: lightgreen;
     height: 100%;
 }
 
 /* Base square */
 .square {
-    --square-base-unit: 1.25vh;
+    --square-base-unit: calc((100vh - 46px - 80px) * 0.017);
     position: absolute;
     background: transparent;
     aspect-ratio: 1 / 1;
