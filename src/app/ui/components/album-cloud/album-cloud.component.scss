@@ -94,6 +94,9 @@
     aspect-ratio: 1 / 1;
     overflow: hidden;
     border-radius: 8px;
+    box-shadow:
+        0 4px 8px 0 rgba(0, 0, 0, 0),
+        0 6px 20px 0 rgba(0, 0, 0, 0);
 }
 
 .square {
@@ -123,6 +126,24 @@
     100% {
         opacity: 1;
         transform: scale(1);
+    }
+}
+
+@keyframes shadowFadeIn {
+    0% {
+        box-shadow:
+            0 4px 8px 0 rgba(0, 0, 0, 0),
+            0 6px 20px 0 rgba(0, 0, 0, 0);
+    }
+    50% {
+        box-shadow:
+            0 4px 8px 0 rgba(0, 0, 0, 0),
+            0 6px 20px 0 rgba(0, 0, 0, 0);
+    }
+    100% {
+        box-shadow:
+            0 4px 8px 0 rgba(0, 0, 0, 0.2),
+            0 6px 20px 0 rgba(0, 0, 0, 0.2);
     }
 }
 

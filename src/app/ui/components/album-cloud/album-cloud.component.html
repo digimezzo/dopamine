@@ -17,7 +17,12 @@
                 <div class="app-album-cloud__background"></div>
                 <div class="stage d-flex flex-row w-100 h-100">
                     <div class="stage-left w-50 h-100">
-                        <div class="square left-11-9" [@albumFadeIn]>
+                        <div
+                            class="square left-11-9"
+                            [@albumFadeIn]
+                            [style.animation-delay.s]="animationDelays[8]"
+                            style="animation: shadowFadeIn 2.4s ease-out forwards"
+                        >
                             <app-album-placeholder></app-album-placeholder>
                             <img
                                 *ngIf="mostPlayedAlbums[8]?.artworkPath"
@@ -26,7 +31,12 @@
                                 [src]="mostPlayedAlbums[8]?.artworkPath"
                             />
                         </div>
-                        <div class="square left-21-12" [@albumFadeIn]>
+                        <div
+                            class="square left-21-12"
+                            [@albumFadeIn]
+                            [style.animation-delay.s]="animationDelays[11]"
+                            style="animation: shadowFadeIn 2.4s ease-out forwards"
+                        >
                             <app-album-placeholder></app-album-placeholder>
                             <img
                                 *ngIf="mostPlayedAlbums[11]?.artworkPath"
@@ -35,7 +45,12 @@
                                 [src]="mostPlayedAlbums[11]?.artworkPath"
                             />
                         </div>
-                        <div class="square left-22-5" [@albumFadeIn]>
+                        <div
+                            class="square left-22-5"
+                            [@albumFadeIn]
+                            [style.animation-delay.s]="animationDelays[4]"
+                            style="animation: shadowFadeIn 2.4s ease-out forwards"
+                        >
                             <app-album-placeholder></app-album-placeholder>
                             <img
                                 *ngIf="mostPlayedAlbums[4]?.artworkPath"
@@ -44,7 +59,12 @@
                                 [src]="mostPlayedAlbums[4]?.artworkPath"
                             />
                         </div>
-                        <div class="square left-23-1" [@albumFadeIn]>
+                        <div
+                            class="square left-23-1"
+                            [@albumFadeIn]
+                            [style.animation-delay.s]="animationDelays[0]"
+                            style="animation: shadowFadeIn 2.4s ease-out forwards"
+                        >
                             <app-album-placeholder></app-album-placeholder>
                             <img
                                 *ngIf="mostPlayedAlbums[0]?.artworkPath"
@@ -53,7 +73,12 @@
                                 [src]="mostPlayedAlbums[0]?.artworkPath"
                             />
                         </div>
-                        <div class="square left-31-7" [@albumFadeIn]>
+                        <div
+                            class="square left-31-7"
+                            [@albumFadeIn]
+                            [style.animation-delay.s]="animationDelays[6]"
+                            style="animation: shadowFadeIn 2.4s ease-out forwards"
+                        >
                             <app-album-placeholder></app-album-placeholder>
                             <img
                                 *ngIf="mostPlayedAlbums[6]?.artworkPath"
@@ -62,7 +87,12 @@
                                 [src]="mostPlayedAlbums[6]?.artworkPath"
                             />
                         </div>
-                        <div class="square left-32-4" [@albumFadeIn]>
+                        <div
+                            class="square left-32-4"
+                            [@albumFadeIn]
+                            [style.animation-delay.s]="animationDelays[3]"
+                            style="animation: shadowFadeIn 2.4s ease-out forwards"
+                        >
                             <app-album-placeholder></app-album-placeholder>
                             <img
                                 *ngIf="mostPlayedAlbums[3]?.artworkPath"
@@ -73,7 +103,12 @@
                         </div>
                     </div>
                     <div class="stage-right w-50 h-100">
-                        <div class="square right-11-3" [@albumFadeIn]>
+                        <div
+                            class="square right-11-3"
+                            [@albumFadeIn]
+                            [style.animation-delay.s]="animationDelays[2]"
+                            style="animation: shadowFadeIn 2.4s ease-out forwards"
+                        >
                             <app-album-placeholder></app-album-placeholder>
                             <img
                                 *ngIf="mostPlayedAlbums[2]?.artworkPath"
@@ -82,7 +117,12 @@
                                 [src]="mostPlayedAlbums[2]?.artworkPath"
                             />
                         </div>
-                        <div class="square right-12-8" [@albumFadeIn]>
+                        <div
+                            class="square right-12-8"
+                            [@albumFadeIn]
+                            [style.animation-delay.s]="animationDelays[7]"
+                            style="animation: shadowFadeIn 2.4s ease-out forwards"
+                        >
                             <app-album-placeholder></app-album-placeholder>
                             <img
                                 *ngIf="mostPlayedAlbums[7]?.artworkPath"
@@ -91,7 +131,12 @@
                                 [src]="mostPlayedAlbums[7]?.artworkPath"
                             />
                         </div>
-                        <div class="square right-21-2" [@albumFadeIn]>
+                        <div
+                            class="square right-21-2"
+                            [@albumFadeIn]
+                            [style.animation-delay.s]="animationDelays[1]"
+                            style="animation: shadowFadeIn 2.4s ease-out forwards"
+                        >
                             <app-album-placeholder></app-album-placeholder>
                             <img
                                 *ngIf="mostPlayedAlbums[1]?.artworkPath"
@@ -100,7 +145,12 @@
                                 [src]="mostPlayedAlbums[1]?.artworkPath"
                             />
                         </div>
-                        <div class="square right-22-6" [@albumFadeIn]>
+                        <div
+                            class="square right-22-6"
+                            [@albumFadeIn]
+                            [style.animation-delay.s]="animationDelays[5]"
+                            style="animation: shadowFadeIn 2.4s ease-out forwards"
+                        >
                             <app-album-placeholder></app-album-placeholder>
                             <img
                                 *ngIf="mostPlayedAlbums[5]?.artworkPath"
@@ -109,7 +159,12 @@
                                 [src]="mostPlayedAlbums[5]?.artworkPath"
                             />
                         </div>
-                        <div class="square right-23-11" [@albumFadeIn]>
+                        <div
+                            class="square right-23-11"
+                            [@albumFadeIn]
+                            [style.animation-delay.s]="animationDelays[10]"
+                            style="animation: shadowFadeIn 2.4s ease-out forwards"
+                        >
                             <app-album-placeholder></app-album-placeholder>
                             <img
                                 *ngIf="mostPlayedAlbums[10]?.artworkPath"
@@ -118,7 +173,12 @@
                                 [src]="mostPlayedAlbums[10]?.artworkPath"
                             />
                         </div>
-                        <div class="square right-31-10" [@albumFadeIn]>
+                        <div
+                            class="square right-31-10"
+                            [@albumFadeIn]
+                            [style.animation-delay.s]="animationDelays[9]"
+                            style="animation: shadowFadeIn 2.4s ease-out forwards"
+                        >
                             <app-album-placeholder></app-album-placeholder>
                             <img
                                 *ngIf="mostPlayedAlbums[9]?.artworkPath"
