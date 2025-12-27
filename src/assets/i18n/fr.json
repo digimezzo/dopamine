@@ -329,5 +329,5 @@
     "expanded-view": "Vue agrandie",
     "cannot-play-m4a-file": "Le fichier M4A ne peut pas être lu. Veuillez noter que Dopamine prend uniquement en charge les fichiers M4A encodés en AAC et non ceux encodés en ALAC d'Apple. Le fichier audio sélectionné ne peut pas être lu. Veuillez consulter le fichier journal pour plus d'informations.",
     "cannot-play-audio-file": "Le fichier audio sélectionné ne peut pas être lu. Veuillez consulter le journal pour plus d'informations.",
-    "album-cloud": "Nuage d'albums"
+    "highlights": "À la une"
 }

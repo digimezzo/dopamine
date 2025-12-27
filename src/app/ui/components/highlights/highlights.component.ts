@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -8,12 +8,14 @@ import { AnimatedPage } from '../animated-page';
 import { AlbumServiceBase } from '../../../services/album/album-service.base';
 import { AlbumModel } from '../../../services/album/album-model';
 import { PlaybackService } from '../../../services/playback/playback.service';
+import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
+import { DocumentProxy } from '../../../common/io/document-proxy';
 
 @Component({
-    selector: 'app-album-cloud',
+    selector: 'app-highlights',
     host: { style: 'display: block' },
-    templateUrl: './album-cloud.component.html',
-    styleUrls: ['./album-cloud.component.scss'],
+    templateUrl: './highlights.component.html',
+    styleUrls: ['./highlights.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations: [
         enterLeftToRight,
@@ -42,7 +44,7 @@ import { PlaybackService } from '../../../services/playback/playback.service';
         ]),
     ],
 })
-export class AlbumCloudComponent extends AnimatedPage implements OnInit {
+export class HighlightsComponent extends AnimatedPage implements OnInit, AfterViewInit {
     private timerId: number = 0;
     public mostPlayedAlbums: AlbumModel[] = [];
     public animationDelays: number[] = [];
@@ -51,6 +53,8 @@ export class AlbumCloudComponent extends AnimatedPage implements OnInit {
         public appearanceService: AppearanceServiceBase,
         private navigationService: NavigationServiceBase,
         private playbackService: PlaybackService,
+        private audioVisualizer: AudioVisualizer,
+        private documentProxy: DocumentProxy,
         private settings: SettingsBase,
         private albumService: AlbumServiceBase,
     ) {
@@ -72,6 +76,10 @@ export class AlbumCloudComponent extends AnimatedPage implements OnInit {
         });
 
         this.resetTimer();
+    }
+
+    public ngAfterViewInit(): void {
+        this.setAudioVisualizer();
     }
 
     private loadMostPlayedAlbums(): void {
@@ -111,5 +119,10 @@ export class AlbumCloudComponent extends AnimatedPage implements OnInit {
         }
 
         await this.playbackService.enqueueAndPlayAlbumAsync(album);
+    }
+
+    private setAudioVisualizer(): void {
+        const canvas: HTMLCanvasElement = this.documentProxy.getCanvasById('highlightsAudioVisualizer');
+        this.audioVisualizer.connectCanvas(canvas);
     }
 }

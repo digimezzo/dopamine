@@ -12,9 +12,9 @@
         ></app-window-controls>
     </div>
     <div class="window-frame__content">
-        <div class="app-album-cloud">
-            <div class="app-album-cloud__content">
-                <div class="app-album-cloud__background"></div>
+        <div class="app-highlights">
+            <div class="app-highlights__content">
+                <div class="app-highlights__background"></div>
                 <div class="stage d-flex flex-row w-100 h-100">
                     <div class="stage-left w-50 h-100">
                         <div
@@ -262,14 +262,14 @@
                     </div>
                 </div>
             </div>
-            <div class="app-album-cloud-playback-controls__container">
+            <div class="app-highlights-playback-controls__container">
                 <div
-                    class="app-album-cloud-playback-controls__background theme-footer-background"
+                    class="app-highlights-playback-controls__background theme-footer-background"
                     [@controlsVisibility]="controlsVisibility"
                 ></div>
-                <canvas id="nowPlayingAudioVisualizer" class="app-album-cloud-playback-controls__audio-visualizer"></canvas>
+                <canvas id="highlightsAudioVisualizer" class="app-highlights-playback-controls__audio-visualizer"></canvas>
                 <app-now-playing-playback-pane
-                    class="app-album-cloud-playback-controls__playback-pane"
+                    class="app-highlights-playback-controls__playback-pane"
                     [@controlsVisibility]="controlsVisibility"
                 ></app-now-playing-playback-pane>
             </div>

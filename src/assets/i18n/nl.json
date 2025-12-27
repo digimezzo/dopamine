@@ -329,5 +329,5 @@
     "expanded-view": "Uitgebreide weergave",
     "cannot-play-m4a-file": "THet M4A-bestand kan niet worden afgespeeld. Houd er rekening mee dat Dopamine alleen AAC-gecodeerde M4A-bestanden ondersteunt en geen Apple ALAC-gecodeerde M4A-bestanden. Raadpleeg het logbestand voor meer informatie.",
     "cannot-play-audio-file": "Het geselecteerde audiobestand kan niet worden afgespeeld. Raadpleeg het logbestand voor meer informatie.",
-    "album-cloud": "Albumwolk"
+    "highlights": "Hoogtepunten"
 }

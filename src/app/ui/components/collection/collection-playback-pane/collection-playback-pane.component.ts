@@ -25,7 +25,7 @@ export class CollectionPlaybackPaneComponent {
         await this.navigationService.navigateToNowPlayingAsync();
     }
 
-    public async showAlbumCloudAsync(): Promise<void> {
-        await this.navigationService.navigateToAlbumCloudAsync();
+    public async showHighlightsAsync(): Promise<void> {
+        await this.navigationService.navigateToHighlightsAsync();
     }
 }

@@ -48,8 +48,8 @@ export class NavigationService implements NavigationServiceBase {
         await this.router.navigate(['/nowplaying']);
     }
 
-    public async navigateToAlbumCloudAsync(): Promise<void> {
-        await this.router.navigate(['/albumcloud']);
+    public async navigateToHighlightsAsync(): Promise<void> {
+        await this.router.navigate(['/highlights']);
     }
 
     public async navigateToCoverPlayerAsync(): Promise<void> {

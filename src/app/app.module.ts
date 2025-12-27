@@ -293,8 +293,8 @@ import { VolumeIconComponent } from './ui/components/volume-icon/volume-icon.com
 import { EditTracksDialogComponent } from './ui/components/dialogs/edit-tracks-dialog/edit-tracks-dialog.component';
 import { InfoDialogComponent } from './ui/components/dialogs/info-dialog/info-dialog.component';
 import { IterableMenuComponent } from './ui/components/common/iterable-menu.component';
-import { AlbumCloudComponent } from './ui/components/album-cloud/album-cloud.component';
-import { AlbumPlaceholderComponent } from './ui/components/album-cloud/album-placeholder.component';
+import { HighlightsComponent } from './ui/components/highlights/highlights.component';
+import { AlbumPlaceholderComponent } from './ui/components/highlights/album-placeholder.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -415,7 +415,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         TrackBrowserComponent,
         PlaybackQueueComponent,
         NowPlayingComponent,
-        AlbumCloudComponent,
+        HighlightsComponent,
         AlbumPlaceholderComponent,
         NowPlayingPlaybackPaneComponent,
         SearchBoxComponent,

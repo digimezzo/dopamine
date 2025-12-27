@@ -1,6 +1,6 @@
 @import 'variables';
 
-.app-album-cloud {
+.app-highlights {
     position: absolute;
     top: 0;
     left: 0;
@@ -12,7 +12,7 @@
     flex-grow: 1;
 }
 
-.app-album-cloud__content {
+.app-highlights__content {
     background: transparent !important;
     flex: 1;
     width: 100vw;
@@ -21,7 +21,7 @@
     position: relative;
 }
 
-.app-album-cloud__background {
+.app-highlights__background {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -41,11 +41,11 @@
     backdrop-filter: blur(2px);
 }
 
-.app-album-cloud-playback-controls__container {
+.app-highlights-playback-controls__container {
     position: relative;
 }
 
-.app-album-cloud-playback-controls__background {
+.app-highlights-playback-controls__background {
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -53,7 +53,7 @@
     z-index: 0;
 }
 
-.app-album-cloud-playback-controls__audio-visualizer {
+.app-highlights-playback-controls__audio-visualizer {
     position: absolute;
     z-index: 1;
     left: 50%;
@@ -63,7 +63,7 @@
     transform: translateX(-50%);
 }
 
-.app-album-cloud-playback-controls__playback-pane {
+.app-highlights-playback-controls__playback-pane {
     position: absolute;
     bottom: 0;
     z-index: 2;
@@ -139,10 +139,12 @@
     gap: 8px;
     opacity: 0;
     transition: opacity 0.2s ease;
-    color: white;
-    font-weight: 500;
-    font-size: 14px;
     border-radius: 8px;
+}
+
+.play-count-overlay span {
+    color: white;
+    font-size: 16px;
 }
 
 .square:hover .play-count-overlay {
@@ -150,7 +152,7 @@
 }
 
 .play-count-overlay i {
-    font-size: 16px;
+    font-size: 22px;
 }
 
 @keyframes albumFadeZoom {
