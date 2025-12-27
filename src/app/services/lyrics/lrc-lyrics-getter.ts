@@ -41,23 +41,19 @@ export class LrcLyricsGetter implements ILyricsGetter {
     }
 
     private getLrcFilePath(track: TrackModel): string {
-        const trackPathWithoutExtension: string = this.fileAccess.getPathWithoutExtension(track.path);
-        let possibleLrcFilePath: string = `${trackPathWithoutExtension}.lrc`;
+        const trackPath: string = this.fileAccess.getDirectoryPath(track.path);
+        const trackFileNameWithoutExtension: string = this.fileAccess.getFileNameWithoutExtension(track.path);
+        const lrcExtensions: string[] = ['.lrc', '.Lrc', '.LRC']
+        const possibleFolders: string[] = [`${trackPath}`, `${trackPath}\\lyrics`, `${trackPath}\\Lyrics`, `${trackPath}\\LYRICS`]
 
-        if (this.fileAccess.pathExists(possibleLrcFilePath)) {
-            return possibleLrcFilePath;
-        }
+        for (var folder of possibleFolders) {
+            for (var ext of lrcExtensions) {
+                let possibleLrcFilePath: string = `${folder}\\${trackFileNameWithoutExtension}${ext}`;
 
-        possibleLrcFilePath = `${trackPathWithoutExtension}.Lrc`;
-
-        if (this.fileAccess.pathExists(possibleLrcFilePath)) {
-            return possibleLrcFilePath;
-        }
-
-        possibleLrcFilePath = `${trackPathWithoutExtension}.LRC`;
-
-        if (this.fileAccess.pathExists(possibleLrcFilePath)) {
-            return possibleLrcFilePath;
+                if (this.fileAccess.pathExists(possibleLrcFilePath)) {
+                    return possibleLrcFilePath;
+                }
+            }
         }
 
         return '';
