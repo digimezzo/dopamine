@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { AlbumModel } from '../../../services/album/album-model';
 
@@ -7,6 +7,7 @@ import { AlbumModel } from '../../../services/album/album-model';
     templateUrl: './album-placeholder.component.html',
     styleUrls: ['./album-placeholder.component.scss'],
     host: { style: 'display: block; width: 100%;height: 100%' },
+    encapsulation: ViewEncapsulation.None,
     animations: [
         trigger('albumFadeIn', [
             transition(':enter', [
