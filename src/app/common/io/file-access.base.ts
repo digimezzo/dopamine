@@ -10,6 +10,7 @@ export abstract class FileAccessBase {
     public abstract getDateModifiedInTicks(fileOrDirectory: string): number;
     public abstract getDateCreatedInTicks(fileOrDirectory: string): number;
     public abstract pathExists(pathToCheck: string): boolean;
+    public abstract pathExistsAsync(pathToCheck: string): Promise<boolean>;
     public abstract getFileSizeInBytes(filePath: string): number;
     public abstract createFullDirectoryPathIfDoesNotExist(directoryPath: string): void;
     public abstract createFile(filePath: string): void;

@@ -145,6 +145,15 @@ export class FileAccess implements FileAccessBase {
         return fs.existsSync(pathToCheck);
     }
 
+    public async pathExistsAsync(pathToCheck: string): Promise<boolean> {
+        try {
+            await fs.promises.access(pathToCheck, fs.promises.constants.F_OK);
+            return true;
+        } catch (err) {
+            return false;
+        }
+    }
+
     public getFileSizeInBytes(filePath: string): number {
         const stats = fs.statSync(filePath);
         return stats.size;

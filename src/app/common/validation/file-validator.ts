@@ -1,28 +1,23 @@
 import { Injectable } from '@angular/core';
 import { FileFormats } from '../application/file-formats';
 import { FileAccessBase } from '../io/file-access.base';
-import { access, constants } from 'fs';
 
 @Injectable()
 export class FileValidator {
     public constructor(private fileAccess: FileAccessBase) {}
 
     public async isPlayableAudioFileAsync(filePath: string): Promise<boolean> {
-        return new Promise((resolve) => {
-            access(filePath, constants.F_OK, (err) => {
-                if (err) {
-                    resolve(false);
-                }
+        if (!await this.fileAccess.pathExistsAsync(filePath)) {
+            return false;
+        }
 
-                const fileExtension: string = this.fileAccess.getFileExtension(filePath);
+        const fileExtension: string = this.fileAccess.getFileExtension(filePath);
 
-                if (!FileFormats.supportedAudioExtensions.includes(fileExtension.toLowerCase())) {
-                    resolve(false);
-                }
+        if (!FileFormats.supportedAudioExtensions.includes(fileExtension.toLowerCase())) {
+            return false;
+        }
 
-                resolve(true);
-            });
-        });
+        return true;
     }
 
     public isPlayableAudioFile(filePath: string): boolean {
