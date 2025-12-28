@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -10,6 +10,7 @@ import { AlbumModel } from '../../../services/album/album-model';
 import { PlaybackService } from '../../../services/playback/playback.service';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 import { DocumentProxy } from '../../../common/io/document-proxy';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-highlights',
@@ -38,10 +39,12 @@ import { DocumentProxy } from '../../../common/io/document-proxy';
         ]),
     ],
 })
-export class HighlightsComponent extends AnimatedPage implements OnInit, AfterViewInit {
+export class HighlightsComponent extends AnimatedPage implements OnInit, AfterViewInit, OnDestroy {
+    private subscription: Subscription = new Subscription();
     private timerId: number = 0;
     public mostPlayedAlbums: AlbumModel[] = [];
     public animationDelays: number[] = [];
+    public animationKey: number = 0;
 
     public constructor(
         public appearanceService: AppearanceServiceBase,
@@ -69,7 +72,21 @@ export class HighlightsComponent extends AnimatedPage implements OnInit, AfterVi
             this.resetTimer();
         });
 
+        this.subscription.add(
+            this.playbackService.playbackStarted$.subscribe(() => {
+                this.loadMostPlayedAlbums();
+                this.generateRandomDelays();
+                this.animationKey++;
+                // Force animation restart
+                this.restartAnimations();
+            }),
+        );
+
         this.resetTimer();
+    }
+
+    public ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 
     public ngAfterViewInit(): void {
@@ -118,5 +135,19 @@ export class HighlightsComponent extends AnimatedPage implements OnInit, AfterVi
     private setAudioVisualizer(): void {
         const canvas: HTMLCanvasElement = this.documentProxy.getCanvasById('highlightsAudioVisualizer');
         this.audioVisualizer.connectCanvas(canvas);
+    }
+
+    private restartAnimations(): void {
+        setTimeout(() => {
+            const squares = document.querySelectorAll('.square');
+            squares.forEach((square) => {
+                const element = square as HTMLElement;
+                const animation = element.style.animation;
+                element.style.animation = 'none';
+                // Trigger reflow
+                void element.offsetHeight;
+                element.style.animation = animation;
+            });
+        }, 0);
     }
 }
