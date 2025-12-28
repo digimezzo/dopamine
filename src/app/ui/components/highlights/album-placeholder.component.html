@@ -2,12 +2,15 @@
     class="square"
     [ngClass]="squareClass"
     [class.clickable]="album?.artworkPath"
-    [@albumFadeIn]
     [style.animation-delay.s]="animationDelay"
-    style="animation: shadowFadeIn 2.4s ease-out forwards"
+    style="
+        animation:
+            shadowFadeIn 2.4s ease-out forwards,
+            albumFadeZoom 1.2s ease-out forwards;
+    "
     (click)="onAlbumClick()"
 >
-    <div class="app-album__cover__placeholder">
+    <div class="app-album__cover__placeholder" *ngIf="!album?.artworkPath">
         <svg width="256" height="256" viewBox="0 0 256 256">
             <defs>
                 <linearGradient id="coverGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -22,9 +25,11 @@
             />
         </svg>
     </div>
-    <img *ngIf="album?.artworkPath" class="square-image" [style.animation-delay.s]="animationDelay" [src]="album?.artworkPath" />
-    <div class="play-count-overlay" *ngIf="album?.playCount">
-        <i class="las la-play"></i>
-        <span>{{ album?.playCount }}</span>
+    <div class="square-image-container">
+        <img *ngIf="album?.artworkPath" class="square-image" [src]="album?.artworkPath" />
+        <div class="play-count-overlay" *ngIf="album?.playCount">
+            <i class="las la-play"></i>
+            <span>{{ album?.playCount }}</span>
+        </div>
     </div>
 </div>

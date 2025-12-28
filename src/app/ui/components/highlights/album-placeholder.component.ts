@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { AlbumModel } from '../../../services/album/album-model';
 
 @Component({
@@ -8,14 +7,6 @@ import { AlbumModel } from '../../../services/album/album-model';
     styleUrls: ['./album-placeholder.component.scss'],
     host: { style: 'display: block; width: 100%;height: 100%' },
     encapsulation: ViewEncapsulation.None,
-    animations: [
-        trigger('albumFadeIn', [
-            transition(':enter', [
-                style({ opacity: 0, transform: 'scale(0.8)' }),
-                animate('0.6s ease-out', style({ opacity: 1, transform: 'scale(1)' })),
-            ]),
-        ]),
-    ],
 })
 export class AlbumPlaceholderComponent {
     @Input() album: AlbumModel | undefined;
