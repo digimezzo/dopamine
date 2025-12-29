@@ -13,6 +13,7 @@
 }
 
 .app-highlights__content {
+    --square-base-unit: calc(min((100vh - 46px - 80px) * 0.017, (100vw - 20px) * 0.0085));
     background: transparent !important;
     flex: 1;
     width: 100vw;
@@ -31,11 +32,23 @@
     height: 100%;
     pointer-events: none;
 
-    // Cloud-like shape using multiple blur circles
+    // Cloud-like shape using multiple blur circles - responsive to viewport
     background:
-        radial-gradient(ellipse 600px 480px at 35% 40%, var(--theme-primary-color) 0%, transparent 50%),
-        radial-gradient(ellipse 550px 420px at 65% 45%, var(--theme-accent-color) 0%, transparent 50%),
-        radial-gradient(ellipse 480px 400px at 50% 65%, var(--theme-primary-color) 0%, transparent 50%);
+        radial-gradient(
+            ellipse calc(60 * var(--square-base-unit)) calc(48 * var(--square-base-unit)) at 35% 40%,
+            var(--theme-primary-color) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            ellipse calc(55 * var(--square-base-unit)) calc(42 * var(--square-base-unit)) at 65% 45%,
+            var(--theme-accent-color) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            ellipse calc(48 * var(--square-base-unit)) calc(40 * var(--square-base-unit)) at 50% 65%,
+            var(--theme-primary-color) 0%,
+            transparent 50%
+        );
     opacity: 0.25;
     filter: blur(50px) saturate(1.2);
     backdrop-filter: blur(2px);
