@@ -70,6 +70,7 @@
 }
 
 .stage {
+    --square-base-unit: calc(min((100vh - 46px - 80px) * 0.017, (100vw - 20px) * 0.0085));
     height: 100vh;
     padding-top: $titlebar-height;
     padding-bottom: 80px;
@@ -79,7 +80,7 @@
 
 .stage-left {
     position: relative;
-    margin-right: 1.25vh;
+    margin-right: var(--square-base-unit);
     height: 100%;
 }
 
