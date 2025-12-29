@@ -45,6 +45,7 @@ export class HighlightsComponent extends AnimatedPage implements OnInit, AfterVi
     public mostPlayedAlbums: AlbumModel[] = [];
     public animationDelays: number[] = [];
     public animationKey: number = 0;
+    private previousAlbumIds: string[] = [];
 
     public constructor(
         public appearanceService: AppearanceServiceBase,
@@ -74,11 +75,7 @@ export class HighlightsComponent extends AnimatedPage implements OnInit, AfterVi
 
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe(() => {
-                this.loadMostPlayedAlbums();
-                this.generateRandomDelays();
-                this.animationKey++;
-                // Force animation restart
-                this.restartAnimations();
+                this.onPlaybackStarted();
             }),
         );
 
@@ -87,6 +84,20 @@ export class HighlightsComponent extends AnimatedPage implements OnInit, AfterVi
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
+    }
+
+    private onPlaybackStarted(): void {
+        const previousAlbums = this.mostPlayedAlbums.map((a) => `${a.albumKey}-${a.playCount}`);
+        this.loadMostPlayedAlbums();
+        const currentAlbums = this.mostPlayedAlbums.map((a) => `${a.albumKey}-${a.playCount}`);
+
+        const hasChanged = previousAlbums.some((album, index) => album !== currentAlbums[index]);
+
+        if (hasChanged) {
+            this.generateRandomDelays();
+            this.animationKey++;
+            this.restartAnimations();
+        }
     }
 
     public ngAfterViewInit(): void {
