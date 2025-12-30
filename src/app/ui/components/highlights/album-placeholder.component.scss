@@ -1,0 +1,121 @@
+.square {
+    position: absolute;
+    background: transparent;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow:
+        0 4px 8px 0 rgba(0, 0, 0, 0),
+        0 6px 20px 0 rgba(0, 0, 0, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.square.clickable {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.square.clickable:active {
+    transform: scale(0.95) !important;
+}
+
+.square-image-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+}
+
+.square-image {
+    position: absolute;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.play-count-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    border-radius: 8px;
+}
+
+.play-count-overlay span {
+    color: white;
+    font-size: 16px;
+}
+
+.square:hover .play-count-overlay {
+    opacity: 1;
+}
+
+.play-count-overlay i {
+    font-size: 22px;
+}
+
+@keyframes albumFadeZoom {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes shadowFadeIn {
+    0% {
+        box-shadow:
+            0 4px 8px 0 rgba(0, 0, 0, 0),
+            0 6px 20px 0 rgba(0, 0, 0, 0);
+    }
+    50% {
+        box-shadow:
+            0 4px 8px 0 rgba(0, 0, 0, 0),
+            0 6px 20px 0 rgba(0, 0, 0, 0);
+    }
+    100% {
+        box-shadow:
+            0 4px 8px 0 rgba(0, 0, 0, 0.2),
+            0 6px 20px 0 rgba(0, 0, 0, 0.2);
+    }
+}
+
+.app-album__cover__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--theme-album-cover-background);
+}
+
+.app-album__cover__placeholder svg {
+    width: 60%;
+    height: 60%;
+}
