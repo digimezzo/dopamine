@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fixed a crash that occurred when playing a song from the playback queue
+- Fixed some album view issues
 
 ## [3.0.1] - 2025-12-19
 
