@@ -51,13 +51,13 @@ describe('AlbumComponent', () => {
             expect(component.isSelected).toBeFalsy();
         });
 
-        it('should define useCompactYearView as false', () => {
+        it('should define showYear as false', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.useCompactYearView).toBeFalsy();
+            expect(component.showYear).toBeFalsy();
         });
     });
 
