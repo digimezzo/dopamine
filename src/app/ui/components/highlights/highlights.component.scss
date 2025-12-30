@@ -82,10 +82,8 @@
 }
 
 .stage {
-    --square-base-unit: calc(min((100vh - 46px - 80px) * 0.017, (100vw - 20px) * 0.0085));
-    height: 100vh;
-    padding-top: $titlebar-height;
-    padding-bottom: 80px;
+    --square-base-unit: calc(min((100vh - 160px) * 0.015, (100vw - 20px) * 0.0085));
+    padding-top: calc((100vh - (58 * var(--square-base-unit))) / 2);
     position: relative;
     z-index: 1;
 }
@@ -99,14 +97,6 @@
 .stage-right {
     position: relative;
     height: 100%;
-}
-
-.stage {
-    height: 100vh;
-    padding-top: $titlebar-height;
-    padding-bottom: 80px;
-    position: relative;
-    z-index: 1;
 }
 
 /* Left */
