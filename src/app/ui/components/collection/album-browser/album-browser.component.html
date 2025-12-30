@@ -45,7 +45,7 @@
                     *ngFor="let album of albumRow.albums"
                     [album]="album"
                     [isSelected]="album.isSelected"
-                    [useCompactYearView]="this.useCompactYearView"
+                    [showYear]="isSortedByYear && this.useCompactYearView"
                     (mousedown)="setSelectedAlbums($event, album)"
                     (dblclick)="this.playbackService.enqueueAndPlayAlbumAsync(album)"
                     (contextmenu)="onAlbumContextMenu($event, album)"

@@ -39,7 +39,7 @@
                     />
                 </div>
             </div>
-            <div *ngIf="this.useCompactYearView" class="app-album__information">
+            <div *ngIf="this.showYear" class="app-album__information">
                 <div class="app-album__information__line1 ellipsis" matTooltip="{{ album.albumTitle }}">
                     {{ this.formatYear(album.year) }}
                 </div>
@@ -47,7 +47,7 @@
                     {{ album.albumTitle }}
                 </div>
             </div>
-            <div *ngIf="!this.useCompactYearView" class="app-album__information">
+            <div *ngIf="!this.showYear" class="app-album__information">
                 <div class="app-album__information__line1 ellipsis" matTooltip="{{ album.albumTitle }}">
                     {{ album.albumTitle }}
                 </div>
