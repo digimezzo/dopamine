@@ -15,9 +15,11 @@ Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 [![Issues](https://img.shields.io/github/issues/digimezzo/dopamine.svg?style=flat-square)](https://github.com/digimezzo/dopamine/issues)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8)
 
-![Dopaminescreenshot](Dopamine.screenshot.png)
+![Dopaminescreenshot.1](Dopamine.screenshot.1.png)
 
 ![Dopaminescreenshot 2](Dopamine.screenshot.2.png)
+
+![Dopaminescreenshot 4](Dopamine.screenshot.4.png)
 
 ![Dopaminescreenshot 3](Dopamine.screenshot.3.png)
 

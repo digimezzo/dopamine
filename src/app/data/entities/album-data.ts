@@ -9,4 +9,5 @@ export class AlbumData {
     public dateFileCreated: number | undefined;
     public dateAdded: number | undefined;
     public dateLastPlayed: number | undefined;
+    public playCount: number | undefined;
 }
