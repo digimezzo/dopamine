@@ -328,6 +328,6 @@
     "compact-view": "Thu gọn",
     "expanded-view": "Mở rộng",
     "cannot-play-m4a-file": "Không thể phát tệp M4A. Xin lưu ý rằng Dopamine chỉ hỗ trợ các tệp M4A AAC và không hỗ trợ các tệp M4A được mã hóa ALAC của Apple. Vui lòng xem tệp log để biết thêm thông tin.",
-    "cannot-play-audio-file": "Không thể phát tệp âm thanh đã chọn. Vui lòng xem tệp log để biết thêm thông tin."
+    "cannot-play-audio-file": "Không thể phát tệp âm thanh đã chọn. Vui lòng xem tệp log để biết thêm thông tin.",
     "highlights": "Highlights"
 }
