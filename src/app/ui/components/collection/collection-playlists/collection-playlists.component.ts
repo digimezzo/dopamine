@@ -24,6 +24,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
 })
 export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
+    private static gettingTracksFlag = false;
 
     public constructor(
         public searchService: SearchServiceBase,
@@ -129,7 +130,27 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         this.playlists = await this.playlistService.getPlaylistsAsync(playlistFolders);
     }
 
+    private async waitForPrevGetTracks(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            const checkGettingTracks = (x: number) => {
+                if (x >= 10) { reject(); }
+
+                if(CollectionPlaylistsComponent.gettingTracksFlag) {
+                    setTimeout(() => { checkGettingTracks(x + 1); }, 500);
+                } else {
+                    resolve();
+                }
+            };
+
+            checkGettingTracks(0);
+        });
+    }
+
     private async getTracksAsync(): Promise<void> {
+        await this.waitForPrevGetTracks();
+
+        CollectionPlaylistsComponent.gettingTracksFlag = true;
+
         const selectedPlaylists: PlaylistModel[] = this.playlistsPersister.getSelectedPlaylists(this.playlists);
 
         if (selectedPlaylists.length > 0) {
@@ -137,6 +158,8 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         } else {
             this.tracks = new TrackModels();
         }
+
+        CollectionPlaylistsComponent.gettingTracksFlag = false;
     }
 
     private async getPlaylistsForPlaylistFoldersAndGetTracksAsync(playlistFolders: PlaylistFolderModel[]): Promise<void> {
