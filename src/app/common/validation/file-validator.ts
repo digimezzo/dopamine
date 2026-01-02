@@ -6,6 +6,20 @@ import { FileAccessBase } from '../io/file-access.base';
 export class FileValidator {
     public constructor(private fileAccess: FileAccessBase) {}
 
+    public async isPlayableAudioFileAsync(filePath: string): Promise<boolean> {
+        if (!await this.fileAccess.pathExistsAsync(filePath)) {
+            return false;
+        }
+
+        const fileExtension: string = this.fileAccess.getFileExtension(filePath);
+
+        if (!FileFormats.supportedAudioExtensions.includes(fileExtension.toLowerCase())) {
+            return false;
+        }
+
+        return true;
+    }
+
     public isPlayableAudioFile(filePath: string): boolean {
         if (!this.fileAccess.pathExists(filePath)) {
             return false;

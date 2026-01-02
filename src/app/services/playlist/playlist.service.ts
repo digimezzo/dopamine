@@ -24,7 +24,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Constants } from '../../common/application/constants';
 import { PlaylistUpdateInfo } from './playlist-update-info';
 import { PromiseUtils } from '../../common/utils/promise-utils';
-import {SettingsBase} from "../../common/settings/settings.base";
+import { SettingsBase } from '../../common/settings/settings.base';
 
 @Injectable()
 export class PlaylistService implements PlaylistServiceBase {
@@ -283,12 +283,11 @@ export class PlaylistService implements PlaylistServiceBase {
             this.logger.error(e, `Could not decode playlist with path='${playlistPath}'`, 'PlaylistService', 'decodePlaylistAsync');
             throw new Error(e instanceof Error ? e.message : 'Unknown error');
         }
-        
-        
+
         const albumKeyIndex = this.settings.albumKeyIndex;
 
         for (const playlistEntry of playlistEntries) {
-            if (this.fileValidator.isPlayableAudioFile(playlistEntry.decodedPath)) {
+            if (await this.fileValidator.isPlayableAudioFileAsync(playlistEntry.decodedPath)) {
                 const track: TrackModel = await this.trackModelFactory.createFromFileAsync(playlistEntry.decodedPath, albumKeyIndex);
                 tracks.push(track);
             }
