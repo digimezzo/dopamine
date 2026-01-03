@@ -24,6 +24,9 @@ class TagLibFileMetadata {
         this.lyrics = '';
         this.picture = undefined;
         this.rating = 0;
+        this.composers = [];
+        this.conductor = '';
+        this.beatsPerMinute = 0;
 
         this.#load();
     }
@@ -90,6 +93,18 @@ class TagLibFileMetadata {
 
             if (tagLibFile.tag.lyrics !== undefined) {
                 this.lyrics = tagLibFile.tag.lyrics ?? '';
+            }
+
+            if (tagLibFile.tag.composers !== undefined) {
+                this.composers = tagLibFile.tag.composers ?? [];
+            }
+
+            if (tagLibFile.tag.conductor !== undefined) {
+                this.conductor = tagLibFile.tag.conductor ?? '';
+            }
+
+            if (tagLibFile.tag.beatsPerMinute !== undefined && !Number.isNaN(tagLibFile.tag.beatsPerMinute)) {
+                this.beatsPerMinute = tagLibFile.tag.beatsPerMinute ?? 0;
             }
 
             if (tagLibFile.tag.pictures !== undefined && tagLibFile.tag.pictures.length > 0) {

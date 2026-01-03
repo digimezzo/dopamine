@@ -36,6 +36,9 @@ export class TagLibFileMetadata implements IFileMetadata {
     public discCount: number = 0;
     public lyrics: string = '';
     public picture: Buffer | undefined;
+    public composers: string[] = [];
+    public conductor: string = '';
+    public beatsPerMinute: number = 0;
 
     public get rating(): number {
         return this._rating;
@@ -65,6 +68,9 @@ export class TagLibFileMetadata implements IFileMetadata {
         tagLibFile.tag.discCount = this.discCount;
         tagLibFile.tag.grouping = this.grouping;
         tagLibFile.tag.comment = this.comment;
+        tagLibFile.tag.composers = this.composers;
+        tagLibFile.tag.conductor = this.conductor;
+        tagLibFile.tag.beatsPerMinute = this.beatsPerMinute;
 
         if (this.picture) {
             const picture = {
@@ -149,6 +155,18 @@ export class TagLibFileMetadata implements IFileMetadata {
 
             if (tagLibFile.tag.lyrics != undefined) {
                 this.lyrics = tagLibFile.tag.lyrics ?? '';
+            }
+
+            if (tagLibFile.tag.composers != undefined) {
+                this.composers = tagLibFile.tag.composers ?? [];
+            }
+
+            if (tagLibFile.tag.conductor != undefined) {
+                this.conductor = tagLibFile.tag.conductor ?? '';
+            }
+
+            if (tagLibFile.tag.beatsPerMinute != undefined && !Number.isNaN(tagLibFile.tag.beatsPerMinute)) {
+                this.beatsPerMinute = tagLibFile.tag.beatsPerMinute ?? 0;
             }
 
             if (tagLibFile.tag.pictures != undefined && tagLibFile.tag.pictures.length > 0) {
