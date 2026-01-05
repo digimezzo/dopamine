@@ -56,7 +56,7 @@ jobs:
                   name: dopamine-nightly-pacman
                   path: release/Dopamine-*.pacman
 
-    nightly_build_on_mac:
+    nightly_build_on_mac_arm:
         runs-on: macos-15
         steps:
             - uses: actions/checkout@v2
@@ -79,6 +79,31 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: dopamine-nightly-macos
+                  path: release/Dopamine-*.dmg
+
+    nightly_build_on_mac_intel:
+        runs-on: macos-15-intel
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@master
+              with:
+                  node-version: '22.x'
+            - name: install dependencies
+              run: npm install
+            - name: run unit tests
+              run: npm run test
+            - name: build
+              run: npm run electron:mac
+            - name: fetch current version
+              id: ver_name
+              uses: notiz-dev/github-action-json-property@release
+              with:
+                  path: 'package.json'
+                  prop_path: 'version'
+            - name: upload build artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dopamine-nightly-macos-intel
                   path: release/Dopamine-*.dmg
 
     nightly_build_on_win:
