@@ -78,7 +78,7 @@ jobs:
             - name: upload build artifacts
               uses: actions/upload-artifact@v4
               with:
-                  name: dopamine-nightly-macos
+                  name: dopamine-nightly-macos-arm
                   path: release/Dopamine-*.dmg
 
     nightly_build_on_mac_intel:

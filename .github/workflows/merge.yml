@@ -79,7 +79,7 @@ jobs:
             - name: upload build artifacts
               uses: actions/upload-artifact@v4
               with:
-                  name: dopamine-merge-macos
+                  name: dopamine-merge-macos-arm
                   path: release/Dopamine-*.dmg
 
     merge_build_on_mac_intel:
@@ -105,7 +105,7 @@ jobs:
             - name: upload build artifacts
               uses: actions/upload-artifact@v4
               with:
-                  name: dopamine-merge-macos
+                  name: dopamine-merge-macos-intel
                   path: release/Dopamine-*.dmg
 
     merge_build_on_win:
