@@ -127,7 +127,7 @@ describe('FileService', () => {
             // Assert
             playbackServiceMock.verify(
                 (x) =>
-                    x.enqueueAndPlayTracks(
+                    x.enqueueAndPlayTracksAsync(
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
                                 trackModels.length === 2 &&
@@ -155,7 +155,7 @@ describe('FileService', () => {
             // Assert
             playbackServiceMock.verify(
                 (x) =>
-                    x.enqueueAndPlayTracks(
+                    x.enqueueAndPlayTracksAsync(
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
                                 trackModels.length === 2 &&
@@ -189,7 +189,7 @@ describe('FileService', () => {
             // Assert
             playbackServiceMock.verify(
                 (x) =>
-                    x.enqueueAndPlayTracks(
+                    x.enqueueAndPlayTracksAsync(
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
                                 trackModels.length === 2 &&
@@ -223,7 +223,7 @@ describe('FileService', () => {
             // Assert
             playbackServiceMock.verify(
                 (x) =>
-                    x.enqueueAndPlayTracks(
+                    x.enqueueAndPlayTracksAsync(
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
                                 trackModels.length === 2 &&
@@ -244,7 +244,7 @@ describe('FileService', () => {
             await flushPromises();
 
             // Assert
-            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracksAsync(It.isAny()), Times.never());
         });
 
         it('should not enqueue anything if parameters are empty when arguments are received', async () => {
@@ -256,7 +256,7 @@ describe('FileService', () => {
             await flushPromises();
 
             // Assert
-            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracksAsync(It.isAny()), Times.never());
         });
 
         it('should not enqueue anything if there are no playable tracks found as parameters when arguments are received', async () => {
@@ -268,7 +268,7 @@ describe('FileService', () => {
             await flushPromises();
 
             // Assert
-            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracksAsync(It.isAny()), Times.never());
         });
 
         it('should enqueue all playable tracks that are dropped in directory order when given unordered and same number of tracks than in directory', async () => {
@@ -288,7 +288,7 @@ describe('FileService', () => {
             // Assert
             playbackServiceMock.verify(
                 (x) =>
-                    x.enqueueAndPlayTracks(
+                    x.enqueueAndPlayTracksAsync(
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
                                 trackModels.length === 2 &&
@@ -316,7 +316,7 @@ describe('FileService', () => {
             // Assert
             playbackServiceMock.verify(
                 (x) =>
-                    x.enqueueAndPlayTracks(
+                    x.enqueueAndPlayTracksAsync(
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
                                 trackModels.length === 2 &&
@@ -350,7 +350,7 @@ describe('FileService', () => {
             // Assert
             playbackServiceMock.verify(
                 (x) =>
-                    x.enqueueAndPlayTracks(
+                    x.enqueueAndPlayTracksAsync(
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
                                 trackModels.length === 2 &&
@@ -384,7 +384,7 @@ describe('FileService', () => {
             // Assert
             playbackServiceMock.verify(
                 (x) =>
-                    x.enqueueAndPlayTracks(
+                    x.enqueueAndPlayTracksAsync(
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
                                 trackModels.length === 2 &&
@@ -451,7 +451,7 @@ describe('FileService', () => {
             // Assert
             playbackServiceMock.verify(
                 (x) =>
-                    x.enqueueAndPlayTracks(
+                    x.enqueueAndPlayTracksAsync(
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
                                 trackModels.length === 2 &&
@@ -483,7 +483,7 @@ describe('FileService', () => {
             // Assert
             playbackServiceMock.verify(
                 (x) =>
-                    x.enqueueAndPlayTracks(
+                    x.enqueueAndPlayTracksAsync(
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
                                 trackModels.length === 2 &&
@@ -521,7 +521,7 @@ describe('FileService', () => {
             // Assert
             playbackServiceMock.verify(
                 (x) =>
-                    x.enqueueAndPlayTracks(
+                    x.enqueueAndPlayTracksAsync(
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
                                 trackModels.length === 2 &&
@@ -559,7 +559,7 @@ describe('FileService', () => {
             // Assert
             playbackServiceMock.verify(
                 (x) =>
-                    x.enqueueAndPlayTracks(
+                    x.enqueueAndPlayTracksAsync(
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
                                 trackModels.length === 2 &&
@@ -581,7 +581,7 @@ describe('FileService', () => {
             await service.enqueueParameterFilesAsync();
 
             // Assert
-            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracksAsync(It.isAny()), Times.never());
         });
 
         it('should not enqueue anything if there are no playable tracks found as parameters', async () => {
@@ -596,7 +596,7 @@ describe('FileService', () => {
             await service.enqueueParameterFilesAsync();
 
             // Assert
-            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracksAsync(It.isAny()), Times.never());
         });
     });
 });

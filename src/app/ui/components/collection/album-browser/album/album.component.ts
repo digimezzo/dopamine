@@ -18,7 +18,7 @@ export class AlbumComponent {
 
     @Input() public album: AlbumModel;
     @Input() public isSelected: boolean = false;
-    @Input() public useCompactYearView: boolean = false;
+    @Input() public showYear: boolean = false;
 
     public formatYear(year: number): string {
         return YearFormatter.formatYear(year);

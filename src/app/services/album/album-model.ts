@@ -78,4 +78,8 @@ export class AlbumModel implements ISelectable {
     public get dateLastPlayedInTicks(): number {
         return this.albumData.dateLastPlayed ?? 0;
     }
+
+    public get playCount(): number {
+        return this.albumData.playCount ?? 0;
+    }
 }

@@ -261,10 +261,8 @@ function createMainWindow(): void {
         }
     });
 
-    mainWindow.on('minimize', (event: any) => {
+    mainWindow.on('minimize', () => {
         if (shouldMinimizeToNotificationArea()) {
-            event.preventDefault();
-
             if (mainWindow) {
                 mainWindow.hide();
             }
@@ -326,7 +324,7 @@ function createMainWindow(): void {
         }, 300),
     );
 
-    mainWindow.on('maximize', (event: any) => {
+    mainWindow.on('maximize', () => {
         if (mainWindow) {
             if (settings.get('playerType') === 'full') {
                 const windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
@@ -340,7 +338,7 @@ function createMainWindow(): void {
         }
     });
 
-    mainWindow.on('unmaximize', (event: any) => {
+    mainWindow.on('unmaximize', () => {
         if (mainWindow) {
             if (settings.get('playerType') === 'full') {
                 settings.set(

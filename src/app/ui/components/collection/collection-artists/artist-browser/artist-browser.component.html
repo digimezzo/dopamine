@@ -26,7 +26,7 @@
         <div *cdkVirtualFor="let artist of this.orderedArtists" (mousedown)="setSelectedArtists($event, artist)">
             <app-artist
                 [artist]="artist"
-                (dblclick)="this.playbackService.enqueueAndPlayArtist(artist, this.selectedArtistType)"
+                (dblclick)="this.playbackService.enqueueAndPlayArtistAsync(artist, this.selectedArtistType)"
                 (contextmenu)="onArtistContextMenu($event, artist)"
             ></app-artist>
         </div>

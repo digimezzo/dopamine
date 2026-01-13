@@ -107,7 +107,7 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
                 // if the next track fails to play before its animation completes.
                 setTimeout(() => {
                     void this.switchUp(playbackInformation.imageUrl);
-                }, 100);
+                }, 150);
             }),
         );
 

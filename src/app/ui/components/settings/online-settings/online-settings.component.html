@@ -1,7 +1,7 @@
 <div class="p-4">
     <div class="title">{{ 'updates' | translate }}</div>
     <div>
-        <app-toggle-switch [(isChecked)]="this.settings.checkForUpdates"> {{ 'check-for-updates' | translate }} </app-toggle-switch>
+        <app-toggle-switch [(isChecked)]="this.checkForUpdates"> {{ 'check-for-updates' | translate }} </app-toggle-switch>
     </div>
     <div>
         <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.checkForUpdatesIncludesPreReleases">

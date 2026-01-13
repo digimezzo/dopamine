@@ -65,6 +65,14 @@ export class StringUtils {
         return stringWithAccents.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     }
 
+    public static capitalizeFirstLetter(str: string): string {
+        if (this.isNullOrWhiteSpace(str)) {
+            return str;
+        }
+
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
     public static getSortableString(originalString: string | undefined, removePrefixes: boolean): string {
         if (this.isNullOrWhiteSpace(originalString)) {
             return '';

@@ -98,6 +98,10 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
         this.mouseSelectionWatcher.initialize(this.albums, false);
     }
 
+    public get isSortedByYear(): boolean {
+        return this.selectedAlbumOrder === AlbumOrder.byYearAscending || this.selectedAlbumOrder === AlbumOrder.byYearDescending;
+    }
+
     public ngOnInit(): void {
         this.useCompactYearView = this.settings.useCompactYearView;
     }

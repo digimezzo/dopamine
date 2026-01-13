@@ -185,7 +185,7 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
                 // if the next track fails to play before its animation completes.
                 setTimeout(() => {
                     void this.switchUp(playbackInformation.track);
-                }, 100);
+                }, 150);
             }),
         );
 

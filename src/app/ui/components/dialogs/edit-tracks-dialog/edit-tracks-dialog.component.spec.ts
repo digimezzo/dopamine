@@ -11,6 +11,7 @@ import { IndexingService } from '../../../../services/indexing/indexing.service'
 import { OnlineAlbumArtworkGetter } from '../../../../services/indexing/online-album-artwork-getter';
 import { DesktopBase } from '../../../../common/io/desktop.base';
 import { ImageProcessor } from '../../../../common/image-processor';
+import { MetadataPatcher } from '../../../../common/metadata/metadata-patcher';
 
 describe('EditTracksDialogComponent', () => {
     let component: EditTracksDialogComponent;
@@ -18,6 +19,7 @@ describe('EditTracksDialogComponent', () => {
     let dialogServiceMock: IMock<DialogServiceBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let metadataServiceMock: IMock<MetadataService>;
+    let metadataPatcherMock: IMock<MetadataPatcher>;
     let indexingServiceMock: IMock<IndexingService>;
     let fileMetadataFactoryMock: IMock<FileMetadataFactoryBase>;
     let onlineAlbumArtworkGetterMock: IMock<OnlineAlbumArtworkGetter>;
@@ -30,6 +32,7 @@ describe('EditTracksDialogComponent', () => {
         dialogServiceMock = Mock.ofType<DialogServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         metadataServiceMock = Mock.ofType<MetadataService>();
+        metadataPatcherMock = Mock.ofType<MetadataPatcher>();
         indexingServiceMock = Mock.ofType<IndexingService>();
         fileMetadataFactoryMock = Mock.ofType<FileMetadataFactoryBase>();
         onlineAlbumArtworkGetterMock = Mock.ofType<OnlineAlbumArtworkGetter>();
@@ -41,6 +44,7 @@ describe('EditTracksDialogComponent', () => {
             dialogServiceMock.object,
             translatorServiceMock.object,
             metadataServiceMock.object,
+            metadataPatcherMock.object,
             indexingServiceMock.object,
             fileMetadataFactoryMock.object,
             onlineAlbumArtworkGetterMock.object,

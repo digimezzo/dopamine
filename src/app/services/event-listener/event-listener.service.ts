@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron';
 import { Observable, Subject } from 'rxjs';
-import {EventListenerServiceBase} from "./event-listener.service.base";
+import { EventListenerServiceBase } from './event-listener.service.base';
 
 export class EventListenerService implements EventListenerServiceBase {
     private argumentsReceived: Subject<string[]> = new Subject();
@@ -29,7 +29,9 @@ export class EventListenerService implements EventListenerServiceBase {
 
             const filePaths: string[] = [];
 
-            for (const f of event.dataTransfer.files) {
+            const files = Array.from(event.dataTransfer.files) as (File & { path: string })[];
+
+            for (const f of files) {
                 filePaths.push(f.path);
             }
 

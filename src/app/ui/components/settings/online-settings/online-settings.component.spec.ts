@@ -5,11 +5,13 @@ import { ScrobblingService } from '../../../../services/scrobbling/scrobbling.se
 import { SignInState } from '../../../../services/scrobbling/sign-in-state';
 import { NotificationServiceBase } from '../../../../services/notification/notification.service.base';
 import { DiscordService } from '../../../../services/discord/discord.service';
+import { UpdateServiceBase } from '../../../../services/update/update.service.base';
 
 describe('OnlineSettingsComponent', () => {
     let discordServiceMock: IMock<DiscordService>;
     let scrobblingServiceMock: IMock<ScrobblingService>;
     let notificationServiceMock: IMock<NotificationServiceBase>;
+    let updateServiceMock: IMock<UpdateServiceBase>;
     let settingsStub: any;
 
     let scrobblingServiceMock_signInStateChanged: Subject<SignInState>;
@@ -22,18 +24,26 @@ describe('OnlineSettingsComponent', () => {
             discordServiceMock.object,
             scrobblingServiceMock.object,
             notificationServiceMock.object,
+            updateServiceMock.object,
             settingsStub,
         );
     }
 
     function createComponentFromScrobblingServiceStub(scrobblingServiceStub: any): OnlineSettingsComponent {
-        return new OnlineSettingsComponent(discordServiceMock.object, scrobblingServiceStub, notificationServiceMock.object, settingsStub);
+        return new OnlineSettingsComponent(
+            discordServiceMock.object,
+            scrobblingServiceStub,
+            notificationServiceMock.object,
+            updateServiceMock.object,
+            settingsStub,
+        );
     }
 
     beforeEach(() => {
         discordServiceMock = Mock.ofType<DiscordService>();
         scrobblingServiceMock = Mock.ofType<ScrobblingService>();
         notificationServiceMock = Mock.ofType<NotificationServiceBase>();
+        updateServiceMock = Mock.ofType<UpdateServiceBase>();
         settingsStub = { enableDiscordRichPresence: true, enableLastFmScrobbling: true, downloadLyricsOnline: true };
 
         scrobblingServiceMock_signInStateChanged = new Subject();

@@ -16,14 +16,10 @@ import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
 import { DesktopBase } from './common/io/desktop.base';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
 import { LifetimeService } from './services/lifetime/lifetime.service';
-import { SwitchPlayerService } from './services/player-switcher/switch-player.service';
-import { PlaybackService } from './services/playback/playback.service';
 import { DatabaseMigratorBase } from './data/database-migrator.base';
 
 describe('AppComponent', () => {
     let databaseMigratorMock: IMock<DatabaseMigratorBase>;
-    let playerSwitcherServiceMock: IMock<SwitchPlayerService>;
-    let playbackServiceMock: IMock<PlaybackService>;
     let navigationServiceMock: IMock<NavigationServiceBase>;
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -48,7 +44,6 @@ describe('AppComponent', () => {
     function createComponent(): AppComponent {
         return new AppComponent(
             databaseMigratorMock.object,
-            playbackServiceMock.object,
             navigationServiceMock.object,
             appearanceServiceMock.object,
             translatorServiceMock.object,
@@ -68,8 +63,6 @@ describe('AppComponent', () => {
 
     beforeEach(() => {
         databaseMigratorMock = Mock.ofType<DatabaseMigratorBase>();
-        playerSwitcherServiceMock = Mock.ofType<SwitchPlayerService>();
-        playbackServiceMock = Mock.ofType<PlaybackService>();
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
@@ -236,17 +229,6 @@ describe('AppComponent', () => {
 
             // Assert
             scrobblingServiceMock.verify((x) => x.initialize(), Times.once());
-        });
-
-        it('should initialize PlaybackService', async () => {
-            // Arrange
-            const app: AppComponent = createComponent();
-
-            // Act
-            await app.ngOnInit();
-
-            // Assert
-            playbackServiceMock.verify((x) => x.initialize(), Times.once());
         });
 
         it('should initialize LifetimeService', async () => {

@@ -1,0 +1,174 @@
+@import 'variables';
+
+.app-highlights {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.app-highlights__content {
+    --square-base-unit: calc(min((100vh - 46px - 80px) * 0.017, (100vw - 20px) * 0.0085));
+    background: transparent !important;
+    flex: 1;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.app-highlights__background {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+
+    // Cloud-like shape using multiple blur circles - responsive to viewport
+    background:
+        radial-gradient(
+            ellipse calc(60 * var(--square-base-unit)) calc(48 * var(--square-base-unit)) at 35% 40%,
+            var(--theme-primary-color) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            ellipse calc(55 * var(--square-base-unit)) calc(42 * var(--square-base-unit)) at 65% 45%,
+            var(--theme-accent-color) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            ellipse calc(48 * var(--square-base-unit)) calc(40 * var(--square-base-unit)) at 50% 65%,
+            var(--theme-primary-color) 0%,
+            transparent 50%
+        );
+    opacity: 0.25;
+    filter: blur(50px) saturate(1.2);
+    backdrop-filter: blur(2px);
+}
+
+.app-highlights-playback-controls__container {
+    position: relative;
+}
+
+.app-highlights-playback-controls__background {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 0;
+}
+
+.app-highlights-playback-controls__audio-visualizer {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    bottom: 0;
+    height: 30px;
+    width: 300px;
+    transform: translateX(-50%);
+}
+
+.app-highlights-playback-controls__playback-pane {
+    position: absolute;
+    bottom: 0;
+    z-index: 2;
+}
+
+.stage {
+    --square-base-unit: calc(min((100vh - 160px) * 0.015, (100vw - 20px) * 0.0085));
+    padding-top: calc((100vh - (58 * var(--square-base-unit))) / 2);
+    position: relative;
+    z-index: 1;
+}
+
+.stage-left {
+    position: relative;
+    margin-right: var(--square-base-unit);
+    height: 100%;
+}
+
+.stage-right {
+    position: relative;
+    height: 100%;
+}
+
+/* Left */
+.left-11-9 {
+    width: calc(9 * var(--square-base-unit));
+    top: 0;
+    right: 0;
+}
+
+.left-21-12 {
+    width: calc(6 * var(--square-base-unit));
+    top: calc(28 * var(--square-base-unit));
+    right: calc(42 * var(--square-base-unit));
+}
+
+.left-22-5 {
+    width: calc(16 * var(--square-base-unit));
+    top: calc(18 * var(--square-base-unit));
+    right: calc(25 * var(--square-base-unit));
+}
+
+.left-23-1 {
+    width: calc(24 * var(--square-base-unit));
+    top: calc(10 * var(--square-base-unit));
+    right: 0;
+}
+
+.left-31-7 {
+    width: calc(12 * var(--square-base-unit));
+    top: calc(35 * var(--square-base-unit));
+    right: calc(19 * var(--square-base-unit));
+}
+
+.left-32-4 {
+    width: calc(18 * var(--square-base-unit));
+    top: calc(35 * var(--square-base-unit));
+    right: 0;
+}
+
+/* Right */
+.right-11-3 {
+    width: calc(20 * var(--square-base-unit));
+    top: calc(4 * var(--square-base-unit));
+    left: 0;
+}
+
+.right-12-8 {
+    width: calc(10 * var(--square-base-unit));
+    top: calc(14 * var(--square-base-unit));
+    left: calc(21 * var(--square-base-unit));
+}
+
+.right-21-2 {
+    width: calc(22 * var(--square-base-unit));
+    top: calc(25 * var(--square-base-unit));
+    left: 0;
+}
+
+.right-22-6 {
+    width: calc(14 * var(--square-base-unit));
+    top: calc(25 * var(--square-base-unit));
+    left: calc(23 * var(--square-base-unit));
+}
+
+.right-23-11 {
+    width: calc(7 * var(--square-base-unit));
+    top: calc(25 * var(--square-base-unit));
+    left: calc(38 * var(--square-base-unit));
+}
+
+.right-31-10 {
+    width: calc(8 * var(--square-base-unit));
+    top: calc(48 * var(--square-base-unit));
+    left: 0;
+}

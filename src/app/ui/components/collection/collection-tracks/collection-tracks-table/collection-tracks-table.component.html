@@ -111,7 +111,7 @@
                 class="tracks-table-row"
                 [ngClass]="{ 'selected-item-background-important': track.isSelected }"
                 (mousedown)="setSelectedTracks($event, track)"
-                (dblclick)="playbackService.enqueueAndPlayTracksStartingFromGivenTrack(this.orderedTracks, track)"
+                (dblclick)="playbackService.enqueueAndPlayTracksStartingFromGivenTrackAsync(this.orderedTracks, track)"
                 (contextmenu)="onTrackContextMenu($event, track)"
             >
                 <td>
