@@ -8,5 +8,6 @@ export class Migration9 extends Migration {
         this.sql('ALTER TABLE Track ADD COLUMN Composers TEXT;');
         this.sql('ALTER TABLE Track ADD COLUMN Conductor TEXT;');
         this.sql('ALTER TABLE Track ADD COLUMN BeatsPerMinute INT;');
+        this.sql('UPDATE Track SET NeedsIndexing=1;');
     }
 }
