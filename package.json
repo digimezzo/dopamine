@@ -1,8 +1,8 @@
 {
     "name": "dopamine",
-    "version": "3.0.1",
+    "version": "3.0.2",
     "versionSuffix": "",
-    "copyright": "Copyright Digimezzo Ⓒ 2014 - 2025",
+    "copyright": "Copyright Digimezzo Ⓒ 2014 - 2026",
     "description": "Dopamine is an elegant audio player which tries to make organizing and listening to music as simple and pretty as possible.",
     "license": "GPL-3.0",
     "author": {
