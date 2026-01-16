@@ -11,14 +11,14 @@
                     <svg width="256" height="256" viewBox="0 0 256 256">
                         <defs>
                             <linearGradient id="coverGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="30%" stop-color="var(--theme-primary-color)"/>
-                                <stop offset="100%" stop-color="var(--theme-secondary-color)"/>
+                                <stop offset="30%" stop-color="var(--theme-primary-color)" />
+                                <stop offset="100%" stop-color="var(--theme-secondary-color)" />
                             </linearGradient>
                         </defs>
 
                         <path
-                                d="M 208.79492 0 L 208.79492 85.669922 A 104.26329 104.26329 0 0 0 128.05273 47.373047 A 104.26329 104.26329 0 0 0 23.789062 151.63672 A 104.26329 104.26329 0 0 0 128.05273 255.90039 A 104.26329 104.26329 0 0 0 232.31641 151.63672 A 104.26329 104.26329 0 0 0 232.30859 150.50391 L 232.31055 150.50391 L 232.31055 0 L 208.79492 0 z M 128.05273 71.195312 A 80.750832 80.441704 0 0 1 208.79492 150.50391 A 80.750832 80.441704 0 0 1 208.80273 151.63672 A 80.750832 80.441704 0 0 1 128.05273 232.07812 A 80.750832 80.441704 0 0 1 47.302734 151.63672 A 80.750832 80.441704 0 0 1 128.05273 71.195312 z M 127.9707 134.98047 A 16.65657 16.65657 0 0 0 111.39648 151.63672 A 16.65657 16.65657 0 0 0 128.05273 168.29297 A 16.65657 16.65657 0 0 0 144.70898 151.63672 A 16.65657 16.65657 0 0 0 128.05273 134.98047 A 16.65657 16.65657 0 0 0 127.9707 134.98047 z"
-                                fill="url(#coverGradient)"
+                            d="M 208.79492 0 L 208.79492 85.669922 A 104.26329 104.26329 0 0 0 128.05273 47.373047 A 104.26329 104.26329 0 0 0 23.789062 151.63672 A 104.26329 104.26329 0 0 0 128.05273 255.90039 A 104.26329 104.26329 0 0 0 232.31641 151.63672 A 104.26329 104.26329 0 0 0 232.30859 150.50391 L 232.31055 150.50391 L 232.31055 0 L 208.79492 0 z M 128.05273 71.195312 A 80.750832 80.441704 0 0 1 208.79492 150.50391 A 80.750832 80.441704 0 0 1 208.80273 151.63672 A 80.750832 80.441704 0 0 1 128.05273 232.07812 A 80.750832 80.441704 0 0 1 47.302734 151.63672 A 80.750832 80.441704 0 0 1 128.05273 71.195312 z M 127.9707 134.98047 A 16.65657 16.65657 0 0 0 111.39648 151.63672 A 16.65657 16.65657 0 0 0 128.05273 168.29297 A 16.65657 16.65657 0 0 0 144.70898 151.63672 A 16.65657 16.65657 0 0 0 128.05273 134.98047 A 16.65657 16.65657 0 0 0 127.9707 134.98047 z"
+                            fill="url(#coverGradient)"
                         />
                     </svg>
                 </div>
@@ -115,6 +115,24 @@
                 <div class="flex-1 mr-3">{{ 'disc-count' | translate }}</div>
                 <mat-form-field class="flex-2">
                     <input matInput [(ngModel)]="this.discCount" />
+                </mat-form-field>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="flex-1 mr-3">{{ 'composer' | translate }}</div>
+                <mat-form-field class="flex-2">
+                    <input matInput [(ngModel)]="this.composers" />
+                </mat-form-field>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="flex-1 mr-3">{{ 'conductor' | translate }}</div>
+                <mat-form-field class="flex-2">
+                    <input matInput [(ngModel)]="this.conductor" />
+                </mat-form-field>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="flex-1 mr-3">{{ 'bpm' | translate }}</div>
+                <mat-form-field class="flex-2">
+                    <input matInput [(ngModel)]="this.beatsPerMinute" />
                 </mat-form-field>
             </div>
             <div class="d-flex flex-row">

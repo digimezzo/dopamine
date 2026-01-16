@@ -329,5 +329,8 @@
     "expanded-view": "Vista expandida",
     "cannot-play-m4a-file": "No se puede reproducir el archivo M4A. Tenga en cuenta que Dopamine solo es compatible con archivos M4A codificados en AAC y no con archivos M4A codificados en Apple ALAC. Por favor, verifique el archivo de registro si necesita más información.",
     "cannot-play-audio-file": "No se puede reproducir el archivo de audio seleccionado. Por favor, verifique el archivo de registro si necesita más información.",
-    "highlights": "Highlights"
+    "highlights": "Highlights",
+    "composer": "Composer",
+    "conductor": "Conductor",
+    "bpm": "BPM"
 }

@@ -329,5 +329,8 @@
     "expanded-view": "Expanded view",
     "cannot-play-m4a-file": "The M4A file cannot be played. Please note that Dopamine supports only AAC-encoded M4A files and does not support Apple ALAC-encoded M4A files. Please check the log file if you need more information.",
     "cannot-play-audio-file": "The selected audio file cannot be played. Please check the log file if you need more information.",
-    "highlights": "Highlights"
+    "highlights": "Highlights",
+    "composer": "Composer",
+    "conductor": "Conductor",
+    "bpm": "BPM"
 }

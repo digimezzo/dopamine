@@ -18,6 +18,9 @@ export interface IFileMetadata {
     lyrics: string;
     picture: Buffer | undefined;
     rating: number;
+    composers: string[];
+    conductor: string;
+    beatsPerMinute: number;
 
     save(): void;
     loadAsync(): Promise<void>;

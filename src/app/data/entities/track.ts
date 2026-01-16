@@ -34,6 +34,9 @@ export class Track {
         this.playCount = 0;
         this.skipCount = 0;
         this.dateLastPlayed = 0;
+        this.composers = '';
+        this.conductor = '';
+        this.beatsPerMinute = 0;
     }
 
     public trackId: number;
@@ -70,4 +73,7 @@ export class Track {
     public playCount: number | undefined;
     public skipCount: number | undefined;
     public dateLastPlayed: number | undefined;
+    public composers: string | undefined;
+    public conductor: string | undefined;
+    public beatsPerMinute: number | undefined;
 }
