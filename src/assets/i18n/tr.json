@@ -330,7 +330,7 @@
     "cannot-play-m4a-file": "M4A dosyası oynatılamıyor. Lütfen Dopamine’in yalnızca AAC kodlamalı M4A dosyalarını desteklediğini, Apple ALAC kodlamalı M4A dosyalarını desteklemediğini unutmayın. Daha fazla bilgi için günlük (log) dosyasını kontrol edin.",
     "cannot-play-audio-file": "Seçilen ses dosyası oynatılamıyor. Daha fazla bilgi için günlük (log) dosyasını kontrol edin.",
     "highlights": "Öne çıkanlar",
-    "composer": "Composer",
-    "conductor": "Conductor",
+    "composer": "Besteci",
+    "conductor": "Orkestra Şefi",
     "bpm": "BPM"
 }
