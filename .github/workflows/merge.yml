@@ -56,7 +56,7 @@ jobs:
                   name: dopamine-merge-pacman
                   path: release/Dopamine-*.pacman
 
-    merge_build_on_mac:
+    merge_build_on_mac_arm:
         runs-on: macos-15
         if: github.event.pull_request.merged == true
         steps:
@@ -79,7 +79,33 @@ jobs:
             - name: upload build artifacts
               uses: actions/upload-artifact@v4
               with:
-                  name: dopamine-merge-macos
+                  name: dopamine-merge-macos-arm
+                  path: release/Dopamine-*.dmg
+
+    merge_build_on_mac_intel:
+        runs-on: macos-15-intel
+        if: github.event.pull_request.merged == true
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@master
+              with:
+                  node-version: '22.x'
+            - name: install dependencies
+              run: npm install
+            - name: run unit tests
+              run: npm run test
+            - name: build
+              run: npm run electron:mac
+            - name: fetch current version
+              id: ver_name
+              uses: notiz-dev/github-action-json-property@release
+              with:
+                  path: 'package.json'
+                  prop_path: 'version'
+            - name: upload build artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dopamine-merge-macos-intel
                   path: release/Dopamine-*.dmg
 
     merge_build_on_win:

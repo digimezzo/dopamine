@@ -335,6 +335,9 @@ describe('validate i18n', () => {
         'cannot-play-audio-file',
         'cannot-play-m4a-file',
         'highlights',
+        'composer',
+        'conductor',
+        'bpm',
     ].sort();
 
     Constants.languages.forEach((language) => {

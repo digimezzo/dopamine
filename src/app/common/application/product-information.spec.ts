@@ -21,7 +21,7 @@ describe('ProductInformation', () => {
             const applicationVersion: string = ProductInformation.applicationVersion;
 
             // Assert
-            expect(applicationVersion).toEqual('3.0.1');
+            expect(applicationVersion).toEqual('3.0.2');
         });
     });
 
@@ -33,7 +33,7 @@ describe('ProductInformation', () => {
             const applicationCopyright: string = ProductInformation.applicationCopyright;
 
             // Assert
-            expect(applicationCopyright).toEqual('Copyright Digimezzo Ⓒ 2014 - 2025');
+            expect(applicationCopyright).toEqual('Copyright Digimezzo Ⓒ 2014 - 2026');
         });
     });
 });

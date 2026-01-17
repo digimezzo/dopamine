@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added a Highlights screen showing your most played albums
+- Added Composers, Conductor and BPM to tag editor.
 
 ### Changed
 
@@ -17,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fixed a crash that occurred when playing a song from the playback queue
 - Fixed some album view issues
+- Fixed an issue causing the wrong song to play when started from the Operating System
 
 ## [3.0.1] - 2025-12-19
 
