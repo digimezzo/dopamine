@@ -332,5 +332,7 @@
     "highlights": "Hoogtepunten",
     "composer": "Componist",
     "conductor": "Dirigent",
-    "bpm": "BPM"
+    "bpm": "BPM",
+    "create-smart-playlist": "Slimme afspeellijst maken",
+    "edit-smart-playlist": "Slimme afspeellijst bewerken"
 }

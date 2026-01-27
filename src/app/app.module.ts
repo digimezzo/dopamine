@@ -295,6 +295,7 @@ import { InfoDialogComponent } from './ui/components/dialogs/info-dialog/info-di
 import { IterableMenuComponent } from './ui/components/common/iterable-menu.component';
 import { HighlightsComponent } from './ui/components/highlights/highlights.component';
 import { AlbumPlaceholderComponent } from './ui/components/highlights/album-placeholder.component';
+import { EditSmartPlaylistDialogComponent } from './ui/components/dialogs/edit-smart-playlist-dialog/edit-smart-playlist-dialog.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -423,6 +424,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         PlaylistBrowserComponent,
         PlaylistComponent,
         EditPlaylistDialogComponent,
+        EditSmartPlaylistDialogComponent,
         PlaylistTrackBrowserComponent,
         RatingComponent,
         LoveComponent,

@@ -332,5 +332,7 @@
     "highlights": "À la une",
     "composer": "Compositeur",
     "conductor": "Chef d'orchestre",
-    "bpm": "BPM"
+    "bpm": "BPM",
+    "create-smart-playlist": "Créer playlist intelligente",
+    "edit-smart-playlist": "Éditer playlist intelligente"
 }

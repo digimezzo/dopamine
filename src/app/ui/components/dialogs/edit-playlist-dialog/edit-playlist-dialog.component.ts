@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Constants } from '../../../../common/application/constants';
 import { StringUtils } from '../../../../common/utils/string-utils';
-import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { PlaylistData } from '../../../../services/dialog/playlist-data';
 import { PlaylistServiceBase } from '../../../../services/playlist/playlist.service.base';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
@@ -46,7 +45,7 @@ export class EditPlaylistDialogComponent implements OnInit {
     public ngOnInit(): void {
         this.dialogRef.afterClosed().subscribe((result: boolean | undefined) => {
             if (result != undefined && result) {
-                PromiseUtils.noAwait(this.updatePlaylistAsync());
+                void this.updatePlaylistAsync();
             }
         });
 

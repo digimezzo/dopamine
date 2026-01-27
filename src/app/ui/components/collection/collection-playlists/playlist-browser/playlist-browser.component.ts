@@ -167,6 +167,10 @@ export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDes
         await this.dialogService.showCreatePlaylistDialogAsync();
     }
 
+    public async createSmartPlaylistAsync(): Promise<void> {
+        await this.dialogService.showCreateSmartPlaylistDialogAsync();
+    }
+
     public async onAddToQueueAsync(playlist: PlaylistModel): Promise<void> {
         await this.playbackService.addPlaylistToQueueAsync(playlist);
     }

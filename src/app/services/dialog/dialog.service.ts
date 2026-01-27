@@ -18,6 +18,7 @@ import { EditTracksDialogComponent } from '../../ui/components/dialogs/edit-trac
 import { InfoDialogComponent } from '../../ui/components/dialogs/info-dialog/info-dialog.component';
 import { InfoData } from './info-data';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
+import { EditSmartPlaylistDialogComponent } from '../../ui/components/dialogs/edit-smart-playlist-dialog/edit-smart-playlist-dialog.component';
 
 @Injectable()
 export class DialogService implements DialogServiceBase {
@@ -89,6 +90,17 @@ export class DialogService implements DialogServiceBase {
         const defaultPlaylist: PlaylistModel = this.playlistModelFactory.createDefault();
         const playlistData: PlaylistData = new PlaylistData(defaultPlaylist);
         const dialogRef: MatDialogRef<EditPlaylistDialogComponent> = this.dialog.open(EditPlaylistDialogComponent, {
+            width: '450px',
+            data: playlistData,
+        });
+
+        await dialogRef.afterClosed().toPromise();
+    }
+
+    public async showCreateSmartPlaylistDialogAsync(): Promise<void> {
+        const defaultPlaylist: PlaylistModel = this.playlistModelFactory.createDefault();
+        const playlistData: PlaylistData = new PlaylistData(defaultPlaylist);
+        const dialogRef: MatDialogRef<EditSmartPlaylistDialogComponent> = this.dialog.open(EditSmartPlaylistDialogComponent, {
             width: '450px',
             data: playlistData,
         });

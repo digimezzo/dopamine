@@ -1,0 +1,8 @@
+<app-dialog-header icon="las la-pen" title="{{ this.dialogTitle }}"></app-dialog-header>
+<mat-dialog-content class="overflow-hidden-important"> </mat-dialog-content>
+<mat-dialog-actions>
+    <app-accent-button class="mr-2" [ngClass]="{ inactive: !this.hasPlaylistName }" [mat-dialog-close]="true">{{
+        'ok' | translate
+    }}</app-accent-button>
+    <app-transparent-button [mat-dialog-close]="false">{{ 'cancel' | translate }}</app-transparent-button>
+</mat-dialog-actions>

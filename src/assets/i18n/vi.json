@@ -332,5 +332,7 @@
     "highlights": "Highlight",
     "composer": "Tác giả",
     "conductor": "Nhạc trưởng",
-    "bpm": "BPM"
+    "bpm": "BPM",
+    "create-smart-playlist": "Create smart playlist",
+    "edit-smart-playlist": "Edit smart playlist"
 }

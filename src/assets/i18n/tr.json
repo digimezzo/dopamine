@@ -332,5 +332,7 @@
     "highlights": "Öne çıkanlar",
     "composer": "Besteci",
     "conductor": "Orkestra Şefi",
-    "bpm": "BPM"
+    "bpm": "BPM",
+    "create-smart-playlist": "Create smart playlist",
+    "edit-smart-playlist": "Edit smart playlist"
 }
