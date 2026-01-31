@@ -141,6 +141,15 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         await this.playbackService.addArtistToQueueAsync(artist, this.selectedArtistType);
     }
 
+    public async onShuffleAndPlayAsync(artist: ArtistModel): Promise<void> {
+        if (artist == undefined) {
+            return;
+        }
+
+        this.playbackService.forceShuffled();
+        await this.playbackService.enqueueAndPlayArtistAsync(artist, this.selectedArtistType);
+    }
+
     private orderArtists(): void {
         let orderedArtists: ArtistModel[] = [];
 

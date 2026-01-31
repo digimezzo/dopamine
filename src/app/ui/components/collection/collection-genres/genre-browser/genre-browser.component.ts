@@ -129,6 +129,15 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         await this.playbackService.addGenreToQueueAsync(genre);
     }
 
+    public async onShuffleAndPlayAsync(genre: GenreModel): Promise<void> {
+        if (genre == undefined) {
+            return;
+        }
+
+        this.playbackService.forceShuffled();
+        await this.playbackService.enqueueAndPlayGenreAsync(genre);
+    }
+
     private orderGenres(): void {
         let orderedGenres: GenreModel[] = [];
 

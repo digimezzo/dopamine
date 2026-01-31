@@ -745,5 +745,18 @@ describe('ArtistBrowserComponent', () => {
             // Assert
             playbackServiceMock.verify((x) => x.addArtistToQueueAsync(artist1, ArtistType.albumArtists), Times.once());
         });
+
+        it('should force shuffle and play the selected artist', async () => {
+            // Arrange
+            const component: ArtistBrowserComponent = createComponent();
+            component.selectedArtistType = ArtistType.albumArtists;
+
+            // Act
+            await component.onShuffleAndPlayAsync(artist1);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.forceShuffled(), Times.once());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayArtistAsync(artist1, ArtistType.albumArtists), Times.once());
+        });
     });
 });

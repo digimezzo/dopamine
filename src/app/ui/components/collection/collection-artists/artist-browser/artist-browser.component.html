@@ -48,6 +48,9 @@
         <button mat-menu-item (click)="onAddToQueueAsync(artist)">
             <span>{{ 'add-to-playback-queue' | translate }}</span>
         </button>
+        <button mat-menu-item (click)="onShuffleAndPlayAsync(artist)">
+            <span>{{ 'shuffle' | translate }}</span>
+        </button> 
     </ng-template>
 </mat-menu>
 
