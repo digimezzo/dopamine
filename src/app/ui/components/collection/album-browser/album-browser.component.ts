@@ -200,4 +200,13 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
     public async onAddToQueueAsync(album: AlbumModel): Promise<void> {
         await this.playbackService.addAlbumToQueueAsync(album);
     }
+
+    public async onShuffleAndPlayAsync(album: AlbumModel): Promise<void> {
+        if (album == undefined) {
+            return;
+        }
+
+        this.playbackService.forceShuffled();
+        await this.playbackService.enqueueAndPlayAlbumAsync(album);
+    }
 }

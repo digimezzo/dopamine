@@ -611,6 +611,22 @@ describe('AlbumBrowserComponent', () => {
         });
     });
 
+    describe('onShuffleAndPlayAsync', () => {
+        it('should force shuffle and play the selected album', async () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
+            const component: AlbumBrowserComponent = createComponent();
+
+            // Act
+            await component.onShuffleAndPlayAsync(album1);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.forceShuffled(), Times.once());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayAlbumAsync(album1), Times.once());
+        });
+    });
+
     describe('ngOnInit', () => {
         it('should initialize useCompactYearView from settings', () => {
             // Arrange

@@ -745,7 +745,9 @@ describe('ArtistBrowserComponent', () => {
             // Assert
             playbackServiceMock.verify((x) => x.addArtistToQueueAsync(artist1, ArtistType.albumArtists), Times.once());
         });
+    });
 
+    describe('onShuffleAndPlayAsync', () => {
         it('should force shuffle and play the selected artist', async () => {
             // Arrange
             const component: ArtistBrowserComponent = createComponent();

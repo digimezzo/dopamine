@@ -694,7 +694,9 @@ describe('GenreBrowserComponent', () => {
                 // Assert
                 playbackServiceMock.verify((x) => x.addGenreToQueueAsync(genre1), Times.once());
             });
+        });
 
+        describe('onShuffleAndPlayAsync', () => {
             it('should force shuffle and play the selected genre', async () => {
                 // Arrange
                 const component: GenreBrowserComponent = createComponent();
