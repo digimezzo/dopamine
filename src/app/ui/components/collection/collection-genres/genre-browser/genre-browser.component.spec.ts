@@ -694,6 +694,18 @@ describe('GenreBrowserComponent', () => {
                 // Assert
                 playbackServiceMock.verify((x) => x.addGenreToQueueAsync(genre1), Times.once());
             });
+
+            it('should force shuffle and play the selected genre', async () => {
+                // Arrange
+                const component: GenreBrowserComponent = createComponent();
+
+                // Act
+                await component.onShuffleAndPlayAsync(genre1);
+
+                // Assert
+                playbackServiceMock.verify((x) => x.forceShuffled(), Times.once());
+                playbackServiceMock.verify((x) => x.enqueueAndPlayGenreAsync(genre1), Times.once());
+            });
         });
     });
 });
