@@ -4,9 +4,10 @@
             <div class="mr-2 accent-color">{{ this.tracks.tracks.length }}</div>
             <div *ngIf="this.tracks.tracks.length === 1">{{ 'track' | translate }}</div>
             <div *ngIf="this.tracks.tracks.length !== 1">{{ 'tracks' | translate }}</div>
+            <i class="las la-random secondary-text font-16px pointer ml-2" matTooltip="{{ 'shuffle-all' | translate }}"> </i>
         </div>
         <i
-            class="las la-columns secondary-text pointer"
+            class="las la-columns secondary-text pointer font-16px"
             (click)="this.showEditColumnsDialogAsync()"
             matTooltip="{{ 'edit-columns' | translate }}"
         ></i>
