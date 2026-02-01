@@ -334,5 +334,12 @@
     "conductor": "Conductor",
     "bpm": "BPM",
     "create-smart-playlist": "Create smart playlist",
-    "edit-smart-playlist": "Edit smart playlist"
+    "edit-smart-playlist": "Edit smart playlist",
+    "create-smart-playlist-where": "Create a smart playlist where",
+    "is": "is",
+    "is-not": "is not",
+    "contains": "contains",
+    "does-not-contain": "does not contain",
+    "add-if-any-rule-matches": "Add if any rule matches",
+    "limit-to": "Limit to"
 }

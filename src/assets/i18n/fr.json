@@ -334,5 +334,12 @@
     "conductor": "Chef d'orchestre",
     "bpm": "BPM",
     "create-smart-playlist": "Créer playlist intelligente",
-    "edit-smart-playlist": "Éditer playlist intelligente"
+    "edit-smart-playlist": "Éditer playlist intelligente",
+    "create-smart-playlist-where": "Créer une playlist intelligente où",
+    "is": "est",
+    "is-not": "n'est pas",
+    "contains": "contient",
+    "does-not-contain": "ne contient pas",
+    "add-if-any-rule-matches": "Ajouter si une règle correspond",
+    "limit-to": "Limiter à"
 }

@@ -334,5 +334,12 @@
     "conductor": "Dirigent",
     "bpm": "BPM",
     "create-smart-playlist": "Slimme afspeellijst maken",
-    "edit-smart-playlist": "Slimme afspeellijst bewerken"
+    "edit-smart-playlist": "Slimme afspeellijst bewerken",
+    "create-smart-playlist-where": "Maak een slimme afspeellijst waar",
+    "is": "is",
+    "is-not": "is niet",
+    "contains": "bevat",
+    "does-not-contain": "bevat niet",
+    "add-if-any-rule-matches": "Toevoegen als een regel overeenkomt",
+    "limit-to": "Beperken tot"
 }
