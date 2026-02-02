@@ -4,7 +4,12 @@
             <div class="mr-2 accent-color">{{ this.tracks.tracks.length }}</div>
             <div *ngIf="this.tracks.tracks.length === 1">{{ 'track' | translate }}</div>
             <div *ngIf="this.tracks.tracks.length !== 1">{{ 'tracks' | translate }}</div>
-            <i class="las la-random secondary-text font-16px pointer ml-2" matTooltip="{{ 'shuffle-all' | translate }}"> </i>
+            <i
+                class="las la-random secondary-text font-16px pointer ml-2"
+                matTooltip="{{ 'shuffle-all' | translate }}"
+                (click)="this.shuffleAllAsync()"
+            >
+            </i>
         </div>
         <i
             class="las la-columns secondary-text pointer font-16px"

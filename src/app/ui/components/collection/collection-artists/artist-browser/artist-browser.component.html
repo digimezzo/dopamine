@@ -11,7 +11,12 @@
                 [applyItemFn]="applyArtistType"
             >
             </app-iterable-menu>
-            <i class="las la-random secondary-text font-16px pointer ml-2" matTooltip="{{ 'shuffle-all' | translate }}"> </i>
+            <i
+                class="las la-random secondary-text font-16px pointer ml-2"
+                matTooltip="{{ 'shuffle-all' | translate }}"
+                (click)="this.shuffleAllAsync()"
+            >
+            </i>
         </div>
         <app-iterable-menu
             [tooltipKey]="'choose-order'"
