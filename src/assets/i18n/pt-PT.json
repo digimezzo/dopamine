@@ -6,7 +6,7 @@
     "welcome-to-dopamine": "Bem-vindo ao Dopamine, achamos que vais adorar! Primeiro, vamos configurar tudo.",
     "language": "Idioma",
     "pick-your-language": "Escolhe o teu idioma",
-    "appearance": "Aparência",
+    "appearance": "Aspeto",
     "what-should-dopamine-look-like": "Qual deve ser a aparência do Dopamine?",
     "use-light-theme": "Utilizar tema claro",
     "music": "Música",
@@ -334,3 +334,4 @@
     "conductor": "Maestro",
     "bpm": "BPM"
 }
+
