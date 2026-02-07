@@ -16,8 +16,11 @@ import { AlbumModel } from '../../../../services/album/album-model';
 import { ApplicationPaths } from '../../../../common/application/application-paths';
 import { PlaybackService } from '../../../../services/playback/playback.service';
 import { SettingsMock } from '../../../../testing/settings-mock';
+import { TrackServiceBase } from '../../../../services/track/track.service.base';
+import { TrackModels } from '../../../../services/track/track-models';
 
 describe('AlbumBrowserComponent', () => {
+    let trackServiceMock: IMock<TrackServiceBase>;
     let playbackServiceMock: IMock<PlaybackService>;
     let applicationServiceMock: IMock<ApplicationServiceBase>;
     let albumRowsGetterMock: IMock<AlbumRowsGetter>;
@@ -37,6 +40,7 @@ describe('AlbumBrowserComponent', () => {
 
     function createComponent(): AlbumBrowserComponent {
         return new AlbumBrowserComponent(
+            trackServiceMock.object,
             playbackServiceMock.object,
             applicationServiceMock.object,
             albumRowsGetterMock.object,
@@ -50,6 +54,7 @@ describe('AlbumBrowserComponent', () => {
     }
 
     beforeEach(() => {
+        trackServiceMock = Mock.ofType<TrackServiceBase>();
         playbackServiceMock = Mock.ofType<PlaybackService>();
         applicationServiceMock = Mock.ofType<ApplicationServiceBase>();
         albumRowsGetterMock = Mock.ofType<AlbumRowsGetter>();
@@ -767,6 +772,25 @@ describe('AlbumBrowserComponent', () => {
 
             // Assert
             albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byYearAscending, true), Times.exactly(1));
+        });
+    });
+
+    describe('shuffleAllAsync', () => {
+        it('should force shuffle and play all albums', async () => {
+            // Arrange
+            const component: AlbumBrowserComponent = createComponent();
+            component.albumsPersister = albumsPersisterMock.object;
+            component.albums = [];
+
+            const tracks: TrackModels = new TrackModels();
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
+
+            // Act
+            await component.shuffleAllAsync();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.forceShuffled(), Times.once());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracksAsync(tracks.tracks), Times.once());
         });
     });
 });
