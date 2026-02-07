@@ -11,6 +11,12 @@
                 [applyItemFn]="applyArtistType"
             >
             </app-iterable-menu>
+            <i
+                class="las la-random secondary-text font-16px pointer ml-2"
+                matTooltip="{{ 'shuffle-all' | translate }}"
+                (click)="this.shuffleAllAsync()"
+            >
+            </i>
         </div>
         <app-iterable-menu
             [tooltipKey]="'choose-order'"
@@ -50,7 +56,7 @@
         </button>
         <button mat-menu-item (click)="onShuffleAndPlayAsync(artist)">
             <span>{{ 'shuffle' | translate }}</span>
-        </button> 
+        </button>
     </ng-template>
 </mat-menu>
 
