@@ -718,7 +718,7 @@ describe('GenreBrowserComponent', () => {
     });
 
     describe('shuffleAllAsync', () => {
-        it('should force shuffle and play all albums', async () => {
+        it('should force shuffle and play all tracks', async () => {
             // Arrange
             const component: GenreBrowserComponent = createComponent();
             component.genresPersister = genresPersisterMock.object;
