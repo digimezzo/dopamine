@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Updated the Croatian translation
 - Updated the Portuguese (Portugal) translation
+- Updated the Simplified Chinese translation
 - Updated the Spanish translation
 
 ## [3.0.2] - 2026-01-17
