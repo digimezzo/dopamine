@@ -7,7 +7,7 @@ import {
     Id3v2Tag,
     PictureType,
     TagTypes,
-} from 'node-taglib-sharp';
+} from '@digimezzo/node-taglib-sharp';
 import { IFileMetadata } from './i-file-metadata';
 import { RatingConverter } from './rating-converter';
 
