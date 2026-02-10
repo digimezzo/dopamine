@@ -10,10 +10,12 @@ import { LyricsSourceType } from '../../common/api/lyrics/lyrics-source-type';
 import { Logger } from '../../common/logger';
 import { LyricsServiceBase } from './lyrics.service.base';
 import { TrackModel } from '../track/track-model';
+import { SrtLyricsGetter } from './srt-lyrics-getter';
 
 describe('LyricsService', () => {
     let embeddedLyricsGetterMock: IMock<EmbeddedLyricsGetter>;
     let lrcLyricsGetterMock: IMock<LrcLyricsGetter>;
+    let srtLyricsGetterMock: IMock<SrtLyricsGetter>;
     let onlineLyricsGetterMock: IMock<OnlineLyricsGetter>;
     let settingsMock: IMock<SettingsBase>;
     let loggerMock: IMock<Logger>;
@@ -37,14 +39,14 @@ describe('LyricsService', () => {
 
         trackMock = MockCreator.createTrackModel('path', 'title', 'artists');
 
-        fullEmbeddedLyricsMock = new LyricsModel(trackMock, 'embedded source', LyricsSourceType.embedded, 'embedded text');
-        emptyEmbeddedLyricsMock = new LyricsModel(trackMock, '', LyricsSourceType.none, '');
+        fullEmbeddedLyricsMock = LyricsModel.createSimple(trackMock, 'embedded source', LyricsSourceType.embedded, 'embedded text');
+        emptyEmbeddedLyricsMock = LyricsModel.createSimple(trackMock, '', LyricsSourceType.none, '');
 
-        fullLrcLyricsMock = new LyricsModel(trackMock, 'lrc source', LyricsSourceType.lrc, 'lrc text');
-        emptyLrcLyricsMock = new LyricsModel(trackMock, '', LyricsSourceType.none, '');
+        fullLrcLyricsMock = LyricsModel.createSimple(trackMock, 'lrc source', LyricsSourceType.lrc, 'lrc text');
+        emptyLrcLyricsMock = LyricsModel.createSimple(trackMock, '', LyricsSourceType.none, '');
 
-        fullOnlineLyricsMock = new LyricsModel(trackMock, 'online source', LyricsSourceType.online, 'online text');
-        emptyOnlineLyricsMock = new LyricsModel(trackMock, '', LyricsSourceType.none, '');
+        fullOnlineLyricsMock = LyricsModel.createSimple(trackMock, 'online source', LyricsSourceType.online, 'online text');
+        emptyOnlineLyricsMock = LyricsModel.createSimple(trackMock, '', LyricsSourceType.none, '');
     });
 
     function createSut(): LyricsServiceBase {
@@ -52,6 +54,7 @@ describe('LyricsService', () => {
             embeddedLyricsGetterMock.object,
             lrcLyricsGetterMock.object,
             onlineLyricsGetterMock.object,
+            srtLyricsGetterMock.object,
             settingsMock.object,
             loggerMock.object,
         );
@@ -228,7 +231,7 @@ describe('LyricsService', () => {
             lrcLyricsGetterMock.reset();
             onlineLyricsGetterMock.reset();
 
-            const fullOnlineLyricsMock2 = new LyricsModel(trackMock2, 'online source', LyricsSourceType.online, 'online text 2');
+            const fullOnlineLyricsMock2 = LyricsModel.createSimple(trackMock2, 'online source', LyricsSourceType.online, 'online text 2');
             embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock2)).returns(() => Promise.resolve(emptyEmbeddedLyricsMock));
             lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock2)).returns(() => Promise.resolve(emptyLrcLyricsMock));
             onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock2)).returns(() => Promise.resolve(fullOnlineLyricsMock2));
