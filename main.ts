@@ -9,7 +9,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/ban-types */
-import { app, BrowserWindow, ipcMain, Menu, nativeTheme, protocol, Tray } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, nativeImage, nativeTheme, protocol, Tray } from 'electron';
 import log from 'electron-log';
 import * as path from 'path';
 import * as url from 'url';
@@ -599,6 +599,18 @@ try {
                 discordApi.setPresence(command.args!);
             } else if (command.commandType === DiscordApiCommandType.ClearPresence) {
                 discordApi.clearPresence();
+            }
+        });
+
+        ipcMain.on('update-dock-icon', (event: any, arg: any) => {
+            if (!isMacOS() || !app.dock) {
+                return;
+            }
+
+            if (arg) {
+                app.dock.setIcon(nativeImage.createFromBuffer(arg));
+            } else {
+                app.dock.setIcon(nativeImage.createFromPath(path.join(globalAny.__static, 'icons/icon.icns')));
             }
         });
 

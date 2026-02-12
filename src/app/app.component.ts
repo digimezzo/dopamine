@@ -20,6 +20,7 @@ import { DesktopBase } from './common/io/desktop.base';
 import { LifetimeService } from './services/lifetime/lifetime.service';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
 import { DiscordService } from './services/discord/discord.service';
+import { DockService } from './services/dock/dock.service';
 import { DatabaseMigratorBase } from './data/database-migrator.base';
 
 @Component({
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit {
         private appearanceService: AppearanceServiceBase,
         private translatorService: TranslatorServiceBase,
         private discordService: DiscordService,
+        private dockService: DockService,
         private scrobblingService: ScrobblingService,
         private trayService: TrayServiceBase,
         private mediaSessionService: MediaSessionService,
@@ -89,6 +91,7 @@ export class AppComponent implements OnInit {
         this.translatorService.applyLanguage();
         this.trayService.updateTrayContextMenu();
         this.mediaSessionService.initialize();
+        this.dockService.initialize();
         this.scrobblingService.initialize();
         this.eventListenerService.listenToEvents();
         this.lifetimeService.initialize();
