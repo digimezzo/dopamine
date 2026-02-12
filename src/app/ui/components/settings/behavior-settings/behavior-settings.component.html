@@ -20,6 +20,15 @@
             {{ 'invert-notification-area-icon-color' | translate }}</app-toggle-switch
         >
     </div>
+    <div *ngIf="this.dockService.isMacOS">
+        <mat-divider class="my-4"></mat-divider>
+        <div class="title">{{ 'dock' | translate }}</div>
+        <div>
+            <app-toggle-switch [(isChecked)]="this.dockService.showAlbumArtOnDockIcon">
+                {{ 'show-album-art-on-dock-icon' | translate }}</app-toggle-switch
+            >
+        </div>
+    </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'follow-song' | translate }}</div>
     <div>

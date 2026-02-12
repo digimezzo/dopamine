@@ -4,6 +4,7 @@ import { Constants } from '../../common/application/constants';
 import { Logger } from '../../common/logger';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
+import { SettingsBase } from '../../common/settings/settings.base';
 import { PlaybackService } from '../playback/playback.service';
 import { MetadataService } from '../metadata/metadata.service';
 import { TrackModel } from '../track/track-model';
@@ -18,14 +19,42 @@ export class DockService {
         private metadataService: MetadataService,
         private fileAccess: FileAccessBase,
         private ipcProxy: IpcProxyBase,
+        private settings: SettingsBase,
         private logger: Logger,
     ) {}
 
+    public get isMacOS(): boolean {
+        return process.platform === 'darwin';
+    }
+
+    public get showAlbumArtOnDockIcon(): boolean {
+        return this.settings.showAlbumArtOnDockIcon;
+    }
+
+    public set showAlbumArtOnDockIcon(v: boolean) {
+        this.settings.showAlbumArtOnDockIcon = v;
+        this.initialize();
+    }
+
     public initialize(): void {
-        if (process.platform !== 'darwin') {
+        if (!this.isMacOS) {
             return;
         }
 
+        this.removeSubscriptions();
+
+        if (this.settings.showAlbumArtOnDockIcon) {
+            this.addSubscriptions();
+
+            if (this.playbackService.currentTrack != undefined) {
+                this.updateDockIconAsync(this.playbackService.currentTrack);
+            }
+        } else {
+            this.resetDockIcon();
+        }
+    }
+
+    private addSubscriptions(): void {
         this._subscription = new Subscription();
 
         this._subscription.add(
@@ -39,6 +68,12 @@ export class DockService {
                 this.resetDockIcon();
             }),
         );
+    }
+
+    private removeSubscriptions(): void {
+        if (this._subscription) {
+            this._subscription.unsubscribe();
+        }
     }
 
     private async updateDockIconAsync(track: TrackModel): Promise<void> {

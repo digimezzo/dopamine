@@ -1,6 +1,7 @@
 import { IMock, Mock } from 'typemoq';
 import { BehaviorSettingsComponent } from './behavior-settings.component';
 import { MediaSessionService } from '../../../../services/media-session/media-session.service';
+import { DockService } from '../../../../services/dock/dock.service';
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { TrayServiceBase } from '../../../../services/tray/tray.service.base';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
@@ -11,6 +12,7 @@ describe('BehaviorSettingsComponent', () => {
     let component: BehaviorSettingsComponent;
     let trayServiceMock: IMock<TrayServiceBase>;
     let mediaSessionServiceMock: IMock<MediaSessionService>;
+    let dockServiceMock: IMock<DockService>;
     let dialogServiceMock: IMock<DialogServiceBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let settingsMock: IMock<SettingsBase>;
@@ -20,6 +22,7 @@ describe('BehaviorSettingsComponent', () => {
         settingsMock = Mock.ofType<SettingsBase>();
         trayServiceMock = Mock.ofType<TrayServiceBase>();
         mediaSessionServiceMock = Mock.ofType<MediaSessionService>();
+        dockServiceMock = Mock.ofType<DockService>();
         dialogServiceMock = Mock.ofType<DialogServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         loggerMock = Mock.ofType<Logger>();
@@ -27,6 +30,7 @@ describe('BehaviorSettingsComponent', () => {
         component = new BehaviorSettingsComponent(
             trayServiceMock.object,
             mediaSessionServiceMock.object,
+            dockServiceMock.object,
             dialogServiceMock.object,
             translatorServiceMock.object,
             settingsMock.object,
@@ -60,6 +64,15 @@ describe('BehaviorSettingsComponent', () => {
 
             // Assert
             expect(component.mediaSessionService).toBeDefined();
+        });
+
+        it('should define dockService', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.dockService).toBeDefined();
         });
 
         it('should define settings', () => {

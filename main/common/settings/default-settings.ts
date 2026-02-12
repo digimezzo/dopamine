@@ -85,4 +85,5 @@ export const DEFAULT_SETTINGS = {
     jumpToPlayingSong: true,
     showSquareImages: false,
     useCompactYearView: false,
+    showAlbumArtOnDockIcon: true,
 } as const;

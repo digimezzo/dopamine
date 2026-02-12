@@ -93,6 +93,7 @@ export class SettingsMock implements SettingsBase {
     public jumpToPlayingSong: boolean;
     public showSquareImages: boolean;
     public useCompactYearView: boolean;
+    public showAlbumArtOnDockIcon: boolean;
 
     public get albumKeyIndex(): string {
         return this.albumKeyIndexMock;
