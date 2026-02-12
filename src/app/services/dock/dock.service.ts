@@ -7,16 +7,19 @@ import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { PlaybackService } from '../playback/playback.service';
 import { MetadataService } from '../metadata/metadata.service';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { TrackModel } from '../track/track-model';
 import { PlaybackStarted } from '../playback/playback-started';
 
 @Injectable({ providedIn: 'root' })
 export class DockService {
     private _subscription: Subscription | undefined;
+    private _dockMenuSubscription: Subscription = new Subscription();
 
     public constructor(
         private playbackService: PlaybackService,
         private metadataService: MetadataService,
+        private translatorService: TranslatorServiceBase,
         private fileAccess: FileAccessBase,
         private ipcProxy: IpcProxyBase,
         private settings: SettingsBase,
@@ -52,6 +55,8 @@ export class DockService {
         } else {
             this.resetDockIcon();
         }
+
+        this.initializeDockMenu();
     }
 
     private addSubscriptions(): void {
@@ -131,6 +136,75 @@ export class DockService {
         }
 
         return await result.getBuffer('image/png');
+    }
+
+    private initializeDockMenu(): void {
+        this._dockMenuSubscription.unsubscribe();
+        this._dockMenuSubscription = new Subscription();
+
+        this._dockMenuSubscription.add(
+            this.playbackService.playbackStarted$.subscribe(() => {
+                this.updateDockMenu();
+            }),
+        );
+
+        this._dockMenuSubscription.add(
+            this.playbackService.playbackPaused$.subscribe(() => {
+                this.updateDockMenu();
+            }),
+        );
+
+        this._dockMenuSubscription.add(
+            this.playbackService.playbackResumed$.subscribe(() => {
+                this.updateDockMenu();
+            }),
+        );
+
+        this._dockMenuSubscription.add(
+            this.playbackService.playbackStopped$.subscribe(() => {
+                this.updateDockMenu();
+            }),
+        );
+
+        this._dockMenuSubscription.add(
+            this.translatorService.languageChanged$.subscribe(() => {
+                this.updateDockMenu();
+            }),
+        );
+
+        this._dockMenuSubscription.add(
+            this.ipcProxy.onDockPlayPause$.subscribe(() => {
+                void this.playbackService.togglePlaybackAsync();
+            }),
+        );
+
+        this._dockMenuSubscription.add(
+            this.ipcProxy.onDockNext$.subscribe(() => {
+                void this.playbackService.playNextAsync();
+            }),
+        );
+
+        this._dockMenuSubscription.add(
+            this.ipcProxy.onDockPrevious$.subscribe(() => {
+                void this.playbackService.playPreviousAsync();
+            }),
+        );
+
+        this.updateDockMenu();
+    }
+
+    private updateDockMenu(): void {
+        const playPauseLabel = this.playbackService.canPause
+            ? this.translatorService.get('pause')
+            : this.translatorService.get('play');
+
+        const arg = {
+            playPauseLabel: playPauseLabel,
+            nextLabel: this.translatorService.get('next'),
+            previousLabel: this.translatorService.get('previous'),
+        };
+
+        this.ipcProxy.sendToMainProcess('update-dock-menu', arg);
     }
 
     private resetDockIcon(): void {

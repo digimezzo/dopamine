@@ -12,6 +12,9 @@ export class IpcProxy implements IpcProxyBase {
     private onIndexingWorkerMessage: Subject<IIndexingMessage> = new Subject();
     private onIndexingWorkerExit: Subject<void> = new Subject();
     private onApplicationClose: Subject<void> = new Subject();
+    private onDockPlayPause: Subject<void> = new Subject();
+    private onDockNext: Subject<void> = new Subject();
+    private onDockPrevious: Subject<void> = new Subject();
 
     public constructor() {
         ipcRenderer.on('indexing-worker-message', (_: Electron.IpcRendererEvent, message: IIndexingMessage): void => {
@@ -25,11 +28,26 @@ export class IpcProxy implements IpcProxyBase {
         ipcRenderer.on('application-close', (_) => {
             this.onApplicationClose.next();
         });
+
+        ipcRenderer.on('dock-play-pause', () => {
+            this.onDockPlayPause.next();
+        });
+
+        ipcRenderer.on('dock-next', () => {
+            this.onDockNext.next();
+        });
+
+        ipcRenderer.on('dock-previous', () => {
+            this.onDockPrevious.next();
+        });
     }
 
     public onIndexingWorkerMessage$: Observable<IIndexingMessage> = this.onIndexingWorkerMessage.asObservable();
     public onIndexingWorkerExit$: Observable<void> = this.onIndexingWorkerExit.asObservable();
     public onApplicationClose$: Observable<void> = this.onApplicationClose.asObservable();
+    public onDockPlayPause$: Observable<void> = this.onDockPlayPause.asObservable();
+    public onDockNext$: Observable<void> = this.onDockNext.asObservable();
+    public onDockPrevious$: Observable<void> = this.onDockPrevious.asObservable();
 
     public sendToMainProcess(channel: string, arg: unknown): void {
         ipcRenderer.send(channel, arg);

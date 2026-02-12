@@ -204,6 +204,8 @@ function createMainWindow(): void {
         show: false,
     });
 
+    mainWindow.excludedFromShownWindowsMenu = true;
+
     setInitialWindowState(mainWindow);
 
     remoteMain.enable(mainWindow.webContents);
@@ -600,6 +602,42 @@ try {
             } else if (command.commandType === DiscordApiCommandType.ClearPresence) {
                 discordApi.clearPresence();
             }
+        });
+
+        ipcMain.on('update-dock-menu', (event: any, arg: any) => {
+            if (!isMacOS() || !app.dock) {
+                return;
+            }
+
+            const dockMenu = Menu.buildFromTemplate([
+                {
+                    label: arg.playPauseLabel,
+                    click(): void {
+                        if (mainWindow) {
+                            mainWindow.webContents.send('dock-play-pause');
+                        }
+                    },
+                },
+                { type: 'separator' },
+                {
+                    label: arg.nextLabel,
+                    click(): void {
+                        if (mainWindow) {
+                            mainWindow.webContents.send('dock-next');
+                        }
+                    },
+                },
+                {
+                    label: arg.previousLabel,
+                    click(): void {
+                        if (mainWindow) {
+                            mainWindow.webContents.send('dock-previous');
+                        }
+                    },
+                },
+            ]);
+
+            app.dock.setMenu(dockMenu);
         });
 
         ipcMain.on('update-dock-icon', (event: any, arg: any) => {
