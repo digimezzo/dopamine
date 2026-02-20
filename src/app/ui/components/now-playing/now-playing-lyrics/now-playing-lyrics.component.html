@@ -12,6 +12,9 @@
             <div class="secondary-text d-flex align-items-center" *ngIf="this.lyrics?.sourceType === lyricsSourceTypeEnum.lrc">
                 {{ 'lrc-lyrics' | translate }}<i class="secondary-text las la-file-alt ml-1"></i>
             </div>
+            <div class="secondary-text d-flex align-items-center" *ngIf="this.lyrics?.sourceType === lyricsSourceTypeEnum.srt">
+                {{ 'srt-lyrics' | translate }}<i class="secondary-text las la-file-alt ml-1"></i>
+            </div>
             <div class="secondary-text d-flex align-items-center" *ngIf="this.lyrics?.sourceType === lyricsSourceTypeEnum.online">
                 {{ this.lyrics?.sourceName }}<i class="secondary-text las la-globe ml-1"></i>
             </div>
@@ -29,7 +32,12 @@
     </div>
     <div *ngIf="!this.isBusy" class="app-now-playing-lyrics__text">
         <div class="break-on-newline">
-            <div *ngIf="this.hasLyrics" [innerText]="this.lyrics?.text"></div>
+            <div class="rich-contain" *ngIf="this.hasRichLyrics && this.showRichLyrics">
+                <div class="rich-side secondary-text" [style.font-size]="this.sideRichLyricSize + 'vmin'">{{this.pText}}</div>
+                <div class="rich-main" [style.font-size]="(this.mainRichLyricSize * 2) + 'vmin'" [style.background-image]="'linear-gradient(to right, var(--theme-secondary-color) ' + this.percentage + '%, var(--theme-highlight-foreground) 1%)'">{{this.cText}}</div>
+                <div class="rich-side secondary-text" [style.font-size]="this.sideRichLyricSize + 'vmin'">{{this.nText}}</div>
+            </div>
+            <div *ngIf="this.hasLyrics && (!this.hasRichLyrics || !this.showRichLyrics)" [innerText]="this.lyrics?.text"></div>
             <div *ngIf="!this.hasLyrics">{{ 'no-lyrics-found' | translate }}</div>
         </div>
     </div>

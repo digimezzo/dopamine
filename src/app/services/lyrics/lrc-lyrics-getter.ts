@@ -19,12 +19,22 @@ export class LrcLyricsGetter implements ILyricsGetter {
 
         const lines: string[] = await this.fileAccess.readLinesAsync(lrcFilePath);
         let lyricsText: string = '';
+        const lyricLines: string[] = [];
+        const timeStamps: number[] = [];
 
         for (let i = 0; i < lines.length; i++) {
-            const lineParts: string[] = lines[i].split(']');
-            const lineWithoutTimestamp: string = lineParts.length > 1 ? lineParts[1] : lineParts[0];
+            const lineParts = lines[i].replace('[', '').split(']');
+            const lineWithoutTimestamp: string = lineParts[1];
+            const timeStamp: string = lineParts[0];
 
-            if (!StringUtils.isNullOrWhiteSpace(lineWithoutTimestamp) && !lineWithoutTimestamp.startsWith('[')) {
+            const timeList = timeStamp.split(':');
+
+            const startTime = (Number(timeList[0]) * 60) + (Number(timeList[1].replace('.', '')) / 100);
+
+            lyricLines.push(lineWithoutTimestamp);
+            timeStamps.push(startTime);
+
+            if (!StringUtils.isNullOrWhiteSpace(lineWithoutTimestamp)) {
                 lyricsText += `${lineWithoutTimestamp}`;
 
                 if (i < lines.length - 1) {
@@ -37,7 +47,7 @@ export class LrcLyricsGetter implements ILyricsGetter {
             return LyricsModel.empty(track);
         }
 
-        return new LyricsModel(track, '', LyricsSourceType.lrc, lyricsText);
+        return LyricsModel.createWithoutEnds(track, '', LyricsSourceType.lrc, lyricsText, lyricLines, timeStamps);
     }
 
     private getLrcFilePath(track: TrackModel): string {

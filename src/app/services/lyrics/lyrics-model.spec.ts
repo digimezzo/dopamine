@@ -8,7 +8,7 @@ describe('LyricsModel', () => {
         it('should create', () => {
             // Arrange, Act
             const trackMock: TrackModel = MockCreator.createTrackModel('path', 'trackTitle', 'artists');
-            const instance = new LyricsModel(trackMock, 'sourceName', LyricsSourceType.embedded, 'text');
+            const instance = LyricsModel.createSimple(trackMock, 'sourceName', LyricsSourceType.embedded, 'text');
 
             // Assert
             expect(instance).toBeDefined();
@@ -17,7 +17,7 @@ describe('LyricsModel', () => {
         it('should set sourceName', () => {
             // Arrange, Act
             const trackMock: TrackModel = MockCreator.createTrackModel('path', 'trackTitle', 'artists');
-            const instance = new LyricsModel(trackMock, 'sourceName', LyricsSourceType.embedded, 'text');
+            const instance = LyricsModel.createSimple(trackMock, 'sourceName', LyricsSourceType.embedded, 'text');
 
             // Assert
             expect(instance.sourceName).toEqual('sourceName');
@@ -26,7 +26,7 @@ describe('LyricsModel', () => {
         it('should set sourceType', () => {
             // Arrange, Act
             const trackMock: TrackModel = MockCreator.createTrackModel('path', 'trackTitle', 'artists');
-            const instance = new LyricsModel(trackMock, 'sourceName', LyricsSourceType.embedded, 'text');
+            const instance = LyricsModel.createSimple(trackMock, 'sourceName', LyricsSourceType.embedded, 'text');
 
             // Assert
             expect(instance.sourceType).toEqual(LyricsSourceType.embedded);
@@ -35,7 +35,7 @@ describe('LyricsModel', () => {
         it('should set text', () => {
             // Arrange, Act
             const trackMock: TrackModel = MockCreator.createTrackModel('path', 'trackTitle', 'artists');
-            const instance = new LyricsModel(trackMock, 'sourceName', LyricsSourceType.embedded, 'text');
+            const instance = LyricsModel.createSimple(trackMock, 'sourceName', LyricsSourceType.embedded, 'text');
 
             // Assert
             expect(instance.text).toEqual('text');
