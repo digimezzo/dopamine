@@ -817,6 +817,24 @@ export class Settings implements SettingsBase {
         this.set('useGaplessPlayback', v);
     }
 
+    // useCrossfade
+    public get useCrossfade(): boolean {
+        return this.get<boolean>('useCrossfade');
+    }
+
+    public set useCrossfade(v: boolean) {
+        this.set('useCrossfade', v);
+    }
+
+    // crossfadeDuration
+    public get crossfadeDuration(): number {
+        return this.get<number>('crossfadeDuration');
+    }
+
+    public set crossfadeDuration(v: number) {
+        this.set('crossfadeDuration', v);
+    }
+
     // jumpToPlayingSong
     public get jumpToPlayingSong(): boolean {
         return this.get<boolean>('jumpToPlayingSong');
