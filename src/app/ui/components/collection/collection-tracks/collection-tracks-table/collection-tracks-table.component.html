@@ -4,9 +4,15 @@
             <div class="mr-2 accent-color">{{ this.tracks.tracks.length }}</div>
             <div *ngIf="this.tracks.tracks.length === 1">{{ 'track' | translate }}</div>
             <div *ngIf="this.tracks.tracks.length !== 1">{{ 'tracks' | translate }}</div>
+            <i
+                class="las la-random secondary-text font-16px pointer ml-2"
+                matTooltip="{{ 'shuffle-all' | translate }}"
+                (click)="this.shuffleAllAsync()"
+            >
+            </i>
         </div>
         <i
-            class="las la-columns secondary-text pointer"
+            class="las la-columns secondary-text pointer font-16px"
             (click)="this.showEditColumnsDialogAsync()"
             matTooltip="{{ 'edit-columns' | translate }}"
         ></i>
@@ -111,7 +117,7 @@
                 class="tracks-table-row"
                 [ngClass]="{ 'selected-item-background-important': track.isSelected }"
                 (mousedown)="setSelectedTracks($event, track)"
-                (dblclick)="playbackService.enqueueAndPlayTracksStartingFromGivenTrack(this.orderedTracks, track)"
+                (dblclick)="playbackService.enqueueAndPlayTracksStartingFromGivenTrackAsync(this.orderedTracks, track)"
                 (contextmenu)="onTrackContextMenu($event, track)"
             >
                 <td>

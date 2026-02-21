@@ -16,14 +16,14 @@ export class NowPlayingNothingPlayingComponent {
         private trackService: TrackServiceBase,
     ) {}
 
-    public playAll(): void {
+    public async playAllAsync(): Promise<void> {
         const tracks: TrackModels = this.trackService.getVisibleTracks();
-        this.playbackService.enqueueAndPlayTracks(tracks.tracks);
+        await this.playbackService.enqueueAndPlayTracksAsync(tracks.tracks);
     }
 
-    public shuffleAll(): void {
+    public async shuffleAllAsync(): Promise<void> {
         const tracks: TrackModels = this.trackService.getVisibleTracks();
         this.playbackService.forceShuffled();
-        this.playbackService.enqueueAndPlayTracks(tracks.tracks);
+        await this.playbackService.enqueueAndPlayTracksAsync(tracks.tracks);
     }
 }

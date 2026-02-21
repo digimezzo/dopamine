@@ -7,7 +7,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { StringUtils } from '../../utils/string-utils';
 
 @Injectable()
 export class GitHubApi {
@@ -16,19 +15,28 @@ export class GitHubApi {
     public constructor(private httpClient: HttpClient) {}
 
     public async getLatestReleaseAsync(owner: string, repo: string, includePrereleases: boolean): Promise<string> {
-        const url: string = `https://api.github.com/repos/${owner}/${repo}/releases`;
-        const releasesResponse: any = await this.httpClient.get<any>(url).toPromise();
+        const url = `https://api.github.com/repos/${owner}/${repo}/releases`;
+        const releases = await this.httpClient.get<any[]>(url).toPromise();
 
-        const latestRelease = releasesResponse.find((x: { prerelease: boolean }) => x.prerelease === includePrereleases);
-        if (latestRelease == undefined || latestRelease.tag_name == undefined) {
+        if (!Array.isArray(releases)) {
             return '';
         }
 
-        const tag = latestRelease.tag_name;
-        if (tag.startsWith(this._tagPrefix)) {
-            return StringUtils.replaceFirst(tag, this._tagPrefix, '');
+        // Filter only when prereleases should be excluded
+        const filtered = includePrereleases ? releases : releases.filter((r) => !r.prerelease);
+
+        if (filtered.length === 0) {
+            return '';
         }
 
-        return tag;
+        // GitHub already returns newest first
+        const latestRelease = filtered[0];
+
+        const tag = latestRelease.tag_name;
+        if (!tag) {
+            return '';
+        }
+
+        return tag.startsWith(this._tagPrefix) ? tag.substring(this._tagPrefix.length) : tag;
     }
 }

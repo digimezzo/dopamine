@@ -28,36 +28,36 @@ describe('NowPlayingNothingPlayingComponent', () => {
     });
 
     describe('playAll', () => {
-        it('should enqueue all tracks without shuffle', () => {
+        it('should enqueue all tracks without shuffle', async () => {
             // Arrange
             const tracks: TrackModels = new TrackModels();
             trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
             const sut: NowPlayingNothingPlayingComponent = createSut();
 
             // Act
-            sut.playAll();
+            await sut.playAllAsync();
 
             // Assert
             trackServiceMock.verify((x) => x.getVisibleTracks(), Times.once());
             playbackServiceMock.verify((x) => x.forceShuffled(), Times.never());
-            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(tracks.tracks), Times.once());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracksAsync(tracks.tracks), Times.once());
         });
     });
 
     describe('shuffleAll', () => {
-        it('should enqueue all tracks with shuffle', () => {
+        it('should enqueue all tracks with shuffle', async () => {
             // Arrange
             const tracks: TrackModels = new TrackModels();
             trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
             const sut: NowPlayingNothingPlayingComponent = createSut();
 
             // Act
-            sut.shuffleAll();
+            await sut.shuffleAllAsync();
 
             // Assert
             trackServiceMock.verify((x) => x.getVisibleTracks(), Times.once());
             playbackServiceMock.verify((x) => x.forceShuffled(), Times.once());
-            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(tracks.tracks), Times.once());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracksAsync(tracks.tracks), Times.once());
         });
     });
 });

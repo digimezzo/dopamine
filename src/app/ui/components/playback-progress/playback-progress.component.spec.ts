@@ -494,7 +494,7 @@ describe('PlaybackProgressComponent', () => {
             component.onMouseUp();
 
             // Assert
-            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(It.isAny()), Times.never());
+            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSecondsAsync(It.isAny()), Times.never());
         });
 
         it('should skip playback when progress is dragged and progress container is not down and playback is started', () => {
@@ -513,7 +513,7 @@ describe('PlaybackProgressComponent', () => {
             component.onMouseUp();
 
             // Assert
-            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(40 / 500), Times.exactly(1));
+            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSecondsAsync(40 / 500), Times.exactly(1));
         });
 
         it('should skip playback when progress is not dragged and progress container is down and playback is started', () => {
@@ -532,7 +532,7 @@ describe('PlaybackProgressComponent', () => {
             component.onMouseUp();
 
             // Assert
-            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(40 / 500), Times.exactly(1));
+            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSecondsAsync(40 / 500), Times.exactly(1));
         });
 
         it('should skip playback when progress is dragged and progress container is down and playback is started', () => {
@@ -551,7 +551,7 @@ describe('PlaybackProgressComponent', () => {
             component.onMouseUp();
 
             // Assert
-            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(40 / 500), Times.exactly(1));
+            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSecondsAsync(40 / 500), Times.exactly(1));
         });
 
         it('should not skip playback when progress is dragged and progress container is not down and playback is stopped', () => {
@@ -570,7 +570,7 @@ describe('PlaybackProgressComponent', () => {
             component.onMouseUp();
 
             // Assert
-            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(It.isAny()), Times.never());
+            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSecondsAsync(It.isAny()), Times.never());
         });
 
         it('should not skip playback when progress is not dragged and progress container is down and playback is stopped', () => {
@@ -589,7 +589,7 @@ describe('PlaybackProgressComponent', () => {
             component.onMouseUp();
 
             // Assert
-            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(It.isAny()), Times.never());
+            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSecondsAsync(It.isAny()), Times.never());
         });
 
         it('should not skip playback when progress is dragged and progress container is down and playback is stopped', () => {
@@ -608,7 +608,7 @@ describe('PlaybackProgressComponent', () => {
             component.onMouseUp();
 
             // Assert
-            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(It.isAny()), Times.never());
+            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSecondsAsync(It.isAny()), Times.never());
         });
     });
 });

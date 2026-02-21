@@ -1,0 +1,110 @@
+<div class="window-frame">
+    <div class="window-frame__titlebar">
+        <div *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights"></div>
+        <div class="window-button back-button" (click)="this.goBackToCollectionAsync()" [@controlsVisibility]="controlsVisibility">
+            <i class="back-button__icon las la-arrow-left"></i>
+        </div>
+        <div class="window-frame__dragarea"></div>
+        <app-switch-player-button [@controlsVisibility]="controlsVisibility"></app-switch-player-button>
+        <app-window-controls
+            *ngIf="appearanceService.needsCustomWindowControls"
+            [@controlsVisibility]="controlsVisibility"
+        ></app-window-controls>
+    </div>
+    <div class="window-frame__content">
+        <div class="app-highlights">
+            <div class="app-highlights__content">
+                <div class="app-highlights__background"></div>
+                <div class="stage d-flex flex-row">
+                    <div class="stage-left w-50 h-100">
+                        <app-album-placeholder
+                            [album]="mostPlayedAlbums[8]"
+                            [animationDelay]="animationDelays[8]"
+                            squareClass="left-11-9"
+                            (albumClick)="onAlbumClickAsync($event)"
+                        ></app-album-placeholder>
+                        <app-album-placeholder
+                            [album]="mostPlayedAlbums[11]"
+                            [animationDelay]="animationDelays[11]"
+                            squareClass="left-21-12"
+                            (albumClick)="onAlbumClickAsync($event)"
+                        ></app-album-placeholder>
+                        <app-album-placeholder
+                            [album]="mostPlayedAlbums[4]"
+                            [animationDelay]="animationDelays[4]"
+                            squareClass="left-22-5"
+                            (albumClick)="onAlbumClickAsync($event)"
+                        ></app-album-placeholder>
+                        <app-album-placeholder
+                            [album]="mostPlayedAlbums[0]"
+                            [animationDelay]="animationDelays[0]"
+                            squareClass="left-23-1"
+                            (albumClick)="onAlbumClickAsync($event)"
+                        ></app-album-placeholder>
+                        <app-album-placeholder
+                            [album]="mostPlayedAlbums[6]"
+                            [animationDelay]="animationDelays[6]"
+                            squareClass="left-31-7"
+                            (albumClick)="onAlbumClickAsync($event)"
+                        ></app-album-placeholder>
+                        <app-album-placeholder
+                            [album]="mostPlayedAlbums[3]"
+                            [animationDelay]="animationDelays[3]"
+                            squareClass="left-32-4"
+                            (albumClick)="onAlbumClickAsync($event)"
+                        ></app-album-placeholder>
+                    </div>
+                    <div class="stage-right w-50 h-100">
+                        <app-album-placeholder
+                            [album]="mostPlayedAlbums[2]"
+                            [animationDelay]="animationDelays[2]"
+                            squareClass="right-11-3"
+                            (albumClick)="onAlbumClickAsync($event)"
+                        ></app-album-placeholder>
+                        <app-album-placeholder
+                            [album]="mostPlayedAlbums[7]"
+                            [animationDelay]="animationDelays[7]"
+                            squareClass="right-12-8"
+                            (albumClick)="onAlbumClickAsync($event)"
+                        ></app-album-placeholder>
+                        <app-album-placeholder
+                            [album]="mostPlayedAlbums[1]"
+                            [animationDelay]="animationDelays[1]"
+                            squareClass="right-21-2"
+                            (albumClick)="onAlbumClickAsync($event)"
+                        ></app-album-placeholder>
+                        <app-album-placeholder
+                            [album]="mostPlayedAlbums[5]"
+                            [animationDelay]="animationDelays[5]"
+                            squareClass="right-22-6"
+                            (albumClick)="onAlbumClickAsync($event)"
+                        ></app-album-placeholder>
+                        <app-album-placeholder
+                            [album]="mostPlayedAlbums[10]"
+                            [animationDelay]="animationDelays[10]"
+                            squareClass="right-23-11"
+                            (albumClick)="onAlbumClickAsync($event)"
+                        ></app-album-placeholder>
+                        <app-album-placeholder
+                            [album]="mostPlayedAlbums[9]"
+                            [animationDelay]="animationDelays[9]"
+                            squareClass="right-31-10"
+                            (albumClick)="onAlbumClickAsync($event)"
+                        ></app-album-placeholder>
+                    </div>
+                </div>
+            </div>
+            <div class="app-highlights-playback-controls__container">
+                <div
+                    class="app-highlights-playback-controls__background theme-footer-background"
+                    [@controlsVisibility]="controlsVisibility"
+                ></div>
+                <canvas id="highlightsAudioVisualizer" class="app-highlights-playback-controls__audio-visualizer"></canvas>
+                <app-now-playing-playback-pane
+                    class="app-highlights-playback-controls__playback-pane"
+                    [@controlsVisibility]="controlsVisibility"
+                ></app-now-playing-playback-pane>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,7 +7,7 @@ import {
     Id3v2Tag,
     PictureType,
     TagTypes,
-} from 'node-taglib-sharp';
+} from '@digimezzo/node-taglib-sharp';
 import { IFileMetadata } from './i-file-metadata';
 import { RatingConverter } from './rating-converter';
 
@@ -36,6 +36,9 @@ export class TagLibFileMetadata implements IFileMetadata {
     public discCount: number = 0;
     public lyrics: string = '';
     public picture: Buffer | undefined;
+    public composers: string[] = [];
+    public conductor: string = '';
+    public beatsPerMinute: number = 0;
 
     public get rating(): number {
         return this._rating;
@@ -65,6 +68,9 @@ export class TagLibFileMetadata implements IFileMetadata {
         tagLibFile.tag.discCount = this.discCount;
         tagLibFile.tag.grouping = this.grouping;
         tagLibFile.tag.comment = this.comment;
+        tagLibFile.tag.composers = this.composers;
+        tagLibFile.tag.conductor = this.conductor;
+        tagLibFile.tag.beatsPerMinute = this.beatsPerMinute;
 
         if (this.picture) {
             const picture = {
@@ -151,6 +157,18 @@ export class TagLibFileMetadata implements IFileMetadata {
                 this.lyrics = tagLibFile.tag.lyrics ?? '';
             }
 
+            if (tagLibFile.tag.composers != undefined) {
+                this.composers = tagLibFile.tag.composers ?? [];
+            }
+
+            if (tagLibFile.tag.conductor != undefined) {
+                this.conductor = tagLibFile.tag.conductor ?? '';
+            }
+
+            if (tagLibFile.tag.beatsPerMinute != undefined && !Number.isNaN(tagLibFile.tag.beatsPerMinute)) {
+                this.beatsPerMinute = tagLibFile.tag.beatsPerMinute ?? 0;
+            }
+
             if (tagLibFile.tag.pictures != undefined && tagLibFile.tag.pictures.length > 0) {
                 let couldGetPicture: boolean = false;
 
@@ -205,10 +223,10 @@ export class TagLibFileMetadata implements IFileMetadata {
         );
 
         if (popularimeterFramesForWindowsUser.length > 0) {
-            return RatingConverter.popM2StarRating(popularimeterFramesForWindowsUser[0].rating);
+            return RatingConverter.popMToStarRating(popularimeterFramesForWindowsUser[0].rating);
         }
 
-        return RatingConverter.popM2StarRating(allPopularimeterFrames[0].rating);
+        return RatingConverter.popMToStarRating(allPopularimeterFrames[0].rating);
     }
 
     private writeRatingToFile(tagLibFile: File, rating: number): void {

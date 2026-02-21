@@ -6,6 +6,7 @@ import { AlbumOrder } from '../album-order';
 import { ItemSpaceCalculator } from '../item-space-calculator';
 import { AlbumRow } from './album-row';
 import { AlbumSorter } from '../../../../common/sorting/album-sorter';
+import { YearFormatter } from './year-formatter';
 
 @Injectable()
 export class AlbumRowsGetter {
@@ -15,7 +16,12 @@ export class AlbumRowsGetter {
         private shuffler: Shuffler,
     ) {}
 
-    public getAlbumRows(availableWidthInPixels: number, albums: AlbumModel[], albumOrder: AlbumOrder): AlbumRow[] {
+    public getAlbumRows(
+        availableWidthInPixels: number,
+        albums: AlbumModel[],
+        albumOrder: AlbumOrder,
+        useCompactYearView: boolean,
+    ): AlbumRow[] {
         const albumRows: AlbumRow[] = [];
 
         if (albums.length === 0) {
@@ -33,7 +39,7 @@ export class AlbumRowsGetter {
         const alreadyUsedYearHeaders: string[] = [];
 
         for (const album of sortedAlbums) {
-            if (albumOrder === AlbumOrder.byYearAscending || albumOrder === AlbumOrder.byYearDescending) {
+            if ((albumOrder === AlbumOrder.byYearAscending || albumOrder === AlbumOrder.byYearDescending) && !useCompactYearView) {
                 album.showYear = true;
 
                 if (
@@ -48,11 +54,7 @@ export class AlbumRowsGetter {
                     albumRows.push(new AlbumRow());
                 }
 
-                let proposedHeader: string = '?';
-
-                if (album.year != undefined && album.year !== 0) {
-                    proposedHeader = album.year.toString();
-                }
+                const proposedHeader: string = YearFormatter.formatYear(album.year);
 
                 if (!alreadyUsedYearHeaders.includes(proposedHeader)) {
                     alreadyUsedYearHeaders.push(proposedHeader);

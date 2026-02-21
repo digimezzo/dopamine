@@ -86,6 +86,20 @@ export class AlbumService implements AlbumServiceBase {
         return albums;
     }
 
+    public getMostPlayedAlbums(numberOfAlbums: number): AlbumModel[] {
+        const timer = new Timer();
+        timer.start();
+
+        const albumDatas: AlbumData[] = this.trackRepository.getMostPlayedAlbumData(this.settings.albumKeyIndex, numberOfAlbums) ?? [];
+        const albums: AlbumModel[] = this.createAlbumsFromAlbumData(albumDatas);
+
+        timer.stop();
+
+        this.logger.info(`Finished getting most played albums. Time required: ${timer.elapsedMilliseconds} ms`, 'AlbumService', 'getMostPlayedAlbums');
+
+        return albums;
+    }
+
     private addAlbumsForTrackOrAllArtists(albumKeyIndex: string, artists: string[], albumDatas: AlbumData[]): void {
         const trackArtistsAlbumDatas: AlbumData[] = this.trackRepository.getAlbumDataForTrackArtists(albumKeyIndex, artists) ?? [];
 

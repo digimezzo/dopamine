@@ -9,7 +9,7 @@
         <div *cdkVirtualFor="let track of this.playbackService.playbackQueue.tracks" (mousedown)="setSelectedTracks($event, track)">
             <app-track
                 [track]="track"
-                (dblclick)="this.playbackService.playQueuedTrack(track)"
+                (dblclick)="this.playbackService.playQueuedTrackAsync(track)"
                 (contextmenu)="onTrackContextMenu($event, track)"
             ></app-track>
         </div>

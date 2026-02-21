@@ -15,8 +15,12 @@ import { AlbumData } from '../../../../data/entities/album-data';
 import { AlbumModel } from '../../../../services/album/album-model';
 import { ApplicationPaths } from '../../../../common/application/application-paths';
 import { PlaybackService } from '../../../../services/playback/playback.service';
+import { SettingsMock } from '../../../../testing/settings-mock';
+import { TrackServiceBase } from '../../../../services/track/track.service.base';
+import { TrackModels } from '../../../../services/track/track-models';
 
 describe('AlbumBrowserComponent', () => {
+    let trackServiceMock: IMock<TrackServiceBase>;
     let playbackServiceMock: IMock<PlaybackService>;
     let applicationServiceMock: IMock<ApplicationServiceBase>;
     let albumRowsGetterMock: IMock<AlbumRowsGetter>;
@@ -28,6 +32,7 @@ describe('AlbumBrowserComponent', () => {
     let albumsPersisterMock: IMock<BaseAlbumsPersister>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
+    let settingsMock: SettingsMock;
     let windowSizeChanged: Subject<void>;
     let mouseButtonReleased: Subject<void>;
     let windowSizeChanged$: Observable<void>;
@@ -35,6 +40,7 @@ describe('AlbumBrowserComponent', () => {
 
     function createComponent(): AlbumBrowserComponent {
         return new AlbumBrowserComponent(
+            trackServiceMock.object,
             playbackServiceMock.object,
             applicationServiceMock.object,
             albumRowsGetterMock.object,
@@ -42,11 +48,13 @@ describe('AlbumBrowserComponent', () => {
             mouseSelectionWatcherMock.object,
             contextMenuOpenerMock.object,
             addToPlaylistMenuMock.object,
+            settingsMock,
             loggerMock.object,
         );
     }
 
     beforeEach(() => {
+        trackServiceMock = Mock.ofType<TrackServiceBase>();
         playbackServiceMock = Mock.ofType<PlaybackService>();
         applicationServiceMock = Mock.ofType<ApplicationServiceBase>();
         albumRowsGetterMock = Mock.ofType<AlbumRowsGetter>();
@@ -58,6 +66,7 @@ describe('AlbumBrowserComponent', () => {
         albumsPersisterMock = Mock.ofType<BaseAlbumsPersister>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
+        settingsMock = new SettingsMock();
         windowSizeChanged = new Subject();
         mouseButtonReleased = new Subject();
         windowSizeChanged$ = windowSizeChanged.asObservable();
@@ -248,7 +257,7 @@ describe('AlbumBrowserComponent', () => {
             component.ngOnChanges({});
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), It.isAny(), It.isAny()), Times.never());
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
         it('should not order the albums given changes for albumsPersister and albumsPersister is undefined', () => {
@@ -271,7 +280,7 @@ describe('AlbumBrowserComponent', () => {
             component.ngOnChanges({ albumsPersister: albumsPersisterChanges, albums: albumsChanges });
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), It.isAny(), It.isAny()), Times.never());
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
         it('should order the albums given changes for albumsPersister and albums if albumsPersister is not undefined', () => {
@@ -295,7 +304,7 @@ describe('AlbumBrowserComponent', () => {
             component.ngOnChanges({ albumsPersister: albumsPersisterChanges, albums: albumsChanges });
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byAlbumArtist), Times.exactly(1));
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byAlbumArtist, false), Times.exactly(1));
         });
 
         it('should apply the selected albums', () => {
@@ -357,7 +366,7 @@ describe('AlbumBrowserComponent', () => {
             jest.runAllTimers();
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(600, albums, AlbumOrder.byAlbumArtist), Times.exactly(1));
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(600, albums, AlbumOrder.byAlbumArtist, false), Times.exactly(1));
         });
 
         it('should not fill the album rows on window size changed if the available width has not changed', () => {
@@ -387,7 +396,7 @@ describe('AlbumBrowserComponent', () => {
             jest.runAllTimers();
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byAlbumArtist), Times.never());
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byAlbumArtist, It.isAny()), Times.never());
         });
 
         it('should fill the album rows on mouse button released if the available width has changed', () => {
@@ -419,7 +428,7 @@ describe('AlbumBrowserComponent', () => {
             jest.runAllTimers();
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(600, albums, AlbumOrder.byAlbumArtist), Times.exactly(1));
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(600, albums, AlbumOrder.byAlbumArtist, false), Times.exactly(1));
         });
 
         it('should not fill the album rows on mouse button released if the available width has not changed', () => {
@@ -448,7 +457,7 @@ describe('AlbumBrowserComponent', () => {
             jest.runAllTimers();
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byAlbumArtist), Times.never());
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byAlbumArtist, It.isAny()), Times.never());
         });
     });
 
@@ -509,7 +518,7 @@ describe('AlbumBrowserComponent', () => {
             component.applyAlbumOrder(AlbumOrder.byYearAscending);
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byYearAscending), Times.exactly(1));
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byYearAscending, false), Times.exactly(1));
         });
 
         it('should apply the selected albums', () => {
@@ -604,6 +613,184 @@ describe('AlbumBrowserComponent', () => {
 
             // Assert
             playbackServiceMock.verify((x) => x.addAlbumToQueueAsync(album1), Times.once());
+        });
+    });
+
+    describe('onShuffleAndPlayAsync', () => {
+        it('should force shuffle and play the selected album', async () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
+            const component: AlbumBrowserComponent = createComponent();
+
+            // Act
+            await component.onShuffleAndPlayAsync(album1);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.forceShuffled(), Times.once());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayAlbumAsync(album1), Times.once());
+        });
+    });
+
+    describe('ngOnInit', () => {
+        it('should initialize useCompactYearView from settings', () => {
+            // Arrange
+            settingsMock.useCompactYearView = true;
+            const component: AlbumBrowserComponent = createComponent();
+
+            // Act
+            component.ngOnInit();
+
+            // Assert
+            expect(component.useCompactYearView).toBe(true);
+        });
+
+        it('should initialize useCompactYearView as false when settings is false', () => {
+            // Arrange
+            settingsMock.useCompactYearView = false;
+            const component: AlbumBrowserComponent = createComponent();
+
+            // Act
+            component.ngOnInit();
+
+            // Assert
+            expect(component.useCompactYearView).toBe(false);
+        });
+    });
+
+    describe('toggleYearView', () => {
+        it('should toggle useCompactYearView from false to true', () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            const albumData2: AlbumData = new AlbumData();
+            const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
+            const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, applicationPathsMock.object);
+            const albums: AlbumModel[] = [album1, album2];
+            nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            settingsMock.useCompactYearView = false;
+            const component: AlbumBrowserComponent = createComponent();
+            component.ngOnInit();
+            component.albumsPersister = albumsPersisterMock.object;
+            component.albums = albums;
+            albumRowsGetterMock.reset();
+
+            // Act
+            component.toggleYearView();
+
+            // Assert
+            expect(component.useCompactYearView).toBe(true);
+        });
+
+        it('should toggle useCompactYearView from true to false', () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            const albumData2: AlbumData = new AlbumData();
+            const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
+            const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, applicationPathsMock.object);
+            const albums: AlbumModel[] = [album1, album2];
+            nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            settingsMock.useCompactYearView = true;
+            const component: AlbumBrowserComponent = createComponent();
+            component.ngOnInit();
+            component.albumsPersister = albumsPersisterMock.object;
+            component.albums = albums;
+            albumRowsGetterMock.reset();
+
+            // Act
+            component.toggleYearView();
+
+            // Assert
+            expect(component.useCompactYearView).toBe(false);
+        });
+
+        it('should save useCompactYearView to settings when toggling from false to true', () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            const albumData2: AlbumData = new AlbumData();
+            const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
+            const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, applicationPathsMock.object);
+            const albums: AlbumModel[] = [album1, album2];
+            nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            settingsMock.useCompactYearView = false;
+            const component: AlbumBrowserComponent = createComponent();
+            component.ngOnInit();
+            component.albumsPersister = albumsPersisterMock.object;
+            component.albums = albums;
+            albumRowsGetterMock.reset();
+
+            // Act
+            component.toggleYearView();
+
+            // Assert
+            expect(settingsMock.useCompactYearView).toBe(true);
+        });
+
+        it('should save useCompactYearView to settings when toggling from true to false', () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            const albumData2: AlbumData = new AlbumData();
+            const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
+            const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, applicationPathsMock.object);
+            const albums: AlbumModel[] = [album1, album2];
+            nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            settingsMock.useCompactYearView = true;
+            const component: AlbumBrowserComponent = createComponent();
+            component.ngOnInit();
+            component.albumsPersister = albumsPersisterMock.object;
+            component.albums = albums;
+            albumRowsGetterMock.reset();
+
+            // Act
+            component.toggleYearView();
+
+            // Assert
+            expect(settingsMock.useCompactYearView).toBe(false);
+        });
+
+        it('should reorder albums after toggling', () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            const albumData2: AlbumData = new AlbumData();
+            const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
+            const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, applicationPathsMock.object);
+            const albums: AlbumModel[] = [album1, album2];
+            nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            settingsMock.useCompactYearView = false;
+            const component: AlbumBrowserComponent = createComponent();
+            component.ngOnInit();
+            component.albumsPersister = albumsPersisterMock.object;
+            component.albums = albums;
+            albumRowsGetterMock.reset();
+
+            // Act
+            component.toggleYearView();
+
+            // Assert
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byYearAscending, true), Times.exactly(1));
+        });
+    });
+
+    describe('shuffleAllAsync', () => {
+        it('should force shuffle and play all tracks', async () => {
+            // Arrange
+            const component: AlbumBrowserComponent = createComponent();
+            component.albumsPersister = albumsPersisterMock.object;
+            component.albums = [];
+
+            const tracks: TrackModels = new TrackModels();
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
+
+            // Act
+            await component.shuffleAllAsync();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.forceShuffled(), Times.once());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracksAsync(tracks.tracks), Times.once());
         });
     });
 });

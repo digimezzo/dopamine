@@ -92,9 +92,9 @@ describe('CollectionService', () => {
             await service.deleteTracksAsync([trackModel1, trackModel2, trackModel3]);
 
             // Assert
-            playbackServiceMock.verify((x) => x.stopIfPlaying(trackModel1), Times.once());
-            playbackServiceMock.verify((x) => x.stopIfPlaying(trackModel2), Times.once());
-            playbackServiceMock.verify((x) => x.stopIfPlaying(trackModel3), Times.once());
+            playbackServiceMock.verify((x) => x.stopIfPlayingAsync(trackModel1), Times.once());
+            playbackServiceMock.verify((x) => x.stopIfPlayingAsync(trackModel2), Times.once());
+            playbackServiceMock.verify((x) => x.stopIfPlayingAsync(trackModel3), Times.once());
         });
 
         it('should move the files of the given track to trash', async () => {

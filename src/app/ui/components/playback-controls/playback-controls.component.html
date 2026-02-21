@@ -25,7 +25,7 @@
     <!-- Play previous -->
     <div
         class="app-playback-controls__button pointer mx-1"
-        (click)="playbackService.playPrevious()"
+        (click)="playbackService.playPreviousAsync()"
         matRipple
         matTooltip="{{ 'previous' | translate }}"
     >
@@ -45,7 +45,7 @@
     <div
         *ngIf="playbackService.canResume"
         class="app-playback-controls__circled-button pointer mx-1"
-        (click)="playbackService.resume()"
+        (click)="playbackService.resumeAsync()"
         matRipple
         matTooltip="{{ 'play' | translate }}"
     >
@@ -55,7 +55,7 @@
     <!-- Play next -->
     <div
         class="app-playback-controls__button pointer mx-1"
-        (click)="playbackService.playNext()"
+        (click)="playbackService.playNextAsync()"
         matRipple
         matTooltip="{{ 'next' | translate }}"
     >

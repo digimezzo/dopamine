@@ -15,9 +15,6 @@
             <app-sub-menu-item [page]="3" [selectedPage]="this.page" (click)="this.setPage(3)">
                 {{ 'online' | translate }}
             </app-sub-menu-item>
-            <app-sub-menu-item [page]="4" [selectedPage]="this.page" (click)="this.setPage(4)">
-                {{ 'gripes' | translate }}
-            </app-sub-menu-item>
         </app-sub-menu>
         <div class="window-frame__dragarea"></div>
         <app-main-menu></app-main-menu>
@@ -38,8 +35,5 @@
         <!-- Online -->
         <app-online-settings *ngIf="this.leftToRight(3)" [@enterLeftToRight]></app-online-settings>
         <app-online-settings *ngIf="this.rightToLeft(3)" [@enterRightToLeft]></app-online-settings>
-        <!-- Gripes -->
-        <app-gripes-settings *ngIf="this.leftToRight(4)" [@enterLeftToRight]></app-gripes-settings>
-        <app-gripes-settings *ngIf="this.rightToLeft(4)" [@enterRightToLeft]></app-gripes-settings>
     </div>
 </div>

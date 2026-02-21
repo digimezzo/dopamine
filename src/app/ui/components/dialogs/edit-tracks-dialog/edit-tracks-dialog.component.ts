@@ -15,6 +15,7 @@ import { ImageRenderData } from '../../../../services/metadata/image-render-data
 import { OnlineAlbumArtworkGetter } from '../../../../services/indexing/online-album-artwork-getter';
 import { ImageProcessor } from '../../../../common/image-processor';
 import { IndexingService } from '../../../../services/indexing/indexing.service';
+import { MetadataPatcher } from '../../../../common/metadata/metadata-patcher';
 
 @Component({
     selector: 'app-edit-tracks-dialog',
@@ -33,6 +34,7 @@ export class EditTracksDialogComponent implements OnInit {
         private dialogService: DialogServiceBase,
         private translatorService: TranslatorServiceBase,
         private metadataService: MetadataService,
+        private metadataPatcher: MetadataPatcher,
         private indexingService: IndexingService,
         private fileMetadataFactory: FileMetadataFactoryBase,
         private onlineAlbumArtworkGetter: OnlineAlbumArtworkGetter,
@@ -59,6 +61,9 @@ export class EditTracksDialogComponent implements OnInit {
     public grouping: string = '';
     public comment: string = '';
     public imagePath: string = '';
+    public composers: string = '';
+    public conductor: string = '';
+    public beatsPerMinute: string = '';
 
     public get canExportImage(): boolean {
         return (
@@ -170,17 +175,28 @@ export class EditTracksDialogComponent implements OnInit {
 
         if (this._fileMetaDatas.length === 1) {
             this.title = this._fileMetaDatas[0].title;
-            this.artists = CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].artists);
+            this.artists = CollectionUtils.toSemicolonSeparatedString(
+                this.metadataPatcher.joinUnsplittableMetadata(this._fileMetaDatas[0].artists),
+            );
             this.albumTitle = this._fileMetaDatas[0].album;
-            this.albumArtists = CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].albumArtists);
+            this.albumArtists = CollectionUtils.toSemicolonSeparatedString(
+                this.metadataPatcher.joinUnsplittableMetadata(this._fileMetaDatas[0].albumArtists),
+            );
             this.year = this.saveGetNumberAsString(this._fileMetaDatas[0].year);
-            this.genres = CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].genres);
+            this.genres = CollectionUtils.toSemicolonSeparatedString(
+                this.metadataPatcher.joinUnsplittableMetadata(this._fileMetaDatas[0].genres),
+            );
             this.trackNumber = this.saveGetNumberAsString(this._fileMetaDatas[0].trackNumber);
             this.trackCount = this.saveGetNumberAsString(this._fileMetaDatas[0].trackCount);
             this.discNumber = this.saveGetNumberAsString(this._fileMetaDatas[0].discNumber);
             this.discCount = this.saveGetNumberAsString(this._fileMetaDatas[0].discCount);
             this.grouping = this._fileMetaDatas[0].grouping;
             this.comment = this._fileMetaDatas[0].comment;
+            this.composers = CollectionUtils.toSemicolonSeparatedString(
+                this.metadataPatcher.joinUnsplittableMetadata(this._fileMetaDatas[0].composers),
+            );
+            this.conductor = this._fileMetaDatas[0].conductor;
+            this.beatsPerMinute = this.saveGetNumberAsString(this._fileMetaDatas[0].beatsPerMinute);
         } else if (this._fileMetaDatas.length > 1) {
             const allTitlesSame = this._fileMetaDatas.every((track) => track.title === this._fileMetaDatas[0].title);
             this.title = allTitlesSame ? this._fileMetaDatas[0].title : this._multipleValuesText;
@@ -223,6 +239,17 @@ export class EditTracksDialogComponent implements OnInit {
 
             const allCommentsSame = this._fileMetaDatas.every((track) => track.comment === this._fileMetaDatas[0].comment);
             this.comment = allCommentsSame ? this._fileMetaDatas[0].comment : this._multipleValuesText;
+
+            const allComposersSame = this._fileMetaDatas.every((track) => track.composers === this._fileMetaDatas[0].composers);
+            this.composers = allComposersSame
+                ? CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].composers)
+                : this._multipleValuesText;
+
+            const allConductorsSame = this._fileMetaDatas.every((track) => track.conductor === this._fileMetaDatas[0].conductor);
+            this.conductor = allConductorsSame ? this._fileMetaDatas[0].conductor : this._multipleValuesText;
+
+            const allBpmSame = this._fileMetaDatas.every((track) => track.beatsPerMinute === this._fileMetaDatas[0].beatsPerMinute);
+            this.beatsPerMinute = allBpmSame ? this._fileMetaDatas[0].beatsPerMinute.toString() : this._multipleValuesText;
         }
     }
 
@@ -270,6 +297,15 @@ export class EditTracksDialogComponent implements OnInit {
                 }
                 if (this.comment !== this._multipleValuesText) {
                     fileMetaData.comment = this.comment;
+                }
+                if (this.composers !== this._multipleValuesText) {
+                    fileMetaData.composers = CollectionUtils.fromSemicolonSeparatedString(this.composers);
+                }
+                if (this.conductor !== this._multipleValuesText) {
+                    fileMetaData.conductor = this.conductor;
+                }
+                if (this.beatsPerMinute !== this._multipleValuesText) {
+                    fileMetaData.beatsPerMinute = this.saveSetNumberFromString(this.beatsPerMinute);
                 }
 
                 if (this._shouldRemoveImages) {

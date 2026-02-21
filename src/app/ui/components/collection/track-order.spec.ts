@@ -5,9 +5,11 @@ describe('TrackOrder', () => {
         [
             [TrackOrder.byTrackTitleAscending, 'by-track-title-ascending'],
             [TrackOrder.byTrackTitleDescending, 'by-track-title-descending'],
+            [TrackOrder.byDateCreatedAscending, 'oldest-first'],
+            [TrackOrder.byDateCreatedDescending, 'newest-first'],
             [TrackOrder.byAlbum, 'by-album'],
             [TrackOrder.byRating, 'by-rating'],
-            [TrackOrder.none, ''],
+            [TrackOrder.none, 'none'],
         ].forEach((pair) => {
             const trackOrder = pair[0] as TrackOrder;
 

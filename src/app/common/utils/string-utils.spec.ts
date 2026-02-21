@@ -171,6 +171,96 @@ describe('StringUtils', () => {
         });
     });
 
+    describe('capitalizeFirstLetter', () => {
+        it('should return undefined if the string is undefined', () => {
+            // Arrange
+            const sourceString: string | undefined = undefined;
+
+            // Act
+            const result: string = StringUtils.capitalizeFirstLetter(sourceString!);
+
+            // Assert
+            expect(result).toBeUndefined();
+        });
+
+        it('should return an empty string if the string is empty', () => {
+            // Arrange
+            const sourceString: string = '';
+
+            // Act
+            const result: string = StringUtils.capitalizeFirstLetter(sourceString);
+
+            // Assert
+            expect(result).toEqual('');
+        });
+
+        it('should return a whitespace string if the string is whitespace', () => {
+            // Arrange
+            const sourceString: string = '   ';
+
+            // Act
+            const result: string = StringUtils.capitalizeFirstLetter(sourceString);
+
+            // Assert
+            expect(result).toEqual('   ');
+        });
+
+        it('should capitalize the first letter of a lowercase string', () => {
+            // Arrange
+            const sourceString: string = 'hello world';
+
+            // Act
+            const result: string = StringUtils.capitalizeFirstLetter(sourceString);
+
+            // Assert
+            expect(result).toEqual('Hello world');
+        });
+
+        it('should keep the first letter uppercase if already capitalized', () => {
+            // Arrange
+            const sourceString: string = 'Hello world';
+
+            // Act
+            const result: string = StringUtils.capitalizeFirstLetter(sourceString);
+
+            // Assert
+            expect(result).toEqual('Hello world');
+        });
+
+        it('should capitalize the first letter and keep the rest unchanged', () => {
+            // Arrange
+            const sourceString: string = 'hELLO WORLD';
+
+            // Act
+            const result: string = StringUtils.capitalizeFirstLetter(sourceString);
+
+            // Assert
+            expect(result).toEqual('HELLO WORLD');
+        });
+
+        it('should capitalize a single lowercase character', () => {
+            // Arrange
+            const sourceString: string = 'a';
+
+            // Act
+            const result: string = StringUtils.capitalizeFirstLetter(sourceString);
+
+            // Assert
+            expect(result).toEqual('A');
+        });
+
+        it('should keep a single uppercase character unchanged', () => {
+            // Arrange
+            const sourceString: string = 'A';
+
+            // Act
+            const result: string = StringUtils.capitalizeFirstLetter(sourceString);
+
+            // Assert
+            expect(result).toEqual('A');
+        });
+    });
+
     describe('getSortableString', () => {
         it('should return an empty string given undefined it should not remove prefixes', () => {
             // Arrange

@@ -18,6 +18,8 @@ import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { GenreSorter } from '../../../../../common/sorting/genre-sorter';
 import { Timer } from '../../../../../common/scheduling/timer';
+import { TrackModels } from '../../../../../services/track/track-models';
+import { TrackServiceBase } from '../../../../../services/track/track.service.base';
 
 @Component({
     selector: 'app-genre-browser',
@@ -37,6 +39,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     public constructor(
+        public trackService: TrackServiceBase,
         public playbackService: PlaybackService,
         private semanticZoomService: SemanticZoomServiceBase,
         private applicationService: ApplicationServiceBase,
@@ -129,6 +132,15 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         await this.playbackService.addGenreToQueueAsync(genre);
     }
 
+    public async onShuffleAndPlayAsync(genre: GenreModel): Promise<void> {
+        if (genre == undefined) {
+            return;
+        }
+
+        this.playbackService.forceShuffled();
+        await this.playbackService.enqueueAndPlayGenreAsync(genre);
+    }
+
     private orderGenres(): void {
         let orderedGenres: GenreModel[] = [];
 
@@ -188,5 +200,11 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         if (selectedIndex > -1) {
             this.viewPort.scrollToIndex(selectedIndex, 'smooth');
         }
+    }
+
+    public async shuffleAllAsync(): Promise<void> {
+        const tracks: TrackModels = this.trackService.getVisibleTracks();
+        this.playbackService.forceShuffled();
+        await this.playbackService.enqueueAndPlayTracksAsync(tracks.tracks);
     }
 }

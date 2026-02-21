@@ -228,8 +228,6 @@ import { NavigationServiceBase } from './services/navigation/navigation.service.
 import { ApplicationServiceBase } from './services/application/application.service.base';
 import { AZLyricsApi } from './common/api/lyrics/a-z-lyrics.api';
 import { ChartLyricsApi } from './common/api/lyrics/chart-lyrics.api';
-import { WebSearchLyricsApi } from './common/api/lyrics/web-search-lyrics/web-search-lyrics.api';
-import { WebSearchApi } from './common/api/lyrics/web-search-lyrics/web-search.api';
 import { ArtistsFilterPipe } from './ui/pipes/artists-filter.pipe';
 import { TrackRepositoryBase } from './data/repositories/track-repository.base';
 import { FolderRepositoryBase } from './data/repositories/folder-repository.base';
@@ -295,7 +293,8 @@ import { VolumeIconComponent } from './ui/components/volume-icon/volume-icon.com
 import { EditTracksDialogComponent } from './ui/components/dialogs/edit-tracks-dialog/edit-tracks-dialog.component';
 import { InfoDialogComponent } from './ui/components/dialogs/info-dialog/info-dialog.component';
 import { IterableMenuComponent } from './ui/components/common/iterable-menu.component';
-import { GripesSettingsComponent } from './ui/components/settings/gripes-settings/gripes-settings.component';
+import { HighlightsComponent } from './ui/components/highlights/highlights.component';
+import { AlbumPlaceholderComponent } from './ui/components/highlights/album-placeholder.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -343,7 +342,6 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         AppComponent,
         WebviewDirective,
         CdkVirtualScrollViewportPatchDirective,
-        GripesSettingsComponent,
         WelcomeComponent,
         CollectionComponent,
         WindowControlsComponent,
@@ -417,6 +415,8 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         TrackBrowserComponent,
         PlaybackQueueComponent,
         NowPlayingComponent,
+        HighlightsComponent,
+        AlbumPlaceholderComponent,
         NowPlayingPlaybackPaneComponent,
         SearchBoxComponent,
         PlaylistFolderBrowserComponent,
@@ -521,8 +521,6 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         FanartApi,
         ChartLyricsApi,
         AZLyricsApi,
-        WebSearchLyricsApi,
-        WebSearchApi,
         MetadataPatcher,
         TracksColumnsOrdering,
         SemanticZoomHeaderAdder,

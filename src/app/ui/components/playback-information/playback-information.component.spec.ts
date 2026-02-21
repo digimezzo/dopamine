@@ -587,13 +587,15 @@ describe('PlaybackInformationComponent', () => {
                 .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
             const component: PlaybackInformationComponent = createComponent();
 
+            jest.useFakeTimers();
+
             // Act
             await component.ngOnInit();
             component.bottomContentTrack = trackModel1;
 
             playbackInformationService_playingNoTrack.next(new PlaybackInformation(undefined, ''));
 
-            await flushPromises();
+            jest.runAllTimers();
 
             // Assert
             expect(component.bottomContentTrack).toBeUndefined();

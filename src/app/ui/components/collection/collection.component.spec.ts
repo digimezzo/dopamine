@@ -121,7 +121,7 @@ describe('CollectionComponent', () => {
             component.handleKeyboardEvent(keyboardEventMock.object);
 
             // Assert
-            playbackServiceMock.verify((x) => x.togglePlayback(), Times.once());
+            playbackServiceMock.verify((x) => x.togglePlaybackAsync(), Times.once());
         });
 
         it('should not toggle playback when space is pressed inside an input element', () => {
@@ -136,7 +136,7 @@ describe('CollectionComponent', () => {
             component.handleKeyboardEvent(keyboardEventMock.object);
 
             // Assert
-            playbackServiceMock.verify((x) => x.togglePlayback(), Times.never());
+            playbackServiceMock.verify((x) => x.togglePlaybackAsync(), Times.never());
         });
 
         it('should not toggle playback when another key then space is pressed', () => {
@@ -151,7 +151,7 @@ describe('CollectionComponent', () => {
             component.handleKeyboardEvent(keyboardEventMock.object);
 
             // Assert
-            playbackServiceMock.verify((x) => x.togglePlayback(), Times.never());
+            playbackServiceMock.verify((x) => x.togglePlaybackAsync(), Times.never());
         });
     });
 

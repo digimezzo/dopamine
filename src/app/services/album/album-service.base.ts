@@ -6,4 +6,5 @@ export abstract class AlbumServiceBase {
     public abstract getAllAlbums(): AlbumModel[];
     public abstract getAlbumsForArtists(artists: ArtistModel[], artistType: ArtistType): AlbumModel[];
     public abstract getAlbumsForGenres(genres: string[]): AlbumModel[];
+    public abstract getMostPlayedAlbums(numberOfAlbums: number): AlbumModel[];
 }

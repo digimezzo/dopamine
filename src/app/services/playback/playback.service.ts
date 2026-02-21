@@ -24,6 +24,9 @@ import { AudioPlayerFactory } from './audio-player/audio-player.factory';
 import { IAudioPlayer } from './audio-player/i-audio-player';
 import { MediaSessionService } from '../media-session/media-session.service';
 import { Track } from '../../data/entities/track';
+import { FileFormats } from '../../common/application/file-formats';
+import { DialogServiceBase } from '../dialog/dialog.service.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable({ providedIn: 'root' })
 export class PlaybackService {
@@ -52,8 +55,10 @@ export class PlaybackService {
         private trackService: TrackServiceBase,
         private playlistService: PlaylistServiceBase,
         private notificationService: NotificationServiceBase,
+        private dialogService: DialogServiceBase,
         private mediaSessionService: MediaSessionService,
         private queuePersister: QueuePersister,
+        private fileAccess: FileAccessBase,
         private trackSorter: TrackSorter,
         private queue: Queue,
         private mathExtensions: MathExtensions,
@@ -123,7 +128,7 @@ export class PlaybackService {
     public playbackStopped$: Observable<void> = this.playbackStopped.asObservable();
     public playbackSkipped$: Observable<void> = this.playbackSkipped.asObservable();
 
-    public enqueueAndPlayTracks(tracksToEnqueue: TrackModel[]): void {
+    public async enqueueAndPlayTracksAsync(tracksToEnqueue: TrackModel[]): Promise<void> {
         if (tracksToEnqueue.length === 0) {
             return;
         }
@@ -134,11 +139,11 @@ export class PlaybackService {
         const firstTrack: TrackModel | undefined = this.queue.getFirstTrack();
 
         if (firstTrack != undefined) {
-            this.stopAndPlay(firstTrack, false);
+            await this.stopAndPlayAsync(firstTrack, false);
         }
     }
 
-    public enqueueAndPlayTracksStartingFromGivenTrack(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void {
+    public async enqueueAndPlayTracksStartingFromGivenTrackAsync(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): Promise<void> {
         if (tracksToEnqueue.length === 0) {
             return;
         }
@@ -149,30 +154,30 @@ export class PlaybackService {
 
         const enqueuedTracks: TrackModel[] = this.queue.setTracks(tracksToEnqueue, this.isShuffled);
         const enqueuedTrackToPlay: TrackModel = enqueuedTracks.filter((x) => x.path === trackToPlay.path)[0];
-        this.stopAndPlay(enqueuedTrackToPlay, false);
+        await this.stopAndPlayAsync(enqueuedTrackToPlay, false);
     }
 
-    public enqueueAndPlayArtist(artistToPlay: ArtistModel, artistType: ArtistType): void {
+    public async enqueueAndPlayArtistAsync(artistToPlay: ArtistModel, artistType: ArtistType): Promise<void> {
         const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToPlay], artistType);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForArtists.tracks);
-        this.enqueueAndPlayTracks(orderedTracks);
+        await this.enqueueAndPlayTracksAsync(orderedTracks);
     }
 
-    public enqueueAndPlayGenre(genreToPlay: GenreModel): void {
+    public async enqueueAndPlayGenreAsync(genreToPlay: GenreModel): Promise<void> {
         const tracksForGenre: TrackModels = this.trackService.getTracksForGenres([genreToPlay.name]);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForGenre.tracks);
-        this.enqueueAndPlayTracks(orderedTracks);
+        await this.enqueueAndPlayTracksAsync(orderedTracks);
     }
 
-    public enqueueAndPlayAlbum(albumToPlay: AlbumModel): void {
+    public async enqueueAndPlayAlbumAsync(albumToPlay: AlbumModel): Promise<void> {
         const tracksForAlbum: TrackModels = this.trackService.getTracksForAlbums([albumToPlay.albumKey]);
         const orderedTracks: TrackModel[] = this.trackSorter.sortByAlbum(tracksForAlbum.tracks);
-        this.enqueueAndPlayTracks(orderedTracks);
+        await this.enqueueAndPlayTracksAsync(orderedTracks);
     }
 
     public async enqueueAndPlayPlaylistAsync(playlistToPlay: PlaylistModel): Promise<void> {
         const tracksForPlaylist: TrackModels = await this.playlistService.getTracksAsync([playlistToPlay]);
-        this.enqueueAndPlayTracks(tracksForPlaylist.tracks);
+        await this.enqueueAndPlayTracksAsync(tracksForPlaylist.tracks);
     }
 
     public async addTracksToQueueAsync(tracksToAdd: TrackModel[]): Promise<void> {
@@ -223,8 +228,8 @@ export class PlaybackService {
         this.queue.removeTracks(tracksToRemove);
     }
 
-    public playQueuedTrack(trackToPlay: TrackModel): void {
-        this.stopAndPlay(trackToPlay, false);
+    public async playQueuedTrackAsync(trackToPlay: TrackModel): Promise<void> {
+        await this.stopAndPlayAsync(trackToPlay, false);
     }
 
     public toggleLoopMode(): void {
@@ -281,19 +286,19 @@ export class PlaybackService {
         }
     }
 
-    public resume(): void {
+    public async resumeAsync(): Promise<void> {
         if (!this.isPlaying) {
             const firstTrack: TrackModel | undefined = this.queue.getFirstTrack();
 
             if (firstTrack != undefined) {
-                this.stopAndPlay(this.queue.getFirstTrack()!, false);
+                await this.stopAndPlayAsync(this.queue.getFirstTrack()!, false);
                 return;
             }
 
             return;
         }
 
-        this.audioPlayer.resume();
+        await this.audioPlayer.resumeAsync();
 
         this._canPause = true;
         this._canResume = false;
@@ -305,7 +310,7 @@ export class PlaybackService {
         }
     }
 
-    public playPrevious(): void {
+    public async playPreviousAsync(): Promise<void> {
         let trackToPlay: TrackModel | undefined;
 
         if (this.currentTrack != undefined && this.audioPlayer.progressSeconds > 3) {
@@ -316,7 +321,7 @@ export class PlaybackService {
         }
 
         if (trackToPlay != undefined) {
-            this.stopAndPlay(trackToPlay, true);
+            await this.stopAndPlayAsync(trackToPlay, true);
 
             return;
         }
@@ -324,14 +329,14 @@ export class PlaybackService {
         this.stop();
     }
 
-    public playNext(): void {
+    public async playNextAsync(): Promise<void> {
         this.increaseCountersForCurrentTrackBasedOnProgress();
 
         const allowWrapAround: boolean = this.loopMode === LoopMode.All;
         const trackToPlay: TrackModel | undefined = this.queue.getNextTrack(this.currentTrack, allowWrapAround);
 
         if (trackToPlay != undefined) {
-            this.stopAndPlay(trackToPlay, false);
+            await this.stopAndPlayAsync(trackToPlay, false);
 
             return;
         }
@@ -339,33 +344,33 @@ export class PlaybackService {
         this.stop();
     }
 
-    public skipByFractionOfTotalSeconds(fractionOfTotalSeconds: number): void {
+    public async skipByFractionOfTotalSecondsAsync(fractionOfTotalSeconds: number): Promise<void> {
         const seconds: number = fractionOfTotalSeconds * this.audioPlayer.totalSeconds;
-        this.audioPlayer.skipToSeconds(seconds);
+        await this.audioPlayer.skipToSecondsAsync(seconds);
         this._progress = this.getCurrentProgress();
         this.playbackSkipped.next();
     }
 
-    private skipToSeconds(seconds: number): void {
-        this.audioPlayer.skipToSeconds(seconds);
+    private async skipToSecondsAsync(seconds: number): Promise<void> {
+        await this.audioPlayer.skipToSecondsAsync(seconds);
         this._progress = this.getCurrentProgress();
         this.playbackSkipped.next();
     }
 
-    public togglePlayback(): void {
+    public async togglePlaybackAsync(): Promise<void> {
         if (this.canPause) {
             this.pause();
         } else {
-            this.resume();
+            await this.resumeAsync();
         }
     }
 
-    public stopIfPlaying(track: TrackModel): void {
+    public async stopIfPlayingAsync(track: TrackModel): Promise<void> {
         if (this.currentTrack != undefined && this.currentTrack.path === track.path) {
             if (this.queue.numberOfTracks === 1) {
                 this.stop();
             } else {
-                this.playNext();
+                await this.playNextAsync();
             }
         }
     }
@@ -379,15 +384,15 @@ export class PlaybackService {
         }
     }
 
-    private stopAndPlay(trackToPlay: TrackModel, isPlayingPreviousTrack: boolean): void {
+    private async stopAndPlayAsync(trackToPlay: TrackModel, isPlayingPreviousTrack: boolean): Promise<void> {
         this.audioPlayer.stop();
         this.logger.info(`Stopping '${this.currentTrack?.path ?? ''}'`, 'PlaybackService', 'stopAndPlay');
 
-        this.play(trackToPlay, isPlayingPreviousTrack);
+        await this.playAsync(trackToPlay, isPlayingPreviousTrack);
     }
 
-    private play(trackToPlay: TrackModel, isPlayingPreviousTrack: boolean): void {
-        this.audioPlayer.play(trackToPlay);
+    private async playAsync(trackToPlay: TrackModel, isPlayingPreviousTrack: boolean): Promise<void> {
+        await this.audioPlayer.playAsync(trackToPlay);
         this.postPlay(trackToPlay, isPlayingPreviousTrack);
     }
 
@@ -415,6 +420,9 @@ export class PlaybackService {
                 clearTimeout(this._preloadTimeoutId);
             }
             this._preloadTimeoutId = setTimeout(() => {
+                if (this.currentTrack === undefined) {
+                    return;
+                }
                 this._audioPlayer.preloadNext(nextTrack);
                 this.logger.info(`Preloaded '${nextTrack.path}'`, 'PlaybackService', 'preloadNextTrackAfterDelay');
             }, 2000);
@@ -436,7 +444,7 @@ export class PlaybackService {
         this.playbackStopped.next();
     }
 
-    private playbackFinishedHandler(): void {
+    private async playbackFinishedHandlerAsync(): Promise<void> {
         if (this.currentTrack != undefined) {
             this.logger.info(`Track finished: '${this.currentTrack.path}'`, 'PlaybackService', 'playbackFinishedHandler');
         }
@@ -445,7 +453,7 @@ export class PlaybackService {
 
         if (this.loopMode === LoopMode.One) {
             if (this.currentTrack != undefined) {
-                this.play(this.currentTrack, false);
+                await this.playAsync(this.currentTrack, false);
             }
 
             return;
@@ -455,9 +463,21 @@ export class PlaybackService {
         const trackToPlay: TrackModel | undefined = this.queue.getNextTrack(this.currentTrack, allowWrapAround);
 
         if (trackToPlay != undefined) {
-            this.play(trackToPlay, false);
+            await this.playAsync(trackToPlay, false);
 
             return;
+        }
+
+        this.stop();
+    }
+
+    private async playbackFailedHandlerAsync(audioFilePath: string): Promise<void> {
+        const extension: string = this.fileAccess.getFileExtension(audioFilePath);
+
+        if (extension === FileFormats.m4a) {
+            await this.dialogService.cannotPlayM4aFileAsync();
+        } else {
+            await this.dialogService.cannotPlayAudioFileAsync();
         }
 
         this.stop();
@@ -508,10 +528,15 @@ export class PlaybackService {
     private initializeSubscriptions(): void {
         this.subscription.add(
             this.audioPlayer.playbackFinished$.subscribe(() => {
-                this.playbackFinishedHandler();
+                void this.playbackFinishedHandlerAsync();
             }),
         );
 
+        this.subscription.add(
+            this.audioPlayer.playbackFailed$.subscribe((audioFilePath: string) => {
+                void this.playbackFailedHandlerAsync(audioFilePath);
+            }),
+        );
         this.subscription.add(
             this.audioPlayer.playingPreloadedTrack$.subscribe((preloadedTrack: TrackModel) => {
                 this.playingPreloadedTrackHandler(preloadedTrack);
@@ -520,25 +545,25 @@ export class PlaybackService {
 
         this.subscription.add(
             this.mediaSessionService.playEvent$.subscribe(() => {
-                this.togglePlayback();
+                void this.togglePlaybackAsync();
             }),
         );
 
         this.subscription.add(
             this.mediaSessionService.pauseEvent$.subscribe(() => {
-                this.togglePlayback();
+                void this.togglePlaybackAsync();
             }),
         );
 
         this.subscription.add(
             this.mediaSessionService.previousTrackEvent$.subscribe(() => {
-                this.playPrevious();
+                void this.playPreviousAsync();
             }),
         );
 
         this.subscription.add(
             this.mediaSessionService.nextTrackEvent$.subscribe(() => {
-                this.playNext();
+                void this.playNextAsync();
             }),
         );
     }
@@ -563,7 +588,7 @@ export class PlaybackService {
         }
     }
 
-    public async initializeAsync(): Promise<void> {
+    public async RestoreQueueIfNeededAsync(): Promise<void> {
         if (this.settings.rememberPlaybackStateAfterRestart) {
             if (this.settings.playbackControlsLoop !== 0) {
                 this._loopMode = this.settings.playbackControlsLoop === 1 ? LoopMode.One : LoopMode.All;
@@ -583,8 +608,9 @@ export class PlaybackService {
         }
     }
 
-    private startPaused(track: TrackModel, skipSeconds: number): void {
-        this.audioPlayer.startPaused(track, skipSeconds);
+    private async startPausedAsync(track: TrackModel, skipSeconds: number): Promise<void> {
+        this.logger.info(`Starting playback paused for track: ${track.path} at ${skipSeconds} seconds`, 'PlaybackService', 'startPaused');
+        await this.audioPlayer.startPausedAsync(track, skipSeconds);
         this.postPlay(track, false);
         this.postPause();
         this.startUpdatingProgress();
@@ -593,14 +619,23 @@ export class PlaybackService {
     private async restoreQueueAsync(): Promise<void> {
         // If already playing (e.g. from double-clicking files), do not restore queue.
         if (this.currentTrack) {
+            this.logger.info('Playback already in progress, not restoring playback queue', 'PlaybackService', 'restoreQueue');
             return;
         }
 
-        const info: QueueRestoreInfo = await this.queuePersister.restoreAsync();
+        this.logger.info('Restoring playback queue', 'PlaybackService', 'restoreQueue');
+
+        const info: QueueRestoreInfo = this.queuePersister.restore();
         this.queue.restoreTracks(info.tracks, info.playbackOrder);
+        this.logger.info(`Restored ${info.tracks.length} tracks to playback queue`, 'PlaybackService', 'restoreQueue');
 
         if (info.playingTrack) {
-            this.startPaused(info.playingTrack, info.progressSeconds);
+            this.logger.info(
+                `Restoring playback to track: ${info.playingTrack.path} at ${info.progressSeconds} seconds`,
+                'PlaybackService',
+                'restoreQueue',
+            );
+            await this.startPausedAsync(info.playingTrack, info.progressSeconds);
         }
     }
 

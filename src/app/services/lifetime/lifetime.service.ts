@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { PlaybackService } from '../playback/playback.service';
 import { PlaylistServiceBase } from '../playlist/playlist.service.base';
 import { PromiseUtils } from '../../common/utils/promise-utils';
-import { resolve } from '@angular/compiler-cli';
 
 @Injectable({ providedIn: 'root' })
 export class LifetimeService {

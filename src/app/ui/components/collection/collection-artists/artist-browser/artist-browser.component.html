@@ -11,6 +11,12 @@
                 [applyItemFn]="applyArtistType"
             >
             </app-iterable-menu>
+            <i
+                class="las la-random secondary-text font-16px pointer ml-2"
+                matTooltip="{{ 'shuffle-all' | translate }}"
+                (click)="this.shuffleAllAsync()"
+            >
+            </i>
         </div>
         <app-iterable-menu
             [tooltipKey]="'choose-order'"
@@ -26,7 +32,7 @@
         <div *cdkVirtualFor="let artist of this.orderedArtists" (mousedown)="setSelectedArtists($event, artist)">
             <app-artist
                 [artist]="artist"
-                (dblclick)="this.playbackService.enqueueAndPlayArtist(artist, this.selectedArtistType)"
+                (dblclick)="this.playbackService.enqueueAndPlayArtistAsync(artist, this.selectedArtistType)"
                 (contextmenu)="onArtistContextMenu($event, artist)"
             ></app-artist>
         </div>
@@ -47,6 +53,9 @@
         </button>
         <button mat-menu-item (click)="onAddToQueueAsync(artist)">
             <span>{{ 'add-to-playback-queue' | translate }}</span>
+        </button>
+        <button mat-menu-item (click)="onShuffleAndPlayAsync(artist)">
+            <span>{{ 'shuffle' | translate }}</span>
         </button>
     </ng-template>
 </mat-menu>

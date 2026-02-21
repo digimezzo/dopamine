@@ -7,6 +7,25 @@ const config = {
         base: 'core22', // Must match build server (currently Ubuntu 22.04)
         grade: 'stable',
         confinement: 'strict',
+        plugs: [
+            // REQUIRED for Electron desktop apps
+            'desktop',
+            'desktop-legacy',
+            'wayland',
+            'x11',
+            'unity7',
+            'opengl',
+            'audio-playback',
+            'browser-support',
+            'network',
+            'network-bind',
+            'gsettings',
+            'screen-inhibit-control',
+
+            // File access
+            'home',
+            'removable-media',
+        ],
     },
     fileAssociations: [
         {
@@ -74,10 +93,9 @@ const config = {
         target: ['AppImage', 'deb', 'rpm', 'pacman', 'snap'],
         category: 'Audio',
         artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
-        desktop: {
-            Name: 'Dopamine 3',
-            Terminal: 'false',
-        },
+        synopsis: 'The audio player that keeps it simple.',
+        description:
+            'Dopamine is an elegant audio player which tries to make organizing and listening to music as simple and pretty as possible.',
     },
 };
 

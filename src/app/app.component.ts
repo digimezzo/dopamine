@@ -18,9 +18,9 @@ import { EventListenerServiceBase } from './services/event-listener/event-listen
 import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
 import { DesktopBase } from './common/io/desktop.base';
 import { LifetimeService } from './services/lifetime/lifetime.service';
-import { PlaybackService } from './services/playback/playback.service';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
 import { DiscordService } from './services/discord/discord.service';
+import { DatabaseMigratorBase } from './data/database-migrator.base';
 
 @Component({
     selector: 'app-root',
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        private playbackService: PlaybackService,
+        private databaseMigrator: DatabaseMigratorBase,
         private navigationService: NavigationServiceBase,
         private appearanceService: AppearanceServiceBase,
         private translatorService: TranslatorServiceBase,
@@ -81,6 +81,7 @@ export class AppComponent implements OnInit {
             }),
         );
 
+        this.databaseMigrator.migrate();
         this.audioVisualizer.initialize();
         await this.addToPlaylistMenu.initializeAsync();
         this.discordService.initialize();
@@ -90,8 +91,7 @@ export class AppComponent implements OnInit {
         this.mediaSessionService.initialize();
         this.scrobblingService.initialize();
         this.eventListenerService.listenToEvents();
-        await this.navigationService.navigateToLoadingAsync();
-        await this.playbackService.initializeAsync();
         this.lifetimeService.initialize();
+        await this.navigationService.navigateToLoadingAsync();
     }
 }

@@ -1,0 +1,11 @@
+.back-button__icon {
+    font-size: 20px;
+}
+
+.back-button:hover {
+    background-color: var(--theme-accent-color);
+}
+
+.back-button:hover .back-button__icon {
+    color: var(--theme-highlight-foreground);
+}

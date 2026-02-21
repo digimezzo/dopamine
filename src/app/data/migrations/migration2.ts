@@ -7,8 +7,4 @@ export class Migration2 extends Migration {
     public up(): void {
         this.sql('UPDATE Track SET NeedsAlbumArtworkIndexing=1;');
     }
-
-    public down(): void {
-        // Nothing to do
-    }
 }

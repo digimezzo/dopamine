@@ -15,6 +15,8 @@ import { Migration4 } from './migrations/migration4';
 import { Migration5 } from './migrations/migration5';
 import { Migration6 } from './migrations/migration6';
 import { Migration7 } from './migrations/migration7';
+import { Migration8 } from './migrations/migration8';
+import { Migration9 } from './migrations/migration9';
 
 @Injectable()
 export class DatabaseMigrator implements DatabaseMigratorBase {
@@ -26,6 +28,8 @@ export class DatabaseMigrator implements DatabaseMigratorBase {
         new Migration5(),
         new Migration6(),
         new Migration7(),
+        new Migration8(),
+        new Migration9(),
     ];
 
     public constructor(
@@ -37,17 +41,12 @@ export class DatabaseMigrator implements DatabaseMigratorBase {
         const databaseVersion: number = this.getDatabaseVersion();
         const mostRecentMigration: number = this.getMostRecentMigration();
         let migrationsToApply: Migration[] = [];
-        let mustRevert: boolean = false;
 
         if (mostRecentMigration === databaseVersion) {
             this.logger.info('The database is up to date. No migrations to perform.', 'DatabaseMigrator', 'migrateAsync');
         } else if (mostRecentMigration > databaseVersion) {
             this.logger.info(`Database is too old (v${databaseVersion}). Applying migrations.`, 'DatabaseMigrator', 'migrateAsync');
-            migrationsToApply = this.getMigrationsToApply(databaseVersion, false);
-        } else if (mostRecentMigration < databaseVersion) {
-            this.logger.info('Database is too new. Reverting migrations.', 'DatabaseMigrator', 'migrateAsync');
-            mustRevert = true;
-            migrationsToApply = this.getMigrationsToApply(databaseVersion, true);
+            migrationsToApply = this.getMigrationsToApply(databaseVersion);
         }
 
         const database: any = this.databaseFactory.create();
@@ -62,18 +61,9 @@ export class DatabaseMigrator implements DatabaseMigratorBase {
 
         for (const migration of migrationsToApply) {
             try {
-                let newDatabaseVersion: number = migration.id;
-                let migrationAction: string = 'Applying migration';
+                migration.up();
 
-                if (mustRevert) {
-                    migration.down();
-                    newDatabaseVersion = migration.id - 1;
-                    migrationAction = 'Reverting migration';
-                } else {
-                    migration.up();
-                }
-
-                this.logger.info(`${migrationAction} ${migration.name}`, 'DatabaseMigrator', 'migrateAsync');
+                this.logger.info('Applying migration', 'DatabaseMigrator', 'migrateAsync');
 
                 database.prepare('BEGIN TRANSACTION;').run();
 
@@ -81,7 +71,7 @@ export class DatabaseMigrator implements DatabaseMigratorBase {
                     database.prepare(statement).run();
                 }
 
-                database.prepare(`PRAGMA user_version = ${newDatabaseVersion};`).run();
+                database.prepare(`PRAGMA user_version = ${migration.id};`).run();
                 database.prepare('COMMIT;').run();
 
                 this.logger.info(`Migration ${migration.name} success`, 'DatabaseMigrator', 'migrateAsync');
@@ -93,16 +83,11 @@ export class DatabaseMigrator implements DatabaseMigratorBase {
         }
     }
 
-    private getMigrationsToApply(databaseVersion: number, inDescendingOrder: boolean): Migration[] {
+    private getMigrationsToApply(databaseVersion: number): Migration[] {
         let sortedMigrations: Migration[] = [];
 
-        if (inDescendingOrder) {
-            const migrations: Migration[] = this.migrations.filter((x) => x.id < databaseVersion);
-            sortedMigrations = migrations.sort((a, b) => (a.id > b.id ? -1 : 1));
-        } else {
-            const migrations: Migration[] = this.migrations.filter((x) => x.id > databaseVersion);
-            sortedMigrations = migrations.sort((a, b) => (a.id > b.id ? 1 : -1));
-        }
+        const migrations: Migration[] = this.migrations.filter((x) => x.id > databaseVersion);
+        sortedMigrations = migrations.sort((a, b) => (a.id > b.id ? 1 : -1));
 
         return sortedMigrations;
     }

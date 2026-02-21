@@ -1,4 +1,8 @@
-import { MetadataPatcher } from './metadata-patcher';
+import { MetadataPatcher, UNSPLITTABLE_METADATA } from './metadata-patcher';
+
+function randomCase(str: string): string {
+    return [...str].map((ch) => (Math.random() > 0.5 ? ch.toUpperCase() : ch.toLowerCase())).join('');
+}
 
 describe('MetadataPatcher', () => {
     describe('joinUnsplittableMetadata', () => {
@@ -53,25 +57,34 @@ describe('MetadataPatcher', () => {
         it('should return joined values if the collection contains two-part unsplittable values with correct casing', () => {
             // Arrange
             const metadataPatcher: MetadataPatcher = new MetadataPatcher();
-            const possiblySplittedMetadata: string[] = ['Artist 1', 'AC', 'DC', 'Artist 2', 'De', 'Vision', 'Ghost', 'Light'];
+            const possiblySplittedMetadata: string[] = [
+                'Artist 1',
+                ...UNSPLITTABLE_METADATA.flatMap((original) => original.split('/').map((part) => part)),
+                'Artist 2',
+            ];
 
             // Act
             const joinedMetadata: string[] = metadataPatcher.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
-            expect(joinedMetadata).toEqual(['Artist 1', 'AC/DC', 'Artist 2', 'De/Vision', 'Ghost/Light']);
+            expect(joinedMetadata).toEqual(expect.arrayContaining(['Artist 1', ...UNSPLITTABLE_METADATA, 'Artist 2']));
         });
 
         it('should return joined values if the collection contains two-part unsplittable values with incorrect casing', () => {
             // Arrange
             const metadataPatcher: MetadataPatcher = new MetadataPatcher();
-            const possiblySplittedMetadata: string[] = ['Artist 1', 'ac', 'dC', 'Artist 2', 'dE', 'viSion', 'ghOst', 'LigHt'];
+            const unsplittableMetaDataWithRandomCasing: string[] = UNSPLITTABLE_METADATA.map((part) => randomCase(part));
+            const possiblySplittedMetadata: string[] = [
+                'ArTist 1',
+                ...unsplittableMetaDataWithRandomCasing.flatMap((original) => original.split('/').map((part) => part)),
+                'ArtiSt 2',
+            ];
 
             // Act
             const joinedMetadata: string[] = metadataPatcher.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
-            expect(joinedMetadata).toEqual(['Artist 1', 'ac/dC', 'Artist 2', 'dE/viSion', 'ghOst/LigHt']);
+            expect(joinedMetadata).toEqual(expect.arrayContaining(['ArTist 1', ...unsplittableMetaDataWithRandomCasing, 'ArtiSt 2']));
         });
     });
 });

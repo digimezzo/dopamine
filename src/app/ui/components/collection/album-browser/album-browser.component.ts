@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Constants } from '../../../../common/application/constants';
@@ -16,6 +16,9 @@ import { ContextMenuOpener } from '../../context-menu-opener';
 import { Timer } from '../../../../common/scheduling/timer';
 import { Subject } from 'rxjs';
 import { PlaybackService } from '../../../../services/playback/playback.service';
+import { SettingsBase } from '../../../../common/settings/settings.base';
+import { TrackModels } from '../../../../services/track/track-models';
+import { TrackServiceBase } from '../../../../services/track/track.service.base';
 
 @Component({
     selector: 'app-album-browser',
@@ -24,16 +27,14 @@ import { PlaybackService } from '../../../../services/playback/playback.service'
     styleUrls: ['./album-browser.component.scss'],
     providers: [MouseSelectionWatcher],
 })
-export class AlbumBrowserComponent implements AfterViewInit, OnChanges, OnDestroy {
-    public readonly albumOrders: AlbumOrder[] = Object.values(AlbumOrder).filter((x): x is AlbumOrder => typeof x === 'number');
-    public readonly albumOrderKey = albumOrderKey;
-
+export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     private _albums: AlbumModel[] = [];
     private _albumsPersister: BaseAlbumsPersister;
     private availableWidthInPixels: number = 0;
     private destroy$ = new Subject<void>();
 
     public constructor(
+        public trackService: TrackServiceBase,
         public playbackService: PlaybackService,
         private applicationService: ApplicationServiceBase,
         private albumRowsGetter: AlbumRowsGetter,
@@ -41,12 +42,26 @@ export class AlbumBrowserComponent implements AfterViewInit, OnChanges, OnDestro
         public mouseSelectionWatcher: MouseSelectionWatcher,
         public contextMenuOpener: ContextMenuOpener,
         public addToPlaylistMenu: AddToPlaylistMenu,
+        private settings: SettingsBase,
         private logger: Logger,
     ) {}
+
+    public readonly albumOrders: AlbumOrder[] = Object.values(AlbumOrder).filter((x): x is AlbumOrder => typeof x === 'number');
+    public readonly albumOrderKey = albumOrderKey;
+
+    public albumOrderEnum: typeof AlbumOrder = AlbumOrder;
+
+    public useCompactYearView: boolean = false;
 
     public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
+    }
+
+    public toggleYearView(): void {
+        this.useCompactYearView = !this.useCompactYearView;
+        this.settings.useCompactYearView = this.useCompactYearView;
+        this.orderAlbums();
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -84,6 +99,14 @@ export class AlbumBrowserComponent implements AfterViewInit, OnChanges, OnDestro
     public set albums(v: AlbumModel[]) {
         this._albums = v;
         this.mouseSelectionWatcher.initialize(this.albums, false);
+    }
+
+    public get isSortedByYear(): boolean {
+        return this.selectedAlbumOrder === AlbumOrder.byYearAscending || this.selectedAlbumOrder === AlbumOrder.byYearDescending;
+    }
+
+    public ngOnInit(): void {
+        this.useCompactYearView = this.settings.useCompactYearView;
     }
 
     public ngAfterViewInit(): void {
@@ -137,7 +160,12 @@ export class AlbumBrowserComponent implements AfterViewInit, OnChanges, OnDestro
             const timer = new Timer();
             timer.start();
 
-            this.albumRows = this.albumRowsGetter.getAlbumRows(this.availableWidthInPixels, this.albums, this.selectedAlbumOrder);
+            this.albumRows = this.albumRowsGetter.getAlbumRows(
+                this.availableWidthInPixels,
+                this.albums,
+                this.selectedAlbumOrder,
+                this.useCompactYearView,
+            );
             this.applySelectedAlbums();
 
             timer.stop();
@@ -174,5 +202,20 @@ export class AlbumBrowserComponent implements AfterViewInit, OnChanges, OnDestro
 
     public async onAddToQueueAsync(album: AlbumModel): Promise<void> {
         await this.playbackService.addAlbumToQueueAsync(album);
+    }
+
+    public async onShuffleAndPlayAsync(album: AlbumModel): Promise<void> {
+        if (album == undefined) {
+            return;
+        }
+
+        this.playbackService.forceShuffled();
+        await this.playbackService.enqueueAndPlayAlbumAsync(album);
+    }
+
+    public async shuffleAllAsync(): Promise<void> {
+        const tracks: TrackModels = this.trackService.getVisibleTracks();
+        this.playbackService.forceShuffled();
+        await this.playbackService.enqueueAndPlayTracksAsync(tracks.tracks);
     }
 }

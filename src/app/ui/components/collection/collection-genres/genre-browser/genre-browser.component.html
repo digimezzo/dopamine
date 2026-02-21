@@ -4,6 +4,12 @@
             <div class="mr-2 accent-color">{{ this.genres.length }}</div>
             <div *ngIf="this.genres.length === 1">{{ 'genre' | translate }}</div>
             <div *ngIf="this.genres.length !== 1">{{ 'genres' | translate }}</div>
+            <i
+                class="las la-random secondary-text font-16px pointer ml-2"
+                matTooltip="{{ 'shuffle-all' | translate }}"
+                (click)="this.shuffleAllAsync()"
+            >
+            </i>
         </div>
         <app-iterable-menu
             [tooltipKey]="'choose-order'"
@@ -19,7 +25,7 @@
         <div *cdkVirtualFor="let genre of this.orderedGenres" (mousedown)="setSelectedGenres($event, genre)">
             <app-genre
                 [genre]="genre"
-                (dblclick)="this.playbackService.enqueueAndPlayGenre(genre)"
+                (dblclick)="this.playbackService.enqueueAndPlayGenreAsync(genre)"
                 (contextmenu)="onGenreContextMenu($event, genre)"
             ></app-genre>
         </div>
@@ -41,6 +47,9 @@
         </button>
         <button mat-menu-item (click)="onAddToQueueAsync(genre)">
             <span>{{ 'add-to-playback-queue' | translate }}</span>
+        </button>
+        <button mat-menu-item (click)="onShuffleAndPlayAsync(genre)">
+            <span>{{ 'shuffle' | translate }}</span>
         </button>
     </ng-template>
 </mat-menu>

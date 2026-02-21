@@ -39,7 +39,8 @@ export class QueryParts {
                                                        GROUP_CONCAT(distinct t.Genres) AS genres,
                                                        MAX(t.DateFileCreated) AS dateFileCreated,
                                                        MAX(t.DateAdded) AS dateAdded,
-                                                       MAX(t.DateLastPlayed) AS dateLastPlayed FROM Track t
+                                                       MAX(t.DateLastPlayed) AS dateLastPlayed,
+                                                       SUM(t.PlayCount) AS playCount FROM Track t
                                                        LEFT JOIN AlbumArtwork a ON t.AlbumKey${albumKeyIndex}=a.AlbumKey`;
 
         if (onlyVisibleAlbumData) {
@@ -80,11 +81,14 @@ export class QueryParts {
                                                              t.NeedsAlbumArtworkIndexing AS needsAlbumArtworkIndexing,
                                                              t.IndexingSuccess AS indexingSuccess,
                                                              t.IndexingFailureReason AS indexingFailureReason,
-                                                             t.Rating AS rating,
+                                                             t.NewRating AS rating,
                                                              t.Love AS love,
                                                              t.PlayCount AS playCount,
                                                              t.SkipCount AS skipCount,
-                                                             t.DateLastPlayed AS dateLastPlayed
+                                                             t.DateLastPlayed AS dateLastPlayed,
+                                                             t.Composers AS composers,
+                                                             t.Conductor AS conductor,
+                                                             t.BeatsPerMinute AS beatsPerMinute
                                                              FROM Track t`;
 
         if (onlyVisibleTracks) {

@@ -1,7 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { PlaybackInformation } from '../../../services/playback-information/playback-information';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { Constants } from '../../../common/application/constants';
@@ -92,29 +91,36 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.playbackInformationService.playingNextTrack$.subscribe((playbackInformation: PlaybackInformation) => {
-                PromiseUtils.noAwait(this.switchUp(playbackInformation.imageUrl));
+                void this.switchUp(playbackInformation.imageUrl);
             }),
         );
 
         this.subscription.add(
             this.playbackInformationService.playingPreviousTrack$.subscribe((playbackInformation: PlaybackInformation) => {
-                PromiseUtils.noAwait(this.switchDown(playbackInformation.imageUrl, true));
+                void this.switchDown(playbackInformation.imageUrl, true);
             }),
         );
 
         this.subscription.add(
             this.playbackInformationService.playingNoTrack$.subscribe((playbackInformation: PlaybackInformation) => {
-                PromiseUtils.noAwait(this.switchUp(playbackInformation.imageUrl));
+                // Without this delay, the previous track’s image might remain visible
+                // if the next track fails to play before its animation completes.
+                setTimeout(() => {
+                    void this.switchUp(playbackInformation.imageUrl);
+                }, 150);
             }),
         );
 
         this.subscription.add(
-            this.indexingService.indexingFinished$.subscribe(async (_) => {
-                const currentPlaybackInformation: PlaybackInformation =
-                    await this.playbackInformationService.getCurrentPlaybackInformationAsync();
-                await this.switchDown(currentPlaybackInformation.imageUrl, false);
+            this.indexingService.indexingFinished$.subscribe(() => {
+                void this.switchToCurrentPlaybackInformation();
             }),
         );
+    }
+
+    private async switchToCurrentPlaybackInformation(): Promise<void> {
+        const currentPlaybackInformation: PlaybackInformation = await this.playbackInformationService.getCurrentPlaybackInformationAsync();
+        await this.switchDown(currentPlaybackInformation.imageUrl, false);
     }
 
     private async switchUp(newImage: string): Promise<void> {

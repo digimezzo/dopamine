@@ -8,14 +8,12 @@ import { LyricsSourceType } from '../../common/api/lyrics/lyrics-source-type';
 import { Logger } from '../../common/logger';
 import { StringUtils } from '../../common/utils/string-utils';
 import { AZLyricsApi } from '../../common/api/lyrics/a-z-lyrics.api';
-import { WebSearchLyricsApi } from '../../common/api/lyrics/web-search-lyrics/web-search-lyrics.api';
 
 @Injectable()
 export class OnlineLyricsGetter implements ILyricsGetter {
     public constructor(
         private chartLyricsApi: ChartLyricsApi,
         private azLyricsApi: AZLyricsApi,
-        private webSearchLyricsApi: WebSearchLyricsApi,
         private logger: Logger,
     ) {}
 
@@ -27,24 +25,16 @@ export class OnlineLyricsGetter implements ILyricsGetter {
         }
 
         try {
-            lyrics = await this.chartLyricsApi.getLyricsAsync(track.rawFirstArtist, track.rawTitle);
+            lyrics = await this.azLyricsApi.getLyricsAsync(track.rawFirstArtist, track.rawTitle);
         } catch (e) {
-            this.logger.error(e, 'Could not get lyrics from ChartLyrics', 'OnlineLyricsGetter', 'getLyricsAsync');
+            this.logger.error(e, 'Could not get lyrics from AZLyrics', 'OnlineLyricsGetter', 'getLyricsAsync');
         }
 
         if (StringUtils.isNullOrWhiteSpace(lyrics.text)) {
             try {
-                lyrics = await this.azLyricsApi.getLyricsAsync(track.rawFirstArtist, track.rawTitle);
+                lyrics = await this.chartLyricsApi.getLyricsAsync(track.rawFirstArtist, track.rawTitle);
             } catch (e) {
-                this.logger.error(e, 'Could not get lyrics from AZLyrics', 'OnlineLyricsGetter', 'getLyricsAsync');
-            }
-        }
-
-        if (StringUtils.isNullOrWhiteSpace(lyrics.text)) {
-            try {
-                lyrics = await this.webSearchLyricsApi.getLyricsAsync(track.rawFirstArtist, track.rawTitle);
-            } catch (e) {
-                this.logger.error(e, 'Could not get lyrics from WebSearchLyricsApi', 'OnlineLyricsGetter', 'getLyricsAsync');
+                this.logger.error(e, 'Could not get lyrics from ChartLyrics', 'OnlineLyricsGetter', 'getLyricsAsync');
             }
         }
 

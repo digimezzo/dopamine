@@ -26,6 +26,7 @@ export const DEFAULT_SETTINGS = {
     selectedCollectionPage: 0,
     foldersTabOpenedFolder: '',
     foldersTabOpenedSubfolder: '',
+    foldersTabSelectedTrackOrder: '',
     albumsTabSelectedAlbum: '',
     albumsTabSelectedAlbumOrder: '',
     albumsTabSelectedTrackOrder: '',
@@ -83,4 +84,5 @@ export const DEFAULT_SETTINGS = {
     useGaplessPlayback: false,
     jumpToPlayingSong: true,
     showSquareImages: false,
+    useCompactYearView: false,
 } as const;

@@ -170,6 +170,22 @@ export class TrackRepository implements TrackRepositoryBase {
         return albumData;
     }
 
+    public getMostPlayedAlbumData(albumKeyIndex: string, limit: number): AlbumData[] | undefined {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(
+            `${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, true)}
+                AND t.playCount > 0 AND t.AlbumKey IS NOT NULL AND t.AlbumKey <> '' 
+                GROUP BY t.AlbumKey${albumKeyIndex}
+                ORDER BY playCount DESC
+                LIMIT @limit;`,
+        );
+
+        const albumData: AlbumData[] | undefined = statement.all({ limit: limit });
+
+        return albumData;
+    }
+
     public getAlbumDataForTrackArtists(albumKeyIndex: string, trackArtists: string[]): AlbumData[] | undefined {
         const database: any = this.databaseFactory.create();
 
@@ -288,7 +304,7 @@ export class TrackRepository implements TrackRepositoryBase {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(`UPDATE Track
-                                            SET Rating=@rating
+                                            SET NewRating=@rating
                                             WHERE TrackID = @trackId;`);
 
         statement.run({
@@ -360,7 +376,7 @@ export class TrackRepository implements TrackRepositoryBase {
                  NeedsAlbumArtworkIndexing=@needsAlbumArtworkIndexing,
                  IndexingSuccess=@indexingSuccess,
                  IndexingFailureReason=@indexingFailureReason,
-                 Rating=@rating,
+                 NewRating=@rating,
                  Love=@love,
                  PlayCount=@playCount,
                  SkipCount=@skipCount,
