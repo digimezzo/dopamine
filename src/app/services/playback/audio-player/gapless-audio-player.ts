@@ -5,66 +5,59 @@ import { MathExtensions } from '../../../common/math-extensions';
 import { Logger } from '../../../common/logger';
 import { TrackModel } from '../../track/track-model';
 import { PathUtils } from '../../../common/utils/path-utils';
-import { SettingsBase } from '../../../common/settings/settings.base';
 
 @Injectable({
     providedIn: 'root',
 })
 export class GaplessAudioPlayer implements IAudioPlayer {
-    private _audio1: HTMLAudioElement;
-    private _audio2: HTMLAudioElement;
-    private _source1: MediaElementAudioSourceNode;
-    private _source2: MediaElementAudioSourceNode;
-    private _gain1: GainNode;
-    private _gain2: GainNode;
-    private _analyser: AnalyserNode;
+    private _audio: HTMLAudioElement;
+    private _tempAudio: HTMLAudioElement;
+    private _playbackFinished: Subject<void> = new Subject();
+    private _playbackFailed: Subject<string> = new Subject();
+
+    private _playingPreloadedTrack: Subject<TrackModel> = new Subject();
     private _audioContext: AudioContext;
-
-    private _playbackFinished: Subject<void> = new Subject<void>();
-    private _playbackFailed: Subject<string> = new Subject<string>();
-    private _playingPreloadedTrack: Subject<TrackModel> = new Subject<TrackModel>();
-
+    private _audioStartTime: number = 0;
+    private _audioPausedAt: number = 0;
+    private _currentBuffer: AudioBuffer | undefined;
+    private _nextBuffer: AudioBuffer | undefined;
+    private _sourceNode: AudioBufferSourceNode | undefined;
+    private _gainNode: GainNode;
     private _currentTrack: TrackModel | undefined;
     private _preloadedTrack: TrackModel | undefined;
     private _isPlaying: boolean = false;
     private _isPaused: boolean = false;
-    private _activePlayer: 1 | 2 = 1;
-    private _isCrossfading: boolean = false;
-
-    private _targetVolume: number = 1;
-    private _crossfadeCheckInterval: any | undefined;
+    private shouldPauseAfterStarting: boolean = false;
+    private skipSecondsAfterStarting: number = 0;
+    private _lastSetLogarithmicVolume: number = 0;
+    private _analyser: AnalyserNode;
 
     public constructor(
         private mathExtensions: MathExtensions,
         private logger: Logger,
-        private settings: SettingsBase,
     ) {
-        const audioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-        this._audioContext = new audioContextClass();
+        this._audio = new Audio();
+        this._audioContext = new AudioContext();
+        this._gainNode = this._audioContext.createGain();
+        this._gainNode.connect(this._audioContext.destination);
+
         this._analyser = this._audioContext.createAnalyser();
         this._analyser.fftSize = 128;
-        this._analyser.connect(this._audioContext.destination);
 
-        // Player 1
-        this._audio1 = new Audio();
-        this._audio1.crossOrigin = 'anonymous';
-        this._source1 = this._audioContext.createMediaElementSource(this._audio1);
-        this._gain1 = this._audioContext.createGain();
-        this._source1.connect(this._gain1);
-        this._gain1.connect(this._analyser);
+        this._gainNode.gain.setValueAtTime(1, 0);
 
-        // Player 2
-        this._audio2 = new Audio();
-        this._audio2.crossOrigin = 'anonymous';
-        this._source2 = this._audioContext.createMediaElementSource(this._audio2);
-        this._gain2 = this._audioContext.createGain();
-        this._source2.connect(this._gain2);
-        this._gain2.connect(this._analyser);
-
-        this.setupEventListeners(this._audio1, 1);
-        this.setupEventListeners(this._audio2, 2);
-
-        this.startCrossfadeMonitor();
+        try {
+            // This fails during unit tests because setSinkId() does not exist on HTMLAudioElement
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+            this._audio.setSinkId('default');
+        } catch (e: unknown) {
+            // Suppress this error, but log it, in case it happens in production.
+            this.logger.error(e, 'Could not perform setSinkId()', 'AudioPlayer', 'constructor');
+        }
+        this._audio.volume = 0;
+        this._audio.muted = false;
     }
 
     public playbackFinished$: Observable<void> = this._playbackFinished.asObservable();
@@ -80,225 +73,207 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     }
 
     public get progressSeconds(): number {
-        return this.activeAudio.currentTime;
+        if (this._isPlaying) {
+            if (this._isPaused) {
+                return this._audioPausedAt;
+            } else {
+                return this._audioContext.currentTime - this._audioStartTime;
+            }
+        } else {
+            return 0;
+        }
     }
 
     public get totalSeconds(): number {
-        return isNaN(this.activeAudio.duration) ? 0 : this.activeAudio.duration;
+        return this._isPlaying ? this._currentBuffer?.duration ?? 0 : 0;
     }
 
-    private get activeAudio(): HTMLAudioElement {
-        return this._activePlayer === 1 ? this._audio1 : this._audio2;
-    }
-
-    private get inactiveAudio(): HTMLAudioElement {
-        return this._activePlayer === 1 ? this._audio2 : this._audio1;
-    }
-
-    private get activeGain(): GainNode {
-        return this._activePlayer === 1 ? this._gain1 : this._gain2;
-    }
-
-    private get inactiveGain(): GainNode {
-        return this._activePlayer === 1 ? this._gain2 : this._gain1;
-    }
-
+    // eslint-disable-next-line @typescript-eslint/require-await
     public async playAsync(track: TrackModel): Promise<void> {
-        this.logger.info(`Starting playback for: ${track.path}`, 'GaplessAudioPlayer', 'playAsync');
-        
-        // If we are crossfading, stop it and reset gains
-        this._isCrossfading = false;
-        this._gain1.gain.cancelScheduledValues(this._audioContext.currentTime);
-        this._gain2.gain.cancelScheduledValues(this._audioContext.currentTime);
-
         this._currentTrack = track;
         const playableAudioFilePath: string = PathUtils.createPlayableAudioFilePath(track.path);
+        this.loadAudioWithWebAudio(playableAudioFilePath, false);
 
-        const audio = this.activeAudio;
-        audio.src = playableAudioFilePath;
-        
-        // Reset volumes based on current settings
-        this.activeGain.gain.setTargetAtTime(this._targetVolume, this._audioContext.currentTime, 0.01);
-        this.inactiveGain.gain.setTargetAtTime(0, this._audioContext.currentTime, 0.01);
-
-        if (this._audioContext.state === 'suspended') {
-            await this._audioContext.resume();
-        }
-
-        try {
-            await audio.play();
-            this._isPlaying = true;
-            this._isPaused = false;
-        } catch (e) {
-            // Only report error if we are still trying to play this track
-            if (this._isPlaying && this._currentTrack === track) {
-                this.logger.error(e, `Could not play audio: ${playableAudioFilePath}`, 'GaplessAudioPlayer', 'playAsync');
-                this._playbackFailed.next(playableAudioFilePath);
-            }
-        }
+        this._tempAudio = new Audio();
+        this._tempAudio.volume = 0;
+        this._tempAudio.muted = false;
+        this._tempAudio.src = playableAudioFilePath;
     }
-
     public stop(): void {
         this._isPlaying = false;
-        this._isPaused = false;
-        this._isCrossfading = false;
-        this._audio1.pause();
-        this._audio1.src = '';
-        this._audio2.pause();
-        this._audio2.src = '';
-        this._gain1.gain.setTargetAtTime(0, this._audioContext.currentTime, 0.01);
-        this._gain2.gain.setTargetAtTime(0, this._audioContext.currentTime, 0.01);
+
+        if (this._sourceNode) {
+            this._sourceNode.onended = () => {
+                // Intentionally left blank
+            };
+
+            this._sourceNode.stop();
+            this._sourceNode.disconnect();
+        }
+
+        this._audio.currentTime = 0;
+        this._audio.pause();
     }
 
     public async startPausedAsync(track: TrackModel, skipSeconds: number): Promise<void> {
+        this.shouldPauseAfterStarting = true;
+        this.skipSecondsAfterStarting = skipSeconds;
+        this._gainNode.gain.setValueAtTime(0, 0);
         await this.playAsync(track);
-        this.activeAudio.currentTime = skipSeconds;
-        this.pause();
     }
 
     public pause(): void {
         this._isPaused = true;
-        this.activeAudio.pause();
-    }
+        this._audioPausedAt = this._audioContext.currentTime - this._audioStartTime;
 
+        if (this._sourceNode) {
+            this._sourceNode.onended = () => {
+                // Intentionally left blank
+            };
+
+            this._sourceNode.stop();
+            this._sourceNode.disconnect();
+        }
+
+        this._audio.pause();
+    }
     public async resumeAsync(): Promise<void> {
-        try {
-            await this.activeAudio.play();
-            this._isPaused = false;
-        } catch (e) {
-            this.logger.error(e, 'Could not resume audio', 'GaplessAudioPlayer', 'resumeAsync');
-        }
+        await this.playWebAudioAsync(this._audioPausedAt);
+        await this._audio.play();
+        this._isPaused = false;
     }
-
     public setVolume(linearVolume: number): void {
-        this._targetVolume = linearVolume > 0 ? this.mathExtensions.linearToLogarithmic(linearVolume, 0.01, 1) : 0;
-        if (!this._isCrossfading) {
-            this.activeGain.gain.setTargetAtTime(this._targetVolume, this._audioContext.currentTime, 0.01);
-            this.inactiveGain.gain.setTargetAtTime(0, this._audioContext.currentTime, 0.01);
-        }
+        // log(0) is undefined. So we provide a minimum of 0.01.
+        const logarithmicVolume: number = linearVolume > 0 ? this.mathExtensions.linearToLogarithmic(linearVolume, 0.01, 1) : 0;
+        this._gainNode.gain.setValueAtTime(logarithmicVolume, 0);
+        this._lastSetLogarithmicVolume = logarithmicVolume;
     }
-
     public async skipToSecondsAsync(seconds: number): Promise<void> {
-        this.activeAudio.currentTime = seconds;
-        return Promise.resolve();
+        const isPaused = this._isPaused;
+        await this.playWebAudioAsync(seconds);
+        this._audio.currentTime = seconds;
+
+        if (isPaused) {
+            this.pause();
+        }
     }
 
     public preloadNext(track: TrackModel): void {
-        this.logger.info(`Preloading next track: ${track.path}`, 'GaplessAudioPlayer', 'preloadNext');
         this._preloadedTrack = track;
         const playableAudioFilePath: string = PathUtils.createPlayableAudioFilePath(track.path);
-        
-        const audio = this.inactiveAudio;
-        audio.src = playableAudioFilePath;
-        audio.preload = 'auto';
-        audio.load();
-        this.inactiveGain.gain.setTargetAtTime(0, this._audioContext.currentTime, 0.01);
+        this.loadAudioWithWebAudio(playableAudioFilePath, true);
     }
 
-    private setupEventListeners(audio: HTMLAudioElement, id: number): void {
-        audio.onended = () => {
-            if (this._activePlayer === id && !this._isCrossfading) {
-                this._playbackFinished.next();
-            }
-        };
-
-        audio.onerror = (e) => {
-            if (this._activePlayer === id && this._isPlaying && audio.src) {
-                const error = audio.error;
-                const errorMessage = error ? `code=${error.code} message=${error.message}` : 'Unknown error';
-                this.logger.error(error, `Audio player ${id} error: ${errorMessage}`, 'GaplessAudioPlayer', 'setupEventListeners');
-                this._playbackFailed.next(audio.src);
-            }
-        };
-    }
-
-    private startCrossfadeMonitor(): void {
-        if (this._crossfadeCheckInterval) {
-            clearInterval(this._crossfadeCheckInterval as any);
+    private async fetchAudioFile(url: string): Promise<Blob> {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch audio file: ${response.statusText}`);
         }
-
-        this._crossfadeCheckInterval = setInterval(() => {
-            if (!this._isPlaying || this._isPaused || this._isCrossfading || !this._preloadedTrack) {
-                return;
-            }
-
-            const audio = this.activeAudio;
-            if (isNaN(audio.duration) || audio.duration === 0) {
-                return;
-            }
-
-            const remainingTime = audio.duration - audio.currentTime;
-            const crossfadeDuration = this.settings.useCrossfade ? this.settings.crossfadeDuration : 0.1; // 0.1s for gapless
-
-            if (remainingTime <= crossfadeDuration) {
-                this.performCrossfade(crossfadeDuration);
-            }
-        }, 100);
+        return await response.blob(); // Convert the response to a Blob
     }
 
-    private performCrossfade(duration: number): void {
-        if (this._isCrossfading || !this._preloadedTrack) {
+    private async playWebAudioAsync(offset: number): Promise<void> {
+        if (!this._currentBuffer) {
             return;
         }
 
-        this._isCrossfading = true;
-        const oldPlayerId = this._activePlayer;
-        const nextTrack = this._preloadedTrack!;
-        
-        const outgoingGain = oldPlayerId === 1 ? this._gain1 : this._gain2;
-        const incomingGain = oldPlayerId === 1 ? this._gain2 : this._gain1;
-        const incomingAudio = oldPlayerId === 1 ? this._audio2 : this._audio1;
+        try {
+            // Make sure to stop any previous sourceNode if it's still playing
+            if (this._sourceNode) {
+                this._sourceNode.onended = () => {
+                    // Intentionally left blank
+                };
 
-        this.logger.info(`Starting overlapping crossfade to: ${nextTrack.path} over ${duration}s`, 'GaplessAudioPlayer', 'performCrossfade');
+                this._sourceNode.stop();
+                this._sourceNode.disconnect(); // Disconnect the previous node to avoid issues
+            }
 
-        // Swap active player state immediately so visualizers/progress use the new one
-        this._activePlayer = oldPlayerId === 1 ? 2 : 1;
+            // Create a new buffer source node
+            this._sourceNode = this._audioContext.createBufferSource();
+            this._sourceNode.buffer = this._currentBuffer;
 
-        // Iniciar a próxima música
-        incomingAudio.play().then(() => {
-            const now = this._audioContext.currentTime;
-            
-            // Crossfade: Diminuir som da atual e aumentar da nova simultaneamente
-            outgoingGain.gain.cancelScheduledValues(now);
-            outgoingGain.gain.setValueAtTime(outgoingGain.gain.value, now);
-            outgoingGain.gain.linearRampToValueAtTime(0, now + duration);
+            // Connect the source to the analyser
+            this._sourceNode.connect(this._analyser);
 
-            incomingGain.gain.cancelScheduledValues(now);
-            incomingGain.gain.setValueAtTime(0, now);
-            incomingGain.gain.linearRampToValueAtTime(this._targetVolume, now + duration);
-            
-            // Notificar o serviço de playback que a faixa mudou
-            this._playingPreloadedTrack.next(nextTrack);
-            this._currentTrack = nextTrack;
-            this._preloadedTrack = undefined;
+            // Connect the source node to the gain node
+            this._sourceNode.connect(this._gainNode);
 
-            setTimeout(() => {
-                this._isCrossfading = false;
-                // Pausar e limpar o player antigo APENAS se ele não for o ativo agora
-                if (oldPlayerId === 1) {
-                    if (this._activePlayer !== 1) {
-                        this._audio1.pause();
-                        this._audio1.src = '';
-                    }
+            this._sourceNode.onended = async () => {
+                if (
+                    this._nextBuffer &&
+                    this._preloadedTrack &&
+                    this._currentTrack &&
+                    this._preloadedTrack.number === this._currentTrack.number + 1
+                ) {
+                    await this.transitionToNextBufferAsync();
+                    this._playingPreloadedTrack.next(this._preloadedTrack);
+                    this._currentTrack = this._preloadedTrack;
+                    this._preloadedTrack = undefined;
                 } else {
-                    if (this._activePlayer !== 2) {
-                        this._audio2.pause();
-                        this._audio2.src = '';
-                    }
+                    this._playbackFinished.next();
                 }
-            }, (duration * 1000) + 100);
-        }).catch(e => {
-            this.logger.error(e, 'Failed to start incoming audio during crossfade', 'GaplessAudioPlayer', 'performCrossfade');
-            this._isCrossfading = false;
-            this._playbackFinished.next();
-        });
+            };
+
+            // Store the current time when audio starts playing
+            this._audioStartTime = this._audioContext.currentTime - offset;
+
+            // Sync playback position with HTML5 Audio
+            this._sourceNode.start(0, offset);
+
+            this._audio = this._tempAudio;
+            await this._audio.play();
+
+            this._isPlaying = true;
+            this._isPaused = false;
+
+            if (this.shouldPauseAfterStarting) {
+                this.pause();
+                this._audio.currentTime = offset;
+                this.shouldPauseAfterStarting = false;
+                this._gainNode.gain.setValueAtTime(this._lastSetLogarithmicVolume, 0);
+            }
+        } catch (e) {
+            this.logger.error(e, `Could not play with web audio`, 'GaplessAudioPlayer', 'playWebAudio');
+        }
     }
 
-    private get activePlayerId(): 1 | 2 {
-        return this._activePlayer;
+    private async transitionToNextBufferAsync(): Promise<void> {
+        if (!this._nextBuffer) {
+            return;
+        }
+
+        this._currentBuffer = this._nextBuffer;
+        this._nextBuffer = undefined;
+
+        await this.playWebAudioAsync(0);
+    }
+
+    private loadAudioWithWebAudio(audioFilePath: string, preload: boolean): void {
+        this.fetchAudioFile(audioFilePath)
+            .then((blob) => {
+                const reader = new FileReader();
+                reader.readAsArrayBuffer(blob);
+                reader.onloadend = async () => {
+                    const arrayBuffer = reader.result as ArrayBuffer;
+
+                    try {
+                        if (preload) {
+                            this._nextBuffer = await this._audioContext.decodeAudioData(arrayBuffer);
+                        } else {
+                            this._currentBuffer = await this._audioContext.decodeAudioData(arrayBuffer);
+                            await this.playWebAudioAsync(this.skipSecondsAfterStarting);
+                            this.skipSecondsAfterStarting = 0;
+                        }
+                    } catch (e: unknown) {
+                        this.logger.error(e, `Could not decode audio data`, 'GaplessAudioPlayer', 'loadAudioWithWebAudio');
+                        this._playbackFailed.next(audioFilePath);
+                    }
+                };
+            })
+            .catch((e: unknown) => this.logger.error(e, `Could not load with web audio`, 'GaplessAudioPlayer', 'loadAudioWithWebAudio'));
     }
 
     public getAudio(): HTMLAudioElement | undefined {
-        return this.activeAudio;
+        return undefined;
     }
 }

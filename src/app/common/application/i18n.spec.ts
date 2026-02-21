@@ -339,6 +339,9 @@ describe('validate i18n', () => {
         'composer',
         'conductor',
         'bpm',
+        'crossfade',
+        'use-crossfade',
+        'crossfade-duration',
     ].sort();
 
     Constants.languages.forEach((language) => {

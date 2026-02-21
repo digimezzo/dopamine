@@ -402,7 +402,7 @@ export class PlaybackService {
         this._canPause = true;
         this._canResume = false;
 
-        this.mediaSessionService.setMetadataAsync(trackToPlay);
+        void this.mediaSessionService.setMetadataAsync(trackToPlay);
 
         this.startUpdatingProgress();
         this.playbackStarted.next(new PlaybackStarted(trackToPlay, isPlayingPreviousTrack));
@@ -416,7 +416,7 @@ export class PlaybackService {
         const nextTrack: TrackModel | undefined = this.queue.getNextTrack(this.currentTrack, this.loopMode === LoopMode.All);
 
         if (nextTrack) {
-            if (this._preloadTimeoutId) {
+            if (this._preloadTimeoutId !== undefined && this._preloadTimeoutId !== null) {
                 clearTimeout(this._preloadTimeoutId);
             }
             this._preloadTimeoutId = setTimeout(() => {
@@ -425,7 +425,7 @@ export class PlaybackService {
                 }
                 this._audioPlayer.preloadNext(nextTrack);
                 this.logger.info(`Preloaded '${nextTrack.path}'`, 'PlaybackService', 'preloadNextTrackAfterDelay');
-            }, 500); // Preload sooner to ensure crossfade is ready
+            }, this.settings.useCrossfade ? 500 : 2000); // Preload sooner when using crossfade to ensure crossfade is ready
         }
     }
 

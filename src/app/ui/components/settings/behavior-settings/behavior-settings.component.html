@@ -68,7 +68,7 @@
     </div>
     <div *ngIf="this.settings.useCrossfade" class="mt-3">
         <div>{{ 'crossfade-duration' | translate: { duration: this.settings.crossfadeDuration } }}</div>
-        <app-slider class="mt-2" [maximum]="20" [stepSize]="1" [(value)]="this.settings.crossfadeDuration"></app-slider>
+        <app-slider class="mt-2 w-50" [maximum]="12" [stepSize]="1" [(value)]="this.settings.crossfadeDuration"></app-slider>
     </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'split-artists' | translate }}</div>

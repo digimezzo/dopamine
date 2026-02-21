@@ -297,7 +297,7 @@
     "gapless-playback": "Reprodução sem intervalos",
     "enable-gapless-playback": "Ativar reprodução sem intervalos (requer reinício)",
     "crossfade": "Crossfade",
-    "use-crossfade": "Usar crossfade",
+    "use-crossfade": "Usar crossfade (requer reinício)",
     "crossfade-duration": "Duração do crossfade (segundos): {{duration}}s",
     "edit-track": "Editar música",
     "edit-tracks": "Editar músicas",
