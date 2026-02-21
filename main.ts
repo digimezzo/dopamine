@@ -9,7 +9,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/ban-types */
-import { app, BrowserWindow, ipcMain, Menu, nativeTheme, protocol, Tray } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, nativeImage, nativeTheme, protocol, Tray } from 'electron';
 import log from 'electron-log';
 import * as path from 'path';
 import * as url from 'url';
@@ -203,6 +203,8 @@ function createMainWindow(): void {
         },
         show: false,
     });
+
+    mainWindow.excludedFromShownWindowsMenu = true;
 
     setInitialWindowState(mainWindow);
 
@@ -599,6 +601,54 @@ try {
                 discordApi.setPresence(command.args!);
             } else if (command.commandType === DiscordApiCommandType.ClearPresence) {
                 discordApi.clearPresence();
+            }
+        });
+
+        ipcMain.on('update-dock-menu', (event: any, arg: any) => {
+            if (!isMacOS() || !app.dock) {
+                return;
+            }
+
+            const dockMenu = Menu.buildFromTemplate([
+                {
+                    label: arg.playPauseLabel,
+                    click(): void {
+                        if (mainWindow) {
+                            mainWindow.webContents.send('dock-play-pause');
+                        }
+                    },
+                },
+                { type: 'separator' },
+                {
+                    label: arg.nextLabel,
+                    click(): void {
+                        if (mainWindow) {
+                            mainWindow.webContents.send('dock-next');
+                        }
+                    },
+                },
+                {
+                    label: arg.previousLabel,
+                    click(): void {
+                        if (mainWindow) {
+                            mainWindow.webContents.send('dock-previous');
+                        }
+                    },
+                },
+            ]);
+
+            app.dock.setMenu(dockMenu);
+        });
+
+        ipcMain.on('update-dock-icon', (event: any, arg: any) => {
+            if (!isMacOS() || !app.dock) {
+                return;
+            }
+
+            if (arg) {
+                app.dock.setIcon(nativeImage.createFromBuffer(arg));
+            } else {
+                app.dock.setIcon(nativeImage.createFromPath(path.join(globalAny.__static, 'icons/icon.icns')));
             }
         });
 
