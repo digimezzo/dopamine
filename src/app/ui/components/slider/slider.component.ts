@@ -57,7 +57,7 @@ export class SliderComponent implements AfterViewInit {
     public valueChange: EventEmitter<number> = new EventEmitter<number>();
 
     @ViewChild('sliderTrack')
-    public sliderTrack: ElementRef;
+    public sliderTrack!: ElementRef;
 
     public showSliderThumb: boolean = false;
     private isSliderThumbMovable: boolean = false;
@@ -66,11 +66,32 @@ export class SliderComponent implements AfterViewInit {
     public sliderThumbPosition: number = 0;
 
     public ngAfterViewInit(): void {
-        // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
+        // Prevent ExpressionChangedAfterItHasBeenCheckedError in DEV mode
         setTimeout(() => {
             this.applyPositionFromValue(this.value);
         }, 0);
     }
+
+    // --------------------------------------------------
+    // ✅ Window Resize Fix
+    // --------------------------------------------------
+
+    @HostListener('window:resize')
+    public onWindowResize(): void {
+        this.recalculateFromCurrentValue();
+    }
+
+    private recalculateFromCurrentValue(): void {
+        if (!this.sliderTrack) {
+            return;
+        }
+
+        this.applyPositionFromValue(this._value);
+    }
+
+    // --------------------------------------------------
+    // Interaction
+    // --------------------------------------------------
 
     public onSliderThumbMouseDown(): void {
         this.isSliderThumbMovable = true;
@@ -96,10 +117,7 @@ export class SliderComponent implements AfterViewInit {
 
     @HostListener('document:mousedown', ['$event'])
     public onDocumentMouseDown(e: MouseEvent): void {
-        // Checking this.mouseIsOverSlider prevents cancelling mousedown when clicking on other elements (e.g. search box)
         if (this.mouseIsOverSlider) {
-            // HACK: prevents document:mouseup from not being fired sometimes.
-            // See: https://stackoverflow.com/questions/9506041/events-mouseup-not-firing-after-mousemove
             e.preventDefault();
         }
     }
@@ -124,31 +142,38 @@ export class SliderComponent implements AfterViewInit {
     @HostListener('document:touchmove', ['$event'])
     public onDocumentTouchMove(e: TouchEvent): void {
         if (this.isSliderThumbMovable) {
-            const touch: Touch = e.touches[0] != undefined ? e.touches[0] : e.changedTouches[0];
+            const touch: Touch = e.touches[0] !== undefined ? e.touches[0] : e.changedTouches[0];
+
             this.applyPositionAndValue(this.getMouseXPositionRelativeToSlider(touch.pageX));
         }
     }
 
     public onSliderContainerMouseWheel(event: WheelEvent): void {
         const mouseStepConvertedToSliderScale: number = this.getMouseStepConvertedToSliderScale();
+
         let newPosition: number = this.sliderBarPosition + mouseStepConvertedToSliderScale;
+
         if (event.deltaY > 0) {
             newPosition = this.sliderBarPosition - mouseStepConvertedToSliderScale;
         }
+
         this.applyPositionAndValue(newPosition);
     }
 
+    // --------------------------------------------------
+    // Calculations
+    // --------------------------------------------------
+
     private getMouseStepConvertedToSliderScale(): number {
         const sliderWidth: number = this.nativeElementProxy.getElementWidth(this.sliderTrack);
-        const mouseStepUsingSliderScale: number = (this.mouseStepSize / this.maximum) * sliderWidth;
 
-        return mouseStepUsingSliderScale;
+        return (this.mouseStepSize / this.maximum) * sliderWidth;
     }
 
     private getMouseXPositionRelativeToSlider(clientX: number): number {
         const rect: DOMRect | undefined = this.nativeElementProxy.getBoundingRectangle(this.sliderTrack);
 
-        if (rect == undefined) {
+        if (!rect) {
             return 0;
         }
 
@@ -170,11 +195,18 @@ export class SliderComponent implements AfterViewInit {
     private applyValue(): void {
         const sliderWidth: number = this.nativeElementProxy.getElementWidth(this.sliderTrack);
 
+        if (sliderWidth === 0) {
+            return;
+        }
+
         const valueFraction: number = this.sliderBarPosition / sliderWidth;
+
         const totalSteps: number = this.maximum / this.stepSize;
+
         const newValue: number = Math.round(valueFraction * totalSteps) * this.stepSize;
 
         this._value = this.mathExtensions.clamp(newValue, 0, this.maximum);
+
         this.valueChange.emit(this._value);
     }
 
@@ -190,7 +222,12 @@ export class SliderComponent implements AfterViewInit {
     private applyPositionFromValue(value: number): void {
         try {
             const sliderWidth: number = this.nativeElementProxy.getElementWidth(this.sliderTrack);
-            let position: number = 0;
+
+            if (sliderWidth === 0) {
+                return;
+            }
+
+            let position = 0;
 
             if (this.maximum > 0) {
                 position = (value / this.maximum) * sliderWidth;

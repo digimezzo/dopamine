@@ -371,7 +371,20 @@ describe('CollectionTracksTableComponent', () => {
         });
     });
 
-    describe('Missing tests', () => {
-        test.todo('should write tests');
+    describe('shuffleAllAsync', () => {
+        it('should force shuffle and play all tracks', async () => {
+            // Arrange
+            const component: CollectionTracksTableComponent = createComponent();
+
+            const tracks: TrackModels = new TrackModels();
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
+
+            // Act
+            await component.shuffleAllAsync();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.forceShuffled(), Times.once());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracksAsync(tracks.tracks), Times.once());
+        });
     });
 });

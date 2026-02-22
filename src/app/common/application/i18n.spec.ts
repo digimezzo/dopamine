@@ -109,7 +109,8 @@ describe('validate i18n', () => {
         'donate-instructions',
         'donate-now',
         'done',
-        'download',
+        'download-title',
+        'download-action',
         'download-artist-information-from-lastfm',
         'download-image-error',
         'download-lyrics-online',
@@ -338,6 +339,9 @@ describe('validate i18n', () => {
         'composer',
         'conductor',
         'bpm',
+        'crossfade',
+        'use-crossfade',
+        'crossfade-duration',
     ].sort();
 
     Constants.languages.forEach((language) => {
