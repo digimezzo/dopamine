@@ -4,6 +4,7 @@ import { MathExtensions } from '../../../common/math-extensions';
 import { IAudioPlayer } from './i-audio-player';
 import { TrackModel } from '../../track/track-model';
 import { PathUtils } from '../../../common/utils/path-utils';
+import { SettingsBase } from '../../../common/settings/settings.base';
 
 export class CrossfadeAudioPlayer implements IAudioPlayer {
     private _audioContext: AudioContext;
@@ -36,8 +37,9 @@ export class CrossfadeAudioPlayer implements IAudioPlayer {
 
     public constructor(
         private mathExtensions: MathExtensions,
+
+        private settings: SettingsBase,
         private logger: Logger,
-        private crossfadeDurationSeconds: number,
     ) {
         this._audioContext = new AudioContext();
 
@@ -185,11 +187,11 @@ export class CrossfadeAudioPlayer implements IAudioPlayer {
 
             const remaining = this._currentAudio.duration - this._currentAudio.currentTime;
 
-            if (remaining <= this.crossfadeDurationSeconds) {
+            if (remaining <= this.settings.crossfadeDuration) {
                 clearInterval(this._crossfadeTimer);
                 void this.beginCrossfadeAsync();
             }
-        }, 250);
+        }, 500);
     }
 
     private async beginCrossfadeAsync(): Promise<void> {
@@ -204,8 +206,8 @@ export class CrossfadeAudioPlayer implements IAudioPlayer {
             return;
         }
 
-        const now = this._audioContext.currentTime;
-        const fade = this.crossfadeDurationSeconds;
+        const now: number = this._audioContext.currentTime;
+        const fade: number = this.settings.crossfadeDuration;
 
         // Fade out current
         this._currentGain.gain.setValueAtTime(1, now);
