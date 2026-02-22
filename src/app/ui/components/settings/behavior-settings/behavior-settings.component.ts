@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { TrayServiceBase } from '../../../../services/tray/tray.service.base';
 import { MediaSessionService } from '../../../../services/media-session/media-session.service';
+import { DockService } from '../../../../services/dock/dock.service';
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { CollectionUtils } from '../../../../common/utils/collections-utils';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
@@ -19,6 +20,7 @@ export class BehaviorSettingsComponent implements OnInit {
     public constructor(
         public trayService: TrayServiceBase,
         public mediaSessionService: MediaSessionService,
+        public dockService: DockService,
         private dialogService: DialogServiceBase,
         private translatorService: TranslatorServiceBase,
         public settings: SettingsBase,
