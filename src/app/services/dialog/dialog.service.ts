@@ -101,7 +101,7 @@ export class DialogService implements DialogServiceBase {
         const defaultPlaylist: PlaylistModel = this.playlistModelFactory.createDefault();
         const playlistData: PlaylistData = new PlaylistData(defaultPlaylist);
         const dialogRef: MatDialogRef<EditSmartPlaylistDialogComponent> = this.dialog.open(EditSmartPlaylistDialogComponent, {
-            width: '450px',
+            width: '750px',
             data: playlistData,
         });
 

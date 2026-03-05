@@ -1,5 +1,38 @@
 <app-dialog-header icon="las la-pen" title="{{ this.dialogTitle }}"></app-dialog-header>
-<mat-dialog-content class="overflow-hidden-important"> </mat-dialog-content>
+<mat-dialog-content class="overflow-hidden-important">
+    <div class="p-1">
+        <div class="d-flex flex-row align-items-center" *ngFor="let filter of filters; let i = index">
+            <mat-form-field class="filter-field mr-2">
+                <mat-select [(ngModel)]="filter.field" placeholder="Field">
+                    <mat-option *ngFor="let field of fields" [value]="field">{{ field }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="filter-operator mr-2">
+                <mat-select [(ngModel)]="filter.operator" placeholder="Operator">
+                    <mat-option *ngFor="let operator of operators" [value]="operator">{{ operator }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="filter-value mr-2">
+                <mat-select [(ngModel)]="filter.value" placeholder="Value">
+                    <mat-option *ngFor="let value of values" [value]="value">{{ value }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <app-icon-button
+                class="remove-filter-button ml-2"
+                [ngClass]="{ inactive: filters.length <= 1 }"
+                icon="las la-times"
+                matTooltip="{{ 'remove' | translate }}"
+                (click)="removeFilter(i)"
+            ></app-icon-button>
+        </div>
+        <div class="filter-row d-flex flex-row align-items-center">
+            <div class="filter-field mr-2"></div>
+            <div class="filter-operator mr-2"></div>
+            <div class="filter-value mr-2"></div>
+            <app-icon-button icon="las la-plus" matTooltip="{{ 'add-filter' | translate }}" (click)="addFilter()"></app-icon-button>
+        </div>
+    </div>
+</mat-dialog-content>
 <mat-dialog-actions>
     <app-accent-button class="mr-2" [ngClass]="{ inactive: !this.hasPlaylistName }" [mat-dialog-close]="true">{{
         'ok' | translate

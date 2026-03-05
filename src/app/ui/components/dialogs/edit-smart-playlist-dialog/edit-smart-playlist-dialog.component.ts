@@ -4,6 +4,12 @@ import { PlaylistData } from '../../../../services/dialog/playlist-data';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { StringUtils } from '../../../../common/utils/string-utils';
 
+export interface SmartPlaylistFilter {
+    field: string;
+    operator: string;
+    value: string;
+}
+
 @Component({
     selector: 'app-edit-playlist-dialog',
     templateUrl: './edit-smart-playlist-dialog.component.html',
@@ -20,6 +26,11 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
 
     public playlistName: string = '';
     public playlistImagePath: string = '';
+    public filters: SmartPlaylistFilter[] = [{ field: '', operator: '', value: '' }];
+
+    public fields: string[] = [];
+    public operators: string[] = [];
+    public values: string[] = [];
 
     public get dialogTitle(): string {
         if (this.hasPlaylistName) {
@@ -42,6 +53,16 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
 
         this.playlistName = this.data.playlist.name;
         this.playlistImagePath = this.data.playlist.imagePath;
+    }
+
+    public addFilter(): void {
+        this.filters.push({ field: '', operator: '', value: '' });
+    }
+
+    public removeFilter(index: number): void {
+        if (this.filters.length > 1) {
+            this.filters.splice(index, 1);
+        }
     }
 
     private async updatePlaylistAsync(): Promise<void> {
