@@ -60,7 +60,7 @@ export class SliderComponent implements AfterViewInit {
     public sliderTrack!: ElementRef;
 
     public showSliderThumb: boolean = false;
-    private isSliderThumbMovable: boolean = false;
+    public isSliderThumbMovable: boolean = false;
 
     public sliderBarPosition: number = 0;
     public sliderThumbPosition: number = 0;
