@@ -1,5 +1,6 @@
 <div
     class="app-slider-container"
+    [class.grabbing]="isSliderThumbMovable"
     (mouseenter)="onSliderContainerMouseEnter()"
     (mouseleave)="onSliderContainerMouseLeave()"
     (mousedown)="onSliderContainerMouseDown($event)"
