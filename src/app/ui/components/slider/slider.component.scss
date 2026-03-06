@@ -3,6 +3,11 @@
     width: 100%;
     height: 12px;
     cursor: pointer;
+
+    &.grabbing,
+    &.grabbing .app-slider-thumb {
+        cursor: grabbing;
+    }
 }
 
 .app-slider-bar {

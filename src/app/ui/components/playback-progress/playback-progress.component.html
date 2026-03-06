@@ -1,5 +1,6 @@
 <div
     class="app-playback-progress-container"
+    [class.grabbing]="isProgressThumbDown || isProgressContainerDown"
     (mouseenter)="progressContainerMouseEnter()"
     (mouseleave)="progressContainerMouseLeave()"
     (mousedown)="progressContainerMouseDown($event)"
