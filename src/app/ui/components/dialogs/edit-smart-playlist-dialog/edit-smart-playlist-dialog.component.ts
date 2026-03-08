@@ -111,6 +111,44 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
         filter.value = '';
     }
 
+    public stars: number[] = [1, 2, 3, 4, 5];
+
+    public onRatingStarClick(filter: SmartPlaylistFilter, starIndex: number): void {
+        const newRating = starIndex.toString();
+        filter.value = filter.value === newRating ? '0' : newRating;
+    }
+
+    public getRatingStarClass(filter: SmartPlaylistFilter, starIndex: number): string {
+        const parsed = parseInt(filter.value, 10);
+        const rating = isNaN(parsed) ? 0 : parsed;
+        return starIndex <= rating ? 'fas fa-star accent-color-important' : 'far fa-star secondary-text';
+    }
+
+    public getLoveClass(filter: SmartPlaylistFilter): string {
+        switch (filter.value) {
+            case '1':
+                return 'fas fa-heart accent-color-important';
+            case '-1':
+                return 'fas fa-heart-crack accent-color-important';
+            default:
+                return 'far fa-heart secondary-text';
+        }
+    }
+
+    public toggleLove(filter: SmartPlaylistFilter): void {
+        switch (filter.value) {
+            case '1':
+                filter.value = '-1';
+                break;
+            case '-1':
+                filter.value = '0';
+                break;
+            default:
+                filter.value = '1';
+                break;
+        }
+    }
+
     public addFilter(): void {
         this.filters.push({ field: this.fields[0], operator: this.allOperators[0], value: '' });
     }
