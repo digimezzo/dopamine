@@ -40,6 +40,16 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
 
     public playlistName: string = '';
     public playlistImagePath: string = '';
+    public matchAnyRule: boolean = false;
+    public limitEnabled: boolean = false;
+    public limitValue: number = 25;
+    public limitUnit: string = 'tracks';
+    public limitUnits: { name: string; translationKey: string }[] = [
+        { name: 'tracks', translationKey: 'tracks' },
+        { name: 'megaBytes', translationKey: 'mega-bytes' },
+        { name: 'gigaBytes', translationKey: 'giga-bytes' },
+        { name: 'minutes', translationKey: 'minutes' },
+    ];
     public filters: SmartPlaylistFilter[] = [];
 
     public fields: SmartPlaylistField[] = [

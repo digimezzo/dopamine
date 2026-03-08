@@ -1,6 +1,9 @@
 <app-dialog-header icon="las la-pen" title="{{ this.dialogTitle }}"></app-dialog-header>
 <mat-dialog-content class="overflow-hidden-important">
     <div class="p-1">
+        <mat-form-field class="w-100">
+            <input matInput [(ngModel)]="this.playlistName" placeholder="{{ 'playlist-name' | translate }}" />
+        </mat-form-field>
         <div class="d-flex flex-row align-items-center" *ngFor="let filter of filters; let i = index">
             <mat-form-field class="filter-field mr-2">
                 <mat-select
@@ -63,6 +66,22 @@
             <div class="filter-operator mr-2"></div>
             <div class="filter-value mr-2"></div>
             <app-icon-button icon="las la-plus" matTooltip="{{ 'add-filter' | translate }}" (click)="addFilter()"></app-icon-button>
+        </div>
+        <app-toggle-switch class="mt-3" [(isChecked)]="this.matchAnyRule">
+            {{ 'add-if-any-rule-matches' | translate }}
+        </app-toggle-switch>
+        <div class="d-flex flex-row align-items-center">
+            <app-toggle-switch class="limit-toggle" [(isChecked)]="this.limitEnabled">
+                {{ 'limit-to' | translate }}
+            </app-toggle-switch>
+            <mat-form-field class="limit-value mx-2" [ngClass]="{ inactive: !this.limitEnabled }">
+                <input matInput type="text" [(ngModel)]="this.limitValue" />
+            </mat-form-field>
+            <mat-form-field class="limit-unit" [ngClass]="{ inactive: !this.limitEnabled }">
+                <mat-select [(ngModel)]="this.limitUnit">
+                    <mat-option *ngFor="let unit of limitUnits" [value]="unit.name">{{ unit.translationKey | translate }}</mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
     </div>
 </mat-dialog-content>
