@@ -24,13 +24,19 @@
                     }}</mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field class="filter-value mr-2" *ngIf="filter.field?.name !== 'rating' && filter.field?.name !== 'love' && filter.field?.type !== 'boolean'">
+            <mat-form-field
+                class="filter-value mr-2"
+                *ngIf="filter.field?.name !== 'rating' && filter.field?.name !== 'love' && filter.field?.type !== 'boolean'"
+            >
                 <input [(ngModel)]="filter.value" matInput placeholder="{{ 'value' | translate }}" />
             </mat-form-field>
             <mat-form-field class="filter-value mr-2" *ngIf="filter.field?.type === 'boolean' && filter.field?.name !== 'love'">
                 <mat-select [(ngModel)]="filter.value" placeholder="{{ 'value' | translate }}"> </mat-select>
             </mat-form-field>
-            <div class="filter-value filter-rating mr-2 d-flex flex-row align-items-center justify-content-center" *ngIf="filter.field?.name === 'rating'">
+            <div
+                class="filter-value filter-rating mr-2 d-flex flex-row align-items-center justify-content-center"
+                *ngIf="filter.field?.name === 'rating'"
+            >
                 <div
                     class="pointer"
                     *ngFor="let star of stars"
@@ -38,12 +44,11 @@
                     (click)="onRatingStarClick(filter, star)"
                 ></div>
             </div>
-            <div class="filter-value filter-rating mr-2 d-flex flex-row align-items-center justify-content-center" *ngIf="filter.field?.name === 'love'">
-                <div
-                    class="pointer"
-                    [ngClass]="getLoveClass(filter)"
-                    (click)="toggleLove(filter)"
-                ></div>
+            <div
+                class="filter-value filter-rating mr-2 d-flex flex-row align-items-center justify-content-center"
+                *ngIf="filter.field?.name === 'love'"
+            >
+                <div class="pointer" [ngClass]="getLoveClass(filter)" (click)="toggleLove(filter)"></div>
             </div>
             <app-icon-button
                 class="remove-filter-button ml-2"
