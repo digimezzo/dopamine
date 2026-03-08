@@ -345,5 +345,12 @@
     "contains": "contains",
     "does-not-contain": "does not contain",
     "add-if-any-rule-matches": "Add if any rule matches",
-    "limit-to": "Limit to"
+    "limit-to": "Limit to",
+    "genre": "Genre",
+    "album-title": "Album title",
+    "album-artist": "Album artist",
+    "greater-than": "greater than",
+    "less-than": "less than",
+    "bitrate": "Bitrate",
+    "value": "Value"
 }

@@ -3,19 +3,32 @@
     <div class="p-1">
         <div class="d-flex flex-row align-items-center" *ngFor="let filter of filters; let i = index">
             <mat-form-field class="filter-field mr-2">
-                <mat-select [(ngModel)]="filter.field" placeholder="Field">
-                    <mat-option *ngFor="let field of fields" [value]="field">{{ field }}</mat-option>
+                <mat-select
+                    [(ngModel)]="filter.field"
+                    [compareWith]="compareFields"
+                    placeholder="Field"
+                    (selectionChange)="onFieldChanged(filter)"
+                >
+                    <mat-option *ngFor="let field of fields" [value]="field">{{ field.translationKey | translate }}</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field class="filter-operator mr-2">
-                <mat-select [(ngModel)]="filter.operator" placeholder="Operator">
-                    <mat-option *ngFor="let operator of operators" [value]="operator">{{ operator }}</mat-option>
+                <mat-select
+                    [(ngModel)]="filter.operator"
+                    [compareWith]="compareOperators"
+                    placeholder="Operator"
+                    [disabled]="!filter.field"
+                >
+                    <mat-option *ngFor="let operator of getOperatorsForFilter(filter)" [value]="operator">{{
+                        operator.translationKey | translate
+                    }}</mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field class="filter-value mr-2">
-                <mat-select [(ngModel)]="filter.value" placeholder="Value">
-                    <mat-option *ngFor="let value of values" [value]="value">{{ value }}</mat-option>
-                </mat-select>
+            <mat-form-field class="filter-value mr-2" *ngIf="filter.field?.type !== 'boolean'">
+                <input [(ngModel)]="filter.value" matInput placeholder="{{ 'value' | translate }}" />
+            </mat-form-field>
+            <mat-form-field class="filter-value mr-2" *ngIf="filter.field?.type === 'boolean'">
+                <mat-select [(ngModel)]="filter.value" placeholder="{{ 'value' | translate }}"> </mat-select>
             </mat-form-field>
             <app-icon-button
                 class="remove-filter-button ml-2"
