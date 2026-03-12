@@ -85,7 +85,10 @@ export class QueryParts {
                                                              t.Love AS love,
                                                              t.PlayCount AS playCount,
                                                              t.SkipCount AS skipCount,
-                                                             t.DateLastPlayed AS dateLastPlayed
+                                                             t.DateLastPlayed AS dateLastPlayed,
+                                                             t.Composers AS composers,
+                                                             t.Conductor AS conductor,
+                                                             t.BeatsPerMinute AS beatsPerMinute
                                                              FROM Track t`;
 
         if (onlyVisibleTracks) {

@@ -73,7 +73,8 @@
     "refresh-collection-now": "تحديث المجموعة الآن",
     "automatic-refresh": "التحديث التلقائي",
     "manual-refresh": "التحديث اليدوي",
-    "download": "تحميل",
+    "download-title": "تحميل",
+    "download-action": "تحميل",
     "download-missing-album-covers": "تحميل أغلفة الألبومات المفقودة",
     "refresh-all-covers": "تحديث الأغلفة لجميع الألبومات، بما في ذلك التي لديها غلاف بالفعل.",
     "refresh-missing-covers": "تحديث الأغلفة فقط للألبومات التي ليس لديها غلاف بعد",
@@ -295,6 +296,9 @@
     "thanks-to-visualisationexpo": "إلى VisualisationExpo، على أيقونة macOS الرائعة!",
     "gapless-playback": "التشغيل بدون فجوات",
     "enable-gapless-playback": "تفعيل التشغيل بدون فجوات (يتطلب إعادة التشغيل)",
+    "crossfade": "Crossfade",
+    "use-crossfade": "Use crossfade (requires a restart)",
+    "crossfade-duration": "Crossfade duration (seconds): {{duration}}s",
     "edit-track": "تحرير الأغنية",
     "edit-tracks": "تحرير الأغاني",
     "artist": "الفنان",
@@ -329,5 +333,8 @@
     "expanded-view": "Expanded view",
     "cannot-play-m4a-file": "The M4A file cannot be played. Please note that Dopamine supports only AAC-encoded M4A files and does not support Apple ALAC-encoded M4A files. Please check the log file if you need more information.",
     "cannot-play-audio-file": "The selected audio file cannot be played. Please check the log file if you need more information.",
-    "highlights": "Highlights"
+    "highlights": "Highlights",
+    "composer": "Composer",
+    "conductor": "Conductor",
+    "bpm": "BPM"
 }

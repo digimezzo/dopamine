@@ -62,6 +62,15 @@
         <app-toggle-switch [(isChecked)]="this.settings.useGaplessPlayback"> {{ 'enable-gapless-playback' | translate }}</app-toggle-switch>
     </div>
     <mat-divider class="my-4"></mat-divider>
+    <div class="title">{{ 'crossfade' | translate }}</div>
+    <div>
+        <app-toggle-switch [(isChecked)]="this.settings.useCrossfade"> {{ 'use-crossfade' | translate }}</app-toggle-switch>
+    </div>
+    <div *ngIf="this.settings.useCrossfade" class="mt-3">
+        <div>{{ 'crossfade-duration' | translate: { duration: this.settings.crossfadeDuration } }}</div>
+        <app-slider class="mt-2 w-50" [maximum]="12" [stepSize]="1" [(value)]="this.settings.crossfadeDuration"></app-slider>
+    </div>
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'split-artists' | translate }}</div>
     <div>
         <div>{{ 'symbols-to-split-multiple-artists' | translate }}</div>

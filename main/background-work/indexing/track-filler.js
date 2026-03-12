@@ -56,6 +56,11 @@ class TrackFiller {
                 track.dateFileCreated = this.fileAccess.getDateCreatedInTicks(track.path);
                 track.dateLastSynced = dateNowTicks;
                 track.dateFileModified = this.fileAccess.getDateModifiedInTicks(track.path);
+                track.composers = this.trackFieldCreator.createMultiTextField(
+                    this.metadataPatcher.joinUnsplittableMetadata(fileMetadata.composers),
+                );
+                track.conductor = this.trackFieldCreator.createTextField(fileMetadata.conductor);
+                track.beatsPerMinute = this.trackFieldCreator.createNumberField(fileMetadata.beatsPerMinute);
             }
 
             track.needsIndexing = 0;

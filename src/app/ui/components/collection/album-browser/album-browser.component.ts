@@ -17,6 +17,8 @@ import { Timer } from '../../../../common/scheduling/timer';
 import { Subject } from 'rxjs';
 import { PlaybackService } from '../../../../services/playback/playback.service';
 import { SettingsBase } from '../../../../common/settings/settings.base';
+import { TrackModels } from '../../../../services/track/track-models';
+import { TrackServiceBase } from '../../../../services/track/track.service.base';
 
 @Component({
     selector: 'app-album-browser',
@@ -32,6 +34,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
     private destroy$ = new Subject<void>();
 
     public constructor(
+        public trackService: TrackServiceBase,
         public playbackService: PlaybackService,
         private applicationService: ApplicationServiceBase,
         private albumRowsGetter: AlbumRowsGetter,
@@ -199,5 +202,20 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
 
     public async onAddToQueueAsync(album: AlbumModel): Promise<void> {
         await this.playbackService.addAlbumToQueueAsync(album);
+    }
+
+    public async onShuffleAndPlayAsync(album: AlbumModel): Promise<void> {
+        if (album == undefined) {
+            return;
+        }
+
+        this.playbackService.forceShuffled();
+        await this.playbackService.enqueueAndPlayAlbumAsync(album);
+    }
+
+    public async shuffleAllAsync(): Promise<void> {
+        const tracks: TrackModels = this.trackService.getVisibleTracks();
+        this.playbackService.forceShuffled();
+        await this.playbackService.enqueueAndPlayTracksAsync(tracks.tracks);
     }
 }

@@ -73,7 +73,8 @@
     "refresh-collection-now": "Sammlung jetzt aktualisieren",
     "automatic-refresh": "Automatische aAtualisierung",
     "manual-refresh": "Manuelle Aktualisierung",
-    "download": "Download",
+    "download-title": "Download",
+    "download-action": "Download",
     "download-missing-album-covers": "Fehlende Coverbilder herunterladen",
     "refresh-all-covers": "Alle Coverbilder erneuern, selbst wenn schon eines vorhanden ist.",
     "refresh-missing-covers": "Nur fehlende Cover suchen",
@@ -295,6 +296,9 @@
     "thanks-to-visualisationexpo": "To VisualisationExpo, for the superb macOS icon!",
     "gapless-playback": "Pausenloses Abspielen",
     "enable-gapless-playback": "Pausenloses Abspielen aktivieren (erfordert Neustart)",
+    "crossfade": "Crossfade",
+    "use-crossfade": "Use crossfade (requires a restart)",
+    "crossfade-duration": "Crossfade duration (seconds): {{duration}}s",
     "edit-track": "Edit song",
     "edit-tracks": "Edit songs",
     "artist": "Artist",
@@ -329,5 +333,8 @@
     "expanded-view": "Expanded view",
     "cannot-play-m4a-file": "The M4A file cannot be played. Please note that Dopamine supports only AAC-encoded M4A files and does not support Apple ALAC-encoded M4A files. Please check the log file if you need more information.",
     "cannot-play-audio-file": "The selected audio file cannot be played. Please check the log file if you need more information.",
-    "highlights": "Highlights"
+    "highlights": "Highlights",
+    "composer": "Composer",
+    "conductor": "Conductor",
+    "bpm": "BPM"
 }

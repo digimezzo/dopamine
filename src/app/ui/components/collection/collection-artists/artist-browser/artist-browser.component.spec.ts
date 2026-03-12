@@ -18,6 +18,8 @@ import { TranslatorServiceBase } from '../../../../../services/translator/transl
 import { GuidFactory } from '../../../../../common/guid.factory';
 import { ArtistSorter } from '../../../../../common/sorting/artist-sorter';
 import { PlaybackService } from '../../../../../services/playback/playback.service';
+import { TrackServiceBase } from '../../../../../services/track/track.service.base';
+import { TrackModels } from '../../../../../services/track/track-models';
 
 export class CdkVirtualScrollViewportMock {
     private _scrollToIndexIndex: number = -1;
@@ -38,6 +40,7 @@ export class CdkVirtualScrollViewportMock {
 }
 
 describe('ArtistBrowserComponent', () => {
+    let trackServiceMock: IMock<TrackServiceBase>;
     let playbackServiceMock: IMock<PlaybackService>;
     let semanticZoomServiceMock: IMock<SemanticZoomServiceBase>;
     let applicationServiceMock: IMock<ApplicationServiceBase>;
@@ -62,6 +65,7 @@ describe('ArtistBrowserComponent', () => {
         const semanticZoomHeaderAdder: SemanticZoomHeaderAdder = new SemanticZoomHeaderAdder(guidFactoryMock.object);
 
         return new ArtistBrowserComponent(
+            trackServiceMock.object,
             playbackServiceMock.object,
             semanticZoomServiceMock.object,
             applicationServiceMock.object,
@@ -77,6 +81,7 @@ describe('ArtistBrowserComponent', () => {
 
     function createComponentWithSemanticZoomAdderMock(): ArtistBrowserComponent {
         return new ArtistBrowserComponent(
+            trackServiceMock.object,
             playbackServiceMock.object,
             semanticZoomServiceMock.object,
             applicationServiceMock.object,
@@ -93,6 +98,7 @@ describe('ArtistBrowserComponent', () => {
     const flushPromises = () => new Promise(process.nextTick);
 
     beforeEach(() => {
+        trackServiceMock = Mock.ofType<TrackServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         semanticZoomServiceMock = Mock.ofType<SemanticZoomServiceBase>();
         applicationServiceMock = Mock.ofType<ApplicationServiceBase>();
@@ -744,6 +750,40 @@ describe('ArtistBrowserComponent', () => {
 
             // Assert
             playbackServiceMock.verify((x) => x.addArtistToQueueAsync(artist1, ArtistType.albumArtists), Times.once());
+        });
+    });
+
+    describe('onShuffleAndPlayAsync', () => {
+        it('should force shuffle and play the selected artist', async () => {
+            // Arrange
+            const component: ArtistBrowserComponent = createComponent();
+            component.selectedArtistType = ArtistType.albumArtists;
+
+            // Act
+            await component.onShuffleAndPlayAsync(artist1);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.forceShuffled(), Times.once());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayArtistAsync(artist1, ArtistType.albumArtists), Times.once());
+        });
+    });
+
+    describe('shuffleAllAsync', () => {
+        it('should force shuffle and play all tracks', async () => {
+            // Arrange
+            const component: ArtistBrowserComponent = createComponent();
+            component.artistsPersister = artistsPersisterMock.object;
+            component.artists = [];
+
+            const tracks: TrackModels = new TrackModels();
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
+
+            // Act
+            await component.shuffleAllAsync();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.forceShuffled(), Times.once());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracksAsync(tracks.tracks), Times.once());
         });
     });
 });

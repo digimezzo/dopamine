@@ -333,4 +333,10 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
     public orderByDateLastPlayed(): void {
         this.tracksColumnsService.setTracksColumnsOrder(TracksColumnsOrderColumn.dateLastPlayed);
     }
+
+    public async shuffleAllAsync(): Promise<void> {
+        const tracks: TrackModels = this.trackService.getVisibleTracks();
+        this.playbackService.forceShuffled();
+        await this.playbackService.enqueueAndPlayTracksAsync(tracks.tracks);
+    }
 }

@@ -17,6 +17,8 @@ import { GenreModel } from '../../../../../services/genre/genre-model';
 import { Constants } from '../../../../../common/application/constants';
 import { GuidFactory } from '../../../../../common/guid.factory';
 import { GenreSorter } from '../../../../../common/sorting/genre-sorter';
+import { TrackModels } from '../../../../../services/track/track-models';
+import { TrackServiceBase } from '../../../../../services/track/track.service.base';
 
 export class CdkVirtualScrollViewportMock {
     private _scrollToIndexIndex: number = -1;
@@ -37,6 +39,7 @@ export class CdkVirtualScrollViewportMock {
 }
 
 describe('GenreBrowserComponent', () => {
+    let trackServiceMock: IMock<TrackServiceBase>;
     let playbackServiceMock: IMock<PlaybackService>;
     let semanticZoomServiceMock: IMock<SemanticZoomServiceBase>;
     let applicationServiceMock: IMock<ApplicationServiceBase>;
@@ -62,6 +65,7 @@ describe('GenreBrowserComponent', () => {
         const semanticZoomHeaderAdder: SemanticZoomHeaderAdder = new SemanticZoomHeaderAdder(guidFactoryMock.object);
 
         return new GenreBrowserComponent(
+            trackServiceMock.object,
             playbackServiceMock.object,
             semanticZoomServiceMock.object,
             applicationServiceMock.object,
@@ -77,6 +81,7 @@ describe('GenreBrowserComponent', () => {
 
     function createComponentWithSemanticZoomAdderMock(): GenreBrowserComponent {
         return new GenreBrowserComponent(
+            trackServiceMock.object,
             playbackServiceMock.object,
             semanticZoomServiceMock.object,
             applicationServiceMock.object,
@@ -93,6 +98,7 @@ describe('GenreBrowserComponent', () => {
     const flushPromises = () => new Promise(process.nextTick);
 
     beforeEach(() => {
+        trackServiceMock = Mock.ofType<TrackServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         semanticZoomServiceMock = Mock.ofType<SemanticZoomServiceBase>();
         applicationServiceMock = Mock.ofType<ApplicationServiceBase>();
@@ -694,6 +700,39 @@ describe('GenreBrowserComponent', () => {
                 // Assert
                 playbackServiceMock.verify((x) => x.addGenreToQueueAsync(genre1), Times.once());
             });
+        });
+    });
+
+    describe('onShuffleAndPlayAsync', () => {
+        it('should force shuffle and play the selected genre', async () => {
+            // Arrange
+            const component: GenreBrowserComponent = createComponent();
+
+            // Act
+            await component.onShuffleAndPlayAsync(genre1);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.forceShuffled(), Times.once());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayGenreAsync(genre1), Times.once());
+        });
+    });
+
+    describe('shuffleAllAsync', () => {
+        it('should force shuffle and play all tracks', async () => {
+            // Arrange
+            const component: GenreBrowserComponent = createComponent();
+            component.genresPersister = genresPersisterMock.object;
+            component.genres = [];
+
+            const tracks: TrackModels = new TrackModels();
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
+
+            // Act
+            await component.shuffleAllAsync();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.forceShuffled(), Times.once());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracksAsync(tracks.tracks), Times.once());
         });
     });
 });

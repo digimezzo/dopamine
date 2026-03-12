@@ -73,7 +73,8 @@
     "refresh-collection-now": "Niha berhevokê nû bike",
     "automatic-refresh": "Rojanekirina xweber",
     "manual-refresh": "Rojanekirina destî",
-    "download": "Daxîne",
+    "download-title": "Daxîne",
+    "download-action": "Daxîne",
     "download-missing-album-covers": "Bergên windayî daxîne",
     "refresh-all-covers": "Bergê hemû elbuman ji nû ve rojane bike.",
     "refresh-missing-covers": "Bergê hemû elbuman ji nû ve rojane bike tenê ji bo elbumên ku bergên wan hîn tune ne",
@@ -295,6 +296,9 @@
     "thanks-to-visualisationexpo": "Spas bo VisualizationExpo, ji bo îkona macOS ya bêhempa!",
     "gapless-playback": "Lîstina bênavber",
     "enable-gapless-playback": "Lîstina bênavber çalak bike (ji nû ve destpêkirinê pêwist e)",
+    "crossfade": "Crossfade",
+    "use-crossfade": "Use crossfade (requires a restart)",
+    "crossfade-duration": "Crossfade duration (seconds): {{duration}}s",
     "edit-track": "Stranê biguherîne",
     "edit-tracks": "Stranan biguherîne",
     "artist": "Hunermend",
@@ -329,5 +333,8 @@
     "expanded-view": "Dîtina berfirehkirî",
     "cannot-play-m4a-file": "Pelê M4A nayê lîstin. Tika bala xwe bidinê ku Dopamine tenê pelên M4A yên bi koda AAC piştgirî dike û pelên M4A yên bi koda Apple ALAC piştgirî nake. Ku tu bêtir zanyarî dixwazî, tika pelê têketinê kontrol bike.",
     "cannot-play-audio-file": "Pelê dengî yê hilbijartî nayê lîstin. Ji bo bêtir zanyarî pelê têketinê kontrol bike.",
-    "highlights": "Highlights"
+    "highlights": "Highlights",
+    "composer": "Composer",
+    "conductor": "Conductor",
+    "bpm": "BPM"
 }

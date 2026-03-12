@@ -19,6 +19,8 @@ import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { ArtistSorter } from '../../../../../common/sorting/artist-sorter';
 import { Timer } from '../../../../../common/scheduling/timer';
+import { TrackServiceBase } from '../../../../../services/track/track.service.base';
+import { TrackModels } from '../../../../../services/track/track-models';
 
 @Component({
     selector: 'app-artist-browser',
@@ -41,6 +43,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     public constructor(
+        public trackService: TrackServiceBase,
         public playbackService: PlaybackService,
         private semanticZoomService: SemanticZoomServiceBase,
         private applicationService: ApplicationServiceBase,
@@ -141,6 +144,15 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         await this.playbackService.addArtistToQueueAsync(artist, this.selectedArtistType);
     }
 
+    public async onShuffleAndPlayAsync(artist: ArtistModel): Promise<void> {
+        if (artist == undefined) {
+            return;
+        }
+
+        this.playbackService.forceShuffled();
+        await this.playbackService.enqueueAndPlayArtistAsync(artist, this.selectedArtistType);
+    }
+
     private orderArtists(): void {
         let orderedArtists: ArtistModel[] = [];
 
@@ -196,5 +208,11 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         if (selectedIndex > -1) {
             this.viewPort.scrollToIndex(selectedIndex, 'smooth');
         }
+    }
+
+    public async shuffleAllAsync(): Promise<void> {
+        const tracks: TrackModels = this.trackService.getVisibleTracks();
+        this.playbackService.forceShuffled();
+        await this.playbackService.enqueueAndPlayTracksAsync(tracks.tracks);
     }
 }

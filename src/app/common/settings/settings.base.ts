@@ -89,6 +89,8 @@ export abstract class SettingsBase {
     public abstract showRichLyrics: boolean;
     public abstract richLyricsLineCount: number;
     public abstract richLyricsFontSize: number;
+    public abstract useCrossfade: boolean;
+    public abstract crossfadeDuration: number;
     public abstract jumpToPlayingSong: boolean;
     public abstract showSquareImages: boolean;
     public abstract useCompactYearView: boolean;

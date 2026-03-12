@@ -33,6 +33,9 @@ class Track {
         this.playCount = 0;
         this.skipCount = 0;
         this.dateLastPlayed = 0;
+        this.composers = '';
+        this.conductor = '';
+        this.beatsPerMinute = 0;
     }
 }
 

@@ -36,6 +36,9 @@ class FileMetadataImplementation implements IFileMetadata {
     public lyrics: string;
     public picture: Buffer;
     public rating: number;
+    public composers: string[];
+    public conductor: string;
+    public beatsPerMinute: number;
     public save(): void {}
     public async loadAsync(): Promise<void> {}
 }

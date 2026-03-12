@@ -18,7 +18,7 @@
     <div *ngIf="this.updateService.isUpdateAvailable">
         <mat-divider></mat-divider>
         <button mat-menu-item (click)="downloadLatestReleaseAsync()">
-            <div class="accent-color">{{ 'download' | translate }} {{ this.applicationName }} {{ this.updateService.latestRelease }}</div>
+            <div class="accent-color">{{ 'download-action' | translate }} {{ this.applicationName }} {{ this.updateService.latestRelease }}</div>
         </button>
     </div>
 </mat-menu>

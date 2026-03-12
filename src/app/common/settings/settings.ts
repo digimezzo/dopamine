@@ -843,6 +843,23 @@ export class Settings implements SettingsBase {
     public set richLyricsFontSize(v: number) {
         this.set('richLyricsFontSize', v);
     }
+    // useCrossfade
+    public get useCrossfade(): boolean {
+        return this.get<boolean>('useCrossfade');
+    }
+
+    public set useCrossfade(v: boolean) {
+        this.set('useCrossfade', v);
+    }
+
+    // crossfadeDuration
+    public get crossfadeDuration(): number {
+        return this.get<number>('crossfadeDuration');
+    }
+
+    public set crossfadeDuration(v: number) {
+        this.set('crossfadeDuration', v);
+    }
 
     // jumpToPlayingSong
     public get jumpToPlayingSong(): boolean {
