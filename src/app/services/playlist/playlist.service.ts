@@ -80,6 +80,10 @@ export class PlaylistService implements PlaylistServiceBase {
         this.playlistsChanged.next();
     }
 
+    public notifyPlaylistTracksChanged(): void {
+        this.playlistTracksChanged.next();
+    }
+
     public async addArtistsToPlaylistAsync(playlistPath: string, playlistName: string, artistsToAdd: ArtistModel[]): Promise<void> {
         if (playlistPath == undefined) {
             throw new Error('playlistPath is undefined');

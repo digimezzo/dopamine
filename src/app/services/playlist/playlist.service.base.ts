@@ -27,4 +27,5 @@ export abstract class PlaylistServiceBase {
     public abstract removeTracksFromPlaylistsAsync(tracksToRemove: TrackModel[]): Promise<void>;
     public abstract updatePlaylistOrderAsync(tracks: TrackModel[]): Promise<void>;
     public abstract notifyPlaylistsChanged(): void;
+    public abstract notifyPlaylistTracksChanged(): void;
 }

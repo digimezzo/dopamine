@@ -7,6 +7,7 @@ import { PlaylistServiceBase } from '../../../../services/playlist/playlist.serv
 import { FileAccessBase } from '../../../../common/io/file-access.base';
 import { TextSanitizer } from '../../../../common/text-sanitizer';
 import { Logger } from '../../../../common/logger';
+import { SmartPlaylistParser } from '../../../../services/playlist/smart-playlist-parser';
 
 export type SmartPlaylistFieldType = 'string' | 'number' | 'boolean';
 
@@ -42,6 +43,7 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
         private fileAccess: FileAccessBase,
         private textSanitizer: TextSanitizer,
         private logger: Logger,
+        private smartPlaylistParser: SmartPlaylistParser,
     ) {
         dialogRef.disableClose = true;
     }
@@ -121,6 +123,46 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
         minutes: 'minutes',
     };
 
+    private readonly xmlFieldNames: Record<string, string> = Object.fromEntries(
+        Object.entries({
+            artist: 'artist',
+            albumartist: 'albumArtist',
+            genre: 'genre',
+            title: 'title',
+            albumtitle: 'albumTitle',
+            bitrate: 'bitrate',
+            tracknumber: 'trackNumber',
+            trackcount: 'trackCount',
+            discnumber: 'discNumber',
+            disccount: 'discCount',
+            year: 'year',
+            rating: 'rating',
+            love: 'love',
+            playcount: 'plays',
+            skipcount: 'skips',
+        }),
+    );
+
+    private readonly xmlOperatorNames: Record<string, string> = Object.fromEntries(
+        Object.entries({
+            is: 'is',
+            isnot: 'isNot',
+            contains: 'contains',
+            doesnotcontain: 'doesNotContain',
+            greaterthan: 'greaterThan',
+            lessthan: 'lessThan',
+        }),
+    );
+
+    private readonly xmlLimitUnitNames: Record<string, string> = Object.fromEntries(
+        Object.entries({
+            songs: 'tracks',
+            MB: 'megaBytes',
+            GB: 'gigaBytes',
+            minutes: 'minutes',
+        }),
+    );
+
     public get dialogTitle(): string {
         if (this.hasPlaylistName) {
             return this.translatorService.get('edit-smart-playlist');
@@ -150,7 +192,44 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
 
         this.playlistName = this.data.playlist.name;
         this.playlistImagePath = this.data.playlist.imagePath;
-        this.addFilter();
+
+        if (!this.data.playlist.isDefault && this.data.playlist.path.endsWith('.dspl')) {
+            this.loadFromFile();
+        } else {
+            this.addFilter();
+        }
+    }
+
+    private loadFromFile(): void {
+        try {
+            const definition = this.smartPlaylistParser.parse(this.data.playlist.path);
+            this.playlistName = definition.name;
+            this.matchAnyRule = definition.match === 'any';
+
+            if (definition.limitType != undefined && definition.limitValue != undefined) {
+                this.limitEnabled = true;
+                this.limitValue = definition.limitValue;
+                this.limitUnit = this.xmlLimitUnitNames[definition.limitType] ?? 'tracks';
+            }
+
+            for (const rule of definition.rules) {
+                const fieldName = this.xmlFieldNames[rule.field];
+                const operatorName = this.xmlOperatorNames[rule.operator];
+                const field = this.fields.find((f) => f.name === fieldName);
+                const operator = this.allOperators.find((op) => op.name === operatorName);
+
+                if (field != undefined && operator != undefined) {
+                    this.filters.push({ field, operator, value: rule.value });
+                }
+            }
+
+            if (this.filters.length === 0) {
+                this.addFilter();
+            }
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not load smart playlist', 'EditSmartPlaylistDialogComponent', 'loadFromFile');
+            this.addFilter();
+        }
     }
 
     public getOperatorsForFilter(filter: SmartPlaylistFilter): SmartPlaylistOperator[] {
@@ -258,9 +337,16 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
             const fileName: string = sanitizedName + '.dspl';
             const filePath: string = this.fileAccess.combinePath([folderPath, fileName]);
 
+            // If editing an existing playlist with a different name, delete the old file
+            const existingPath = this.data.playlist.path;
+            if (!this.data.playlist.isDefault && existingPath.endsWith('.dspl') && existingPath !== filePath) {
+                void this.fileAccess.deleteFileIfExistsAsync(existingPath);
+            }
+
             this.fileAccess.createFullDirectoryPathIfDoesNotExist(folderPath);
             this.fileAccess.writeToFile(filePath, xml);
             this.playlistService.notifyPlaylistsChanged();
+            this.playlistService.notifyPlaylistTracksChanged();
 
             this.logger.info(`Saved smart playlist '${filePath}'`, 'EditSmartPlaylistDialogComponent', 'updatePlaylistAsync');
         } catch (e: unknown) {
