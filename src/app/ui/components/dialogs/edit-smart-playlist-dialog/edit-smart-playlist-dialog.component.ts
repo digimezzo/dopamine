@@ -237,6 +237,7 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
 
             this.fileAccess.createFullDirectoryPathIfDoesNotExist(folderPath);
             this.fileAccess.writeToFile(filePath, xml);
+            this.playlistService.notifyPlaylistsChanged();
 
             this.logger.info(`Saved smart playlist '${filePath}'`, 'EditSmartPlaylistDialogComponent', 'updatePlaylistAsync');
         } catch (e: unknown) {
