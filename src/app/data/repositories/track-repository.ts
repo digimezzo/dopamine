@@ -53,6 +53,29 @@ export class TrackRepository implements TrackRepositoryBase {
         return tracks;
     }
 
+    public getTracksForSmartPlaylist(whereClause: string): Track[] | undefined {
+        const database: any = this.databaseFactory.create();
+
+        let query = QueryParts.selectTracksQueryPart(true);
+
+        if (whereClause.length > 0) {
+            // Check if whereClause contains LIMIT
+            const limitIndex = whereClause.lastIndexOf(' LIMIT ');
+            if (limitIndex >= 0) {
+                const filterPart = whereClause.substring(0, limitIndex);
+                const limitPart = whereClause.substring(limitIndex);
+                query += ` AND ${filterPart}${limitPart}`;
+            } else {
+                query += ` AND ${whereClause}`;
+            }
+        }
+
+        const statement = database.prepare(query);
+        const tracks: Track[] | undefined = statement.all();
+
+        return tracks;
+    }
+
     public getTracksForAlbums(albumKeyIndex: string, albumKeys: string[]): Track[] | undefined {
         const database: any = this.databaseFactory.create();
 

@@ -182,6 +182,8 @@ import { PlaybackIndicationService } from './services/playback-indication/playba
 import { PlaylistFolderModelFactory } from './services/playlist-folder/playlist-folder-model-factory';
 import { PlaylistFolderService } from './services/playlist-folder/playlist-folder.service';
 import { PlaylistDecoder } from './services/playlist/playlist-decoder';
+import { SmartPlaylistParser } from './services/playlist/smart-playlist-parser';
+import { SmartPlaylistQueryBuilder } from './services/playlist/smart-playlist-query-builder';
 import { PlaylistFileManager } from './services/playlist/playlist-file-manager';
 import { PlaylistModelFactory } from './services/playlist/playlist-model-factory';
 import { PlaylistService } from './services/playlist/playlist.service';
@@ -549,6 +551,8 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         AddToPlaylistMenu,
         TrackModelFactory,
         PlaylistDecoder,
+        SmartPlaylistParser,
+        SmartPlaylistQueryBuilder,
         FileValidator,
         DateProxy,
         DateTime,
