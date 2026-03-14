@@ -86,7 +86,7 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <app-accent-button class="mr-2" [ngClass]="{ inactive: !this.hasPlaylistName }" [mat-dialog-close]="true">{{
+    <app-accent-button class="mr-2" [ngClass]="{ inactive: !this.canSave }" [mat-dialog-close]="true">{{
         'ok' | translate
     }}</app-accent-button>
     <app-transparent-button [mat-dialog-close]="false">{{ 'cancel' | translate }}</app-transparent-button>

@@ -3,6 +3,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PlaylistData } from '../../../../services/dialog/playlist-data';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { StringUtils } from '../../../../common/utils/string-utils';
+import { PlaylistServiceBase } from '../../../../services/playlist/playlist.service.base';
+import { FileAccessBase } from '../../../../common/io/file-access.base';
+import { TextSanitizer } from '../../../../common/text-sanitizer';
+import { Logger } from '../../../../common/logger';
 
 export type SmartPlaylistFieldType = 'string' | 'number' | 'boolean';
 
@@ -34,6 +38,10 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: PlaylistData,
         private dialogRef: MatDialogRef<EditSmartPlaylistDialogComponent, boolean>,
         private translatorService: TranslatorServiceBase,
+        private playlistService: PlaylistServiceBase,
+        private fileAccess: FileAccessBase,
+        private textSanitizer: TextSanitizer,
+        private logger: Logger,
     ) {
         dialogRef.disableClose = true;
     }
@@ -79,6 +87,40 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
         { name: 'lessThan', translationKey: 'less-than', types: ['number'] },
     ];
 
+    private readonly fieldXmlNames: Record<string, string> = {
+        artist: 'artist',
+        albumArtist: 'albumartist',
+        genre: 'genre',
+        title: 'title',
+        albumTitle: 'albumtitle',
+        bitrate: 'bitrate',
+        trackNumber: 'tracknumber',
+        trackCount: 'trackcount',
+        discNumber: 'discnumber',
+        discCount: 'disccount',
+        year: 'year',
+        rating: 'rating',
+        love: 'love',
+        plays: 'playcount',
+        skips: 'skipcount',
+    };
+
+    private readonly operatorXmlNames: Record<string, string> = {
+        is: 'is',
+        isNot: 'isnot',
+        contains: 'contains',
+        doesNotContain: 'doesnotcontain',
+        greaterThan: 'greaterthan',
+        lessThan: 'lessthan',
+    };
+
+    private readonly limitUnitXmlNames: Record<string, string> = {
+        tracks: 'songs',
+        megaBytes: 'MB',
+        gigaBytes: 'GB',
+        minutes: 'minutes',
+    };
+
     public get dialogTitle(): string {
         if (this.hasPlaylistName) {
             return this.translatorService.get('edit-smart-playlist');
@@ -89,6 +131,14 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
 
     public get hasPlaylistName(): boolean {
         return !StringUtils.isNullOrWhiteSpace(this.playlistName);
+    }
+
+    public get allFiltersHaveValues(): boolean {
+        return this.filters.every((f) => !StringUtils.isNullOrWhiteSpace(f.value));
+    }
+
+    public get canSave(): boolean {
+        return this.hasPlaylistName && this.allFiltersHaveValues;
     }
 
     public ngOnInit(): void {
@@ -177,11 +227,50 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
         return a != undefined && b != undefined ? a.name === b.name : a === b;
     }
 
-    private async updatePlaylistAsync(): Promise<void> {
+    private updatePlaylistAsync(): void {
         try {
-            // await this.playlistService.updatePlaylistDetailsAsync(this.data.playlist, this.playlistName, this.playlistImagePath);
+            const xml = this.generateXml();
+            const sanitizedName: string = String(this.textSanitizer.sanitize(this.playlistName));
+            const folderPath: string = this.playlistService.activePlaylistFolder.path;
+            const fileName: string = sanitizedName + '.dspl';
+            const filePath: string = this.fileAccess.combinePath([folderPath, fileName]);
+
+            this.fileAccess.createFullDirectoryPathIfDoesNotExist(folderPath);
+            this.fileAccess.writeToFile(filePath, xml);
+
+            this.logger.info(`Saved smart playlist '${filePath}'`, 'EditSmartPlaylistDialogComponent', 'updatePlaylistAsync');
         } catch (e: unknown) {
-            // TODO
+            this.logger.error(e, 'Could not save smart playlist', 'EditSmartPlaylistDialogComponent', 'updatePlaylistAsync');
         }
+    }
+
+    private generateXml(): string {
+        const lines: string[] = [];
+        lines.push('<?xml version="1.0" encoding="utf-8"?>');
+        lines.push('<smartplaylist>');
+        lines.push(`  <name>${this.escapeXml(this.playlistName)}</name>`);
+        lines.push(`  <match>${this.matchAnyRule ? 'any' : 'all'}</match>`);
+
+        if (this.limitEnabled) {
+            const limitType = this.limitUnitXmlNames[this.limitUnit] ?? 'songs';
+            lines.push(`  <limit type="${limitType}">${this.limitValue}</limit>`);
+        }
+
+        for (const filter of this.filters) {
+            if (filter.field == undefined || filter.operator == undefined) {
+                continue;
+            }
+
+            const fieldXml = this.fieldXmlNames[filter.field.name] ?? filter.field.name;
+            const operatorXml = this.operatorXmlNames[filter.operator.name] ?? filter.operator.name;
+            lines.push(`  <rule field="${fieldXml}" operator="${operatorXml}">${this.escapeXml(filter.value)}</rule>`);
+        }
+
+        lines.push('</smartplaylist>');
+        return lines.join('\n');
+    }
+
+    private escapeXml(value: string): string {
+        return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
     }
 }
