@@ -173,15 +173,38 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
 
     public stars: number[] = [1, 2, 3, 4, 5];
 
-    public onRatingStarClick(filter: SmartPlaylistFilter, starIndex: number): void {
-        const newRating = starIndex.toString();
-        filter.value = filter.value === newRating ? '0' : newRating;
+    public onRatingStarClick(event: MouseEvent, filter: SmartPlaylistFilter, starIndex: number): void {
+        const target = event.currentTarget as HTMLElement;
+        const rect = target.getBoundingClientRect();
+        const clickX = event.clientX - rect.left;
+        const half = clickX < rect.width / 2;
+
+        let newRating = (starIndex - 1) * 2 + (half ? 1 : 2);
+
+        const currentRating = parseInt(filter.value, 10);
+        if (!isNaN(currentRating) && currentRating === newRating) {
+            newRating = 0;
+        }
+
+        filter.value = newRating.toString();
     }
 
     public getRatingStarClass(filter: SmartPlaylistFilter, starIndex: number): string {
         const parsed = parseInt(filter.value, 10);
         const rating = isNaN(parsed) ? 0 : parsed;
-        return starIndex <= rating ? 'fas fa-star accent-color-important' : 'far fa-star secondary-text';
+
+        const fullValue = starIndex * 2;
+        const halfValue = fullValue - 1;
+
+        if (rating >= fullValue) {
+            return 'fas fa-star accent-color-important';
+        }
+
+        if (rating === halfValue) {
+            return 'fas fa-star-half-alt accent-color-important';
+        }
+
+        return 'far fa-star secondary-text';
     }
 
     public getLoveClass(filter: SmartPlaylistFilter): string {

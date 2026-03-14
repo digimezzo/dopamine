@@ -44,7 +44,7 @@
                     class="pointer"
                     *ngFor="let star of stars"
                     [ngClass]="getRatingStarClass(filter, star)"
-                    (click)="onRatingStarClick(filter, star)"
+                    (click)="onRatingStarClick($event, filter, star)"
                 ></div>
             </div>
             <div
