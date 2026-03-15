@@ -8,6 +8,9 @@ import { FileAccessBase } from '../../../../common/io/file-access.base';
 import { TextSanitizer } from '../../../../common/text-sanitizer';
 import { Logger } from '../../../../common/logger';
 import { SmartPlaylistParser } from '../../../../services/playlist/smart-playlist-parser';
+import { DesktopBase } from '../../../../common/io/desktop.base';
+import { Constants } from '../../../../common/application/constants';
+import { GuidFactory } from '../../../../common/guid.factory';
 
 export type SmartPlaylistFieldType = 'string' | 'number' | 'boolean';
 
@@ -44,6 +47,8 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
         private textSanitizer: TextSanitizer,
         private logger: Logger,
         private smartPlaylistParser: SmartPlaylistParser,
+        private desktop: DesktopBase,
+        private guidFactory: GuidFactory,
     ) {
         dialogRef.disableClose = true;
     }
@@ -175,6 +180,10 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
         return !StringUtils.isNullOrWhiteSpace(this.playlistName);
     }
 
+    public get hasPlaylistImagePath(): boolean {
+        return this.playlistImagePath !== Constants.emptyImage && !StringUtils.isNullOrWhiteSpace(this.playlistImagePath);
+    }
+
     public get allFiltersHaveValues(): boolean {
         return this.filters.every((f) => !StringUtils.isNullOrWhiteSpace(f.value));
     }
@@ -230,6 +239,18 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
             this.logger.error(e, 'Could not load smart playlist', 'EditSmartPlaylistDialogComponent', 'loadFromFile');
             this.addFilter();
         }
+    }
+
+    public async changeImageAsync(): Promise<void> {
+        const selectedFile: string = await this.desktop.showSelectFileDialogAsync(this.translatorService.get('choose-image'));
+
+        if (!StringUtils.isNullOrWhiteSpace(selectedFile)) {
+            this.playlistImagePath = selectedFile;
+        }
+    }
+
+    public removeImage(): void {
+        this.playlistImagePath = Constants.emptyImage;
     }
 
     public getOperatorsForFilter(filter: SmartPlaylistFilter): SmartPlaylistOperator[] {
@@ -345,6 +366,20 @@ export class EditSmartPlaylistDialogComponent implements OnInit {
 
             this.fileAccess.createFullDirectoryPathIfDoesNotExist(folderPath);
             this.fileAccess.writeToFile(filePath, xml);
+
+            // Handle playlist image
+            const existingImagePath = this.data.playlist.imagePath;
+            if (!StringUtils.isNullOrWhiteSpace(existingImagePath) && existingImagePath !== Constants.emptyImage) {
+                void this.fileAccess.deleteFileIfExistsAsync(existingImagePath);
+            }
+
+            if (this.playlistImagePath !== Constants.emptyImage && !StringUtils.isNullOrWhiteSpace(this.playlistImagePath)) {
+                const imageExtension: string = this.fileAccess.getFileExtension(this.playlistImagePath).toLowerCase();
+                const pathWithoutExtension: string = this.fileAccess.getPathWithoutExtension(filePath);
+                const newImagePath: string = `${pathWithoutExtension}-${this.guidFactory.create()}-${imageExtension}`;
+                this.fileAccess.copyFile(this.playlistImagePath, newImagePath);
+            }
+
             this.playlistService.notifyPlaylistsChanged();
             this.playlistService.notifyPlaylistTracksChanged();
 
