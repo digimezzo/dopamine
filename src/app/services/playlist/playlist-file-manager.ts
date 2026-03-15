@@ -88,7 +88,14 @@ export class PlaylistFileManager {
                     playlistImagePath = nextPath;
                 }
 
-                playlists.push(this.playlistModelFactory.create(this._playlistsParentFolderPath, playlistPath, playlistImagePath));
+                let isSmartPlaylist: boolean = false;
+
+                if (this.fileAccess.getFileExtension(playlistPath) === FileFormats.dspl) {
+                    isSmartPlaylist = true;
+                }
+                playlists.push(
+                    this.playlistModelFactory.create(this._playlistsParentFolderPath, playlistPath, playlistImagePath, isSmartPlaylist),
+                );
             }
         }
 
@@ -107,7 +114,7 @@ export class PlaylistFileManager {
 
     public createPlaylist(playlistFolder: PlaylistFolderModel, playlistName: string): PlaylistModel {
         const playlistPath: string = this.fileAccess.combinePath([playlistFolder.path, `${playlistName}${FileFormats.m3u}`]);
-        const newPlaylist: PlaylistModel = this.playlistModelFactory.create(this._playlistsParentFolderPath, playlistPath, '');
+        const newPlaylist: PlaylistModel = this.playlistModelFactory.create(this._playlistsParentFolderPath, playlistPath, '', false);
         this.fileAccess.createFile(playlistPath);
 
         return newPlaylist;
