@@ -75,6 +75,10 @@
             <span>{{ 'add-to-playback-queue' | translate }}</span>
         </button>
         <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onShowInFolder(playlist)">
+            <span>{{ 'show-in-folder' | translate }}</span>
+        </button>
+        <mat-divider></mat-divider>
         <button mat-menu-item (click)="onEditPlaylistAsync(playlist)">{{ 'edit' | translate }}</button>
         <button mat-menu-item (click)="onDeletePlaylistAsync(playlist)">{{ 'delete' | translate }}</button>
     </ng-template>

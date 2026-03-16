@@ -20,12 +20,14 @@ describe('PlaylistsFilterPipe', () => {
             'Playlist 1 folder name',
             'Playlist 1 path',
             'Playlist 1 image path',
+            false,
         );
         const playlist2: PlaylistModel = new PlaylistModel(
             'Playlist 2',
             'Playlist 2 folder name',
             'Playlist 2 path',
             'Playlist 2 image path',
+            false,
         );
         const playlists: PlaylistModel[] = [playlist1, playlist2];
 
