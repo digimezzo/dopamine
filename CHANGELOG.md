@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added shuffle all on artist, genre, album and songs screens.
 - Added crossfade
 - Added smart playlists
+- Added Catppuccin and Dracula themes (Thank you BlackSpirits!)
 
 ### Changed
 
