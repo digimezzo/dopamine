@@ -10,7 +10,8 @@ describe('PlaylistModel', () => {
                 'Playlist 1',
                 'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
-                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png',
+                false,
             );
 
             // Assert
@@ -25,7 +26,8 @@ describe('PlaylistModel', () => {
                 'Playlist 1',
                 'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
-                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png',
+                false,
             );
 
             // Assert
@@ -40,7 +42,8 @@ describe('PlaylistModel', () => {
                 'Playlist 1',
                 'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
-                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png',
+                false,
             );
 
             // Assert
@@ -55,7 +58,8 @@ describe('PlaylistModel', () => {
                 'Playlist 1',
                 'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
-                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png',
+                false,
             );
 
             // Assert
@@ -70,7 +74,8 @@ describe('PlaylistModel', () => {
                 'Playlist 1',
                 'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
-                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png',
+                false,
             );
 
             // Assert
@@ -85,7 +90,8 @@ describe('PlaylistModel', () => {
                 'Playlist 1',
                 'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
-                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png',
+                false,
             );
 
             // Assert
@@ -100,7 +106,8 @@ describe('PlaylistModel', () => {
                 '',
                 'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
-                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png',
+                false,
             );
 
             // Act
@@ -115,7 +122,8 @@ describe('PlaylistModel', () => {
                 ' ',
                 'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
-                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png',
+                false,
             );
 
             // Act
@@ -130,7 +138,8 @@ describe('PlaylistModel', () => {
                 'Playlist1',
                 'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
-                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png',
+                false,
             );
 
             // Act

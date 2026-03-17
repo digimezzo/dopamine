@@ -21,8 +21,9 @@ export class FileFormats {
     // Playlist extensions
     public static readonly m3u: string = '.m3u';
     public static readonly m3u8: string = '.m3u8';
+    public static readonly dspl: string = '.dspl';
 
-    public static readonly supportedPlaylistExtensions: string[] = [FileFormats.m3u, FileFormats.m3u8];
+    public static readonly supportedPlaylistExtensions: string[] = [FileFormats.m3u, FileFormats.m3u8, FileFormats.dspl];
 
     // Playlist image extensions
     public static readonly png: string = '.png';

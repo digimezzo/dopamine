@@ -336,5 +336,20 @@
     "highlights": "Hoogtepunten",
     "composer": "Componist",
     "conductor": "Dirigent",
-    "bpm": "BPM"
+    "bpm": "BPM",
+    "create-smart-playlist": "Slimme afspeellijst maken",
+    "edit-smart-playlist": "Slimme afspeellijst bewerken",
+    "is": "is",
+    "is-not": "is niet",
+    "contains": "bevat",
+    "does-not-contain": "bevat niet",
+    "add-if-any-rule-matches": "Toevoegen als een regel overeenkomt",
+    "limit-to": "Beperken tot",
+    "genre": "Genre",
+    "album-title": "Album titel",
+    "album-artist": "Album artiest",
+    "greater-than": "groter dan",
+    "less-than": "kleiner dan",
+    "bitrate": "Bitrate",
+    "value": "Waarde"
 }

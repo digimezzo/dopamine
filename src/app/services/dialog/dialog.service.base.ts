@@ -14,6 +14,7 @@ export abstract class DialogServiceBase {
     public abstract showLicenseDialog(): void;
     public abstract showEditPlaylistDialogAsync(playlist: PlaylistModel): Promise<void>;
     public abstract showCreatePlaylistDialogAsync(): Promise<void>;
+    public abstract showCreateSmartPlaylistDialogAsync(): Promise<void>;
     public abstract showEditColumnsDialogAsync(): Promise<void>;
     public abstract showEditTracksAsync(tracks: TrackModel[]): Promise<boolean>;
     public abstract cannotPlayM4aFileAsync(): Promise<void>;

@@ -336,5 +336,20 @@
     "highlights": "Öne çıkanlar",
     "composer": "Besteci",
     "conductor": "Orkestra Şefi",
-    "bpm": "BPM"
+    "bpm": "BPM",
+    "create-smart-playlist": "Create smart playlist",
+    "edit-smart-playlist": "Edit smart playlist",
+    "is": "is",
+    "is-not": "is not",
+    "contains": "contains",
+    "does-not-contain": "does not contain",
+    "add-if-any-rule-matches": "Add if any rule matches",
+    "limit-to": "Limit to",
+    "genre": "Genre",
+    "album-title": "Album title",
+    "album-artist": "Album artist",
+    "greater-than": "greater than",
+    "less-than": "less than",
+    "bitrate": "Bitrate",
+    "value": "Value"
 }

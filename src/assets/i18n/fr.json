@@ -336,5 +336,20 @@
     "highlights": "À la une",
     "composer": "Compositeur",
     "conductor": "Chef d'orchestre",
-    "bpm": "BPM"
+    "bpm": "BPM",
+    "create-smart-playlist": "Créer playlist intelligente",
+    "edit-smart-playlist": "Éditer playlist intelligente",
+    "is": "est",
+    "is-not": "n'est pas",
+    "contains": "contient",
+    "does-not-contain": "ne contient pas",
+    "add-if-any-rule-matches": "Ajouter si une règle correspond",
+    "limit-to": "Limiter à",
+    "genre": "Genre",
+    "album-title": "Titre de l'album",
+    "album-artist": "Artiste de l'album",
+    "greater-than": "supérieur à",
+    "less-than": "inférieur à",
+    "bitrate": "Débit binaire",
+    "value": "Valeur"
 }

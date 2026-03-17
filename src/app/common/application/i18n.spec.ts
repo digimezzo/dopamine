@@ -342,6 +342,21 @@ describe('validate i18n', () => {
         'crossfade',
         'use-crossfade',
         'crossfade-duration',
+        'limit-to',
+        'is',
+        'is-not',
+        'contains',
+        'does-not-contain',
+        'create-smart-playlist',
+        'edit-smart-playlist',
+        'value',
+        'less-than',
+        'greater-than',
+        'genre',
+        'bitrate',
+        'album-artist',
+        'add-if-any-rule-matches',
+        'album-title',
     ].sort();
 
     Constants.languages.forEach((language) => {

@@ -7,6 +7,7 @@ export class PlaylistModel implements ISelectable {
         public folderName: string,
         public path: string,
         public imagePath: string,
+        public isSmartPlaylist: boolean,
     ) {}
 
     public isSelected: boolean = false;

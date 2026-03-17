@@ -21,7 +21,7 @@
             <div
                 class="playlist-folder__name ellipsis px-1"
                 [ngClass]="{
-                    'selected-item-background-important': playlistFolder.isSelected
+                    'selected-item-background-important': playlistFolder.isSelected,
                 }"
             >
                 {{ playlistFolder.name }}
@@ -38,6 +38,10 @@
 ></div>
 <mat-menu #playlistFolderContextMenu="matMenu">
     <ng-template matMenuContent let-playlistFolder="data">
+        <button mat-menu-item (click)="onShowInFolder(playlistFolder)">
+            <span>{{ 'show-in-folder' | translate }}</span>
+        </button>
+        <mat-divider></mat-divider>
         <button mat-menu-item (click)="onRenamePlaylistFolderAsync(playlistFolder)">{{ 'rename' | translate }}</button>
         <button mat-menu-item (click)="onDeletePlaylistFolderAsync(playlistFolder)">{{ 'delete' | translate }}</button>
     </ng-template>
