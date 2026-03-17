@@ -1,6 +1,6 @@
 import { Theme } from './theme';
 import { ThemeCoreColors } from './theme-core-colors';
-import { ThemeCreator } from './theme-creator';
+import { ThemeAuthor } from './theme-author';
 import { ThemeNeutralColors } from './theme-neutral-colors';
 import { ThemeOptions } from './theme-options';
 
@@ -42,14 +42,14 @@ describe('Theme', () => {
     describe('constructor', () => {
         it('should create', () => {
             // Arrange
-            const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
+            const author: ThemeAuthor = new ThemeAuthor('My creator', 'my@email.com');
             const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
             const darkColors: ThemeNeutralColors = createNeutralColors();
             const lightColors: ThemeNeutralColors = createNeutralColors();
             const options: ThemeOptions = new ThemeOptions(false);
 
             // Act
-            const theme: Theme = new Theme('My name', creator, coreColors, darkColors, lightColors, options);
+            const theme: Theme = new Theme('My name', author, coreColors, darkColors, lightColors, options);
 
             // Assert
             expect(theme).toBeDefined();
@@ -57,44 +57,44 @@ describe('Theme', () => {
 
         it('should set name', () => {
             // Arrange
-            const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
+            const author: ThemeAuthor = new ThemeAuthor('My creator', 'my@email.com');
             const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
             const darkColors: ThemeNeutralColors = createNeutralColors();
             const lightColors: ThemeNeutralColors = createNeutralColors();
             const options: ThemeOptions = new ThemeOptions(false);
 
             // Act
-            const theme: Theme = new Theme('My name', creator, coreColors, darkColors, lightColors, options);
+            const theme: Theme = new Theme('My name', author, coreColors, darkColors, lightColors, options);
 
             // Assert
             expect(theme.name).toEqual('My name');
         });
 
-        it('should set creator', () => {
+        it('should set author', () => {
             // Arrange
-            const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
+            const author: ThemeAuthor = new ThemeAuthor('My creator', 'my@email.com');
             const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
             const darkColors: ThemeNeutralColors = createNeutralColors();
             const lightColors: ThemeNeutralColors = createNeutralColors();
             const options: ThemeOptions = new ThemeOptions(false);
 
             // Act
-            const theme: Theme = new Theme('My name', creator, coreColors, darkColors, lightColors, options);
+            const theme: Theme = new Theme('My name', author, coreColors, darkColors, lightColors, options);
 
             // Assert
-            expect(theme.creator).toBe(creator);
+            expect(theme.author).toBe(author);
         });
 
         it('should set coreColors', () => {
             // Arrange
-            const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
+            const author: ThemeAuthor = new ThemeAuthor('My creator', 'my@email.com');
             const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
             const darkColors: ThemeNeutralColors = createNeutralColors();
             const lightColors: ThemeNeutralColors = createNeutralColors();
             const options: ThemeOptions = new ThemeOptions(false);
 
             // Act
-            const theme: Theme = new Theme('My name', creator, coreColors, darkColors, lightColors, options);
+            const theme: Theme = new Theme('My name', author, coreColors, darkColors, lightColors, options);
 
             // Assert
             expect(theme.coreColors).toBe(coreColors);
@@ -102,14 +102,14 @@ describe('Theme', () => {
 
         it('should set darkColors', () => {
             // Arrange
-            const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
+            const author: ThemeAuthor = new ThemeAuthor('My creator', 'my@email.com');
             const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
             const darkColors: ThemeNeutralColors = createNeutralColors();
             const lightColors: ThemeNeutralColors = createNeutralColors();
             const options: ThemeOptions = new ThemeOptions(false);
 
             // Act
-            const theme: Theme = new Theme('My name', creator, coreColors, darkColors, lightColors, options);
+            const theme: Theme = new Theme('My name', author, coreColors, darkColors, lightColors, options);
 
             // Assert
             expect(theme.darkColors).toBe(darkColors);
@@ -117,14 +117,14 @@ describe('Theme', () => {
 
         it('should set lightColors', () => {
             // Arrange
-            const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
+            const author: ThemeAuthor = new ThemeAuthor('My creator', 'my@email.com');
             const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
             const darkColors: ThemeNeutralColors = createNeutralColors();
             const lightColors: ThemeNeutralColors = createNeutralColors();
             const options: ThemeOptions = new ThemeOptions(false);
 
             // Act
-            const theme: Theme = new Theme('My name', creator, coreColors, darkColors, lightColors, options);
+            const theme: Theme = new Theme('My name', author, coreColors, darkColors, lightColors, options);
 
             // Assert
             expect(theme.lightColors).toBe(lightColors);
@@ -132,14 +132,14 @@ describe('Theme', () => {
 
         it('should set options', () => {
             // Arrange
-            const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
+            const author: ThemeAuthor = new ThemeAuthor('My creator', 'my@email.com');
             const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
             const darkColors: ThemeNeutralColors = createNeutralColors();
             const lightColors: ThemeNeutralColors = createNeutralColors();
             const options: ThemeOptions = new ThemeOptions(false);
 
             // Act
-            const theme: Theme = new Theme('My name', creator, coreColors, darkColors, lightColors, options);
+            const theme: Theme = new Theme('My name', author, coreColors, darkColors, lightColors, options);
 
             // Assert
             expect(theme.options).toBe(options);
@@ -147,14 +147,14 @@ describe('Theme', () => {
 
         it('should set isBroken to false', () => {
             // Arrange
-            const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
+            const author: ThemeAuthor = new ThemeAuthor('My creator', 'my@email.com');
             const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
             const darkColors: ThemeNeutralColors = createNeutralColors();
             const lightColors: ThemeNeutralColors = createNeutralColors();
             const options: ThemeOptions = new ThemeOptions(false);
 
             // Act
-            const theme: Theme = new Theme('My name', creator, coreColors, darkColors, lightColors, options);
+            const theme: Theme = new Theme('My name', author, coreColors, darkColors, lightColors, options);
 
             // Assert
             expect(theme.isBroken).toEqual(false);
