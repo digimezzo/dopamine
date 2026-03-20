@@ -49,7 +49,11 @@ export class TrackFiller {
             track.artists = this.trackFieldCreator.createMultiTextField(
                 this.metadataPatcher.joinUnsplittableMetadata(fileMetadata.artists),
             );
-            track.rating = this.trackFieldCreator.createNumberField(fileMetadata.rating);
+
+            const fileRating: number = this.trackFieldCreator.createNumberField(fileMetadata.rating);
+            if (fileRating !== 0) {
+                track.rating = fileRating;
+            }
             track.fileName = this.fileAccess.getFileName(track.path);
             track.duration = this.trackFieldCreator.createNumberField(fileMetadata.durationInMilliseconds);
             track.trackTitle = this.trackFieldCreator.createTextField(fileMetadata.title);

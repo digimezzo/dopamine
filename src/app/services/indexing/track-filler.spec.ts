@@ -652,6 +652,28 @@ describe('TrackFiller', () => {
             expect(track.rating).toEqual(4);
         });
 
+        it('should preserve existing track rating when audio file has no embedded rating', async () => {
+            // Arrange
+            const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.rating = 0;
+            trackFieldCreatorMock.setup((x) => x.createNumberField(0)).returns(() => 0);
+
+            fileMetadataFactoryMock
+                .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
+                .returns(() => Promise.resolve(fileMetadataStub));
+            fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
+
+            const trackFiller: TrackFiller = createTrackFiller();
+            const track: Track = new Track('/home/user/Music/Track 1.mp3');
+            track.rating = 6;
+
+            // Act
+            await trackFiller.addFileMetadataToTrackAsync(track, false);
+
+            // Assert
+            expect(track.rating).toEqual(6);
+        });
+
         it('should fill in track indexingSuccess with 1 if no errors occur', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
