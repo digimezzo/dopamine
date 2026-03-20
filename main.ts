@@ -419,6 +419,9 @@ try {
 
             if (mainWindow) {
                 // Someone tried to run a second instance, we should focus the existing window.
+                // show() is needed to restore windows hidden to the notification area (tray).
+                mainWindow.show();
+
                 if (mainWindow.isMinimized()) {
                     mainWindow.restore();
                 }
