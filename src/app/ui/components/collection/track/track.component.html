@@ -1,15 +1,15 @@
 <div class="d-flex flex-column">
     <div class="d-flex flex-column mt-3 mb-1" *ngIf="this.canShowHeader && track.showHeader">
-        <div class="largest pb-2 ellipsis" matTooltip="{{ track.albumArtists }}">{{ track.albumArtists }}</div>
-        <div class="secondary-text ellipsis" *ngIf="!(track.discNumber > 0 && track.discCount > 1)" matTooltip="{{ track.albumTitle }}">
+        <div class="larger ellipsis mb-1" matTooltip="{{ track.albumTitle }}">
             {{ track.albumTitle }}
         </div>
+        <div class="secondary-text ellipsis mb-1" matTooltip="{{ track.albumArtists }}">{{ track.albumArtists }}</div>
         <div
-            class="secondary-text ellipsis"
+            class="disc-label"
             *ngIf="track.discNumber > 0 && track.discCount > 1"
-            matTooltip="{{ track.albumTitle }} ({{ track.discNumber }}/{{ track.discCount }})"
+            matTooltip="{{ track.discNumber }}/{{ track.discCount }}"
         >
-            {{ track.albumTitle }} ({{ track.discNumber }}/{{ track.discCount }})
+            {{ track.discNumber }}/{{ track.discCount }}
         </div>
     </div>
     <div
