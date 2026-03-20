@@ -307,9 +307,25 @@ export class PlaylistService implements PlaylistServiceBase {
 
         const albumKeyIndex = this.settings.albumKeyIndex;
 
-        for (const playlistEntry of playlistEntries) {
-            if (this.fileValidator.isPlayableAudioFile(playlistEntry.decodedPath)) {
-                const track: TrackModel = await this.trackModelFactory.createFromFileAsync(playlistEntry.decodedPath, albumKeyIndex);
+        const playablePaths: string[] = playlistEntries
+            .filter((entry) => this.fileValidator.isPlayableAudioFile(entry.decodedPath))
+            .map((entry) => entry.decodedPath);
+
+        const dbTracks = this.trackRepository.getTracksForPaths(playablePaths);
+        const dbTracksByPath = new Map<string, TrackModel>();
+
+        if (dbTracks != undefined) {
+            for (const dbTrack of dbTracks) {
+                dbTracksByPath.set(dbTrack.path.toLowerCase(), this.trackModelFactory.createFromTrack(dbTrack, albumKeyIndex));
+            }
+        }
+
+        for (const path of playablePaths) {
+            const dbTrackModel = dbTracksByPath.get(path.toLowerCase());
+            if (dbTrackModel != undefined) {
+                tracks.push(dbTrackModel);
+            } else {
+                const track: TrackModel = await this.trackModelFactory.createFromFileAsync(path, albumKeyIndex);
                 tracks.push(track);
             }
         }
