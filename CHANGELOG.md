@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Updated the Croatian translation
+- Updated the German translation
 - Updated the Portuguese (Portugal) translation
 - Updated the Simplified Chinese translation
 - Updated the Spanish translation
