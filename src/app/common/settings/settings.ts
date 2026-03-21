@@ -861,4 +861,13 @@ export class Settings implements SettingsBase {
     public set useCompactYearView(v: boolean) {
         this.set('useCompactYearView', v);
     }
+
+    // showAlbumArtOnDockIcon
+    public get showAlbumArtOnDockIcon(): boolean {
+        return this.get<boolean>('showAlbumArtOnDockIcon');
+    }
+
+    public set showAlbumArtOnDockIcon(v: boolean) {
+        this.set('showAlbumArtOnDockIcon', v);
+    }
 }

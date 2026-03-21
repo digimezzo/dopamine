@@ -91,4 +91,5 @@ export abstract class SettingsBase {
     public abstract jumpToPlayingSong: boolean;
     public abstract showSquareImages: boolean;
     public abstract useCompactYearView: boolean;
+    public abstract showAlbumArtOnDockIcon: boolean;
 }
