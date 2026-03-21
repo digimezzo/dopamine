@@ -201,8 +201,6 @@
     "which-pages-should-be-visible": "Welche Seiten sollen sichtbar sein?",
     "delete-song": "Song löschen",
     "delete-songs": "Songs löschen",
-    "confirm-delete-song": "Bist du dir sicher, dass du diesen Song löschen willst? Du kannst ihn vom Papierkorb zurückholen.",
-    "confirm-delete-songs": "Bist du dir sicher, dass du diese Songs löschen willst? Du kannst sie vom Papierkorb zurückholen.",
     "delete-songs-error": "Ein Fehler trat beim Löschen von Songs auf. Bitte prüfe das Logbuch, falls du weitere Informationen benötigst.",
     "save-rating-error": "Ein Fehler trat beim Speichern der Bewertung auf. Für Details im Logbuch nachsehen.",
     "rating": "Bewertung",
@@ -351,5 +349,7 @@
     "greater-than": "greater than",
     "less-than": "less than",
     "bitrate": "Bitrate",
-    "value": "Value"
+    "value": "Value",
+    "confirm-delete-song": "Are you sure you want to delete this song? It will be moved to the trash if possible, otherwise it will be permanently deleted.",
+    "confirm-delete-songs": "Are you sure you want to delete these songs? They will be moved to the trash if possible, otherwise they will be permanently deleted."
 }

@@ -201,8 +201,6 @@
     "which-pages-should-be-visible": "Những trang nào bạn muốn hiển thị?",
     "delete-song": "Xóa bài hát",
     "delete-songs": "Xóa các bài hát",
-    "confirm-delete-song": "Bạn có chắc muốn xóa bài hát này? Bạn có thể khôi phục lại từ Thùng Rác.",
-    "confirm-delete-songs": "Bạn có chắc muốn xóa các bài hát này? Bạn có thể khôi phục lại từ Thùng Rác.",
     "delete-songs-error": "Đã xảy ra lỗi khi xóa bài hát. Vui lòng xem tệp log để biết thêm thông tin.",
     "save-rating-error": "Đã xảy ra lỗi khi lưu đánh giá. Vui lòng xem tệp log để biết thêm thông tin.",
     "rating": "Đánh giá",
@@ -351,5 +349,7 @@
     "greater-than": "greater than",
     "less-than": "less than",
     "bitrate": "Bitrate",
-    "value": "Value"
+    "value": "Value",
+    "confirm-delete-song": "Are you sure you want to delete this song? It will be moved to the trash if possible, otherwise it will be permanently deleted.",
+    "confirm-delete-songs": "Are you sure you want to delete these songs? They will be moved to the trash if possible, otherwise they will be permanently deleted."
 }

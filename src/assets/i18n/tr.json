@@ -201,8 +201,6 @@
     "which-pages-should-be-visible": "Hangi sayfalar görünür olmalıdır?",
     "delete-song": "Şarkıyı sil",
     "delete-songs": "Şarkıları sil",
-    "confirm-delete-song": "Bu şarkıyı silmek istediğinizden emin misiniz? Çöp kutusundan geri yükleyebilirsiniz.",
-    "confirm-delete-songs": "Bu şarkıları silmek istediğinizden emin misiniz? Onları çöp kutusundan geri yükleyebilirsiniz.",
     "delete-songs-error": "Şarkıları silerken bir hata oluştu. Daha fazla bilgiye ihtiyacınız varsa lütfen günlüğü kontrol edin.",
     "save-rating-error": "Puanlama kaydedilirken bir hata oluştu. Daha fazla bilgiye ihtiyacınız varsa lütfen günlüğü kontrol edin.",
     "rating": "Puanlama",
@@ -351,5 +349,7 @@
     "greater-than": "greater than",
     "less-than": "less than",
     "bitrate": "Bitrate",
-    "value": "Value"
+    "value": "Value",
+    "confirm-delete-song": "Are you sure you want to delete this song? It will be moved to the trash if possible, otherwise it will be permanently deleted.",
+    "confirm-delete-songs": "Are you sure you want to delete these songs? They will be moved to the trash if possible, otherwise they will be permanently deleted."
 }

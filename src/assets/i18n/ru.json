@@ -201,8 +201,6 @@
     "which-pages-should-be-visible": "Какие страницы должны отображаться?",
     "delete-song": "Удалить песню",
     "delete-songs": "Удалить песни",
-    "confirm-delete-song": "Уверены, что хотите удалить эту песню? Вы сможете восстановить её потом из корзины.",
-    "confirm-delete-songs": "Уверены, что хотите удалить эти песни? Вы сможете восстановить их потом из корзины.",
     "delete-songs-error": "Возникла ошибка при удалении песен. Пожалуйста, проверьте журнал, если вам нужны подробности.",
     "save-rating-error": "Возникла ошибка при сохранении оценки. Пожалуйста, проверьте журнал, если вам нужны подробности.",
     "rating": "Оценка",
@@ -351,5 +349,7 @@
     "greater-than": "greater than",
     "less-than": "less than",
     "bitrate": "Bitrate",
-    "value": "Value"
+    "value": "Value",
+    "confirm-delete-song": "Are you sure you want to delete this song? It will be moved to the trash if possible, otherwise it will be permanently deleted.",
+    "confirm-delete-songs": "Are you sure you want to delete these songs? They will be moved to the trash if possible, otherwise they will be permanently deleted."
 }

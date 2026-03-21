@@ -201,8 +201,6 @@
     "which-pages-should-be-visible": "Jakie strony powinny być widoczne?",
     "delete-song": "Usuń utwór",
     "delete-songs": "Usuń utwory",
-    "confirm-delete-song": "Czy na pewno chcesz usunąć ten utwór? Możesz przywrócić później go z kosza.",
-    "confirm-delete-songs": "Czy na pewno chcesz usunąć te utwory? Możesz przywrócić później je z kosza.",
     "delete-songs-error": "Wystąpił błąd podczas usuwania utworów. Sprawdź szczegóły w dzienniku.",
     "save-rating-error": "Wystąpił błąd podczas zapisywania oceny. Sprawdź szczegóły w dzienniku.",
     "rating": "Ocena",
@@ -351,5 +349,7 @@
     "greater-than": "greater than",
     "less-than": "less than",
     "bitrate": "Bitrate",
-    "value": "Value"
+    "value": "Value",
+    "confirm-delete-song": "Are you sure you want to delete this song? It will be moved to the trash if possible, otherwise it will be permanently deleted.",
+    "confirm-delete-songs": "Are you sure you want to delete these songs? They will be moved to the trash if possible, otherwise they will be permanently deleted."
 }

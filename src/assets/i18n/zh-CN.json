@@ -201,8 +201,6 @@
     "which-pages-should-be-visible": "显示哪些页面？",
     "delete-song": "删除歌曲",
     "delete-songs": "删除歌曲",
-    "confirm-delete-song": "确定要删除此歌曲？你可以从回收站中恢复它。",
-    "confirm-delete-songs": "确定要删除这些歌曲？你可以从回收站中恢复它们。",
     "delete-songs-error": "删除歌曲时发生错误。请查看日志以获取更多信息。",
     "save-rating-error": "保存评分时发生错误。请查看日志以获取更多信息。",
     "rating": "评分",
@@ -351,5 +349,7 @@
     "greater-than": "greater than",
     "less-than": "less than",
     "bitrate": "Bitrate",
-    "value": "Value"
+    "value": "Value",
+    "confirm-delete-song": "Are you sure you want to delete this song? It will be moved to the trash if possible, otherwise it will be permanently deleted.",
+    "confirm-delete-songs": "Are you sure you want to delete these songs? They will be moved to the trash if possible, otherwise they will be permanently deleted."
 }

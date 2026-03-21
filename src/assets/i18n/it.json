@@ -201,8 +201,6 @@
     "which-pages-should-be-visible": "Quali pagine devono essere mostrate?",
     "delete-song": "Elimina brano",
     "delete-songs": "Elimina brani",
-    "confirm-delete-song": "Sei sicuro di voler eliminare questo brano? Puoi ripristinarlo dal cestino.",
-    "confirm-delete-songs": "Sei sicuro di voler eliminare questi brani? Puoi ripristinarli dal cestino.",
     "delete-songs-error": "C'è stato un errore durante l'eliminazione dei brani. Verifica il log per maggiori informazioni.",
     "save-rating-error": "C'è stato un errore durante il salvataggio della valutazione. Verifica il log per maggiori informazioni.",
     "rating": "Valutazione",
@@ -351,5 +349,7 @@
     "greater-than": "greater than",
     "less-than": "less than",
     "bitrate": "Bitrate",
-    "value": "Value"
+    "value": "Value",
+    "confirm-delete-song": "Are you sure you want to delete this song? It will be moved to the trash if possible, otherwise it will be permanently deleted.",
+    "confirm-delete-songs": "Are you sure you want to delete these songs? They will be moved to the trash if possible, otherwise they will be permanently deleted."
 }

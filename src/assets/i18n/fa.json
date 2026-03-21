@@ -201,8 +201,6 @@
     "which-pages-should-be-visible": "کدام صفحات باید قابل مشاهده باشند؟",
     "delete-song": "حذف آهنگ",
     "delete-songs": "حذف آهنگ ها",
-    "confirm-delete-song": "آیا مطمئن هستید که می خواهید این آهنگ را حذف کنید؟ ",
-    "confirm-delete-songs": "آیا مطمئن هستید که می خواهید این آهنگ ها را حذف کنید؟ ",
     "delete-songs-error": "هنگام حذف آهنگ ها خطایی روی داد. ",
     "save-rating-error": "هنگام ذخیره رتبه‌بندی خطایی روی داد. ",
     "rating": "رتبه بندی",
@@ -351,5 +349,7 @@
     "greater-than": "greater than",
     "less-than": "less than",
     "bitrate": "Bitrate",
-    "value": "Value"
+    "value": "Value",
+    "confirm-delete-song": "Are you sure you want to delete this song? It will be moved to the trash if possible, otherwise it will be permanently deleted.",
+    "confirm-delete-songs": "Are you sure you want to delete these songs? They will be moved to the trash if possible, otherwise they will be permanently deleted."
 }
