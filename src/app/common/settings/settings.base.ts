@@ -86,6 +86,9 @@ export abstract class SettingsBase {
     public abstract fullPlayerPositionSizeMaximized: string;
     public abstract coverPlayerPosition: string;
     public abstract useGaplessPlayback: boolean;
+    public abstract showRichLyrics: boolean;
+    public abstract richLyricsLineCount: number;
+    public abstract richLyricsFontSize: number;
     public abstract useCrossfade: boolean;
     public abstract crossfadeDuration: number;
     public abstract jumpToPlayingSong: boolean;
