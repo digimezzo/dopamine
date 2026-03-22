@@ -4,7 +4,7 @@ import { ApplicationBase } from '../../../common/io/application.base';
 
 @Component({
     selector: 'app-window-controls',
-    host: { style: 'display: block' },
+    host: { style: 'display: block; -webkit-app-region: no-drag' },
     templateUrl: './window-controls.component.html',
     styleUrls: ['./window-controls.component.scss'],
     encapsulation: ViewEncapsulation.None,

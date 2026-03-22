@@ -5,7 +5,7 @@ import { UpdateServiceBase } from '../../../services/update/update.service.base'
 
 @Component({
     selector: 'app-main-menu',
-    host: { style: 'display: block' },
+    host: { style: 'display: block, -webkit-app-region: no-drag' },
     templateUrl: './main-menu.component.html',
     styleUrls: ['./main-menu.component.scss'],
     encapsulation: ViewEncapsulation.None,

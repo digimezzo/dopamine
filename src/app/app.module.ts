@@ -146,6 +146,7 @@ import { WelcomeComponent } from './ui/components/welcome/welcome.component';
 import { WindowControlsComponent } from './ui/components/window-controls/window-controls.component';
 import { CdkVirtualScrollViewportPatchDirective } from './ui/directives/cdk-virtual-scroll-viewport-patch-directive';
 import { WebviewDirective } from './ui/directives/webview.directive';
+import { WindowDraggableDirective } from './ui/directives/window-draggable.directive';
 import { GlobalErrorHandler } from './globalErrorHandler';
 import { AlbumsFilterPipe } from './ui/pipes/albums-filter.pipe';
 import { FolderNamePipe } from './ui/pipes/folder-name.pipe';
@@ -344,6 +345,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
     declarations: [
         AppComponent,
         WebviewDirective,
+        WindowDraggableDirective,
         CdkVirtualScrollViewportPatchDirective,
         WelcomeComponent,
         CollectionComponent,
