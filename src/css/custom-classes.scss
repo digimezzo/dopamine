@@ -130,6 +130,11 @@
     -webkit-app-region: drag;
 }
 
+.dragging,
+.dragging * {
+    cursor: grabbing !important;
+}
+
 .title {
     color: var(--theme-accent-color);
     font-weight: lighter !important;

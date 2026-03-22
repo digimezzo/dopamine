@@ -12,6 +12,7 @@
     position: fixed;
     top: 0;
     z-index: 1000;
+    -webkit-app-region: drag;
 }
 
 .window-frame__dragarea {
@@ -22,7 +23,7 @@
     color: white;
 }
 
-.window-frame__trafficlights{
+.window-frame__trafficlights {
     width: 70px;
     flex: 0 0 70px;
 }
