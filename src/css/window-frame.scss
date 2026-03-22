@@ -12,15 +12,10 @@
     position: fixed;
     top: 0;
     z-index: 1000;
-    -webkit-app-region: drag;
 }
 
-.window-frame__dragarea {
-    height: $titlebar-height;
-    line-height: $titlebar-height;
+.window-frame__spacer {
     flex: 1;
-    -webkit-app-region: drag;
-    color: white;
 }
 
 .window-frame__trafficlights {

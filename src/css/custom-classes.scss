@@ -126,10 +126,6 @@
     white-space: pre-line;
 }
 
-.draggable {
-    -webkit-app-region: drag;
-}
-
 .dragging,
 .dragging * {
     cursor: grabbing !important;
