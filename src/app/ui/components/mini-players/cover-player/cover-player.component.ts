@@ -11,6 +11,7 @@ import { AudioVisualizer } from '../../../../services/playback/audio-visualizer'
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { SettingsBase } from '../../../../common/settings/settings.base';
+import { DesktopBase } from '../../../../common/io/desktop.base';
 
 @Component({
     selector: 'app-cover-player',
@@ -45,11 +46,12 @@ export class CoverPlayerComponent implements OnInit, AfterViewInit {
     public constructor(
         public appearanceService: AppearanceServiceBase,
         public contextMenuOpener: ContextMenuOpener,
+        public settings: SettingsBase,
         private navigationService: NavigationServiceBase,
         private _bottomSheet: MatBottomSheet,
         private audioVisualizer: AudioVisualizer,
         private documentProxy: DocumentProxy,
-        public settings: SettingsBase,
+        private desktop: DesktopBase,
     ) {}
 
     @ViewChild('coverPlayerContextMenuAnchor', { read: MatMenuTrigger, static: false })
@@ -60,6 +62,8 @@ export class CoverPlayerComponent implements OnInit, AfterViewInit {
     public playbackQueueIsVisible: boolean = false;
 
     public ngOnInit(): void {
+        this.desktop.setWindowAlwaysOnTop(this.settings.miniPlayerAlwaysOnTop);
+
         document.addEventListener('mousemove', () => {
             this.resetTimer();
         });
@@ -109,6 +113,7 @@ export class CoverPlayerComponent implements OnInit, AfterViewInit {
 
     public onAlwaysOnTop(): void {
         this.settings.miniPlayerAlwaysOnTop = !this.settings.miniPlayerAlwaysOnTop;
+        this.desktop.setWindowAlwaysOnTop(this.settings.miniPlayerAlwaysOnTop);
     }
 
     public onLockPosition(): void {
