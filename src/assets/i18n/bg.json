@@ -351,5 +351,7 @@
     "bitrate": "Bitrate",
     "value": "Value",
     "confirm-delete-song": "Are you sure you want to delete this song? It will be moved to the trash if possible, otherwise it will be permanently deleted.",
-    "confirm-delete-songs": "Are you sure you want to delete these songs? They will be moved to the trash if possible, otherwise they will be permanently deleted."
+    "confirm-delete-songs": "Are you sure you want to delete these songs? They will be moved to the trash if possible, otherwise they will be permanently deleted.",
+    "always-on-top": "Always on top",
+    "lock-position": "Lock position"
 }
