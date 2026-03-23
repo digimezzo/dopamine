@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { CoverPlayerPlaybackQueueComponent } from './cover-player-playback-queue/cover-player-playback-queue.component';
@@ -8,6 +8,9 @@ import { enterLeftToRight, enterRightToLeft } from '../../../animations/animatio
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { DocumentProxy } from '../../../../common/io/document-proxy';
 import { AudioVisualizer } from '../../../../services/playback/audio-visualizer';
+import { ContextMenuOpener } from '../../context-menu-opener';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-cover-player',
@@ -41,11 +44,16 @@ export class CoverPlayerComponent implements OnInit, AfterViewInit {
 
     public constructor(
         public appearanceService: AppearanceServiceBase,
+        public contextMenuOpener: ContextMenuOpener,
         private navigationService: NavigationServiceBase,
         private _bottomSheet: MatBottomSheet,
         private audioVisualizer: AudioVisualizer,
         private documentProxy: DocumentProxy,
+        public settings: SettingsBase,
     ) {}
+
+    @ViewChild('coverPlayerContextMenuAnchor', { read: MatMenuTrigger, static: false })
+    public coverPlayerContextMenu: MatMenuTrigger;
 
     public controlsVisibility: string = 'visible';
 
@@ -93,5 +101,17 @@ export class CoverPlayerComponent implements OnInit, AfterViewInit {
 
     public openVolumeControl(): void {
         this._bottomSheet.open(CoverPlayerVolumeControlComponent);
+    }
+
+    public onCoverPlayerContextMenu(event: MouseEvent): void {
+        this.contextMenuOpener.open(this.coverPlayerContextMenu, event, undefined);
+    }
+
+    public onAlwaysOnTop(): void {
+        this.settings.miniPlayerAlwaysOnTop = !this.settings.miniPlayerAlwaysOnTop;
+    }
+
+    public onLockPosition(): void {
+        this.settings.miniPlayerLockPosition = !this.settings.miniPlayerLockPosition;
     }
 }

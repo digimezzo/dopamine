@@ -357,6 +357,8 @@ describe('validate i18n', () => {
         'album-artist',
         'add-if-any-rule-matches',
         'album-title',
+        'always-on-top',
+        'lock-position',
     ].sort();
 
     Constants.languages.forEach((language) => {
