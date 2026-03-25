@@ -350,8 +350,8 @@
     "less-than": "menor que",
     "bitrate": "Taxa de bits",
     "value": "Valor",
-    "confirm-delete-song": "Tens a certeza de que queres eliminar esta música? Será movida para o lixo, se possível; caso contrário, será eliminada permanentemente.",
-    "confirm-delete-songs": "Tens a certeza de que queres eliminar estas músicas? Serão movidas para o lixo, se possível; caso contrário, serão eliminadas permanentemente.",
+    "confirm-delete-song": "Tens a certeza de que queres eliminar esta música? Será movida para a Reciclagem, se possível; caso contrário, será eliminada permanentemente.",
+    "confirm-delete-songs": "Tens a certeza de que queres eliminar estas músicas? Serão movidas para a Reciclagem, se possível; caso contrário, serão eliminadas permanentemente.",
     "always-on-top": "Sempre no topo",
     "lock-position": "Fixar posição",
     "always-show-song": "Mostrar sempre a música"
