@@ -17,7 +17,6 @@ export class ContextMenuOpener {
             contextMenu.menuData = { data: selectable };
         }
 
-        contextMenu.menu?.focusFirstItem('mouse');
         contextMenu.openMenu();
     }
 }
