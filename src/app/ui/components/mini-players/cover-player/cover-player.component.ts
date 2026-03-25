@@ -38,6 +38,22 @@ import { DesktopBase } from '../../../../common/io/desktop.base';
             transition('hidden => visible', animate('.25s')),
             transition('visible => hidden', animate('1s')),
         ]),
+        trigger('songVisibility', [
+            state(
+                'visible',
+                style({
+                    opacity: 1,
+                }),
+            ),
+            state(
+                'hidden',
+                style({
+                    opacity: 0,
+                }),
+            ),
+            transition('hidden => visible', animate('.25s')),
+            transition('visible => hidden', animate('1s')),
+        ]),
     ],
 })
 export class CoverPlayerComponent implements OnInit, AfterViewInit {
@@ -58,6 +74,8 @@ export class CoverPlayerComponent implements OnInit, AfterViewInit {
     public coverPlayerContextMenu: MatMenuTrigger;
 
     public controlsVisibility: string = 'visible';
+
+    public songVisibility: string = 'visible';
 
     public playbackQueueIsVisible: boolean = false;
 
@@ -88,9 +106,13 @@ export class CoverPlayerComponent implements OnInit, AfterViewInit {
         clearTimeout(this.timerId);
 
         this.controlsVisibility = 'visible';
+        this.songVisibility = 'visible';
 
         this.timerId = window.setTimeout(() => {
             this.controlsVisibility = 'hidden';
+            if (!this.settings.miniPlayerAlwaysShowSong) {
+                this.songVisibility = 'hidden';
+            }
         }, 5000);
     }
 
@@ -118,5 +140,9 @@ export class CoverPlayerComponent implements OnInit, AfterViewInit {
 
     public onLockPosition(): void {
         this.settings.miniPlayerLockPosition = !this.settings.miniPlayerLockPosition;
+    }
+
+    public onAlwaysShowSong(): void {
+        this.settings.miniPlayerAlwaysShowSong = !this.settings.miniPlayerAlwaysShowSong;
     }
 }

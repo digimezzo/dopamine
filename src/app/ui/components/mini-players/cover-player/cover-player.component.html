@@ -17,7 +17,7 @@
 <div class="cover-player__content" (contextmenu)="onCoverPlayerContextMenu($event)">
     <div class="cover-player__cover-pane">
         <app-playback-cover-art class="cover-player-cover-pane__cover" [size]="350"></app-playback-cover-art>
-        <div class="cover-player-cover-pane__songinfo" [@controlsVisibility]="controlsVisibility">
+        <div class="cover-player-cover-pane__songinfo" [@songVisibility]="songVisibility">
             <app-playback-information
                 class="mx-4"
                 [height]="100"
@@ -69,6 +69,11 @@
         <button mat-menu-item (click)="onLockPosition()">
             <i class="las la-check accent-color mr-2" [style.visibility]="settings.miniPlayerLockPosition ? 'visible' : 'hidden'"></i>
             <span>{{ 'lock-position' | translate }}</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onAlwaysShowSong()">
+            <i class="las la-check accent-color mr-2" [style.visibility]="settings.miniPlayerAlwaysShowSong ? 'visible' : 'hidden'"></i>
+            <span>{{ 'always-show-song' | translate }}</span>
         </button>
     </ng-template>
 </mat-menu>

@@ -93,4 +93,5 @@ export abstract class SettingsBase {
     public abstract useCompactYearView: boolean;
     public abstract miniPlayerAlwaysOnTop: boolean;
     public abstract miniPlayerLockPosition: boolean;
+    public abstract miniPlayerAlwaysShowSong: boolean;
 }

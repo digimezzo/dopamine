@@ -89,4 +89,5 @@ export const DEFAULT_SETTINGS = {
     useCompactYearView: false,
     miniPlayerAlwaysOnTop: false,
     miniPlayerLockPosition: false,
+    miniPlayerAlwaysShowSong: false,
 } as const;

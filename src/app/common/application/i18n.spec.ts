@@ -359,6 +359,7 @@ describe('validate i18n', () => {
         'album-title',
         'always-on-top',
         'lock-position',
+        'always-show-song',
     ].sort();
 
     Constants.languages.forEach((language) => {

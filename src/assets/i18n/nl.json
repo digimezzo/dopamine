@@ -353,5 +353,6 @@
     "confirm-delete-song": "Weet je zeker dat je dit nummer wilt verwijderen? Het wordt indien mogelijk naar de prullenbak verplaatst, anders wordt het permanent verwijderd.",
     "confirm-delete-songs": "Weet je zeker dat je deze nummers wilt verwijderen? Ze worden indien mogelijk naar de prullenbak verplaatst, anders worden ze permanent verwijderd.",
     "always-on-top": "Altijd op de voorgrond",
-    "lock-position": "Vergrendel positie"
+    "lock-position": "Vergrendel positie",
+    "always-show-song": "Altijd nummer tonen"
 }

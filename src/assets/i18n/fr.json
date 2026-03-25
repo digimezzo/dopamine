@@ -353,5 +353,6 @@
     "confirm-delete-song": "Êtes-vous sûr de vouloir supprimer ce morceau? Il sera déplacé vers la corbeille si possible, sinon il sera supprimé définitivement.",
     "confirm-delete-songs": "Êtes-vous sûr de vouloir supprimer ces morceaux? Ils seront déplacés vers la corbeille si possible, sinon ils seront supprimés définitivement.",
     "always-on-top": "Toujours au premier plan",
-    "lock-position": "Verrouiller la position"
+    "lock-position": "Verrouiller la position",
+    "always-show-song": "Toujours afficher le morceau"
 }
