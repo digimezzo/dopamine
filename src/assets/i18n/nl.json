@@ -354,5 +354,7 @@
     "confirm-delete-songs": "Weet je zeker dat je deze nummers wilt verwijderen? Ze worden indien mogelijk naar de prullenbak verplaatst, anders worden ze permanent verwijderd.",
     "always-on-top": "Altijd op de voorgrond",
     "lock-position": "Vergrendel positie",
-    "always-show-song": "Altijd nummer tonen"
+    "always-show-song": "Altijd nummer tonen",
+    "play-next": " Afspelen als volgende",
+    "playing-next": "Wordt als volgende afgespeeld"
 }

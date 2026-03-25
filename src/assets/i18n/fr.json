@@ -354,5 +354,7 @@
     "confirm-delete-songs": "Êtes-vous sûr de vouloir supprimer ces morceaux? Ils seront déplacés vers la corbeille si possible, sinon ils seront supprimés définitivement.",
     "always-on-top": "Toujours au premier plan",
     "lock-position": "Verrouiller la position",
-    "always-show-song": "Toujours afficher le morceau"
+    "always-show-song": "Toujours afficher le morceau",
+    "play-next": "Jouer ensuite",
+    "playing-next": "En cours de lecture ensuite"
 }

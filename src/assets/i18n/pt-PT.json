@@ -354,6 +354,8 @@
     "confirm-delete-songs": "Are you sure you want to delete these songs? They will be moved to the trash if possible, otherwise they will be permanently deleted.",
     "always-on-top": "Always on top",
     "lock-position": "Lock position",
-    "always-show-song": "Always show song"
+    "always-show-song": "Always show song",
+    "play-next": "Play next",
+    "playing-next": "Playing next"
 }
 

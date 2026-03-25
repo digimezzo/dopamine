@@ -360,6 +360,8 @@ describe('validate i18n', () => {
         'always-on-top',
         'lock-position',
         'always-show-song',
+        'play-next',
+        'playing-next',
     ].sort();
 
     Constants.languages.forEach((language) => {
