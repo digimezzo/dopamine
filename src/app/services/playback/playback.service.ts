@@ -49,6 +49,7 @@ export class PlaybackService {
     private subscription: Subscription = new Subscription();
     private _audioPlayer: IAudioPlayer;
     private _preloadTimeoutId: NodeJS.Timeout | number | undefined;
+    private _nextQueue: TrackModel[] = [];
 
     public constructor(
         private audioPlayerFactory: AudioPlayerFactory,
@@ -81,6 +82,14 @@ export class PlaybackService {
         }
 
         return trackModels;
+    }
+
+    public get nextQueue(): TrackModel[] {
+        return this._nextQueue;
+    }
+
+    public get hasNextQueue(): boolean {
+        return this._nextQueue.length > 0;
     }
 
     public get audioPlayer(): IAudioPlayer {
@@ -419,13 +428,16 @@ export class PlaybackService {
             if (this._preloadTimeoutId !== undefined && this._preloadTimeoutId !== null) {
                 clearTimeout(this._preloadTimeoutId);
             }
-            this._preloadTimeoutId = setTimeout(() => {
-                if (this.currentTrack === undefined) {
-                    return;
-                }
-                this._audioPlayer.preloadNext(nextTrack);
-                this.logger.info(`Preloaded '${nextTrack.path}'`, 'PlaybackService', 'preloadNextTrackAfterDelay');
-            }, this.settings.useCrossfade ? 500 : 2000); // Preload sooner when using crossfade to ensure crossfade is ready
+            this._preloadTimeoutId = setTimeout(
+                () => {
+                    if (this.currentTrack === undefined) {
+                        return;
+                    }
+                    this._audioPlayer.preloadNext(nextTrack);
+                    this.logger.info(`Preloaded '${nextTrack.path}'`, 'PlaybackService', 'preloadNextTrackAfterDelay');
+                },
+                this.settings.useCrossfade ? 500 : 2000,
+            ); // Preload sooner when using crossfade to ensure crossfade is ready
         }
     }
 
@@ -686,5 +698,8 @@ export class PlaybackService {
                 }
             }
         }
+    }
+    public enqueueNext(tracks: TrackModel[]): void {
+        this._nextQueue.push(...tracks);
     }
 }

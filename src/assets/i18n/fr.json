@@ -356,5 +356,6 @@
     "lock-position": "Verrouiller la position",
     "always-show-song": "Toujours afficher le morceau",
     "play-next": "Jouer ensuite",
-    "playing-next": "En cours de lecture ensuite"
+    "playing-next": "En cours de lecture ensuite",
+    "next-in-queue": "Suivant dans la file d'attente"
 }

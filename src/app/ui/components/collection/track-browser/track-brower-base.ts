@@ -36,6 +36,10 @@ export class TrackBrowserBase {
         await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
     }
 
+    public onEnqueueNext(): void {
+        this.playbackService.enqueueNext(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
+    }
+
     public onShowInFolder(): void {
         const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems as TrackModel[];
 

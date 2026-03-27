@@ -1,3 +1,8 @@
 .playback-queue__trackscount {
     color: var(--theme-accent-color);
 }
+
+.playback-queue__lists-container {
+    min-height: 0;
+    overflow-y: auto;
+}

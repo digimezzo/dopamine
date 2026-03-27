@@ -356,5 +356,6 @@
     "lock-position": "Vergrendel positie",
     "always-show-song": "Altijd nummer tonen",
     "play-next": " Afspelen als volgende",
-    "playing-next": "Wordt als volgende afgespeeld"
+    "playing-next": "Wordt als volgende afgespeeld",
+    "next-in-queue": "Volgende in wachtrij"
 }

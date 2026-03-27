@@ -356,6 +356,7 @@
     "lock-position": "Lock position",
     "always-show-song": "Always show song",
     "play-next": "Play next",
-    "playing-next": "Playing next"
+    "playing-next": "Playing next",
+    "next-in-queue": "Next in queue"
 }
 
