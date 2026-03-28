@@ -127,7 +127,7 @@ jobs:
                   prop_path: 'version'
             - name: Download and Install 7-Zip
               run: |
-                  curl -L -o 7z.exe https://www.7-zip.org/a/7z2201-x64.exe
+                  curl -L -o 7z.exe https://www.7-zip.org/a/7z2600-x64.exe
                   Start-Process -FilePath 7z.exe -ArgumentList '/S' -Wait
             - name: Create 7z Archive With Only EXE Files
               shell: cmd
