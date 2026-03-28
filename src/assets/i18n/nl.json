@@ -357,5 +357,8 @@
     "always-show-song": "Altijd nummer tonen",
     "play-next": " Afspelen als volgende",
     "playing-next": "Wordt als volgende afgespeeld",
-    "next-in-queue": "Volgende in wachtrij"
+    "next-in-queue": "Volgende in wachtrij",
+    "remove-from-playing-next": "Verwijderen uit volgende in wachtrij",
+    "single-track-added-to-playing-next": "1 nummer toegevoegd aan volgende in wachtrij",
+    "multiple-tracks-added-to-playing-next": "{{numberOfAddedTracks}} nummers toegevoegd aan volgende in wachtrij"
 }

@@ -29,8 +29,11 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
         private navigationService: NavigationServiceBase,
     ) {}
 
-    @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })
-    public trackContextMenu: MatMenuTrigger;
+    @ViewChild('queueTrackContextMenuAnchor', { read: MatMenuTrigger, static: false })
+    public queueTrackContextMenu: MatMenuTrigger;
+
+    @ViewChild('nextQueueTrackContextMenuAnchor', { read: MatMenuTrigger, static: false })
+    public nextQueueTrackContextMenu: MatMenuTrigger;
 
     @Input()
     public showTitle: boolean = true;
@@ -62,7 +65,10 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
                     this._shouldShowList = true;
                 }, 250);
 
-                this.mouseSelectionWatcher.initialize(this.playbackService.playbackQueue.tracks);
+                this.mouseSelectionWatcher.initialize([
+                    ...this.playbackService.nextQueue.tracks,
+                    ...this.playbackService.playbackQueue.tracks,
+                ]);
             }),
         );
     }
@@ -71,11 +77,19 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
         this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
     }
 
-    public onTrackContextMenu(event: MouseEvent, track: TrackModel): void {
-        this.contextMenuOpener.open(this.trackContextMenu, event, track);
+    public onQueueTrackContextMenu(event: MouseEvent, track: TrackModel): void {
+        this.contextMenuOpener.open(this.queueTrackContextMenu, event, track);
+    }
+
+    public onNextQueueTrackContextMenu(event: MouseEvent, track: TrackModel): void {
+        this.contextMenuOpener.open(this.nextQueueTrackContextMenu, event, track);
     }
 
     public onRemoveFromQueue(): void {
         this.playbackService.removeFromQueue(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
+    }
+
+    public onRemoveFromNextQueue(): void {
+        this.playbackService.removeFromNextQueue(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
     }
 }

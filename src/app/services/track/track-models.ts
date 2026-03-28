@@ -27,4 +27,17 @@ export class TrackModels {
         this._totalDurationInMilliseconds += track.durationInMilliseconds;
         this._totalFileSizeInBytes += track.fileSizeInBytes;
     }
+
+    public removeTrack(track: TrackModel | undefined): void {
+        if (track == undefined) {
+            return;
+        }
+
+        const index: number = this.tracks.indexOf(track);
+        if (index !== -1) {
+            this.tracks.splice(index, 1);
+            this._totalDurationInMilliseconds -= track.durationInMilliseconds;
+            this._totalFileSizeInBytes -= track.fileSizeInBytes;
+        }
+    }
 }

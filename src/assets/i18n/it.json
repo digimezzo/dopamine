@@ -357,5 +357,8 @@
     "always-show-song": "Always show song",
     "play-next": "Play next",
     "playing-next": "Playing next",
-    "next-in-queue": "Next in queue"
+    "next-in-queue": "Next in queue",
+    "remove-from-playing-next": "Remove from playing next",
+    "single-track-added-to-playing-next": "Single track added to playing next",
+    "multiple-tracks-added-to-playing-next": "{{numberOfAddedTracks}} tracks added to playing next"
 }

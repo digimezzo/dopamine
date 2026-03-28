@@ -15,6 +15,8 @@ export abstract class NotificationServiceBase {
     public abstract dismiss(): void;
     public abstract singleTrackAddedToPlaylistAsync(playlistName: string): Promise<void>;
     public abstract multipleTracksAddedToPlaylistAsync(playlistName: string, numberOfAddedTracks: number): Promise<void>;
+    public abstract singleTrackAddedToPlayingNextAsync(): Promise<void>;
+    public abstract multipleTracksAddedToPlayingNextAsync(numberOfAddedTracks: number): Promise<void>;
     public abstract singleTrackAddedToPlaybackQueueAsync(): Promise<void>;
     public abstract multipleTracksAddedToPlaybackQueueAsync(numberOfAddedTracks: number): Promise<void>;
     public abstract lastFmLoginFailedAsync(): Promise<void>;

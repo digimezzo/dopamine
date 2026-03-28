@@ -49,7 +49,7 @@ export class PlaybackService {
     private subscription: Subscription = new Subscription();
     private _audioPlayer: IAudioPlayer;
     private _preloadTimeoutId: NodeJS.Timeout | number | undefined;
-    private _nextQueue: TrackModel[] = [];
+    private _nextQueue: TrackModels = new TrackModels();
 
     public constructor(
         private audioPlayerFactory: AudioPlayerFactory,
@@ -84,12 +84,8 @@ export class PlaybackService {
         return trackModels;
     }
 
-    public get nextQueue(): TrackModel[] {
+    public get nextQueue(): TrackModels {
         return this._nextQueue;
-    }
-
-    public get hasNextQueue(): boolean {
-        return this._nextQueue.length > 0;
     }
 
     public get audioPlayer(): IAudioPlayer {
@@ -235,6 +231,16 @@ export class PlaybackService {
         }
 
         this.queue.removeTracks(tracksToRemove);
+    }
+
+    public removeFromNextQueue(tracksToRemove: TrackModel[]): void {
+        if (tracksToRemove.length === 0) {
+            return;
+        }
+
+        for (let index = 0; index < tracksToRemove.length; index++) {
+            this.nextQueue.removeTrack(tracksToRemove[index]);
+        }
     }
 
     public async playQueuedTrackAsync(trackToPlay: TrackModel): Promise<void> {
@@ -600,6 +606,14 @@ export class PlaybackService {
         }
     }
 
+    private async notifyOfTracksAddedToPlayingNextAsync(numberOfAddedTracks: number): Promise<void> {
+        if (numberOfAddedTracks === 1) {
+            await this.notificationService.singleTrackAddedToPlayingNextAsync();
+        } else {
+            await this.notificationService.multipleTracksAddedToPlayingNextAsync(numberOfAddedTracks);
+        }
+    }
+
     public async RestoreQueueIfNeededAsync(): Promise<void> {
         if (this.settings.rememberPlaybackStateAfterRestart) {
             if (this.settings.playbackControlsLoop !== 0) {
@@ -699,7 +713,12 @@ export class PlaybackService {
             }
         }
     }
-    public enqueueNext(tracks: TrackModel[]): void {
-        this._nextQueue.push(...tracks);
+    public async enqueueNextAsync(tracks: TrackModel[]): Promise<void> {
+        for (const track of tracks) {
+            this._nextQueue.addTrack(track.clone());
+        }
+
+        this.logger.info(`Added '${tracks?.length}' tracks to the next queue`, 'PlaybackService', 'enqueueNext');
+        await this.notifyOfTracksAddedToPlayingNextAsync(tracks.length);
     }
 }

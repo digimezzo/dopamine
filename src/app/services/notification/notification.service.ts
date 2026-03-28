@@ -79,6 +79,17 @@ export class NotificationService implements NotificationServiceBase {
         await this.showSelfClosingNotificationAsync('las la-check', message, false);
     }
 
+    public async singleTrackAddedToPlayingNextAsync(): Promise<void> {
+        const message: string = await this.translatorService.getAsync('single-track-added-to-playing-next');
+        await this.showSelfClosingNotificationAsync('las la-check', message, false);
+    }
+    public async multipleTracksAddedToPlayingNextAsync(numberOfAddedTracks: number): Promise<void> {
+        const message: string = await this.translatorService.getAsync('multiple-tracks-added-to-playing-next', {
+            numberOfAddedTracks: numberOfAddedTracks,
+        });
+        await this.showSelfClosingNotificationAsync('las la-check', message, false);
+    }
+
     public async singleTrackAddedToPlaybackQueueAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('single-track-added-to-playback-queue');
         await this.showSelfClosingNotificationAsync('las la-check', message, false);
