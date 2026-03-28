@@ -125,6 +125,7 @@ export class PlaybackService {
     }
 
     public currentTrack: TrackModel | undefined;
+    private _currentTrackToRestore: TrackModel | undefined;
 
     public progressChanged$: Observable<PlaybackProgress> = this.progressChanged.asObservable();
     public playbackStarted$: Observable<PlaybackStarted> = this.playbackStarted.asObservable();
@@ -346,6 +347,20 @@ export class PlaybackService {
 
     public async playNextAsync(): Promise<void> {
         this.increaseCountersForCurrentTrackBasedOnProgress();
+
+        if (this.nextQueue.tracks.length > 0) {
+            if (this.currentTrack && !this._currentTrackToRestore) {
+                this._currentTrackToRestore = this.currentTrack;
+            }
+
+            const trackToPlay: TrackModel = this.nextQueue.tracks[0];
+            this.nextQueue.removeTrack(trackToPlay);
+            await this.stopAndPlayAsync(trackToPlay, false);
+            return;
+        } else if (this._currentTrackToRestore) {
+            this.currentTrack = this._currentTrackToRestore;
+            this._currentTrackToRestore = undefined;
+        }
 
         const allowWrapAround: boolean = this.loopMode === LoopMode.All;
         const trackToPlay: TrackModel | undefined = this.queue.getNextTrack(this.currentTrack, allowWrapAround);
