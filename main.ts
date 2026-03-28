@@ -202,6 +202,8 @@ function createMainWindow(): void {
             devTools: !app.isPackaged,
         },
         show: false,
+        minWidth: 800,
+        minHeight: 600,
     });
 
     setInitialWindowState(mainWindow);
