@@ -80,7 +80,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: dopamine-merge-macos-arm
-                  path: release/Dopamine-*-arm.dmg
+                  path: release/Dopamine-*.dmg
 
     merge_build_on_mac_intel:
         runs-on: macos-15-intel
@@ -106,7 +106,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: dopamine-merge-macos-intel
-                  path: release/Dopamine-*-intel.dmg
+                  path: release/Dopamine-*.dmg
 
     merge_build_on_win:
         runs-on: windows-2022
