@@ -1,5 +1,5 @@
 # Maintainer: Digimezzo <digimezzo@outlook.com>
-_productname=Dopamine
+_productname=dopamine
 _executablename=dopamine
 pkgname=dopamine-official
 pkgver=3.0.2
