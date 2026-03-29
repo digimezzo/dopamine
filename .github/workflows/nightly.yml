@@ -69,7 +69,7 @@ jobs:
             - name: install Arch dependencies
               run: |
                   pacman -Syu --noconfirm
-                  pacman -S --noconfirm nodejs npm git python base-devel libarchive
+                  pacman -S --noconfirm nodejs npm git python base-devel libarchive libxcrypt-compat
             - name: install dependencies
               run: npm install
             - name: run unit tests
