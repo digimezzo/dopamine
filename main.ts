@@ -9,7 +9,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/ban-types */
-import { app, BrowserWindow, ipcMain, Menu, nativeTheme, protocol, Tray } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, nativeImage, nativeTheme, protocol, Tray, NativeImage } from 'electron';
 import log from 'electron-log';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -125,7 +125,7 @@ function getIconsBasePath(): string {
     return path.join(globalAny.__static, 'icons');
 }
 
-function getTrayIcon(): string {
+function getTrayIconPath(): string {
     if (isMacOS()) {
         return path.join(getIconsBasePath(), 'trayTemplate.png');
     }
@@ -147,6 +147,26 @@ function getTrayIcon(): string {
             return path.join(getIconsBasePath(), 'tray_black.png');
         }
     }
+}
+
+function getTrayIcon(): NativeImage {
+    const trayIconPath = getTrayIconPath();
+    const trayImage = nativeImage.createFromPath(trayIconPath);
+
+    if (!trayImage.isEmpty()) {
+        return trayImage;
+    }
+
+    const fallbackIconPath = path.join(getIconsBasePath(), 'icon.png');
+    const fallbackImage = nativeImage.createFromPath(fallbackIconPath);
+
+    if (fallbackImage.isEmpty()) {
+        log.warn(`[Main] [getTrayIcon] Could not load tray icon from ${trayIconPath} and fallback icon from ${fallbackIconPath}.`);
+    } else {
+        log.warn(`[Main] [getTrayIcon] Could not load tray icon from ${trayIconPath}. Using fallback icon ${fallbackIconPath}.`);
+    }
+
+    return fallbackImage;
 }
 
 function setInitialWindowState(mainWindow: BrowserWindow): void {
