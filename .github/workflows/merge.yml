@@ -34,27 +34,27 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: dopamine-merge-rpm
-                  path: release/dopamine-*.rpm
+                  path: release/Dopamine-*.rpm
             - name: upload deb artifact
               uses: actions/upload-artifact@v4
               with:
                   name: dopamine-merge-deb
-                  path: release/dopamine-*.deb
+                  path: release/Dopamine-*.deb
             - name: upload appimage artifact
               uses: actions/upload-artifact@v4
               with:
                   name: dopamine-merge-appimage
-                  path: release/dopamine-*.AppImage
+                  path: release/Dopamine-*.AppImage
             - name: upload snap artifact
               uses: actions/upload-artifact@v4
               with:
                   name: dopamine-merge-snap
-                  path: release/dopamine-*.snap
+                  path: release/Dopamine-*.snap
             - name: upload pacman artifact
               uses: actions/upload-artifact@v4
               with:
                   name: dopamine-merge-pacman
-                  path: release/dopamine-*.pacman
+                  path: release/Dopamine-*.pacman
 
     merge_build_on_mac_arm:
         runs-on: macos-15
@@ -80,7 +80,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: dopamine-merge-macos-arm
-                  path: release/dopamine-*.dmg
+                  path: release/Dopamine-*.dmg
 
     merge_build_on_mac_intel:
         runs-on: macos-15-intel
@@ -106,7 +106,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: dopamine-merge-macos-intel
-                  path: release/dopamine-*.dmg
+                  path: release/Dopamine-*.dmg
 
     merge_build_on_win:
         runs-on: windows-2022
@@ -136,7 +136,7 @@ jobs:
               shell: cmd
               run: |
                   cd release
-                  "C:\Program Files\7-Zip\7z.exe" a ../dopamine-nightly-win.7z dopamine-*.exe
+                  "C:\Program Files\7-Zip\7z.exe" a ../dopamine-nightly-win.7z Dopamine-*.exe
             - name: Upload Build Artifact
               uses: actions/upload-artifact@v4
               with:
