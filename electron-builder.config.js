@@ -80,7 +80,13 @@ const config = {
         output: 'release',
     },
     files: ['**/*'],
-    extraResources: ['LICENSE'],
+    extraResources: [
+        'LICENSE',
+        {
+            from: 'static/icons',
+            to: 'static/icons',
+        },
+    ],
     win: {
         target: ['nsis'],
         artifactName: `\${productName}-${getFullVersion()}.\${ext}`,

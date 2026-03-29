@@ -11,6 +11,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { app, BrowserWindow, ipcMain, Menu, nativeTheme, protocol, Tray } from 'electron';
 import log from 'electron-log';
+import * as fs from 'fs';
 import * as path from 'path';
 import * as url from 'url';
 import { Worker } from 'worker_threads';
@@ -114,9 +115,19 @@ function shouldCloseToNotificationArea(): boolean {
     return settings.get('closeToNotificationArea');
 }
 
+function getIconsBasePath(): string {
+    const packagedIconsPath = path.join(process.resourcesPath, 'static/icons');
+
+    if (app.isPackaged && fs.existsSync(packagedIconsPath)) {
+        return packagedIconsPath;
+    }
+
+    return path.join(globalAny.__static, 'icons');
+}
+
 function getTrayIcon(): string {
     if (isMacOS()) {
-        return path.join(globalAny.__static, 'icons/trayTemplate.png');
+        return path.join(getIconsBasePath(), 'trayTemplate.png');
     }
 
     const invertColor: boolean = settings.get('invertNotificationAreaIconColor');
@@ -124,16 +135,16 @@ function getTrayIcon(): string {
     if (isWindows()) {
         if (!invertColor) {
             // Defaulting to black for Windows
-            return path.join(globalAny.__static, 'icons/tray_black.ico');
+            return path.join(getIconsBasePath(), 'tray_black.ico');
         } else {
-            return path.join(globalAny.__static, 'icons/tray_white.ico');
+            return path.join(getIconsBasePath(), 'tray_white.ico');
         }
     } else {
         if (!invertColor) {
             // Defaulting to white for Linux
-            return path.join(globalAny.__static, 'icons/tray_white.png');
+            return path.join(getIconsBasePath(), 'tray_white.png');
         } else {
-            return path.join(globalAny.__static, 'icons/tray_black.png');
+            return path.join(getIconsBasePath(), 'tray_black.png');
         }
     }
 }
@@ -194,7 +205,7 @@ function createMainWindow(): void {
         frame: windowHasFrame(),
         titleBarStyle: titleBarStyle(),
         trafficLightPosition: isMacOS() ? { x: 10, y: 15 } : undefined,
-        icon: path.join(globalAny.__static, isWindows() ? 'icons/icon.ico' : 'icons/64x64.png'),
+        icon: path.join(getIconsBasePath(), isWindows() ? 'icon.ico' : '64x64.png'),
         webPreferences: {
             webSecurity: false,
             nodeIntegration: true,
