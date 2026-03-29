@@ -23,7 +23,16 @@ jobs:
             - name: run unit tests
               run: npm run test
             - name: build
-              run: npm run electron:linux
+              run: |
+                  for i in 1 2 3; do
+                    npm run electron:linux && break
+                    if [ "$i" -eq 3 ]; then
+                      echo "Linux build failed after 3 attempts"
+                      exit 1
+                    fi
+                    echo "Linux build failed (attempt $i), retrying in 30s..."
+                    sleep 30
+                  done
             - name: fetch current version
               id: ver_name
               uses: notiz-dev/github-action-json-property@release
@@ -50,6 +59,33 @@ jobs:
               with:
                   name: dopamine-nightly-snap
                   path: release/Dopamine-*.snap
+
+    nightly_build_pacman_on_arch:
+        runs-on: ubuntu-22.04
+        container:
+            image: archlinux:latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: install Arch dependencies
+              run: |
+                  pacman -Syu --noconfirm
+                  pacman -S --noconfirm nodejs npm git python base-devel libarchive libxcrypt-compat
+            - name: install dependencies
+              run: npm install
+            - name: run unit tests
+              run: npm run test
+            - name: build pacman package
+              run: |
+                  npm run build:prod
+                  for i in 1 2 3; do
+                    npx electron-builder build --linux pacman --config electron-builder.config.js && break
+                    if [ "$i" -eq 3 ]; then
+                      echo "Pacman build failed after 3 attempts"
+                      exit 1
+                    fi
+                    echo "Pacman build failed (attempt $i), retrying in 30s..."
+                    sleep 30
+                  done
             - name: upload pacman artifact
               uses: actions/upload-artifact@v4
               with:
