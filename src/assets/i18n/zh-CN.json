@@ -294,9 +294,9 @@
     "thanks-to-visualisationexpo": "VisualisationExpo 绘制的超酷的 macOS 图标！",
     "gapless-playback": "无缝播放",
     "enable-gapless-playback": "启用无缝播放（重启生效）",
-    "crossfade": "Crossfade",
-    "use-crossfade": "Use crossfade (requires a restart)",
-    "crossfade-duration": "Crossfade duration (seconds): {{duration}}s",
+    "crossfade": "交叉渐入渐出",
+    "use-crossfade": "使用交叉渐入渐出效果（重启生效）",
+    "crossfade-duration": "交叉渐入渐出时长（秒）: {{duration}}s",
     "edit-track": "编辑歌曲",
     "edit-tracks": "编辑歌曲",
     "artist": "艺术家",
@@ -351,5 +351,8 @@
     "bitrate": "Bitrate",
     "value": "Value",
     "confirm-delete-song": "Are you sure you want to delete this song? It will be moved to the trash if possible, otherwise it will be permanently deleted.",
-    "confirm-delete-songs": "Are you sure you want to delete these songs? They will be moved to the trash if possible, otherwise they will be permanently deleted."
+    "confirm-delete-songs": "Are you sure you want to delete these songs? They will be moved to the trash if possible, otherwise they will be permanently deleted.",
+    "always-on-top": "Always on top",
+    "lock-position": "Lock position",
+    "always-show-song": "Always show song"
 }

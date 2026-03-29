@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.3] - 2026-03-22
+## [3.0.3] - 2026-03-28
 
 ### Added
 
@@ -12,14 +12,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added crossfade
 - Added smart playlists
 - Added Catppuccin and Dracula themes (Thank you BlackSpirits!)
+- Added "Always on top" and "Lock position" options to the mini player context menu
 
 ### Changed
 
 - Updated the Croatian translation
 - Updated the German translation
+- Updated the Italian translation
+- Updated the Portuguese (brazilian) translation
 - Updated the Portuguese (Portugal) translation
 - Updated the Simplified Chinese translation
 - Updated the Spanish translation
+- Updated the Vietnamese translation
 
 ### Fixed
 

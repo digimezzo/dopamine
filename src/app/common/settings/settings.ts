@@ -861,4 +861,31 @@ export class Settings implements SettingsBase {
     public set useCompactYearView(v: boolean) {
         this.set('useCompactYearView', v);
     }
+
+    // miniPlayerAlwaysOnTop
+    public get miniPlayerAlwaysOnTop(): boolean {
+        return this.get<boolean>('miniPlayerAlwaysOnTop');
+    }
+
+    public set miniPlayerAlwaysOnTop(v: boolean) {
+        this.set('miniPlayerAlwaysOnTop', v);
+    }
+
+    // miniPlayerLockPosition
+    public get miniPlayerLockPosition(): boolean {
+        return this.get<boolean>('miniPlayerLockPosition');
+    }
+
+    public set miniPlayerLockPosition(v: boolean) {
+        this.set('miniPlayerLockPosition', v);
+    }
+
+    // miniPlayerAlwaysShowSong
+    public get miniPlayerAlwaysShowSong(): boolean {
+        return this.get<boolean>('miniPlayerAlwaysShowSong');
+    }
+
+    public set miniPlayerAlwaysShowSong(v: boolean) {
+        this.set('miniPlayerAlwaysShowSong', v);
+    }
 }

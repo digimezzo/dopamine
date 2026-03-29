@@ -1,10 +1,11 @@
-import { Directive, HostListener, NgZone, OnDestroy } from '@angular/core';
+import { Directive, HostListener, Input, NgZone, OnDestroy } from '@angular/core';
 import * as remote from '@electron/remote';
 
 @Directive({
     selector: '[appWindowDraggable]',
 })
 export class WindowDraggableDirective implements OnDestroy {
+    @Input() public appWindowDraggableDisabled: boolean = false;
     private isDragging = false;
     private startScreenX = 0;
     private startScreenY = 0;
@@ -15,7 +16,7 @@ export class WindowDraggableDirective implements OnDestroy {
 
     @HostListener('mousedown', ['$event'])
     public onMouseDown(event: MouseEvent): void {
-        if (event.button !== 0) {
+        if (event.button !== 0 || this.appWindowDraggableDisabled) {
             return;
         }
 

@@ -98,4 +98,9 @@ export class Desktop implements DesktopBase {
     public getApplicationDataDirectory(): string {
         return remote.app.getPath('userData');
     }
+
+    public setWindowAlwaysOnTop(alwaysOnTop: boolean): void {
+        const win = remote.getCurrentWindow();
+        win.setAlwaysOnTop(alwaysOnTop);
+    }
 }
