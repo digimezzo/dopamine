@@ -92,6 +92,33 @@ function isWindows(): boolean {
     return process.platform === 'win32';
 }
 
+function isLinux(): boolean {
+    return process.platform === 'linux';
+}
+
+function isSnap(): boolean {
+    return Boolean(process.env.SNAP || process.env.SNAP_NAME);
+}
+
+function getSnapTrayIconReference(): string {
+    const snapName = process.env.SNAP_INSTANCE_NAME || process.env.SNAP_NAME || 'dopamine';
+    const snapRoot = process.env.SNAP || '';
+
+    const candidates = [
+        path.join(snapRoot, 'meta/gui/icon.png'),
+        `/var/lib/snapd/desktop/icons/${snapName}_${snapName}.png`,
+        `/var/lib/snapd/desktop/icons/${snapName}.png`,
+    ];
+
+    for (const candidate of candidates) {
+        if (candidate && fs.existsSync(candidate)) {
+            return candidate;
+        }
+    }
+
+    return 'dopamine';
+}
+
 function titleBarStyle(): 'hiddenInset' | 'default' {
     if (settings.get<boolean>('useSystemTitleBar')) {
         return 'default';
@@ -149,7 +176,11 @@ function getTrayIconPath(): string {
     }
 }
 
-function getTrayIcon(): NativeImage {
+function getTrayIcon(): NativeImage | string {
+    if (isLinux() && isSnap()) {
+        return getSnapTrayIconReference();
+    }
+
     const trayIconPath = getTrayIconPath();
     const trayImage = nativeImage.createFromPath(trayIconPath);
 
@@ -510,6 +541,11 @@ try {
             if (shouldShowIconInNotificationArea()) {
                 tray = new Tray(getTrayIcon());
                 tray.setToolTip('Dopamine');
+
+                if (isLinux() && isSnap()) {
+                    const snapTrayIconReference = getSnapTrayIconReference();
+                    log.info(`[Main] [Tray] Snap environment detected. Using tray icon reference: ${snapTrayIconReference}`);
+                }
             }
         });
 
@@ -523,6 +559,10 @@ try {
 
         nativeTheme.on('updated', () => {
             if (tray == undefined) {
+                return;
+            }
+
+            if (isLinux() && isSnap()) {
                 return;
             }
 
@@ -557,6 +597,10 @@ try {
 
         ipcMain.on('update-tray-icon', (event: any, arg: any) => {
             if (tray == undefined) {
+                return;
+            }
+
+            if (isLinux() && isSnap()) {
                 return;
             }
 
