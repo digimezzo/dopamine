@@ -50,6 +50,24 @@ jobs:
               with:
                   name: dopamine-merge-snap
                   path: release/Dopamine-*.snap
+
+    merge_build_pacman_on_arch:
+        runs-on: ubuntu-22.04
+        if: github.event.pull_request.merged == true
+        container:
+            image: archlinux:latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: install Arch dependencies
+              run: |
+                  pacman -Syu --noconfirm
+                  pacman -S --noconfirm nodejs npm git python base-devel libarchive
+            - name: install dependencies
+              run: npm install
+            - name: run unit tests
+              run: npm run test
+            - name: build pacman package
+              run: npm run build:prod && npx electron-builder build --linux pacman --config electron-builder.config.js
             - name: upload pacman artifact
               uses: actions/upload-artifact@v4
               with:
