@@ -6,11 +6,14 @@ import * as remote from '@electron/remote';
 })
 export class WindowDraggableDirective implements OnDestroy {
     @Input() public appWindowDraggableDisabled: boolean = false;
+    private readonly isWindows: boolean = remote.process.platform === 'win32';
     private isDragging = false;
     private startScreenX = 0;
     private startScreenY = 0;
     private startWinX = 0;
     private startWinY = 0;
+    private startWinWidth = 0;
+    private startWinHeight = 0;
 
     public constructor(private zone: NgZone) {}
 
@@ -25,8 +28,11 @@ export class WindowDraggableDirective implements OnDestroy {
 
         const win = remote.getCurrentWindow();
         const [winX, winY] = win.getPosition();
+        const [winWidth, winHeight] = win.getSize();
         this.startWinX = winX;
         this.startWinY = winY;
+        this.startWinWidth = winWidth;
+        this.startWinHeight = winHeight;
         this.isDragging = false;
 
         this.zone.runOutsideAngular(() => {
@@ -57,14 +63,39 @@ export class WindowDraggableDirective implements OnDestroy {
         const win = remote.getCurrentWindow();
         if (win.isMaximized()) {
             win.unmaximize();
-            const [width] = win.getSize();
+            const [width, height] = win.getSize();
             this.startWinX = event.screenX - width / 2;
             this.startWinY = event.screenY;
-            win.setPosition(this.startWinX, this.startWinY);
+            this.startWinWidth = width;
+            this.startWinHeight = height;
+
+            if (this.isWindows) {
+                win.setBounds({
+                    x: Math.round(this.startWinX),
+                    y: Math.round(this.startWinY),
+                    width: this.startWinWidth,
+                    height: this.startWinHeight,
+                });
+            } else {
+                win.setPosition(this.startWinX, this.startWinY);
+            }
+
             this.startScreenX = event.screenX;
             this.startScreenY = event.screenY;
         } else {
-            win.setPosition(this.startWinX + dx, this.startWinY + dy);
+            const nextX = Math.round(this.startWinX + dx);
+            const nextY = Math.round(this.startWinY + dy);
+
+            if (this.isWindows) {
+                win.setBounds({
+                    x: nextX,
+                    y: nextY,
+                    width: this.startWinWidth,
+                    height: this.startWinHeight,
+                });
+            } else {
+                win.setPosition(nextX, nextY);
+            }
         }
     };
 
