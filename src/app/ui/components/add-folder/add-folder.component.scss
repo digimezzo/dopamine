@@ -23,7 +23,7 @@
     display: none;
 }
 
-.folder:hover .folder-item__action {
+.folder:hover .folder__action {
     background: var(--theme-hovered-item-background);
     display: block !important;
 }
