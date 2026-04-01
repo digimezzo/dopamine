@@ -3,11 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.4] - 2026-03-31
+## [3.0.4] - 2026-04-01
 
 ### Fixed
 
 - Delete button is not visible when folder is not selected in "Manage collection" screen
+- Window size increases when dragging
 
 ## [3.0.3] - 2026-03-30
 
