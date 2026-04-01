@@ -115,6 +115,12 @@
     background-color: rgba(var(--theme-rgb-base), 0.06) !important;
 }
 
+.mat-mdc-menu-item.cdk-focused:not(:hover),
+.mat-mdc-menu-item.cdk-program-focused:not(:hover),
+.mat-mdc-menu-item.mat-mdc-menu-item-highlighted:not(:hover) {
+    background-color: transparent !important;
+}
+
 // Tooltip
 // -----------------------------------------------------------------------------------------------------------------------------------------
 .mdc-tooltip__surface {

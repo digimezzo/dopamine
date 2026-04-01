@@ -9,7 +9,7 @@ import { AppearanceService } from './appearance.service';
 import { DefaultThemesCreator } from './default-themes-creator';
 import { Theme } from './theme/theme';
 import { ThemeCoreColors } from './theme/theme-core-colors';
-import { ThemeCreator } from './theme/theme-creator';
+import { ThemeAuthor } from './theme/theme-author';
 import { ThemeNeutralColors } from './theme/theme-neutral-colors';
 import { ThemeOptions } from './theme/theme-options';
 import { DesktopBase } from '../../common/io/desktop.base';
@@ -139,13 +139,13 @@ describe('AppearanceService', () => {
     }
 
     function createTheme(name: string): Theme {
-        const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
+        const author: ThemeAuthor = new ThemeAuthor('My creator', 'my@email.com');
         const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
         const darkColors: ThemeNeutralColors = createDarkColors();
         const lightColors: ThemeNeutralColors = createLightColors();
         const options: ThemeOptions = new ThemeOptions(false);
 
-        return new Theme(name, creator, coreColors, darkColors, lightColors, options);
+        return new Theme(name, author, coreColors, darkColors, lightColors, options);
     }
 
     function createServiceWithSettingsStub(settingsStub: any): AppearanceServiceBase {

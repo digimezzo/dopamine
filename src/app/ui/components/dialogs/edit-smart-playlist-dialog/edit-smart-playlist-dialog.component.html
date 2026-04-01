@@ -1,0 +1,129 @@
+<app-dialog-header icon="las la-pen" title="{{ this.dialogTitle }}"></app-dialog-header>
+<mat-dialog-content class="overflow-hidden-important">
+    <div class="p-1 smart-playlist-grid">
+        <div class="smart-playlist-grid__image">
+            <div class="edit-playlist__image pointer">
+                <div
+                    class="edit-playlist__image__placeholder"
+                    matTooltip="{{ 'change-image' | translate }}"
+                    (click)="this.changeImageAsync()"
+                >
+                    <svg width="256" height="256" viewBox="0 0 256 256">
+                        <defs>
+                            <linearGradient id="coverGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="30%" stop-color="var(--theme-primary-color)" />
+                                <stop offset="100%" stop-color="var(--theme-secondary-color)" />
+                            </linearGradient>
+                        </defs>
+
+                        <path
+                            d="M 208.79492 0 L 208.79492 85.669922 A 104.26329 104.26329 0 0 0 128.05273 47.373047 A 104.26329 104.26329 0 0 0 23.789062 151.63672 A 104.26329 104.26329 0 0 0 128.05273 255.90039 A 104.26329 104.26329 0 0 0 232.31641 151.63672 A 104.26329 104.26329 0 0 0 232.30859 150.50391 L 232.31055 150.50391 L 232.31055 0 L 208.79492 0 z M 128.05273 71.195312 A 80.750832 80.441704 0 0 1 208.79492 150.50391 A 80.750832 80.441704 0 0 1 208.80273 151.63672 A 80.750832 80.441704 0 0 1 128.05273 232.07812 A 80.750832 80.441704 0 0 1 47.302734 151.63672 A 80.750832 80.441704 0 0 1 128.05273 71.195312 z M 127.9707 134.98047 A 16.65657 16.65657 0 0 0 111.39648 151.63672 A 16.65657 16.65657 0 0 0 128.05273 168.29297 A 16.65657 16.65657 0 0 0 144.70898 151.63672 A 16.65657 16.65657 0 0 0 128.05273 134.98047 A 16.65657 16.65657 0 0 0 127.9707 134.98047 z"
+                            fill="url(#coverGradient)"
+                        />
+                    </svg>
+                </div>
+                <div matTooltip="{{ 'change-image' | translate }}" (click)="this.changeImageAsync()">
+                    <img [attr.src]="this.playlistImagePath | imageToFilePath" width="120" height="120" loading="lazy" draggable="false" />
+                </div>
+                <div
+                    class="edit-playlist__remove-button d-flex justify-content-center align-items-center"
+                    *ngIf="this.hasPlaylistImagePath"
+                    matTooltip="{{ 'remove-image' | translate }}"
+                    (click)="this.removeImage()"
+                >
+                    <i class="las la-times"></i>
+                </div>
+            </div>
+        </div>
+        <div class="smart-playlist-grid__content">
+            <mat-form-field class="w-100">
+                <input matInput [(ngModel)]="this.playlistName" placeholder="{{ 'playlist-name' | translate }}" />
+            </mat-form-field>
+            <div class="d-flex flex-row align-items-center" *ngFor="let filter of filters; let i = index">
+                <mat-form-field class="filter-field mr-2">
+                    <mat-select
+                        [(ngModel)]="filter.field"
+                        [compareWith]="compareFields"
+                        placeholder="Field"
+                        (selectionChange)="onFieldChanged(filter)"
+                    >
+                        <mat-option *ngFor="let field of fields" [value]="field">{{ field.translationKey | translate }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="filter-operator mr-2">
+                    <mat-select
+                        [(ngModel)]="filter.operator"
+                        [compareWith]="compareOperators"
+                        placeholder="Operator"
+                        [disabled]="!filter.field"
+                    >
+                        <mat-option *ngFor="let operator of getOperatorsForFilter(filter)" [value]="operator">{{
+                            operator.translationKey | translate
+                        }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field
+                    class="filter-value mr-2"
+                    *ngIf="filter.field?.name !== 'rating' && filter.field?.name !== 'love' && filter.field?.type !== 'boolean'"
+                >
+                    <input [(ngModel)]="filter.value" matInput placeholder="{{ 'value' | translate }}" />
+                </mat-form-field>
+                <mat-form-field class="filter-value mr-2" *ngIf="filter.field?.type === 'boolean' && filter.field?.name !== 'love'">
+                    <mat-select [(ngModel)]="filter.value" placeholder="{{ 'value' | translate }}"> </mat-select>
+                </mat-form-field>
+                <div
+                    class="filter-value filter-rating mr-2 d-flex flex-row align-items-center justify-content-center"
+                    *ngIf="filter.field?.name === 'rating'"
+                >
+                    <div
+                        class="pointer"
+                        *ngFor="let star of stars"
+                        [ngClass]="getRatingStarClass(filter, star)"
+                        (click)="onRatingStarClick($event, filter, star)"
+                    ></div>
+                </div>
+                <div
+                    class="filter-value filter-rating mr-2 d-flex flex-row align-items-center justify-content-center"
+                    *ngIf="filter.field?.name === 'love'"
+                >
+                    <div class="pointer" [ngClass]="getLoveClass(filter)" (click)="toggleLove(filter)"></div>
+                </div>
+                <app-icon-button
+                    class="remove-filter-button ml-2"
+                    [ngClass]="{ inactive: filters.length <= 1 }"
+                    icon="las la-times"
+                    matTooltip="{{ 'remove' | translate }}"
+                    (click)="removeFilter(i)"
+                ></app-icon-button>
+            </div>
+            <div class="filter-row d-flex flex-row align-items-center">
+                <div class="filter-field mr-2"></div>
+                <div class="filter-operator mr-2"></div>
+                <div class="filter-value mr-2"></div>
+                <app-icon-button icon="las la-plus" matTooltip="{{ 'add-filter' | translate }}" (click)="addFilter()"></app-icon-button>
+            </div>
+            <app-toggle-switch class="mt-3" [(isChecked)]="this.matchAnyRule">
+                {{ 'add-if-any-rule-matches' | translate }}
+            </app-toggle-switch>
+            <div class="d-flex flex-row align-items-center">
+                <app-toggle-switch class="limit-toggle" [(isChecked)]="this.limitEnabled">
+                    {{ 'limit-to' | translate }}
+                </app-toggle-switch>
+                <mat-form-field class="limit-value mx-2" [ngClass]="{ inactive: !this.limitEnabled }">
+                    <input matInput type="text" [(ngModel)]="this.limitValue" />
+                </mat-form-field>
+                <mat-form-field class="limit-unit" [ngClass]="{ inactive: !this.limitEnabled }">
+                    <mat-select [(ngModel)]="this.limitUnit">
+                        <mat-option *ngFor="let unit of limitUnits" [value]="unit.name">{{ unit.translationKey | translate }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <app-accent-button class="mr-2" [ngClass]="{ inactive: !this.canSave }" [mat-dialog-close]="true">{{
+        'ok' | translate
+    }}</app-accent-button>
+    <app-transparent-button [mat-dialog-close]="false">{{ 'cancel' | translate }}</app-transparent-button>
+</mat-dialog-actions>

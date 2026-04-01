@@ -17,6 +17,7 @@ import { PlaylistModel } from '../../../../../services/playlist/playlist-model';
 import { PlaylistRow } from './playlist-row';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ElementRef } from '@angular/core';
+import { DesktopBase } from '../../../../../common/io/desktop.base';
 
 describe('PlaylistBrowserComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
@@ -28,6 +29,7 @@ describe('PlaylistBrowserComponent', () => {
     let nativeElementProxyMock: IMock<NativeElementProxy>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
+    let desktopMock: IMock<DesktopBase>;
     let loggerMock: IMock<Logger>;
 
     let playlistsPersisterMock: IMock<PlaylistsPersister>;
@@ -53,6 +55,7 @@ describe('PlaylistBrowserComponent', () => {
             nativeElementProxyMock.object,
             mouseSelectionWatcherMock.object,
             contextMenuOpenerMock.object,
+            desktopMock.object,
             loggerMock.object,
         );
     }
@@ -67,6 +70,7 @@ describe('PlaylistBrowserComponent', () => {
         nativeElementProxyMock = Mock.ofType<NativeElementProxy>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
+        desktopMock = Mock.ofType<DesktopBase>();
         loggerMock = Mock.ofType<Logger>();
 
         playlistsPersisterMock = Mock.ofType<PlaylistsPersister>();
@@ -78,8 +82,8 @@ describe('PlaylistBrowserComponent', () => {
         applicationServiceMock.setup((x) => x.windowSizeChanged$).returns(() => windowSizeChanged$);
         applicationServiceMock.setup((x) => x.mouseButtonReleased$).returns(() => mouseButtonReleased$);
 
-        playlistModel1 = new PlaylistModel('Playlist 1', 'Folder', 'Path 1', 'Image path 1');
-        playlistModel2 = new PlaylistModel('Playlist 2', 'Folder', 'Path 2', 'Image path 2');
+        playlistModel1 = new PlaylistModel('Playlist 1', 'Folder', 'Path 1', 'Image path 1', false);
+        playlistModel2 = new PlaylistModel('Playlist 2', 'Folder', 'Path 2', 'Image path 2', false);
 
         playlistRow = new PlaylistRow();
         playlistRow.playlists = [playlistModel1, playlistModel2];

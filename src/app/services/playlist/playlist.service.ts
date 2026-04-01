@@ -24,7 +24,11 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Constants } from '../../common/application/constants';
 import { PlaylistUpdateInfo } from './playlist-update-info';
 import { PromiseUtils } from '../../common/utils/promise-utils';
-import {SettingsBase} from "../../common/settings/settings.base";
+import { SettingsBase } from '../../common/settings/settings.base';
+import { SmartPlaylistParser } from './smart-playlist-parser';
+import { SmartPlaylistQueryBuilder } from './smart-playlist-query-builder';
+import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { FileFormats } from '../../common/application/file-formats';
 
 @Injectable()
 export class PlaylistService implements PlaylistServiceBase {
@@ -46,6 +50,9 @@ export class PlaylistService implements PlaylistServiceBase {
         private fileAccess: FileAccessBase,
         private settings: SettingsBase,
         private logger: Logger,
+        private smartPlaylistParser: SmartPlaylistParser,
+        private smartPlaylistQueryBuilder: SmartPlaylistQueryBuilder,
+        private trackRepository: TrackRepositoryBase,
     ) {
         this.initialize();
     }
@@ -68,6 +75,14 @@ export class PlaylistService implements PlaylistServiceBase {
 
     public playlistsChanged$: Observable<void> = this.playlistsChanged.asObservable();
     public playlistTracksChanged$: Observable<void> = this.playlistTracksChanged.asObservable();
+
+    public notifyPlaylistsChanged(): void {
+        this.playlistsChanged.next();
+    }
+
+    public notifyPlaylistTracksChanged(): void {
+        this.playlistTracksChanged.next();
+    }
 
     public async addArtistsToPlaylistAsync(playlistPath: string, playlistName: string, artistsToAdd: ArtistModel[]): Promise<void> {
         if (playlistPath == undefined) {
@@ -274,6 +289,12 @@ export class PlaylistService implements PlaylistServiceBase {
     }
 
     private async decodePlaylistAsync(playlistPath: string): Promise<TrackModel[]> {
+        const extension = this.fileAccess.getFileExtension(playlistPath);
+
+        if (extension === FileFormats.dspl) {
+            return this.decodeSmartPlaylist(playlistPath);
+        }
+
         const tracks: TrackModel[] = [];
         let playlistEntries: PlaylistEntry[] = [];
 
@@ -283,18 +304,51 @@ export class PlaylistService implements PlaylistServiceBase {
             this.logger.error(e, `Could not decode playlist with path='${playlistPath}'`, 'PlaylistService', 'decodePlaylistAsync');
             throw new Error(e instanceof Error ? e.message : 'Unknown error');
         }
-        
-        
+
         const albumKeyIndex = this.settings.albumKeyIndex;
 
-        for (const playlistEntry of playlistEntries) {
-            if (this.fileValidator.isPlayableAudioFile(playlistEntry.decodedPath)) {
-                const track: TrackModel = await this.trackModelFactory.createFromFileAsync(playlistEntry.decodedPath, albumKeyIndex);
+        const playablePaths: string[] = playlistEntries
+            .filter((entry) => this.fileValidator.isPlayableAudioFile(entry.decodedPath))
+            .map((entry) => entry.decodedPath);
+
+        const dbTracks = this.trackRepository.getTracksForPaths(playablePaths);
+        const dbTracksByPath = new Map<string, TrackModel>();
+
+        if (dbTracks != undefined) {
+            for (const dbTrack of dbTracks) {
+                dbTracksByPath.set(dbTrack.path.toLowerCase(), this.trackModelFactory.createFromTrack(dbTrack, albumKeyIndex));
+            }
+        }
+
+        for (const path of playablePaths) {
+            const dbTrackModel = dbTracksByPath.get(path.toLowerCase());
+            if (dbTrackModel != undefined) {
+                tracks.push(dbTrackModel);
+            } else {
+                const track: TrackModel = await this.trackModelFactory.createFromFileAsync(path, albumKeyIndex);
                 tracks.push(track);
             }
         }
 
         return tracks;
+    }
+
+    private decodeSmartPlaylist(playlistPath: string): TrackModel[] {
+        try {
+            const definition = this.smartPlaylistParser.parse(playlistPath);
+            const whereClause = this.smartPlaylistQueryBuilder.buildWhereClause(definition);
+            const dbTracks = this.trackRepository.getTracksForSmartPlaylist(whereClause);
+            const albumKeyIndex = this.settings.albumKeyIndex;
+
+            if (dbTracks == undefined) {
+                return [];
+            }
+
+            return dbTracks.map((track) => this.trackModelFactory.createFromTrack(track, albumKeyIndex));
+        } catch (e: unknown) {
+            this.logger.error(e, `Could not decode smart playlist with path='${playlistPath}'`, 'PlaylistService', 'decodeSmartPlaylist');
+            return [];
+        }
     }
 
     public async updatePlaylistOrderAsync(tracks: TrackModel[]): Promise<void> {

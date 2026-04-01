@@ -17,6 +17,7 @@ import { ContextMenuOpener } from '../../../context-menu-opener';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Constants } from '../../../../../common/application/constants';
+import { DesktopBase } from '../../../../../common/io/desktop.base';
 
 @Component({
     selector: 'app-playlist-browser',
@@ -44,6 +45,7 @@ export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDes
         private nativeElementProxy: NativeElementProxy,
         private mouseSelectionWatcher: MouseSelectionWatcher,
         public contextMenuOpener: ContextMenuOpener,
+        private desktop: DesktopBase,
         private logger: Logger,
     ) {}
 
@@ -167,8 +169,16 @@ export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDes
         await this.dialogService.showCreatePlaylistDialogAsync();
     }
 
+    public async createSmartPlaylistAsync(): Promise<void> {
+        await this.dialogService.showCreateSmartPlaylistDialogAsync();
+    }
+
     public async onAddToQueueAsync(playlist: PlaylistModel): Promise<void> {
         await this.playbackService.addPlaylistToQueueAsync(playlist);
+    }
+
+    public onShowInFolder(playlist: PlaylistModel): void {
+        this.desktop.showFileInDirectory(playlist.path);
     }
 
     private orderPlaylists(): void {

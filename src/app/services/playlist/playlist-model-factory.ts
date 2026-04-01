@@ -12,17 +12,23 @@ export class PlaylistModelFactory {
         private fileAccess: FileAccessBase,
     ) {}
 
-    public create(playlistsParentFolderPath: string, playlistPath: string, playlistImagePath: string): PlaylistModel {
+    public create(
+        playlistsParentFolderPath: string,
+        playlistPath: string,
+        playlistImagePath: string,
+        isSmartPlaylist: boolean,
+    ): PlaylistModel {
         return new PlaylistModel(
             this.getPlaylistName(playlistPath),
             this.getPlaylistFolderName(playlistsParentFolderPath, playlistPath),
             playlistPath,
             this.getPlaylistImage(playlistImagePath),
+            isSmartPlaylist,
         );
     }
 
     public createDefault(): PlaylistModel {
-        return new PlaylistModel('', '', '', Constants.emptyImage);
+        return new PlaylistModel('', '', '', Constants.emptyImage, false);
     }
 
     private getPlaylistName(playlistPath: string): string {

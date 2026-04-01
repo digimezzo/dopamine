@@ -1,7 +1,7 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { ThemeSwitcherComponent } from './theme-switcher.component';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
-import { ThemeCreator } from '../../../services/appearance/theme/theme-creator';
+import { ThemeAuthor } from '../../../services/appearance/theme/theme-author';
 import { ThemeCoreColors } from '../../../services/appearance/theme/theme-core-colors';
 import { ThemeNeutralColors } from '../../../services/appearance/theme/theme-neutral-colors';
 import { ThemeOptions } from '../../../services/appearance/theme/theme-options';
@@ -41,7 +41,7 @@ describe('ColorSchemeSwitcherComponent', () => {
     describe('setTheme', () => {
         it('should change the selected theme', () => {
             // Arrange
-            const themeCreator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
+            const themeAuthor: ThemeAuthor = new ThemeAuthor('My creator', 'my@email.com');
             const coreColors: ThemeCoreColors = new ThemeCoreColors('red', 'green', 'blue');
             const darkColors: ThemeNeutralColors = new ThemeNeutralColors(
                 'red',
@@ -109,7 +109,7 @@ describe('ColorSchemeSwitcherComponent', () => {
             const options: ThemeOptions = new ThemeOptions(false);
 
             // Act
-            const defaultColorScheme: Theme = new Theme('My theme', themeCreator, coreColors, darkColors, lightColors, options);
+            const defaultColorScheme: Theme = new Theme('My theme', themeAuthor, coreColors, darkColors, lightColors, options);
             component.setTheme(defaultColorScheme);
 
             // Assert

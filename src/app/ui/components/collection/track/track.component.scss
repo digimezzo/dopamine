@@ -49,6 +49,15 @@
     justify-content: center;
 }
 
+.disc-label {
+    background: var(--theme-accent-color);
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 3px;
+    align-self: flex-start;
+    font-size: 0.85em;
+}
+
 //.app-track__rating {
 //    height: 23px;
 //}

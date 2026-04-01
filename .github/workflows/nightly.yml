@@ -23,7 +23,16 @@ jobs:
             - name: run unit tests
               run: npm run test
             - name: build
-              run: npm run electron:linux
+              run: |
+                  for i in 1 2 3; do
+                    npm run electron:linux && break
+                    if [ "$i" -eq 3 ]; then
+                      echo "Linux build failed after 3 attempts"
+                      exit 1
+                    fi
+                    echo "Linux build failed (attempt $i), retrying in 30s..."
+                    sleep 30
+                  done
             - name: fetch current version
               id: ver_name
               uses: notiz-dev/github-action-json-property@release
@@ -50,6 +59,33 @@ jobs:
               with:
                   name: dopamine-nightly-snap
                   path: release/Dopamine-*.snap
+
+    nightly_build_pacman_on_arch:
+        runs-on: ubuntu-22.04
+        container:
+            image: archlinux:latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: install Arch dependencies
+              run: |
+                  pacman -Syu --noconfirm
+                  pacman -S --noconfirm nodejs npm git python base-devel libarchive libxcrypt-compat
+            - name: install dependencies
+              run: npm install
+            - name: run unit tests
+              run: npm run test
+            - name: build pacman package
+              run: |
+                  npm run build:prod
+                  for i in 1 2 3; do
+                    npx electron-builder build --linux pacman --config electron-builder.config.js && break
+                    if [ "$i" -eq 3 ]; then
+                      echo "Pacman build failed after 3 attempts"
+                      exit 1
+                    fi
+                    echo "Pacman build failed (attempt $i), retrying in 30s..."
+                    sleep 30
+                  done
             - name: upload pacman artifact
               uses: actions/upload-artifact@v4
               with:
@@ -108,11 +144,12 @@ jobs:
 
     nightly_build_on_win:
         runs-on: windows-2022
+
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@master
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
               with:
-                  node-version: '22.x'
+                  node-version: '22'
             - name: Install dependencies
               run: npm install
             - name: Run unit tests
@@ -123,17 +160,14 @@ jobs:
               id: ver_name
               uses: notiz-dev/github-action-json-property@release
               with:
-                  path: 'package.json'
-                  prop_path: 'version'
-            - name: Download and Install 7-Zip
-              run: |
-                  curl -L -o 7z.exe https://www.7-zip.org/a/7z2201-x64.exe
-                  Start-Process -FilePath 7z.exe -ArgumentList '/S' -Wait
-            - name: Create 7z Archive With Only EXE Files
-              shell: cmd
+                  path: package.json
+                  prop_path: version
+            # Use built-in 7zip (already installed on the runner)
+            - name: Create 7z Archive
+              shell: powershell
               run: |
                   cd release
-                  "C:\Program Files\7-Zip\7z.exe" a ../dopamine-nightly-win.7z Dopamine-*.exe
+                  & "C:\Program Files\7-Zip\7z.exe" a ..\dopamine-nightly-win.7z Dopamine-*.exe
             - name: Upload Build Artifact
               uses: actions/upload-artifact@v4
               with:

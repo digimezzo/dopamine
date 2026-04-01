@@ -58,6 +58,7 @@ describe('PlaylistModelFactory', () => {
                 '/home/username/Music/Dopamine/Playlists',
                 '/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u',
                 '/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1-d79a5db9-daaf-4c3c-8f94-ea5e56b7245d.png',
+                false,
             );
 
             // Assert
@@ -81,6 +82,7 @@ describe('PlaylistModelFactory', () => {
                 '/home/username/Music/Dopamine/Playlists',
                 '/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u',
                 '',
+                false,
             );
 
             // Assert
@@ -100,6 +102,7 @@ describe('PlaylistModelFactory', () => {
                 '/home/username/Music/Dopamine/Playlists',
                 '/home/username/Music/Dopamine/Playlists/Playlist 1.m3u',
                 '/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1-d79a5db9-daaf-4c3c-8f94-ea5e56b7245d.png',
+                false,
             );
 
             // Assert

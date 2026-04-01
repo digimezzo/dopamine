@@ -6,6 +6,7 @@ import { CollectionServiceBase } from './collection.service.base';
 import { PlaybackService } from '../playback/playback.service';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { DesktopBase } from '../../common/io/desktop.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable()
 export class CollectionService implements CollectionServiceBase {
@@ -15,6 +16,7 @@ export class CollectionService implements CollectionServiceBase {
         private playbackService: PlaybackService,
         private trackRepository: TrackRepositoryBase,
         private desktop: DesktopBase,
+        private fileAccess: FileAccessBase,
         private logger: Logger,
     ) {}
 
@@ -31,9 +33,18 @@ export class CollectionService implements CollectionServiceBase {
             try {
                 await this.desktop.moveFileToTrashAsync(track.path);
             } catch (e: unknown) {
-                this.logger.error(e, `Could not move file '${track.path}' to the trash`, 'CollectionService', 'deleteTracksAsync');
+                this.logger.warn(
+                    `Could not move file '${track.path}' to the trash. Attempting permanent delete.`,
+                    'CollectionService',
+                    'deleteTracksAsync',
+                );
 
-                couldDeleteAllTracks = false;
+                try {
+                    await this.fileAccess.deleteFileIfExistsAsync(track.path);
+                } catch (e2: unknown) {
+                    this.logger.error(e2, `Could not permanently delete file '${track.path}'`, 'CollectionService', 'deleteTracksAsync');
+                    couldDeleteAllTracks = false;
+                }
             }
         }
 

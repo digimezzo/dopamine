@@ -10,12 +10,12 @@
         [@background2Animation]="background2Animation"
     ></div>
     <div class="window-frame">
-        <div class="window-frame__titlebar">
+        <div class="window-frame__titlebar" appWindowDraggable>
             <div *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights"></div>
             <div class="window-button back-button" (click)="this.goBackToCollectionAsync()" [@controlsVisibility]="controlsVisibility">
                 <i class="back-button__icon las la-arrow-left"></i>
             </div>
-            <div class="window-frame__dragarea"></div>
+            <div class="window-frame__spacer"></div>
             <app-switch-player-button [@controlsVisibility]="controlsVisibility"></app-switch-player-button>
             <app-window-controls
                 *ngIf="appearanceService.needsCustomWindowControls"

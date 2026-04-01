@@ -97,6 +97,11 @@ const config = {
         description:
             'Dopamine is an elegant audio player which tries to make organizing and listening to music as simple and pretty as possible.',
     },
+    pacman: {
+        // Use Arch package names explicitly so Ubuntu-built artifacts
+        // do not leak distro-specific auto-detected dependencies.
+        depends: ['gtk3', 'libnotify', 'nss', 'libxss', 'libxtst', 'xdg-utils', 'at-spi2-core'],
+    },
 };
 
 module.exports = config;

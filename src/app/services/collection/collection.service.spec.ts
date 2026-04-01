@@ -6,6 +6,7 @@ import { TrackModel } from '../track/track-model';
 import { CollectionService } from './collection.service';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { DesktopBase } from '../../common/io/desktop.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
 import { PlaybackService } from '../playback/playback.service';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
@@ -16,6 +17,7 @@ describe('CollectionService', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
     let desktopMock: IMock<DesktopBase>;
+    let fileAccessMock: IMock<FileAccessBase>;
     let loggerMock: IMock<Logger>;
     let settingsMock: any;
 
@@ -35,6 +37,7 @@ describe('CollectionService', () => {
         playbackServiceMock = Mock.ofType<PlaybackService>();
         trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
         desktopMock = Mock.ofType<DesktopBase>();
+        fileAccessMock = Mock.ofType<FileAccessBase>();
         loggerMock = Mock.ofType<Logger>();
         settingsMock = new SettingsMock();
 
@@ -51,7 +54,13 @@ describe('CollectionService', () => {
         track3.trackId = 3;
         trackModel3 = new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object, settingsMock);
 
-        service = new CollectionService(playbackServiceMock.object, trackRepositoryMock.object, desktopMock.object, loggerMock.object);
+        service = new CollectionService(
+            playbackServiceMock.object,
+            trackRepositoryMock.object,
+            desktopMock.object,
+            fileAccessMock.object,
+            loggerMock.object,
+        );
     });
 
     describe('constructor', () => {
@@ -140,12 +149,37 @@ describe('CollectionService', () => {
         it('should return false if not all files could be moved to trash', async () => {
             // Arrange
             desktopMock.setup((x) => x.moveFileToTrashAsync(It.isAny())).throws(new Error('An error occurred'));
+            fileAccessMock.setup((x) => x.deleteFileIfExistsAsync(It.isAny())).throws(new Error('An error occurred'));
 
             // Act
             const returnValue: boolean = await service.deleteTracksAsync([trackModel1, trackModel2, trackModel3]);
 
             // Assert
             expect(returnValue).toBeFalsy();
+        });
+
+        it('should permanently delete files when moving to trash fails', async () => {
+            // Arrange
+            desktopMock.setup((x) => x.moveFileToTrashAsync(It.isAny())).throws(new Error('An error occurred'));
+
+            // Act
+            await service.deleteTracksAsync([trackModel1, trackModel2, trackModel3]);
+
+            // Assert
+            fileAccessMock.verify((x) => x.deleteFileIfExistsAsync('path1'), Times.once());
+            fileAccessMock.verify((x) => x.deleteFileIfExistsAsync('path2'), Times.once());
+            fileAccessMock.verify((x) => x.deleteFileIfExistsAsync('path3'), Times.once());
+        });
+
+        it('should return true if permanent delete succeeds after trash fails', async () => {
+            // Arrange
+            desktopMock.setup((x) => x.moveFileToTrashAsync(It.isAny())).throws(new Error('An error occurred'));
+
+            // Act
+            const returnValue: boolean = await service.deleteTracksAsync([trackModel1, trackModel2, trackModel3]);
+
+            // Assert
+            expect(returnValue).toBeTruthy();
         });
     });
 });

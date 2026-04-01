@@ -30,11 +30,7 @@ describe('EditPlaylistDialogComponent', () => {
 
     describe('constructor', () => {
         it('should create', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
+            // Arrange, Act, Assert
             expect(component).toBeDefined();
         });
     });
