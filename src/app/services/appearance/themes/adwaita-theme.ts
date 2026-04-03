@@ -7,67 +7,67 @@ import { ThemeOptions } from '../theme/theme-options';
 export class AdwaitaTheme {
     public static create(author: ThemeAuthor): Theme {
         const darkColors: ThemeNeutralColors = new ThemeNeutralColors(
-            '#ffffff',
-            'rgba(255, 255, 255, 0.06)',
-            'rgba(255, 255, 255, 0.12)',
-            '#c0bfbc',
-            '#ffffff',
-            '#1e1e1e',
-            '#303030',
-            '#303030',
-            '#242424',
-            '#ffffff',
-            '#c0bfbc',
-            '#3d3d3d',
-            '#ffffff',
-            '#2b2b2b',
-            'rgba(255, 255, 255, 0.08)',
-            'rgba(255, 255, 255, 0.08)',
-            '#454545',
-            '#454545',
-            '#3584e4',
-            '#3a3a3a',
-            '#ffffff',
-            '#c0bfbc',
-            '#2f2f2f',
-            '#ffffff',
-            '#4a4a4a',
-            '#ffffff',
-            '#ffffff',
-            '#4a4a4a',
-            '#ffffff',
+            '#ffffff', // windowButtonIcon
+            'rgba(255, 255, 255, 0.06)', // hoveredItemBackground
+            'rgba(255, 255, 255, 0.12)', // selectedItemBackground
+            '#c0bfbc', // tabText
+            '#ffffff', // selectedTabText
+            '#1e1e1e', // mainBackground
+            '#303030', // headerBackground
+            '#303030', // footerBackground
+            '#242424', // sidePaneBackground
+            '#ffffff', // primaryText
+            '#c0bfbc', // secondaryText
+            '#3d3d3d', // sliderBackground
+            '#ffffff', // sliderThumbBackground
+            '#2b2b2b', // albumCoverBackground
+            'rgba(255, 255, 255, 0.08)', // headerSeparator
+            'rgba(255, 255, 255, 0.08)', // paneSeparators
+            '#454545', // settingsSeparators
+            '#454545', // contextMenuSeparators
+            '#3584e4', // scrollBars
+            '#3a3a3a', // searchBox
+            '#ffffff', // searchBoxText
+            '#c0bfbc', // searchBoxIcon
+            '#2f2f2f', // dialogBackground
+            '#ffffff', // primaryButtonText
+            '#4a4a4a', // secondaryButtonBackground
+            '#ffffff', // secondaryButtonText
+            '#ffffff', // tooltipText
+            '#4a4a4a', // buttonBorder
+            '#ffffff', // highlightForeground
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
-            '#2e3436',
-            'rgba(46, 52, 54, 0.06)',
-            'rgba(46, 52, 54, 0.12)',
-            '#5e5c64',
-            '#1b1b1b',
-            '#f6f5f4',
-            '#ebebeb',
-            '#ebebeb',
-            '#ffffff',
-            '#1b1b1b',
-            '#5e5c64',
-            '#d8d7d3',
-            '#1b1b1b',
-            '#e7e5e4',
-            '#d9d7d3',
-            '#d9d7d3',
-            '#d4d2cd',
-            '#d4d2cd',
-            '#3584e4',
-            '#ffffff',
-            '#1b1b1b',
-            '#5e5c64',
-            '#ffffff',
-            '#ffffff',
-            '#d4d2cd',
-            '#1b1b1b',
-            '#ffffff',
-            '#d4d2cd',
-            '#ffffff',
+            '#2f2f34', // windowButtonIcon OK
+            'rgba(46, 52, 54, 0.06)', // hoveredItemBackground
+            'rgba(46, 52, 54, 0.12)', // selectedItemBackground
+            '#5e5c64', // tabText
+            '#1b1b1b', // selectedTabText
+            '#ffffff', // mainBackground OK
+            '#ffffff', // headerBackground OK
+            '#ffffff', // footerBackground OK
+            '#ebebed', // sidePaneBackground OK
+            '#323237', // primaryText OK
+            '#5e5c64', // secondaryText
+            '#d8d7d3', // sliderBackground
+            '#1b1b1b', // sliderThumbBackground
+            '#e7e5e4', // albumCoverBackground
+            '#dadadc', // headerSeparator OK
+            '#dadadc', // paneSeparators OK
+            '#d4d2cd', // settingsSeparators
+            '#e0e0e1', // contextMenuSeparators OK
+            '#3584e4', // scrollBars
+            '#ebebeb', // searchBox OK
+            '#2f2f34', // searchBoxText OK
+            '#2f2f34', // searchBoxIcon OK
+            '#ffffff', // dialogBackground
+            '#ffffff', // primaryButtonText OK
+            '#d4d2cd', // secondaryButtonBackground
+            '#323237', // secondaryButtonText OK
+            '#ffffff', // tooltipText OK
+            '#d4d2cd', // buttonBorder
+            '#ffffff', // highlightForeground
         );
 
         const options: ThemeOptions = new ThemeOptions(true);
