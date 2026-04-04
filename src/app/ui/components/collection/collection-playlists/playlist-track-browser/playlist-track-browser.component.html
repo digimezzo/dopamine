@@ -11,6 +11,7 @@
         (cdkDropListDropped)="this.dropTrackAsync($event)"
         itemSize="46"
         cdkDropList
+        [cdkDropListDisabled]="!this.canReorder"
     >
         <div *cdkVirtualFor="let track of this.orderedTracks" (mousedown)="setSelectedTracks($event, track)" cdkDrag>
             <app-track
