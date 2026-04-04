@@ -44,7 +44,9 @@
         <button mat-menu-item (click)="onShowInFolder()">
             <span>{{ 'show-in-folder' | translate }}</span>
         </button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item (click)="onRemoveFromPlaylistAsync()">{{ 'remove-from-playlist' | translate }}</button>
+        <mat-divider *ngIf="this.canRemoveFromPlaylist"></mat-divider>
+        <button mat-menu-item *ngIf="this.canRemoveFromPlaylist" (click)="onRemoveFromPlaylistAsync()">
+            {{ 'remove-from-playlist' | translate }}
+        </button>
     </ng-template>
 </mat-menu>

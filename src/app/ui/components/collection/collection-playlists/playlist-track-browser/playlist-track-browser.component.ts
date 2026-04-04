@@ -45,6 +45,9 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
 
     public orderedTracks: TrackModel[] = [];
 
+    @Input()
+    public canRemoveFromPlaylist: boolean = true;
+
     public get tracksPersister(): BaseTracksPersister {
         return this._tracksPersister;
     }
@@ -93,6 +96,10 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
     }
 
     public async onRemoveFromPlaylistAsync(): Promise<void> {
+        if (!this.canRemoveFromPlaylist) {
+            return;
+        }
+
         const dialogTitle: string = await this.translatorService.getAsync('confirm-remove-from-playlist');
         const dialogText: string = await this.translatorService.getAsync('confirm-remove-from-playlist-long');
 

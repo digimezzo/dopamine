@@ -21,6 +21,7 @@
                     class="p-3 fill"
                     [tracks]="this.tracks | tracksFilter: this.searchService.delayedSearchText"
                     [(tracksPersister)]="this.tracksPersister"
+                    [canRemoveFromPlaylist]="this.canRemoveFromPlaylist"
                 ></app-playlist-track-browser></div
         ></as-split-area>
     </as-split>
