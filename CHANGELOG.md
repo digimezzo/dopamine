@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Playback progress bar does not react to touch input
 - The cover image on the Now playing screen has glitches
 - Browsing folders on a NAS gets stuck in an infinite loop
+- Follow the system color does not work on Linux
 
 ## [3.0.3] - 2026-03-30
 
