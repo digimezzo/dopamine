@@ -417,6 +417,34 @@ describe('FolderService', () => {
             expect(subfolderBreadcrumbs[2].path).toEqual('/home/user/Music/subfolder1/subfolder2');
             expect(subfolderBreadcrumbs[3].path).toEqual('/home/user/Music/subfolder1/subfolder2/subfolder3');
         });
+
+        it('should treat UNC root paths as equal when the subfolder path has a trailing slash', () => {
+            // Arrange
+            const rootFolder: FolderModel = new FolderModel(new Folder('\\\\EricCloud\\music'));
+
+            // Act
+            const subfolderBreadcrumbs: SubfolderModel[] = service.getSubfolderBreadcrumbs(rootFolder, '\\\\EricCloud\\music\\');
+
+            // Assert
+            expect(subfolderBreadcrumbs.length).toEqual(1);
+            expect(subfolderBreadcrumbs[0].path).toEqual('\\\\EricCloud\\music');
+            fileAccessMock.verify((x) => x.getDirectoryPath(It.isAny()), Times.never());
+        });
+
+        it('should stop when parent folder path does not progress to avoid an infinite loop', () => {
+            // Arrange
+            const rootFolder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
+            fileAccessMock.setup((x) => x.getDirectoryPath('/home/user/Music/subfolder1')).returns(() => '/home/user/Music/subfolder1');
+
+            // Act
+            const subfolderBreadcrumbs: SubfolderModel[] = service.getSubfolderBreadcrumbs(rootFolder, '/home/user/Music/subfolder1');
+
+            // Assert
+            expect(subfolderBreadcrumbs.length).toEqual(2);
+            expect(subfolderBreadcrumbs[0].path).toEqual('/home/user/Music');
+            expect(subfolderBreadcrumbs[1].path).toEqual('/home/user/Music/subfolder1');
+            fileAccessMock.verify((x) => x.getDirectoryPath('/home/user/Music/subfolder1'), Times.exactly(1));
+        });
     });
 
     describe('collectionHasFolders', () => {
