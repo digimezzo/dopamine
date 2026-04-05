@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added ability to enlarge the cover image on the Now playing screen
 
+### Changed
+
+- Updated the Portuguese (brazilian) translation
+
 ### Fixed
 
 - Delete button is not visible when folder is not selected in "Manage collection" screen
