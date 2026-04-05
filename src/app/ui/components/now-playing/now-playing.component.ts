@@ -203,7 +203,7 @@ export class NowPlayingComponent extends AnimatedPage implements OnInit, AfterVi
     }
 
     private setNowPlayingPage(nowPlayingPage: NowPlayingPage): void {
-        this.page = nowPlayingPage;
+        this.setPage(nowPlayingPage);
     }
 
     public async ngAfterViewInit(): Promise<void> {
