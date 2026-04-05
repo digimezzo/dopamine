@@ -97,6 +97,13 @@ export class SliderComponent implements AfterViewInit {
         this.isSliderThumbMovable = true;
     }
 
+    public onSliderThumbTouchStart(e: TouchEvent): void {
+        e.preventDefault();
+        e.stopPropagation();
+        this.isSliderThumbMovable = true;
+        this.showSliderThumb = true;
+    }
+
     public onSliderContainerMouseEnter(): void {
         this.mouseIsOverSlider = true;
         this.showSliderThumb = true;
@@ -115,6 +122,13 @@ export class SliderComponent implements AfterViewInit {
         this.applyPositionAndValue(this.getMouseXPositionRelativeToSlider(e.clientX));
     }
 
+    public onSliderContainerTouchStart(e: TouchEvent): void {
+        e.preventDefault();
+        this.isSliderThumbMovable = true;
+        this.showSliderThumb = true;
+        this.applyPositionAndValue(this.getMouseXPositionRelativeToSlider(e.touches[0].clientX));
+    }
+
     @HostListener('document:mousedown', ['$event'])
     public onDocumentMouseDown(e: MouseEvent): void {
         if (this.mouseIsOverSlider) {
@@ -130,6 +144,7 @@ export class SliderComponent implements AfterViewInit {
     @HostListener('document:touchend')
     public onDocumentTouchEnd(): void {
         this.isSliderThumbMovable = false;
+        this.showSliderThumb = false;
     }
 
     @HostListener('document:mousemove', ['$event'])
