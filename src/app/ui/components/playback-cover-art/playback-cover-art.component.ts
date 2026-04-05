@@ -65,6 +65,10 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
     public topImageUrl: string = '';
     public bottomImageUrl: string = '';
 
+    public get hasCurrentImage(): boolean {
+        return this.currentImageUrl !== '' && this.currentImageUrl !== Constants.emptyImage;
+    }
+
     public get topImageBackgroundClass(): string {
         if (this.topImageUrl !== Constants.emptyImage) {
             return 'app-playback-cover-art__content-background';
