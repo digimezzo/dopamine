@@ -5,6 +5,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.0.4] - 2026-04-05
 
+### Added
+
+- Added ability to enlarge the cover image on the Now playing screen
+
 ### Fixed
 
 - Delete button is not visible when folder is not selected in "Manage collection" screen
