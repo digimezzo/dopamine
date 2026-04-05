@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Attempting to delete a song from a smart playlist, breaks the playlist.
 - Deleting of a song from a playlist while filtering via search, removes most of the files from the playlist.
 - Playback progress bar does not react to touch input
+- The cover image on the Now playing screen has glitches
 
 ## [3.0.3] - 2026-03-30
 
