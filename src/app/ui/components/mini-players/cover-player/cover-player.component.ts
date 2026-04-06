@@ -8,6 +8,7 @@ import { enterLeftToRight, enterRightToLeft } from '../../../animations/animatio
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { DocumentProxy } from '../../../../common/io/document-proxy';
 import { AudioVisualizer } from '../../../../services/playback/audio-visualizer';
+import { AudioVisualizerServiceBase } from '../../../../services/audio-visualizer/audio-visualizer.service.base';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { SettingsBase } from '../../../../common/settings/settings.base';
@@ -65,6 +66,7 @@ export class CoverPlayerComponent implements OnInit, AfterViewInit {
         public settings: SettingsBase,
         private navigationService: NavigationServiceBase,
         private _bottomSheet: MatBottomSheet,
+        public audioVisualizerService: AudioVisualizerServiceBase,
         private audioVisualizer: AudioVisualizer,
         private documentProxy: DocumentProxy,
         private desktop: DesktopBase,

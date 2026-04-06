@@ -10,6 +10,7 @@ import { PlaybackService } from '../../../services/playback/playback.service';
 import { NowPlayingNavigationServiceBase } from '../../../services/now-playing-navigation/now-playing-navigation.service.base';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
+import { AudioVisualizerServiceBase } from '../../../services/audio-visualizer/audio-visualizer.service.base';
 import { DocumentProxy } from '../../../common/io/document-proxy';
 import { enterLeftToRight, enterRightToLeft } from '../../animations/animations';
 import { AnimatedPage } from '../animated-page';
@@ -99,6 +100,7 @@ export class NowPlayingComponent extends AnimatedPage implements OnInit, AfterVi
         private playbackService: PlaybackService,
         private nowPlayingNavigationService: NowPlayingNavigationServiceBase,
         private scheduler: SchedulerBase,
+        public audioVisualizerService: AudioVisualizerServiceBase,
         private audioVisualizer: AudioVisualizer,
         private documentProxy: DocumentProxy,
         private settings: SettingsBase,

@@ -9,6 +9,7 @@ import { AlbumServiceBase } from '../../../services/album/album-service.base';
 import { AlbumModel } from '../../../services/album/album-model';
 import { PlaybackService } from '../../../services/playback/playback.service';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
+import { AudioVisualizerServiceBase } from '../../../services/audio-visualizer/audio-visualizer.service.base';
 import { DocumentProxy } from '../../../common/io/document-proxy';
 import { Subscription } from 'rxjs';
 
@@ -51,6 +52,7 @@ export class HighlightsComponent extends AnimatedPage implements OnInit, AfterVi
         public appearanceService: AppearanceServiceBase,
         private navigationService: NavigationServiceBase,
         private playbackService: PlaybackService,
+        public audioVisualizerService: AudioVisualizerServiceBase,
         private audioVisualizer: AudioVisualizer,
         private documentProxy: DocumentProxy,
         private settings: SettingsBase,
