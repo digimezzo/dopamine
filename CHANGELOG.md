@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added ability to enlarge the cover image on the Now playing screen
+- Clicking the visualization switches it between the available styles
 
 ### Changed
 
