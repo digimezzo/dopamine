@@ -3,6 +3,7 @@ import { CollectionComponent } from './collection.component';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { SettingsBase } from '../../../common/settings/settings.base';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
+import { AudioVisualizerServiceBase } from '../../../services/audio-visualizer/audio-visualizer.service.base';
 import { DocumentProxy } from '../../../common/io/document-proxy';
 import { CollectionNavigationService } from '../../../services/collection-navigation/collection-navigation.service';
 import { PlaybackService } from '../../../services/playback/playback.service';
@@ -13,6 +14,7 @@ describe('CollectionComponent', () => {
     let settingsMock: IMock<SettingsBase>;
     let playbackServiceMock: IMock<PlaybackService>;
     let audioVisualizerMock: IMock<AudioVisualizer>;
+    let audioVisualizerServiceMock: IMock<AudioVisualizerServiceBase>;
     let documentProxyMock: IMock<DocumentProxy>;
 
     const collectionNavigationServiceStub: any = { page: 0 };
@@ -23,6 +25,7 @@ describe('CollectionComponent', () => {
             collectionNavigationServiceMock.object,
             settingsMock.object,
             playbackServiceMock.object,
+            audioVisualizerServiceMock.object,
             audioVisualizerMock.object,
             documentProxyMock.object,
         );
@@ -34,6 +37,7 @@ describe('CollectionComponent', () => {
             collectionNavigationServiceStub,
             settingsMock.object,
             playbackServiceMock.object,
+            audioVisualizerServiceMock.object,
             audioVisualizerMock.object,
             documentProxyMock.object,
         );
@@ -45,6 +49,7 @@ describe('CollectionComponent', () => {
         settingsMock = Mock.ofType<SettingsBase>();
         playbackServiceMock = Mock.ofType<PlaybackService>();
         audioVisualizerMock = Mock.ofType<AudioVisualizer>();
+        audioVisualizerServiceMock = Mock.ofType<AudioVisualizerServiceBase>();
         documentProxyMock = Mock.ofType<DocumentProxy>();
     });
 
