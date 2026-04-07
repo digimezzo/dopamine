@@ -296,6 +296,8 @@ import { VolumeIconComponent } from './ui/components/volume-icon/volume-icon.com
 import { EditTracksDialogComponent } from './ui/components/dialogs/edit-tracks-dialog/edit-tracks-dialog.component';
 import { InfoDialogComponent } from './ui/components/dialogs/info-dialog/info-dialog.component';
 import { IterableMenuComponent } from './ui/components/common/iterable-menu.component';
+import { SrtLyricsGetter } from './services/lyrics/srt-lyrics-getter';
+import { GripesSettingsComponent } from './ui/components/settings/gripes-settings/gripes-settings.component';
 import { HighlightsComponent } from './ui/components/highlights/highlights.component';
 import { AlbumPlaceholderComponent } from './ui/components/highlights/album-placeholder.component';
 import { EditSmartPlaylistDialogComponent } from './ui/components/dialogs/edit-smart-playlist-dialog/edit-smart-playlist-dialog.component';
@@ -563,6 +565,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         GuidFactory,
         EmbeddedLyricsGetter,
         LrcLyricsGetter,
+        SrtLyricsGetter,
         OnlineLyricsGetter,
         IntegrationTestRunner,
         AudioVisualizer,
