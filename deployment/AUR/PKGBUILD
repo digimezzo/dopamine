@@ -1,9 +1,9 @@
 # Maintainer: Digimezzo <digimezzo@outlook.com>
 _productname=Dopamine
-_executablename=dopamine
+_productnamelower=dopamine
 pkgname=dopamine-official
-pkgver=3.0.2
-pkgrel=1
+pkgver=3.0.4
+pkgrel=4
 pkgdesc="The audio player that keeps it simple"
 arch=('x86_64')
 url="https://digimezzo.github.io/site/"
@@ -15,9 +15,9 @@ depends=()
 makedepends=('coreutils')
 backup=()
 options=(!strip)
-source=("${_productname}-${pkgver}.AppImage::https://github.com/digimezzo/${_executablename}/releases/download/v${pkgver//_/-}/${_productname}-${pkgver}.AppImage"
-	"${_executablename}.desktop")
-sha256sums=('09bdcac2a7f83d05be6d0a27b0f7400b3a7b8295539b40e947cc0e710d6a6451'
+source=("${_productname}-${pkgver}.AppImage::https://github.com/digimezzo/${_productnamelower}/releases/download/v${pkgver//_/-}/${_productname}-${pkgver}.AppImage"
+	"${_productname}.desktop")
+sha256sums=('b26f3f6734aa6b50ac409ed77d0ebbc80297e6b47d13c27f67abf5acb5613702'
 		'e0ac0b0c4deaaa288eb712492661fc0d22614277f2d3fd6953d45a23c9a4890d')
 
 prepare() {
@@ -30,14 +30,18 @@ package() {
     find           ${srcdir}/squashfs-root/locales/ -type d -exec chmod 755 {} +
     find           ${srcdir}/squashfs-root/resources/ -type d -exec chmod 755 {} +
 
-    install -d     ${pkgdir}/opt/${_executablename}
-    cp -r          ${srcdir}/squashfs-root/*                       ${pkgdir}/opt/${_executablename}
+    install -d     ${pkgdir}/opt/${_productname}
+    cp -r          ${srcdir}/squashfs-root/*                       ${pkgdir}/opt/${_productname}
 
     # remove broken or unused files and directories
-    rm -r          ${pkgdir}/opt/${_executablename}/usr/
-    rm             ${pkgdir}/opt/${_executablename}/AppRun
-    rm             ${pkgdir}/opt/${_executablename}/${_executablename}.desktop
-    rm             ${pkgdir}/opt/${_executablename}/${_executablename}.png
+    rm -rf         ${pkgdir}/opt/${_productnamelower}/usr/
+    rm -f          ${pkgdir}/opt/${_productnamelower}/AppRun
+    rm -f          ${pkgdir}/opt/${_productnamelower}/${_productnamelower}.desktop
+    rm -f          ${pkgdir}/opt/${_productnamelower}/${_productnamelower}.png
+    rm -rf         ${pkgdir}/opt/${_productname}/usr/
+    rm -f          ${pkgdir}/opt/${_productname}/AppRun
+    rm -f          ${pkgdir}/opt/${_productname}/${_productname}.desktop
+    rm -f          ${pkgdir}/opt/${_productname}/${_productname}.png
 
     find           ${srcdir}/squashfs-root/usr/share/icons/ -type d -exec chmod 755 {} +
 
@@ -45,7 +49,7 @@ package() {
     cp -r          ${srcdir}/squashfs-root/usr/share/icons/hicolor ${pkgdir}/usr/share/icons/hicolor
 
     install -d     ${pkgdir}/usr/bin
-    ln -s          ../../opt/${_executablename}/${_executablename}                ${pkgdir}/usr/bin/${_executablename}
+    ln -s          ../../opt/${_productname}/${_productnamelower}                ${pkgdir}/usr/bin/${_productnamelower}
 
-    install -Dm644 ${srcdir}/${_executablename}.desktop                   ${pkgdir}/usr/share/applications/${_executablename}.desktop
+    install -Dm644 ${srcdir}/${_productname}.desktop                   ${pkgdir}/usr/share/applications/${_productname}.desktop
 }

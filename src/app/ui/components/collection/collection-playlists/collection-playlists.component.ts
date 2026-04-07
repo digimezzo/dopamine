@@ -44,6 +44,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     public playlistFolders: PlaylistFolderModel[] = [];
     public playlists: PlaylistModel[] = [];
     public tracks: TrackModels = new TrackModels();
+    public canRemoveFromPlaylist: boolean = true;
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
@@ -131,6 +132,8 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
 
     private async getTracksAsync(): Promise<void> {
         const selectedPlaylists: PlaylistModel[] = this.playlistsPersister.getSelectedPlaylists(this.playlists);
+
+        this.canRemoveFromPlaylist = !selectedPlaylists.some((x) => x.isSmartPlaylist);
 
         if (selectedPlaylists.length > 0) {
             this.tracks = await this.playlistService.getTracksAsync(selectedPlaylists);

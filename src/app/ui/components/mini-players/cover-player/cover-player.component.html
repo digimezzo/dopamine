@@ -34,7 +34,11 @@
     <div class="cover-player__playback-pane">
         <app-playback-progress class="cover-player__progressbar"></app-playback-progress>
         <div class="cover-player__playback-controls__container">
-            <canvas id="coverPlayerAudioVisualizer" class="app-cover-player-controls__audio-visualizer"></canvas>
+            <canvas
+                id="coverPlayerAudioVisualizer"
+                class="app-cover-player-controls__audio-visualizer"
+                (click)="this.audioVisualizerService.cycleVisualizerStyle()"
+            ></canvas>
             <div class="cover-player__playback-controls">
                 <i
                     class="cover-player-playback-controls__buttons las la-tasks pointer mr-3"

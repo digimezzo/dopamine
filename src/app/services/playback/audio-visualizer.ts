@@ -11,6 +11,8 @@ export class AudioVisualizer {
     private canvasContext: CanvasRenderingContext2D;
     private isStopped: boolean;
     private stopRequestTime: Date | undefined;
+    private cssWidth: number;
+    private cssHeight: number;
 
     public constructor(
         private playbackService: PlaybackService,
@@ -25,7 +27,17 @@ export class AudioVisualizer {
 
     public connectCanvas(canvas: HTMLCanvasElement): void {
         this.canvas = canvas;
+
+        const dpr: number = window.devicePixelRatio || 1;
+        const rect: DOMRect = this.canvas.getBoundingClientRect();
+        this.canvas.width = rect.width * dpr;
+        this.canvas.height = rect.height * dpr;
+
         this.canvasContext = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+        this.canvasContext.scale(dpr, dpr);
+
+        this.cssWidth = rect.width;
+        this.cssHeight = rect.height;
     }
 
     private shouldStopDelayed(): boolean {
@@ -53,7 +65,7 @@ export class AudioVisualizer {
             return;
         }
 
-        this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.canvasContext.clearRect(0, 0, this.cssWidth, this.cssHeight);
 
         if (this.shouldStopNow()) {
             this.stopRequestTime = undefined;
@@ -97,20 +109,20 @@ export class AudioVisualizer {
     }
 
     private drawFlames(): void {
-        const barWidth: number = this.canvas.width / (this.dataArray.length * 2);
-        const canvasCenter: number = this.canvas.width / 2;
+        const barWidth: number = this.cssWidth / (this.dataArray.length * 2);
+        const canvasCenter: number = this.cssWidth / 2;
         const accentRgbColor: RgbColor = this.appearanceService.accentRgbColor;
         const backgroundRgbColor: RgbColor = this.appearanceService.backgroundRgbColor;
 
         for (let i: number = 0; i < this.dataArray.length; i++) {
-            const barHeight: number = (this.dataArray[i] / 255) * this.canvas.height;
+            const barHeight: number = (this.dataArray[i] / 255) * this.cssHeight;
             const xLeft: number = canvasCenter - barWidth / 2 - i * barWidth;
             const xRight: number = canvasCenter - barWidth / 2 + i * barWidth;
-            const y: number = this.canvas.height - barHeight;
+            const y: number = this.cssHeight - barHeight;
 
             // Left
             if (i > 0) {
-                const gradientLeft = this.canvasContext.createLinearGradient(xLeft, y, xLeft, this.canvas.height);
+                const gradientLeft = this.canvasContext.createLinearGradient(xLeft, y, xLeft, this.cssHeight);
                 gradientLeft.addColorStop(
                     0,
                     `rgba(${backgroundRgbColor.red}, ${backgroundRgbColor.green}, ${backgroundRgbColor.blue}, 0.2)`,
@@ -122,7 +134,7 @@ export class AudioVisualizer {
             }
 
             // Right
-            const gradientRight = this.canvasContext.createLinearGradient(xRight, y, xRight, this.canvas.height);
+            const gradientRight = this.canvasContext.createLinearGradient(xRight, y, xRight, this.cssHeight);
             gradientRight.addColorStop(0, `rgba(${backgroundRgbColor.red}, ${backgroundRgbColor.green}, ${backgroundRgbColor.blue}, 0.2)`);
             gradientRight.addColorStop(0.8, `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, 0.8)`);
 
@@ -135,17 +147,17 @@ export class AudioVisualizer {
         const barWidth: number = 1;
         const barMargin: number = 3;
         const totalBarWidth: number = barWidth + barMargin;
-        const canvasCenter: number = this.canvas.width / 2;
+        const canvasCenter: number = this.cssWidth / 2;
         const accentRgbColor: RgbColor = this.appearanceService.accentRgbColor;
 
         for (let i: number = 0; i < this.dataArray.length; i++) {
-            const barHeight: number = (this.dataArray[i] / 255) * this.canvas.height;
+            const barHeight: number = (this.dataArray[i] / 255) * this.cssHeight;
             const xLeft: number = canvasCenter - totalBarWidth / 2 - i * (barWidth + barMargin);
             const xRight: number = canvasCenter - totalBarWidth / 2 + i * (barWidth + barMargin);
-            const y: number = this.canvas.height - barHeight;
+            const y: number = this.cssHeight - barHeight;
 
-            const alphaLeft: number = 1 - (this.canvas.height - barHeight) / this.canvas.height;
-            const alphaRight: number = 1 - (this.canvas.height - barHeight) / this.canvas.height;
+            const alphaLeft: number = 1 - (this.cssHeight - barHeight) / this.cssHeight;
+            const alphaRight: number = 1 - (this.cssHeight - barHeight) / this.cssHeight;
 
             // Left
             if (i > 0) {
@@ -160,31 +172,52 @@ export class AudioVisualizer {
     }
 
     private drawBars(): void {
-        const barWidth: number = 3;
-        const barMargin: number = 2;
+        const barWidth: number = 4;
+        const barMargin: number = 3;
+        const radius: number = barWidth / 2;
         const totalBarWidth: number = barWidth + barMargin;
-        const canvasCenter: number = this.canvas.width / 2;
+        const canvasCenter: number = Math.round(this.cssWidth / 2);
         const accentRgbColor: RgbColor = this.appearanceService.accentRgbColor;
 
         for (let i: number = 0; i < this.dataArray.length; i++) {
-            const barHeight: number = (this.dataArray[i] / 255) * this.canvas.height;
-            const xLeft: number = canvasCenter - totalBarWidth / 2 - i * (barWidth + barMargin);
-            const xRight: number = canvasCenter - totalBarWidth / 2 + i * (barWidth + barMargin);
-            const y: number = this.canvas.height - barHeight;
+            const barHeight: number = (this.dataArray[i] / 255) * this.cssHeight;
+            const xLeft: number = Math.round(canvasCenter - totalBarWidth / 2 - i * totalBarWidth);
+            const xRight: number = Math.round(canvasCenter - totalBarWidth / 2 + i * totalBarWidth);
+            const y: number = Math.round(this.cssHeight - barHeight);
 
-            const alphaLeft: number = 1 - (this.canvas.height - barHeight) / this.canvas.height;
-            const alphaRight: number = 1 - (this.canvas.height - barHeight) / this.canvas.height;
+            const alpha: number = 1 - (this.cssHeight - barHeight) / this.cssHeight;
 
             // Left
             if (i > 0) {
-                this.canvasContext.fillStyle = `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, ${alphaLeft})`;
-                this.canvasContext.fillRect(xLeft, y, barWidth, barHeight);
+                this.canvasContext.fillStyle = `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, ${alpha})`;
+                this.drawRoundedColumn(xLeft, y, barWidth, barHeight, radius);
             }
 
             // Right
-            this.canvasContext.fillStyle = `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, ${alphaRight})`;
-            this.canvasContext.fillRect(xRight, y, barWidth, barHeight);
+            this.canvasContext.fillStyle = `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, ${alpha})`;
+            this.drawRoundedColumn(xRight, y, barWidth, barHeight, radius);
         }
+    }
+
+    private drawRoundedColumn(x: number, y: number, width: number, height: number, radius: number): void {
+        if (height < radius) {
+            this.canvasContext.fillRect(x, y, width, height);
+            return;
+        }
+
+        const ctx = this.canvasContext;
+        ctx.beginPath();
+        ctx.moveTo(x, y + height);
+        ctx.lineTo(x, y + radius);
+        ctx.arcTo(x, y, x + radius, y, radius);
+        ctx.arcTo(x + width, y, x + width, y + radius, radius);
+        ctx.lineTo(x + width, y + height);
+        ctx.closePath();
+        ctx.fill();
+
+        // Clear corner pixels to make rounding more visible
+        ctx.clearRect(x, y, 1, 1);
+        ctx.clearRect(x + width - 1, y, 1, 1);
     }
 
     // private drawRoundedBars(): void {
