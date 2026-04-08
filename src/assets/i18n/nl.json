@@ -354,5 +354,14 @@
     "confirm-delete-songs": "Weet je zeker dat je deze nummers wilt verwijderen? Ze worden indien mogelijk naar de prullenbak verplaatst, anders worden ze permanent verwijderd.",
     "always-on-top": "Altijd op de voorgrond",
     "lock-position": "Vergrendel positie",
-    "always-show-song": "Altijd nummer tonen"
+    "always-show-song": "Altijd nummer tonen",
+    "rich-lyrics": "Uitgebreide songteksten",
+    "show-rich-lyrics": "Toon uitgebreide songteksten",
+    "srt-lyrics": "SRT-songteksten",
+    "rich-lyric-count": "Aantal weer te geven regels",
+    "rich-lyric-size": "Grootte van songteksten",
+    "small-size": "Klein",
+    "normal-size": "Normaal",
+    "large-size": "Groot",
+    "xl-size": "Extra groot"
 }
