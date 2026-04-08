@@ -3,5 +3,4 @@ export enum LyricsSourceType {
     embedded = 2,
     lrc = 3,
     online = 4,
-    srt = 5,
 }

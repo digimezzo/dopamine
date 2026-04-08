@@ -817,32 +817,6 @@ export class Settings implements SettingsBase {
         this.set('useGaplessPlayback', v);
     }
 
-    // showRichLyrics
-    public get showRichLyrics(): boolean {
-        return this.get<boolean>('showRichLyrics');
-    }
-
-    public set showRichLyrics(v: boolean) {
-        this.set('showRichLyrics', v);
-    }
-
-    // richLyricsLineCount
-    public get richLyricsLineCount(): number {
-        return this.get<number>('richLyricsLineCount');
-    }
-
-    public set richLyricsLineCount(v: number) {
-        this.set('richLyricsLineCount', v)
-    }
-
-    // richLyricsFontSize
-    public get richLyricsFontSize(): number {
-        return this.get<number>('richLyricsFontSize');
-    }
-
-    public set richLyricsFontSize(v: number) {
-        this.set('richLyricsFontSize', v);
-    }
     // useCrossfade
     public get useCrossfade(): boolean {
         return this.get<boolean>('useCrossfade');
