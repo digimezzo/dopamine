@@ -21,11 +21,9 @@
 }
 
 .app-now-playing-lyrics__text {
-    display: flex;
     flex: 1;
     margin-left: 50px;
     overflow-y: auto;
-    overflow-x: hidden;
 }
 
 .app-now-playing-lyrics__playback-info {

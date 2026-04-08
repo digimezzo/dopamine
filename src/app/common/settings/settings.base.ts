@@ -94,4 +94,7 @@ export abstract class SettingsBase {
     public abstract miniPlayerAlwaysOnTop: boolean;
     public abstract miniPlayerLockPosition: boolean;
     public abstract miniPlayerAlwaysShowSong: boolean;
+    public abstract showRichLyrics: boolean;
+    public abstract richLyricsLineCount: number;
+    public abstract richLyricsFontSize: number;
 }

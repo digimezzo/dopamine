@@ -42,7 +42,7 @@ describe('EmbeddedLyricsGetter', () => {
             expect(lyrics.track).toEqual(track);
             expect(lyrics.sourceName).toEqual('');
             expect(lyrics.sourceType).toEqual(LyricsSourceType.embedded);
-            expect(lyrics.text).toEqual('lyrics');
+            expect(lyrics.plainText).toEqual('lyrics');
         });
 
         it('should return empty lyrics if there are no metadata lyrics', async () => {
@@ -59,7 +59,7 @@ describe('EmbeddedLyricsGetter', () => {
             expect(lyrics.track).toEqual(track);
             expect(lyrics.sourceName).toEqual('');
             expect(lyrics.sourceType).toEqual(LyricsSourceType.none);
-            expect(lyrics.text).toEqual('');
+            expect(lyrics.plainText).toEqual('');
         });
     });
 });

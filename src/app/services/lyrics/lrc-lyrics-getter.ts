@@ -10,6 +10,8 @@ import { FileAccessBase } from '../../common/io/file-access.base';
 export class LrcLyricsGetter implements ILyricsGetter {
     public constructor(private fileAccess: FileAccessBase) {}
 
+    private static readonly timestampRegex: RegExp = /\[(\d{1,3}):(\d{2})[.:](\d{2,3})\]/g;
+
     public async getLyricsAsync(track: TrackModel): Promise<LyricsModel> {
         const lrcFilePath: string = this.getLrcFilePath(track);
 
@@ -19,17 +21,29 @@ export class LrcLyricsGetter implements ILyricsGetter {
 
         const lines: string[] = await this.fileAccess.readLinesAsync(lrcFilePath);
         let lyricsText: string = '';
+        const lyricLines: string[] = [];
+        const timeStamps: number[] = [];
 
-        for (let i = 0; i < lines.length; i++) {
-            const lineParts: string[] = lines[i].split(']');
-            const lineWithoutTimestamp: string = lineParts.length > 1 ? lineParts[1] : lineParts[0];
+        for (const line of lines) {
+            const timestamps: number[] = this.parseTimestamps(line);
 
-            if (!StringUtils.isNullOrWhiteSpace(lineWithoutTimestamp) && !lineWithoutTimestamp.startsWith('[')) {
-                lyricsText += `${lineWithoutTimestamp}`;
+            if (timestamps.length === 0) {
+                continue;
+            }
 
-                if (i < lines.length - 1) {
+            const textContent: string = line.replace(LrcLyricsGetter.timestampRegex, '');
+
+            for (const ts of timestamps) {
+                lyricLines.push(textContent);
+                timeStamps.push(ts);
+            }
+
+            if (!StringUtils.isNullOrWhiteSpace(textContent)) {
+                if (lyricsText.length > 0) {
                     lyricsText += '\n';
                 }
+
+                lyricsText += textContent;
             }
         }
 
@@ -37,7 +51,25 @@ export class LrcLyricsGetter implements ILyricsGetter {
             return LyricsModel.empty(track);
         }
 
-        return new LyricsModel(track, '', LyricsSourceType.lrc, lyricsText);
+        return LyricsModel.timed(track, '', LyricsSourceType.lrc, lyricsText, lyricLines, timeStamps);
+    }
+
+    private parseTimestamps(line: string): number[] {
+        const timestamps: number[] = [];
+        let match: RegExpExecArray | null;
+
+        LrcLyricsGetter.timestampRegex.lastIndex = 0;
+
+        while ((match = LrcLyricsGetter.timestampRegex.exec(line)) !== null) {
+            const minutes: number = parseInt(match[1], 10);
+            const seconds: number = parseInt(match[2], 10);
+            const fraction: string = match[3];
+            const fractionalSeconds: number = parseInt(fraction, 10) / Math.pow(10, fraction.length);
+
+            timestamps.push(minutes * 60 + seconds + fractionalSeconds);
+        }
+
+        return timestamps;
     }
 
     private getLrcFilePath(track: TrackModel): string {

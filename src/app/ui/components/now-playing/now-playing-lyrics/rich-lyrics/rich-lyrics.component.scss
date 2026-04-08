@@ -1,0 +1,28 @@
+.rich-contain {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-x: scroll;
+}
+
+.rich-side {
+    white-space: pre-line;
+    line-height: 2;
+    margin: 0;
+    width: fit-content;
+    max-width: 100%;
+    min-height: 10%;
+}
+
+.rich-main {
+    width: fit-content;
+    max-width: 100%;
+    text-wrap: nowrap;
+    line-height: normal;
+    margin: 1vmin 0;
+    background-image: linear-gradient(to right, var(--theme-secondary-color) 0%, var(--theme-highlight-foreground) 1%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    overflow-x: scroll;
+}
