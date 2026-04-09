@@ -40,16 +40,16 @@ export class AdwaitaTheme {
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
             '#2f2f34', // windowButtonIcon OK
-            'rgba(46, 52, 54, 0.06)', // hoveredItemBackground
-            'rgba(46, 52, 54, 0.12)', // selectedItemBackground
-            '#5e5c64', // tabText
-            '#1b1b1b', // selectedTabText
+            'rgba(46, 52, 54, 0.04)', // hoveredItemBackground OK
+            'rgba(46, 52, 54, 0.13)', // selectedItemBackground OK
+            '#949496', // tabText OK
+            '#323237', // selectedTabText OK
             '#ffffff', // mainBackground OK
             '#ffffff', // headerBackground OK
             '#ffffff', // footerBackground OK
             '#ebebed', // sidePaneBackground OK
             '#323237', // primaryText OK
-            '#5e5c64', // secondaryText
+            '#949496', // secondaryText OK
             '#d8d7d3', // sliderBackground
             '#1b1b1b', // sliderThumbBackground
             '#e7e5e4', // albumCoverBackground
@@ -57,11 +57,11 @@ export class AdwaitaTheme {
             '#dadadc', // paneSeparators OK
             '#d4d2cd', // settingsSeparators
             '#e0e0e1', // contextMenuSeparators OK
-            '#3584e4', // scrollBars
+            '#3584e4', // scrollBars OK
             '#ebebeb', // searchBox OK
             '#2f2f34', // searchBoxText OK
             '#2f2f34', // searchBoxIcon OK
-            '#ffffff', // dialogBackground
+            '#fafafb', // dialogBackground OK
             '#ffffff', // primaryButtonText OK
             '#d4d2cd', // secondaryButtonBackground
             '#323237', // secondaryButtonText OK
