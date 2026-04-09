@@ -49,12 +49,13 @@
 
 .app-now-playing-playback-controls__audio-visualizer {
     position: absolute;
-    z-index: 1;
+    z-index: 3;
     left: 50%;
     bottom: 0;
     height: 30px;
     width: 300px;
     transform: translateX(-50%);
+    cursor: pointer;
 }
 
 .app-now-playing-playback-controls__playback-pane {

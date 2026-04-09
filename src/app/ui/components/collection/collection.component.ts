@@ -2,6 +2,7 @@ import { AfterViewInit, Component, HostListener, ViewEncapsulation } from '@angu
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { SettingsBase } from '../../../common/settings/settings.base';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
+import { AudioVisualizerServiceBase } from '../../../services/audio-visualizer/audio-visualizer.service.base';
 import { DocumentProxy } from '../../../common/io/document-proxy';
 import { AnimatedPage } from '../animated-page';
 import { enterLeftToRight, enterRightToLeft } from '../../animations/animations';
@@ -22,6 +23,7 @@ export class CollectionComponent extends AnimatedPage implements AfterViewInit {
         public collectionNavigationService: CollectionNavigationService,
         public settings: SettingsBase,
         private playbackService: PlaybackService,
+        public audioVisualizerService: AudioVisualizerServiceBase,
         private audioVisualizer: AudioVisualizer,
         private documentProxy: DocumentProxy,
     ) {

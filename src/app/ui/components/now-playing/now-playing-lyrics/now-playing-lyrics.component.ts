@@ -41,7 +41,21 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     }
 
     public get hasLyrics(): boolean {
-        return this._lyrics != undefined && !StringUtils.isNullOrWhiteSpace(this._lyrics.text);
+        return this._lyrics != undefined && !StringUtils.isNullOrWhiteSpace(this._lyrics.plainText);
+    }
+
+    public get hasRichLyrics(): boolean {
+        return (
+            this._lyrics != null &&
+            this._lyrics.textLines != undefined &&
+            this._lyrics.textLines.length > 0 &&
+            this._lyrics.startTimeStamps != undefined &&
+            this._lyrics.startTimeStamps.length === this._lyrics.textLines.length
+        );
+    }
+
+    public get showRichLyrics(): boolean {
+        return this.settings.showRichLyrics;
     }
 
     public get lyrics(): LyricsModel | undefined {
@@ -49,8 +63,9 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this.destroySubscriptions();
+        this.subscription.unsubscribe();
     }
+
     public async ngOnInit(): Promise<void> {
         this.initializeSubscriptions();
         const currentPlaybackInformation: PlaybackInformation = await this.playbackInformationService.getCurrentPlaybackInformationAsync();
@@ -75,10 +90,6 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
                 PromiseUtils.noAwait(this.showLyricsAsync(playbackInformation.track));
             }),
         );
-    }
-
-    private destroySubscriptions(): void {
-        this.subscription.unsubscribe();
     }
 
     private async showLyricsAsync(track: TrackModel | undefined): Promise<void> {

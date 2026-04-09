@@ -155,6 +155,8 @@ export class PlaylistService implements PlaylistServiceBase {
             throw new Error('tracksToRemove is undefined');
         }
 
+        let hasRemovedTracks: boolean = false;
+
         try {
             const tracksToRemoveGroupedByPlaylistPath: Map<string, TrackModel[]> = CollectionUtils.groupBy(
                 tracksToRemove,
@@ -162,9 +164,19 @@ export class PlaylistService implements PlaylistServiceBase {
             );
 
             for (const playlistPath of Array.from(tracksToRemoveGroupedByPlaylistPath.keys())) {
+                if (this.isSmartPlaylistPath(playlistPath)) {
+                    this.logger.warn(
+                        `Attempted to remove tracks from smart playlist '${playlistPath}'. Ignoring request.`,
+                        'PlaylistService',
+                        'removeTracksFromPlaylistsAsync',
+                    );
+                    continue;
+                }
+
                 const tracksToRemoveForSinglePlaylist: TrackModel[] = tracksToRemoveGroupedByPlaylistPath.get(playlistPath) ?? [];
 
                 await this.removeTracksFromSinglePlaylistAsync(playlistPath, tracksToRemoveForSinglePlaylist);
+                hasRemovedTracks = true;
             }
         } catch (e: unknown) {
             this.logger.error(e, 'Could not remove tracks from playlists.', 'PlaylistService', 'removeTracksFromPlaylistsAsync');
@@ -172,7 +184,13 @@ export class PlaylistService implements PlaylistServiceBase {
             throw new Error(e instanceof Error ? e.message : 'Unknown error');
         }
 
-        this.playlistTracksChanged.next();
+        if (hasRemovedTracks) {
+            this.playlistTracksChanged.next();
+        }
+    }
+
+    private isSmartPlaylistPath(playlistPath: string): boolean {
+        return this.fileAccess.getFileExtension(playlistPath).toLowerCase() === FileFormats.dspl;
     }
 
     private async removeTracksFromSinglePlaylistAsync(playlistPath: string, tracksToRemove: TrackModel[]): Promise<void> {

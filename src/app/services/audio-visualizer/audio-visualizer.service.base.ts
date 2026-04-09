@@ -4,4 +4,5 @@ export abstract class AudioVisualizerServiceBase {
     public abstract selectedAudioVisualizerStyle: string;
     public abstract audioVisualizerFrameRates: number[];
     public abstract selectedAudioVisualizerFrameRate: number;
+    public abstract cycleVisualizerStyle(): void;
 }

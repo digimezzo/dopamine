@@ -99,7 +99,11 @@
                     class="app-highlights-playback-controls__background theme-footer-background"
                     [@controlsVisibility]="controlsVisibility"
                 ></div>
-                <canvas id="highlightsAudioVisualizer" class="app-highlights-playback-controls__audio-visualizer"></canvas>
+                <canvas
+                    id="highlightsAudioVisualizer"
+                    class="app-highlights-playback-controls__audio-visualizer"
+                    (click)="this.audioVisualizerService.cycleVisualizerStyle()"
+                ></canvas>
                 <app-now-playing-playback-pane
                     class="app-highlights-playback-controls__playback-pane"
                     [@controlsVisibility]="controlsVisibility"

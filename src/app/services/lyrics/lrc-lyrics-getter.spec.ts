@@ -58,7 +58,74 @@ describe('LrcLyricsGetter', () => {
             expect(lyrics.track).toEqual(track);
             expect(lyrics.sourceName).toEqual('');
             expect(lyrics.sourceType).toEqual(LyricsSourceType.lrc);
-            expect(lyrics.text).toEqual('Line 1 lyrics\nLine 2 lyrics\nLine 3 lyrics\nLine 4 lyrics\nLine 5 lyrics\nLine 6 lyrics');
+            expect(lyrics.plainText).toEqual('Line 1 lyrics\nLine 2 lyrics\nLine 3 lyrics\nLine 4 lyrics\nLine 5 lyrics\nLine 6 lyrics');
+            expect(lyrics.textLines).toEqual([
+                'Line 1 lyrics',
+                'Line 2 lyrics',
+                'Line 3 lyrics',
+                'Line 4 lyrics',
+                'Line 5 lyrics',
+                'Line 6 lyrics',
+            ]);
+            expect(lyrics.startTimeStamps).toEqual([12, 17.2, 21.1, 24, 28.25, 29.02]);
+        });
+
+        it('should handle multi-timestamp lines', async () => {
+            // Arrange
+            const track: TrackModel = MockCreator.createTrackModel('/path/to/audio/file.mp3', 'title', 'artists');
+            fileAccessMock.setup((x) => x.getPathWithoutExtension(track.path)).returns(() => '/path/to/audio/file');
+            fileAccessMock.setup((x) => x.pathExists('/path/to/audio/file.lrc')).returns(() => true);
+
+            const lrcFileLines: string[] = ['[00:05.00][00:20.00]Chorus line'];
+
+            fileAccessMock.setup((x) => x.readLinesAsync('/path/to/audio/file.lrc')).returns(() => Promise.resolve(lrcFileLines));
+            const instance: LrcLyricsGetter = createInstance();
+
+            // Act
+            const lyrics: LyricsModel = await instance.getLyricsAsync(track);
+
+            // Assert
+            expect(lyrics.plainText).toEqual('Chorus line');
+            expect(lyrics.textLines).toEqual(['Chorus line', 'Chorus line']);
+            expect(lyrics.startTimeStamps).toEqual([5, 20]);
+        });
+
+        it('should handle 3-digit milliseconds', async () => {
+            // Arrange
+            const track: TrackModel = MockCreator.createTrackModel('/path/to/audio/file.mp3', 'title', 'artists');
+            fileAccessMock.setup((x) => x.getPathWithoutExtension(track.path)).returns(() => '/path/to/audio/file');
+            fileAccessMock.setup((x) => x.pathExists('/path/to/audio/file.lrc')).returns(() => true);
+
+            const lrcFileLines: string[] = ['[01:17.200]A lyric line'];
+
+            fileAccessMock.setup((x) => x.readLinesAsync('/path/to/audio/file.lrc')).returns(() => Promise.resolve(lrcFileLines));
+            const instance: LrcLyricsGetter = createInstance();
+
+            // Act
+            const lyrics: LyricsModel = await instance.getLyricsAsync(track);
+
+            // Assert
+            expect(lyrics.startTimeStamps).toEqual([77.2]);
+        });
+
+        it('should skip lines without valid timestamps', async () => {
+            // Arrange
+            const track: TrackModel = MockCreator.createTrackModel('/path/to/audio/file.mp3', 'title', 'artists');
+            fileAccessMock.setup((x) => x.getPathWithoutExtension(track.path)).returns(() => '/path/to/audio/file');
+            fileAccessMock.setup((x) => x.pathExists('/path/to/audio/file.lrc')).returns(() => true);
+
+            const lrcFileLines: string[] = ['[ti:Some Title]', '', 'plain text without timestamp', '[00:05.00]Valid line'];
+
+            fileAccessMock.setup((x) => x.readLinesAsync('/path/to/audio/file.lrc')).returns(() => Promise.resolve(lrcFileLines));
+            const instance: LrcLyricsGetter = createInstance();
+
+            // Act
+            const lyrics: LyricsModel = await instance.getLyricsAsync(track);
+
+            // Assert
+            expect(lyrics.plainText).toEqual('Valid line');
+            expect(lyrics.textLines).toEqual(['Valid line']);
+            expect(lyrics.startTimeStamps).toEqual([5]);
         });
 
         it('should return empty lyrics if lrc file exists but is empty', async () => {
@@ -79,7 +146,7 @@ describe('LrcLyricsGetter', () => {
             expect(lyrics.track).toEqual(track);
             expect(lyrics.sourceName).toEqual('');
             expect(lyrics.sourceType).toEqual(LyricsSourceType.none);
-            expect(lyrics.text).toEqual('');
+            expect(lyrics.plainText).toEqual('');
         });
 
         it('should return empty lyrics if lrc file does not exist', async () => {
@@ -97,7 +164,7 @@ describe('LrcLyricsGetter', () => {
             expect(lyrics.track).toEqual(track);
             expect(lyrics.sourceName).toEqual('');
             expect(lyrics.sourceType).toEqual(LyricsSourceType.none);
-            expect(lyrics.text).toEqual('');
+            expect(lyrics.plainText).toEqual('');
         });
     });
 });

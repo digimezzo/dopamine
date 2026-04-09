@@ -61,6 +61,12 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
         this.isProgressThumbDown = true;
     }
 
+    public progressThumbTouchStart(e: TouchEvent): void {
+        e.preventDefault();
+        this.isProgressThumbDown = true;
+        this.showProgressThumb = true;
+    }
+
     public progressContainerMouseEnter(): void {
         this.showProgressThumb = true;
     }
@@ -79,6 +85,18 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
         }
 
         this.applyMouseProgress(e.pageX);
+    }
+
+    public progressContainerTouchStart(e: TouchEvent): void {
+        e.preventDefault();
+        this.isProgressContainerDown = true;
+        this.showProgressThumb = true;
+
+        if (!this.playbackService.isPlaying) {
+            return;
+        }
+
+        this.applyMouseProgress(e.touches[0].pageX);
     }
 
     @HostListener('document:mouseup')
@@ -102,15 +120,33 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
         }
     }
 
+    @HostListener('document:touchend')
+    public async onTouchEnd(): Promise<void> {
+        await this.onMouseUp();
+    }
+
     @HostListener('document:mousemove', ['$event'])
     public onMouseMove(e: MouseEvent): void {
         if (!this.playbackService.isPlaying) {
             return;
         }
 
-        if (this.isProgressThumbDown) {
+        if (this.isProgressThumbDown || this.isProgressContainerDown) {
             this.isProgressDragged = true;
             this.applyMouseProgress(e.pageX);
+        }
+    }
+
+    @HostListener('document:touchmove', ['$event'])
+    public onTouchMove(e: TouchEvent): void {
+        if (!this.playbackService.isPlaying) {
+            return;
+        }
+
+        if (this.isProgressThumbDown || this.isProgressContainerDown) {
+            e.preventDefault();
+            this.isProgressDragged = true;
+            this.applyMouseProgress(e.touches[0].pageX);
         }
     }
 

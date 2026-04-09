@@ -360,6 +360,15 @@ describe('validate i18n', () => {
         'always-on-top',
         'lock-position',
         'always-show-song',
+        'rich-lyrics',
+        'show-rich-lyrics',
+        'srt-lyrics',
+        'rich-lyric-count',
+        'rich-lyric-size',
+        'small-size',
+        'normal-size',
+        'large-size',
+        'xl-size',
     ].sort();
 
     Constants.languages.forEach((language) => {

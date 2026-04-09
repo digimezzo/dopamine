@@ -354,5 +354,14 @@
     "confirm-delete-songs": "Êtes-vous sûr de vouloir supprimer ces morceaux? Ils seront déplacés vers la corbeille si possible, sinon ils seront supprimés définitivement.",
     "always-on-top": "Toujours au premier plan",
     "lock-position": "Verrouiller la position",
-    "always-show-song": "Toujours afficher le morceau"
+    "always-show-song": "Toujours afficher le morceau",
+    "rich-lyrics": "Paroles enrichies",
+    "show-rich-lyrics": "Afficher les paroles enrichies",
+    "srt-lyrics": "Paroles SRT",
+    "rich-lyric-count": "Nombre de lignes à afficher",
+    "rich-lyric-size": "Taille des paroles",
+    "small-size": "Petite",
+    "normal-size": "Normale",
+    "large-size": "Grande",
+    "xl-size": "Très grande"
 }

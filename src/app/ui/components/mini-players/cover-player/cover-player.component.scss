@@ -33,12 +33,13 @@
 
 .app-cover-player-controls__audio-visualizer {
     position: absolute;
-    z-index: 0;
+    z-index: 2;
     left: 50%;
     bottom: 0;
     height: 30px;
     width: 300px;
     transform: translateX(-50%);
+    cursor: pointer;
 }
 
 .cover-player__playback-controls__container {

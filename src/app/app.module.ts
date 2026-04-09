@@ -121,6 +121,8 @@ import { ManageRefreshComponent } from './ui/components/manage-collection/manage
 import { NowPlayingArtistInfoComponent } from './ui/components/now-playing/now-playing-artist-info/now-playing-artist-info.component';
 import { SimilarArtistComponent } from './ui/components/now-playing/now-playing-artist-info/similar-artist/similar-artist.component';
 import { NowPlayingLyricsComponent } from './ui/components/now-playing/now-playing-lyrics/now-playing-lyrics.component';
+import { PlainLyricsComponent } from './ui/components/now-playing/now-playing-lyrics/plain-lyrics/plain-lyrics.component';
+import { RichLyricsComponent } from './ui/components/now-playing/now-playing-lyrics/rich-lyrics/rich-lyrics.component';
 import { NowPlayingPlaybackPaneComponent } from './ui/components/now-playing/now-playing-playback-pane/now-playing-playback-pane.component';
 import { NowPlayingShowcaseComponent } from './ui/components/now-playing/now-playing-showcase/now-playing-showcase.component';
 import { NowPlayingComponent } from './ui/components/now-playing/now-playing.component';
@@ -296,6 +298,7 @@ import { VolumeIconComponent } from './ui/components/volume-icon/volume-icon.com
 import { EditTracksDialogComponent } from './ui/components/dialogs/edit-tracks-dialog/edit-tracks-dialog.component';
 import { InfoDialogComponent } from './ui/components/dialogs/info-dialog/info-dialog.component';
 import { IterableMenuComponent } from './ui/components/common/iterable-menu.component';
+import { SrtLyricsGetter } from './services/lyrics/srt-lyrics-getter';
 import { HighlightsComponent } from './ui/components/highlights/highlights.component';
 import { AlbumPlaceholderComponent } from './ui/components/highlights/album-placeholder.component';
 import { EditSmartPlaylistDialogComponent } from './ui/components/dialogs/edit-smart-playlist-dialog/edit-smart-playlist-dialog.component';
@@ -439,6 +442,8 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         NowPlayingShowcaseComponent,
         NowPlayingArtistInfoComponent,
         NowPlayingLyricsComponent,
+        PlainLyricsComponent,
+        RichLyricsComponent,
         SimilarArtistComponent,
         NowPlayingNothingPlayingComponent,
         SubMenuComponent,
@@ -563,6 +568,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         GuidFactory,
         EmbeddedLyricsGetter,
         LrcLyricsGetter,
+        SrtLyricsGetter,
         OnlineLyricsGetter,
         IntegrationTestRunner,
         AudioVisualizer,

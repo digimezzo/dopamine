@@ -28,13 +28,34 @@
 .app-now-playing-showcase__cover {
     // prettier-ignore
     -webkit-box-reflect: below 4px -webkit-linear-gradient(transparent, transparent 80%, rgba(255, 255, 255, 0.3));
-    box-shadow:
-        0 4px 8px 0 rgba(0, 0, 0, 0.2),
-        0 6px 20px 0 rgba(0, 0, 0, 0.2);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2)) drop-shadow(0 6px 20px rgba(0, 0, 0, 0.2));
+    cursor: pointer;
 }
 
 .app-now-playing-showcase__songinfo {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+}
+
+.app-cover-art-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.85);
+    cursor: pointer;
+}
+
+.app-cover-art-overlay__image {
+    max-width: calc(100vw - 80px);
+    max-height: calc(100vh - 80px);
+    object-fit: contain;
+    cursor: default;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
 }

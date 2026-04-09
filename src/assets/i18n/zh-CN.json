@@ -322,7 +322,7 @@
     "choose-type": "选择一个类型",
     "follow-song": "跟随歌曲",
     "jump-to-playing-song": "自动滚动到播放中的歌曲",
-     "images": "图像",
+    "images": "图像",
     "i-prefer-square-images": "使用方形图像",
     "none": "无",
     "oldest-first": "最旧优先",
@@ -354,5 +354,14 @@
     "confirm-delete-songs": "确定要删除这些歌曲吗？如果是，它们将被移至回收站，否则将被永久删除。",
     "always-on-top": "始终置顶",
     "lock-position": "锁定位置",
-    "always-show-song": "始终显示歌曲"
+    "always-show-song": "始终显示歌曲",
+    "rich-lyrics": "Rich Lyrics",
+    "show-rich-lyrics": "Show rich lyrics",
+    "srt-lyrics": "SRT lyrics",
+    "rich-lyric-count": "Number of lines to display",
+    "rich-lyric-size": "Lyrics size",
+    "small-size": "Small",
+    "normal-size": "Normal",
+    "large-size": "Large",
+    "xl-size": "Extra large"
 }

@@ -98,6 +98,9 @@ export class SettingsMock implements SettingsBase {
     public miniPlayerAlwaysOnTop: boolean;
     public miniPlayerLockPosition: boolean;
     public miniPlayerAlwaysShowSong: boolean;
+    public showRichLyrics: boolean;
+    public richLyricsLineCount: number;
+    public richLyricsFontSize: number;
 
     public get albumKeyIndex(): string {
         return this.albumKeyIndexMock;

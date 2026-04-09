@@ -41,6 +41,12 @@ export class AudioVisualizerService implements AudioVisualizerServiceBase {
         this.settings.audioVisualizerFrameRate = v;
     }
 
+    public cycleVisualizerStyle(): void {
+        const currentIndex: number = this.audioVisualizerStyles.indexOf(this._selectedAudioVisualizerStyle);
+        const nextIndex: number = (currentIndex + 1) % this.audioVisualizerStyles.length;
+        this.selectedAudioVisualizerStyle = this.audioVisualizerStyles[nextIndex];
+    }
+
     private getSelectedAudioVisualiserStyleFromSettings(): string {
         const possibleAudioVisualizerStyles: string[] = this.audioVisualizerStyles.filter(
             (x: string) => x === this.settings.audioVisualizerStyle,

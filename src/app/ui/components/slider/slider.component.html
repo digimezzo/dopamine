@@ -5,7 +5,7 @@
     (mouseleave)="onSliderContainerMouseLeave()"
     (mousedown)="onSliderContainerMouseDown($event)"
     (wheel)="onSliderContainerMouseWheel($event)"
-    (touchstart)="onSliderThumbMouseDown()"
+    (touchstart)="onSliderContainerTouchStart($event)"
 >
     <div class="app-slider-track" #sliderTrack></div>
     <div class="app-slider-bar" #sliderBar [ngStyle]="{ width: this.sliderBarPosition + 'px' }"></div>
@@ -15,5 +15,6 @@
         *ngIf="showSliderThumb"
         [ngStyle]="{ 'margin-left': this.sliderThumbPosition + 'px' }"
         (mousedown)="onSliderThumbMouseDown()"
+        (touchstart)="onSliderThumbTouchStart($event)"
     ></div>
 </div>

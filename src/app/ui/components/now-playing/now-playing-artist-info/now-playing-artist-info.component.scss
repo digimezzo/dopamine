@@ -10,9 +10,7 @@
     height: 300px;
     margin-right: 50px;
     background: var(--theme-album-cover-background);
-    box-shadow:
-        0 4px 8px 0 rgba(0, 0, 0, 0.2),
-        0 6px 20px 0 rgba(0, 0, 0, 0.2);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2)) drop-shadow(0 6px 20px rgba(0, 0, 0, 0.2));
 }
 
 .app-now-playing-artist-info__spinner {

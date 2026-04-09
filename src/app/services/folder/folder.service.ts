@@ -137,14 +137,26 @@ export class FolderService implements FolderServiceBase {
         const subfolderBreadcrumbs: SubfolderModel[] = [];
 
         // Add subfolders, if applicable.
-        while (parentFolderPath !== rootFolder.path) {
+        while (!this.arePathsEquivalent(parentFolderPath, rootFolder.path)) {
             this.logger.info(
                 `parentFolderPath=${parentFolderPath}, rootFolder.path=${rootFolder.path}`,
                 'FolderService',
                 'getSubfolderBreadcrumbs',
             );
             subfolderBreadcrumbs.push(new SubfolderModel(parentFolderPath, false));
+
+            const previousParentFolderPath: string = parentFolderPath;
             parentFolderPath = this.fileAccess.getDirectoryPath(parentFolderPath);
+
+            // Stop traversing if getDirectoryPath does not move up a level.
+            if (this.arePathsEquivalent(parentFolderPath, previousParentFolderPath)) {
+                this.logger.warn(
+                    `Stopped getting subfolder breadcrumbs because parent folder path did not change. parentFolderPath=${parentFolderPath}, rootFolder.path=${rootFolder.path}`,
+                    'FolderService',
+                    'getSubfolderBreadcrumbs',
+                );
+                break;
+            }
         }
 
         // Always add the root folder
@@ -156,5 +168,28 @@ export class FolderService implements FolderServiceBase {
     private checkIfCollectionHasFolders(): void {
         const numberOfFoldersInCollection: number = this.getFolders().length;
         this._collectionHasFolders = numberOfFoldersInCollection > 0;
+    }
+
+    private arePathsEquivalent(leftPath: string, rightPath: string): boolean {
+        return this.normalizePathForComparison(leftPath) === this.normalizePathForComparison(rightPath);
+    }
+
+    private normalizePathForComparison(pathToNormalize: string): string {
+        if (pathToNormalize == undefined || pathToNormalize.length === 0) {
+            return '';
+        }
+
+        const isLikelyWindowsPath: boolean = /^[a-zA-Z]:/.test(pathToNormalize) || pathToNormalize.includes('\\');
+        let normalizedPath: string = pathToNormalize.replace(/[\\/]+/g, '/').replace(/\/+$/, '');
+
+        if (normalizedPath.length === 0 && pathToNormalize.startsWith('/')) {
+            normalizedPath = '/';
+        }
+
+        if (isLikelyWindowsPath) {
+            return normalizedPath.toLowerCase();
+        }
+
+        return normalizedPath;
     }
 }

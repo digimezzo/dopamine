@@ -349,10 +349,19 @@
     "greater-than": "greater than",
     "less-than": "less than",
     "bitrate": "Bitrate",
-    "value": "Value", 
+    "value": "Value",
     "confirm-delete-song": "Are you sure you want to delete this song? It will be moved to the trash if possible, otherwise it will be permanently deleted.",
     "confirm-delete-songs": "Are you sure you want to delete these songs? They will be moved to the trash if possible, otherwise they will be permanently deleted.",
     "always-on-top": "Always on top",
     "lock-position": "Lock position",
-    "always-show-song": "Always show song"
+    "always-show-song": "Always show song",
+    "rich-lyrics": "Rich Lyrics",
+    "show-rich-lyrics": "Show rich lyrics",
+    "srt-lyrics": "SRT lyrics",
+    "rich-lyric-count": "Number of lines to display",
+    "rich-lyric-size": "Lyrics size",
+    "small-size": "Small",
+    "normal-size": "Normal",
+    "large-size": "Large",
+    "xl-size": "Extra large"
 }
