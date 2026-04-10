@@ -6,6 +6,7 @@ import { NavigationServiceBase } from '../../../services/navigation/navigation.s
 import { AlbumServiceBase } from '../../../services/album/album-service.base';
 import { PlaybackService } from '../../../services/playback/playback.service';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
+import { AudioVisualizerServiceBase } from '../../../services/audio-visualizer/audio-visualizer.service.base';
 import { DocumentProxy } from '../../../common/io/document-proxy';
 import { SettingsBase } from '../../../common/settings/settings.base';
 import { AlbumModel } from '../../../services/album/album-model';
@@ -17,6 +18,7 @@ describe('HighlightsComponent', () => {
     let albumServiceMock: IMock<AlbumServiceBase>;
     let playbackServiceMock: IMock<PlaybackService>;
     let audioVisualizerMock: IMock<AudioVisualizer>;
+    let audioVisualizerServiceMock: IMock<AudioVisualizerServiceBase>;
     let documentProxyMock: IMock<DocumentProxy>;
     let settingsMock: IMock<SettingsBase>;
 
@@ -30,6 +32,7 @@ describe('HighlightsComponent', () => {
             appearanceServiceMock.object,
             navigationServiceMock.object,
             playbackServiceMock.object,
+            audioVisualizerServiceMock.object,
             audioVisualizerMock.object,
             documentProxyMock.object,
             settingsMock.object,
@@ -43,6 +46,7 @@ describe('HighlightsComponent', () => {
         albumServiceMock = Mock.ofType<AlbumServiceBase>();
         playbackServiceMock = Mock.ofType<PlaybackService>();
         audioVisualizerMock = Mock.ofType<AudioVisualizer>();
+        audioVisualizerServiceMock = Mock.ofType<AudioVisualizerServiceBase>();
         documentProxyMock = Mock.ofType<DocumentProxy>();
         settingsMock = Mock.ofType<SettingsBase>();
 

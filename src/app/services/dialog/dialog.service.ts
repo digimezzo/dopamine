@@ -18,6 +18,8 @@ import { EditTracksDialogComponent } from '../../ui/components/dialogs/edit-trac
 import { InfoDialogComponent } from '../../ui/components/dialogs/info-dialog/info-dialog.component';
 import { InfoData } from './info-data';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
+import { EditSmartPlaylistDialogComponent } from '../../ui/components/dialogs/edit-smart-playlist-dialog/edit-smart-playlist-dialog.component';
+import { FileFormats } from '../../common/application/file-formats';
 
 @Injectable()
 export class DialogService implements DialogServiceBase {
@@ -76,9 +78,24 @@ export class DialogService implements DialogServiceBase {
     }
 
     public async showEditPlaylistDialogAsync(playlist: PlaylistModel): Promise<void> {
+        if (playlist.path.endsWith(FileFormats.dspl)) {
+            await this.showEditSmartPlaylistDialogAsync(playlist);
+            return;
+        }
+
         const playlistData = new PlaylistData(playlist);
         const dialogRef: MatDialogRef<EditPlaylistDialogComponent> = this.dialog.open(EditPlaylistDialogComponent, {
             width: '450px',
+            data: playlistData,
+        });
+
+        await dialogRef.afterClosed().toPromise();
+    }
+
+    public async showEditSmartPlaylistDialogAsync(playlist: PlaylistModel): Promise<void> {
+        const playlistData = new PlaylistData(playlist);
+        const dialogRef: MatDialogRef<EditSmartPlaylistDialogComponent> = this.dialog.open(EditSmartPlaylistDialogComponent, {
+            width: '750px',
             data: playlistData,
         });
 
@@ -90,6 +107,17 @@ export class DialogService implements DialogServiceBase {
         const playlistData: PlaylistData = new PlaylistData(defaultPlaylist);
         const dialogRef: MatDialogRef<EditPlaylistDialogComponent> = this.dialog.open(EditPlaylistDialogComponent, {
             width: '450px',
+            data: playlistData,
+        });
+
+        await dialogRef.afterClosed().toPromise();
+    }
+
+    public async showCreateSmartPlaylistDialogAsync(): Promise<void> {
+        const defaultPlaylist: PlaylistModel = this.playlistModelFactory.createDefault();
+        const playlistData: PlaylistData = new PlaylistData(defaultPlaylist);
+        const dialogRef: MatDialogRef<EditSmartPlaylistDialogComponent> = this.dialog.open(EditSmartPlaylistDialogComponent, {
+            width: '750px',
             data: playlistData,
         });
 

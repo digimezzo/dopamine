@@ -90,10 +90,18 @@ export class SettingsMock implements SettingsBase {
     public fullPlayerPositionSizeMaximized: string;
     public coverPlayerPosition: string;
     public useGaplessPlayback: boolean;
+    public useCrossfade: boolean;
+    public crossfadeDuration: number;
     public jumpToPlayingSong: boolean;
     public showSquareImages: boolean;
     public useCompactYearView: boolean;
     public showAlbumArtOnDockIcon: boolean;
+    public miniPlayerAlwaysOnTop: boolean;
+    public miniPlayerLockPosition: boolean;
+    public miniPlayerAlwaysShowSong: boolean;
+    public showRichLyrics: boolean;
+    public richLyricsLineCount: number;
+    public richLyricsFontSize: number;
 
     public get albumKeyIndex(): string {
         return this.albumKeyIndexMock;

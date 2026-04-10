@@ -126,8 +126,13 @@
     white-space: pre-line;
 }
 
-.draggable {
-    -webkit-app-region: drag;
+.app-window-draggable {
+    cursor: grab;
+}
+
+.app-window-draggable.app-window-draggable-dragging,
+.app-window-draggable.app-window-draggable-dragging * {
+    cursor: grabbing !important;
 }
 
 .title {

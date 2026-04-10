@@ -11,6 +11,7 @@ import { NowPlayingPage } from '../../../services/now-playing-navigation/now-pla
 import { TrackModel } from '../../../services/track/track-model';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
+import { AudioVisualizerServiceBase } from '../../../services/audio-visualizer/audio-visualizer.service.base';
 import { DocumentProxy } from '../../../common/io/document-proxy';
 import { SettingsBase } from '../../../common/settings/settings.base';
 import { MetadataService } from '../../../services/metadata/metadata.service';
@@ -24,6 +25,7 @@ describe('NowPlayingComponent', () => {
     let nowPlayingNavigationServiceMock: IMock<NowPlayingNavigationServiceBase>;
     let schedulerMock: IMock<SchedulerBase>;
     let audioVisualizerMock: IMock<AudioVisualizer>;
+    let audioVisualizerServiceMock: IMock<AudioVisualizerServiceBase>;
     let documentProxyMock: IMock<DocumentProxy>;
     let settingsMock: IMock<SettingsBase>;
 
@@ -42,6 +44,7 @@ describe('NowPlayingComponent', () => {
             playbackServiceMock.object,
             nowPlayingNavigationServiceMock.object,
             schedulerMock.object,
+            audioVisualizerServiceMock.object,
             audioVisualizerMock.object,
             documentProxyMock.object,
             settingsMock.object,
@@ -56,6 +59,7 @@ describe('NowPlayingComponent', () => {
         nowPlayingNavigationServiceMock = Mock.ofType<NowPlayingNavigationServiceBase>();
         schedulerMock = Mock.ofType<SchedulerBase>();
         audioVisualizerMock = Mock.ofType<AudioVisualizer>();
+        audioVisualizerServiceMock = Mock.ofType<AudioVisualizerServiceBase>();
         documentProxyMock = Mock.ofType<DocumentProxy>();
         settingsMock = Mock.ofType<SettingsBase>();
 

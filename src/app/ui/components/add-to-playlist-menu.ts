@@ -51,7 +51,8 @@ export class AddToPlaylistMenu {
 
     private async fillPlaylistsAsync(): Promise<void> {
         const playlistFolders: PlaylistFolderModel[] = await this.playlistFolderService.getPlaylistFoldersAsync();
-        const playlists: PlaylistModel[] = await this.playlistService.getPlaylistsAsync(playlistFolders);
+        const allPlaylists: PlaylistModel[] = await this.playlistService.getPlaylistsAsync(playlistFolders);
+        const playlists: PlaylistModel[] = allPlaylists.filter((p) => !p.path.endsWith('.dspl'));
 
         this.playlists = this.playlistsToJson(playlists);
     }

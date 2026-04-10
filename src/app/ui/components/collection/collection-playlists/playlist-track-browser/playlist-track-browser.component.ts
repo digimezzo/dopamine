@@ -45,6 +45,12 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
 
     public orderedTracks: TrackModel[] = [];
 
+    @Input()
+    public canReorder: boolean = true;
+
+    @Input()
+    public canRemoveFromPlaylist: boolean = true;
+
     public get tracksPersister(): BaseTracksPersister {
         return this._tracksPersister;
     }
@@ -93,6 +99,10 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
     }
 
     public async onRemoveFromPlaylistAsync(): Promise<void> {
+        if (!this.canRemoveFromPlaylist) {
+            return;
+        }
+
         const dialogTitle: string = await this.translatorService.getAsync('confirm-remove-from-playlist');
         const dialogText: string = await this.translatorService.getAsync('confirm-remove-from-playlist-long');
 
@@ -142,6 +152,10 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
     }
 
     public async dropTrackAsync(event: CdkDragDrop<TrackModel[]>): Promise<void> {
+        if (!this.canReorder) {
+            return;
+        }
+
         moveItemInArray(this.orderedTracks, event.previousIndex, event.currentIndex);
 
         // HACK: required so that the dragged item does not snap back to its original place

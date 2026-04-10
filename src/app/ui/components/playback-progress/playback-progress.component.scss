@@ -3,6 +3,11 @@
     width: 100%;
     height: 12px;
     cursor: pointer;
+
+    &.grabbing,
+    &.grabbing .app-playback-progress-thumb {
+        cursor: grabbing;
+    }
 }
 
 .app-playback-progress-bar {

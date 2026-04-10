@@ -1,6 +1,6 @@
 <div class="app-now-playing-showcase">
     <div class="app-now-playing-showcase__song">
-        <div class="app-now-playing-showcase__cover">
+        <div class="app-now-playing-showcase__cover" (click)="openCoverArtOverlay()">
             <app-playback-cover-art [size]="coverArtSize" [borderRadius]="this.settings.showSquareImages ? 0 : 10"></app-playback-cover-art>
         </div>
 
@@ -17,4 +17,15 @@
             </app-playback-information>
         </div>
     </div>
+</div>
+
+<div class="app-cover-art-overlay" *ngIf="coverArtOverlayVisible" [@overlayAnimation] (click)="closeCoverArtOverlay()">
+    <img
+        [@overlayImageAnimation]
+        class="app-cover-art-overlay__image"
+        [src]="currentCoverArtUrl"
+        [style.border-radius.px]="this.settings.showSquareImages ? 0 : 16"
+        draggable="false"
+        (click)="$event.stopPropagation()"
+    />
 </div>

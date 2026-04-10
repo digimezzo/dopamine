@@ -23,16 +23,16 @@ describe('PlaylistSorter', () => {
     beforeEach(() => {
         loggerMock = Mock.ofType<Logger>();
 
-        playlistModel1 = new PlaylistModel('Playlist 1', 'Folder', 'Path 1', 'Image path 1');
-        playlistModel2 = new PlaylistModel('Playlist 2', 'Folder', 'Path 2', 'Image path 2');
-        playlistModel3 = new PlaylistModel('Playlist 3', 'Folder', 'Path 3', 'Image path 3');
-        playlistModel4 = new PlaylistModel('Playlist 4', 'Folder', 'Path 4', 'Image path 4');
-        playlistModel5 = new PlaylistModel('Playlist 5', 'Folder', 'Path 5', 'Image path 5');
-        playlistModel6 = new PlaylistModel('Playlist 6', 'Folder', 'Path 6', 'Image path 6');
-        playlistModel7 = new PlaylistModel('Playlist 7', 'Folder', 'Path 7', 'Image path 7');
-        playlistModel8 = new PlaylistModel('Playlist 8', 'Folder', 'Path 8', 'Image path 8');
-        playlistModel9 = new PlaylistModel('Playlist 9', 'Folder', 'Path 9', 'Image path 9');
-        playlistModel10 = new PlaylistModel('Playlist 10', 'Folder', 'Path 10', 'Image path 10');
+        playlistModel1 = new PlaylistModel('Playlist 1', 'Folder', 'Path 1', 'Image path 1', false);
+        playlistModel2 = new PlaylistModel('Playlist 2', 'Folder', 'Path 2', 'Image path 2', false);
+        playlistModel3 = new PlaylistModel('Playlist 3', 'Folder', 'Path 3', 'Image path 3', false);
+        playlistModel4 = new PlaylistModel('Playlist 4', 'Folder', 'Path 4', 'Image path 4', false);
+        playlistModel5 = new PlaylistModel('Playlist 5', 'Folder', 'Path 5', 'Image path 5', false);
+        playlistModel6 = new PlaylistModel('Playlist 6', 'Folder', 'Path 6', 'Image path 6', false);
+        playlistModel7 = new PlaylistModel('Playlist 7', 'Folder', 'Path 7', 'Image path 7', false);
+        playlistModel8 = new PlaylistModel('Playlist 8', 'Folder', 'Path 8', 'Image path 8', false);
+        playlistModel9 = new PlaylistModel('Playlist 9', 'Folder', 'Path 9', 'Image path 9', false);
+        playlistModel10 = new PlaylistModel('Playlist 10', 'Folder', 'Path 10', 'Image path 10', false);
 
         playlists = [
             playlistModel2,

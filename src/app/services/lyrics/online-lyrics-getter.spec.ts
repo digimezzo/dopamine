@@ -50,7 +50,7 @@ describe('OnlineLyricsGetter', () => {
             expect(lyricsModel.track).toEqual(track);
             expect(lyricsModel.sourceName).toEqual('');
             expect(lyricsModel.sourceType).toEqual(LyricsSourceType.none);
-            expect(lyricsModel.text).toEqual('');
+            expect(lyricsModel.plainText).toEqual('');
         });
 
         it('should return lyrics from AZLyrics if available', async () => {
@@ -67,7 +67,7 @@ describe('OnlineLyricsGetter', () => {
             expect(lyricsModel.track).toEqual(track);
             expect(lyricsModel.sourceName).toEqual('AZLyrics source');
             expect(lyricsModel.sourceType).toEqual(LyricsSourceType.online);
-            expect(lyricsModel.text).toEqual('AZLyrics text');
+            expect(lyricsModel.plainText).toEqual('AZLyrics text');
         });
 
         it('should return lyrics from ChartLyrics if no lyrics from AZLyrics are available', async () => {
@@ -87,7 +87,7 @@ describe('OnlineLyricsGetter', () => {
             expect(lyricsModel.track).toEqual(track);
             expect(lyricsModel.sourceName).toEqual('ChartLyrics source');
             expect(lyricsModel.sourceType).toEqual(LyricsSourceType.online);
-            expect(lyricsModel.text).toEqual('ChartLyrics text');
+            expect(lyricsModel.plainText).toEqual('ChartLyrics text');
         });
 
         it('should return empty lyrics if no online lyrics are availalble', async () => {
@@ -108,7 +108,7 @@ describe('OnlineLyricsGetter', () => {
             expect(lyricsModel.track).toEqual(track);
             expect(lyricsModel.sourceName).toEqual('');
             expect(lyricsModel.sourceType).toEqual(LyricsSourceType.none);
-            expect(lyricsModel.text).toEqual('');
+            expect(lyricsModel.plainText).toEqual('');
         });
     });
 });

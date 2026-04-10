@@ -324,184 +324,184 @@ describe('PlaybackInformationComponent', () => {
 
     describe('smallFontClasses', () => {
         describe('position is top', () => {
-            it('should be "ellipsis-two-lines secondary-text" when smallFontSize is smaller than 20 and highContrast is false', () => {
+            it('should be "ellipsis-two-lines secondary-text" when smallFontSize is smaller than 20 and forceWhiteText is false', () => {
                 // Arrange
                 const component: PlaybackInformationComponent = createComponent();
                 component.position = 'top';
                 component.smallFontSize = 19;
-                component.highContrast = false;
+                component.forceWhiteText = false;
 
                 // Act, Assert
                 expect(component.smallFontClasses).toEqual('ellipsis-two-lines secondary-text');
             });
 
-            it('should be "ellipsis-two-lines" when smallFontSize is smaller than 20 and highContrast is true', () => {
+            it('should be "ellipsis-two-lines white-color-important" when smallFontSize is smaller than 20 and forceWhiteText is true', () => {
                 // Arrange
                 const component: PlaybackInformationComponent = createComponent();
                 component.position = 'top';
                 component.smallFontSize = 19;
-                component.highContrast = true;
+                component.forceWhiteText = true;
 
                 // Act, Assert
-                expect(component.smallFontClasses).toEqual('ellipsis-two-lines');
+                expect(component.smallFontClasses).toEqual('ellipsis-two-lines white-color-important');
             });
 
-            it('should be "ellipsis-two-lines secondary-text thinner" when smallFontSize is larger than 20 and highContrast is false', () => {
+            it('should be "ellipsis-two-lines thinner secondary-text" when smallFontSize is larger than 20 and forceWhiteText is false', () => {
                 // Arrange
                 const component: PlaybackInformationComponent = createComponent();
                 component.position = 'top';
                 component.smallFontSize = 21;
-                component.highContrast = false;
+                component.forceWhiteText = false;
 
                 // Act, Assert
-                expect(component.smallFontClasses).toEqual('ellipsis-two-lines secondary-text thinner');
+                expect(component.smallFontClasses).toEqual('ellipsis-two-lines thinner secondary-text');
             });
 
-            it('should be "ellipsis-two-lines thinner" when smallFontSize is larger than 20 and highContrast is true', () => {
+            it('should be "ellipsis-two-lines thinner white-color-important" when smallFontSize is larger than 20 and forceWhiteText is true', () => {
                 // Arrange
                 const component: PlaybackInformationComponent = createComponent();
                 component.position = 'top';
                 component.smallFontSize = 21;
-                component.highContrast = true;
+                component.forceWhiteText = true;
 
                 // Act, Assert
-                expect(component.smallFontClasses).toEqual('ellipsis-two-lines  thinner');
+                expect(component.smallFontClasses).toEqual('ellipsis-two-lines thinner white-color-important');
             });
         });
         describe('position is bottom', () => {
-            it('should be "ellipsis-two-lines secondary-text" when smallFontSize is smaller than 20 and highContrast is false', () => {
+            it('should be "ellipsis-two-lines secondary-text" when smallFontSize is smaller than 20 and forceWhiteText is false', () => {
                 // Arrange
                 const component: PlaybackInformationComponent = createComponent();
                 component.position = 'bottom';
                 component.smallFontSize = 19;
-                component.highContrast = false;
+                component.forceWhiteText = false;
 
                 // Act, Assert
                 expect(component.smallFontClasses).toEqual('ellipsis-two-lines secondary-text');
             });
 
-            it('should be "ellipsis-two-lines" when smallFontSize is smaller than 20 and highContrast is true', () => {
+            it('should be "ellipsis-two-lines white-color-important" when smallFontSize is smaller than 20 and forceWhiteText is true', () => {
                 // Arrange
                 const component: PlaybackInformationComponent = createComponent();
                 component.position = 'bottom';
                 component.smallFontSize = 19;
-                component.highContrast = true;
+                component.forceWhiteText = true;
 
                 // Act, Assert
-                expect(component.smallFontClasses).toEqual('ellipsis-two-lines');
+                expect(component.smallFontClasses).toEqual('ellipsis-two-lines white-color-important');
             });
 
-            it('should be "ellipsis-two-lines secondary-text thinner" when smallFontSize is larger than 20 and highContrast is false', () => {
+            it('should be "ellipsis-two-lines thinner secondary-text" when smallFontSize is larger than 20 and forceWhiteText is false', () => {
                 // Arrange
                 const component: PlaybackInformationComponent = createComponent();
                 component.position = 'bottom';
                 component.smallFontSize = 21;
-                component.highContrast = false;
+                component.forceWhiteText = false;
 
                 // Act, Assert
-                expect(component.smallFontClasses).toEqual('ellipsis-two-lines secondary-text thinner');
+                expect(component.smallFontClasses).toEqual('ellipsis-two-lines thinner secondary-text');
             });
 
-            it('should be "ellipsis-two-lines thinner" when smallFontSize is larger than 20 and highContrast is true', () => {
+            it('should be "ellipsis-two-lines thinner white-color-important" when smallFontSize is larger than 20 and forceWhiteText is true', () => {
                 // Arrange
                 const component: PlaybackInformationComponent = createComponent();
                 component.position = 'bottom';
                 component.smallFontSize = 21;
-                component.highContrast = true;
+                component.forceWhiteText = true;
 
                 // Act, Assert
-                expect(component.smallFontClasses).toEqual('ellipsis-two-lines  thinner');
+                expect(component.smallFontClasses).toEqual('ellipsis-two-lines thinner white-color-important');
             });
         });
 
         describe('position is center', () => {
-            it('should be "ellipsis-two-lines secondary-text" when smallFontSize is smaller than 20 and highContrast is false', () => {
+            it('should be "ellipsis secondary-text" when smallFontSize is smaller than 20 and forceWhiteText is false', () => {
                 // Arrange
                 const component: PlaybackInformationComponent = createComponent();
                 component.position = 'center';
                 component.smallFontSize = 19;
-                component.highContrast = false;
+                component.forceWhiteText = false;
 
                 // Act, Assert
                 expect(component.smallFontClasses).toEqual('ellipsis secondary-text');
             });
 
-            it('should be "ellipsis-two-lines" when smallFontSize is smaller than 20 and highContrast is true', () => {
+            it('should be "ellipsis white-color-important" when smallFontSize is smaller than 20 and forceWhiteText is true', () => {
                 // Arrange
                 const component: PlaybackInformationComponent = createComponent();
                 component.position = 'center';
                 component.smallFontSize = 19;
-                component.highContrast = true;
+                component.forceWhiteText = true;
 
                 // Act, Assert
-                expect(component.smallFontClasses).toEqual('ellipsis');
+                expect(component.smallFontClasses).toEqual('ellipsis white-color-important');
             });
 
-            it('should be "ellipsis-two-lines secondary-text thinner" when smallFontSize is larger than 20 and highContrast is false', () => {
+            it('should be "ellipsis thinner secondary-text" when smallFontSize is larger than 20 and forceWhiteText is false', () => {
                 // Arrange
                 const component: PlaybackInformationComponent = createComponent();
                 component.position = 'center';
                 component.smallFontSize = 21;
-                component.highContrast = false;
+                component.forceWhiteText = false;
 
                 // Act, Assert
-                expect(component.smallFontClasses).toEqual('ellipsis secondary-text thinner');
+                expect(component.smallFontClasses).toEqual('ellipsis thinner secondary-text');
             });
 
-            it('should be "ellipsis-two-lines thinner" when smallFontSize is larger than 20 and highContrast is true', () => {
+            it('should be "ellipsis thinner white-color-important" when smallFontSize is larger than 20 and forceWhiteText is true', () => {
                 // Arrange
                 const component: PlaybackInformationComponent = createComponent();
                 component.position = 'center';
                 component.smallFontSize = 21;
-                component.highContrast = true;
+                component.forceWhiteText = true;
 
                 // Act, Assert
-                expect(component.smallFontClasses).toEqual('ellipsis  thinner');
+                expect(component.smallFontClasses).toEqual('ellipsis thinner white-color-important');
             });
         });
         describe('position is empty', () => {
-            it('should be "ellipsis-two-lines secondary-text" when smallFontSize is smaller than 20 and highContrast is false', () => {
+            it('should be "ellipsis secondary-text" when smallFontSize is smaller than 20 and forceWhiteText is false', () => {
                 // Arrange
                 const component: PlaybackInformationComponent = createComponent();
                 component.position = '';
                 component.smallFontSize = 19;
-                component.highContrast = false;
+                component.forceWhiteText = false;
 
                 // Act, Assert
                 expect(component.smallFontClasses).toEqual('ellipsis secondary-text');
             });
 
-            it('should be "ellipsis-two-lines" when smallFontSize is smaller than 20 and highContrast is true', () => {
+            it('should be "ellipsis white-color-important" when smallFontSize is smaller than 20 and forceWhiteText is true', () => {
                 // Arrange
                 const component: PlaybackInformationComponent = createComponent();
                 component.position = '';
                 component.smallFontSize = 19;
-                component.highContrast = true;
+                component.forceWhiteText = true;
 
                 // Act, Assert
-                expect(component.smallFontClasses).toEqual('ellipsis');
+                expect(component.smallFontClasses).toEqual('ellipsis white-color-important');
             });
 
-            it('should be "ellipsis-two-lines secondary-text thinner" when smallFontSize is larger than 20 and highContrast is false', () => {
+            it('should be "ellipsis thinner secondary-text" when smallFontSize is larger than 20 and forceWhiteText is false', () => {
                 // Arrange
                 const component: PlaybackInformationComponent = createComponent();
                 component.position = '';
                 component.smallFontSize = 21;
-                component.highContrast = false;
+                component.forceWhiteText = false;
 
                 // Act, Assert
-                expect(component.smallFontClasses).toEqual('ellipsis secondary-text thinner');
+                expect(component.smallFontClasses).toEqual('ellipsis thinner secondary-text');
             });
 
-            it('should be "ellipsis-two-lines thinner" when smallFontSize is larger than 20 and highContrast is true', () => {
+            it('should be "ellipsis thinner white-color-important" when smallFontSize is larger than 20 and forceWhiteText is true', () => {
                 // Arrange
                 const component: PlaybackInformationComponent = createComponent();
                 component.position = '';
                 component.smallFontSize = 21;
-                component.highContrast = true;
+                component.forceWhiteText = true;
 
                 // Act, Assert
-                expect(component.smallFontClasses).toEqual('ellipsis  thinner');
+                expect(component.smallFontClasses).toEqual('ellipsis thinner white-color-important');
             });
         });
     });

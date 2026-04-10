@@ -1,24 +1,36 @@
 import { IMock, Mock } from 'typemoq';
+import { Subject } from 'rxjs';
 import { NowPlayingShowcaseComponent } from './now-playing-showcase.component';
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { ApplicationBase } from '../../../../common/io/application.base';
 import { WindowSize } from '../../../../common/io/window-size';
+import { PlaybackInformationService } from '../../../../services/playback-information/playback-information.service';
+import { PlaybackInformation } from '../../../../services/playback-information/playback-information';
 
 describe('NowPlayingShowcaseComponent', () => {
     let settingsMock: IMock<SettingsBase>;
     let applicationMock: IMock<ApplicationBase>;
+    let playbackInformationServiceMock: IMock<PlaybackInformationService>;
 
     const flushPromises = () => new Promise(process.nextTick);
 
     function createComponent(): NowPlayingShowcaseComponent {
-        return new NowPlayingShowcaseComponent(settingsMock.object, applicationMock.object);
+        return new NowPlayingShowcaseComponent(settingsMock.object, applicationMock.object, playbackInformationServiceMock.object);
     }
 
     beforeEach(() => {
         settingsMock = Mock.ofType<SettingsBase>();
         applicationMock = Mock.ofType<ApplicationBase>();
+        playbackInformationServiceMock = Mock.ofType<PlaybackInformationService>();
 
         applicationMock.setup((x) => x.getWindowSize()).returns(() => new WindowSize(1000, 600));
+
+        playbackInformationServiceMock
+            .setup((x) => x.getCurrentPlaybackInformationAsync())
+            .returns(() => Promise.resolve(new PlaybackInformation(undefined, '')));
+        playbackInformationServiceMock.setup((x) => x.playingNextTrack$).returns(() => new Subject<PlaybackInformation>());
+        playbackInformationServiceMock.setup((x) => x.playingPreviousTrack$).returns(() => new Subject<PlaybackInformation>());
+        playbackInformationServiceMock.setup((x) => x.playingNoTrack$).returns(() => new Subject<PlaybackInformation>());
     });
 
     describe('constructor', () => {

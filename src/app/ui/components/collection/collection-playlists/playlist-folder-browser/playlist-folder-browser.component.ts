@@ -12,6 +12,7 @@ import { DialogServiceBase } from '../../../../../services/dialog/dialog.service
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
 import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
+import { DesktopBase } from '../../../../../common/io/desktop.base';
 
 @Component({
     selector: 'app-playlist-folder-browser',
@@ -33,6 +34,7 @@ export class PlaylistFolderBrowserComponent {
         private translatorService: TranslatorServiceBase,
         public contextMenuOpener: ContextMenuOpener,
         private mouseSelectionWatcher: MouseSelectionWatcher,
+        private desktop: DesktopBase,
         private logger: Logger,
     ) {}
 
@@ -137,6 +139,10 @@ export class PlaylistFolderBrowserComponent {
         this.mouseSelectionWatcher.setSelectedItems(event, playlistFolderToSelect);
         this.playlistFoldersPersister.setSelectedPlaylistFolders(this.mouseSelectionWatcher.selectedItems as PlaylistFolderModel[]);
         this.playlistService.setActivePlaylistFolder(this.mouseSelectionWatcher.selectedItems as PlaylistFolderModel[]);
+    }
+
+    public onShowInFolder(playlistFolder: PlaylistFolderModel): void {
+        this.desktop.showFileInDirectory(playlistFolder.path);
     }
 
     private applySelectedPlaylistFolders(): void {

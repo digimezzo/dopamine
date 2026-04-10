@@ -14,15 +14,11 @@
     z-index: 1000;
 }
 
-.window-frame__dragarea {
-    height: $titlebar-height;
-    line-height: $titlebar-height;
+.window-frame__spacer {
     flex: 1;
-    -webkit-app-region: drag;
-    color: white;
 }
 
-.window-frame__trafficlights{
+.window-frame__trafficlights {
     width: 70px;
     flex: 0 0 70px;
 }

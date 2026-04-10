@@ -121,6 +121,8 @@ import { ManageRefreshComponent } from './ui/components/manage-collection/manage
 import { NowPlayingArtistInfoComponent } from './ui/components/now-playing/now-playing-artist-info/now-playing-artist-info.component';
 import { SimilarArtistComponent } from './ui/components/now-playing/now-playing-artist-info/similar-artist/similar-artist.component';
 import { NowPlayingLyricsComponent } from './ui/components/now-playing/now-playing-lyrics/now-playing-lyrics.component';
+import { PlainLyricsComponent } from './ui/components/now-playing/now-playing-lyrics/plain-lyrics/plain-lyrics.component';
+import { RichLyricsComponent } from './ui/components/now-playing/now-playing-lyrics/rich-lyrics/rich-lyrics.component';
 import { NowPlayingPlaybackPaneComponent } from './ui/components/now-playing/now-playing-playback-pane/now-playing-playback-pane.component';
 import { NowPlayingShowcaseComponent } from './ui/components/now-playing/now-playing-showcase/now-playing-showcase.component';
 import { NowPlayingComponent } from './ui/components/now-playing/now-playing.component';
@@ -146,6 +148,7 @@ import { WelcomeComponent } from './ui/components/welcome/welcome.component';
 import { WindowControlsComponent } from './ui/components/window-controls/window-controls.component';
 import { CdkVirtualScrollViewportPatchDirective } from './ui/directives/cdk-virtual-scroll-viewport-patch-directive';
 import { WebviewDirective } from './ui/directives/webview.directive';
+import { WindowDraggableDirective } from './ui/directives/window-draggable.directive';
 import { GlobalErrorHandler } from './globalErrorHandler';
 import { AlbumsFilterPipe } from './ui/pipes/albums-filter.pipe';
 import { FolderNamePipe } from './ui/pipes/folder-name.pipe';
@@ -182,6 +185,8 @@ import { PlaybackIndicationService } from './services/playback-indication/playba
 import { PlaylistFolderModelFactory } from './services/playlist-folder/playlist-folder-model-factory';
 import { PlaylistFolderService } from './services/playlist-folder/playlist-folder.service';
 import { PlaylistDecoder } from './services/playlist/playlist-decoder';
+import { SmartPlaylistParser } from './services/playlist/smart-playlist-parser';
+import { SmartPlaylistQueryBuilder } from './services/playlist/smart-playlist-query-builder';
 import { PlaylistFileManager } from './services/playlist/playlist-file-manager';
 import { PlaylistModelFactory } from './services/playlist/playlist-model-factory';
 import { PlaylistService } from './services/playlist/playlist.service';
@@ -293,8 +298,10 @@ import { VolumeIconComponent } from './ui/components/volume-icon/volume-icon.com
 import { EditTracksDialogComponent } from './ui/components/dialogs/edit-tracks-dialog/edit-tracks-dialog.component';
 import { InfoDialogComponent } from './ui/components/dialogs/info-dialog/info-dialog.component';
 import { IterableMenuComponent } from './ui/components/common/iterable-menu.component';
+import { SrtLyricsGetter } from './services/lyrics/srt-lyrics-getter';
 import { HighlightsComponent } from './ui/components/highlights/highlights.component';
 import { AlbumPlaceholderComponent } from './ui/components/highlights/album-placeholder.component';
+import { EditSmartPlaylistDialogComponent } from './ui/components/dialogs/edit-smart-playlist-dialog/edit-smart-playlist-dialog.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -341,6 +348,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
     declarations: [
         AppComponent,
         WebviewDirective,
+        WindowDraggableDirective,
         CdkVirtualScrollViewportPatchDirective,
         WelcomeComponent,
         CollectionComponent,
@@ -423,6 +431,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         PlaylistBrowserComponent,
         PlaylistComponent,
         EditPlaylistDialogComponent,
+        EditSmartPlaylistDialogComponent,
         PlaylistTrackBrowserComponent,
         RatingComponent,
         LoveComponent,
@@ -433,6 +442,8 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         NowPlayingShowcaseComponent,
         NowPlayingArtistInfoComponent,
         NowPlayingLyricsComponent,
+        PlainLyricsComponent,
+        RichLyricsComponent,
         SimilarArtistComponent,
         NowPlayingNothingPlayingComponent,
         SubMenuComponent,
@@ -547,6 +558,8 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         AddToPlaylistMenu,
         TrackModelFactory,
         PlaylistDecoder,
+        SmartPlaylistParser,
+        SmartPlaylistQueryBuilder,
         FileValidator,
         DateProxy,
         DateTime,
@@ -555,6 +568,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         GuidFactory,
         EmbeddedLyricsGetter,
         LrcLyricsGetter,
+        SrtLyricsGetter,
         OnlineLyricsGetter,
         IntegrationTestRunner,
         AudioVisualizer,

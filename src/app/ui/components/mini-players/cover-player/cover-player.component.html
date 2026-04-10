@@ -1,4 +1,9 @@
-<div class="cover-player__titlebar" [ngClass]="{ draggable: !this.playbackQueueIsVisible }" [@controlsVisibility]="controlsVisibility">
+<div
+    class="cover-player__titlebar"
+    [@controlsVisibility]="controlsVisibility"
+    appWindowDraggable
+    [appWindowDraggableDisabled]="settings.miniPlayerLockPosition"
+>
     <div class="d-flex flex-grow"></div>
     <div class="d-flex">
         <app-switch-player-button [highContrast]="true"></app-switch-player-button>
@@ -9,27 +14,31 @@
         ></app-window-controls>
     </div>
 </div>
-<div class="cover-player__content">
+<div class="cover-player__content" (contextmenu)="onCoverPlayerContextMenu($event)">
     <div class="cover-player__cover-pane">
         <app-playback-cover-art class="cover-player-cover-pane__cover" [size]="350"></app-playback-cover-art>
-        <div class="cover-player-cover-pane__songinfo" [@controlsVisibility]="controlsVisibility">
+        <div class="cover-player-cover-pane__songinfo" [@songVisibility]="songVisibility">
             <app-playback-information
                 class="mx-4"
-                [height]="80"
-                [largeFontSize]="20"
-                [smallFontSize]="13"
+                [height]="100"
+                [largeFontSize]="30"
+                [smallFontSize]="15"
                 position="center"
                 [showRating]="false"
                 [showLove]="false"
-                [highContrast]="true"
+                [forceWhiteText]="true"
             >
             </app-playback-information>
         </div>
     </div>
     <div class="cover-player__playback-pane">
         <app-playback-progress class="cover-player__progressbar"></app-playback-progress>
-        <div class="cover-player__playback-controls__container" >
-            <canvas id="coverPlayerAudioVisualizer" class="app-cover-player-controls__audio-visualizer"></canvas>
+        <div class="cover-player__playback-controls__container">
+            <canvas
+                id="coverPlayerAudioVisualizer"
+                class="app-cover-player-controls__audio-visualizer"
+                (click)="this.audioVisualizerService.cycleVisualizerStyle()"
+            ></canvas>
             <div class="cover-player__playback-controls">
                 <i
                     class="cover-player-playback-controls__buttons las la-tasks pointer mr-3"
@@ -46,3 +55,29 @@
         </div>
     </div>
 </div>
+
+<div
+    #coverPlayerContextMenuAnchor
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuOpener.positionX"
+    [style.top]="contextMenuOpener.positionY"
+    [matMenuTriggerFor]="coverPlayerContextMenu"
+></div>
+
+<mat-menu #coverPlayerContextMenu="matMenu">
+    <ng-template matMenuContent>
+        <button mat-menu-item (click)="onAlwaysOnTop()">
+            <i class="las la-check accent-color mr-2" [style.visibility]="settings.miniPlayerAlwaysOnTop ? 'visible' : 'hidden'"></i>
+            <span>{{ 'always-on-top' | translate }}</span>
+        </button>
+        <button mat-menu-item (click)="onLockPosition()">
+            <i class="las la-check accent-color mr-2" [style.visibility]="settings.miniPlayerLockPosition ? 'visible' : 'hidden'"></i>
+            <span>{{ 'lock-position' | translate }}</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onAlwaysShowSong()">
+            <i class="las la-check accent-color mr-2" [style.visibility]="settings.miniPlayerAlwaysShowSong ? 'visible' : 'hidden'"></i>
+            <span>{{ 'always-show-song' | translate }}</span>
+        </button>
+    </ng-template>
+</mat-menu>

@@ -9,6 +9,7 @@
     cursor: pointer;
     color: var(--theme-secondary-text);
     text-transform: uppercase;
+    -webkit-app-region: no-drag;
 }
 
 .sub-menu__selected-item {

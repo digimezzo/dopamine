@@ -817,6 +817,24 @@ export class Settings implements SettingsBase {
         this.set('useGaplessPlayback', v);
     }
 
+    // useCrossfade
+    public get useCrossfade(): boolean {
+        return this.get<boolean>('useCrossfade');
+    }
+
+    public set useCrossfade(v: boolean) {
+        this.set('useCrossfade', v);
+    }
+
+    // crossfadeDuration
+    public get crossfadeDuration(): number {
+        return this.get<number>('crossfadeDuration');
+    }
+
+    public set crossfadeDuration(v: number) {
+        this.set('crossfadeDuration', v);
+    }
+
     // jumpToPlayingSong
     public get jumpToPlayingSong(): boolean {
         return this.get<boolean>('jumpToPlayingSong');
@@ -851,5 +869,57 @@ export class Settings implements SettingsBase {
 
     public set showAlbumArtOnDockIcon(v: boolean) {
         this.set('showAlbumArtOnDockIcon', v);
+    // miniPlayerAlwaysOnTop
+    public get miniPlayerAlwaysOnTop(): boolean {
+        return this.get<boolean>('miniPlayerAlwaysOnTop');
+    }
+
+    public set miniPlayerAlwaysOnTop(v: boolean) {
+        this.set('miniPlayerAlwaysOnTop', v);
+    }
+
+    // miniPlayerLockPosition
+    public get miniPlayerLockPosition(): boolean {
+        return this.get<boolean>('miniPlayerLockPosition');
+    }
+
+    public set miniPlayerLockPosition(v: boolean) {
+        this.set('miniPlayerLockPosition', v);
+    }
+
+    // miniPlayerAlwaysShowSong
+    public get miniPlayerAlwaysShowSong(): boolean {
+        return this.get<boolean>('miniPlayerAlwaysShowSong');
+    }
+
+    public set miniPlayerAlwaysShowSong(v: boolean) {
+        this.set('miniPlayerAlwaysShowSong', v);
+    }
+
+    // showRichLyrics
+    public get showRichLyrics(): boolean {
+        return this.get<boolean>('showRichLyrics');
+    }
+
+    public set showRichLyrics(v: boolean) {
+        this.set('showRichLyrics', v);
+    }
+
+    // richLyricsLineCount
+    public get richLyricsLineCount(): number {
+        return this.get<number>('richLyricsLineCount');
+    }
+
+    public set richLyricsLineCount(v: number) {
+        this.set('richLyricsLineCount', v);
+    }
+
+    // richLyricsFontSize
+    public get richLyricsFontSize(): number {
+        return this.get<number>('richLyricsFontSize');
+    }
+
+    public set richLyricsFontSize(v: number) {
+        this.set('richLyricsFontSize', v);
     }
 }

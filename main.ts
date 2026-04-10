@@ -421,6 +421,9 @@ try {
 
             if (mainWindow) {
                 // Someone tried to run a second instance, we should focus the existing window.
+                // show() is needed to restore windows hidden to the notification area (tray).
+                mainWindow.show();
+
                 if (mainWindow.isMinimized()) {
                     mainWindow.restore();
                 }
@@ -556,6 +559,7 @@ try {
         ipcMain.on('set-full-player', (event: any, arg: any) => {
             log.info('[Main] [set-full-player] Setting playerType to full player');
             if (mainWindow) {
+                mainWindow.setAlwaysOnTop(false);
                 const fullPlayerPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
                 console.log(fullPlayerPositionSizeMaximizedAsString);
                 const fullPlayerPositionSizeMaximized: number[] = fullPlayerPositionSizeMaximizedAsString.split(';').map(Number);
@@ -588,6 +592,7 @@ try {
 
                 mainWindow.unmaximize();
                 setCoverPlayer(mainWindow);
+                mainWindow.setAlwaysOnTop(settings.get('miniPlayerAlwaysOnTop'));
             }
         });
 

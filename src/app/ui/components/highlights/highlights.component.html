@@ -1,10 +1,10 @@
 <div class="window-frame">
-    <div class="window-frame__titlebar">
+    <div class="window-frame__titlebar" appWindowDraggable>
         <div *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights"></div>
         <div class="window-button back-button" (click)="this.goBackToCollectionAsync()" [@controlsVisibility]="controlsVisibility">
             <i class="back-button__icon las la-arrow-left"></i>
         </div>
-        <div class="window-frame__dragarea"></div>
+        <div class="window-frame__spacer"></div>
         <app-switch-player-button [@controlsVisibility]="controlsVisibility"></app-switch-player-button>
         <app-window-controls
             *ngIf="appearanceService.needsCustomWindowControls"
@@ -99,7 +99,11 @@
                     class="app-highlights-playback-controls__background theme-footer-background"
                     [@controlsVisibility]="controlsVisibility"
                 ></div>
-                <canvas id="highlightsAudioVisualizer" class="app-highlights-playback-controls__audio-visualizer"></canvas>
+                <canvas
+                    id="highlightsAudioVisualizer"
+                    class="app-highlights-playback-controls__audio-visualizer"
+                    (click)="this.audioVisualizerService.cycleVisualizerStyle()"
+                ></canvas>
                 <app-now-playing-playback-pane
                     class="app-highlights-playback-controls__playback-pane"
                     [@controlsVisibility]="controlsVisibility"

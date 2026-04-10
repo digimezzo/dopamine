@@ -57,9 +57,6 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     ) {}
 
     @Input()
-    public highContrast: boolean = false;
-
-    @Input()
     public position: string = 'bottom';
 
     @Input()
@@ -76,6 +73,9 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
     @Input()
     public smallFontSize: number = 0;
+
+    @Input()
+    public forceWhiteText: boolean = false;
 
     public contentAnimation: string = 'down';
 
@@ -106,35 +106,37 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     }
 
     public get largeFontClasses(): string {
+        const whiteClass = this.forceWhiteText ? 'white-color-important' : '';
         switch (this.position) {
             case 'top': {
-                return `ellipsis-two-lines ${this.getLargeFontWeightClass()}`.trim();
+                return ['ellipsis-two-lines', this.getLargeFontWeightClass(), whiteClass].filter(Boolean).join(' ');
             }
             case 'center': {
-                return `ellipsis ${this.getLargeFontWeightClass()}`.trim();
+                return ['ellipsis', this.getLargeFontWeightClass(), whiteClass].filter(Boolean).join(' ');
             }
             case 'bottom': {
-                return `ellipsis-two-lines ${this.getLargeFontWeightClass()}`.trim();
+                return ['ellipsis-two-lines', this.getLargeFontWeightClass(), whiteClass].filter(Boolean).join(' ');
             }
             default: {
-                return `ellipsis ${this.getLargeFontWeightClass()}`.trim();
+                return ['ellipsis', this.getLargeFontWeightClass(), whiteClass].filter(Boolean).join(' ');
             }
         }
     }
 
     public get smallFontClasses(): string {
+        const whiteClass = this.forceWhiteText ? 'white-color-important' : 'secondary-text';
         switch (this.position) {
             case 'top': {
-                return `ellipsis-two-lines ${this.getSmallFontColorClass()} ${this.getSmallFontWeightClass()}`.trim();
+                return ['ellipsis-two-lines', this.getSmallFontWeightClass(), whiteClass].filter(Boolean).join(' ');
             }
             case 'center': {
-                return `ellipsis ${this.getSmallFontColorClass()} ${this.getSmallFontWeightClass()}`.trim();
+                return ['ellipsis', this.getSmallFontWeightClass(), whiteClass].filter(Boolean).join(' ');
             }
             case 'bottom': {
-                return `ellipsis-two-lines ${this.getSmallFontColorClass()} ${this.getSmallFontWeightClass()}`.trim();
+                return ['ellipsis-two-lines', this.getSmallFontWeightClass(), whiteClass].filter(Boolean).join(' ');
             }
             default: {
-                return `ellipsis ${this.getSmallFontColorClass()} ${this.getSmallFontWeightClass()}`.trim();
+                return ['ellipsis', this.getSmallFontWeightClass(), whiteClass].filter(Boolean).join(' ');
             }
         }
     }
@@ -153,14 +155,6 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         }
 
         return '';
-    }
-
-    public getSmallFontColorClass(): string {
-        if (this.highContrast) {
-            return '';
-        } else {
-            return 'secondary-text';
-        }
     }
 
     public async ngOnInit(): Promise<void> {

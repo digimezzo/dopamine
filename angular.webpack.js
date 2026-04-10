@@ -2,6 +2,7 @@ module.exports = {
     externals: {
         'better-sqlite3': 'commonjs better-sqlite3',
         electron: 'commonjs electron',
+        child_process: 'commonjs child_process',
         ipc: 'commonjs ipc',
         'ipc-renderer': 'commonjs ipc-renderer',
         remote: 'commonjs remote',
