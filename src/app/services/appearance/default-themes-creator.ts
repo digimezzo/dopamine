@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Theme } from './theme/theme';
 import { ThemeAuthor } from './theme/theme-author';
+import { AdwaitaTheme } from './themes/adwaita-theme';
 import { BeatsTheme } from './themes/beats-theme';
 import { CatppuccinTheme } from './themes/catppuccin-theme';
 import { DopamineTheme } from './themes/dopamine-theme';
@@ -19,6 +20,7 @@ export class DefaultThemesCreator {
     public createAllThemes(): Theme[] {
         return [
             DopamineTheme.create(this.author),
+            AdwaitaTheme.create(this.author),
             ZuneTheme.create(this.author),
             BeatsTheme.create(this.author),
             NaughtyTheme.create(this.author),

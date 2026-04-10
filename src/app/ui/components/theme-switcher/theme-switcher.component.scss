@@ -6,8 +6,8 @@
 }
 
 .theme-switcher-component-button {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -16,15 +16,42 @@
 }
 
 .theme-switcher-component-button__selector {
-    font-size: 22px;
+    font-size: 28px;
     color: white;
     z-index: 1;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
 }
 
 .theme-switcher-component-button__color {
-    width: 40px;
-    height: 40px;
-    border-radius: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
     position: absolute;
     z-index: 0;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+}
+
+.theme-switcher-component-button__accent {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+}
+
+.theme-switcher-component-button__light {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50%;
+    height: 50%;
+}
+
+.theme-switcher-component-button__dark {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    height: 50%;
 }
