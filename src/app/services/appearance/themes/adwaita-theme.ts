@@ -8,65 +8,65 @@ export class AdwaitaTheme {
     public static create(author: ThemeAuthor): Theme {
         const darkColors: ThemeNeutralColors = new ThemeNeutralColors(
             '#ffffff', // windowButtonIcon
-            'rgba(255, 255, 255, 0.06)', // hoveredItemBackground
-            'rgba(255, 255, 255, 0.12)', // selectedItemBackground
-            '#c0bfbc', // tabText
+            'rgba(255, 255, 255, 0.07)', // hoveredItemBackground
+            'rgba(255, 255, 255, 0.10)', // selectedItemBackground
+            '#99999b', // tabText
             '#ffffff', // selectedTabText
-            '#1e1e1e', // mainBackground
-            '#303030', // headerBackground
-            '#303030', // footerBackground
-            '#242424', // sidePaneBackground
+            '#222226', // mainBackground
+            '#2e2e32', // headerBackground
+            '#2e2e32', // footerBackground
+            '#2e2e32', // sidePaneBackground
             '#ffffff', // primaryText
-            '#c0bfbc', // secondaryText
-            '#3d3d3d', // sliderBackground
+            '#99999b', // secondaryText
+            '#4d4d51', // sliderBackground
             '#ffffff', // sliderThumbBackground
-            '#2b2b2b', // albumCoverBackground
-            'rgba(255, 255, 255, 0.08)', // headerSeparator
-            'rgba(255, 255, 255, 0.08)', // paneSeparators
-            '#454545', // settingsSeparators
-            '#454545', // contextMenuSeparators
+            '#38383b', // albumCoverBackground
+            '#212125', // headerSeparator
+            '#1d1d22', // paneSeparators
+            '#333337', // settingsSeparators
+            '#333337', // contextMenuSeparators
             '#3584e4', // scrollBars
-            '#3a3a3a', // searchBox
-            '#ffffff', // searchBoxText
-            '#c0bfbc', // searchBoxIcon
-            '#2f2f2f', // dialogBackground
+            '#424246', // searchBox
+            '#9c9c9e', // searchBoxText
+            '#9c9c9e', // searchBoxIcon
+            '#222226', // dialogBackground
             '#ffffff', // primaryButtonText
-            '#4a4a4a', // secondaryButtonBackground
+            '#4d4d51', // secondaryButtonBackground
             '#ffffff', // secondaryButtonText
             '#ffffff', // tooltipText
-            '#4a4a4a', // buttonBorder
+            '#4d4d51', // buttonBorder
             '#ffffff', // highlightForeground
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
-            '#2e3436', // windowButtonIcon
+            '#2e2e33', // windowButtonIcon
             'rgba(46, 52, 54, 0.06)', // hoveredItemBackground
-            'rgba(46, 52, 54, 0.12)', // selectedItemBackground
-            '#5e5c64', // tabText
-            '#1b1b1b', // selectedTabText
-            '#f6f5f4', // mainBackground
-            '#ebebeb', // headerBackground
-            '#ebebeb', // footerBackground
-            '#ffffff', // sidePaneBackground
-            '#1b1b1b', // primaryText
-            '#5e5c64', // secondaryText
-            '#d8d7d3', // sliderBackground
-            '#1b1b1b', // sliderThumbBackground
-            '#e7e5e4', // albumCoverBackground
-            '#d9d7d3', // headerSeparator
-            '#d9d7d3', // paneSeparators
-            '#d4d2cd', // settingsSeparators
-            '#d4d2cd', // contextMenuSeparators
+            'rgba(46, 52, 54, 0.10)', // selectedItemBackground
+            '#979799', // tabText
+            '#323237', // selectedTabText
+            '#fafafb', // mainBackground
+            '#ffffff', // headerBackground
+            '#ffffff', // footerBackground
+            '#ebebed', // sidePaneBackground
+            '#323237', // primaryText
+            '#979799', // secondaryText
+            '#e0e0e1', // sliderBackground
+            '#323237', // sliderThumbBackground
+            '#ebebeb', // albumCoverBackground
+            '#e2e2e3', // headerSeparator
+            '#dadadc', // paneSeparators
+            '#d2d2d4', // settingsSeparators
+            '#d2d2d4', // contextMenuSeparators
             '#3584e4', // scrollBars
-            '#ffffff', // searchBox
-            '#1b1b1b', // searchBoxText
-            '#5e5c64', // searchBoxIcon
-            '#ffffff', // dialogBackground
+            '#e6e6e7', // searchBox
+            '#818185', // searchBoxText
+            '#868689', // searchBoxIcon
+            '#fafafb', // dialogBackground
             '#ffffff', // primaryButtonText
-            '#d4d2cd', // secondaryButtonBackground
-            '#1b1b1b', // secondaryButtonText
+            '#e0e0e1', // secondaryButtonBackground
+            '#323237', // secondaryButtonText
             '#ffffff', // tooltipText
-            '#d4d2cd', // buttonBorder
+            '#e0e0e1', // buttonBorder
             '#ffffff', // highlightForeground
         );
 
