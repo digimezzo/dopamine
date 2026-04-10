@@ -39,34 +39,34 @@ export class AdwaitaTheme {
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
-            '#2f2f34', // windowButtonIcon
-            'rgba(46, 52, 54, 0.04)', // hoveredItemBackground
-            'rgba(46, 52, 54, 0.13)', // selectedItemBackground
-            '#949496', // tabText
-            '#323237', // selectedTabText
-            '#ffffff', // mainBackground
-            '#ffffff', // headerBackground
-            '#ffffff', // footerBackground
-            '#ebebed', // sidePaneBackground
-            '#323237', // primaryText
-            '#949496', // secondaryText
-            '#e0e0e1', // sliderBackground
-            '#323237', // sliderThumbBackground
+            '#2e3436', // windowButtonIcon
+            'rgba(46, 52, 54, 0.06)', // hoveredItemBackground
+            'rgba(46, 52, 54, 0.12)', // selectedItemBackground
+            '#5e5c64', // tabText
+            '#1b1b1b', // selectedTabText
+            '#f6f5f4', // mainBackground
+            '#ebebeb', // headerBackground
+            '#ebebeb', // footerBackground
+            '#ffffff', // sidePaneBackground
+            '#1b1b1b', // primaryText
+            '#5e5c64', // secondaryText
+            '#d8d7d3', // sliderBackground
+            '#1b1b1b', // sliderThumbBackground
             '#e7e5e4', // albumCoverBackground
-            '#dadadc', // headerSeparator
-            '#dadadc', // paneSeparators
-            '#e0e0e1', // settingsSeparators
-            '#e0e0e1', // contextMenuSeparators
+            '#d9d7d3', // headerSeparator
+            '#d9d7d3', // paneSeparators
+            '#d4d2cd', // settingsSeparators
+            '#d4d2cd', // contextMenuSeparators
             '#3584e4', // scrollBars
-            '#ebebeb', // searchBox
-            '#2f2f34', // searchBoxText
-            '#2f2f34', // searchBoxIcon
-            '#fafafb', // dialogBackground
+            '#ffffff', // searchBox
+            '#1b1b1b', // searchBoxText
+            '#5e5c64', // searchBoxIcon
+            '#ffffff', // dialogBackground
             '#ffffff', // primaryButtonText
-            '#e6e6e7', // secondaryButtonBackground
-            '#323237', // secondaryButtonText
+            '#d4d2cd', // secondaryButtonBackground
+            '#1b1b1b', // secondaryButtonText
             '#ffffff', // tooltipText
-            '#dadadc', // buttonBorder
+            '#d4d2cd', // buttonBorder
             '#ffffff', // highlightForeground
         );
 
