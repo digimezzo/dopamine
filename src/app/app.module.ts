@@ -263,7 +263,6 @@ import { WelcomeLanguageComponent } from './ui/components/welcome/welcome-langua
 import { WelcomeAppearanceComponent } from './ui/components/welcome/welcome-appearance/welcome-appearance.component';
 import { WelcomeMusicComponent } from './ui/components/welcome/welcome-music/welcome-music.component';
 import { WelcomeOnlineComponent } from './ui/components/welcome/welcome-online/welcome-online.component';
-import { WelcomeDonateComponent } from './ui/components/welcome/welcome-donate/welcome-donate.component';
 import { WelcomeDoneComponent } from './ui/components/welcome/welcome-done/welcome-done.component';
 import { WelcomeNavigationButtonsComponent } from './ui/components/welcome/welcome-navigation-buttons/welcome-navigation-buttons';
 import { AccentButtonComponent } from './ui/components/controls/accent-button/accent-button.component';
@@ -455,7 +454,6 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         WelcomeAppearanceComponent,
         WelcomeMusicComponent,
         WelcomeOnlineComponent,
-        WelcomeDonateComponent,
         WelcomeDoneComponent,
         WelcomeNavigationButtonsComponent,
         AccentButtonComponent,

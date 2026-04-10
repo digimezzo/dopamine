@@ -6,20 +6,21 @@
 </div>
 <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="goToManageCollectionAsync()">
-        {{ 'manage-collection' | translate }}
+        <i class="las la-database mr-1"></i> {{ 'manage-collection' | translate }}
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item (click)="goToSettingsAsync()">
-        {{ 'settings' | translate }}
-    </button>
-    <button mat-menu-item (click)="goToInformationAsync()">
-        {{ 'information' | translate }}
+    <button mat-menu-item (click)="goToSettingsAsync()"><i class="las la-cog mr-1"></i> {{ 'settings' | translate }}</button>
+    <button mat-menu-item (click)="goToInformationAsync()"><i class="las la-info-circle mr-1"></i> {{ 'information' | translate }}</button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="browseToDonateLinkAsync()">
+        <i class="accent-color las la-heart mr-1"></i> {{ 'donate' | translate }}
     </button>
     <div *ngIf="this.updateService.isUpdateAvailable">
         <mat-divider></mat-divider>
         <button mat-menu-item (click)="downloadLatestReleaseAsync()">
             <div class="accent-color">
-                {{ 'download-action' | translate }} {{ this.applicationName }} {{ this.updateService.latestRelease }}
+                <i class="accent-color las la-download mr-1"></i> {{ 'download-action' | translate }} {{ this.applicationName }}
+                {{ this.updateService.latestRelease }}
             </div>
         </button>
     </div>

@@ -24,12 +24,9 @@
                 <!-- Online -->
                 <app-welcome-online *ngIf="this.leftToRight(4)" [@enterLeftToRight]></app-welcome-online>
                 <app-welcome-online *ngIf="this.rightToLeft(4)" [@enterRightToLeft]></app-welcome-online>
-                <!-- Donate -->
-                <app-welcome-donate *ngIf="this.leftToRight(5)" [@enterLeftToRight]></app-welcome-donate>
-                <app-welcome-donate *ngIf="this.rightToLeft(5)" [@enterRightToLeft]></app-welcome-donate>
                 <!-- Done -->
-                <app-welcome-done *ngIf="this.leftToRight(6)" [@enterLeftToRight]></app-welcome-done>
-                <app-welcome-done *ngIf="this.rightToLeft(6)" [@enterRightToLeft]></app-welcome-done>
+                <app-welcome-done *ngIf="this.leftToRight(5)" [@enterLeftToRight]></app-welcome-done>
+                <app-welcome-done *ngIf="this.rightToLeft(5)" [@enterRightToLeft]></app-welcome-done>
             </div>
             <app-step-indicator
                 class="my-5 fade-in-animation animation-duration-2s animation-delay-3s"

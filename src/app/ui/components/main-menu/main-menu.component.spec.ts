@@ -2,18 +2,21 @@ import { IMock, Mock, Times } from 'typemoq';
 import { MainMenuComponent } from './main-menu.component';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
 import { UpdateServiceBase } from '../../../services/update/update.service.base';
+import { DesktopBase } from '../../../common/io/desktop.base';
 
 describe('MainMenuComponent', () => {
     let navigationServiceMock: IMock<NavigationServiceBase>;
     let updateServiceMock: IMock<UpdateServiceBase>;
+    let desktopMock: IMock<DesktopBase>;
 
     let component: MainMenuComponent;
 
     beforeEach(() => {
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
         updateServiceMock = Mock.ofType<UpdateServiceBase>();
+        desktopMock = Mock.ofType<DesktopBase>();
 
-        component = new MainMenuComponent(navigationServiceMock.object, updateServiceMock.object);
+        component = new MainMenuComponent(navigationServiceMock.object, updateServiceMock.object, desktopMock.object);
     });
 
     describe('constructor', () => {
