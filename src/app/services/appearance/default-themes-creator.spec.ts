@@ -23,16 +23,17 @@ describe('DefaultThemesCreator', () => {
             const defaultThemes: Theme[] = defaultThemesCreator.createAllThemes();
 
             // Assert
-            expect(defaultThemes.length).toEqual(9);
+            expect(defaultThemes.length).toEqual(10);
             expect(defaultThemes[0].name).toEqual('Dopamine');
-            expect(defaultThemes[1].name).toEqual('Zune');
-            expect(defaultThemes[2].name).toEqual('Beats');
-            expect(defaultThemes[3].name).toEqual('Naughty');
-            expect(defaultThemes[4].name).toEqual('Ubuntu');
-            expect(defaultThemes[5].name).toEqual('Manjaro');
-            expect(defaultThemes[6].name).toEqual('Palenight');
-            expect(defaultThemes[7].name).toEqual('Catppuccin');
-            expect(defaultThemes[8].name).toEqual('Dracula');
+            expect(defaultThemes[1].name).toEqual('Adwaita');
+            expect(defaultThemes[2].name).toEqual('Zune');
+            expect(defaultThemes[3].name).toEqual('Beats');
+            expect(defaultThemes[4].name).toEqual('Naughty');
+            expect(defaultThemes[5].name).toEqual('Ubuntu');
+            expect(defaultThemes[6].name).toEqual('Manjaro');
+            expect(defaultThemes[7].name).toEqual('Palenight');
+            expect(defaultThemes[8].name).toEqual('Catppuccin');
+            expect(defaultThemes[9].name).toEqual('Dracula');
         });
     });
 });
