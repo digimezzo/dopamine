@@ -1,9 +1,4 @@
-<div
-    class="cover-player__titlebar"
-    [@controlsVisibility]="controlsVisibility"
-    appWindowDraggable
-    [appWindowDraggableDisabled]="settings.miniPlayerLockPosition"
->
+<div class="cover-player__titlebar" [@controlsVisibility]="controlsVisibility">
     <div class="d-flex flex-grow"></div>
     <div class="d-flex">
         <app-switch-player-button [highContrast]="true"></app-switch-player-button>
