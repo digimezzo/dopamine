@@ -6,14 +6,16 @@
 </div>
 <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="goToManageCollectionAsync()">
-        <i class="las la-database mr-1"></i> {{ 'manage-collection' | translate }}
+        <i class="las la-database mr-1 font-16px"></i> {{ 'manage-collection' | translate }}
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item (click)="goToSettingsAsync()"><i class="las la-cog mr-1"></i> {{ 'settings' | translate }}</button>
-    <button mat-menu-item (click)="goToInformationAsync()"><i class="las la-info-circle mr-1"></i> {{ 'information' | translate }}</button>
+    <button mat-menu-item (click)="goToSettingsAsync()"><i class="las la-cog mr-1 font-16px"></i> {{ 'settings' | translate }}</button>
+    <button mat-menu-item (click)="goToInformationAsync()">
+        <i class="las la-info-circle mr-1 font-16px"></i> {{ 'information' | translate }}
+    </button>
     <mat-divider></mat-divider>
     <button mat-menu-item (click)="browseToDonateLinkAsync()">
-        <i class="accent-color las la-heart mr-1"></i> {{ 'donate' | translate }}
+        <i class="accent-color las la-heart mr-1 font-16px"></i> {{ 'donate' | translate }}
     </button>
     <div *ngIf="this.updateService.isUpdateAvailable">
         <mat-divider></mat-divider>
