@@ -7,12 +7,37 @@
     padding: 0 24px;
     border-bottom: 2px solid transparent;
     cursor: pointer;
-    color: var(--theme-secondary-text);
     text-transform: uppercase;
     -webkit-app-region: no-drag;
 }
 
+.sub-menu__item > * {
+    color: var(--theme-secondary-text);
+}
+
 .sub-menu__selected-item {
     border-bottom: 2px solid var(--theme-accent-color);
+}
+
+.sub-menu__selected-item > * {
     color: var(--theme-primary-text);
+}
+
+.sub-menu__item-icon {
+    display: none;
+    font-size: 18px;
+}
+
+@media (max-width: 1000px) {
+    .sub-menu__item {
+        padding: 0 12px;
+    }
+
+    .sub-menu__item-text {
+        display: none;
+    }
+
+    .sub-menu__item-icon {
+        display: inline;
+    }
 }

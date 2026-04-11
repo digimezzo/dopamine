@@ -3,30 +3,74 @@
         <div *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights"></div>
         <app-logo-small class="m-2"></app-logo-small>
         <app-sub-menu>
-            <app-sub-menu-item *ngIf="settings.showArtistsPage" [page]="0" [selectedPage]="this.page" (click)="this.setPage(0)">
+            <app-sub-menu-item
+                *ngIf="settings.showArtistsPage"
+                [page]="0"
+                [selectedPage]="this.page"
+                icon="las la-microphone"
+                tooltip="{{ 'artists' | translate }}"
+                (click)="this.setPage(0)"
+            >
                 {{ 'artists' | translate }}
             </app-sub-menu-item>
-            <app-sub-menu-item *ngIf="settings.showGenresPage" [page]="1" [selectedPage]="this.page" (click)="this.setPage(1)">
+            <app-sub-menu-item
+                *ngIf="settings.showGenresPage"
+                [page]="1"
+                [selectedPage]="this.page"
+                icon="las la-guitar"
+                tooltip="{{ 'genres' | translate }}"
+                (click)="this.setPage(1)"
+            >
                 {{ 'genres' | translate }}
             </app-sub-menu-item>
-            <app-sub-menu-item *ngIf="settings.showAlbumsPage" [page]="2" [selectedPage]="this.page" (click)="this.setPage(2)">
+            <app-sub-menu-item
+                *ngIf="settings.showAlbumsPage"
+                [page]="2"
+                [selectedPage]="this.page"
+                icon="las la-compact-disc"
+                tooltip="{{ 'albums' | translate }}"
+                (click)="this.setPage(2)"
+            >
                 {{ 'albums' | translate }}
             </app-sub-menu-item>
-            <app-sub-menu-item *ngIf="settings.showTracksPage" [page]="3" [selectedPage]="this.page" (click)="this.setPage(3)">
+            <app-sub-menu-item
+                *ngIf="settings.showTracksPage"
+                [page]="3"
+                [selectedPage]="this.page"
+                icon="las la-music"
+                tooltip="{{ 'tracks' | translate }}"
+                (click)="this.setPage(3)"
+            >
                 {{ 'tracks' | translate }}
             </app-sub-menu-item>
-            <app-sub-menu-item *ngIf="settings.showPlaylistsPage" [page]="4" [selectedPage]="this.page" (click)="this.setPage(4)">
+            <app-sub-menu-item
+                *ngIf="settings.showPlaylistsPage"
+                [page]="4"
+                [selectedPage]="this.page"
+                icon="las la-list"
+                tooltip="{{ 'playlists' | translate }}"
+                (click)="this.setPage(4)"
+            >
                 {{ 'playlists' | translate }}
             </app-sub-menu-item>
-            <app-sub-menu-item *ngIf="settings.showFoldersPage" [page]="5" [selectedPage]="this.page" (click)="this.setPage(5)">
+            <app-sub-menu-item
+                *ngIf="settings.showFoldersPage"
+                [page]="5"
+                [selectedPage]="this.page"
+                icon="las la-folder"
+                tooltip="{{ 'folders' | translate }}"
+                (click)="this.setPage(5)"
+            >
                 {{ 'folders' | translate }}
             </app-sub-menu-item>
         </app-sub-menu>
         <div class="window-frame__spacer"></div>
         <app-search-box class="p-2"></app-search-box>
-        <app-main-menu></app-main-menu>
-        <app-switch-player-button></app-switch-player-button>
-        <app-window-controls *ngIf="appearanceService.needsCustomWindowControls"></app-window-controls>
+        <div class="app-collection-header__controls theme-header-background">
+            <app-main-menu></app-main-menu>
+            <app-switch-player-button></app-switch-player-button>
+            <app-window-controls *ngIf="appearanceService.needsCustomWindowControls"></app-window-controls>
+        </div>
     </div>
     <app-notification-bar></app-notification-bar>
     <div class="window-frame__content">

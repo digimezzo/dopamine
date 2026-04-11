@@ -12,4 +12,10 @@ export class SubMenuItemComponent {
 
     @Input()
     public selectedPage: number;
+
+    @Input()
+    public icon: string;
+
+    @Input()
+    public tooltip: string;
 }

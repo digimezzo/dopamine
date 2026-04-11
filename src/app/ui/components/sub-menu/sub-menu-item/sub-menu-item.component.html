@@ -1,3 +1,4 @@
 <div class="sub-menu__item" [ngClass]="{ 'sub-menu__selected-item': this.page === this.selectedPage }">
-    <ng-content></ng-content>
+    <span class="sub-menu__item-text"><ng-content></ng-content></span>
+    <i class="sub-menu__item-icon" [ngClass]="this.icon" [matTooltip]="this.tooltip"></i>
 </div>
