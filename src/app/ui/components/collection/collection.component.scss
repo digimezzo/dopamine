@@ -51,11 +51,3 @@
     flex-direction: row;
     height: $titlebar-height;
 }
-
-@media (min-width: 600px) and (max-width: 1100px) {
-    .app-collection-header__controls {
-        position: absolute;
-        top: 0;
-        right: 0;
-    }
-}
