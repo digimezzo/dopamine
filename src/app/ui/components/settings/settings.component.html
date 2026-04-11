@@ -3,16 +3,40 @@
         <div *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights"></div>
         <app-back-button class="m-2"></app-back-button>
         <app-sub-menu>
-            <app-sub-menu-item [page]="0" [selectedPage]="this.page" (click)="this.setPage(0)">
+            <app-sub-menu-item
+                [page]="0"
+                [selectedPage]="this.page"
+                icon="las la-palette"
+                tooltip="{{ 'appearance' | translate }}"
+                (click)="this.setPage(0)"
+            >
                 {{ 'appearance' | translate }}
             </app-sub-menu-item>
-            <app-sub-menu-item [page]="1" [selectedPage]="this.page" (click)="this.setPage(1)">
+            <app-sub-menu-item
+                [page]="1"
+                [selectedPage]="this.page"
+                icon="las la-sliders-h"
+                tooltip="{{ 'behavior' | translate }}"
+                (click)="this.setPage(1)"
+            >
                 {{ 'behavior' | translate }}
             </app-sub-menu-item>
-            <app-sub-menu-item [page]="2" [selectedPage]="this.page" (click)="this.setPage(2)">
+            <app-sub-menu-item
+                [page]="2"
+                [selectedPage]="this.page"
+                icon="las la-cogs"
+                tooltip="{{ 'advanced' | translate }}"
+                (click)="this.setPage(2)"
+            >
                 {{ 'advanced' | translate }}
             </app-sub-menu-item>
-            <app-sub-menu-item [page]="3" [selectedPage]="this.page" (click)="this.setPage(3)">
+            <app-sub-menu-item
+                [page]="3"
+                [selectedPage]="this.page"
+                icon="las la-cloud"
+                tooltip="{{ 'online' | translate }}"
+                (click)="this.setPage(3)"
+            >
                 {{ 'online' | translate }}
             </app-sub-menu-item>
         </app-sub-menu>
