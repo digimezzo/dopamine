@@ -1,7 +1,7 @@
 <div class="window-frame">
     <div class="window-frame__titlebar theme-header-background">
         <div *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights"></div>
-        <app-logo-small class="m-2"></app-logo-small>
+        <app-logo-small class="m-2 drag"></app-logo-small>
         <app-sub-menu>
             <app-sub-menu-item
                 *ngIf="settings.showArtistsPage"
@@ -64,7 +64,7 @@
                 {{ 'folders' | translate }}
             </app-sub-menu-item>
         </app-sub-menu>
-        <div class="window-frame__spacer"></div>
+        <div class="window-frame__dragarea"></div>
         <app-search-box class="p-2"></app-search-box>
         <div class="app-collection-header__controls theme-header-background">
             <app-main-menu></app-main-menu>

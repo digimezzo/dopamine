@@ -14,8 +14,11 @@
     z-index: 1000;
 }
 
-.window-frame__spacer {
+.window-frame__dragarea {
+    height: $titlebar-height;
+    line-height: $titlebar-height;
     flex: 1;
+    -webkit-app-region: drag;
 }
 
 .window-frame__trafficlights {

@@ -4,7 +4,7 @@ import { DocumentProxy } from '../../../common/io/document-proxy';
 
 @Component({
     selector: 'app-search-box',
-    host: { style: 'display: block; -webkit-app-region: no-drag' },
+    host: { style: 'display: block' },
     templateUrl: './search-box.component.html',
     styleUrls: ['./search-box.component.scss'],
     encapsulation: ViewEncapsulation.None,
