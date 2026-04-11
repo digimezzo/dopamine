@@ -869,6 +869,8 @@ export class Settings implements SettingsBase {
 
     public set showAlbumArtOnDockIcon(v: boolean) {
         this.set('showAlbumArtOnDockIcon', v);
+    }
+
     // miniPlayerAlwaysOnTop
     public get miniPlayerAlwaysOnTop(): boolean {
         return this.get<boolean>('miniPlayerAlwaysOnTop');
