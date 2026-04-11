@@ -95,6 +95,7 @@ export class SettingsMock implements SettingsBase {
     public jumpToPlayingSong: boolean;
     public showSquareImages: boolean;
     public useCompactYearView: boolean;
+    public showAlbumArtOnDockIcon: boolean;
     public miniPlayerAlwaysOnTop: boolean;
     public miniPlayerLockPosition: boolean;
     public miniPlayerAlwaysShowSong: boolean;
