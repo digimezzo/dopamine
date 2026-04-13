@@ -149,7 +149,7 @@
     "playlist-folder": "Wiedergabelisten-Ordner",
     "playlist-folders": "Wiedergabelisten-Ordner",
     "cancel": "Abbrechen",
-    "create-playlist-folder": "Erstelle Wiedergabelisten-Ordner",
+    "create-playlist-folder": "Wiedergabelisten-Ordner erstellen",
     "playlist-folder-name": "Name des Wiedergabelisten-Ordners",
     "create-playlist-folder-error": "Fehler beim Anlegen des Wiedergabelisten-Ordners. Details kannst du im Logbuch nachsehen.",
     "rename": "Umbenennen...",
@@ -356,11 +356,11 @@
     "always-show-song": "Song immer zeigen",
     "rich-lyrics": "Rich Lyrics",
     "show-rich-lyrics": "Show rich lyrics",
-    "srt-lyrics": "SRT lyrics",
-    "rich-lyric-count": "Number of lines to display",
+    "srt-lyrics": "SRT-Lyrics",
+    "rich-lyric-count": "Anzuzeigende Anzahl Zeilen",
     "rich-lyric-size": "Lyrics size",
-    "small-size": "Small",
+    "small-size": "Klein",
     "normal-size": "Normal",
-    "large-size": "Large",
-    "xl-size": "Extra large"
+    "large-size": "Groß",
+    "xl-size": "Extragroß"
 }
