@@ -50,3 +50,9 @@
 .app-now-playing-playback-pane_volume {
     width: 110px;
 }
+
+@media (max-width: 900px) {
+    .app-now-playing-playback-pane-controls__time {
+        display: none !important;
+    }
+}

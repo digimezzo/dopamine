@@ -19,6 +19,7 @@
     line-height: $titlebar-height;
     flex: 1;
     -webkit-app-region: drag;
+    min-width: 48px;
 }
 
 .window-frame__trafficlights {

@@ -28,7 +28,11 @@
     font-size: 18px;
 }
 
-@media (max-width: 1000px) {
+.sub-menu__item-text {
+    text-wrap: nowrap;
+}
+
+@media (max-width: 1100px) {
     .sub-menu__item {
         padding: 0 12px;
     }
