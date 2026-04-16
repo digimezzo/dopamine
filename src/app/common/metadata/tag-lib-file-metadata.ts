@@ -5,6 +5,7 @@ import {
     Id3v2FrameIdentifiers,
     Id3v2PopularimeterFrame,
     Id3v2Tag,
+    Picture,
     PictureType,
     TagTypes,
 } from '@digimezzo/node-taglib-sharp';
@@ -13,7 +14,9 @@ import { RatingConverter } from './rating-converter';
 
 export class TagLibFileMetadata implements IFileMetadata {
     private _rating: number = 0;
+    private _picture: Buffer | undefined;
     private ratingHasChanged: boolean = false;
+    private pictureHasChanged: boolean = false;
 
     private windowsPopMUser: string = 'Windows Media Player 9 Series';
 
@@ -35,10 +38,17 @@ export class TagLibFileMetadata implements IFileMetadata {
     public discNumber: number = 0;
     public discCount: number = 0;
     public lyrics: string = '';
-    public picture: Buffer | undefined;
     public composers: string[] = [];
     public conductor: string = '';
     public beatsPerMinute: number = 0;
+
+    public get picture(): Buffer | undefined {
+        return this._picture;
+    }
+    public set picture(v: Buffer | undefined) {
+        this._picture = v;
+        this.pictureHasChanged = true;
+    }
 
     public get rating(): number {
         return this._rating;
@@ -72,18 +82,14 @@ export class TagLibFileMetadata implements IFileMetadata {
         tagLibFile.tag.conductor = this.conductor;
         tagLibFile.tag.beatsPerMinute = this.beatsPerMinute;
 
-        if (this.picture) {
-            const picture = {
-                data: ByteVector.fromByteArray(this.picture),
-                mimeType: 'image/png',
-                type: PictureType.FrontCover,
-                filename: '', // Not required
-                description: '', // Not required
-            };
-
-            tagLibFile.tag.pictures = [picture];
-        } else {
-            tagLibFile.tag.pictures = [];
+        if (this.pictureHasChanged) {
+            if (this._picture) {
+                const picture = Picture.fromData(ByteVector.fromByteArray(this._picture));
+                picture.type = PictureType.FrontCover;
+                tagLibFile.tag.pictures = [picture];
+            } else {
+                tagLibFile.tag.pictures = [];
+            }
         }
 
         // tagLibFile.tag.lyrics = this.lyrics;
@@ -175,7 +181,7 @@ export class TagLibFileMetadata implements IFileMetadata {
                 for (const picture of tagLibFile.tag.pictures.filter((x) => x.type !== PictureType.NotAPicture)) {
                     if (!couldGetPicture) {
                         try {
-                            this.picture = Buffer.from(picture.data.toBase64String(), 'base64');
+                            this._picture = Buffer.from(picture.data.toBase64String(), 'base64');
                             couldGetPicture = true;
                         } catch (error) {
                             // Intended suppression
