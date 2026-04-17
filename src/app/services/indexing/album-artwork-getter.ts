@@ -15,16 +15,16 @@ export class AlbumArtworkGetter {
     ) {}
 
     public async getAlbumArtworkAsync(fileMetadata: IFileMetadata, getOnlineArtwork: boolean): Promise<Buffer | undefined> {
-        const embeddedArtwork: Buffer | undefined = this.embeddedAlbumArtworkGetter.getEmbeddedArtwork(fileMetadata);
-
-        if (embeddedArtwork != undefined) {
-            return embeddedArtwork;
-        }
-
         const externalArtwork: Buffer | undefined = await this.externalAlbumArtworkGetter.getExternalArtworkAsync(fileMetadata);
 
         if (externalArtwork != undefined) {
             return externalArtwork;
+        }
+
+        const embeddedArtwork: Buffer | undefined = this.embeddedAlbumArtworkGetter.getEmbeddedArtwork(fileMetadata);
+
+        if (embeddedArtwork != undefined) {
+            return embeddedArtwork;
         }
 
         if (getOnlineArtwork && this.settings.downloadMissingAlbumCovers) {
