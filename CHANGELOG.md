@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Discord Rich Presence says "Listening to" instead of "Playing"
 - Updated the German translation
 - Updated the Russian translation
 
