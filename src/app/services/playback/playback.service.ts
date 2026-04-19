@@ -490,8 +490,13 @@ export class PlaybackService {
         this.stop();
     }
 
-    private playingPreloadedTrackHandler(preloadedTrack: TrackModel): void {
+    private async playingPreloadedTrackHandler(preloadedTrack: TrackModel): Promise<void> {
         this.increasePlayCountAndDateLastPlayedForCurrentTrack();
+
+        if (this.loopMode === LoopMode.One && this.currentTrack != undefined) {
+            await this.playAsync(this.currentTrack, false);
+            return;
+        }
 
         this.postPlay(preloadedTrack, false);
     }
@@ -546,7 +551,7 @@ export class PlaybackService {
         );
         this.subscription.add(
             this.audioPlayer.playingPreloadedTrack$.subscribe((preloadedTrack: TrackModel) => {
-                this.playingPreloadedTrackHandler(preloadedTrack);
+                void this.playingPreloadedTrackHandler(preloadedTrack);
             }),
         );
 
