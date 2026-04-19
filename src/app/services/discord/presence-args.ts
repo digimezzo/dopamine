@@ -7,4 +7,5 @@ export interface PresenceArgs {
     largeImageText?: string;
     shouldSendTimestamps?: boolean;
     startTime?: number;
+    type?: number;
 }

@@ -126,6 +126,7 @@ export class DiscordService {
                 largeImageText: largeImageText,
                 shouldSendTimestamps: shouldSendTimestamps,
                 startTime: startTime,
+                type: 2,
             };
 
             this.ipcProxy.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.SetPresence, args));
