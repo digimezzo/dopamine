@@ -413,19 +413,26 @@ export class PlaybackService {
     }
 
     private preloadNextTrackAfterDelay(): void {
+        if (this.loopMode === LoopMode.One) {
+            return;
+        }
+
         const nextTrack: TrackModel | undefined = this.queue.getNextTrack(this.currentTrack, this.loopMode === LoopMode.All);
 
         if (nextTrack) {
             if (this._preloadTimeoutId !== undefined && this._preloadTimeoutId !== null) {
                 clearTimeout(this._preloadTimeoutId);
             }
-            this._preloadTimeoutId = setTimeout(() => {
-                if (this.currentTrack === undefined) {
-                    return;
-                }
-                this._audioPlayer.preloadNext(nextTrack);
-                this.logger.info(`Preloaded '${nextTrack.path}'`, 'PlaybackService', 'preloadNextTrackAfterDelay');
-            }, this.settings.useCrossfade ? 500 : 2000); // Preload sooner when using crossfade to ensure crossfade is ready
+            this._preloadTimeoutId = setTimeout(
+                () => {
+                    if (this.currentTrack === undefined) {
+                        return;
+                    }
+                    this._audioPlayer.preloadNext(nextTrack);
+                    this.logger.info(`Preloaded '${nextTrack.path}'`, 'PlaybackService', 'preloadNextTrackAfterDelay');
+                },
+                this.settings.useCrossfade ? 500 : 2000,
+            ); // Preload sooner when using crossfade to ensure crossfade is ready
         }
     }
 
