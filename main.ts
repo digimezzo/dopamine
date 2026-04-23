@@ -139,16 +139,14 @@ function getTrayIcon(): string {
 }
 
 function createTaskbarButtonIcon(name: 'play' | 'pause' | 'next' | 'previous') {
-    const paths: Record<'play' | 'pause' | 'next' | 'previous', string> = {
-        play: '<path d="M4 3.2L13 8L4 12.8V3.2Z" fill="#111111"/>',
-        pause: '<path d="M4 3H7V13H4V3ZM9 3H12V13H9V3Z" fill="#111111"/>',
-        next: '<path d="M3 3.2L9.8 8L3 12.8V3.2ZM9.8 3.2L16 8L9.8 12.8V3.2Z" fill="#111111"/>',
-        previous: '<path d="M13 3.2L6.2 8L13 12.8V3.2ZM6.2 3.2L0 8L6.2 12.8V3.2Z" fill="#111111"/>',
+    const iconFileName: Record<'play' | 'pause' | 'next' | 'previous', string> = {
+        play: 'tray_black.png',
+        pause: 'tray_white.png',
+        next: 'icon.png',
+        previous: 'icon.png',
     };
 
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">${paths[name]}</svg>`;
-
-    return nativeImage.createFromDataURL(`data:image/svg+xml,${encodeURIComponent(svg)}`);
+    return nativeImage.createFromPath(path.join(globalAny.__static, `icons/${iconFileName[name]}`));
 }
 
 function setInitialWindowState(mainWindow: BrowserWindow): void {
