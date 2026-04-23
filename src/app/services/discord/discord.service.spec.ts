@@ -139,6 +139,7 @@ describe('DiscordService', () => {
                 largeImageText: 'Playing with Dopamine',
                 shouldSendTimestamps: true,
                 startTime: 3000,
+                type: 2,
             };
 
             jest.useFakeTimers();
@@ -170,6 +171,7 @@ describe('DiscordService', () => {
                 largeImageText: 'Playing with Dopamine',
                 shouldSendTimestamps: true,
                 startTime: 3000,
+                type: 2,
             };
 
             jest.useFakeTimers();
@@ -204,6 +206,7 @@ describe('DiscordService', () => {
                 largeImageText: 'Playing with Dopamine',
                 shouldSendTimestamps: false,
                 startTime: 0,
+                type: 2,
             };
 
             jest.useFakeTimers();
@@ -238,6 +241,7 @@ describe('DiscordService', () => {
                 largeImageText: 'Playing with Dopamine',
                 shouldSendTimestamps: true,
                 startTime: 3000,
+                type: 2,
             };
 
             jest.useFakeTimers();
@@ -272,6 +276,7 @@ describe('DiscordService', () => {
                 largeImageText: 'Playing with Dopamine',
                 shouldSendTimestamps: true,
                 startTime: 3000,
+                type: 2,
             };
 
             jest.useFakeTimers();
@@ -306,6 +311,7 @@ describe('DiscordService', () => {
                 largeImageText: 'Playing with Dopamine',
                 shouldSendTimestamps: false,
                 startTime: 0,
+                type: 2,
             };
 
             jest.useFakeTimers();
@@ -499,6 +505,7 @@ describe('DiscordService', () => {
                 largeImageText: 'Playing with Dopamine',
                 shouldSendTimestamps: true,
                 startTime: 3000,
+                type: 2,
             };
 
             jest.useFakeTimers();
@@ -529,6 +536,7 @@ describe('DiscordService', () => {
                 largeImageText: 'Playing with Dopamine',
                 shouldSendTimestamps: true,
                 startTime: 3000,
+                type: 2,
             };
 
             jest.useFakeTimers();
@@ -562,6 +570,7 @@ describe('DiscordService', () => {
                 largeImageText: 'Playing with Dopamine',
                 shouldSendTimestamps: false,
                 startTime: 0,
+                type: 2,
             };
 
             jest.useFakeTimers();
@@ -595,6 +604,7 @@ describe('DiscordService', () => {
                 largeImageText: 'Playing with Dopamine',
                 shouldSendTimestamps: true,
                 startTime: 3000,
+                type: 2,
             };
 
             jest.useFakeTimers();
@@ -628,6 +638,7 @@ describe('DiscordService', () => {
                 largeImageText: 'Playing with Dopamine',
                 shouldSendTimestamps: true,
                 startTime: 3000,
+                type: 2,
             };
 
             jest.useFakeTimers();
@@ -661,6 +672,7 @@ describe('DiscordService', () => {
                 largeImageText: 'Playing with Dopamine',
                 shouldSendTimestamps: false,
                 startTime: 0,
+                type: 2,
             };
 
             jest.useFakeTimers();
