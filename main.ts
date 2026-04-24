@@ -140,10 +140,10 @@ function getTrayIcon(): string {
 
 function createTaskbarButtonIcon(name: 'play' | 'pause' | 'next' | 'previous') {
     const iconFileName: Record<'play' | 'pause' | 'next' | 'previous', string> = {
-        play: 'tray_black.png',
-        pause: 'tray_white.png',
-        next: 'icon.png',
-        previous: 'icon.png',
+        play: 'taskbar_play.ico',
+        pause: 'taskbar_pause.ico',
+        next: 'taskbar_next.ico',
+        previous: 'taskbar_previous.ico',
     };
 
     return nativeImage.createFromPath(path.join(globalAny.__static, `icons/${iconFileName[name]}`));
