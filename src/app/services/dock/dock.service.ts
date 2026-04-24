@@ -30,6 +30,10 @@ export class DockService {
         return process.platform === 'darwin';
     }
 
+    public get isWindows(): boolean {
+        return process.platform === 'win32';
+    }
+
     public get showAlbumArtOnDockIcon(): boolean {
         return this.settings.showAlbumArtOnDockIcon;
     }
@@ -40,19 +44,19 @@ export class DockService {
     }
 
     public initialize(): void {
-        if (!this.isMacOS) {
+        if (!this.isMacOS && !this.isWindows) {
             return;
         }
 
         this.removeSubscriptions();
 
-        if (this.settings.showAlbumArtOnDockIcon) {
+        if (this.isMacOS && this.settings.showAlbumArtOnDockIcon) {
             this.addSubscriptions();
 
             if (this.playbackService.currentTrack != undefined) {
                 this.updateDockIconAsync(this.playbackService.currentTrack);
             }
-        } else {
+        } else if (this.isMacOS) {
             this.resetDockIcon();
         }
 
@@ -194,12 +198,11 @@ export class DockService {
     }
 
     private updateDockMenu(): void {
-        const playPauseLabel = this.playbackService.canPause
-            ? this.translatorService.get('pause')
-            : this.translatorService.get('play');
+        const playPauseLabel = this.playbackService.canPause ? this.translatorService.get('pause') : this.translatorService.get('play');
 
         const arg = {
             playPauseLabel: playPauseLabel,
+            isPlaying: this.playbackService.canPause,
             nextLabel: this.translatorService.get('next'),
             previousLabel: this.translatorService.get('previous'),
         };
