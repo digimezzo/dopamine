@@ -3,14 +3,16 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.5] - 2026-04-14
+## [3.0.5] - 2026-04-24
 
 ### Added
 
 - Added an Adwaita theme, because GNU/Linux deserves some love.
+- Added Windows taskbar media controls accessible by hovering over the app icon in the taskbar
 
 ### Changed
 
+- Discord Rich Presence says "Listening to" instead of "Playing"
 - Updated the German translation
 - Updated the Russian translation
 
@@ -18,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - It is not possible to edit songs from the Songs screen
 - There is no scroll bar in the smart playlist editor
+- Loop one does not work correctly when using gapless or crossfading playback
 
 ## [3.0.4] - 2026-04-08
 

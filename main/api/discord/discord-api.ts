@@ -62,13 +62,14 @@ export class DiscordApi {
             return;
         }
 
-        const presence: Presence = {
+        const presence: Presence & { type?: number } = {
             details: `${args.title}`,
             state: `${args.artists}`,
             largeImageKey: args.largeImageKey,
             largeImageText: args.largeImageText,
             smallImageKey: args.smallImageKey,
             smallImageText: args.smallImageText,
+            type: args.type,
         };
 
         if (args.shouldSendTimestamps && args.startTime) {

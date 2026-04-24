@@ -413,19 +413,26 @@ export class PlaybackService {
     }
 
     private preloadNextTrackAfterDelay(): void {
+        if (this.loopMode === LoopMode.One) {
+            return;
+        }
+
         const nextTrack: TrackModel | undefined = this.queue.getNextTrack(this.currentTrack, this.loopMode === LoopMode.All);
 
         if (nextTrack) {
             if (this._preloadTimeoutId !== undefined && this._preloadTimeoutId !== null) {
                 clearTimeout(this._preloadTimeoutId);
             }
-            this._preloadTimeoutId = setTimeout(() => {
-                if (this.currentTrack === undefined) {
-                    return;
-                }
-                this._audioPlayer.preloadNext(nextTrack);
-                this.logger.info(`Preloaded '${nextTrack.path}'`, 'PlaybackService', 'preloadNextTrackAfterDelay');
-            }, this.settings.useCrossfade ? 500 : 2000); // Preload sooner when using crossfade to ensure crossfade is ready
+            this._preloadTimeoutId = setTimeout(
+                () => {
+                    if (this.currentTrack === undefined) {
+                        return;
+                    }
+                    this._audioPlayer.preloadNext(nextTrack);
+                    this.logger.info(`Preloaded '${nextTrack.path}'`, 'PlaybackService', 'preloadNextTrackAfterDelay');
+                },
+                this.settings.useCrossfade ? 500 : 2000,
+            ); // Preload sooner when using crossfade to ensure crossfade is ready
         }
     }
 
@@ -483,8 +490,13 @@ export class PlaybackService {
         this.stop();
     }
 
-    private playingPreloadedTrackHandler(preloadedTrack: TrackModel): void {
+    private async playingPreloadedTrackHandler(preloadedTrack: TrackModel): Promise<void> {
         this.increasePlayCountAndDateLastPlayedForCurrentTrack();
+
+        if (this.loopMode === LoopMode.One && this.currentTrack != undefined) {
+            await this.playAsync(this.currentTrack, false);
+            return;
+        }
 
         this.postPlay(preloadedTrack, false);
     }
@@ -539,7 +551,7 @@ export class PlaybackService {
         );
         this.subscription.add(
             this.audioPlayer.playingPreloadedTrack$.subscribe((preloadedTrack: TrackModel) => {
-                this.playingPreloadedTrackHandler(preloadedTrack);
+                void this.playingPreloadedTrackHandler(preloadedTrack);
             }),
         );
 

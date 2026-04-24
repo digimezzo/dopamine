@@ -138,6 +138,17 @@ function getTrayIcon(): string {
     }
 }
 
+function createTaskbarButtonIcon(name: 'play' | 'pause' | 'next' | 'previous') {
+    const iconFileName: Record<'play' | 'pause' | 'next' | 'previous', string> = {
+        play: 'taskbar_play.ico',
+        pause: 'taskbar_pause.ico',
+        next: 'taskbar_next.ico',
+        previous: 'taskbar_previous.ico',
+    };
+
+    return nativeImage.createFromPath(path.join(globalAny.__static, `icons/${iconFileName[name]}`));
+}
+
 function setInitialWindowState(mainWindow: BrowserWindow): void {
     try {
         let windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
@@ -612,6 +623,40 @@ try {
         });
 
         ipcMain.on('update-dock-menu', (event: any, arg: any) => {
+            if (isWindows() && mainWindow) {
+                mainWindow.setThumbarButtons([
+                    {
+                        tooltip: arg.previousLabel,
+                        icon: createTaskbarButtonIcon('previous'),
+                        click(): void {
+                            if (mainWindow) {
+                                mainWindow.webContents.send('dock-previous');
+                            }
+                        },
+                    },
+                    {
+                        tooltip: arg.playPauseLabel,
+                        icon: createTaskbarButtonIcon(arg.isPlaying ? 'pause' : 'play'),
+                        click(): void {
+                            if (mainWindow) {
+                                mainWindow.webContents.send('dock-play-pause');
+                            }
+                        },
+                    },
+                    {
+                        tooltip: arg.nextLabel,
+                        icon: createTaskbarButtonIcon('next'),
+                        click(): void {
+                            if (mainWindow) {
+                                mainWindow.webContents.send('dock-next');
+                            }
+                        },
+                    },
+                ]);
+
+                return;
+            }
+
             if (!isMacOS() || !app.dock) {
                 return;
             }
