@@ -6,11 +6,21 @@
 }
 
 .app-now-playing-artist-info__picture {
-    width: 300px;
-    height: 300px;
-    margin-right: 50px;
+    --artist-image-size: clamp(160px, min(28vw, 44vh), 560px);
+    width: var(--artist-image-size);
+    min-width: var(--artist-image-size);
+    aspect-ratio: 1 / 1;
+    flex: 0 0 auto;
+    margin-right: clamp(20px, 4vmin, 50px);
+    overflow: hidden;
     background: var(--theme-album-cover-background);
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2)) drop-shadow(0 6px 20px rgba(0, 0, 0, 0.2));
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 }
 
 .app-now-playing-artist-info__spinner {
@@ -29,12 +39,34 @@
 
 .app-now-playing-artist-info__icon {
     @extend .font-icon-accent-gradient;
-    font-size: 200px;
+    font-size: clamp(96px, min(15vw, 24vh), 360px);
     display: flex;
-    width: 300px;
-    height: 300px;
+    width: 100%;
+    height: 100%;
     justify-content: center;
     align-items: center;
+}
+
+.app-now-playing-artist-info__artist-name .largest {
+    font-size: clamp(calc(var(--fontsize) * 1.7), min(3vw, 5vh), 40px) !important;
+}
+
+.app-now-playing-artist-info__biography {
+    font-size: clamp(var(--fontsize), min(2vw, 3vh), 18px);
+}
+
+.app-now-playing-artist-info__link {
+    font-size: clamp(var(--fontsize), min(2vw, 3vh), 18px);
+}
+
+.app-now-playing-artist-info__similar-title {
+    font-size: clamp(calc(var(--fontsize) * 1.7), min(3vw, 5vh), 40px) !important;
+    margin-top: clamp(24px, min(3vw, 5vh), 40px) !important;
+    margin-bottom: clamp(16px, min(2vw, 3vh), 24px) !important;
+}
+
+.app-now-playing-artist-info__similar-grid {
+    gap: clamp(8px, min(1vw, 2vh), 16px);
 }
 
 .app-now-playing-artist-info-rounded {
