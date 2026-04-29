@@ -6,4 +6,5 @@ Type=Application
 Icon=dopamine
 StartupWMClass=Dopamine
 Comment=Dopamine is an elegant audio player which tries to make organizing and listening to music as simple and pretty as possible.
+Comment[ru]=Dopamine — элегантный аудиопроигрыватель, который делает организацию и прослушивание музыки предельно простыми и красивыми.
 Categories=Audio;
