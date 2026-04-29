@@ -134,15 +134,6 @@
     white-space: pre-line;
 }
 
-.app-window-draggable {
-    cursor: grab;
-}
-
-.app-window-draggable.app-window-draggable-dragging,
-.app-window-draggable.app-window-draggable-dragging * {
-    cursor: grabbing !important;
-}
-
 .title {
     color: var(--theme-accent-color);
     font-weight: lighter !important;

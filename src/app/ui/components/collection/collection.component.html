@@ -2,7 +2,7 @@
     <div class="window-frame__titlebar theme-header-background">
         <div *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights"></div>
         <app-logo-small class="m-2 drag"></app-logo-small>
-        <app-sub-menu>
+        <app-sub-menu appWindowDraggable>
             <app-sub-menu-item
                 *ngIf="settings.showArtistsPage"
                 [page]="0"
