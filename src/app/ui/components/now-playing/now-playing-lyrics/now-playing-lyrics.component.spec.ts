@@ -10,11 +10,14 @@ import { LyricsModel } from '../../../../services/lyrics/lyrics-model';
 import { LyricsSourceType } from '../../../../common/api/lyrics/lyrics-source-type';
 import { PlaybackInformationService } from '../../../../services/playback-information/playback-information.service';
 import { SettingsBase } from '../../../../common/settings/settings.base';
+import { ApplicationBase } from '../../../../common/io/application.base';
+import { WindowSize } from '../../../../common/io/window-size';
 
 describe('NowPlayingLyricsComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let playbackInformationServiceMock: IMock<PlaybackInformationService>;
     let lyricsServiceMock: IMock<LyricsServiceBase>;
+    let applicationMock: IMock<ApplicationBase>;
     let settingsMock: IMock<SettingsBase>;
 
     let playbackInformationService_playingNextTrack_Mock: Subject<PlaybackInformation>;
@@ -27,6 +30,8 @@ describe('NowPlayingLyricsComponent', () => {
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         playbackInformationServiceMock = Mock.ofType<PlaybackInformationService>();
         lyricsServiceMock = Mock.ofType<LyricsServiceBase>();
+        applicationMock = Mock.ofType<ApplicationBase>();
+        applicationMock.setup((x) => x.getWindowSize()).returns(() => new WindowSize(1000, 800));
         settingsMock = Mock.ofType<SettingsBase>();
 
         playbackInformationService_playingNextTrack_Mock = new Subject();
@@ -52,6 +57,7 @@ describe('NowPlayingLyricsComponent', () => {
             appearanceServiceMock.object,
             playbackInformationServiceMock.object,
             lyricsServiceMock.object,
+            applicationMock.object,
             settingsMock.object,
         );
     }
