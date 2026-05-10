@@ -12,32 +12,32 @@ import { Track } from '../../data/entities/track';
 import { MetadataPatcher } from '../../common/metadata/metadata-patcher';
 
 class FileMetadataImplementation implements IFileMetadata {
-    public path: string;
-    public bitRate: number;
-    public sampleRate: number;
-    public durationInMilliseconds: number;
-    public title: string;
-    public album: string;
-    public albumArtists: string[];
-    public artists: string[];
-    public genres: string[];
-    public comment: string;
-    public grouping: string;
-    public year: number;
-    public trackNumber: number;
-    public trackCount: number;
-    public discNumber: number;
-    public discCount: number;
-    public lyrics: string;
-    public picture: Buffer;
-    public rating: number;
-    public composers: string[];
-    public conductor: string;
-    public beatsPerMinute: number;
-    public replayGainTrackGain: number;
-    public replayGainTrackPeak: number;
-    public replayGainAlbumGain: number;
-    public replayGainAlbumPeak: number;
+    public path!: string;
+    public bitRate!: number;
+    public sampleRate!: number;
+    public durationInMilliseconds!: number;
+    public title!: string;
+    public album!: string;
+    public albumArtists!: string[];
+    public artists!: string[];
+    public genres!: string[];
+    public comment!: string;
+    public grouping!: string;
+    public year!: number;
+    public trackNumber!: number;
+    public trackCount!: number;
+    public discNumber!: number;
+    public discCount!: number;
+    public lyrics!: string;
+    public picture!: Buffer;
+    public rating!: number;
+    public composers!: string[];
+    public conductor!: string;
+    public beatsPerMinute!: number;
+    public replayGainTrackGain!: number;
+    public replayGainTrackPeak!: number;
+    public replayGainAlbumGain!: number;
+    public replayGainAlbumPeak!: number;
     public save(): void {}
     public async loadAsync(): Promise<void> {}
 }
