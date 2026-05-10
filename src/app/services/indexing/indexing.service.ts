@@ -23,6 +23,7 @@ export class IndexingService implements OnDestroy {
     private subscription: Subscription = new Subscription();
     private foldersHaveChanged: boolean = false;
     private albumGroupingHasChanged: boolean = false;
+    private currentIndexingTask: string = '';
 
     public constructor(
         private notificationService: NotificationServiceBase,
@@ -65,8 +66,15 @@ export class IndexingService implements OnDestroy {
     }
 
     private async handleOnIndexingWorkerExitAsync(): Promise<void> {
-        await this.albumArtworkIndexer.indexAlbumArtworkAsync();
+        if (this.currentIndexingTask === 'replaygain') {
+            const tracks: Track[] = this.trackRepository.getVisibleTracks() ?? [];
+            this.playbackService.updateQueueTracks(tracks);
+        } else {
+            await this.albumArtworkIndexer.indexAlbumArtworkAsync();
+        }
+
         this.isIndexingCollection = false;
+        this.currentIndexingTask = '';
         this.indexingFinished.next();
     }
 
@@ -84,31 +92,14 @@ export class IndexingService implements OnDestroy {
         this.indexCollection('always');
     }
 
-    public async reindexReplayGainForExistingTracksAsync(): Promise<void> {
+    public reindexReplayGainForExistingTracks(): void {
         if (this.isIndexingCollection) {
-            this.logger.info('Already indexing.', 'IndexingService', 'reindexReplayGainForExistingTracksAsync');
+            this.logger.info('Already indexing.', 'IndexingService', 'reindexReplayGainForExistingTracks');
 
             return;
         }
 
-        this.isIndexingCollection = true;
-
-        try {
-            await this.notificationService.updatingTracksAsync();
-
-            const tracks: Track[] = this.trackRepository.getVisibleTracks() ?? [];
-
-            for (const track of tracks) {
-                const updatedTrack: Track = await this.trackFiller.addReplayGainMetadataToTrackAsync(track);
-                this.trackRepository.updateTrack(updatedTrack);
-            }
-
-            this.playbackService.updateQueueTracks(tracks);
-            this.indexingFinished.next();
-        } finally {
-            this.isIndexingCollection = false;
-            this.notificationService.dismiss();
-        }
+        this.indexCollection('replaygain');
     }
 
     public async indexCollectionIfOptionsHaveChangedAsync(): Promise<void> {
@@ -229,6 +220,7 @@ export class IndexingService implements OnDestroy {
         }
 
         this.isIndexingCollection = true;
+        this.currentIndexingTask = task;
         this.foldersHaveChanged = false;
 
         this.logger.info('Indexing collection.', 'IndexingService', 'indexCollection');
