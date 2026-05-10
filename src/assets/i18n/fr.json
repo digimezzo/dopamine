@@ -363,5 +363,14 @@
     "normal-size": "Normale",
     "large-size": "Grande",
     "xl-size": "Très grande",
-    "show-refresh-notification-at-startup": "Afficher une notification de rafraîchissement au démarrage"
+    "show-refresh-notification-at-startup": "Afficher une notification de rafraîchissement au démarrage",
+    "replaygain-normalization": "Normalisation ReplayGain",
+    "enable-replaygain-normalization": "Activer la normalisation ReplayGain",
+    "replaygain-mode": "Mode ReplayGain",
+    "replaygain-mode-track": "Morceau",
+    "replaygain-mode-album": "Album",
+    "replaygain-preamp-db": "Préampli ReplayGain (dB)",
+    "replaygain-prevent-clipping": "Empêcher la saturation en utilisant les données de crête",
+    "refresh-replaygain-existing-tracks": "Actualiser les métadonnées ReplayGain pour les morceaux existants uniquement",
+    "refresh-replaygain": "Actualiser ReplayGain"
 }

@@ -84,6 +84,33 @@ export class IndexingService implements OnDestroy {
         this.indexCollection('always');
     }
 
+    public async reindexReplayGainForExistingTracksAsync(): Promise<void> {
+        if (this.isIndexingCollection) {
+            this.logger.info('Already indexing.', 'IndexingService', 'reindexReplayGainForExistingTracksAsync');
+
+            return;
+        }
+
+        this.isIndexingCollection = true;
+
+        try {
+            await this.notificationService.updatingTracksAsync();
+
+            const tracks: Track[] = this.trackRepository.getVisibleTracks() ?? [];
+
+            for (const track of tracks) {
+                const updatedTrack: Track = await this.trackFiller.addReplayGainMetadataToTrackAsync(track);
+                this.trackRepository.updateTrack(updatedTrack);
+            }
+
+            this.playbackService.updateQueueTracks(tracks);
+            this.indexingFinished.next();
+        } finally {
+            this.isIndexingCollection = false;
+            this.notificationService.dismiss();
+        }
+    }
+
     public async indexCollectionIfOptionsHaveChangedAsync(): Promise<void> {
         if (this.foldersHaveChanged) {
             this.logger.info('Folders have changed. Indexing collection.', 'IndexingService', 'indexCollectionIfOptionsHaveChanged');

@@ -363,5 +363,14 @@
     "normal-size": "Normaal",
     "large-size": "Groot",
     "xl-size": "Extra groot",
-    "show-refresh-notification-at-startup": "Vernieuwingsmelding bij opstarten weergeven"
+    "show-refresh-notification-at-startup": "Vernieuwingsmelding bij opstarten weergeven",
+    "replaygain-normalization": "ReplayGain normalisatie",
+    "enable-replaygain-normalization": "ReplayGain normalisatie inschakelen",
+    "replaygain-mode": "ReplayGain modus",
+    "replaygain-mode-track": "Nummer",
+    "replaygain-mode-album": "Album",
+    "replaygain-preamp-db": "ReplayGain preamp (dB)",
+    "replaygain-prevent-clipping": "Voorkom clipping met behulp van piekgegevens",
+    "refresh-replaygain-existing-tracks": "Ververs ReplayGain-metadata alleen voor bestaande nummers",
+    "refresh-replaygain": "Ververs ReplayGain"
 }

@@ -329,7 +329,7 @@
     "compact-view": "Компактный вид",
     "expanded-view": "Расширенный вид",
     "cannot-play-m4a-file": "Файл M4A нельзя воспроизвести. Обратите внимание, что Dopamine поддерживает только файлы M4A с кодировкой AAC и не поддерживает файлы M4A с кодировкой Apple ALAC. Для подробностей смотрите файл журнала.",
-    "cannot-play-audio-file": "Выбранный аудиофайл нельзя воспроизвести. Для подробностей смотрите файл журнала."
+    "cannot-play-audio-file": "Выбранный аудиофайл нельзя воспроизвести. Для подробностей смотрите файл журнала.",
     "highlights": "Подборка",
     "composer": "Композитор",
     "conductor": "Дирижёр",
@@ -363,5 +363,14 @@
     "normal-size": "Обычный",
     "large-size": "Большой",
     "xl-size": "Очень большой",
-    "show-refresh-notification-at-startup": "Show a refresh notification at startup"
+    "show-refresh-notification-at-startup": "Show a refresh notification at startup",
+    "replaygain-normalization": "ReplayGain normalization",
+    "enable-replaygain-normalization": "Enable ReplayGain normalization",
+    "replaygain-mode": "ReplayGain mode",
+    "replaygain-mode-track": "Track",
+    "replaygain-mode-album": "Album",
+    "replaygain-preamp-db": "ReplayGain preamp (dB)",
+    "replaygain-prevent-clipping": "Prevent clipping using peak data",
+    "refresh-replaygain-existing-tracks": "Refresh ReplayGain metadata for existing songs only",
+    "refresh-replaygain": "Refresh ReplayGain"
 }

@@ -34,6 +34,10 @@ class FileMetadataImplementation implements IFileMetadata {
     public composers: string[];
     public conductor: string;
     public beatsPerMinute: number;
+    public replayGainTrackGain: number;
+    public replayGainTrackPeak: number;
+    public replayGainAlbumGain: number;
+    public replayGainAlbumPeak: number;
     public save(): void {}
     public async loadAsync(): Promise<void> {}
 }

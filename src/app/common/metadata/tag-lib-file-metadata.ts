@@ -40,6 +40,10 @@ export class TagLibFileMetadata implements IFileMetadata {
     public composers: string[] = [];
     public conductor: string = '';
     public beatsPerMinute: number = 0;
+    public replayGainTrackGain: number = 0;
+    public replayGainTrackPeak: number = 0;
+    public replayGainAlbumGain: number = 0;
+    public replayGainAlbumPeak: number = 0;
 
     public get rating(): number {
         return this._rating;
@@ -185,6 +189,22 @@ export class TagLibFileMetadata implements IFileMetadata {
 
             if (tagLibFile.tag.beatsPerMinute != undefined && !Number.isNaN(tagLibFile.tag.beatsPerMinute)) {
                 this.beatsPerMinute = tagLibFile.tag.beatsPerMinute ?? 0;
+            }
+
+            if (tagLibFile.tag.replayGainTrackGain != undefined && !Number.isNaN(tagLibFile.tag.replayGainTrackGain)) {
+                this.replayGainTrackGain = tagLibFile.tag.replayGainTrackGain ?? 0;
+            }
+
+            if (tagLibFile.tag.replayGainTrackPeak != undefined && !Number.isNaN(tagLibFile.tag.replayGainTrackPeak)) {
+                this.replayGainTrackPeak = tagLibFile.tag.replayGainTrackPeak ?? 0;
+            }
+
+            if (tagLibFile.tag.replayGainAlbumGain != undefined && !Number.isNaN(tagLibFile.tag.replayGainAlbumGain)) {
+                this.replayGainAlbumGain = tagLibFile.tag.replayGainAlbumGain ?? 0;
+            }
+
+            if (tagLibFile.tag.replayGainAlbumPeak != undefined && !Number.isNaN(tagLibFile.tag.replayGainAlbumPeak)) {
+                this.replayGainAlbumPeak = tagLibFile.tag.replayGainAlbumPeak ?? 0;
             }
 
             if (tagLibFile.tag.pictures != undefined && tagLibFile.tag.pictures.length > 0) {

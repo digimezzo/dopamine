@@ -402,6 +402,8 @@ export class PlaybackService {
         this._canPause = true;
         this._canResume = false;
 
+        this.applyEffectiveVolumeForCurrentTrack();
+
         void this.mediaSessionService.setMetadataAsync(trackToPlay);
 
         this.startUpdatingProgress();
@@ -582,14 +584,43 @@ export class PlaybackService {
 
     private applyVolumeFromSettings(): void {
         this._volume = this.settings.volume;
-        this.audioPlayer.setVolume(this._volume);
+        this.applyEffectiveVolumeForCurrentTrack();
     }
 
     private applyVolume(volume: number): void {
         const volumeToSet: number = this.mathExtensions.clamp(volume, 0, 1);
         this._volume = volumeToSet;
         this.settings.volume = volumeToSet;
-        this.audioPlayer.setVolume(volumeToSet);
+        this.applyEffectiveVolumeForCurrentTrack();
+    }
+
+    private applyEffectiveVolumeForCurrentTrack(): void {
+        const trackGainMultiplier: number = this.getReplayGainMultiplier(this.currentTrack);
+        const effectiveVolume: number = Math.max(0, Math.min(1, this._volume * trackGainMultiplier));
+        this.audioPlayer.setVolume(effectiveVolume);
+    }
+
+    private getReplayGainMultiplier(track: TrackModel | undefined): number {
+        if (track == undefined || !this.settings.useReplayGainNormalization) {
+            return 1;
+        }
+
+        const useAlbumMode: boolean = this.settings.replayGainMode === 'album';
+        const gainDb: number = useAlbumMode ? track.replayGainAlbumGain : track.replayGainTrackGain;
+        const peak: number = useAlbumMode ? track.replayGainAlbumPeak : track.replayGainTrackPeak;
+
+        if (gainDb === 0) {
+            return 1;
+        }
+
+        const preAmpDb: number = this.settings.replayGainPreAmp;
+        let multiplier: number = Math.pow(10, (gainDb + preAmpDb) / 20);
+
+        if (this.settings.replayGainPreventClipping && peak > 0) {
+            multiplier = Math.min(multiplier, 1 / peak);
+        }
+
+        return multiplier;
     }
 
     private async notifyOfTracksAddedToPlaybackQueueAsync(numberOfAddedTracks: number): Promise<void> {
@@ -694,6 +725,7 @@ export class PlaybackService {
 
                 if (this.currentTrack && this.currentTrack.path === trackInQueue.path) {
                     this.currentTrack = trackInQueue;
+                    this.applyEffectiveVolumeForCurrentTrack();
                     // this.playbackStarted.next(new PlaybackStarted(trackInQueue, false));
                 }
             }

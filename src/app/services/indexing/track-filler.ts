@@ -66,6 +66,11 @@ export class TrackFiller {
             track.albumKey2 = this.albumKeyGenerator.generateAlbumKey2(fileMetadata.album);
             track.albumKey3 = this.albumKeyGenerator.generateAlbumKey3(this.fileAccess.getDirectoryPath(track.path));
 
+            track.replayGainTrackGain = this.trackFieldCreator.createNumberField(fileMetadata.replayGainTrackGain);
+            track.replayGainTrackPeak = this.trackFieldCreator.createNumberField(fileMetadata.replayGainTrackPeak);
+            track.replayGainAlbumGain = this.trackFieldCreator.createNumberField(fileMetadata.replayGainAlbumGain);
+            track.replayGainAlbumPeak = this.trackFieldCreator.createNumberField(fileMetadata.replayGainAlbumPeak);
+
             if (!fillOnlyEssentialMetadata) {
                 const dateNowTicks: number = this.dateTime.convertDateToTicks(new Date());
 
@@ -109,6 +114,31 @@ export class TrackFiller {
                 'Error while retrieving tag information for file ${track.path}',
                 'TrackFiller',
                 'addFileMetadataToTrackAsync',
+            );
+        }
+
+        return track;
+    }
+
+    public async addReplayGainMetadataToTrackAsync(track: Track): Promise<Track> {
+        try {
+            const fileMetadata: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
+
+            track.replayGainTrackGain = this.trackFieldCreator.createNumberField(fileMetadata.replayGainTrackGain);
+            track.replayGainTrackPeak = this.trackFieldCreator.createNumberField(fileMetadata.replayGainTrackPeak);
+            track.replayGainAlbumGain = this.trackFieldCreator.createNumberField(fileMetadata.replayGainAlbumGain);
+            track.replayGainAlbumPeak = this.trackFieldCreator.createNumberField(fileMetadata.replayGainAlbumPeak);
+            track.indexingSuccess = 1;
+            track.indexingFailureReason = '';
+        } catch (e: unknown) {
+            track.indexingSuccess = 0;
+            track.indexingFailureReason = e instanceof Error ? e.message : 'Unknown error';
+
+            this.logger.error(
+                e,
+                'Error while retrieving ReplayGain tag information for file ${track.path}',
+                'TrackFiller',
+                'addReplayGainMetadataToTrackAsync',
             );
         }
 
