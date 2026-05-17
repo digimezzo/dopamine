@@ -1,0 +1,46 @@
+img {
+    object-fit: cover;
+}
+
+.edit-artist__image {
+    width: 180px;
+    height: 180px;
+    background: var(--theme-album-cover-background);
+    display: grid;
+    grid-template-columns: 1fr;
+
+    div {
+        grid-row-start: 1;
+        grid-column-start: 1;
+    }
+}
+
+.edit-artist__image__placeholder {
+    width: 180px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+        width: 60%;
+        height: 60%;
+    }
+}
+
+.edit-artist__remove-button {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background: var(--theme-accent-color);
+    margin-top: 4px;
+    margin-right: 4px;
+    justify-self: end;
+    z-index: 99;
+
+    i {
+        color: var(--theme-highlight-foreground);
+        font-size: 14px;
+        line-height: 14px;
+    }
+}
