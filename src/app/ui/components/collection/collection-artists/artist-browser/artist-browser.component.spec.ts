@@ -22,6 +22,7 @@ import { TrackServiceBase } from '../../../../../services/track/track.service.ba
 import { TrackModels } from '../../../../../services/track/track-models';
 import { ApplicationPaths } from '../../../../../common/application/application-paths';
 import { SettingsMock } from '../../../../../testing/settings-mock';
+import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
 
 export class CdkVirtualScrollViewportMock {
     private _scrollToIndexIndex: number = -1;
@@ -57,6 +58,7 @@ describe('ArtistBrowserComponent', () => {
     let semanticZoomHeaderAdderMock: IMock<SemanticZoomHeaderAdder>;
     let artistsPersisterMock: IMock<ArtistsPersister>;
     let applicationPathsMock: IMock<ApplicationPaths>;
+    let dialogServiceMock: IMock<DialogServiceBase>;
     let semanticZoomService_zoomOutRequested: Subject<void>;
     let semanticZoomService_zoomInRequested: Subject<string>;
     let applicationService_mouseButtonReleased: Subject<void>;
@@ -79,6 +81,7 @@ describe('ArtistBrowserComponent', () => {
             artistSorterMock.object,
             semanticZoomHeaderAdder,
             schedulerMock.object,
+            dialogServiceMock.object,
             settingsMock,
             loggerMock.object,
         );
@@ -96,6 +99,7 @@ describe('ArtistBrowserComponent', () => {
             artistSorterMock.object,
             semanticZoomHeaderAdderMock.object,
             schedulerMock.object,
+            dialogServiceMock.object,
             settingsMock,
             loggerMock.object,
         );
@@ -118,6 +122,7 @@ describe('ArtistBrowserComponent', () => {
         loggerMock = Mock.ofType<Logger>();
         playbackServiceMock = Mock.ofType<PlaybackService>();
         applicationPathsMock = Mock.ofType<ApplicationPaths>();
+        dialogServiceMock = Mock.ofType<DialogServiceBase>();
         settingsMock = new SettingsMock();
 
         guidFactoryMock.setup((x) => x.create()).returns(() => '91c70666-8ad0-4037-8590-47f0c453c97d');
@@ -773,6 +778,19 @@ describe('ArtistBrowserComponent', () => {
             // Assert
             playbackServiceMock.verify((x) => x.forceShuffled(), Times.once());
             playbackServiceMock.verify((x) => x.enqueueAndPlayArtistAsync(artist1, ArtistType.albumArtists), Times.once());
+        });
+    });
+    
+    describe('onEditArtistAsync', () => {
+        it('should force shuffle and play the selected artist', async () => {
+            // Arrange
+            const component: ArtistBrowserComponent = createComponent();
+
+            // Act
+            await component.onEditArtistAsync(artist1);
+
+            // Assert
+            dialogServiceMock.verify((x) => x.showEditArtistAsync(artist1), Times.once());
         });
     });
 
