@@ -19,6 +19,7 @@ import { PlaybackService } from '../../../../services/playback/playback.service'
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { TrackModels } from '../../../../services/track/track-models';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
+import {ArtistModel} from "../../../../services/artist/artist-model";
 
 @Component({
     selector: 'app-album-browser',
@@ -50,8 +51,8 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
     public readonly albumOrderKey = albumOrderKey;
 
     public albumOrderEnum: typeof AlbumOrder = AlbumOrder;
-
     public useCompactYearView: boolean = false;
+    public artistBackground: string = '';
 
     public ngOnDestroy(): void {
         this.destroy$.next();
@@ -99,6 +100,18 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
     public set albums(v: AlbumModel[]) {
         this._albums = v;
         this.mouseSelectionWatcher.initialize(this.albums, false);
+    }
+
+    @Input()
+    public set selectedArtists(selectedArtists: ArtistModel[]) {
+        if (selectedArtists.length == 1) {
+            const artworkPath: string = selectedArtists[0].artworkPath;
+            if (artworkPath !== Constants.emptyImage) {
+                this.artistBackground = artworkPath.replace(/\\/g, '/');
+                return;
+            }
+        }
+        this.artistBackground = '';
     }
 
     public get isSortedByYear(): boolean {

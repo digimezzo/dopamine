@@ -12,6 +12,7 @@
             ><app-album-browser
                 class="p-3 fill"
                 [albums]="this.albums | albumsFilter: this.searchService.delayedSearchText"
+                [selectedArtists]="this.selectedArtists"
                 [(albumsPersister)]="this.albumsPersister"
             ></app-album-browser
         ></as-split-area>
