@@ -310,6 +310,7 @@ import { ArtistArtworkCacheService } from './services/artist-artwork-cache/artis
 import { ArtistModelFactory } from './services/artist/artist-model-factory';
 import { ArtistsKeyGenerator } from './data/artists-key-generator';
 import { MusicBrainzApi } from './common/api/musicbrainz/musicbrainz.api';
+import { EditArtistDialogComponent } from './ui/components/dialogs/edit-artist-dialog/edit-artist-dialog.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -480,6 +481,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         VolumeIconComponent,
         EditTracksDialogComponent,
         IterableMenuComponent,
+        EditArtistDialogComponent,
     ],
     imports: [
         BrowserAnimationsModule,

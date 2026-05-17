@@ -20,6 +20,8 @@ import { InfoData } from './info-data';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { EditSmartPlaylistDialogComponent } from '../../ui/components/dialogs/edit-smart-playlist-dialog/edit-smart-playlist-dialog.component';
 import { FileFormats } from '../../common/application/file-formats';
+import { ArtistModel } from '../artist/artist-model';
+import { EditArtistDialogComponent } from '../../ui/components/dialogs/edit-artist-dialog/edit-artist-dialog.component';
 
 @Injectable()
 export class DialogService implements DialogServiceBase {
@@ -140,6 +142,14 @@ export class DialogService implements DialogServiceBase {
         const result: boolean | undefined = await dialogRef.afterClosed().toPromise();
 
         return result != undefined && result;
+    }
+
+    public async showEditArtistAsync(artist: ArtistModel): Promise<void> {
+        const dialogRef: MatDialogRef<EditArtistDialogComponent> = this.dialog.open(EditArtistDialogComponent, {
+            data: artist,
+        });
+
+        await dialogRef.afterClosed().toPromise();
     }
 
     public async cannotPlayM4aFileAsync(): Promise<void> {
