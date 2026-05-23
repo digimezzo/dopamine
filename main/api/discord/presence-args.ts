@@ -8,4 +8,5 @@ export interface PresenceArgs {
     shouldSendTimestamps?: boolean;
     startTime?: number;
     type?: number;
+    albumArtBuffer?: Buffer;
 }
