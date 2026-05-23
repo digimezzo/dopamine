@@ -1,5 +1,6 @@
 import { Client, Presence } from 'discord-rpc';
 import log from 'electron-log';
+import { ipcMain } from 'electron';
 import { PresenceArgs } from './presence-args';
 
 export class DiscordApi {
@@ -83,6 +84,11 @@ export class DiscordApi {
 
         this._client.setActivity(presence);
         log.info(`[DiscordApi] [setPresence] Rich Presence updated: ${presence.state} - ${presence.details} (${presence.smallImageKey})`);
+
+        // Update app icon with album artwork if provided
+        if (args.albumArtBuffer) {
+            ipcMain.emit('update-app-icon-internal', args.albumArtBuffer);
+        }
     }
 
     public clearPresence(): void {
@@ -100,6 +106,9 @@ export class DiscordApi {
 
         this._client.clearActivity();
         log.info('[DiscordApi] [clearPresence] Rich Presence cleared.');
+
+        // Reset app icon to default when presence is cleared
+        ipcMain.emit('update-app-icon-internal', null);
     }
 
     public shutdown(): void {
