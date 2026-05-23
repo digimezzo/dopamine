@@ -704,6 +704,38 @@ try {
             }
         });
 
+        ipcMain.on('update-app-icon', (event: any, arg: Buffer | null) => {
+            if (!mainWindow) {
+                return;
+            }
+
+            try {
+                if (arg) {
+                    // Update window icon (works on all platforms)
+                    mainWindow.setIcon(nativeImage.createFromBuffer(arg));
+
+                    // Update macOS dock icon
+                    if (isMacOS() && app.dock) {
+                        app.dock.setIcon(nativeImage.createFromBuffer(arg));
+                    }
+
+                    log.info('[Main] [update-app-icon] App icon updated with album artwork');
+                } else {
+                    // Restore default icon
+                    const defaultIconPath = path.join(globalAny.__static, isWindows() ? 'icons/icon.ico' : 'icons/64x64.png');
+                    mainWindow.setIcon(nativeImage.createFromPath(defaultIconPath));
+
+                    if (isMacOS() && app.dock) {
+                        app.dock.setIcon(nativeImage.createFromPath(path.join(globalAny.__static, 'icons/icon.icns')));
+                    }
+
+                    log.info('[Main] [update-app-icon] App icon restored to default');
+                }
+            } catch (error) {
+                log.error(`[Main] [update-app-icon] Failed to update icon: ${error}`);
+            }
+        });
+
         ipcMain.handle('settings:getAll', () => settings.getAll());
         ipcMain.handle('settings:set', (_, key: string, value: any) => settings.set(key, value));
     }
