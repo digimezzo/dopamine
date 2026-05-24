@@ -11,7 +11,7 @@ class TrackUpdater {
         this.logger = logger;
     }
 
-    async updateTracksThatAreOutOfDateAsync() {
+    async updateTracksThatAreOutOfDateAsync(forceUpdateExistingTracks = false) {
         const timer = new Timer();
         timer.start();
 
@@ -24,7 +24,11 @@ class TrackUpdater {
 
             for (let i = 0; i < tracks.length; i++) {
                 try {
-                    if (this.trackVerifier.doesTrackNeedIndexing(tracks[i]) || this.trackVerifier.isTrackOutOfDate(tracks[i])) {
+                    if (
+                        forceUpdateExistingTracks ||
+                        this.trackVerifier.doesTrackNeedIndexing(tracks[i]) ||
+                        this.trackVerifier.isTrackOutOfDate(tracks[i])
+                    ) {
                         const filledTrack = await this.trackFiller.addFileMetadataToTrack(tracks[i], false);
                         this.trackRepository.updateTrack(filledTrack);
                         numberOfUpdatedTracks++;

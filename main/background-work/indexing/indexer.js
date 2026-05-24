@@ -17,7 +17,7 @@ class Indexer {
 
         if (collectionIsOutdated) {
             this.logger.info('Collection is outdated.', 'Indexer', 'indexCollectionIfOutdatedAsync');
-            await this.trackIndexer.indexTracksAsync();
+            await this.trackIndexer.indexTracksAsync(false);
         } else {
             this.logger.info('Collection is not outdated.', 'Indexer', 'indexCollectionIfOutdatedAsync');
         }
@@ -28,7 +28,7 @@ class Indexer {
     async indexCollectionAlwaysAsync() {
         this.logger.info('Indexing collection.', 'Indexer', 'indexCollectionAlwaysAsync');
 
-        await this.trackIndexer.indexTracksAsync();
+        await this.trackIndexer.indexTracksAsync(true);
 
         this.workerProxy.postMessage(new DismissMessage());
     }
