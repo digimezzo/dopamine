@@ -372,5 +372,6 @@
     "replaygain-preamp-db": "ReplayGain preamp (dB)",
     "replaygain-prevent-clipping": "Prevent clipping using peak data",
     "refresh-replaygain-existing-tracks": "Refresh ReplayGain metadata for existing songs only",
-    "refresh-replaygain": "Refresh ReplayGain"
+    "refresh-replaygain": "Refresh ReplayGain",
+    "replaygain-log-at-track-start": "Log ReplayGain correction at track start"
 }

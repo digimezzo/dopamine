@@ -117,6 +117,11 @@
                 {{ 'replaygain-prevent-clipping' | translate }}</app-toggle-switch
             >
         </div>
+        <div>
+            <app-toggle-switch class="mt-2" [(isChecked)]="this.settings.logReplayGainAtTrackStart">
+                {{ 'replaygain-log-at-track-start' | translate }}</app-toggle-switch
+            >
+        </div>
     </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'split-artists' | translate }}</div>

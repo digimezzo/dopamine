@@ -871,6 +871,15 @@ export class Settings implements SettingsBase {
         this.set('replayGainPreventClipping', v);
     }
 
+    // logReplayGainAtTrackStart
+    public get logReplayGainAtTrackStart(): boolean {
+        return this.get<boolean>('logReplayGainAtTrackStart');
+    }
+
+    public set logReplayGainAtTrackStart(v: boolean) {
+        this.set('logReplayGainAtTrackStart', v);
+    }
+
     // jumpToPlayingSong
     public get jumpToPlayingSong(): boolean {
         return this.get<boolean>('jumpToPlayingSong');

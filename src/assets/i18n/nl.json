@@ -372,5 +372,6 @@
     "replaygain-preamp-db": "ReplayGain preamp (dB)",
     "replaygain-prevent-clipping": "Voorkom clipping met behulp van piekgegevens",
     "refresh-replaygain-existing-tracks": "Ververs ReplayGain-metadata alleen voor bestaande nummers",
-    "refresh-replaygain": "Ververs ReplayGain"
+    "refresh-replaygain": "Ververs ReplayGain",
+    "replaygain-log-at-track-start": "Log ReplayGain correctie bij het starten van een nummer"
 }

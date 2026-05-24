@@ -88,6 +88,7 @@ export const DEFAULT_SETTINGS = {
     replayGainMode: 'track',
     replayGainPreAmp: 0,
     replayGainPreventClipping: true,
+    logReplayGainAtTrackStart: false,
     jumpToPlayingSong: true,
     showSquareImages: false,
     useCompactYearView: false,

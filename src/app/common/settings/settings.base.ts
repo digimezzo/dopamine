@@ -92,6 +92,7 @@ export abstract class SettingsBase {
     public abstract replayGainMode: string;
     public abstract replayGainPreAmp: number;
     public abstract replayGainPreventClipping: boolean;
+    public abstract logReplayGainAtTrackStart: boolean;
     public abstract jumpToPlayingSong: boolean;
     public abstract showSquareImages: boolean;
     public abstract useCompactYearView: boolean;

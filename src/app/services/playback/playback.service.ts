@@ -403,6 +403,7 @@ export class PlaybackService {
         this._canResume = false;
 
         this.applyEffectiveVolumeForCurrentTrack();
+        this.logReplayGainAtTrackStart(trackToPlay);
 
         void this.mediaSessionService.setMetadataAsync(trackToPlay);
 
@@ -595,32 +596,111 @@ export class PlaybackService {
     }
 
     private applyEffectiveVolumeForCurrentTrack(): void {
-        const trackGainMultiplier: number = this.getReplayGainMultiplier(this.currentTrack);
-        const effectiveVolume: number = Math.max(0, Math.min(1, this._volume * trackGainMultiplier));
+        const replayGainComputation = this.computeReplayGain(this.currentTrack);
+        const effectiveVolumeBeforeClamp: number = this._volume * replayGainComputation.multiplier;
+        const effectiveVolume: number = Math.max(0, Math.min(1, effectiveVolumeBeforeClamp));
         this.audioPlayer.setVolume(effectiveVolume);
     }
 
     private getReplayGainMultiplier(track: TrackModel | undefined): number {
-        if (track == undefined || !this.settings.useReplayGainNormalization) {
-            return 1;
+        return this.computeReplayGain(track).multiplier;
+    }
+
+    private computeReplayGain(track: TrackModel | undefined): {
+        mode: 'track' | 'album';
+        gainDb: number;
+        peak: number;
+        preAmpDb: number;
+        clippingEnabled: boolean;
+        clippingCap?: number;
+        multiplierBeforeClipping: number;
+        multiplier: number;
+        reason: string;
+    } {
+        const mode: 'track' | 'album' = this.settings.replayGainMode === 'album' ? 'album' : 'track';
+
+        if (track == undefined) {
+            return {
+                mode,
+                gainDb: 0,
+                peak: 0,
+                preAmpDb: this.settings.replayGainPreAmp,
+                clippingEnabled: this.settings.replayGainPreventClipping,
+                multiplierBeforeClipping: 1,
+                multiplier: 1,
+                reason: 'no-track',
+            };
         }
 
-        const useAlbumMode: boolean = this.settings.replayGainMode === 'album';
-        const gainDb: number = useAlbumMode ? track.replayGainAlbumGain : track.replayGainTrackGain;
-        const peak: number = useAlbumMode ? track.replayGainAlbumPeak : track.replayGainTrackPeak;
+        if (!this.settings.useReplayGainNormalization) {
+            return {
+                mode,
+                gainDb: mode === 'album' ? track.replayGainAlbumGain : track.replayGainTrackGain,
+                peak: mode === 'album' ? track.replayGainAlbumPeak : track.replayGainTrackPeak,
+                preAmpDb: this.settings.replayGainPreAmp,
+                clippingEnabled: this.settings.replayGainPreventClipping,
+                multiplierBeforeClipping: 1,
+                multiplier: 1,
+                reason: 'normalization-disabled',
+            };
+        }
+
+        const gainDb: number = mode === 'album' ? track.replayGainAlbumGain : track.replayGainTrackGain;
+        const peak: number = mode === 'album' ? track.replayGainAlbumPeak : track.replayGainTrackPeak;
 
         if (gainDb === 0) {
-            return 1;
+            return {
+                mode,
+                gainDb,
+                peak,
+                preAmpDb: this.settings.replayGainPreAmp,
+                clippingEnabled: this.settings.replayGainPreventClipping,
+                multiplierBeforeClipping: 1,
+                multiplier: 1,
+                reason: 'zero-gain',
+            };
         }
 
         const preAmpDb: number = this.settings.replayGainPreAmp;
-        let multiplier: number = Math.pow(10, (gainDb + preAmpDb) / 20);
+        const multiplierBeforeClipping: number = Math.pow(10, (gainDb + preAmpDb) / 20);
+        let multiplier: number = multiplierBeforeClipping;
+        let clippingCap: number | undefined;
+        let reason: string = 'applied';
 
         if (this.settings.replayGainPreventClipping && peak > 0) {
-            multiplier = Math.min(multiplier, 1 / peak);
+            clippingCap = 1 / peak;
+            multiplier = Math.min(multiplier, clippingCap);
+            reason = multiplier < multiplierBeforeClipping ? 'applied-with-clipping-cap' : 'applied-no-cap-needed';
         }
 
-        return multiplier;
+        return {
+            mode,
+            gainDb,
+            peak,
+            preAmpDb,
+            clippingEnabled: this.settings.replayGainPreventClipping,
+            clippingCap,
+            multiplierBeforeClipping,
+            multiplier,
+            reason,
+        };
+    }
+
+    private logReplayGainAtTrackStart(track: TrackModel): void {
+        if (!this.settings.logReplayGainAtTrackStart) {
+            return;
+        }
+
+        const replayGainComputation = this.computeReplayGain(track);
+        const effectiveVolumeBeforeClamp: number = this._volume * replayGainComputation.multiplier;
+        const effectiveVolume: number = Math.max(0, Math.min(1, effectiveVolumeBeforeClamp));
+        const peakAfterGain: number = replayGainComputation.peak * replayGainComputation.multiplier;
+
+        this.logger.info(
+            `ReplayGain start '${track.path}': mode=${replayGainComputation.mode}, gainDb=${replayGainComputation.gainDb}, peak=${replayGainComputation.peak}, peakAfterGain=${peakAfterGain}, preAmpDb=${replayGainComputation.preAmpDb}, preventClipping=${replayGainComputation.clippingEnabled}, multiplierBeforeClipping=${replayGainComputation.multiplierBeforeClipping}, multiplier=${replayGainComputation.multiplier}, clippingCap=${replayGainComputation.clippingCap ?? 'n/a'}, baseVolume=${this._volume}, effectiveVolumeBeforeClamp=${effectiveVolumeBeforeClamp}, effectiveVolume=${effectiveVolume}, reason=${replayGainComputation.reason}`,
+            'PlaybackService',
+            'logReplayGainAtTrackStart',
+        );
     }
 
     private async notifyOfTracksAddedToPlaybackQueueAsync(numberOfAddedTracks: number): Promise<void> {
