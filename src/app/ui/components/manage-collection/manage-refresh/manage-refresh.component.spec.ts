@@ -46,4 +46,16 @@ describe('ManageRefreshComponent', () => {
             indexingServiceMock.verify((x) => x.indexCollectionAlwaysAsync(), Times.exactly(1));
         });
     });
+
+    describe('reindexReplayGainForExistingTracks', () => {
+        it('should reindex ReplayGain metadata for existing tracks', () => {
+            // Arrange
+
+            // Act
+            component.reindexReplayGainForExistingTracks();
+
+            // Assert
+            indexingServiceMock.verify((x) => x.reindexReplayGainForExistingTracks(), Times.exactly(1));
+        });
+    });
 });

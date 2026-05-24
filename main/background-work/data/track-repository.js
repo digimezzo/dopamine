@@ -108,7 +108,11 @@ class TrackRepository {
                 Love=@love,
                 PlayCount=@playCount,
                 SkipCount=@skipCount,
-                DateLastPlayed=@dateLastPlayed
+                DateLastPlayed=@dateLastPlayed,
+                ReplayGainTrackGain=@replayGainTrackGain,
+                ReplayGainTrackPeak=@replayGainTrackPeak,
+                ReplayGainAlbumGain=@replayGainAlbumGain,
+                ReplayGainAlbumPeak=@replayGainAlbumPeak
                 WHERE TrackID=@trackId;`,
         );
 
@@ -149,6 +153,10 @@ class TrackRepository {
             playCount: track.playCount,
             skipCount: track.skipCount,
             dateLastPlayed: track.dateLastPlayed,
+            replayGainTrackGain: track.replayGainTrackGain,
+            replayGainTrackPeak: track.replayGainTrackPeak,
+            replayGainAlbumGain: track.replayGainAlbumGain,
+            replayGainAlbumPeak: track.replayGainAlbumPeak,
         });
     }
 
@@ -191,7 +199,11 @@ class TrackRepository {
                     Love,
                     PlayCount,
                     SkipCount,
-                    DateLastPlayed
+                    DateLastPlayed,
+                    ReplayGainTrackGain,
+                    ReplayGainTrackPeak,
+                    ReplayGainAlbumGain,
+                    ReplayGainAlbumPeak
                 ) VALUES (
                     @artists,
                     @genres,
@@ -227,7 +239,11 @@ class TrackRepository {
                     @love,
                     @playCount,
                     @skipCount,
-                    @dateLastPlayed
+                    @dateLastPlayed,
+                    @replayGainTrackGain,
+                    @replayGainTrackPeak,
+                    @replayGainAlbumGain,
+                    @replayGainAlbumPeak
                 );`,
         );
 
@@ -267,6 +283,10 @@ class TrackRepository {
             playCount: track.playCount,
             skipCount: track.skipCount,
             dateLastPlayed: track.dateLastPlayed,
+            replayGainTrackGain: track.replayGainTrackGain,
+            replayGainTrackPeak: track.replayGainTrackPeak,
+            replayGainAlbumGain: track.replayGainAlbumGain,
+            replayGainAlbumPeak: track.replayGainAlbumPeak,
         });
     }
 

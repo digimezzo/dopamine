@@ -37,6 +37,10 @@ export class Track {
         this.composers = '';
         this.conductor = '';
         this.beatsPerMinute = 0;
+        this.replayGainTrackGain = 0;
+        this.replayGainTrackPeak = 0;
+        this.replayGainAlbumGain = 0;
+        this.replayGainAlbumPeak = 0;
     }
 
     public trackId: number;
@@ -76,4 +80,8 @@ export class Track {
     public composers: string | undefined;
     public conductor: string | undefined;
     public beatsPerMinute: number | undefined;
+    public replayGainTrackGain: number | undefined;
+    public replayGainTrackPeak: number | undefined;
+    public replayGainAlbumGain: number | undefined;
+    public replayGainAlbumPeak: number | undefined;
 }

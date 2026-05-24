@@ -233,6 +233,22 @@ export class TrackModel implements ISelectable {
         return this.track.dateAdded ?? 0;
     }
 
+    public get replayGainTrackGain(): number {
+        return this.track.replayGainTrackGain ?? 0;
+    }
+
+    public get replayGainTrackPeak(): number {
+        return this.track.replayGainTrackPeak ?? 0;
+    }
+
+    public get replayGainAlbumGain(): number {
+        return this.track.replayGainAlbumGain ?? 0;
+    }
+
+    public get replayGainAlbumPeak(): number {
+        return this.track.replayGainAlbumPeak ?? 0;
+    }
+
     public increasePlayCountAndDateLastPlayed(): void {
         if (this.track.playCount == undefined) {
             this.track.playCount = 0;

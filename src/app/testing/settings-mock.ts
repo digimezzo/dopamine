@@ -92,6 +92,11 @@ export class SettingsMock implements SettingsBase {
     public useGaplessPlayback: boolean;
     public useCrossfade: boolean;
     public crossfadeDuration: number;
+    public useReplayGainNormalization: boolean;
+    public replayGainMode: string;
+    public replayGainPreAmp: number;
+    public replayGainPreventClipping: boolean;
+    public logReplayGainAtTrackStart: boolean;
     public jumpToPlayingSong: boolean;
     public showSquareImages: boolean;
     public useCompactYearView: boolean;
@@ -102,6 +107,7 @@ export class SettingsMock implements SettingsBase {
     public showRichLyrics: boolean;
     public richLyricsLineCount: number;
     public richLyricsFontSize: number;
+    public showRefreshNotificationAtStartup: boolean;
 
     public get albumKeyIndex(): string {
         return this.albumKeyIndexMock;

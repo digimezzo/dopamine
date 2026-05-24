@@ -83,7 +83,11 @@ class QueryParts {
                                                              t.Love AS love,
                                                              t.PlayCount AS playCount,
                                                              t.SkipCount AS skipCount,
-                                                             t.DateLastPlayed AS dateLastPlayed
+                                                             t.DateLastPlayed AS dateLastPlayed,
+                                                             t.ReplayGainTrackGain AS replayGainTrackGain,
+                                                             t.ReplayGainTrackPeak AS replayGainTrackPeak,
+                                                             t.ReplayGainAlbumGain AS replayGainAlbumGain,
+                                                             t.ReplayGainAlbumPeak AS replayGainAlbumPeak
                                                              FROM Track t`;
 
         if (onlyVisibleTracks) {

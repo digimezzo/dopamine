@@ -835,6 +835,51 @@ export class Settings implements SettingsBase {
         this.set('crossfadeDuration', v);
     }
 
+    // useReplayGainNormalization
+    public get useReplayGainNormalization(): boolean {
+        return this.get<boolean>('useReplayGainNormalization');
+    }
+
+    public set useReplayGainNormalization(v: boolean) {
+        this.set('useReplayGainNormalization', v);
+    }
+
+    // replayGainMode
+    public get replayGainMode(): string {
+        return this.get<string>('replayGainMode');
+    }
+
+    public set replayGainMode(v: string) {
+        this.set('replayGainMode', v);
+    }
+
+    // replayGainPreAmp
+    public get replayGainPreAmp(): number {
+        return this.get<number>('replayGainPreAmp');
+    }
+
+    public set replayGainPreAmp(v: number) {
+        this.set('replayGainPreAmp', v);
+    }
+
+    // replayGainPreventClipping
+    public get replayGainPreventClipping(): boolean {
+        return this.get<boolean>('replayGainPreventClipping');
+    }
+
+    public set replayGainPreventClipping(v: boolean) {
+        this.set('replayGainPreventClipping', v);
+    }
+
+    // logReplayGainAtTrackStart
+    public get logReplayGainAtTrackStart(): boolean {
+        return this.get<boolean>('logReplayGainAtTrackStart');
+    }
+
+    public set logReplayGainAtTrackStart(v: boolean) {
+        this.set('logReplayGainAtTrackStart', v);
+    }
+
     // jumpToPlayingSong
     public get jumpToPlayingSong(): boolean {
         return this.get<boolean>('jumpToPlayingSong');

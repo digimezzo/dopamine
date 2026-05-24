@@ -88,6 +88,11 @@ export abstract class SettingsBase {
     public abstract useGaplessPlayback: boolean;
     public abstract useCrossfade: boolean;
     public abstract crossfadeDuration: number;
+    public abstract useReplayGainNormalization: boolean;
+    public abstract replayGainMode: string;
+    public abstract replayGainPreAmp: number;
+    public abstract replayGainPreventClipping: boolean;
+    public abstract logReplayGainAtTrackStart: boolean;
     public abstract jumpToPlayingSong: boolean;
     public abstract showSquareImages: boolean;
     public abstract useCompactYearView: boolean;

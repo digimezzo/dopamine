@@ -1,0 +1,40 @@
+.replaygain-form-field {
+    width: 220px;
+}
+
+.replaygain-stepper-buttons {
+    align-items: center;
+    display: inline-flex;
+    gap: 2px;
+}
+
+.replaygain-stepper-button {
+    border: none;
+    background: transparent;
+    color: var(--theme-primary-text);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0 8px;
+}
+
+.replaygain-stepper-button:hover {
+    color: var(--theme-accent-color);
+}
+
+.replaygain-stepper-button:focus-visible {
+    outline: 1px solid var(--theme-accent-color);
+    border-radius: 4px;
+}
+
+.replaygain-preamp-input::-webkit-outer-spin-button,
+.replaygain-preamp-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.replaygain-preamp-input[type='number'] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}

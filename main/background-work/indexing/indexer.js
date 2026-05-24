@@ -1,9 +1,10 @@
 const { DismissMessage } = require('./messages/dismiss-message');
 
 class Indexer {
-    constructor(collectionChecker, trackIndexer, trackRepository, workerProxy, logger) {
+    constructor(collectionChecker, trackIndexer, trackUpdater, trackRepository, workerProxy, logger) {
         this.collectionChecker = collectionChecker;
         this.trackIndexer = trackIndexer;
+        this.trackUpdater = trackUpdater;
         this.trackRepository = trackRepository;
         this.workerProxy = workerProxy;
         this.logger = logger;
@@ -28,6 +29,14 @@ class Indexer {
         this.logger.info('Indexing collection.', 'Indexer', 'indexCollectionAlwaysAsync');
 
         await this.trackIndexer.indexTracksAsync();
+
+        this.workerProxy.postMessage(new DismissMessage());
+    }
+
+    reindexReplayGainForExistingTracks() {
+        this.logger.info('Reindexing ReplayGain for existing tracks.', 'Indexer', 'reindexReplayGainForExistingTracks');
+
+        this.trackUpdater.reindexReplayGainForExistingTracks();
 
         this.workerProxy.postMessage(new DismissMessage());
     }
