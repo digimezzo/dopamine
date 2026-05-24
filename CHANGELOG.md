@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Windows taskbar media controls accessible by hovering over the app icon in the taskbar
 - Added a "Refresh now" button to the main menu
 - Added ReplayGain support
+- Added option to show album name on the now playing page
 
 ### Changed
 
