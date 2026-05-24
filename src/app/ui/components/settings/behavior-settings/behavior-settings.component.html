@@ -58,6 +58,11 @@
             {{ 'keep-playback-controls-visible-on-now-playing-page' | translate }}</app-toggle-switch
         >
     </div>
+    <div>
+        <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.showAlbumOnNowPlayingPage">
+            {{ 'show-album-on-now-playing-page' | translate }}</app-toggle-switch
+        >
+    </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'playback-state' | translate }}</div>
     <div>

@@ -6,6 +6,15 @@
         <div class="ml-1" [ngClass]="this.smallFontClasses" [style.font-size.px]="smallFontSize" [style.line-height]="1.5">
             {{ this.topContentTrack?.artists }}
         </div>
+        <div
+            class="ml-1"
+            [ngClass]="this.smallFontClasses"
+            [style.font-size.px]="smallFontSize * 0.75"
+            [style.line-height]="1.5"
+            *ngIf="this.showAlbum && this.topContentTrack?.rawAlbumTitle"
+        >
+            {{ this.topContentTrack?.albumTitle }}
+        </div>
         <div class="d-flex flex-row align-items-center">
             <app-rating
                 class="rating-position"
@@ -29,6 +38,15 @@
         </div>
         <div class="ml-1" [ngClass]="this.smallFontClasses" [style.font-size.px]="smallFontSize" [style.line-height]="1.5">
             {{ this.bottomContentTrack?.artists }}
+        </div>
+        <div
+            class="ml-1"
+            [ngClass]="this.smallFontClasses"
+            [style.font-size.px]="smallFontSize * 0.75"
+            [style.line-height]="1.5"
+            *ngIf="this.showAlbum && this.bottomContentTrack?.rawAlbumTitle"
+        >
+            {{ this.bottomContentTrack?.albumTitle }}
         </div>
         <div class="d-flex flex-row align-items-center">
             <app-rating

@@ -652,6 +652,18 @@ export class Settings implements SettingsBase {
         this.set('showLove', v);
     }
 
+    // showAlbumOnNowPlayingPage
+    public get showAlbumOnNowPlayingPage(): boolean {
+        const showAlbumOnNowPlayingPage: boolean | undefined = this.get<boolean | undefined>('showAlbumOnNowPlayingPage');
+
+        // Backward compatibility for users who already had the old setting key.
+        return showAlbumOnNowPlayingPage ?? this.get<boolean>('showAlbum');
+    }
+
+    public set showAlbumOnNowPlayingPage(v: boolean) {
+        this.set('showAlbumOnNowPlayingPage', v);
+    }
+
     // downloadArtistInformationFromLastFm
     public get downloadArtistInformationFromLastFm(): boolean {
         return this.get<boolean>('downloadArtistInformationFromLastFm');

@@ -373,5 +373,6 @@
     "replaygain-prevent-clipping": "Voorkom clipping met behulp van piekgegevens",
     "refresh-replaygain-existing-tracks": "Ververs ReplayGain-metadata alleen voor bestaande nummers",
     "refresh-replaygain": "Ververs ReplayGain",
-    "replaygain-log-at-track-start": "Log ReplayGain correctie bij het starten van een nummer"
+    "replaygain-log-at-track-start": "Log ReplayGain correctie bij het starten van een nummer",
+    "show-album-on-now-playing-page": "Album tonen op de pagina 'Speelt nu'"
 }

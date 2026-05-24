@@ -64,6 +64,7 @@ export const DEFAULT_SETTINGS = {
     lastFmPassword: '',
     lastFmSessionKey: '',
     showLove: false,
+    showAlbumOnNowPlayingPage: true,
     downloadArtistInformationFromLastFm: true,
     downloadLyricsOnline: true,
     showAudioVisualizer: true,

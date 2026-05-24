@@ -313,6 +313,7 @@ describe('validate i18n', () => {
         'replaygain-preamp-db',
         'replaygain-prevent-clipping',
         'replaygain-log-at-track-start',
+        'show-album-on-now-playing-page',
         'unknown-album',
         'unknown-artist',
         'unknown-genre',
