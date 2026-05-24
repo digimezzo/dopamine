@@ -41,12 +41,19 @@
         </app-transparent-button>
 
         <div class="image-container d-flex flex-row mt-3"
-             *ngIf="this.alternativeImageUrls.length > 0">
-            <div *ngFor="let imageUrl of this.alternativeImageUrls"
+             [ngStyle]="{
+                width: (this.alternativeImageUrls.length * 180) + 'px',
+                height: this.alternativeImageUrls.length > 0 ? '191px' : '0px',
+             }">
+            <div *ngFor="let imageUrl of this.alternativeImageUrls; let i = index"
                  class="d-flex align-items-center justify-content-center mr-3 ml-3 pointer"
                  (click)="this.selectOnlineImage(imageUrl)"
             >
-                <img [src]="imageUrl" width="180" height="180" loading="lazy" draggable="false"/>
+                <mat-spinner *ngIf="!alternativeImageLoaded[i]" diameter="40"></mat-spinner>
+                <img [src]="imageUrl" width="180" height="180" loading="lazy" draggable="false"
+                     [style.visibility]="alternativeImageLoaded[i] ? 'visible' : 'hidden'"
+                     (load)="onImageLoaded(i)"
+                />
             </div>
         </div>
     </div>

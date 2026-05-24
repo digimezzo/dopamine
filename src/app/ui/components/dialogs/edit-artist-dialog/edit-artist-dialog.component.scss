@@ -47,5 +47,19 @@ img {
 
 .image-container {
     overflow-y: auto;
-    width: 100%;
+    max-width: 100%;
+    width: 0;
+    height: 191px;
+
+    transition-duration: 500ms;
+    transition-property: width,height;
+    transition-timing-function: linear;
+
+    > div {
+        position: relative;
+
+        mat-spinner {
+            position: absolute;
+        }
+    }
 }

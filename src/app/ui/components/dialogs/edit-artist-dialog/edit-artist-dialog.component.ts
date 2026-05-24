@@ -31,6 +31,7 @@ export class EditArtistDialogComponent implements OnInit {
     private originalImagePath: string;
     public imagePath: string = '';
     public alternativeImageUrls: string[] = [];
+    public alternativeImageLoaded: boolean[] = [];
 
     public constructor(
         private translatorService: TranslatorServiceBase,
@@ -77,6 +78,10 @@ export class EditArtistDialogComponent implements OnInit {
         if (imageUrls === undefined) {
             this.dialogService.showInfoDialog(await this.translatorService.getAsync('no-images-found-online'));
         }
+    }
+
+    public onImageLoaded(index: number): void {
+        this.alternativeImageLoaded[index] = true;
     }
 
     public selectOnlineImage(imageUrl: string): void {
