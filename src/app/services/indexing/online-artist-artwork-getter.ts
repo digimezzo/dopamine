@@ -4,14 +4,15 @@ import { LastfmArtist } from '../../common/api/lastfm/lastfm-artist';
 import { Logger } from '../../common/logger';
 import { ImageProcessor } from '../../common/image-processor';
 import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
-import { OnlineArtistImageGetter } from '../artist-information/online-artist-image-getter';
 import { Constants } from '../../common/application/constants';
 import { MusicBrainzApi } from '../../common/api/musicbrainz/musicbrainz.api';
+import { ArrayUtils } from '../../common/utils/array-utils';
+import { FanartApi } from '../../common/api/fanart/fanart.api';
 
 @Injectable()
 export class OnlineArtistArtworkGetter {
     public constructor(
-        private onlineArtistImageGetter: OnlineArtistImageGetter,
+        private fanartApi: FanartApi,
         private imageProcessor: ImageProcessor,
         private lastfmApi: LastfmApi,
         private musicBrainzApi: MusicBrainzApi,
@@ -20,25 +21,50 @@ export class OnlineArtistArtworkGetter {
 
     public async getOnlineArtworkAsync(artistName: string): Promise<Buffer | undefined> {
         try {
-            let artistImageUrl: string;
+            const artistImageUrls: string[] | undefined = await this.getAllOnlineArtworkUrlsAsync(artistName);
+            if (artistImageUrls !== undefined) {
+                const firstImageUrl = artistImageUrls[0];
+                if (StringUtils.isNullOrWhiteSpace(firstImageUrl)) {
+                    return Constants.emptyImageBuffer;
+                } else {
+                    return await this.downloadImageAsync(artistName, firstImageUrl);
+                }
+            }
+        } catch (error) {
+            this.logger.error(
+                error,
+                `Could not get artist image for '${artistName}'`,
+                'OnlineArtistArtworkGetter',
+                'getOnlineArtworkAsync',
+            );
+        }
+    }
+
+    public async getAllOnlineArtworkUrlsAsync(artistName: string): Promise<string[] | undefined> {
+        try {
+            let artistImageUrls: string[];
             const lastfmArtist: LastfmArtist = await this.getLastFmArtistAsync(artistName);
-            artistImageUrl = await this.getImageUrlByMusicBrainzIdAsync(artistName, lastfmArtist.musicBrainzId);
-            if (!StringUtils.isNullOrWhiteSpace(artistImageUrl)) {
-                return await this.downloadImageAsync(artistName, artistImageUrl);
+            artistImageUrls = await this.getAllImageUrlsByMusicBrainzIdAsync(artistName, lastfmArtist.musicBrainzId);
+            if (!ArrayUtils.isNullOrEmpty(artistImageUrls)) {
+                return artistImageUrls;
             }
 
             // fallback to MusicBrainz API
             const musicBrainzId: string = await this.musicBrainzApi.getMusicBrainzIdAsync(artistName);
-            artistImageUrl = await this.getImageUrlByMusicBrainzIdAsync(artistName, musicBrainzId);
-            if (!StringUtils.isNullOrWhiteSpace(artistImageUrl)) {
-                return await this.downloadImageAsync(artistName, artistImageUrl);
+            artistImageUrls = await this.getAllImageUrlsByMusicBrainzIdAsync(artistName, musicBrainzId);
+            if (!ArrayUtils.isNullOrEmpty(artistImageUrls)) {
+                return artistImageUrls;
             }
 
-            this.logger.info(`Could not find online artwork for '${artistName}'`, 'OnlineArtistArtworkGetter', 'getOnlineArtworkAsync');
-            return Constants.emptyImageBuffer;
+            this.logger.info(`Could not find online artwork for '${artistName}'`, 'OnlineArtistArtworkGetter', 'getAllOnlineArtworkAsync');
+            return [];
         } catch (error) {
-            this.logger.error(error, `Could not get artist image for '${artistName}'`, 'OnlineArtistArtworkGetter', 'getOnlineArtworkAsync');
-            return undefined;
+            this.logger.error(
+                error,
+                `Could not get artist images for '${artistName}'`,
+                'OnlineArtistArtworkGetter',
+                'getAllOnlineArtworkAsync',
+            );
         }
     }
 
@@ -51,22 +77,22 @@ export class OnlineArtistArtworkGetter {
         }
     }
 
-    private async getImageUrlByMusicBrainzIdAsync(artistName: string, musicBrainzId: string): Promise<string> {
+    private async getAllImageUrlsByMusicBrainzIdAsync(artistName: string, musicBrainzId: string): Promise<string[]> {
         if (!StringUtils.isNullOrWhiteSpace(musicBrainzId)) {
             try {
-                return await this.onlineArtistImageGetter.getArtistImageAsync(musicBrainzId);
+                return await this.fanartApi.getAllArtistThumbnailsAsync(musicBrainzId);
             } catch (error: unknown) {
                 this.logger.error(
                     error,
                     `Could not get artist image URL for '${artistName}'`,
                     'OnlineArtistArtworkGetter',
-                    'getImageUrlByMusicBrainzIdAsync',
+                    'getAllImageUrlsByMusicBrainzIdAsync',
                 );
                 throw error;
             }
         }
 
-        return '';
+        return [];
     }
 
     private async downloadImageAsync(artistName: string, imageUrl: string): Promise<Buffer | undefined> {

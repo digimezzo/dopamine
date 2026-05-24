@@ -321,6 +321,7 @@
     "download-image-error": "Beim Herunterladen des Bildes ist ein Fehler aufgetreten. Details kannst du im Logbuch nachsehen.",
     "Information": "Information",
     "no-image-found-online": "Es wurde online kein Bild gefunden.",
+    "no-images-found-online": "Es wurden online keine Bilder gefunden.",
     "image": "Bild",
     "choose-order": "Wähle eine Reihenfolge",
     "choose-type": "Wähle eine Art",

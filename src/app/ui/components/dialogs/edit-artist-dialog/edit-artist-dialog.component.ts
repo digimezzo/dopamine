@@ -18,6 +18,7 @@ import { IndexingService } from '../../../../services/indexing/indexing.service'
 import { MetadataPatcher } from '../../../../common/metadata/metadata-patcher';
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { Constants } from '../../../../common/application/constants';
+import { OnlineArtistArtworkGetter } from '../../../../services/indexing/online-artist-artwork-getter';
 
 @Component({
     selector: 'app-edit-artist-dialog',
@@ -32,8 +33,9 @@ export class EditArtistDialogComponent implements OnInit {
     public alternativeImageUrls: string[] = [];
 
     public constructor(
-        private dialogService: DialogServiceBase,
         private translatorService: TranslatorServiceBase,
+        private onlineArtistArtworkGetter: OnlineArtistArtworkGetter,
+        private dialogService: DialogServiceBase,
         private metadataService: MetadataService,
         private metadataPatcher: MetadataPatcher,
         private indexingService: IndexingService,
@@ -68,7 +70,13 @@ export class EditArtistDialogComponent implements OnInit {
     }
 
     public async searchForImagesOnline(): Promise<void> {
-        return undefined;
+        const artistName: string = this.artist.displayName;
+        const imageUrls: string[] | undefined = await this.onlineArtistArtworkGetter.getAllOnlineArtworkUrlsAsync(artistName);
+        this.alternativeImageUrls = imageUrls ?? [];
+
+        if (imageUrls === undefined) {
+            this.dialogService.showInfoDialog(await this.translatorService.getAsync('no-images-found-online'));
+        }
     }
 
     public selectOnlineImage(imageUrl: string): void {
