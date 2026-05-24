@@ -3,13 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.5] - 2026-05-01
+## [3.0.5] - 2026-05-24
 
 ### Added
 
 - Added an Adwaita theme, because GNU/Linux deserves some love.
 - Added Windows taskbar media controls accessible by hovering over the app icon in the taskbar
 - Added a "Refresh now" button to the main menu
+- Added ReplayGain support
 
 ### Changed
 
