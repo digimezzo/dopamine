@@ -1,6 +1,6 @@
 <app-dialog-header icon="las la-pen" title="{{ 'edit-artist' | translate }}"></app-dialog-header>
 <mat-dialog-content>
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column align-items-center">
         <div class="edit-artist__image pointer">
             <div class="edit-artist__image__placeholder"
                  matTooltip="{{ 'change-image' | translate }}"
@@ -40,11 +40,13 @@
             {{ 'search-online-images' | translate }}
         </app-transparent-button>
 
-        <div *ngIf="this.alternativeImageUrls.length > 0">
-            <div *ngFor="let imageUrl of this.alternativeImageUrls">
-                <div class="d-flex align-items-center justify-content-center" (click)="this.selectOnlineImage(imageUrl)">
-                    <img [src]="imageUrl" width="180" height="180" loading="lazy" draggable="false"/>
-                </div>
+        <div class="image-container d-flex flex-row mt-3"
+             *ngIf="this.alternativeImageUrls.length > 0">
+            <div *ngFor="let imageUrl of this.alternativeImageUrls"
+                 class="d-flex align-items-center justify-content-center mr-3 ml-3 pointer"
+                 (click)="this.selectOnlineImage(imageUrl)"
+            >
+                <img [src]="imageUrl" width="180" height="180" loading="lazy" draggable="false"/>
             </div>
         </div>
     </div>

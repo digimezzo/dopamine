@@ -323,6 +323,7 @@
     "download-image-error": "An error occurred while downloading the image. Please check the log file if you need more information.",
     "Information": "Information",
     "no-image-found-online": "No image could be found online.",
+    "no-images-found-online": "No images could be found online.",
     "image": "Image",
     "choose-order": "Choose an order",
     "choose-type": "Choose a type",
