@@ -67,10 +67,17 @@ jobs:
             image: archlinux:latest
         steps:
             - uses: actions/checkout@v2
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: '22'
+            - name: verify Node runtime
+              run: |
+                  node -v
+                  npm -v
             - name: install Arch dependencies
               run: |
                   pacman -Syu --noconfirm
-                  pacman -S --noconfirm nodejs npm git python base-devel libarchive libxcrypt-compat
+                  pacman -S --noconfirm git python base-devel libarchive libxcrypt-compat
             - name: install dependencies
               run: npm install
             - name: run unit tests
