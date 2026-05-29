@@ -375,5 +375,6 @@
     "refresh-replaygain": "Actualiser ReplayGain",
     "replaygain-log-at-track-start": "Journaliser la correction ReplayGain au démarrage du morceau",
     "show-album-on-now-playing-page": "Afficher l'album sur la page 'Lecture en cours'",
-    "edit-album": "Éditer l'album"
+    "edit-album": "Éditer l'album",
+    "update-file-covers": "Mettre à jour les pochettes des fichiers"
 }

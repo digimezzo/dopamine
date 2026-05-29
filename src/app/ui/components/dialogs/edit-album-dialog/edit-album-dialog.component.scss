@@ -1,0 +1,25 @@
+.edit-album__image {
+    width: 180px;
+    height: 180px;
+    background: var(--theme-album-cover-background);
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.edit-album__image div {
+    grid-row-start: 1;
+    grid-column-start: 1;
+}
+
+.edit-album__image__placeholder {
+    width: 180px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-album__image__placeholder svg {
+    width: 60%;
+    height: 60%;
+}

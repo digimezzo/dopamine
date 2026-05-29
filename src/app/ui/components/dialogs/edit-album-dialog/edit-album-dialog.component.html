@@ -1,7 +1,46 @@
 <app-dialog-header icon="las la-pen" title="{{ 'edit-album' | translate }}"></app-dialog-header>
 <mat-dialog-content>
-    <div class="secondary-text">Album edit fields will be added here.</div>
+    <div class="d-flex flex-row">
+        <div class="edit-album__image">
+            <div class="edit-album__image__placeholder">
+                <svg width="256" height="256" viewBox="0 0 256 256">
+                    <defs>
+                        <linearGradient id="coverGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="30%" stop-color="var(--theme-primary-color)" />
+                            <stop offset="100%" stop-color="var(--theme-secondary-color)" />
+                        </linearGradient>
+                    </defs>
+
+                    <path
+                        d="M 208.79492 0 L 208.79492 85.669922 A 104.26329 104.26329 0 0 0 128.05273 47.373047 A 104.26329 104.26329 0 0 0 23.789062 151.63672 A 104.26329 104.26329 0 0 0 128.05273 255.90039 A 104.26329 104.26329 0 0 0 232.31641 151.63672 A 104.26329 104.26329 0 0 0 232.30859 150.50391 L 232.31055 150.50391 L 232.31055 0 L 208.79492 0 z M 128.05273 71.195312 A 80.750832 80.441704 0 0 1 208.79492 150.50391 A 80.750832 80.441704 0 0 1 208.80273 151.63672 A 80.750832 80.441704 0 0 1 128.05273 232.07812 A 80.750832 80.441704 0 0 1 47.302734 151.63672 A 80.750832 80.441704 0 0 1 128.05273 71.195312 z M 127.9707 134.98047 A 16.65657 16.65657 0 0 0 111.39648 151.63672 A 16.65657 16.65657 0 0 0 128.05273 168.29297 A 16.65657 16.65657 0 0 0 144.70898 151.63672 A 16.65657 16.65657 0 0 0 128.05273 134.98047 A 16.65657 16.65657 0 0 0 127.9707 134.98047 z"
+                        fill="url(#coverGradient)"
+                    />
+                </svg>
+            </div>
+            <div *ngIf="this.imagePath">
+                <img [src]="this.imagePath" width="180" height="180" loading="lazy" draggable="false" />
+            </div>
+        </div>
+        <div class="d-flex flex-column ml-3">
+            <app-transparent-button class="mb-3" [fill]="true" (click)="this.onExport()">
+                {{ 'export' | translate }}...
+            </app-transparent-button>
+            <app-transparent-button class="mb-3" [fill]="true" (click)="this.onChange()">
+                {{ 'change-image' | translate }}...
+            </app-transparent-button>
+            <app-transparent-button class="mb-3" [fill]="true" (click)="this.onDownload()">
+                {{ 'download-action' | translate }}
+            </app-transparent-button>
+            <app-transparent-button class="mb-3" [fill]="true" (click)="this.onRemove()">
+                {{ 'remove-image' | translate }}
+            </app-transparent-button>
+            <app-toggle-switch class="mt-2" [(isChecked)]="this.updateFileCovers">
+                {{ 'update-file-covers' | translate }}
+            </app-toggle-switch>
+        </div>
+    </div>
 </mat-dialog-content>
 <mat-dialog-actions>
+    <app-accent-button class="mr-2" [mat-dialog-close]="true">{{ 'ok' | translate }}</app-accent-button>
     <app-transparent-button [mat-dialog-close]="false">{{ 'cancel' | translate }}</app-transparent-button>
 </mat-dialog-actions>
