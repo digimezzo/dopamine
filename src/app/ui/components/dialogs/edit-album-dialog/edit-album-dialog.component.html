@@ -2,7 +2,7 @@
 <mat-dialog-content>
     <div class="d-flex flex-row">
         <div class="d-flex flex-column">
-            <div class="edit-album__image">
+            <div class="edit-album__image pointer" (click)="this.onChange()" matTooltip="{{ 'change-image' | translate }}">
                 <div class="edit-album__image__placeholder">
                     <svg width="256" height="256" viewBox="0 0 256 256">
                         <defs>
@@ -25,7 +25,7 @@
                     class="edit-album__remove-button d-flex justify-content-center align-items-center pointer"
                     *ngIf="this.imagePath"
                     matTooltip="{{ 'remove-image' | translate }}"
-                    (click)="this.onRemove()"
+                    (click)="$event.stopPropagation(); this.onRemove()"
                 >
                     <i class="las la-times"></i>
                 </div>
@@ -44,9 +44,6 @@
         <div class="d-flex flex-column ml-3">
             <app-transparent-button class="mb-3" [fill]="true" (click)="this.onExport()">
                 {{ 'export' | translate }}...
-            </app-transparent-button>
-            <app-transparent-button class="mb-3" [fill]="true" (click)="this.onChange()">
-                {{ 'change-image' | translate }}...
             </app-transparent-button>
             <app-transparent-button class="mb-3" [fill]="true" (click)="this.onDownload()">
                 {{ 'download-action' | translate }}

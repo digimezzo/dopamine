@@ -25,6 +25,8 @@ export class EditAlbumDialogComponent {
     public album: AlbumModel;
     public isDownloading: boolean = false;
     private shouldRemoveArtwork: boolean = false;
+    private pendingArtworkCacheId: string | undefined;
+    private originalArtworkId: string | undefined;
 
     public constructor(
         @Inject(MAT_DIALOG_DATA) public data: AlbumModel[],
@@ -40,11 +42,14 @@ export class EditAlbumDialogComponent {
         private logger: Logger,
     ) {
         this.album = data[0];
+        this.originalArtworkId = this.album.artworkId;
         this.initializeImagePath();
 
         this.dialogRef.afterClosed().subscribe((result: boolean) => {
             if (result) {
                 void this.commitChanges();
+            } else {
+                void this.discardChanges();
             }
         });
     }
@@ -85,7 +90,33 @@ export class EditAlbumDialogComponent {
         }
     }
 
-    public onChange(): void {}
+    public async onChange(): Promise<void> {
+        try {
+            const selectedPath: string = await this.desktop.showSelectFileDialogAsync('');
+
+            if (StringUtils.isNullOrWhiteSpace(selectedPath)) {
+                return;
+            }
+
+            const imageBuffer: Buffer = await this.imageProcessor.convertLocalImageToBufferAsync(selectedPath);
+            const cacheId = await this.albumArtworkCacheService.addArtworkDataToCacheAsync(imageBuffer);
+
+            if (cacheId == undefined) {
+                return;
+            }
+
+            // Remove previously pending artwork if user changes again before confirming
+            if (this.pendingArtworkCacheId != undefined) {
+                await this.albumArtworkCacheService.removeArtworkDataFromCacheAsync(this.pendingArtworkCacheId);
+            }
+
+            this.pendingArtworkCacheId = cacheId.id;
+            this.imagePath = 'file:///' + this.applicationPaths.coverArtFullPath(cacheId.id);
+            this.shouldRemoveArtwork = false;
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not change album artwork', 'EditAlbumDialogComponent', 'onChange');
+        }
+    }
 
     public async onDownload(): Promise<void> {
         if (this.isDownloading) {
@@ -115,16 +146,12 @@ export class EditAlbumDialogComponent {
                 return;
             }
 
-            // Remove old artwork if present
-            if (this.album.artworkId != undefined) {
-                await this.albumArtworkCacheService.removeArtworkDataFromCacheAsync(this.album.artworkId);
+            // Remove previously pending artwork if user downloads again before confirming
+            if (this.pendingArtworkCacheId != undefined) {
+                await this.albumArtworkCacheService.removeArtworkDataFromCacheAsync(this.pendingArtworkCacheId);
             }
 
-            // Delete existing row and insert new one
-            this.albumArtworkRepository.deleteAlbumArtworkByAlbumKey(this.album.albumKey);
-            this.albumArtworkRepository.addAlbumArtwork(new AlbumArtwork(this.album.albumKey, cacheId.id));
-            this.trackRepository.disableNeedsAlbumArtworkIndexing(this.album.albumKey);
-            this.album.artworkId = cacheId.id;
+            this.pendingArtworkCacheId = cacheId.id;
             this.imagePath = 'file:///' + this.applicationPaths.coverArtFullPath(cacheId.id);
             this.shouldRemoveArtwork = false;
         } catch (e: unknown) {
@@ -140,19 +167,39 @@ export class EditAlbumDialogComponent {
     }
 
     private async commitChanges(): Promise<void> {
-        if (this.shouldRemoveArtwork) {
-            try {
-                const artworkId: string | undefined = this.album.artworkId;
-
-                if (artworkId != undefined) {
-                    await this.albumArtworkCacheService.removeArtworkDataFromCacheAsync(artworkId);
+        try {
+            if (this.shouldRemoveArtwork) {
+                // User chose to remove artwork
+                if (this.originalArtworkId != undefined) {
+                    await this.albumArtworkCacheService.removeArtworkDataFromCacheAsync(this.originalArtworkId);
                 }
 
-                this.albumArtworkRepository.clearAlbumArtworkByAlbumKey(this.album.albumKey);
+                this.albumArtworkRepository.deleteAlbumArtworkByAlbumKey(this.album.albumKey);
                 this.album.artworkId = undefined;
-            } catch (e: unknown) {
-                this.logger.error(e, 'Could not remove album artwork', 'EditAlbumDialogComponent', 'commitChanges');
+            } else if (this.pendingArtworkCacheId != undefined) {
+                // User chose a new artwork (download or change image)
+                if (this.originalArtworkId != undefined) {
+                    await this.albumArtworkCacheService.removeArtworkDataFromCacheAsync(this.originalArtworkId);
+                }
+
+                this.albumArtworkRepository.deleteAlbumArtworkByAlbumKey(this.album.albumKey);
+                this.albumArtworkRepository.addAlbumArtwork(new AlbumArtwork(this.album.albumKey, this.pendingArtworkCacheId));
+                this.trackRepository.disableNeedsAlbumArtworkIndexing(this.album.albumKey);
+                this.album.artworkId = this.pendingArtworkCacheId;
             }
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not commit album artwork changes', 'EditAlbumDialogComponent', 'commitChanges');
+        }
+    }
+
+    private async discardChanges(): Promise<void> {
+        try {
+            // Clean up any temporarily cached artwork
+            if (this.pendingArtworkCacheId != undefined) {
+                await this.albumArtworkCacheService.removeArtworkDataFromCacheAsync(this.pendingArtworkCacheId);
+            }
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not discard album artwork changes', 'EditAlbumDialogComponent', 'discardChanges');
         }
     }
 
