@@ -35,6 +35,13 @@
     z-index: 99;
 }
 
+.edit-album__spinner {
+    width: 180px;
+    height: 180px;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}
+
 .edit-album__remove-button i {
     color: var(--theme-highlight-foreground);
     font-size: 14px;

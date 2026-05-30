@@ -74,6 +74,14 @@ export class AlbumArtworkRepository implements AlbumArtworkRepositoryBase {
         statement.run(albumKey);
     }
 
+    public deleteAlbumArtworkByAlbumKey(albumKey: string): void {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(`DELETE FROM AlbumArtwork WHERE AlbumKey = ?;`);
+
+        statement.run(albumKey);
+    }
+
     public deleteAlbumArtworkWithoutCover(): number {
         const database: any = this.databaseFactory.create();
 

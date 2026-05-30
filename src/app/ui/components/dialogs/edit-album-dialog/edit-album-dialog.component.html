@@ -29,6 +29,9 @@
                 >
                     <i class="las la-times"></i>
                 </div>
+                <div *ngIf="this.isDownloading" class="edit-album__spinner d-flex justify-content-center align-items-center">
+                    <mat-spinner [diameter]="40"></mat-spinner>
+                </div>
             </div>
             <div class="edit-album__image__line1 ellipsis" matTooltip="{{ album.albumTitle }}">
                 {{ album.albumTitle }}
