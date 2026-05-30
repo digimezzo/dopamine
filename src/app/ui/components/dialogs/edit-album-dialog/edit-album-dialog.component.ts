@@ -11,6 +11,8 @@ import { ApplicationPaths } from '../../../../common/application/application-pat
 import { AlbumArtwork } from '../../../../data/entities/album-artwork';
 import { StringUtils } from '../../../../common/utils/string-utils';
 import { TrackRepositoryBase } from '../../../../data/repositories/track-repository.base';
+import { DesktopBase } from '../../../../common/io/desktop.base';
+import { FileAccessBase } from '../../../../common/io/file-access.base';
 
 @Component({
     selector: 'app-edit-album-dialog',
@@ -33,6 +35,8 @@ export class EditAlbumDialogComponent {
         private imageProcessor: ImageProcessor,
         private applicationPaths: ApplicationPaths,
         private trackRepository: TrackRepositoryBase,
+        private desktop: DesktopBase,
+        private fileAccess: FileAccessBase,
         private logger: Logger,
     ) {
         this.album = data[0];
@@ -45,7 +49,41 @@ export class EditAlbumDialogComponent {
         });
     }
 
-    public onExport(): void {}
+    public async onExport(): Promise<void> {
+        if (this.album.artworkId == undefined) {
+            return;
+        }
+
+        try {
+            const defaultFileName: string = `${this.album.albumArtist} - ${this.album.albumTitle}.jpg`;
+            const selectedPath: string = await this.desktop.showSaveFileDialogAsync('', defaultFileName);
+
+            if (StringUtils.isNullOrWhiteSpace(selectedPath)) {
+                return;
+            }
+
+            const artist: string = this.album.albumArtist;
+            const title: string = this.album.albumTitle;
+
+            if (!StringUtils.isNullOrWhiteSpace(artist) && !StringUtils.isNullOrWhiteSpace(title)) {
+                const lastfmAlbum = await this.lastfmApi.getAlbumInfoAsync(artist, title, false, 'EN');
+
+                if (lastfmAlbum != undefined && !StringUtils.isNullOrWhiteSpace(lastfmAlbum.largestImage())) {
+                    const imageBuffer: Buffer = await this.imageProcessor.convertOnlineImageToBufferAsync(lastfmAlbum.largestImage());
+                    await this.imageProcessor.convertImageBufferToFileAsync(imageBuffer, selectedPath);
+                    this.desktop.showFileInDirectory(selectedPath);
+                    return;
+                }
+            }
+
+            // Fallback: export the cached (resized) artwork
+            const artworkFilePath: string = this.applicationPaths.coverArtFullPath(this.album.artworkId);
+            this.fileAccess.copyFile(artworkFilePath, selectedPath);
+            this.desktop.showFileInDirectory(selectedPath);
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not export album artwork', 'EditAlbumDialogComponent', 'onExport');
+        }
+    }
 
     public onChange(): void {}
 
