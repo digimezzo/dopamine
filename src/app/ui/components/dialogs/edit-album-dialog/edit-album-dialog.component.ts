@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AlbumModel } from '../../../../services/album/album-model';
 import { Constants } from '../../../../common/application/constants';
 import { AlbumArtworkCacheServiceBase } from '../../../../services/album-artwork-cache/album-artwork-cache.service.base';
@@ -15,15 +15,23 @@ export class EditAlbumDialogComponent {
     public imagePath: string = '';
     public updateFileCovers: boolean = false;
     public album: AlbumModel;
+    private shouldRemoveArtwork: boolean = false;
 
     public constructor(
         @Inject(MAT_DIALOG_DATA) public data: AlbumModel[],
+        private dialogRef: MatDialogRef<EditAlbumDialogComponent>,
         private albumArtworkCacheService: AlbumArtworkCacheServiceBase,
         private albumArtworkRepository: AlbumArtworkRepositoryBase,
         private logger: Logger,
     ) {
         this.album = data[0];
         this.initializeImagePath();
+
+        this.dialogRef.afterClosed().subscribe((result: boolean) => {
+            if (result) {
+                void this.commitChanges();
+            }
+        });
     }
 
     public onExport(): void {}
@@ -32,20 +40,25 @@ export class EditAlbumDialogComponent {
 
     public onDownload(): void {}
 
-    public async onRemove(): Promise<void> {
-        try {
-            const artworkId: string | undefined = this.album.artworkId;
+    public onRemove(): void {
+        this.shouldRemoveArtwork = true;
+        this.imagePath = '';
+    }
 
-            if (artworkId != undefined) {
-                await this.albumArtworkCacheService.removeArtworkDataFromCacheAsync(artworkId);
+    private async commitChanges(): Promise<void> {
+        if (this.shouldRemoveArtwork) {
+            try {
+                const artworkId: string | undefined = this.album.artworkId;
+
+                if (artworkId != undefined) {
+                    await this.albumArtworkCacheService.removeArtworkDataFromCacheAsync(artworkId);
+                }
+
+                this.albumArtworkRepository.clearAlbumArtworkByAlbumKey(this.album.albumKey);
+                this.album.artworkId = undefined;
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not remove album artwork', 'EditAlbumDialogComponent', 'commitChanges');
             }
-
-            this.albumArtworkRepository.clearAlbumArtworkByAlbumKey(this.album.albumKey);
-
-            this.album.artworkId = undefined;
-            this.imagePath = '';
-        } catch (e: unknown) {
-            this.logger.error(e, 'Could not remove album artwork', 'EditAlbumDialogComponent', 'onRemove');
         }
     }
 

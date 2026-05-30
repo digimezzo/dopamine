@@ -21,6 +21,14 @@
                 <div *ngIf="this.imagePath">
                     <img [src]="this.imagePath" width="180" height="180" loading="lazy" draggable="false" />
                 </div>
+                <div
+                    class="edit-album__remove-button d-flex justify-content-center align-items-center pointer"
+                    *ngIf="this.imagePath"
+                    matTooltip="{{ 'remove-image' | translate }}"
+                    (click)="this.onRemove()"
+                >
+                    <i class="las la-times"></i>
+                </div>
             </div>
             <div class="edit-album__image__line1 ellipsis" matTooltip="{{ album.albumTitle }}">
                 {{ album.albumTitle }}
@@ -39,9 +47,6 @@
             </app-transparent-button>
             <app-transparent-button class="mb-3" [fill]="true" (click)="this.onDownload()">
                 {{ 'download-action' | translate }}
-            </app-transparent-button>
-            <app-transparent-button class="mb-3" [fill]="true" (click)="this.onRemove()">
-                {{ 'remove-image' | translate }}
             </app-transparent-button>
             <app-toggle-switch class="mt-2" [(isChecked)]="this.updateFileCovers">
                 {{ 'update-file-covers' | translate }}

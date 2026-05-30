@@ -24,6 +24,23 @@
     height: 60%;
 }
 
+.edit-album__remove-button {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background: var(--theme-accent-color);
+    margin-top: 4px;
+    margin-right: 4px;
+    justify-self: end;
+    z-index: 99;
+}
+
+.edit-album__remove-button i {
+    color: var(--theme-highlight-foreground);
+    font-size: 14px;
+    line-height: 14px;
+}
+
 .edit-album__image__line1 {
     max-width: 180px;
     height: 24px;
