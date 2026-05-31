@@ -1,9 +1,10 @@
 const { DismissMessage } = require('./messages/dismiss-message');
 
 class Indexer {
-    constructor(collectionChecker, trackIndexer, trackRepository, workerProxy, logger) {
+    constructor(collectionChecker, trackIndexer, trackUpdater, trackRepository, workerProxy, logger) {
         this.collectionChecker = collectionChecker;
         this.trackIndexer = trackIndexer;
+        this.trackUpdater = trackUpdater;
         this.trackRepository = trackRepository;
         this.workerProxy = workerProxy;
         this.logger = logger;
@@ -16,7 +17,7 @@ class Indexer {
 
         if (collectionIsOutdated) {
             this.logger.info('Collection is outdated.', 'Indexer', 'indexCollectionIfOutdatedAsync');
-            await this.trackIndexer.indexTracksAsync();
+            await this.trackIndexer.indexTracksAsync(false);
         } else {
             this.logger.info('Collection is not outdated.', 'Indexer', 'indexCollectionIfOutdatedAsync');
         }
@@ -27,7 +28,15 @@ class Indexer {
     async indexCollectionAlwaysAsync() {
         this.logger.info('Indexing collection.', 'Indexer', 'indexCollectionAlwaysAsync');
 
-        await this.trackIndexer.indexTracksAsync();
+        await this.trackIndexer.indexTracksAsync(true);
+
+        this.workerProxy.postMessage(new DismissMessage());
+    }
+
+    reindexReplayGainForExistingTracks() {
+        this.logger.info('Reindexing ReplayGain for existing tracks.', 'Indexer', 'reindexReplayGainForExistingTracks');
+
+        this.trackUpdater.reindexReplayGainForExistingTracks();
 
         this.workerProxy.postMessage(new DismissMessage());
     }

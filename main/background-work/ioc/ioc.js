@@ -130,6 +130,7 @@ class Ioc {
             new Indexer(
                 Ioc.get('CollectionChecker'),
                 Ioc.get('TrackIndexer'),
+                Ioc.get('TrackUpdater'),
                 Ioc.get('TrackRepository'),
                 Ioc.get('WorkerProxy'),
                 Ioc.get('Logger'),

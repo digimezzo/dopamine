@@ -368,5 +368,16 @@
     "normal-size": "Běžné",
     "large-size": "Velké",
     "xl-size": "Extra velké",
-    "show-refresh-notification-at-startup": "Show a refresh notification at startup"
+    "show-refresh-notification-at-startup": "Show a refresh notification at startup",
+    "replaygain-normalization": "ReplayGain normalization",
+    "enable-replaygain-normalization": "Enable ReplayGain normalization",
+    "replaygain-mode": "ReplayGain mode",
+    "replaygain-mode-track": "Track",
+    "replaygain-mode-album": "Album",
+    "replaygain-preamp-db": "ReplayGain preamp (dB)",
+    "replaygain-prevent-clipping": "Prevent clipping using peak data",
+    "refresh-replaygain-existing-tracks": "Refresh ReplayGain metadata for existing songs only",
+    "refresh-replaygain": "Refresh ReplayGain",
+    "replaygain-log-at-track-start": "Log ReplayGain correction at track start",
+    "show-album-on-now-playing-page": "Show album on now playing page"
 }

@@ -27,6 +27,10 @@ class TagLibFileMetadata {
         this.composers = [];
         this.conductor = '';
         this.beatsPerMinute = 0;
+        this.replayGainTrackGain = 0;
+        this.replayGainTrackPeak = 0;
+        this.replayGainAlbumGain = 0;
+        this.replayGainAlbumPeak = 0;
 
         this.#load();
     }
@@ -105,6 +109,22 @@ class TagLibFileMetadata {
 
             if (tagLibFile.tag.beatsPerMinute !== undefined && !Number.isNaN(tagLibFile.tag.beatsPerMinute)) {
                 this.beatsPerMinute = tagLibFile.tag.beatsPerMinute ?? 0;
+            }
+
+            if (tagLibFile.tag.replayGainTrackGain !== undefined && !Number.isNaN(tagLibFile.tag.replayGainTrackGain)) {
+                this.replayGainTrackGain = tagLibFile.tag.replayGainTrackGain ?? 0;
+            }
+
+            if (tagLibFile.tag.replayGainTrackPeak !== undefined && !Number.isNaN(tagLibFile.tag.replayGainTrackPeak)) {
+                this.replayGainTrackPeak = tagLibFile.tag.replayGainTrackPeak ?? 0;
+            }
+
+            if (tagLibFile.tag.replayGainAlbumGain !== undefined && !Number.isNaN(tagLibFile.tag.replayGainAlbumGain)) {
+                this.replayGainAlbumGain = tagLibFile.tag.replayGainAlbumGain ?? 0;
+            }
+
+            if (tagLibFile.tag.replayGainAlbumPeak !== undefined && !Number.isNaN(tagLibFile.tag.replayGainAlbumPeak)) {
+                this.replayGainAlbumPeak = tagLibFile.tag.replayGainAlbumPeak ?? 0;
             }
 
             if (tagLibFile.tag.pictures !== undefined && tagLibFile.tag.pictures.length > 0) {

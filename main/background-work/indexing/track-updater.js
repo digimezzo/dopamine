@@ -11,7 +11,7 @@ class TrackUpdater {
         this.logger = logger;
     }
 
-    async updateTracksThatAreOutOfDateAsync() {
+    async updateTracksThatAreOutOfDateAsync(forceUpdateExistingTracks = false) {
         const timer = new Timer();
         timer.start();
 
@@ -24,7 +24,11 @@ class TrackUpdater {
 
             for (let i = 0; i < tracks.length; i++) {
                 try {
-                    if (this.trackVerifier.doesTrackNeedIndexing(tracks[i]) || this.trackVerifier.isTrackOutOfDate(tracks[i])) {
+                    if (
+                        forceUpdateExistingTracks ||
+                        this.trackVerifier.doesTrackNeedIndexing(tracks[i]) ||
+                        this.trackVerifier.isTrackOutOfDate(tracks[i])
+                    ) {
                         const filledTrack = await this.trackFiller.addFileMetadataToTrack(tracks[i], false);
                         this.trackRepository.updateTrack(filledTrack);
                         numberOfUpdatedTracks++;
@@ -65,6 +69,64 @@ class TrackUpdater {
             timer.stop();
 
             this.logger.error(e, 'A problem occurred while updating tracks', 'TrackUpdater', 'updateTracksThatAreOutOfDateAsync');
+        }
+    }
+
+    reindexReplayGainForExistingTracks() {
+        const timer = new Timer();
+        timer.start();
+
+        try {
+            const tracks = this.trackRepository.getAllTracks() ?? [];
+            let numberOfUpdatedTracks = 0;
+
+            const loggedPercentages = new Set();
+
+            for (let i = 0; i < tracks.length; i++) {
+                try {
+                    const filledTrack = this.trackFiller.addReplayGainMetadataToTrack(tracks[i]);
+                    this.trackRepository.updateTrack(filledTrack);
+                    numberOfUpdatedTracks++;
+
+                    const percentageOfProcessedTracks = MathUtils.calculatePercentage(i + 1, tracks.length);
+
+                    if (
+                        (percentageOfProcessedTracks % 20 === 0 || percentageOfProcessedTracks === 100) &&
+                        !loggedPercentages.has(percentageOfProcessedTracks)
+                    ) {
+                        this.logger.info(`Processed ${i + 1} tracks`, 'TrackUpdater', 'reindexReplayGainForExistingTracks');
+                        loggedPercentages.add(percentageOfProcessedTracks);
+                    }
+
+                    if (numberOfUpdatedTracks === 1) {
+                        this.workerProxy.postMessage(new UpdatingTracksMessage());
+                    }
+                } catch (e) {
+                    this.logger.error(
+                        e,
+                        `A problem occurred while reindexing ReplayGain for track with path='${tracks[i].path}'`,
+                        'TrackUpdater',
+                        'reindexReplayGainForExistingTracks',
+                    );
+                }
+            }
+
+            timer.stop();
+
+            this.logger.info(
+                `Updated ReplayGain for tracks: ${numberOfUpdatedTracks}. Time required: ${timer.getElapsedMilliseconds()} ms`,
+                'TrackUpdater',
+                'reindexReplayGainForExistingTracks',
+            );
+        } catch (e) {
+            timer.stop();
+
+            this.logger.error(
+                e,
+                'A problem occurred while reindexing ReplayGain for existing tracks',
+                'TrackUpdater',
+                'reindexReplayGainForExistingTracks',
+            );
         }
     }
 }

@@ -21,6 +21,10 @@ export interface IFileMetadata {
     composers: string[];
     conductor: string;
     beatsPerMinute: number;
+    replayGainTrackGain: number;
+    replayGainTrackPeak: number;
+    replayGainAlbumGain: number;
+    replayGainAlbumPeak: number;
 
     save(): void;
     loadAsync(): Promise<void>;

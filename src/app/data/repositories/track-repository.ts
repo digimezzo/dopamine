@@ -447,7 +447,11 @@ export class TrackRepository implements TrackRepositoryBase {
                  Love=@love,
                  PlayCount=@playCount,
                  SkipCount=@skipCount,
-                 DateLastPlayed=@dateLastPlayed
+                 DateLastPlayed=@dateLastPlayed,
+                 ReplayGainTrackGain=@replayGainTrackGain,
+                 ReplayGainTrackPeak=@replayGainTrackPeak,
+                 ReplayGainAlbumGain=@replayGainAlbumGain,
+                 ReplayGainAlbumPeak=@replayGainAlbumPeak
              WHERE TrackID = @trackId;`,
         );
 
@@ -489,6 +493,10 @@ export class TrackRepository implements TrackRepositoryBase {
             playCount: track.playCount,
             skipCount: track.skipCount,
             dateLastPlayed: track.dateLastPlayed,
+            replayGainTrackGain: track.replayGainTrackGain,
+            replayGainTrackPeak: track.replayGainTrackPeak,
+            replayGainAlbumGain: track.replayGainAlbumGain,
+            replayGainAlbumPeak: track.replayGainAlbumPeak,
         });
     }
 }

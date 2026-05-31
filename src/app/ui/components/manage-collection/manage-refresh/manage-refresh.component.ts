@@ -18,4 +18,8 @@ export class ManageRefreshComponent {
     public async refreshNowAsync(): Promise<void> {
         await this.indexingService.indexCollectionAlwaysAsync();
     }
+
+    public reindexReplayGainForExistingTracks(): void {
+        this.indexingService.reindexReplayGainForExistingTracks();
+    }
 }

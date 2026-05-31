@@ -34,6 +34,7 @@ export class BehaviorSettingsComponent implements OnInit {
 
     public artistSplitSeparators: string[] = [];
     public artistSplitExceptions: string[] = [];
+    public replayGainModes: string[] = ['track', 'album'];
 
     public async addSplitSeparatorAsync(): Promise<void> {
         const dialogTitle: string = await this.translatorService.getAsync('add-symbol');
@@ -119,5 +120,29 @@ export class BehaviorSettingsComponent implements OnInit {
                 this.dialogService.showErrorDialog(errorText);
             }
         }
+    }
+
+    public clampReplayGainPreAmp(): void {
+        if (Number.isNaN(this.settings.replayGainPreAmp)) {
+            this.settings.replayGainPreAmp = 0;
+        }
+
+        if (this.settings.replayGainPreAmp > 15) {
+            this.settings.replayGainPreAmp = 15;
+        }
+
+        if (this.settings.replayGainPreAmp < -15) {
+            this.settings.replayGainPreAmp = -15;
+        }
+    }
+
+    public decreaseReplayGainPreAmp(): void {
+        this.settings.replayGainPreAmp -= 0.5;
+        this.clampReplayGainPreAmp();
+    }
+
+    public increaseReplayGainPreAmp(): void {
+        this.settings.replayGainPreAmp += 0.5;
+        this.clampReplayGainPreAmp();
     }
 }

@@ -24,6 +24,7 @@ export class IndexingService implements OnDestroy {
     private subscription: Subscription = new Subscription();
     private foldersHaveChanged: boolean = false;
     private albumGroupingHasChanged: boolean = false;
+    private currentIndexingTask: string = '';
 
     public constructor(
         private notificationService: NotificationServiceBase,
@@ -67,9 +68,16 @@ export class IndexingService implements OnDestroy {
     }
 
     private async handleOnIndexingWorkerExitAsync(): Promise<void> {
-        await this.albumArtworkIndexer.indexAlbumArtworkAsync();
-        await this.artistArtworkIndexer.indexArtistArtworkAsync();
+        if (this.currentIndexingTask === 'replaygain') {
+            const tracks: Track[] = this.trackRepository.getVisibleTracks() ?? [];
+            this.playbackService.updateQueueTracks(tracks);
+        } else {
+            await this.albumArtworkIndexer.indexAlbumArtworkAsync();
+            await this.artistArtworkIndexer.indexArtistArtworkAsync();
+        }
+
         this.isIndexingCollection = false;
+        this.currentIndexingTask = '';
         this.indexingFinished.next();
     }
 
@@ -85,6 +93,16 @@ export class IndexingService implements OnDestroy {
         await this.notificationService.refreshingAsync();
         await this.scheduler.sleepAsync(1000); // Wait a bit to ensure user sees a refreshing notification
         this.indexCollection('always');
+    }
+
+    public reindexReplayGainForExistingTracks(): void {
+        if (this.isIndexingCollection) {
+            this.logger.info('Already indexing.', 'IndexingService', 'reindexReplayGainForExistingTracks');
+
+            return;
+        }
+
+        this.indexCollection('replaygain');
     }
 
     public async indexCollectionIfOptionsHaveChangedAsync(): Promise<void> {
@@ -223,6 +241,7 @@ export class IndexingService implements OnDestroy {
         }
 
         this.isIndexingCollection = true;
+        this.currentIndexingTask = task;
         this.foldersHaveChanged = false;
 
         this.logger.info('Indexing collection.', 'IndexingService', 'indexCollection');

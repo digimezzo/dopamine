@@ -11,7 +11,7 @@ class TrackIndexer {
         this.logger = logger;
     }
 
-    async indexTracksAsync() {
+    async indexTracksAsync(forceUpdateExistingTracks = false) {
         this.logger.info('+++ STARTED INDEXING TRACKS +++', 'TrackIndexer', 'indexTracksAsync');
 
         const timer = new Timer();
@@ -25,7 +25,7 @@ class TrackIndexer {
         await this.trackRemover.removeFolderTracksForInexistingTracksAsync();
 
         // Update tracks
-        await this.trackUpdater.updateTracksThatAreOutOfDateAsync();
+        await this.trackUpdater.updateTracksThatAreOutOfDateAsync(forceUpdateExistingTracks);
 
         // Add tracks
         await this.trackAdder.addTracksThatAreNotInTheDatabaseAsync();

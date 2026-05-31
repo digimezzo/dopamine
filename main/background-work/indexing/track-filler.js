@@ -37,6 +37,10 @@ class TrackFiller {
             );
             track.albumKey2 = this.albumKeyGenerator.generateAlbumKey2(fileMetadata.album);
             track.albumKey3 = this.albumKeyGenerator.generateAlbumKey3(this.fileAccess.getDirectoryPath(track.path));
+            track.replayGainTrackGain = this.trackFieldCreator.createNumberField(fileMetadata.replayGainTrackGain);
+            track.replayGainTrackPeak = this.trackFieldCreator.createNumberField(fileMetadata.replayGainTrackPeak);
+            track.replayGainAlbumGain = this.trackFieldCreator.createNumberField(fileMetadata.replayGainAlbumGain);
+            track.replayGainAlbumPeak = this.trackFieldCreator.createNumberField(fileMetadata.replayGainAlbumPeak);
 
             if (!fillOnlyEssentialMetadata) {
                 const dateNowTicks = this.dateTime.convertDateToTicks(new Date());
@@ -80,6 +84,32 @@ class TrackFiller {
                 `Error while retrieving tag information for file ${track.path}`,
                 'TrackFiller',
                 'addFileMetadataToTrackAsync',
+            );
+        }
+
+        return track;
+    }
+
+    addReplayGainMetadataToTrack(track) {
+        try {
+            const fileMetadata = this.fileMetadataFactory.create(track.path);
+
+            track.replayGainTrackGain = this.trackFieldCreator.createNumberField(fileMetadata.replayGainTrackGain);
+            track.replayGainTrackPeak = this.trackFieldCreator.createNumberField(fileMetadata.replayGainTrackPeak);
+            track.replayGainAlbumGain = this.trackFieldCreator.createNumberField(fileMetadata.replayGainAlbumGain);
+            track.replayGainAlbumPeak = this.trackFieldCreator.createNumberField(fileMetadata.replayGainAlbumPeak);
+
+            track.indexingSuccess = 1;
+            track.indexingFailureReason = '';
+        } catch (e) {
+            track.indexingSuccess = 0;
+            track.indexingFailureReason = e instanceof Error ? e.message : 'Unknown error';
+
+            this.logger.error(
+                e,
+                `Error while retrieving ReplayGain information for file ${track.path}`,
+                'TrackFiller',
+                'addReplayGainMetadataToTrack',
             );
         }
 

@@ -661,6 +661,18 @@ export class Settings implements SettingsBase {
         this.set('showLove', v);
     }
 
+    // showAlbumOnNowPlayingPage
+    public get showAlbumOnNowPlayingPage(): boolean {
+        const showAlbumOnNowPlayingPage: boolean | undefined = this.get<boolean | undefined>('showAlbumOnNowPlayingPage');
+
+        // Backward compatibility for users who already had the old setting key.
+        return showAlbumOnNowPlayingPage ?? this.get<boolean>('showAlbum');
+    }
+
+    public set showAlbumOnNowPlayingPage(v: boolean) {
+        this.set('showAlbumOnNowPlayingPage', v);
+    }
+
     // downloadArtistInformationFromLastFm
     public get downloadArtistInformationFromLastFm(): boolean {
         return this.get<boolean>('downloadArtistInformationFromLastFm');
@@ -842,6 +854,51 @@ export class Settings implements SettingsBase {
 
     public set crossfadeDuration(v: number) {
         this.set('crossfadeDuration', v);
+    }
+
+    // useReplayGainNormalization
+    public get useReplayGainNormalization(): boolean {
+        return this.get<boolean>('useReplayGainNormalization');
+    }
+
+    public set useReplayGainNormalization(v: boolean) {
+        this.set('useReplayGainNormalization', v);
+    }
+
+    // replayGainMode
+    public get replayGainMode(): string {
+        return this.get<string>('replayGainMode');
+    }
+
+    public set replayGainMode(v: string) {
+        this.set('replayGainMode', v);
+    }
+
+    // replayGainPreAmp
+    public get replayGainPreAmp(): number {
+        return this.get<number>('replayGainPreAmp');
+    }
+
+    public set replayGainPreAmp(v: number) {
+        this.set('replayGainPreAmp', v);
+    }
+
+    // replayGainPreventClipping
+    public get replayGainPreventClipping(): boolean {
+        return this.get<boolean>('replayGainPreventClipping');
+    }
+
+    public set replayGainPreventClipping(v: boolean) {
+        this.set('replayGainPreventClipping', v);
+    }
+
+    // logReplayGainAtTrackStart
+    public get logReplayGainAtTrackStart(): boolean {
+        return this.get<boolean>('logReplayGainAtTrackStart');
+    }
+
+    public set logReplayGainAtTrackStart(v: boolean) {
+        this.set('logReplayGainAtTrackStart', v);
     }
 
     // jumpToPlayingSong
