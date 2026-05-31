@@ -302,6 +302,7 @@ import { AlbumPlaceholderComponent } from './ui/components/highlights/album-plac
 import { EditSmartPlaylistDialogComponent } from './ui/components/dialogs/edit-smart-playlist-dialog/edit-smart-playlist-dialog.component';
 import { HighlightsPlaybackPaneComponent } from './ui/components/highlights/highlights-playback-pane/highlights-playback-pane.component';
 import { WindowDraggableDirective } from './ui/directives/window-draggable.directive';
+import { EditAlbumDialogComponent } from './ui/components/dialogs/edit-album-dialog/edit-album-dialog.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -471,6 +472,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         CoverPlayerVolumeControlComponent,
         VolumeIconComponent,
         EditTracksDialogComponent,
+        EditAlbumDialogComponent,
         IterableMenuComponent,
     ],
     imports: [

@@ -80,6 +80,10 @@
         <button mat-menu-item (click)="onShuffleAndPlayAsync(album)">
             <span>{{ 'shuffle' | translate }}</span>
         </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onEditAsync(album)">
+            <span>{{ 'edit' | translate }}</span>
+        </button>
     </ng-template>
 </mat-menu>
 

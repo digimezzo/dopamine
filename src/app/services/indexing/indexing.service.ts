@@ -11,6 +11,7 @@ import { AddingTracksMessage } from './messages/adding-tracks-message';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';
 import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { AlbumArtworkRepositoryBase } from '../../data/repositories/album-artwork-repository.base';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { Track } from '../../data/entities/track';
 import { TrackFiller } from './track-filler';
@@ -30,6 +31,7 @@ export class IndexingService implements OnDestroy {
         private folderService: FolderServiceBase,
         private playbackService: PlaybackService,
         private albumArtworkIndexer: AlbumArtworkIndexer,
+        private albumArtworkRepository: AlbumArtworkRepositoryBase,
         private trackRepository: TrackRepositoryBase,
         private trackFiller: TrackFiller,
         private desktop: DesktopBase,
@@ -158,6 +160,10 @@ export class IndexingService implements OnDestroy {
         this.foldersHaveChanged = false;
 
         this.logger.info('Indexing collection.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
+
+        const albumKeyIndex = this.settings.albumKeyIndex;
+        this.trackRepository.enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover, albumKeyIndex);
+        this.albumArtworkRepository.deleteAlbumArtworkWithoutCover();
 
         await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 

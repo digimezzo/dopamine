@@ -66,11 +66,38 @@ export class AlbumArtworkRepository implements AlbumArtworkRepositoryBase {
         return info.changes;
     }
 
+    public clearAlbumArtworkByAlbumKey(albumKey: string): void {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(`UPDATE AlbumArtwork SET ArtworkID = '' WHERE AlbumKey = ?;`);
+
+        statement.run(albumKey);
+    }
+
+    public deleteAlbumArtworkByAlbumKey(albumKey: string): void {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(`DELETE FROM AlbumArtwork WHERE AlbumKey = ?;`);
+
+        statement.run(albumKey);
+    }
+
+    public deleteAlbumArtworkWithoutCover(): number {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(`DELETE FROM AlbumArtwork WHERE ArtworkID IS NULL OR ArtworkID = '';`);
+
+        const info = statement.run();
+
+        return info.changes;
+    }
+
     public getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(albumKeyIndex: string): number {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(`SELECT COUNT(*) AS numberOfAlbumArtwork FROM AlbumArtwork
-        WHERE AlbumKey IN (SELECT AlbumKey${albumKeyIndex} FROM Track WHERE NeedsAlbumArtworkIndexing = 1);`);
+        WHERE ArtworkID IS NOT NULL AND ArtworkID <> ''
+        AND AlbumKey IN (SELECT AlbumKey${albumKeyIndex} FROM Track WHERE NeedsAlbumArtworkIndexing = 1);`);
 
         const result: any = statement.get();
 
@@ -81,7 +108,8 @@ export class AlbumArtworkRepository implements AlbumArtworkRepositoryBase {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(`DELETE FROM AlbumArtwork
-        WHERE AlbumKey IN (SELECT AlbumKey${albumKeyIndex} FROM Track WHERE NeedsAlbumArtworkIndexing = 1);`);
+        WHERE ArtworkID IS NOT NULL AND ArtworkID <> ''
+        AND AlbumKey IN (SELECT AlbumKey${albumKeyIndex} FROM Track WHERE NeedsAlbumArtworkIndexing = 1);`);
 
         const info = statement.run();
 

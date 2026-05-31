@@ -374,5 +374,7 @@
     "refresh-replaygain-existing-tracks": "Refresh ReplayGain metadata for existing songs only",
     "refresh-replaygain": "Refresh ReplayGain",
     "replaygain-log-at-track-start": "Log ReplayGain correction at track start",
-    "show-album-on-now-playing-page": "Show album on now playing page"
+    "show-album-on-now-playing-page": "Show album on now playing page",
+    "edit-album": "Edit album",
+    "update-file-covers": "Update file covers"
 }
