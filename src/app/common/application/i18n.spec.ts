@@ -192,6 +192,7 @@ describe('validate i18n', () => {
         'no-biography-found',
         'no-folders-in-collection',
         'no-image-found-online',
+        'no-images-found-online',
         'no-lyrics',
         'no-lyrics-found',
         'no-playlists',

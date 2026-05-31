@@ -321,6 +321,7 @@
     "download-image-error": "Si è verificato un errore nello scaricamento dell'immagine. Verifica il log per maggiori informazioni.",
     "Information": "Informazione",
     "no-image-found-online": "Nessuna immagine trovata online.",
+    "no-images-found-online": "Nessuna immagine trovata online.",
     "image": "Immagine",
     "choose-order": "Scegli ordinamento",
     "choose-type": "Scegli un tipo",

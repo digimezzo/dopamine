@@ -321,6 +321,7 @@
     "download-image-error": "下载图像时发生错误! 请查看日志以获取更多信息",
     "Information": "信息",
     "no-image-found-online": "未找到在线图像",
+    "no-images-found-online": "未找到在线图片",
     "image": "图像",
     "choose-order": "选择一个顺序",
     "choose-type": "选择一个类型",

@@ -321,6 +321,7 @@
     "download-image-error": "Görüntü indirilirken bir hata oluştu. Daha fazla bilgiye ihtiyacınız varsa lütfen günlük dosyasını kontrol edin.",
     "Information": "Bilgi",
     "no-image-found-online": "İnternette herhangi bir resim bulunamadı.",
+    "no-images-found-online": "Çevrimiçi hiçbir görsel bulunamadı.",
     "image": "Resim",
     "choose-order": "Sıra seç",
     "choose-type": "Tip seç",

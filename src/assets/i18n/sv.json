@@ -321,6 +321,7 @@
     "download-image-error": "Ett fel uppstod när bilden hämtades. Vänligen granska loggfilen om du behöver mer information.",
     "Information": "Information",
     "no-image-found-online": "Ingen bild kunde hittas online.",
+    "no-images-found-online": "Inga bilder hittades online.",
     "image": "Bild",
     "choose-order": "Välj en ordning",
     "choose-type": "Välj en typ",
