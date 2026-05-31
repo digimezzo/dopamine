@@ -21,6 +21,8 @@ import { TrackServiceBase } from '../../../../services/track/track.service.base'
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 import { TrackOrder } from '../track-order';
+import { EditArtistDialogComponent } from '../../dialogs/edit-artist-dialog/edit-artist-dialog.component';
+import { ArtistArtworkAdder } from '../../../../services/indexing/artist-artwork-adder';
 
 @Component({
     selector: 'app-collection-artists',
@@ -45,6 +47,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         private settings: SettingsBase,
         private scheduler: SchedulerBase,
         private logger: Logger,
+        private artistArtworkAdder: ArtistArtworkAdder,
     ) {}
 
     public trackOrders: TrackOrder[] = [TrackOrder.byTrackTitleAscending, TrackOrder.byTrackTitleDescending, TrackOrder.byAlbum];
@@ -103,6 +106,12 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         this.subscription.add(
             this.collectionService.collectionChanged$.subscribe(() => {
                 PromiseUtils.noAwait(this.fillListsAsync());
+            }),
+        );
+
+        this.subscription.add(
+            this.artistArtworkAdder.artistArtworkChanged$.subscribe(() => {
+                this.getArtists();
             }),
         );
 

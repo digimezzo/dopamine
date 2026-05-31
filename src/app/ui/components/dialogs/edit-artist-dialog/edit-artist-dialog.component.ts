@@ -9,6 +9,7 @@ import { ArtistModel } from '../../../../services/artist/artist-model';
 import { Constants } from '../../../../common/application/constants';
 import { OnlineArtistArtworkGetter } from '../../../../services/indexing/online-artist-artwork-getter';
 import { ArtistArtworkAdder } from '../../../../services/indexing/artist-artwork-adder';
+import { Logger } from '../../../../common/logger';
 
 @Component({
     selector: 'app-edit-artist-dialog',
@@ -30,6 +31,7 @@ export class EditArtistDialogComponent implements OnInit {
         private artistArtworkAdder: ArtistArtworkAdder,
         private desktop: DesktopBase,
         private imageProcessor: ImageProcessor,
+        private logger: Logger,
         @Inject(MAT_DIALOG_DATA) public data: ArtistModel,
     ) {}
 
@@ -74,8 +76,8 @@ export class EditArtistDialogComponent implements OnInit {
     }
 
     public async saveArtistAsync(): Promise<void> {
-        let image: Buffer | undefined = undefined;
         try {
+            let image: Buffer | undefined = undefined;
             if (StringUtils.isNullOrWhiteSpace(this.imagePath) && !StringUtils.isNullOrWhiteSpace(this.originalImagePath)) {
                 image = Constants.emptyImageBuffer;
             } else if (this.imagePath !== this.originalImagePath) {
@@ -85,12 +87,18 @@ export class EditArtistDialogComponent implements OnInit {
                     image = await this.imageProcessor.convertOnlineImageToBufferAsync(this.imagePath);
                 }
             }
-        } catch (e: unknown) {
-            this.dialogService.showErrorDialog(await this.translatorService.getAsync('change-image-error'));
-        }
 
-        if (image !== undefined) {
-            await this.artistArtworkAdder.updateArtistArtworkAsync(this.artist.displayName, image);
+            if (image !== undefined) {
+                await this.artistArtworkAdder.updateArtistArtworkAsync(this.artist.displayName, image);
+            }
+        } catch (e: unknown) {
+            this.logger.error(
+                e,
+                `Failed to save artist image for artist ${this.artist.displayName} to file ${this.imagePath}`,
+                'EditArtistDialogComponent',
+                'saveArtistAsync',
+            );
+            this.dialogService.showErrorDialog(await this.translatorService.getAsync('change-image-error'));
         }
     }
 }

@@ -9,6 +9,7 @@ import { ArtistArtworkAdder } from '../../../../services/indexing/artist-artwork
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { ApplicationPaths } from '../../../../common/application/application-paths';
 import { Constants } from '../../../../common/application/constants';
+import { Logger } from '../../../../common/logger';
 
 const artistName: string = 'Metallica';
 const artworkId: string = 'artwork-1';
@@ -24,6 +25,7 @@ describe('EditArtistDialogComponent', () => {
     let artistArtworkAdderMock: IMock<ArtistArtworkAdder>;
     let desktopMock: IMock<DesktopBase>;
     let imageProcessorMock: IMock<ImageProcessor>;
+    let loggerMock: IMock<Logger>;
     let dataMock: ArtistModel;
 
     beforeEach(() => {
@@ -34,6 +36,7 @@ describe('EditArtistDialogComponent', () => {
         artistArtworkAdderMock = Mock.ofType<ArtistArtworkAdder>();
         desktopMock = Mock.ofType<DesktopBase>();
         imageProcessorMock = Mock.ofType<ImageProcessor>();
+        loggerMock = Mock.ofType<Logger>();
     });
 
     function createComponent(artistName: string): void {
@@ -45,6 +48,7 @@ describe('EditArtistDialogComponent', () => {
             artistArtworkAdderMock.object,
             desktopMock.object,
             imageProcessorMock.object,
+            loggerMock.object,
             dataMock,
         );
         component.ngOnInit();
