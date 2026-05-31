@@ -321,6 +321,7 @@
     "download-image-error": "Ocorreu um erro ao descarregar a imagem. Consulta o ficheiro de registo para mais informações.",
     "Information": "Informação",
     "no-image-found-online": "Não foi encontrada nenhuma imagem online.",
+    "no-images-found-online": "Não foram encontradas imagens online.",
     "image": "Imagem",
     "choose-order": "Escolher ordem",
     "choose-type": "Escolher tipo",

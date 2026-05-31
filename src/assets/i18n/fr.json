@@ -321,6 +321,7 @@
     "download-image-error": "Une erreur s'est produite lors du téléchargement de l'image. Le fichier audio sélectionné ne peut pas être lu. Veuillez consulter le fichier journal pour plus d'informations.",
     "Information": "Information",
     "no-image-found-online": "Aucune image n'a été trouvée en ligne",
+    "no-images-found-online": "Aucune image trouvée en ligne.",
     "image": "Image",
     "choose-order": "Choose an order",
     "choose-type": "Choose a type",

@@ -321,6 +321,7 @@
     "download-image-error": "Dogodila se greška tijekom preuzimanja slike. Pogledaj zapisnik, ako trebaš više informacija.",
     "Information": "Informacije",
     "no-image-found-online": "Nije pronađena nijedna slika na webu.",
+    "no-images-found-online": "Nisu pronađene slike na internetu.",
     "image": "Slika",
     "choose-order": "Odaberi redoslijed",
     "choose-type": "Odaberi vrstu",

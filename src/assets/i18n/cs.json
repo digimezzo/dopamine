@@ -321,6 +321,7 @@
     "download-image-error": "Při stahování obrázku došlo k chybě. Pro více informací zkontrolujte protokol.",
     "Information": "Informace",
     "no-image-found-online": "Žádný obrázek nebyl nalezen online.",
+    "no-images-found-online": "Nebyly nalezeny žádné obrázky online.",
     "image": "Obrázek",
     "choose-order": "Choose an order",
     "choose-type": "Zvolte typ",
