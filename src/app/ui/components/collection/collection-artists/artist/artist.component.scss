@@ -21,8 +21,53 @@
     height: 30px;
     line-height: 30px;
     border-radius: 6px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 3px;
+    margin-bottom: 3px;
 }
 
 .app-artist__name:hover {
     background: var(--theme-hovered-item-background);
+}
+
+.app-artist__name.with-artist-image {
+    height: 60px;
+    line-height: 60px;
+}
+
+.app-artist__image {
+}
+
+.app-artist-rounded {
+    border-radius: 6px;
+}
+
+.app-artist-image-container {
+    width: 60px;
+    height: 60px;
+    background: var(--theme-album-cover-background);
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-right: 3px;
+
+    div {
+        grid-row-start: 1;
+        grid-column-start: 1;
+    }
+}
+
+.app-artist__image__placeholder {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+        width: 60%;
+        height: 60%;
+    }
 }

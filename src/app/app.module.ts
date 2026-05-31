@@ -302,6 +302,14 @@ import { AlbumPlaceholderComponent } from './ui/components/highlights/album-plac
 import { EditSmartPlaylistDialogComponent } from './ui/components/dialogs/edit-smart-playlist-dialog/edit-smart-playlist-dialog.component';
 import { HighlightsPlaybackPaneComponent } from './ui/components/highlights/highlights-playback-pane/highlights-playback-pane.component';
 import { WindowDraggableDirective } from './ui/directives/window-draggable.directive';
+import { ArtistArtworkRepositoryBase } from './data/repositories/artist-artwork-repository.base';
+import { ArtistArtworkRepository } from './data/repositories/artist-artwork-repository';
+import { OnlineArtistArtworkGetter } from './services/indexing/online-artist-artwork-getter';
+import { ArtistArtworkCacheServiceBase } from './services/artist-artwork-cache/artist-artwork-cache.service.base';
+import { ArtistArtworkCacheService } from './services/artist-artwork-cache/artist-artwork-cache.service';
+import { ArtistModelFactory } from './services/artist/artist-model-factory';
+import { ArtistsKeyGenerator } from './data/artists-key-generator';
+import { MusicBrainzApi } from './common/api/musicbrainz/musicbrainz.api';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -515,6 +523,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         DatabaseFactory,
         FileMetadataFactory,
         AlbumKeyGenerator,
+        ArtistsKeyGenerator,
         MimeTypes,
         ImageProcessor,
         CachedAlbumArtworkGetter,
@@ -532,6 +541,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         FanartApi,
         ChartLyricsApi,
         AZLyricsApi,
+        MusicBrainzApi,
         MetadataPatcher,
         TracksColumnsOrdering,
         SemanticZoomHeaderAdder,
@@ -580,16 +590,20 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         ExternalAlbumArtworkGetter,
         OnlineAlbumArtworkGetter,
         ExternalArtworkPathGetter,
+        OnlineArtistArtworkGetter,
         IndexingService,
+        ArtistModelFactory,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: FileAccessBase, useClass: FileAccess },
         { provide: TrackRepositoryBase, useClass: TrackRepository },
         { provide: FolderRepositoryBase, useClass: FolderRepository },
         { provide: AlbumArtworkRepositoryBase, useClass: AlbumArtworkRepository },
+        { provide: ArtistArtworkRepositoryBase, useClass: ArtistArtworkRepository },
         { provide: QueuedTrackRepositoryBase, useClass: QueuedTrackRepository },
         { provide: ApplicationServiceBase, useClass: ApplicationService },
         { provide: NavigationServiceBase, useClass: NavigationService },
         { provide: AlbumArtworkCacheServiceBase, useClass: AlbumArtworkCacheService },
+        { provide: ArtistArtworkCacheServiceBase, useClass: ArtistArtworkCacheService },
         { provide: TranslatorServiceBase, useClass: TranslatorService },
         { provide: UpdateServiceBase, useClass: UpdateService },
         { provide: NotificationServiceBase, useClass: NotificationService },

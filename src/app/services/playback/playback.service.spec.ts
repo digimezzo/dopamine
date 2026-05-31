@@ -181,6 +181,10 @@ describe('PlaybackService', () => {
         subscription.unsubscribe();
     });
 
+    function createArtistModel(artistName: string): ArtistModel {
+        return new ArtistModel(artistName, 'artist-artworkId', translatorServiceMock.object, applicationPathsMock.object);
+    }
+
     function createService(): PlaybackService {
         return new PlaybackService(
             audioPlayerFactoryMock.object,
@@ -873,7 +877,7 @@ describe('PlaybackService', () => {
             // Arrange
             const service: PlaybackService = createService();
 
-            const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+            const artistToPlay: ArtistModel = createArtistModel('artist1');
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
 
             // Act
@@ -887,7 +891,7 @@ describe('PlaybackService', () => {
             // Arrange
             const service: PlaybackService = createService();
 
-            const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+            const artistToPlay: ArtistModel = createArtistModel('artist1');
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
 
             // Act
@@ -901,7 +905,7 @@ describe('PlaybackService', () => {
             // Arrange
             const service: PlaybackService = createService();
 
-            const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+            const artistToPlay: ArtistModel = createArtistModel('artist1');
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
 
             // Act
@@ -915,7 +919,7 @@ describe('PlaybackService', () => {
             // Arrange
             const service: PlaybackService = createService();
 
-            const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+            const artistToPlay: ArtistModel = createArtistModel('artist1');
             audioPlayerMock.reset();
             audioPlayerMock.setup((x) => x.stop()).verifiable(Times.once(), ExpectedCallType.InSequence);
             audioPlayerMock.setup((x) => x.playAsync(trackModel2)).verifiable(Times.once(), ExpectedCallType.InSequence);
@@ -936,7 +940,7 @@ describe('PlaybackService', () => {
             // Arrange
             const service: PlaybackService = createService();
 
-            const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+            const artistToPlay: ArtistModel = createArtistModel('artist1');
             let receivedTrack: TrackModel | undefined;
             let isPlayingPreviousTrack: boolean = true;
             subscription.add(
@@ -2233,7 +2237,7 @@ describe('PlaybackService', () => {
         it('should get tracks for the given artist and artistType', async () => {
             // Arrange
             const service: PlaybackService = createService();
-            const artistToAdd: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+            const artistToAdd: ArtistModel = createArtistModel('artist1');
 
             // Act
             await service.addArtistToQueueAsync(artistToAdd, ArtistType.trackArtists);
@@ -2245,7 +2249,7 @@ describe('PlaybackService', () => {
         it('should order tracks for the artist byAlbum', async () => {
             // Arrange
             const service: PlaybackService = createService();
-            const artistToAdd: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+            const artistToAdd: ArtistModel = createArtistModel('artist1');
 
             // Act
             await service.addArtistToQueueAsync(artistToAdd, ArtistType.trackArtists);
@@ -2257,7 +2261,7 @@ describe('PlaybackService', () => {
         it('should add tracks to the queue ordered by album', async () => {
             // Arrange
             const service: PlaybackService = createService();
-            const artistToAdd: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+            const artistToAdd: ArtistModel = createArtistModel('artist1');
 
             // Act
             await service.addArtistToQueueAsync(artistToAdd, ArtistType.trackArtists);

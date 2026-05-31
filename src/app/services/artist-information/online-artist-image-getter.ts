@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FanartApi } from '../../common/api/fanart/fanart.api';
 import { ImageProcessor } from '../../common/image-processor';
+import { Constants } from '../../common/application/constants';
 
 @Injectable()
 export class OnlineArtistImageGetter {
@@ -26,7 +27,7 @@ export class OnlineArtistImageGetter {
             artistImageAsBuffer,
             maximumSize,
             maximumSize,
-            80,
+            Constants.cachedArtworkJpegQuality,
         );
 
         return this.imageProcessor.convertBufferToImageUrl(resizedArtistImageAsBuffer);

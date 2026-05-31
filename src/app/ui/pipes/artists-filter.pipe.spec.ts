@@ -3,18 +3,20 @@ import { SearchServiceBase } from '../../services/search/search.service.base';
 import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
 import { ArtistsFilterPipe } from './artists-filter.pipe';
 import { ArtistModel } from '../../services/artist/artist-model';
+import { ApplicationPaths } from '../../common/application/application-paths';
 
 describe('ArtistFilterPipe', () => {
     let searchServiceMock: IMock<SearchServiceBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let applicationPathsMock: IMock<ApplicationPaths>;
 
     function createPipe(): ArtistsFilterPipe {
         return new ArtistsFilterPipe(searchServiceMock.object);
     }
 
     function createArtists(): ArtistModel[] {
-        const artist1: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
-        const artist2: ArtistModel = new ArtistModel('artist2', translatorServiceMock.object);
+        const artist1: ArtistModel = new ArtistModel('artist1', undefined, translatorServiceMock.object, applicationPathsMock.object);
+        const artist2: ArtistModel = new ArtistModel('artist2', undefined, translatorServiceMock.object, applicationPathsMock.object);
 
         return [artist1, artist2];
     }
@@ -22,6 +24,7 @@ describe('ArtistFilterPipe', () => {
     beforeEach(() => {
         searchServiceMock = Mock.ofType<SearchServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        applicationPathsMock = Mock.ofType<ApplicationPaths>();
     });
 
     describe('transform', () => {

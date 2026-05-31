@@ -59,4 +59,24 @@ describe('ManageAlbumsComponent', () => {
             indexingServiceMock.verify((x) => x.indexAlbumArtworkOnlyAsync(true), Times.exactly(1));
         });
     });
+
+    describe('refreshAllArtistImagesAsync', () => {
+        it('should index artwork only, for all artists', async () => {
+            // Act
+            await component.refreshAllArtistImagesAsync();
+
+            // Assert
+            indexingServiceMock.verify((x) => x.indexArtistArtworkOnlyAsync(false), Times.exactly(1));
+        });
+    });
+
+    describe('refreshMissingArtistImagesAsync', () => {
+        it('should index artwork only, for artists with missing artwork', async () => {
+            // Act
+            await component.refreshMissingArtistImagesAsync();
+
+            // Assert
+            indexingServiceMock.verify((x) => x.indexArtistArtworkOnlyAsync(true), Times.exactly(1));
+        });
+    });
 });

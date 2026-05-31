@@ -4,6 +4,9 @@
         <app-toggle-switch [(isChecked)]="settings.downloadMissingAlbumCovers">{{
             'download-missing-album-covers' | translate
         }}</app-toggle-switch>
+        <app-toggle-switch [(isChecked)]="settings.showArtistImages">{{
+            'download-artist-images' | translate
+        }}</app-toggle-switch>
     </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'refresh' | translate }}</div>
@@ -15,6 +18,16 @@
     <app-transparent-button class="mt-3" (click)="this.refreshMissingCoversAsync()">
         {{ 'refresh-missing' | translate }}
     </app-transparent-button>
+    <div class="mt-3" *ngIf="this.settings.showArtistImages">
+        <div>{{ 'refresh-all-artist-images' | translate }}</div>
+        <app-transparent-button class="mt-3" (click)="this.refreshAllArtistImagesAsync()">
+            {{ 'refresh-all' | translate }}
+        </app-transparent-button>
+        <div class="mt-4">{{ 'refresh-missing-artist-images' | translate }}</div>
+        <app-transparent-button class="mt-3" (click)="this.refreshMissingArtistImagesAsync()">
+            {{ 'refresh-missing' | translate }}
+        </app-transparent-button>
+    </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'grouping' | translate }}</div>
     <div>

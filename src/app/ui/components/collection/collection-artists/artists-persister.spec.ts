@@ -6,11 +6,11 @@ import { ArtistsPersister } from './artists-persister';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { ArtistType } from '../../../../services/artist/artist-type';
+import { ApplicationPaths } from '../../../../common/application/application-paths';
 
 describe('ArtistsPersister', () => {
     let settingsStub: any;
     let loggerMock: IMock<Logger>;
-    let translatorServiceMock: IMock<TranslatorServiceBase>;
 
     let persister: ArtistsPersister;
 
@@ -23,15 +23,18 @@ describe('ArtistsPersister', () => {
     beforeEach(() => {
         settingsStub = { artistsTabSelectedArtist: '', artistsTabSelectedArtistOrder: '', artistsTabSelectedArtistType: '' };
         loggerMock = Mock.ofType<Logger>();
-        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         persister = new ArtistsPersister(settingsStub, loggerMock.object);
 
         subscription = new Subscription();
 
-        artist1 = new ArtistModel('artist 1', translatorServiceMock.object);
-        artist2 = new ArtistModel('artist 2', translatorServiceMock.object);
-        artist3 = new ArtistModel('artist 3', translatorServiceMock.object);
+        artist1 = createArtistModel('artist 1');
+        artist2 = createArtistModel('artist 2');
+        artist3 = createArtistModel('artist 3');
     });
+
+    function createArtistModel(artistName: string): ArtistModel {
+        return new ArtistModel(artistName, undefined, Mock.ofType<TranslatorServiceBase>().object, Mock.ofType<ApplicationPaths>().object);
+    }
 
     describe('constructor', () => {
         it('should create', () => {

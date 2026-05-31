@@ -13,6 +13,9 @@ import { Track } from '../entities/track';
 import { QueryParts } from '../query-parts';
 import { Constants } from '../../common/application/constants';
 import { TrackRepositoryBase } from './track-repository.base';
+import { ArtistsKey } from '../entities/artist-key';
+import { ArrayUtils } from '../../common/utils/array-utils';
+import { DataDelimiter } from '../data-delimiter';
 
 @Injectable()
 export class TrackRepository implements TrackRepositoryBase {
@@ -163,6 +166,46 @@ export class TrackRepository implements TrackRepositoryBase {
         );
 
         return statement.all();
+    }
+
+    public getArtistsWithoutArtistsKey(): ArtistData[] | undefined {
+        const database = this.databaseFactory.create();
+        const statement = database.prepare(
+            `SELECT DISTINCT Artists AS artists
+             FROM Track
+             WHERE ArtistsKey IS NULL`,
+        );
+
+        return statement.all();
+    }
+
+    public updateArtistsKey(trackArtists: string, artistsKey: string): void {
+        const database = this.databaseFactory.create();
+        const statement = database.prepare(
+            `UPDATE Track
+             SET ArtistsKey = @artistsKey
+             WHERE Artists = @trackArtists;`,
+        );
+
+        statement.run({
+            artistsKey: artistsKey,
+            trackArtists: trackArtists,
+        });
+    }
+
+    public getAllIndividualArtists(): string[] | undefined {
+        const database = this.databaseFactory.create();
+        const statement = database.prepare(`SELECT DISTINCT ArtistsKey AS artistsKey FROM Track;`);
+
+        const artistsKeys: ArtistsKey[] | undefined = statement.all();
+        let uniqueArtists: Set<string> = new Set();
+        if (!ArrayUtils.isNullOrEmpty(artistsKeys)) {
+            const individualArtists: string[] = artistsKeys!
+                .flatMap((artistKey: ArtistsKey): string[] => DataDelimiter.fromDelimitedString(artistKey.artistsKey));
+            uniqueArtists = new Set(individualArtists);
+        }
+
+        return [...uniqueArtists];
     }
 
     public getAlbumDataForAlbumKey(albumKeyIndex: string, albumKey: string): AlbumData[] | undefined {
@@ -397,6 +440,7 @@ export class TrackRepository implements TrackRepositoryBase {
                  DateFileModified=@dateFileModified,
                  NeedsIndexing=@needsIndexing,
                  NeedsAlbumArtworkIndexing=@needsAlbumArtworkIndexing,
+                 ArtistsKey=@artistsKey,
                  IndexingSuccess=@indexingSuccess,
                  IndexingFailureReason=@indexingFailureReason,
                  NewRating=@rating,
@@ -441,6 +485,7 @@ export class TrackRepository implements TrackRepositoryBase {
             dateFileModified: track.dateFileModified,
             needsIndexing: track.needsIndexing,
             needsAlbumArtworkIndexing: track.needsAlbumArtworkIndexing,
+            artistsKey: track.artistsKey,
             indexingSuccess: track.indexingSuccess,
             indexingFailureReason: track.indexingFailureReason,
             rating: track.rating,

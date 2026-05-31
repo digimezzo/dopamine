@@ -175,6 +175,15 @@ export class Settings implements SettingsBase {
         this.set('downloadMissingAlbumCovers', v);
     }
 
+    // showArtistImages
+    public get showArtistImages(): boolean {
+        return this.get<boolean>('showArtistImages');
+    }
+
+    public set showArtistImages(v: boolean) {
+        this.set('showArtistImages', v);
+    }
+
     // showAllFoldersInCollection
     public get showAllFoldersInCollection(): boolean {
         return this.get<boolean>('showAllFoldersInCollection');

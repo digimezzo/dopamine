@@ -86,6 +86,14 @@ export class ManageAlbumsComponent {
         await this.indexingService.indexAlbumArtworkOnlyAsync(true);
     }
 
+    public async refreshAllArtistImagesAsync(): Promise<void> {
+        await this.indexingService.indexArtistArtworkOnlyAsync(false);
+    }
+
+    public async refreshMissingArtistImagesAsync(): Promise<void> {
+        await this.indexingService.indexArtistArtworkOnlyAsync(true);
+    }
+
     private allAlbumGroupingSettingsAreDisabled(): boolean {
         return !this.settings.albumsDefinedByTitleAndArtist && !this.settings.albumsDefinedByTitle && !this.settings.albumsDefinedByFolders;
     }

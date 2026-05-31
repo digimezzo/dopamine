@@ -161,7 +161,6 @@ export class MetadataService {
 
         return ImageComparisonStatus.Different;
     }
-    s;
 
     public async getImageRenderDataFromFileAsync(imageFilePath: string): Promise<ImageRenderData> {
         try {

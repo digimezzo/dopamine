@@ -46,6 +46,7 @@
         "test": "npx jest -w 1 --verbose --noStackTrace",
         "test-block": "npx jest -w 1 --verbose -t",
         "test-file": "npx jest -w 1 --verbose -i",
+        "test-database-integration": "node electron-jest.js -w 1 --verbose --noStackTrace --config jest.database.integration.config.js",
         "lint": "ng lint"
     },
     "devDependencies": {

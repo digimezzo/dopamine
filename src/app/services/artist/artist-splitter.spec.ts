@@ -1,15 +1,12 @@
-import { SettingsBase } from '../../common/settings/settings.base';
 import { SettingsMock } from '../../testing/settings-mock';
 import { ArtistSplitter } from './artist-splitter';
-import { TranslatorServiceBase } from '../translator/translator.service.base';
-import { IMock, Mock } from 'typemoq';
-import { ArtistModel } from './artist-model';
+import { SettingsBase } from '../../common/settings/settings.base';
 
 describe('ArtistSplitter', () => {
-    let translatorServiceMock: IMock<TranslatorServiceBase>;
     let settingsMock: SettingsBase;
+    let splitter: ArtistSplitter;
 
-    let artists: string[] = [
+    const artists: string[] = [
         'Artist1',
         'artist1',
         'Artist2',
@@ -25,28 +22,8 @@ describe('ArtistSplitter', () => {
     ];
 
     beforeEach(() => {
-        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
-        translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
-
         settingsMock = new SettingsMock();
-    });
-
-    function createArtistSplitter(): ArtistSplitter {
-        return new ArtistSplitter(translatorServiceMock.object, settingsMock);
-    }
-
-    describe('constructor', () => {
-        it('should create', () => {
-            // Arrange
-            settingsMock.artistSplitSeparators = '';
-            settingsMock.artistSplitExceptions = '';
-
-            // Act
-            const splitter: ArtistSplitter = createArtistSplitter();
-
-            // Assert
-            expect(splitter).toBeDefined();
-        });
+        splitter = new ArtistSplitter(settingsMock);
     });
 
     describe('splitArtist', () => {
@@ -55,24 +32,21 @@ describe('ArtistSplitter', () => {
             settingsMock.artistSplitSeparators = '[ft.][feat.][&][|]';
             settingsMock.artistSplitExceptions = '[Artist2 & Artist3][Artist6 | Artist7]';
 
-            const splitter: ArtistSplitter = createArtistSplitter();
-
             // Act
-            const splitArtists: ArtistModel[] = splitter.splitArtists(artists);
+            const splitArtists: string[] = splitter.splitArtists(artists);
 
             // Assert
             expect(splitArtists.length).toEqual(10);
-
-            expect(splitArtists[0].displayName).toEqual('Artist1');
-            expect(splitArtists[1].displayName).toEqual('Artist2');
-            expect(splitArtists[2].displayName).toEqual('Artist3');
-            expect(splitArtists[3].displayName).toEqual('Artist2 & Artist3');
-            expect(splitArtists[4].displayName).toEqual('Artist4');
-            expect(splitArtists[5].displayName).toEqual('Artist5');
-            expect(splitArtists[6].displayName).toEqual('Artist6');
-            expect(splitArtists[7].displayName).toEqual('Artist6 | Artist7');
-            expect(splitArtists[8].displayName).toEqual('Unknown artist');
-            expect(splitArtists[9].displayName).toEqual('Artist2ft.Artist3& Artist4');
+            expect(splitArtists).toContain('Artist1');
+            expect(splitArtists).toContain('Artist2');
+            expect(splitArtists).toContain('Artist3');
+            expect(splitArtists).toContain('Artist2 & Artist3');
+            expect(splitArtists).toContain('Artist4');
+            expect(splitArtists).toContain('Artist5');
+            expect(splitArtists).toContain('Artist6');
+            expect(splitArtists).toContain('Artist6 | Artist7');
+            expect(splitArtists).toContain('');
+            expect(splitArtists).toContain('Artist2ft.Artist3& Artist4');
         });
 
         it('should split without duplicates on all configured separators excluding pipe for substrings that are not in the exception list', () => {
@@ -80,23 +54,20 @@ describe('ArtistSplitter', () => {
             settingsMock.artistSplitSeparators = '[ft.][feat.][&]';
             settingsMock.artistSplitExceptions = '[Artist6 | Artist7]';
 
-            const splitter: ArtistSplitter = createArtistSplitter();
-
             // Act
-            const splitArtists: ArtistModel[] = splitter.splitArtists(artists);
+            const splitArtists: string[] = splitter.splitArtists(artists);
 
             // Assert
             expect(splitArtists.length).toEqual(9);
-
-            expect(splitArtists[0].displayName).toEqual('Artist1');
-            expect(splitArtists[1].displayName).toEqual('Artist2');
-            expect(splitArtists[2].displayName).toEqual('Artist3');
-            expect(splitArtists[3].displayName).toEqual('Artist4');
-            expect(splitArtists[4].displayName).toEqual('Artist5');
-            expect(splitArtists[5].displayName).toEqual('Artist5 | Artist6');
-            expect(splitArtists[6].displayName).toEqual('Artist6 | Artist7');
-            expect(splitArtists[7].displayName).toEqual('Unknown artist');
-            expect(splitArtists[8].displayName).toEqual('Artist2ft.Artist3& Artist4');
+            expect(splitArtists).toContain('Artist1');
+            expect(splitArtists).toContain('Artist2');
+            expect(splitArtists).toContain('Artist3');
+            expect(splitArtists).toContain('Artist4');
+            expect(splitArtists).toContain('Artist5');
+            expect(splitArtists).toContain('Artist5 | Artist6');
+            expect(splitArtists).toContain('Artist6 | Artist7');
+            expect(splitArtists).toContain('');
+            expect(splitArtists).toContain('Artist2ft.Artist3& Artist4');
         });
 
         it('should not split on anything without duplicates when there are no separators', () => {
@@ -104,24 +75,22 @@ describe('ArtistSplitter', () => {
             settingsMock.artistSplitSeparators = '';
             settingsMock.artistSplitExceptions = '';
 
-            const splitter: ArtistSplitter = createArtistSplitter();
-
             // Act
-            const splitArtists: ArtistModel[] = splitter.splitArtists(artists);
+            const splitArtists: string[] = splitter.splitArtists(artists);
 
             // Assert
             expect(splitArtists.length).toEqual(11);
-            expect(splitArtists[0].displayName).toEqual('Artist1');
-            expect(splitArtists[1].displayName).toEqual('Artist2');
-            expect(splitArtists[2].displayName).toEqual('Artist1 ft. Artist2 feat. Artist3');
-            expect(splitArtists[3].displayName).toEqual('artist1 FT. artist2 & Artist3');
-            expect(splitArtists[4].displayName).toEqual('Artist2 ft. Artist3 & Artist4');
-            expect(splitArtists[5].displayName).toEqual('artist4');
-            expect(splitArtists[6].displayName).toEqual('Artist3 & Artist5');
-            expect(splitArtists[7].displayName).toEqual('Artist5 | Artist6');
-            expect(splitArtists[8].displayName).toEqual('Artist6 | Artist7');
-            expect(splitArtists[9].displayName).toEqual('Unknown artist');
-            expect(splitArtists[10].displayName).toEqual('Artist2ft.Artist3& Artist4');
+            expect(splitArtists).toContain('Artist1');
+            expect(splitArtists).toContain('Artist2');
+            expect(splitArtists).toContain('Artist1 ft. Artist2 feat. Artist3');
+            expect(splitArtists).toContain('artist1 FT. artist2 & Artist3');
+            expect(splitArtists).toContain('Artist2 ft. Artist3 & Artist4');
+            expect(splitArtists).toContain('artist4');
+            expect(splitArtists).toContain('Artist3 & Artist5');
+            expect(splitArtists).toContain('Artist5 | Artist6');
+            expect(splitArtists).toContain('Artist6 | Artist7');
+            expect(splitArtists).toContain('');
+            expect(splitArtists).toContain('Artist2ft.Artist3& Artist4');
         });
     });
 });

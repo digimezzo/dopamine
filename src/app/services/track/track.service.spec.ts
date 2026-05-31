@@ -13,6 +13,7 @@ import { SettingsMock } from '../../testing/settings-mock';
 import { ArtistModel } from '../artist/artist-model';
 import { Logger } from '../../common/logger';
 import { ArtistServiceBase } from '../artist/artist.service.base';
+import { ApplicationPaths } from '../../common/application/application-paths';
 
 describe('TrackService', () => {
     let artistServiceMock: IMock<ArtistServiceBase>;
@@ -23,6 +24,7 @@ describe('TrackService', () => {
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let loggerMock: IMock<Logger>;
+    let applicationPathsMock: IMock<ApplicationPaths>;
 
     let track1: Track;
     let track2: Track;
@@ -38,6 +40,7 @@ describe('TrackService', () => {
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         loggerMock = Mock.ofType<Logger>();
+        applicationPathsMock = Mock.ofType<ApplicationPaths>();
 
         fileAccessMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.mp3')).returns(() => '.mp3');
         fileAccessMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.png')).returns(() => '.png');
@@ -88,6 +91,10 @@ describe('TrackService', () => {
 
         dateTimeMock.setup((x) => x.convertDateToTicks(It.isAny())).returns(() => 123456);
     });
+
+    function createArtistModel(artistName: string): ArtistModel {
+        return new ArtistModel(artistName, 'artist-artworkId', translatorServiceMock.object, applicationPathsMock.object);
+    }
 
     function createService(): TrackService {
         return new TrackService(
@@ -284,8 +291,8 @@ describe('TrackService', () => {
 
         it('should return a TrackModels for track artists only if artistType is trackArtists', () => {
             // Arrange
-            const artist3: ArtistModel = new ArtistModel('artist3', translatorServiceMock.object);
-            const artist4: ArtistModel = new ArtistModel('artist4', translatorServiceMock.object);
+            const artist3: ArtistModel = createArtistModel('artist3');
+            const artist4: ArtistModel = createArtistModel('artist4');
             artistServiceMock.setup((x) => x.getSourceArtists([artist3, artist4])).returns(() => ['Source artist3', 'Source artist4']);
             const service: TrackService = createService();
 
@@ -300,8 +307,8 @@ describe('TrackService', () => {
 
         it('should return a TrackModels for album artists only if artistType is albumArtists', () => {
             // Arrange
-            const artist3: ArtistModel = new ArtistModel('Artist3', translatorServiceMock.object);
-            const artist4: ArtistModel = new ArtistModel('Artist4', translatorServiceMock.object);
+            const artist3: ArtistModel = createArtistModel('Artist3');
+            const artist4: ArtistModel = createArtistModel('Artist4');
             artistServiceMock.setup((x) => x.getSourceArtists([artist3, artist4])).returns(() => ['Source artist3', 'Source artist4']);
             const service: TrackService = createService();
 
@@ -316,8 +323,8 @@ describe('TrackService', () => {
 
         it('should return a TrackModels for both track and album artists if artistType is allArtists', () => {
             // Arrange
-            const artist3: ArtistModel = new ArtistModel('Artist3', translatorServiceMock.object);
-            const artist4: ArtistModel = new ArtistModel('Artist4', translatorServiceMock.object);
+            const artist3: ArtistModel = createArtistModel('Artist3');
+            const artist4: ArtistModel = createArtistModel('Artist4');
             artistServiceMock.setup((x) => x.getSourceArtists([artist3, artist4])).returns(() => ['Source artist3', 'Source artist4']);
             const service: TrackService = createService();
 
