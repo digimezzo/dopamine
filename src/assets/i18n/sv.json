@@ -313,6 +313,8 @@
     "update-album-cover": "Uppdatera skivomslag",
     "multiple-values": "Flera värden",
     "multiple-images": "Flera bilder",
+    "edit-artist": "Redigera artist",
+    "search-online-images": "Sök efter bilder online",
     "read-tags-error-single-file": "Ett fel uppstod när taggarna för 1 fil lästes. Vänligen granska loggfilen om du behöver mer information.",
     "read-tags-error-multiple-files": "Ett fel uppstod när taggarna för {{numberOfFiles}} filer lästes. Vänligen granska loggfilen om du behöver mer information.",
     "save-tags-error-single-file": "Ett fel uppstod när taggarna sparades för 1 fil. Vänligen granska loggfilen om du behöver mer information.",

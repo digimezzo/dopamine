@@ -313,6 +313,8 @@
     "update-album-cover": "Albüm kapağını güncelle",
     "multiple-values": "Çoklu değerler",
     "multiple-images": "Çoklu görüntüler",
+    "edit-artist": "Sanatçıyı düzenle",
+    "search-online-images": "Çevrimiçi görsel ara",
     "read-tags-error-single-file": "Bir dosyanın etiketleri okunurken bir hata oluştu. Daha fazla bilgiye ihtiyacınız varsa lütfen günlük dosyasını kontrol edin.",
     "read-tags-error-multiple-files": "{{numberOfFiles}} dosyalarının etiketleri okunurken bir hata oluştu. Daha fazla bilgiye ihtiyacınız varsa lütfen günlük dosyasını kontrol edin.",
     "save-tags-error-single-file": "Bir dosyanın etiketleri kaydedilirken bir hata oluştu. Daha fazla bilgiye ihtiyacınız varsa lütfen günlük dosyasını kontrol edin.",

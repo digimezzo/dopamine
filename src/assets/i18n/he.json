@@ -313,6 +313,8 @@
     "update-album-cover": "עדכון עטיפת אלבום",
     "multiple-values": "ערכים מרובים",
     "multiple-images": "תמונות מרובות",
+    "edit-artist": "עריכת אמן",
+    "search-online-images": "חיפוש תמונות באינטרנט",
     "read-tags-error-single-file": "אירעה שגיאה בקריאת התגיות של קובץ אחד. נא לעיין בקובץ היומן למידע נוסף.",
     "read-tags-error-multiple-files": "אירעה שגיאה בקריאת התגיות של {{numberOfFiles}} קבצים. נא לעיין בקובץ היומן למידע נוסף.",
     "save-tags-error-single-file": "אירעה שגיאה בשמירת התגיות של קובץ אחד. נא לעיין בקובץ היומן למידע נוסף.",

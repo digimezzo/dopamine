@@ -313,6 +313,8 @@
     "update-album-cover": "Mettre à jour la pochette de l'album",
     "multiple-values": "Valeurs multiples",
     "multiple-images": "Images multiples",
+    "edit-artist": "Modifier l'artiste",
+    "search-online-images": "Rechercher des images en ligne",
     "read-tags-error-single-file": "Une erreur s'est produite lors de la lecture des balises d'un fichier. Le fichier audio sélectionné ne peut pas être lu. Veuillez consulter le fichier journal pour plus d'informations.",
     "read-tags-error-multiple-files": "Une erreur s'est produite lors de la lecture des balises des fichiers {{numberOfFiles}}. Le fichier audio sélectionné ne peut pas être lu. Veuillez consulter le fichier journal pour plus d'informations.",
     "save-tags-error-single-file": "Une erreur s'est produite lors de l'enregistrement des balises d'un fichier. Le fichier audio sélectionné ne peut pas être lu. Veuillez consulter le fichier journal pour plus d'informations.",

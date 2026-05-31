@@ -313,6 +313,8 @@
     "update-album-cover": "Ažuriraj naslovnicu albuma",
     "multiple-values": "Višestruke vrijednosti",
     "multiple-images": "Višestruke slike",
+    "edit-artist": "Uredi izvođača",
+    "search-online-images": "Pretraži slike na internetu",
     "read-tags-error-single-file": "Dogodila se greška tijekom čitanja oznaka 1 datoteke. Pogledaj zapisnik, ako trebaš više informacija.",
     "read-tags-error-multiple-files": "Dogodila se greška tijekom čitanja oznaka sljedećeg broja datoteka: {{numberOfFiles}}. Pogledaj zapisnik, ako trebaš više informacija.",
     "save-tags-error-single-file": "Dogodila se greška tijekom spremanja oznaka za 1 datoteku. Pogledaj zapisnik, ako trebaš više informacija.",

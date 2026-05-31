@@ -313,6 +313,8 @@
     "update-album-cover": "Aggiorna copertina album",
     "multiple-values": "Valori multipli",
     "multiple-images": "Immagini multiple",
+    "edit-artist": "Modifica artista",
+    "search-online-images": "Cerca immagini online",
     "read-tags-error-single-file": "Si è verificato un errore nella lettura dei tag di 1 file. Verifica il log per maggiori informazioni.",
     "read-tags-error-multiple-files": "Si è verificato un errore nella lettura dei tag di {{numberOfFiles}} file. Verifica il log per maggiori informazioni.",
     "save-tags-error-single-file": "Si è verificato un errore nel salvataggio dei tag in 1 file. Verifica il log per maggiori informazioni.",

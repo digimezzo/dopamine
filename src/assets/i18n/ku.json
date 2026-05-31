@@ -313,6 +313,8 @@
     "update-album-cover": "Bergê albûmê rojane bike",
     "multiple-values": "Nirxên pirjimar",
     "multiple-images": "Wêne pirjimar",
+    "edit-artist": "Hunermend biguherîne",
+    "search-online-images": "Li serhêlê li wêneyan bigere",
     "read-tags-error-single-file": "Di dema xwendina etîketên 1 pel de şaşetiyek derket. Ji bo bêtir zanyarî pelê têketinê kontrol bike.",
     "read-tags-error-multiple-files": "Di dema xwendina etîketê {{numberOfFiles}} pelan de şaşetiyek derket. Ji bo bêtir zanyarî pelê têketinê kontrol bike.",
     "save-tags-error-single-file": "Di dema tomarkirina etîketê 1 pel de şaşetiyek derket. Ji bo bêtir zanyarî pelê têketinê kontrol bike.",

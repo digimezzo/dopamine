@@ -313,6 +313,8 @@
     "update-album-cover": "Cập nhật ảnh bìa album",
     "multiple-values": "Nhiều giá trị",
     "multiple-images": "Nhiều ảnh",
+    "edit-artist": "Chỉnh sửa nghệ sĩ",
+    "search-online-images": "Tìm kiếm hình ảnh trực tuyến",
     "read-tags-error-single-file": "Đã xảy ra lỗi khi đọc dữ liệu của 1 tệp. Vui lòng xem tệp log để biết thêm thông tin.",
     "read-tags-error-multiple-files": "Đã xảy ra lỗi khi đọc dữ liệu của {{numberOfFiles}} tệp. Vui lòng xem tệp log để biết thêm thông tin.",
     "save-tags-error-single-file": "Đã xảy ra lỗi khi ghi dữ liệu của 1 tệp. Vui lòng xem tệp log để biết thêm thông tin.",

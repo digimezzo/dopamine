@@ -313,6 +313,8 @@
     "update-album-cover": "Update album cover",
     "multiple-values": "Mehrere Werte",
     "multiple-images": "Mehrere Bilder",
+    "edit-artist": "Künstler bearbeiten",
+    "search-online-images": "Online nach Bildern suchen",
     "read-tags-error-single-file": "Ein Fehler trat beim Lesen der Tags von einer Datei auf. Details kannst du im Logbuch nachsehen.",
     "read-tags-error-multiple-files": "Ein Fehler trat beim Lesen der Tags von {{numberOfFiles}} Dateien auf. Details kannst du im Logbuch nachsehen.",
     "save-tags-error-single-file": "Ein Fehler trat beim Schreiben der Tags von einer Datei auf. Details kannst du im Logbuch nachsehen.",
