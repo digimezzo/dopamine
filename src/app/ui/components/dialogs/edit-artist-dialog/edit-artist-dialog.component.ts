@@ -1,24 +1,14 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TrackModel } from '../../../../services/track/track-model';
-import { IFileMetadata } from '../../../../common/metadata/i-file-metadata';
-import { FileMetadataFactoryBase } from '../../../../common/metadata/file-metadata.factory.base';
-import { CollectionUtils } from '../../../../common/utils/collections-utils';
-import { Logger } from '../../../../common/logger';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
-import { MetadataService } from '../../../../services/metadata/metadata.service';
-import { ImageComparisonStatus } from '../../../../services/metadata/image-comparison-status';
 import { StringUtils } from '../../../../common/utils/string-utils';
 import { DesktopBase } from '../../../../common/io/desktop.base';
-import { ImageRenderData } from '../../../../services/metadata/image-render-data';
-import { OnlineAlbumArtworkGetter } from '../../../../services/indexing/online-album-artwork-getter';
 import { ImageProcessor } from '../../../../common/image-processor';
-import { IndexingService } from '../../../../services/indexing/indexing.service';
-import { MetadataPatcher } from '../../../../common/metadata/metadata-patcher';
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { Constants } from '../../../../common/application/constants';
 import { OnlineArtistArtworkGetter } from '../../../../services/indexing/online-artist-artwork-getter';
+import { ArtistArtworkAdder } from '../../../../services/indexing/artist-artwork-adder';
 
 @Component({
     selector: 'app-edit-artist-dialog',
@@ -37,12 +27,7 @@ export class EditArtistDialogComponent implements OnInit {
         private translatorService: TranslatorServiceBase,
         private onlineArtistArtworkGetter: OnlineArtistArtworkGetter,
         private dialogService: DialogServiceBase,
-        private metadataService: MetadataService,
-        private metadataPatcher: MetadataPatcher,
-        private indexingService: IndexingService,
-        private fileMetadataFactory: FileMetadataFactoryBase,
-        private onlineAlbumArtworkGetter: OnlineAlbumArtworkGetter,
-        private logger: Logger,
+        private artistArtworkAdder: ArtistArtworkAdder,
         private desktop: DesktopBase,
         private imageProcessor: ImageProcessor,
         @Inject(MAT_DIALOG_DATA) public data: ArtistModel,
@@ -55,7 +40,7 @@ export class EditArtistDialogComponent implements OnInit {
         this.imagePath = this.originalImagePath;
     }
 
-    public get isImageAvailable() {
+    public get isImageAvailable(): boolean {
         return !StringUtils.isNullOrWhiteSpace(this.imagePath);
     }
 
@@ -88,17 +73,24 @@ export class EditArtistDialogComponent implements OnInit {
         this.imagePath = imageUrl;
     }
 
-    public saveArtistAsync(): void {
-        if (StringUtils.isNullOrWhiteSpace(this.imagePath) && !StringUtils.isNullOrWhiteSpace(this.originalImagePath)) {
-            // TODO delete image
-        } else if (this.imagePath !== this.originalImagePath) {
-            if (this.imagePath.startsWith('file:///')) {
-                // TODO local image
-            } else {
-                // TODO online image
+    public async saveArtistAsync(): Promise<void> {
+        let image: Buffer | undefined = undefined;
+        try {
+            if (StringUtils.isNullOrWhiteSpace(this.imagePath) && !StringUtils.isNullOrWhiteSpace(this.originalImagePath)) {
+                image = Constants.emptyImageBuffer;
+            } else if (this.imagePath !== this.originalImagePath) {
+                if (this.imagePath.startsWith('file:///')) {
+                    image = await this.imageProcessor.convertLocalImageToBufferAsync(this.imagePath);
+                } else {
+                    image = await this.imageProcessor.convertOnlineImageToBufferAsync(this.imagePath);
+                }
             }
+        } catch (e: unknown) {
+            this.dialogService.showErrorDialog(await this.translatorService.getAsync('change-image-error'));
+        }
 
-            // this.dialogService.showErrorDialog(await this.translatorService.getAsync('change-image-error'));
+        if (image !== undefined) {
+            await this.artistArtworkAdder.updateArtistArtworkAsync(this.artist.displayName, image);
         }
     }
 }

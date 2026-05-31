@@ -16,7 +16,7 @@ describe('OnlineArtistArtworkGetter', () => {
     let fanartApiMock: IMock<FanartApi>;
     let imageProcessorMock: IMock<ImageProcessor>;
     let lastfmApiMock: IMock<LastfmApi>;
-    let musicBrainzApi: IMock<MusicBrainzApi>;
+    let musicBrainzApiMock: IMock<MusicBrainzApi>;
     let loggerMock: IMock<Logger>;
     let onlineArtistArtworkGetter: OnlineArtistArtworkGetter;
     let lastfmArtist: LastfmArtist;
@@ -25,14 +25,14 @@ describe('OnlineArtistArtworkGetter', () => {
         fanartApiMock = Mock.ofType<FanartApi>();
         imageProcessorMock = Mock.ofType<ImageProcessor>();
         lastfmApiMock = Mock.ofType<LastfmApi>();
-        musicBrainzApi = Mock.ofType<MusicBrainzApi>();
+        musicBrainzApiMock = Mock.ofType<MusicBrainzApi>();
         loggerMock = Mock.ofType<Logger>();
 
         onlineArtistArtworkGetter = new OnlineArtistArtworkGetter(
             fanartApiMock.object,
             imageProcessorMock.object,
             lastfmApiMock.object,
-            musicBrainzApi.object,
+            musicBrainzApiMock.object,
             loggerMock.object,
         );
 
@@ -58,11 +58,11 @@ describe('OnlineArtistArtworkGetter', () => {
 
         it('should use MusicBrainz API as fallback', async () => {
             // Arrange
-            lastfmApiMock.setup((x) => x.getArtistInfoAsync(It.isAnyString(), false, 'EN')).returns(() => Promise.resolve(lastfmArtist));
-            fanartApiMock.setup((x) => x.getAllArtistThumbnailsAsync(lastfmArtist.musicBrainzId)).returns(() => Promise.resolve(['']));
+            lastfmApiMock.setup((x) => x.getArtistInfoAsync(artist, false, 'EN')).returns(() => Promise.resolve(lastfmArtist));
+            fanartApiMock.setup((x) => x.getAllArtistThumbnailsAsync(lastfmArtist.musicBrainzId)).returns(() => Promise.resolve([]));
 
             const alternativeMusicBrainzId = '456';
-            musicBrainzApi.setup((x) => x.getMusicBrainzIdAsync(It.isAnyString())).returns(() => Promise.resolve(alternativeMusicBrainzId));
+            musicBrainzApiMock.setup((x) => x.getMusicBrainzIdAsync(It.isAnyString())).returns(() => Promise.resolve(alternativeMusicBrainzId));
             fanartApiMock.setup((x) => x.getAllArtistThumbnailsAsync(alternativeMusicBrainzId)).returns(() => Promise.resolve([imageUrl]));
             imageProcessorMock
                 .setup((x) => x.convertOnlineImageToBufferAsync(It.isAnyString()))
@@ -79,7 +79,7 @@ describe('OnlineArtistArtworkGetter', () => {
             // Arrange
             lastfmApiMock.setup((x) => x.getArtistInfoAsync(It.isAnyString(), false, 'EN')).returns(() => Promise.resolve(lastfmArtist));
             fanartApiMock.setup((x) => x.getAllArtistThumbnailsAsync(lastfmArtist.musicBrainzId)).returns(() => Promise.resolve(['']));
-            musicBrainzApi.setup((x) => x.getMusicBrainzIdAsync(It.isAnyString())).returns(() => Promise.resolve(''));
+            musicBrainzApiMock.setup((x) => x.getMusicBrainzIdAsync(It.isAnyString())).returns(() => Promise.resolve(''));
 
             // Act
             const actualArtistArtwork: Buffer | undefined = await onlineArtistArtworkGetter.getOnlineArtworkAsync(artist);
