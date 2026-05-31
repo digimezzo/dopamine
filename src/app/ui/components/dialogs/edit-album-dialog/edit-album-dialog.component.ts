@@ -13,6 +13,8 @@ import { StringUtils } from '../../../../common/utils/string-utils';
 import { TrackRepositoryBase } from '../../../../data/repositories/track-repository.base';
 import { DesktopBase } from '../../../../common/io/desktop.base';
 import { FileAccessBase } from '../../../../common/io/file-access.base';
+import { FileMetadataFactoryBase } from '../../../../common/metadata/file-metadata.factory.base';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-edit-album-dialog',
@@ -39,6 +41,8 @@ export class EditAlbumDialogComponent {
         private trackRepository: TrackRepositoryBase,
         private desktop: DesktopBase,
         private fileAccess: FileAccessBase,
+        private fileMetadataFactory: FileMetadataFactoryBase,
+        private settings: SettingsBase,
         private logger: Logger,
     ) {
         this.album = data[0];
@@ -176,6 +180,10 @@ export class EditAlbumDialogComponent {
 
                 this.albumArtworkRepository.deleteAlbumArtworkByAlbumKey(this.album.albumKey);
                 this.album.artworkId = undefined;
+
+                if (this.updateFileCovers) {
+                    await this.embedArtworkInFiles(undefined);
+                }
             } else if (this.pendingArtworkCacheId != undefined) {
                 // User chose a new artwork (download or change image)
                 if (this.originalArtworkId != undefined) {
@@ -186,9 +194,39 @@ export class EditAlbumDialogComponent {
                 this.albumArtworkRepository.addAlbumArtwork(new AlbumArtwork(this.album.albumKey, this.pendingArtworkCacheId));
                 this.trackRepository.disableNeedsAlbumArtworkIndexing(this.album.albumKey);
                 this.album.artworkId = this.pendingArtworkCacheId;
+
+                if (this.updateFileCovers) {
+                    const artworkFilePath: string = this.applicationPaths.coverArtFullPath(this.pendingArtworkCacheId);
+                    const artworkBuffer: Buffer = await this.imageProcessor.convertLocalImageToBufferAsync(artworkFilePath);
+                    await this.embedArtworkInFiles(artworkBuffer);
+                }
             }
         } catch (e: unknown) {
             this.logger.error(e, 'Could not commit album artwork changes', 'EditAlbumDialogComponent', 'commitChanges');
+        }
+    }
+
+    private async embedArtworkInFiles(artworkBuffer: Buffer | undefined): Promise<void> {
+        const albumKeyIndex: string = this.settings.albumKeyIndex;
+        const tracks = this.trackRepository.getTracksForAlbums(albumKeyIndex, [this.album.albumKey]);
+
+        if (tracks == undefined || tracks.length === 0) {
+            return;
+        }
+
+        for (const track of tracks) {
+            try {
+                const fileMetadata = await this.fileMetadataFactory.createAsync(track.path);
+                fileMetadata.picture = artworkBuffer;
+                fileMetadata.save();
+            } catch (e: unknown) {
+                this.logger.error(
+                    e,
+                    `Could not embed artwork in file '${track.path}'`,
+                    'EditAlbumDialogComponent',
+                    'embedArtworkInFiles',
+                );
+            }
         }
     }
 
