@@ -1,6 +1,6 @@
 import { Migration } from '../migration';
 
-export class Migration10 extends Migration {
+export class Migration11 extends Migration {
     public id: number = 10;
     public name: string = 'Migration10';
 
