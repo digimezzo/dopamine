@@ -19,6 +19,11 @@ export class ArtistArtworkRepository implements ArtistArtworkRepositoryBase {
         statement.run(artistArtwork.artist.toLowerCase(), artistArtwork.artworkId);
     }
 
+    public updateArtistArtwork(artistArtwork: ArtistArtwork): void {
+        const statement = this.database.prepare('UPDATE ArtistArtwork SET ArtworkID = ? WHERE Artist = ?;');
+        statement.run(artistArtwork.artworkId, artistArtwork.artist.toLowerCase());
+    }
+
     public getAllArtistArtwork(): ArtistArtwork[] | undefined {
         const statement = this.database.prepare(
             `SELECT ArtistArtworkID AS artistArtworkId, 

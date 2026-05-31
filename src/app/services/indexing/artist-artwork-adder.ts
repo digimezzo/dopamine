@@ -69,8 +69,21 @@ export class ArtistArtworkAdder {
                     }
                 }
             } catch (e: unknown) {
-                this.logger.error(e, `Could not add artist artwork for '${artist}'`, 'ArtistArtworkAdder', 'addMissingArtistArtworkAsync');
+                this.logger.error(e, `Could not add artist artwork for '${artist}'`, 'ArtistArtworkAdder', 'addArtistArtworkAsync');
             }
+        }
+    }
+
+    public async updateArtistArtworkAsync(artist: string, artistArtwork: Buffer): Promise<void> {
+        try {
+            const artistArtworkCacheId: ArtistArtworkCacheId | undefined =
+                await this.artistArtworkCacheService.addArtworkDataToCacheAsync(artistArtwork);
+            if (artistArtworkCacheId != undefined) {
+                const newArtistArtwork: ArtistArtwork = new ArtistArtwork(artist, artistArtworkCacheId.id);
+                this.artistArtworkRepository.updateArtistArtwork(newArtistArtwork);
+            }
+        } catch (e: unknown) {
+            this.logger.error(e, `Could not update artist artwork for '${artist}'`, 'ArtistArtworkAdder', 'updateArtistArtworkAsync');
         }
     }
 }

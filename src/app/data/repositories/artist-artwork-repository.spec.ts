@@ -73,6 +73,19 @@ describe('ArtistArtworkRepository', () => {
         });
     });
 
+    describe('updateArtistArtwork', () => {
+        it('should update the artworkId of an existing artist in the database', () => {
+            // Arrange, Act
+            const artistArtwork: ArtistArtwork = new ArtistArtwork('metallica', 'artist-99');
+            repository.updateArtistArtwork(artistArtwork);
+
+            // Assert
+            const artworkInDatabase: ArtistArtwork | undefined = repository.getArtistArtworkForArtist('metallica');
+            expect(artworkInDatabase).not.toBeUndefined();
+            expect(artworkInDatabase?.artworkId).toEqual('artist-99');
+        });
+    });
+
     describe('getAllArtistArtwork', () => {
         it('should return all entries in the table', () => {
             // Arrange, Act
