@@ -376,5 +376,6 @@
     "replaygain-log-at-track-start": "Log ReplayGain correction at track start",
     "show-album-on-now-playing-page": "Show album on now playing page",
     "edit-album": "Edit album",
-    "update-file-covers": "Update file covers"
+    "update-file-covers": "Update file covers",
+    "overwrite-manually-edited-covers": "Overwrite manually edited covers"
 }

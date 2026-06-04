@@ -376,5 +376,6 @@
     "replaygain-log-at-track-start": "Log ReplayGain correctie bij het starten van een nummer",
     "show-album-on-now-playing-page": "Album tonen op de pagina 'Speelt nu'",
     "edit-album": "Album bewerken",
-    "update-file-covers": "Bestandshoezen bijwerken"
+    "update-file-covers": "Bestandshoezen bijwerken",
+    "overwrite-manually-edited-covers": "Handmatig bewerkte covers overschrijven"
 }
