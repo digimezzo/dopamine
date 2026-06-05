@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Manually edited album covers are overwritten on the next collection refresh
 - Fixed AppImage package not working on modern GNU/Linux distributions
+- Deleting song from playlist sometimes fails
 
 ## [3.0.5] - 2026-05-31
 
