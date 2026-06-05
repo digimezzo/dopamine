@@ -382,6 +382,7 @@ describe('validate i18n', () => {
         'normal-size',
         'large-size',
         'xl-size',
+        'overwrite-manually-edited-covers',
     ].sort();
 
     Constants.languages.forEach((language) => {
