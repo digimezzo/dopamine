@@ -159,7 +159,9 @@ export class TrackRepository implements TrackRepositoryBase {
             `${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, false)}
                 WHERE (t.AlbumKey${albumKeyIndex} IS NOT NULL AND t.AlbumKey${albumKeyIndex} <> ''
                 AND t.AlbumKey${albumKeyIndex} NOT IN (SELECT AlbumKey FROM AlbumArtwork))
-                OR (NeedsAlbumArtworkIndexing=1 AND t.AlbumKey${albumKeyIndex} NOT IN (SELECT AlbumKey FROM AlbumArtwork WHERE ArtworkID = ''))
+                OR (NeedsAlbumArtworkIndexing=1
+                    AND t.AlbumKey${albumKeyIndex} NOT IN (SELECT AlbumKey FROM AlbumArtwork WHERE ArtworkID = '')
+                    AND t.AlbumKey${albumKeyIndex} NOT IN (SELECT AlbumKey FROM AlbumArtwork WHERE IsManuallySet = 1))
                 GROUP BY t.AlbumKey${albumKeyIndex};`,
         );
 

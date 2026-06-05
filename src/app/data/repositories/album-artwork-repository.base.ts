@@ -11,4 +11,5 @@ export abstract class AlbumArtworkRepositoryBase {
     public abstract getAllAlbumArtwork(): AlbumArtwork[] | undefined;
     public abstract getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(albumKeyIndex: string): number;
     public abstract deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(albumKeyIndex: string): number;
+    public abstract clearManuallySetFlag(): void;
 }

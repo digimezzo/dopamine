@@ -149,7 +149,7 @@ export class IndexingService implements OnDestroy {
         this.indexingFinished.next();
     }
 
-    public async indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover: boolean): Promise<void> {
+    public async indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover: boolean, overwriteManuallyEditedCovers: boolean = false): Promise<void> {
         if (this.isIndexingCollection) {
             this.logger.info('Already indexing.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
 
@@ -162,6 +162,11 @@ export class IndexingService implements OnDestroy {
         this.logger.info('Indexing collection.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
 
         const albumKeyIndex = this.settings.albumKeyIndex;
+
+        if (overwriteManuallyEditedCovers) {
+            this.albumArtworkRepository.clearManuallySetFlag();
+        }
+
         this.trackRepository.enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover, albumKeyIndex);
         this.albumArtworkRepository.deleteAlbumArtworkWithoutCover();
 

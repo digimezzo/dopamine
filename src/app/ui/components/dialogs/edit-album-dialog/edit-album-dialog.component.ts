@@ -191,7 +191,7 @@ export class EditAlbumDialogComponent {
                 }
 
                 this.albumArtworkRepository.deleteAlbumArtworkByAlbumKey(this.album.albumKey);
-                this.albumArtworkRepository.addAlbumArtwork(new AlbumArtwork(this.album.albumKey, this.pendingArtworkCacheId));
+                this.albumArtworkRepository.addAlbumArtwork(new AlbumArtwork(this.album.albumKey, this.pendingArtworkCacheId, 1));
                 this.trackRepository.disableNeedsAlbumArtworkIndexing(this.album.albumKey);
                 this.album.artworkId = this.pendingArtworkCacheId;
 
@@ -220,12 +220,7 @@ export class EditAlbumDialogComponent {
                 fileMetadata.picture = artworkBuffer;
                 fileMetadata.save();
             } catch (e: unknown) {
-                this.logger.error(
-                    e,
-                    `Could not embed artwork in file '${track.path}'`,
-                    'EditAlbumDialogComponent',
-                    'embedArtworkInFiles',
-                );
+                this.logger.error(e, `Could not embed artwork in file '${track.path}'`, 'EditAlbumDialogComponent', 'embedArtworkInFiles');
             }
         }
     }
