@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed AppImage package not working on modern GNU/Linux distributions
 - Deleting song from playlist sometimes fails
 - Playback controls only work when clicking on upper half of the buttons
+- It's unclear that files must be tagged with an external ReplayGain scanner (for example rsgain) before normalization can take effect.
 
 ## [3.0.5] - 2026-05-31
 
