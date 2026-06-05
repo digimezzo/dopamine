@@ -377,5 +377,8 @@
     "show-album-on-now-playing-page": "Mostrar álbum na página Em reprodução",
     "edit-album": "Edit album",
     "update-file-covers": "Update file covers",
-    "overwrite-manually-edited-covers": "Overwrite manually edited covers"
+    "overwrite-manually-edited-covers": "Overwrite manually edited covers",
+    "replaygain-requires-tags": "ReplayGain only works when your files already contain ReplayGain tags.",
+    "replaygain-scan-tags-external-tool": "Scan your files first with an external tool such as",
+    "replaygain-tool-rsgain": "rsgain"
 }

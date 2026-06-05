@@ -377,5 +377,8 @@
     "show-album-on-now-playing-page": "Album tonen op de pagina 'Speelt nu'",
     "edit-album": "Album bewerken",
     "update-file-covers": "Bestandshoezen bijwerken",
-    "overwrite-manually-edited-covers": "Handmatig bewerkte covers overschrijven"
+    "overwrite-manually-edited-covers": "Handmatig bewerkte covers overschrijven",
+    "replaygain-requires-tags": "ReplayGain only works when your files already contain ReplayGain tags.",
+    "replaygain-scan-tags-external-tool": "Scan your files first with an external tool such as",
+    "replaygain-tool-rsgain": "rsgain"
 }
