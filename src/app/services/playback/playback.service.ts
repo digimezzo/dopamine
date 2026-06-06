@@ -597,8 +597,7 @@ export class PlaybackService {
 
     private applyEffectiveVolumeForCurrentTrack(): void {
         const replayGainComputation = this.computeReplayGain(this.currentTrack);
-        const effectiveVolumeBeforeClamp: number = this._volume * replayGainComputation.multiplier;
-        const effectiveVolume: number = Math.max(0, Math.min(1, effectiveVolumeBeforeClamp));
+        const effectiveVolume: number = Math.max(0, this._volume * replayGainComputation.multiplier);
         this.audioPlayer.setVolume(effectiveVolume);
     }
 
@@ -648,7 +647,7 @@ export class PlaybackService {
         const gainDb: number = mode === 'album' ? track.replayGainAlbumGain : track.replayGainTrackGain;
         const peak: number = mode === 'album' ? track.replayGainAlbumPeak : track.replayGainTrackPeak;
 
-        if (gainDb === 0) {
+        if (gainDb === 0 && peak === 0) {
             return {
                 mode,
                 gainDb,
@@ -657,7 +656,7 @@ export class PlaybackService {
                 clippingEnabled: this.settings.replayGainPreventClipping,
                 multiplierBeforeClipping: 1,
                 multiplier: 1,
-                reason: 'zero-gain',
+                reason: 'no-replaygain-tag',
             };
         }
 
@@ -687,17 +686,16 @@ export class PlaybackService {
     }
 
     private logReplayGainAtTrackStart(track: TrackModel): void {
-        if (!this.settings.logReplayGainAtTrackStart) {
+        if (!this.settings.logReplayGainAtTrackStart || !this.settings.useReplayGainNormalization) {
             return;
         }
 
         const replayGainComputation = this.computeReplayGain(track);
-        const effectiveVolumeBeforeClamp: number = this._volume * replayGainComputation.multiplier;
-        const effectiveVolume: number = Math.max(0, Math.min(1, effectiveVolumeBeforeClamp));
+        const effectiveVolume: number = Math.max(0, this._volume * replayGainComputation.multiplier);
         const peakAfterGain: number = replayGainComputation.peak * replayGainComputation.multiplier;
 
         this.logger.info(
-            `ReplayGain start '${track.path}': mode=${replayGainComputation.mode}, gainDb=${replayGainComputation.gainDb}, peak=${replayGainComputation.peak}, peakAfterGain=${peakAfterGain}, preAmpDb=${replayGainComputation.preAmpDb}, preventClipping=${replayGainComputation.clippingEnabled}, multiplierBeforeClipping=${replayGainComputation.multiplierBeforeClipping}, multiplier=${replayGainComputation.multiplier}, clippingCap=${replayGainComputation.clippingCap ?? 'n/a'}, baseVolume=${this._volume}, effectiveVolumeBeforeClamp=${effectiveVolumeBeforeClamp}, effectiveVolume=${effectiveVolume}, reason=${replayGainComputation.reason}`,
+            `ReplayGain start '${track.path}': mode=${replayGainComputation.mode}, gainDb=${replayGainComputation.gainDb}, peak=${replayGainComputation.peak}, peakAfterGain=${peakAfterGain}, preAmpDb=${replayGainComputation.preAmpDb}, preventClipping=${replayGainComputation.clippingEnabled}, multiplierBeforeClipping=${replayGainComputation.multiplierBeforeClipping}, multiplier=${replayGainComputation.multiplier}, clippingCap=${replayGainComputation.clippingCap ?? 'n/a'}, baseVolume=${this._volume}, effectiveVolume=${effectiveVolume}, reason=${replayGainComputation.reason}`,
             'PlaybackService',
             'logReplayGainAtTrackStart',
         );

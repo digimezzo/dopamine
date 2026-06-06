@@ -136,7 +136,8 @@ export class LegacyAudioPlayer implements IAudioPlayer {
 
     public setVolume(linearVolume: number): void {
         // log(0) is undefined. So we provide a minimum of 0.01.
-        this._audio.volume = linearVolume > 0 ? this.mathExtensions.linearToLogarithmic(linearVolume, 0.01, 1) : 0;
+        // HTMLAudioElement.volume must be in [0, 1], so clamp the result.
+        this._audio.volume = linearVolume > 0 ? Math.min(1, this.mathExtensions.linearToLogarithmic(linearVolume, 0.01, 1)) : 0;
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
