@@ -12,11 +12,13 @@ import { TrackModel } from '../../../../services/track/track-model';
 import { Track } from '../../../../data/entities/track';
 import { TrackModels } from '../../../../services/track/track-models';
 import { SettingsMock } from '../../../../testing/settings-mock';
+import { IndexingService } from '../../../../services/indexing/indexing.service';
 
 describe('CollectionTracksComponent', () => {
     let searchServiceMock: IMock<SearchServiceBase>;
     let trackServiceMock: IMock<TrackServiceBase>;
     let collectionServiceMock: IMock<CollectionServiceBase>;
+    let indexingServiceMock: IMock<IndexingService>;
     let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
     let dateTimeMock: IMock<DateTime>;
@@ -25,6 +27,8 @@ describe('CollectionTracksComponent', () => {
 
     let collectionChangedMock: Subject<void>;
     let collectionChangedMock$: Observable<void>;
+    let indexingFinishedMock: Subject<void>;
+    let indexingFinishedMock$: Observable<void>;
 
     const flushPromises = () => new Promise(process.nextTick);
 
@@ -33,6 +37,7 @@ describe('CollectionTracksComponent', () => {
             searchServiceMock.object,
             trackServiceMock.object,
             collectionServiceMock.object,
+            indexingServiceMock.object,
             schedulerMock.object,
             loggerMock.object,
         );
@@ -61,6 +66,7 @@ describe('CollectionTracksComponent', () => {
         searchServiceMock = Mock.ofType<SearchServiceBase>();
         trackServiceMock = Mock.ofType<TrackServiceBase>();
         collectionServiceMock = Mock.ofType<CollectionServiceBase>();
+        indexingServiceMock = Mock.ofType<IndexingService>();
         schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
         dateTimeMock = Mock.ofType<DateTime>();
@@ -70,6 +76,10 @@ describe('CollectionTracksComponent', () => {
         collectionChangedMock = new Subject();
         collectionChangedMock$ = collectionChangedMock.asObservable();
         collectionServiceMock.setup((x) => x.collectionChanged$).returns(() => collectionChangedMock$);
+
+        indexingFinishedMock = new Subject();
+        indexingFinishedMock$ = indexingFinishedMock.asObservable();
+        indexingServiceMock.setup((x) => x.indexingFinished$).returns(() => indexingFinishedMock$);
     });
 
     describe('constructor', () => {
@@ -157,6 +167,32 @@ describe('CollectionTracksComponent', () => {
 
             // Act
             collectionChangedMock.next();
+            await flushPromises();
+
+            // Assert
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.once());
+            expect(component.tracks.tracks.length).toEqual(2);
+            expect(component.tracks.tracks[0]).toEqual(track1);
+            expect(component.tracks.tracks[1]).toEqual(track2);
+        });
+
+        it('should get all tracks if indexing has finished', async () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('path1');
+            const track2: TrackModel = createTrackModel('path2');
+            const trackModels: TrackModels = createTrackModels([track1, track2]);
+
+            trackServiceMock.reset();
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
+
+            const component: CollectionTracksComponent = createComponent();
+            await component.ngOnInit();
+
+            trackServiceMock.reset();
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
+
+            // Act
+            indexingFinishedMock.next();
             await flushPromises();
 
             // Assert

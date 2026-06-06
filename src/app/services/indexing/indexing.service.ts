@@ -128,6 +128,8 @@ export class IndexingService implements OnDestroy {
             return;
         }
 
+        const updatedTracks: Track[] = [];
+
         // Update track metadata in the database
         for (const track of tracks) {
             const fileMetaData: IFileMetadata | undefined = fileMetaDatas.find((f) => f.path === track.path);
@@ -139,13 +141,14 @@ export class IndexingService implements OnDestroy {
             const updatedTrack: Track = await this.trackFiller.addGivenFileMetadataToTrackAsync(track, fileMetaData, false);
 
             this.trackRepository.updateTrack(updatedTrack);
+            updatedTracks.push(updatedTrack);
         }
 
         // Trigger album artwork indexing
         await this.indexAlbumArtworkOnlyAsync(false);
 
         // Refresh UI
-        this.playbackService.updateQueueTracks(tracks);
+        this.playbackService.updateQueueTracks(updatedTracks);
         this.indexingFinished.next();
     }
 

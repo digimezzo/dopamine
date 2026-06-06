@@ -9,6 +9,7 @@ import { TrackServiceBase } from '../../../../services/track/track.service.base'
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
 import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
+import { IndexingService } from '../../../../services/indexing/indexing.service';
 
 @Component({
     selector: 'app-collection-tracks',
@@ -24,6 +25,7 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
         public searchService: SearchServiceBase,
         private trackService: TrackServiceBase,
         private collectionService: CollectionServiceBase,
+        private indexingService: IndexingService,
         private scheduler: SchedulerBase,
         private logger: Logger,
     ) {}
@@ -38,6 +40,12 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
     public async ngOnInit(): Promise<void> {
         this.subscription.add(
             this.collectionService.collectionChanged$.subscribe(() => {
+                PromiseUtils.noAwait(this.fillListsAsync());
+            }),
+        );
+
+        this.subscription.add(
+            this.indexingService.indexingFinished$.subscribe(() => {
                 PromiseUtils.noAwait(this.fillListsAsync());
             }),
         );
