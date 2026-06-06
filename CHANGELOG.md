@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.6] - 2026-06-05
+## [3.0.6] - 2026-06-06
 
 ### Fixed
 
@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deleting song from playlist sometimes fails
 - Playback controls only work when clicking on upper half of the buttons
 - It's unclear that files must be tagged with an external ReplayGain scanner (for example rsgain) before normalization can take effect.
+- Change to Artist or Album tags is not reflected in the song list view nor in the Now Playing information
 
 ## [3.0.5] - 2026-05-31
 
