@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Playback controls only work when clicking on upper half of the buttons
 - It's unclear that files must be tagged with an external ReplayGain scanner (for example rsgain) before normalization can take effect.
 - Change to Artist or Album tags is not reflected in the song list view nor in the Now Playing information
+- Fixed ReplayGain issues
 
 ## [3.0.5] - 2026-05-31
 
