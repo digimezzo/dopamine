@@ -31,9 +31,9 @@ export class TrackFiller {
         } catch (e: unknown) {
             this.logger.error(
                 e,
-                'Error while retrieving tag information for file ${track.path}',
+                `Error while retrieving tag information for file ${track.path}`,
                 'TrackFiller',
-                'addGivenFileMetadataToTrackAsync',
+                'addFileMetadataToTrackAsync',
             );
         }
 
@@ -111,9 +111,9 @@ export class TrackFiller {
 
             this.logger.error(
                 e,
-                'Error while retrieving tag information for file ${track.path}',
+                `Error while retrieving tag information for file ${track.path}`,
                 'TrackFiller',
-                'addFileMetadataToTrackAsync',
+                'addGivenFileMetadataToTrackAsync',
             );
         }
 
