@@ -148,10 +148,9 @@ export class CrossfadeAudioPlayer implements IAudioPlayer {
         this._nextAudio.currentTime = 0;
     }
 
-    public setVolume(linearVolume: number): void {
-        const value = linearVolume > 0 ? this.mathExtensions.linearToLogarithmic(linearVolume, 0.01, 1) : 0;
-
-        this._masterGain.gain.value = value;
+    public setVolume(linearVolume: number, replayGainMultiplier: number = 1): void {
+        const logarithmicVolume = linearVolume > 0 ? this.mathExtensions.linearToLogarithmic(linearVolume, 0.01, 1) : 0;
+        this._masterGain.gain.value = logarithmicVolume * replayGainMultiplier;
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await

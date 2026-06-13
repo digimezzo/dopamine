@@ -320,7 +320,7 @@ describe('PlaybackService', () => {
 
             // Assert
             expect(service.volume).toEqual(0.6);
-            audioPlayerMock.verify((x) => x.setVolume(0.6), Times.exactly(1));
+            audioPlayerMock.verify((x) => x.setVolume(0.6, It.isAny()), Times.exactly(1));
         });
 
         it('should stop playback on playback finished if a next track is not found', () => {
@@ -1757,7 +1757,7 @@ describe('PlaybackService', () => {
             service.volume = 0.8;
 
             // Assert
-            audioPlayerMock.verify((x) => x.setVolume(0.8), Times.exactly(1));
+            audioPlayerMock.verify((x) => x.setVolume(0.8, It.isAny()), Times.exactly(1));
         });
 
         it('should save the provided volume in the settings if a volume between 0 and 1 exclusive is provided', () => {
@@ -1796,7 +1796,7 @@ describe('PlaybackService', () => {
             service.volume = 0;
 
             // Assert
-            audioPlayerMock.verify((x) => x.setVolume(0), Times.exactly(1));
+            audioPlayerMock.verify((x) => x.setVolume(0, It.isAny()), Times.exactly(1));
         });
 
         it('should save the provided volume in the settings if a volume of 0 is provided', () => {
@@ -1835,7 +1835,7 @@ describe('PlaybackService', () => {
             service.volume = 1;
 
             // Assert
-            audioPlayerMock.verify((x) => x.setVolume(1), Times.exactly(1));
+            audioPlayerMock.verify((x) => x.setVolume(1, It.isAny()), Times.exactly(1));
         });
 
         it('should save the provided volume in the settings if a volume of 1 is provided', () => {
@@ -1874,7 +1874,7 @@ describe('PlaybackService', () => {
             service.volume = -0.5;
 
             // Assert
-            audioPlayerMock.verify((x) => x.setVolume(0), Times.exactly(1));
+            audioPlayerMock.verify((x) => x.setVolume(0, It.isAny()), Times.exactly(1));
         });
 
         it('should save a volume of 0 in the settings if a volume smaller than 0 is provided', () => {
@@ -1913,7 +1913,7 @@ describe('PlaybackService', () => {
             service.volume = 1.5;
 
             // Assert
-            audioPlayerMock.verify((x) => x.setVolume(1), Times.exactly(1));
+            audioPlayerMock.verify((x) => x.setVolume(1, It.isAny()), Times.exactly(1));
         });
 
         it('should save a volume of 1 in the settings if a volume greater than 1 is provided', () => {
@@ -1953,7 +1953,14 @@ describe('PlaybackService', () => {
 
             // Assert
             const expectedMultiplier: number = Math.pow(10, -6 / 20);
-            audioPlayerMock.verify((x) => x.setVolume(It.is((v: number) => Math.abs(v - expectedMultiplier) < 0.000001)), Times.once());
+            audioPlayerMock.verify(
+                (x) =>
+                    x.setVolume(
+                        1,
+                        It.is((v: number) => Math.abs(v - expectedMultiplier) < 0.000001),
+                    ),
+                Times.once(),
+            );
         });
 
         it('should apply album ReplayGain multiplier when normalization is enabled in album mode', async () => {
@@ -1981,7 +1988,14 @@ describe('PlaybackService', () => {
 
             // Assert
             const expectedMultiplier: number = Math.pow(10, -3 / 20);
-            audioPlayerMock.verify((x) => x.setVolume(It.is((v: number) => Math.abs(v - expectedMultiplier) < 0.000001)), Times.once());
+            audioPlayerMock.verify(
+                (x) =>
+                    x.setVolume(
+                        1,
+                        It.is((v: number) => Math.abs(v - expectedMultiplier) < 0.000001),
+                    ),
+                Times.once(),
+            );
         });
 
         it('should apply ReplayGain preamp before setting volume', async () => {
@@ -2007,7 +2021,14 @@ describe('PlaybackService', () => {
             service.volume = 1;
 
             // Assert
-            audioPlayerMock.verify((x) => x.setVolume(It.is((v: number) => Math.abs(v - 1) < 0.000001)), Times.once());
+            audioPlayerMock.verify(
+                (x) =>
+                    x.setVolume(
+                        1,
+                        It.is((v: number) => Math.abs(v - 1) < 0.000001),
+                    ),
+                Times.once(),
+            );
         });
 
         it('should prevent clipping when ReplayGain clipping prevention is enabled', async () => {
@@ -2033,7 +2054,14 @@ describe('PlaybackService', () => {
             service.volume = 1;
 
             // Assert
-            audioPlayerMock.verify((x) => x.setVolume(It.is((v: number) => Math.abs(v - 0.5) < 0.000001)), Times.once());
+            audioPlayerMock.verify(
+                (x) =>
+                    x.setVolume(
+                        1,
+                        It.is((v: number) => Math.abs(v - 0.5) < 0.000001),
+                    ),
+                Times.once(),
+            );
         });
 
         it('should clamp effective volume to 1 after applying ReplayGain multiplier', async () => {
@@ -2060,8 +2088,119 @@ describe('PlaybackService', () => {
 
             // Assert
             // ReplayGain of 6 dB = 10^(6/20) ≈ 1.995 multiplier
-            // Effective volume = 0.8 * 1.995 ≈ 1.596 (exceeds max of 1.0, but code doesn't clamp upper bound)
-            audioPlayerMock.verify((x) => x.setVolume(It.is((v: number) => v > 1.59 && v < 1.6)), Times.once());
+            audioPlayerMock.verify(
+                (x) =>
+                    x.setVolume(
+                        0.8,
+                        It.is((v: number) => v > 1.99 && v < 2.0),
+                    ),
+                Times.once(),
+            );
+        });
+
+        it('should fall back to track tags when album mode is selected but album tags are missing', async () => {
+            // Arrange
+            settingsStub.useReplayGainNormalization = true;
+            settingsStub.replayGainMode = 'album';
+            settingsStub.replayGainPreAmp = 0;
+            settingsStub.replayGainPreventClipping = false;
+            mathExtensionsMock.setup((x) => x.clamp(1, 0, 1)).returns(() => 1);
+
+            const replayGainTrack: Track = new Track('ReplayGain fallback track');
+            replayGainTrack.replayGainTrackGain = -4;
+            replayGainTrack.replayGainTrackPeak = 0.9;
+            // Album tags remain at default 0 (no album tags)
+
+            const replayGainTrackModel: TrackModel = new TrackModel(replayGainTrack, dateTimeMock.object, translatorServiceMock.object, '');
+
+            const service: PlaybackService = createService();
+            queueMock.setup((x) => x.getFirstTrack()).returns(() => replayGainTrackModel);
+            await service.enqueueAndPlayTracksAsync([replayGainTrackModel]);
+            audioPlayerMock.reset();
+
+            // Act
+            service.volume = 1;
+
+            // Assert
+            const expectedMultiplier: number = Math.pow(10, -4 / 20);
+            audioPlayerMock.verify(
+                (x) =>
+                    x.setVolume(
+                        1,
+                        It.is((v: number) => Math.abs(v - expectedMultiplier) < 0.000001),
+                    ),
+                Times.once(),
+            );
+        });
+
+        it('should fall back to album tags when track mode is selected but track tags are missing', async () => {
+            // Arrange
+            settingsStub.useReplayGainNormalization = true;
+            settingsStub.replayGainMode = 'track';
+            settingsStub.replayGainPreAmp = 0;
+            settingsStub.replayGainPreventClipping = false;
+            mathExtensionsMock.setup((x) => x.clamp(1, 0, 1)).returns(() => 1);
+
+            const replayGainTrack: Track = new Track('ReplayGain fallback album');
+            replayGainTrack.replayGainAlbumGain = -5;
+            replayGainTrack.replayGainAlbumPeak = 0.95;
+            // Track tags remain at default 0 (no track tags)
+
+            const replayGainTrackModel: TrackModel = new TrackModel(replayGainTrack, dateTimeMock.object, translatorServiceMock.object, '');
+
+            const service: PlaybackService = createService();
+            queueMock.setup((x) => x.getFirstTrack()).returns(() => replayGainTrackModel);
+            await service.enqueueAndPlayTracksAsync([replayGainTrackModel]);
+            audioPlayerMock.reset();
+
+            // Act
+            service.volume = 1;
+
+            // Assert
+            const expectedMultiplier: number = Math.pow(10, -5 / 20);
+            audioPlayerMock.verify(
+                (x) =>
+                    x.setVolume(
+                        1,
+                        It.is((v: number) => Math.abs(v - expectedMultiplier) < 0.000001),
+                    ),
+                Times.once(),
+            );
+        });
+
+        it('should assume peak of 1.0 when gain tag exists but peak tag is missing', async () => {
+            // Arrange
+            settingsStub.useReplayGainNormalization = true;
+            settingsStub.replayGainMode = 'track';
+            settingsStub.replayGainPreAmp = 6;
+            settingsStub.replayGainPreventClipping = true;
+            mathExtensionsMock.setup((x) => x.clamp(1, 0, 1)).returns(() => 1);
+
+            const replayGainTrack: Track = new Track('ReplayGain no-peak track');
+            replayGainTrack.replayGainTrackGain = -3;
+            // Peak remains at default 0 (no peak tag) → should be treated as 1.0
+
+            const replayGainTrackModel: TrackModel = new TrackModel(replayGainTrack, dateTimeMock.object, translatorServiceMock.object, '');
+
+            const service: PlaybackService = createService();
+            queueMock.setup((x) => x.getFirstTrack()).returns(() => replayGainTrackModel);
+            await service.enqueueAndPlayTracksAsync([replayGainTrackModel]);
+            audioPlayerMock.reset();
+
+            // Act
+            service.volume = 1;
+
+            // Assert
+            // gain=-3 + preamp=6 → +3dB → multiplier ≈ 1.413
+            // clipping cap = 1/1.0 = 1.0 → clamped to 1.0
+            audioPlayerMock.verify(
+                (x) =>
+                    x.setVolume(
+                        1,
+                        It.is((v: number) => Math.abs(v - 1) < 0.000001),
+                    ),
+                Times.once(),
+            );
         });
     });
 
@@ -2449,7 +2588,7 @@ describe('PlaybackService', () => {
 
             // Assert
             expect(service.volume).toEqual(0);
-            audioPlayerMock.verify((x) => x.setVolume(0), Times.once());
+            audioPlayerMock.verify((x) => x.setVolume(0, It.isAny()), Times.once());
             expect(settingsStub.volume).toEqual(0);
         });
 
@@ -2468,7 +2607,7 @@ describe('PlaybackService', () => {
 
             // Assert
             expect(service.volume).toEqual(0.9);
-            audioPlayerMock.verify((x) => x.setVolume(0.9), Times.once());
+            audioPlayerMock.verify((x) => x.setVolume(0.9, It.isAny()), Times.once());
             expect(settingsStub.volume).toEqual(0.9);
         });
 
@@ -2486,7 +2625,7 @@ describe('PlaybackService', () => {
 
             // Assert
             expect(service.volume).toEqual(0.5);
-            audioPlayerMock.verify((x) => x.setVolume(0.5), Times.once());
+            audioPlayerMock.verify((x) => x.setVolume(0.5, It.isAny()), Times.once());
             expect(settingsStub.volume).toEqual(0.5);
         });
     });
