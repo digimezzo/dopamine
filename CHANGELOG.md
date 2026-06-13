@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Smart playlist filters ignore text containing accents or other special characters
 - Some MP3 files trigger an "MPEG header not found" error due to a too-narrow initial MPEG header scan range
 
+### Changed
+
+- Updated the Vietnamese translation
+
 ## [3.0.5] - 2026-05-31
 
 ### Added
