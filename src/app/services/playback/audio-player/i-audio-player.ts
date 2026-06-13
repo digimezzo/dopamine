@@ -14,7 +14,7 @@ export interface IAudioPlayer {
     stop(): void;
     pause(): void;
     resumeAsync(): Promise<void>;
-    setVolume(volume: number): void;
+    setVolume(volume: number, replayGainMultiplier?: number): void;
     skipToSecondsAsync(seconds: number): Promise<void>;
     preloadNext(track: TrackModel): void;
     getAudio(): HTMLAudioElement | undefined;
