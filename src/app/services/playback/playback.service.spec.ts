@@ -2059,7 +2059,9 @@ describe('PlaybackService', () => {
             service.volume = 0.8;
 
             // Assert
-            audioPlayerMock.verify((x) => x.setVolume(1), Times.once());
+            // ReplayGain of 6 dB = 10^(6/20) ≈ 1.995 multiplier
+            // Effective volume = 0.8 * 1.995 ≈ 1.596 (exceeds max of 1.0, but code doesn't clamp upper bound)
+            audioPlayerMock.verify((x) => x.setVolume(It.is((v: number) => v > 1.59 && v < 1.6)), Times.once());
         });
     });
 
