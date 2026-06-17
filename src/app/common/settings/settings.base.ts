@@ -46,6 +46,7 @@ export abstract class SettingsBase {
     public abstract genresTabSelectedTrackOrder: string;
     public abstract enableDiscordRichPresence: boolean;
     public abstract enableLastFmScrobbling: boolean;
+    public abstract enableListenbrainzScrobbling: boolean;
     public abstract playlistsTabSelectedPlaylistFolder: string;
     public abstract playlistsTabSelectedPlaylist: string;
     public abstract playlistsTabSelectedPlaylistOrder: string;
@@ -67,6 +68,8 @@ export abstract class SettingsBase {
     public abstract lastFmUsername: string;
     public abstract lastFmPassword: string;
     public abstract lastFmSessionKey: string;
+    public abstract listenbrainzUsername: string;
+    public abstract listenbrainzToken: string;
     public abstract showLove: boolean;
     public abstract showAlbumOnNowPlayingPage: boolean;
     public abstract downloadArtistInformationFromLastFm: boolean;

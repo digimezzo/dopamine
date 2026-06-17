@@ -13,6 +13,7 @@ import { SignInState } from './sign-in-state';
 import { PlaybackService } from '../playback/playback.service';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { LastfmProvider } from './lastfm.provider';
+import { ListenbrainzProvider } from './listenbrainz.provider';
 
 export interface ScrobbleProvider {
     // Unique id of the scrobble provider (e.g. 'lastfm', 'listenbrainz')
@@ -47,8 +48,9 @@ export class ScrobblingService {
         private settings: SettingsBase,
         private logger: Logger,
         private lastfmProvider: LastfmProvider,
+        private listenbrainzProvider: ListenbrainzProvider,
     ) {
-        this.providers = [lastfmProvider];
+        this.providers = [lastfmProvider, listenbrainzProvider];
     }
 
     public initialize(): void {
@@ -113,6 +115,7 @@ export class ScrobblingService {
 
         await Promise.all(activeProviders.map(async (provider) => {
             try {
+                this.logger.info(`Sending Now Playing update to '${provider.id}' for track '${artist} - ${trackTitle}'`, "ScrobblingService", "handlePlaybackStartedAsync");
                 await provider.updateNowPlayingAsync(this.currentTrack);
             } catch (e: unknown) {
                 this.logger.error(
