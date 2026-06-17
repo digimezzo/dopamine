@@ -1,5 +1,5 @@
 import { Observable, Subject } from 'rxjs';
-import { IMock, It, Mock, MockBehavior, Times } from 'typemoq';
+import { IMock, Mock, Times } from 'typemoq';
 import { OnlineSettingsComponent } from './online-settings.component';
 import { SignInState } from '../../../../services/scrobbling/sign-in-state';
 import { NotificationServiceBase } from '../../../../services/notification/notification.service.base';
