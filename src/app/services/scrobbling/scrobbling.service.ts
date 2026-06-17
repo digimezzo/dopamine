@@ -113,7 +113,7 @@ export class ScrobblingService {
 
         await Promise.all(activeProviders.map(async (provider) => {
             try {
-                provider.updateNowPlayingAsync(this.currentTrack);
+                await provider.updateNowPlayingAsync(this.currentTrack);
             } catch (e: unknown) {
                 this.logger.error(
                     e,
