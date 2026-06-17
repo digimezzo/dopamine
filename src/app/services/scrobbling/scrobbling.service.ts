@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
 import { DateTime } from '../../common/date-time';
 import { Logger } from '../../common/logger';
 import { StringUtils } from '../../common/utils/string-utils';
@@ -13,127 +12,54 @@ import { TrackModel } from '../track/track-model';
 import { SignInState } from './sign-in-state';
 import { PlaybackService } from '../playback/playback.service';
 import { SettingsBase } from '../../common/settings/settings.base';
+import { LastfmProvider } from './lastfm.provider';
+
+export interface ScrobbleProvider {
+    // Unique id of the scrobble provider (e.g. 'lastfm', 'listenbrainz')
+    readonly id: string;
+    
+    readonly signInStateChanged$: Observable<SignInState>;
+    readonly signInState: SignInState;
+
+    isProviderEnabled: boolean;
+
+    initialize(): void;
+    signInAsync(): Promise<void>;
+    signOut(): void;
+
+    updateNowPlayingAsync(track: TrackModel): Promise<boolean>;
+    scrobbleAsync(track: TrackModel, startTime: Date): Promise<boolean>;
+
+    sendTrackLoveAsync(track: TrackModel, love: boolean): Promise<void>;
+}
 
 @Injectable({ providedIn: 'root' })
 export class ScrobblingService {
-    private _signInState: SignInState = SignInState.SignedOut;
-
-    private sessionKey: string = '';
     private canScrobble: boolean = false;
-    private signInStateChanged: Subject<SignInState> = new Subject();
     private subscription: Subscription = new Subscription();
+    private providers: ScrobbleProvider[] = [];
     private currentTrack: TrackModel;
     private currentTrackUTCStartTime: Date;
 
     public constructor(
         private playbackService: PlaybackService,
-        private lastfmApi: LastfmApi,
         private dateTime: DateTime,
         private settings: SettingsBase,
         private logger: Logger,
-    ) {}
-
-    public signInStateChanged$: Observable<SignInState> = this.signInStateChanged.asObservable();
-
-    public username: string = '';
-    public password: string = '';
-
-    public get signInState(): SignInState {
-        return this._signInState;
+        private lastfmProvider: LastfmProvider,
+    ) {
+        this.providers = [lastfmProvider];
     }
 
     public initialize(): void {
-        this.initializeSessionFromSettings();
+        for (const provider of this.providers) {
+            provider.initialize();
+        }
         this.initializeSubscriptions();
     }
 
-    public async signInAsync(): Promise<void> {
-        try {
-            this.sessionKey = await this.lastfmApi.getMobileSessionAsync(this.username, this.password);
-
-            if (!StringUtils.isNullOrWhiteSpace(this.sessionKey)) {
-                this.settings.lastFmUsername = this.username;
-                this.settings.lastFmPassword = this.password;
-                this.settings.lastFmSessionKey = this.sessionKey;
-
-                this.logger.info(`User '${this.username}' successfully signed in to Last.fm.`, 'ScrobblingService', 'signIn');
-
-                this._signInState = SignInState.SignedIn;
-            } else {
-                this.logger.warn(`User '${this.username}' could not sign in to Last.fm.`, 'ScrobblingService', 'signIn');
-                this._signInState = SignInState.Error;
-            }
-        } catch (e: unknown) {
-            this.logger.error(e, `User '${this.username}' could not sign in to last.fm`, 'ScrobblingService', 'signIn');
-
-            this._signInState = SignInState.Error;
-        }
-
-        this.signInStateChanged.next(this.signInState);
-    }
-
-    public signOut(): void {
-        this.sessionKey = '';
-        this.settings.lastFmSessionKey = '';
-
-        this.logger.info(`User '${this.username}' signed out from Last.fm`, 'ScrobblingService', 'signOut');
-
-        this._signInState = SignInState.SignedOut;
-
-        this.signInStateChanged.next(this.signInState);
-    }
-
-    public async sendTrackLoveAsync(track: TrackModel, love: boolean): Promise<void> {
-        if (this.signInState !== SignInState.SignedIn) {
-            return;
-        }
-
-        // We can't send track love for an unknown track title
-        if (StringUtils.isNullOrWhiteSpace(track.rawTitle)) {
-            return;
-        }
-
-        for (const artist of track.rawArtists) {
-            if (love) {
-                try {
-                    await this.lastfmApi.loveTrackAsync(this.sessionKey, artist, track.rawTitle);
-                } catch (e: unknown) {
-                    this.logger.error(e, 'Could not send track.love to Last.fm', 'ScrobblingService', 'sendTrackLoveAsync');
-                }
-            } else {
-                try {
-                    await this.lastfmApi.unloveTrackAsync(this.sessionKey, artist, track.rawTitle);
-                } catch (e: unknown) {
-                    this.logger.error(e, 'Could not send track.unlove to Last.fm', 'ScrobblingService', 'sendTrackLoveAsync');
-                }
-            }
-        }
-    }
-
-    private initializeSessionFromSettings(): void {
-        if (!this.settings.enableLastFmScrobbling) {
-            return;
-        }
-
-        this.username = this.settings.lastFmUsername;
-        this.password = this.settings.lastFmPassword;
-        this.sessionKey = this.settings.lastFmSessionKey;
-
-        if (
-            !StringUtils.isNullOrWhiteSpace(this.username) &&
-            !StringUtils.isNullOrWhiteSpace(this.password) &&
-            !StringUtils.isNullOrWhiteSpace(this.sessionKey)
-        ) {
-            this._signInState = SignInState.SignedIn;
-        } else {
-            this._signInState = SignInState.SignedOut;
-        }
-    }
-
     private initializeSubscriptions(): void {
-        if (!this.settings.enableLastFmScrobbling) {
-            this.subscription.unsubscribe();
-
+        if (!this.providers.some((provider) => provider.isProviderEnabled)) {
             return;
         }
 
@@ -152,11 +78,25 @@ export class ScrobblingService {
         this.subscription.add(this.playbackService.playbackSkipped$.subscribe(() => this.handlePlaybackSkipped()));
     }
 
-    private async handlePlaybackStartedAsync(playbackStarted: PlaybackStarted): Promise<void> {
-        if (this.signInState !== SignInState.SignedIn) {
+    public async sendTrackLoveAsync(track: TrackModel, love: boolean) {
+        // We can't send track love for an unknown track title
+        if (StringUtils.isNullOrWhiteSpace(track.rawTitle)) {
             return;
         }
 
+        const activeProviders = this.providers.filter( p => p.signInState === SignInState.SignedIn );
+        
+        await Promise.all(activeProviders.map(async (provider) => {
+            try {
+                await provider.sendTrackLoveAsync(track, love);
+            } catch (e: unknown) {
+                this.logger.error(e, `Could not send '${love ? 'love' : 'unlove'}' to '${provider.id}'`, 'ScrobblingService', 'sendTrackLoveAsync');
+            }
+        }));
+
+    }
+
+    private async handlePlaybackStartedAsync(playbackStarted: PlaybackStarted): Promise<void> {
         // As soon as a track starts playing, send a Now Playing request.
         this.canScrobble = true;
         this.currentTrack = playbackStarted.currentTrack;
@@ -164,43 +104,28 @@ export class ScrobblingService {
 
         const artist: string = this.currentTrack.rawFirstArtist;
         const trackTitle: string = this.currentTrack.rawTitle;
-        const albumTitle: string = this.currentTrack.rawAlbumTitle;
 
         if (StringUtils.isNullOrWhiteSpace(artist) || StringUtils.isNullOrWhiteSpace(trackTitle)) {
             return;
         }
 
-        try {
-            const isSuccess: boolean = await this.lastfmApi.updateTrackNowPlayingAsync(this.sessionKey, artist, trackTitle, albumTitle);
+        const activeProviders = this.providers.filter(p => p.signInState === SignInState.SignedIn);
 
-            if (isSuccess) {
-                this.logger.info(
-                    `Successfully updated Now Playing for track '${artist} - ${trackTitle}'`,
-                    'ScrobblingService',
-                    'handlePlaybackStartedAsync',
-                );
-            } else {
-                this.logger.warn(
-                    `Could not update Now Playing for track '${artist} - ${trackTitle}'`,
+        await Promise.all(activeProviders.map(async (provider) => {
+            try {
+                provider.updateNowPlayingAsync(this.currentTrack);
+            } catch (e: unknown) {
+                this.logger.error(
+                    e,
+                    `Could not update Now Playing for track '${artist} - ${trackTitle}' to '${provider.id}'`,
                     'ScrobblingService',
                     'handlePlaybackStartedAsync',
                 );
             }
-        } catch (e: unknown) {
-            this.logger.error(
-                e,
-                `Could not update Now Playing for track '${artist} - ${trackTitle}'`,
-                'ScrobblingService',
-                'handlePlaybackStartedAsync',
-            );
-        }
+        }));
     }
 
     private async handlePlaybackProgressChangedAsync(playbackProgress: PlaybackProgress): Promise<void> {
-        if (this.signInState !== SignInState.SignedIn) {
-            return;
-        }
-
         if (!this.canScrobble) {
             return;
         }
@@ -211,7 +136,6 @@ export class ScrobblingService {
 
         const artist: string = this.currentTrack.rawFirstArtist;
         const trackTitle: string = this.currentTrack.rawTitle;
-        const albumTitle: string = this.currentTrack.rawAlbumTitle;
 
         if (StringUtils.isNullOrWhiteSpace(artist) || StringUtils.isNullOrWhiteSpace(trackTitle)) {
             return;
@@ -222,38 +146,26 @@ export class ScrobblingService {
         // - And the track has been played for at least half its duration, or for 4 minutes (whichever occurs earlier).
         if (playbackProgress.totalSeconds > 30) {
             if (playbackProgress.progressSeconds >= playbackProgress.totalSeconds / 2 || playbackProgress.progressSeconds > 4 * 60) {
+                this.logger.info(`Scrobbling track: ${artist} - ${trackTitle}`, 'ScrobblingService', 'handlePlaybackProgressChangedAsync');
                 this.canScrobble = false;
 
-                try {
-                    const isSuccess: boolean = await this.lastfmApi.scrobbleTrackAsync(
-                        this.sessionKey,
-                        artist,
-                        trackTitle,
-                        albumTitle,
-                        this.currentTrackUTCStartTime,
-                    );
+                const activeProviders = this.providers.filter(p => p.signInState === SignInState.SignedIn);
 
-                    if (isSuccess) {
-                        this.logger.info(
-                            `Successfully Scrobbled track '${artist} - ${trackTitle}'`,
-                            'ScrobblingService',
-                            'handlePlaybackProgressChangedAsync',
-                        );
-                    } else {
-                        this.logger.warn(
-                            `Could not Scrobble track '${artist} - ${trackTitle}'`,
+                this.logger.info(`Scrobbling track: ${artist} - ${trackTitle}`, 'ScrobblingService', 'handlePlaybackProgressChangedAsync');
+                this.logger.info(`Scrobbling to providers: ${activeProviders.map(p => p.id).join(', ')}`, 'ScrobblingService', 'handlePlaybackProgressChangedAsync');
+
+                await Promise.all(activeProviders.map(async (provider) => {
+                    try {
+                        await provider.scrobbleAsync(this.currentTrack, this.currentTrackUTCStartTime);
+                    } catch (e: unknown) {
+                        this.logger.error(
+                            e,
+                            `Could not Scrobble for track '${artist} - ${trackTitle}' to '${provider.id}'`,
                             'ScrobblingService',
                             'handlePlaybackProgressChangedAsync',
                         );
                     }
-                } catch (e: unknown) {
-                    this.logger.error(
-                        e,
-                        `Could not Scrobble track '${artist} - ${trackTitle}'`,
-                        'ScrobblingService',
-                        'handlePlaybackProgressChangedAsync',
-                    );
-                }
+                }));
             }
         }
     }

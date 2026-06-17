@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { SignInState } from '../../../../services/scrobbling/sign-in-state';
-import { ScrobblingService } from '../../../../services/scrobbling/scrobbling.service';
+import { LastfmProvider } from '../../../../services/scrobbling/lastfm.provider';
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { NotificationServiceBase } from '../../../../services/notification/notification.service.base';
 import { DiscordService } from '../../../../services/discord/discord.service';
@@ -21,7 +21,7 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
 
     public constructor(
         public discordService: DiscordService,
-        private scrobblingService: ScrobblingService,
+        private lastfmProvider: LastfmProvider,
         private notificationService: NotificationServiceBase,
         private updateService: UpdateServiceBase,
         public settings: SettingsBase,
@@ -34,17 +34,17 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
     }
 
     public get lastFmUserName(): string {
-        return this.scrobblingService.username;
+        return this.lastfmProvider.username;
     }
     public set lastFmUserName(v: string) {
-        this.scrobblingService.username = v;
+        this.lastfmProvider.username = v;
     }
 
     public get lastFmPassword(): string {
-        return this.scrobblingService.password;
+        return this.lastfmProvider.password;
     }
     public set lastFmPassword(v: string) {
-        this.scrobblingService.password = v;
+        this.lastfmProvider.password = v;
     }
 
     public ngOnDestroy(): void {
@@ -53,7 +53,7 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.subscription.add(
-            this.scrobblingService.signInStateChanged$.subscribe((signInState: SignInState) => {
+            this.lastfmProvider.signInStateChanged$.subscribe((signInState: SignInState) => {
                 this._signInState = signInState;
 
                 if (signInState === SignInState.Error) {
@@ -62,7 +62,7 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
             }),
         );
 
-        this._signInState = this.scrobblingService.signInState;
+        this._signInState = this.lastfmProvider.signInState;
     }
 
     public get downloadLyricsOnline(): boolean {
@@ -81,12 +81,12 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
         this.settings.enableLastFmScrobbling = v;
 
         if (!v) {
-            this.scrobblingService.signOut();
+            this.lastfmProvider.signOut();
         }
     }
 
     public async signInToLastFmAsync(): Promise<void> {
-        await this.scrobblingService.signInAsync();
+        await this.lastfmProvider.signInAsync();
     }
 
     public get checkForUpdates(): boolean {
