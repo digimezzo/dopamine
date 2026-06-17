@@ -146,13 +146,9 @@ export class ScrobblingService {
         // - And the track has been played for at least half its duration, or for 4 minutes (whichever occurs earlier).
         if (playbackProgress.totalSeconds > 30) {
             if (playbackProgress.progressSeconds >= playbackProgress.totalSeconds / 2 || playbackProgress.progressSeconds > 4 * 60) {
-                this.logger.info(`Scrobbling track: ${artist} - ${trackTitle}`, 'ScrobblingService', 'handlePlaybackProgressChangedAsync');
                 this.canScrobble = false;
 
                 const activeProviders = this.providers.filter(p => p.signInState === SignInState.SignedIn);
-
-                this.logger.info(`Scrobbling track: ${artist} - ${trackTitle}`, 'ScrobblingService', 'handlePlaybackProgressChangedAsync');
-                this.logger.info(`Scrobbling to providers: ${activeProviders.map(p => p.id).join(', ')}`, 'ScrobblingService', 'handlePlaybackProgressChangedAsync');
 
                 await Promise.all(activeProviders.map(async (provider) => {
                     try {
