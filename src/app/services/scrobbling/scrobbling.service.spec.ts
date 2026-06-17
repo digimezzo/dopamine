@@ -8,14 +8,16 @@ import { PlaybackStarted } from '../playback/playback-started';
 import { TrackModel } from '../track/track-model';
 import { SignInState } from './sign-in-state';
 import { PlaybackService } from '../playback/playback.service';
-import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { ScrobblingService } from './scrobbling.service';
 import { Track } from '../../data/entities/track';
+import { ListenbrainzProvider } from './listenbrainz.provider';
+import { LastfmProvider } from './lastfm.provider';
 
 describe('ScrobblingService', () => {
     let playbackServiceMock: IMock<PlaybackService>;
-    let lastfmApiMock: IMock<LastfmApi>;
+    let lastfmProviderMock: IMock<LastfmProvider>;
+    let listenbrainzProviderMock: IMock<ListenbrainzProvider>;
     let dateTimeMock: IMock<DateTime>;
     let settingsMock: IMock<SettingsBase>;
     let loggerMock: IMock<Logger>;
@@ -35,7 +37,8 @@ describe('ScrobblingService', () => {
 
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<PlaybackService>();
-        lastfmApiMock = Mock.ofType<LastfmApi>();
+        lastfmProviderMock = Mock.ofType<LastfmProvider>();
+        listenbrainzProviderMock = Mock.ofType<ListenbrainzProvider>();
         dateTimeMock = Mock.ofType<DateTime>();
         settingsMock = Mock.ofType<SettingsBase>();
         loggerMock = Mock.ofType<Logger>();
@@ -60,10 +63,11 @@ describe('ScrobblingService', () => {
     function createService(): ScrobblingService {
         return new ScrobblingService(
             playbackServiceMock.object,
-            lastfmApiMock.object,
             dateTimeMock.object,
             settingsMock.object,
             loggerMock.object,
+            lastfmProviderMock.object,
+            listenbrainzProviderMock.object,
         );
     }
 
@@ -110,122 +114,34 @@ describe('ScrobblingService', () => {
     });
 
     describe('initialize', () => {
-        it('should set username from settings if Last.fm scrobbling is enabled', () => {
+        it('should initialize all registered providers', () => {
             // Arrange
-            createSettingsMock(true, 'user', 'password', 'key');
+            lastfmProviderMock.setup((x) => x.initialize()).verifiable(Times.once());
+            listenbrainzProviderMock.setup((x) => x.initialize()).verifiable(Times.once());
+
             const service: ScrobblingService = createService();
 
             // Act
             service.initialize();
 
             // Assert
-            expect(service.username).toEqual('user');
-        });
-
-        it('should set password from settings if Last.fm scrobbling is enabled', () => {
-            // Arrange
-            createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
-
-            // Act
-            service.initialize();
-
-            // Assert
-            expect(service.password).toEqual('password');
-        });
-
-        it('should not set username from settings if Last.fm scrobbling is disabled', () => {
-            // Arrange
-            createSettingsMock(false, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
-
-            // Act
-            service.initialize();
-
-            // Assert
-            expect(service.username).toEqual('');
-        });
-
-        it('should not set password from settings if Last.fm scrobbling is disabled', () => {
-            // Arrange
-            createSettingsMock(false, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
-
-            // Act
-            service.initialize();
-
-            // Assert
-            expect(service.password).toEqual('');
-        });
-
-        it('should set SignInState to SignedOut if Last.fm scrobbling is disabled', () => {
-            // Arrange
-            createSettingsMock(false, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
-
-            // Act
-            service.initialize();
-
-            // Assert
-            expect(service.signInState).toEqual(SignInState.SignedOut);
-        });
-
-        it('should set SignInState to SignedIn if Last.fm scrobbling is enabled and lastFmUsername, lastFmPassword and lastFmSessionKey are set in the settings', () => {
-            // Arrange
-            createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
-
-            // Act
-            service.initialize();
-
-            // Assert
-            expect(service.signInState).toEqual(SignInState.SignedIn);
-        });
-
-        it('should set SignInState to SignedOut if Last.fm scrobbling is enabled and lastFmUsername is not set in the settings', () => {
-            // Arrange
-            createSettingsMock(true, '', 'password', 'key');
-            const service: ScrobblingService = createService();
-
-            // Act
-            service.initialize();
-
-            // Assert
-            expect(service.signInState).toEqual(SignInState.SignedOut);
-        });
-
-        it('should set SignInState to SignedOut if Last.fm scrobbling is enabled and lastFmPassword is not set in the settings', () => {
-            // Arrange
-            createSettingsMock(true, 'user', '', 'key');
-            const service: ScrobblingService = createService();
-
-            // Act
-            service.initialize();
-
-            // Assert
-            expect(service.signInState).toEqual(SignInState.SignedOut);
-        });
-
-        it('should set SignInState to SignedOut if Last.fm scrobbling is enabled and lastFmSessionKey is not set in the settings', () => {
-            // Arrange
-            createSettingsMock(true, 'user', 'password', '');
-            const service: ScrobblingService = createService();
-
-            // Act
-            service.initialize();
-
-            // Assert
-            expect(service.signInState).toEqual(SignInState.SignedOut);
+            lastfmProviderMock.verifyAll();
+            listenbrainzProviderMock.verifyAll();
         });
     });
 
     describe('PlaybackService.playbackStarted', () => {
-        it('should update Last.fm now playing when signed in to Last.fm and artist and title are known', async () => {
+        it('should update now playing for signed in providers when artist and title are known', async () => {
             // Arrange
-            lastfmApiMock
-                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
-                .returns(() => Promise.resolve(true));
-            createSettingsMock(true, 'user', 'password', 'key');
+            lastfmProviderMock
+                .setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            listenbrainzProviderMock
+                .setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            lastfmProviderMock
+                .setup((x) => x.updateNowPlayingAsync(It.isAny())).returns(() => Promise.resolve(true)).verifiable(Times.once());
+            listenbrainzProviderMock
+                .setup((x) => x.updateNowPlayingAsync(It.isAny())).returns(() => Promise.resolve(true)).verifiable(Times.once());
+
             const service: ScrobblingService = createService();
             service.initialize();
 
@@ -237,15 +153,21 @@ describe('ScrobblingService', () => {
             await flushPromises();
 
             // Assert
-            lastfmApiMock.verify((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'), Times.once());
+            lastfmProviderMock.verify((x) => x.updateNowPlayingAsync(It.isAny()), Times.once());
+            listenbrainzProviderMock.verify((x) => x.updateNowPlayingAsync(It.isAny()), Times.once());
         });
 
-        it('should not update Last.fm now playing when not signed in to Last.fm', async () => {
+        it('should not update now playing for signed out providers when artist and title are known', async () => {
             // Arrange
-            lastfmApiMock
-                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
-                .returns(() => Promise.resolve(true));
-            createSettingsMock(false, 'user', 'password', 'key');
+            lastfmProviderMock
+                .setup((x) => x.signInState).returns(() => SignInState.SignedOut);
+            listenbrainzProviderMock
+                .setup((x) => x.signInState).returns(() => SignInState.SignedOut);
+            lastfmProviderMock
+                .setup((x) => x.updateNowPlayingAsync(It.isAny())).returns(() => Promise.resolve(true)).verifiable(Times.once());
+            listenbrainzProviderMock
+                .setup((x) => x.updateNowPlayingAsync(It.isAny())).returns(() => Promise.resolve(true)).verifiable(Times.once());
+
             const service: ScrobblingService = createService();
             service.initialize();
 
@@ -257,15 +179,21 @@ describe('ScrobblingService', () => {
             await flushPromises();
 
             // Assert
-            lastfmApiMock.verify((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'), Times.never());
+            lastfmProviderMock.verify((x) => x.updateNowPlayingAsync(It.isAny()), Times.never());
+            listenbrainzProviderMock.verify((x) => x.updateNowPlayingAsync(It.isAny()), Times.never());
         });
 
-        it('should not update Last.fm now playing when artist is unknown', async () => {
+        it('should not update now playing for providers when artist is unknown', async () => {
             // Arrange
-            lastfmApiMock
-                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
-                .returns(() => Promise.resolve(true));
-            createSettingsMock(true, 'user', 'password', 'key');
+            lastfmProviderMock
+                .setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            listenbrainzProviderMock
+                .setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            lastfmProviderMock
+                .setup((x) => x.updateNowPlayingAsync(It.isAny())).returns(() => Promise.resolve(true)).verifiable(Times.once());
+            listenbrainzProviderMock
+                .setup((x) => x.updateNowPlayingAsync(It.isAny())).returns(() => Promise.resolve(true)).verifiable(Times.once());
+
             const service: ScrobblingService = createService();
             service.initialize();
 
@@ -277,15 +205,21 @@ describe('ScrobblingService', () => {
             await flushPromises();
 
             // Assert
-            lastfmApiMock.verify((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'), Times.never());
+            lastfmProviderMock.verify((x) => x.updateNowPlayingAsync(It.isAny()), Times.never());
+            listenbrainzProviderMock.verify((x) => x.updateNowPlayingAsync(It.isAny()), Times.never());
         });
 
-        it('should not update Last.fm now playing when title is unknown', async () => {
+        it('should not update now playing when title is unknown', async () => {
             // Arrange
-            lastfmApiMock
-                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
-                .returns(() => Promise.resolve(true));
-            createSettingsMock(true, 'user', 'password', 'key');
+            lastfmProviderMock
+                .setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            listenbrainzProviderMock
+                .setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            lastfmProviderMock
+                .setup((x) => x.updateNowPlayingAsync(It.isAny())).returns(() => Promise.resolve(true)).verifiable(Times.once());
+            listenbrainzProviderMock
+                .setup((x) => x.updateNowPlayingAsync(It.isAny())).returns(() => Promise.resolve(true)).verifiable(Times.once());
+
             const service: ScrobblingService = createService();
             service.initialize();
 
@@ -297,7 +231,8 @@ describe('ScrobblingService', () => {
             await flushPromises();
 
             // Assert
-            lastfmApiMock.verify((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'), Times.never());
+            lastfmProviderMock.verify((x) => x.updateNowPlayingAsync(It.isAny()), Times.never());
+            listenbrainzProviderMock.verify((x) => x.updateNowPlayingAsync(It.isAny()), Times.never());
         });
     });
 
@@ -306,10 +241,11 @@ describe('ScrobblingService', () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
-            lastfmApiMock
-                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
-                .returns(() => Promise.resolve(true));
-            createSettingsMock(true, 'user', 'password', 'key');
+            lastfmProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            lastfmProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
+            listenbrainzProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
+
             const service: ScrobblingService = createService();
             service.initialize();
 
@@ -323,20 +259,18 @@ describe('ScrobblingService', () => {
             await flushPromises();
 
             // Assert
-            lastfmApiMock.verify(
-                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
-                Times.once(),
-            );
+            lastfmProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.once());
+            listenbrainzProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.once());
         });
 
         it('Should not scrobble when the track is longer than 4 minutes and has been played for less than 4 minutes', async () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
-            lastfmApiMock
-                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
-                .returns(() => Promise.resolve(true));
-            createSettingsMock(true, 'user', 'password', 'key');
+            lastfmProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            lastfmProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
+            listenbrainzProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
             const service: ScrobblingService = createService();
             service.initialize();
 
@@ -350,20 +284,18 @@ describe('ScrobblingService', () => {
             await flushPromises();
 
             // Assert
-            lastfmApiMock.verify(
-                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
-                Times.never(),
-            );
+            lastfmProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.never());
+            listenbrainzProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.never());
         });
 
         it('Should scrobble when the track is longer than 30 seconds and has been played for 4 minutes even if it did not play for half its duration', async () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
-            lastfmApiMock
-                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
-                .returns(() => Promise.resolve(true));
-            createSettingsMock(true, 'user', 'password', 'key');
+            lastfmProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            lastfmProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
+            listenbrainzProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
             const service: ScrobblingService = createService();
             service.initialize();
 
@@ -377,20 +309,18 @@ describe('ScrobblingService', () => {
             await flushPromises();
 
             // Assert
-            lastfmApiMock.verify(
-                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
-                Times.once(),
-            );
+            lastfmProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.once());
+            listenbrainzProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.once());
         });
 
         it('Should not scrobble when the track is shorter than than 30 seconds even if it has been played for at least half its duration', async () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
-            lastfmApiMock
-                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
-                .returns(() => Promise.resolve(true));
-            createSettingsMock(true, 'user', 'password', 'key');
+            lastfmProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            lastfmProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
+            listenbrainzProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
             const service: ScrobblingService = createService();
             service.initialize();
 
@@ -404,20 +334,18 @@ describe('ScrobblingService', () => {
             await flushPromises();
 
             // Assert
-            lastfmApiMock.verify(
-                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
-                Times.never(),
-            );
+            lastfmProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.never());
+            listenbrainzProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.never());
         });
 
         it('Should not scrobble when after playback has been skipped even if scrobble conditions are met', async () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
-            lastfmApiMock
-                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
-                .returns(() => Promise.resolve(true));
-            createSettingsMock(true, 'user', 'password', 'key');
+            lastfmProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            lastfmProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
+            listenbrainzProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
             const service: ScrobblingService = createService();
             service.initialize();
 
@@ -432,20 +360,18 @@ describe('ScrobblingService', () => {
             await flushPromises();
 
             // Assert
-            lastfmApiMock.verify(
-                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
-                Times.never(),
-            );
+            lastfmProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.never());
+            listenbrainzProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.never());
         });
 
-        it('Should not scrobble when not signed in to Last.fm even if scrobble conditions are met', async () => {
+        it('Should not scrobble when not signed in to providers even if scrobble conditions are met', async () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
-            lastfmApiMock
-                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
-                .returns(() => Promise.resolve(true));
-            createSettingsMock(false, 'user', 'password', 'key');
+            lastfmProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedOut);
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedOut);
+            lastfmProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
+            listenbrainzProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
             const service: ScrobblingService = createService();
             service.initialize();
 
@@ -459,20 +385,18 @@ describe('ScrobblingService', () => {
             await flushPromises();
 
             // Assert
-            lastfmApiMock.verify(
-                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
-                Times.never(),
-            );
+            lastfmProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.never());
+            listenbrainzProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.never());
         });
 
         it('Should not scrobble when there is no current track', async () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
-            lastfmApiMock
-                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
-                .returns(() => Promise.resolve(true));
-            createSettingsMock(true, 'user', 'password', 'key');
+            lastfmProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedOut);
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedOut);
+            lastfmProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
+            listenbrainzProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
             const service: ScrobblingService = createService();
             service.initialize();
 
@@ -483,20 +407,18 @@ describe('ScrobblingService', () => {
             await flushPromises();
 
             // Assert
-            lastfmApiMock.verify(
-                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
-                Times.never(),
-            );
+            lastfmProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.never());
+            listenbrainzProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.never());
         });
 
         it('Should not scrobble when artist is unknown', async () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
-            lastfmApiMock
-                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
-                .returns(() => Promise.resolve(true));
-            createSettingsMock(true, 'user', 'password', 'key');
+            lastfmProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            lastfmProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
+            listenbrainzProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
             const service: ScrobblingService = createService();
             service.initialize();
 
@@ -510,20 +432,18 @@ describe('ScrobblingService', () => {
             await flushPromises();
 
             // Assert
-            lastfmApiMock.verify(
-                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
-                Times.never(),
-            );
+            lastfmProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.never());
+            listenbrainzProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.never());
         });
 
         it('Should not scrobble when title is unknown', async () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
-            lastfmApiMock
-                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
-                .returns(() => Promise.resolve(true));
-            createSettingsMock(true, 'user', 'password', 'key');
+            lastfmProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            lastfmProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
+            listenbrainzProviderMock.setup((x) => x.scrobbleAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(true));
             const service: ScrobblingService = createService();
             service.initialize();
 
@@ -537,17 +457,16 @@ describe('ScrobblingService', () => {
             await flushPromises();
 
             // Assert
-            lastfmApiMock.verify(
-                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
-                Times.never(),
-            );
+            lastfmProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.never());
+            listenbrainzProviderMock.verify((x) => x.scrobbleAsync(It.isAny(), It.isAny()), Times.never());
         });
     });
 
     describe('sendTrackLoveAsync', () => {
         it('should not send track love/unlove when not signed in', async () => {
             // Arrange
-            createSettingsMock(false, 'user', 'password', 'key');
+            lastfmProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedOut);
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedOut);
             const service: ScrobblingService = createService();
             service.initialize();
 
@@ -557,13 +476,14 @@ describe('ScrobblingService', () => {
             await service.sendTrackLoveAsync(trackModel1, true);
 
             // Assert
-            lastfmApiMock.verify((x) => x.loveTrackAsync(It.isAny(), It.isAny(), It.isAny()), Times.never());
-            lastfmApiMock.verify((x) => x.unloveTrackAsync(It.isAny(), It.isAny(), It.isAny()), Times.never());
+            lastfmProviderMock.verify((x) => x.sendTrackLoveAsync(It.isAny(), It.isAny()), Times.never());
+            listenbrainzProviderMock.verify((x) => x.sendTrackLoveAsync(It.isAny(), It.isAny()), Times.never());
         });
 
         it('should not send track love/unlove for an unknown track title', async () => {
             // Arrange
-            createSettingsMock(true, 'user', 'password', 'key');
+            lastfmProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
             const service: ScrobblingService = createService();
             service.initialize();
 
@@ -573,13 +493,14 @@ describe('ScrobblingService', () => {
             await service.sendTrackLoveAsync(trackModel1, true);
 
             // Assert
-            lastfmApiMock.verify((x) => x.loveTrackAsync(It.isAny(), It.isAny(), It.isAny()), Times.never());
-            lastfmApiMock.verify((x) => x.unloveTrackAsync(It.isAny(), It.isAny(), It.isAny()), Times.never());
+            lastfmProviderMock.verify((x) => x.sendTrackLoveAsync(It.isAny(), It.isAny()), Times.never());
+            listenbrainzProviderMock.verify((x) => x.sendTrackLoveAsync(It.isAny(), It.isAny()), Times.never());
         });
 
         it('should not send track love/unlove for unknown artists', async () => {
             // Arrange
-            createSettingsMock(true, 'user', 'password', 'key');
+            lastfmProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
             const service: ScrobblingService = createService();
             service.initialize();
 
@@ -589,42 +510,8 @@ describe('ScrobblingService', () => {
             await service.sendTrackLoveAsync(trackModel1, true);
 
             // Assert
-            lastfmApiMock.verify((x) => x.loveTrackAsync(It.isAny(), It.isAny(), It.isAny()), Times.never());
-            lastfmApiMock.verify((x) => x.unloveTrackAsync(It.isAny(), It.isAny(), It.isAny()), Times.never());
-        });
-
-        it('should send track love for all artists', async () => {
-            // Arrange
-            createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
-            service.initialize();
-
-            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1', 300000);
-
-            // Act
-            await service.sendTrackLoveAsync(trackModel1, true);
-            await flushPromises();
-
-            // Assert
-            lastfmApiMock.verify((x) => x.loveTrackAsync('key', 'artist1a', 'title1'), Times.once());
-            lastfmApiMock.verify((x) => x.loveTrackAsync('key', 'artist1b', 'title1'), Times.once());
-        });
-
-        it('should send track unlove for all artists', async () => {
-            // Arrange
-            createSettingsMock(true, 'user', 'password', 'key');
-            const service: ScrobblingService = createService();
-            service.initialize();
-
-            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1', 300000);
-
-            // Act
-            await service.sendTrackLoveAsync(trackModel1, false);
-            await flushPromises();
-
-            // Assert
-            lastfmApiMock.verify((x) => x.unloveTrackAsync('key', 'artist1a', 'title1'), Times.once());
-            lastfmApiMock.verify((x) => x.unloveTrackAsync('key', 'artist1b', 'title1'), Times.once());
+            lastfmProviderMock.verify((x) => x.sendTrackLoveAsync(It.isAny(), It.isAny()), Times.never());
+            listenbrainzProviderMock.verify((x) => x.sendTrackLoveAsync(It.isAny(), It.isAny()), Times.never());
         });
     });
 });

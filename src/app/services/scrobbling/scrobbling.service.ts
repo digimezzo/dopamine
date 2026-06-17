@@ -18,7 +18,7 @@ import { ListenbrainzProvider } from './listenbrainz.provider';
 export interface ScrobbleProvider {
     // Unique id of the scrobble provider (e.g. 'lastfm', 'listenbrainz')
     readonly id: string;
-    
+
     readonly signInStateChanged$: Observable<SignInState>;
     readonly signInState: SignInState;
 
@@ -81,13 +81,13 @@ export class ScrobblingService {
     }
 
     public async sendTrackLoveAsync(track: TrackModel, love: boolean) {
-        // We can't send track love for an unknown track title
-        if (StringUtils.isNullOrWhiteSpace(track.rawTitle)) {
+        // We can't send track love for an unknown track title or artist
+        if (StringUtils.isNullOrWhiteSpace(track.rawTitle) || StringUtils.isNullOrWhiteSpace(track.rawFirstArtist)) {
             return;
         }
 
-        const activeProviders = this.providers.filter( p => p.signInState === SignInState.SignedIn );
-        
+        const activeProviders = this.providers.filter(p => p.signInState === SignInState.SignedIn);
+
         await Promise.all(activeProviders.map(async (provider) => {
             try {
                 await provider.sendTrackLoveAsync(track, love);
