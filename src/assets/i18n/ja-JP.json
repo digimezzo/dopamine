@@ -231,7 +231,7 @@
     "log-in": "ログイン",
     "logged-in": "ログイン済",
     "logged-out": "ログアウト済",
-    "listenbrainz-login-failed": "ListenBrainz login failed",
+    "listenbrainz-login-failed": "ListenBrainzへのログインに失敗",
     "last-fm-login-failed": "Last.fmへのログインに失敗",
     "love": "お気に入り",
     "show-love": "お気に入りを表示",
