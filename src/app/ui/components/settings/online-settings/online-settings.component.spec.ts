@@ -198,6 +198,48 @@ describe('OnlineSettingsComponent', () => {
             // Assert
             notificationServiceMock.verify((x) => x.lastFmLoginFailedAsync(), Times.never());
         });
+
+        it('should tell the user when ListenBrainz sign in failed', async () => {
+            // Arrange
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            const component: OnlineSettingsComponent = createComponent();
+            component.ngOnInit();
+
+            // Act
+            listenbrainzProviderMock_signInStateChanged.next(SignInState.Error);
+            await flushPromises();
+
+            // Assert
+            notificationServiceMock.verify((x) => x.listenbrainzLoginFailedAsync(), Times.once());
+        });
+
+        it('should not tell the user that ListenBrainz sign in failed when signed in', async () => {
+            // Arrange
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            const component: OnlineSettingsComponent = createComponent();
+            component.ngOnInit();
+
+            // Act
+            listenbrainzProviderMock_signInStateChanged.next(SignInState.SignedIn);
+            await flushPromises();
+
+            // Assert
+            notificationServiceMock.verify((x) => x.listenbrainzLoginFailedAsync(), Times.never());
+        });
+
+        it('should not tell the user that ListenBrainz sign in failed when signed out', async () => {
+            // Arrange
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedOut);
+            const component: OnlineSettingsComponent = createComponent();
+            component.ngOnInit();
+
+            // Act
+            listenbrainzProviderMock_signInStateChanged.next(SignInState.SignedOut);
+            await flushPromises();
+
+            // Assert
+            notificationServiceMock.verify((x) => x.listenbrainzLoginFailedAsync(), Times.never());
+        });
     });
 
     describe('lastFmUserName', () => {

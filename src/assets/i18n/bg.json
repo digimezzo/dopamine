@@ -231,6 +231,7 @@
     "log-in": "Влизане",
     "logged-in": "Излез",
     "logged-out": "Излязъл",
+    "listenbrainz-login-failed": "ListenBrainz login failed",
     "last-fm-login-failed": "Last.fm грешка при влизане",
     "love": "Любими",
     "show-love": "Покажи 'Любими'",

@@ -231,6 +231,7 @@
     "log-in": "登录",
     "logged-in": "已登录",
     "logged-out": "未登录",
+    "listenbrainz-login-failed": "ListenBrainz login failed",
     "last-fm-login-failed": "Last.fm 登录失败",
     "love": "最爱",
     "show-love": "显示♡",

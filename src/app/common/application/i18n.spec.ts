@@ -168,6 +168,7 @@ describe('validate i18n', () => {
         'license',
         'lines',
         'listenbrainz',
+        'listenbrainz-login-failed',
         'loading',
         'log-file',
         'log-in',

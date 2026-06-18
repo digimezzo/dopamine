@@ -155,7 +155,14 @@ export class ScrobblingService {
 
                 await Promise.all(activeProviders.map(async (provider) => {
                     try {
-                        await provider.scrobbleAsync(this.currentTrack, this.currentTrackUTCStartTime);
+                        const isSuccess = await provider.scrobbleAsync(this.currentTrack, this.currentTrackUTCStartTime);
+                        if (!isSuccess) {
+                            this.logger.warn(
+                                `Could not Scrobble for track '${artist} - ${trackTitle}' to '${provider.id}'`,
+                                'ScrobblingService',
+                                'handlePlaybackProgressChangedAsync',
+                            );
+                        }
                     } catch (e: unknown) {
                         this.logger.error(
                             e,

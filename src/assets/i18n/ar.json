@@ -231,6 +231,7 @@
     "log-in": "تسجيل الدخول",
     "logged-in": "تم تسجيل الدخول",
     "logged-out": "تم تسجيل الخروج",
+    "listenbrainz-login-failed": "ListenBrainz login failed",
     "last-fm-login-failed": "فشل تسجيل الدخول إلى Last.fm",
     "love": "إعجاب",
     "show-love": "إظهار 'الإعجاب'",

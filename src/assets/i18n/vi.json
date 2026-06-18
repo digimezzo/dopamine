@@ -231,6 +231,7 @@
     "log-in": "Đăng nhập",
     "logged-in": "Đã đăng nhập",
     "logged-out": "Đã đăng xuất",
+    "listenbrainz-login-failed": "ListenBrainz login failed",
     "last-fm-login-failed": "Không thể đăng nhập Last.fm",
     "love": "Yêu thích",
     "show-love": "Hiện nút 'Yêu thích'",

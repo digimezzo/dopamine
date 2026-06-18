@@ -79,10 +79,9 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
         this.subscription.add(
             this.listenbrainzProvider.signInStateChanged$.subscribe((signInState: SignInState) => {
                 this._listenbrainzSignInState = signInState;
-                console.log("Listenbrainz sign in state changed: " + SignInState[signInState]);
 
                 if (signInState === SignInState.Error) {
-                    
+                    PromiseUtils.noAwait(this.notificationService.listenbrainzLoginFailedAsync());
                 }
             }),
         );

@@ -231,6 +231,7 @@
     "log-in": "Iniciar sesión",
     "logged-in": "Sesión iniciada",
     "logged-out": "Sesión cerrada",
+    "listenbrainz-login-failed": "ListenBrainz login failed",
     "last-fm-login-failed": "Error al iniciar sesión en Last.fm",
     "love": "Me gusta",
     "show-love": "Mostrar 'Me gusta'",

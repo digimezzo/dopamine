@@ -231,6 +231,7 @@
     "log-in": "Entrar",
     "logged-in": "Conectado",
     "logged-out": "Desconectado",
+    "listenbrainz-login-failed": "ListenBrainz login failed",
     "last-fm-login-failed": "Falha ao entrar no Last.fm",
     "love": "Curtir",
     "show-love": "Mostrar \"Curtir\"",

@@ -231,6 +231,7 @@
     "log-in": "Anmelden",
     "logged-in": "Angemeldet",
     "logged-out": "Abgemeldet",
+    "listenbrainz-login-failed": "ListenBrainz login failed",
     "last-fm-login-failed": "Last.fm-Login gescheitert",
     "love": "Gefällt mir!",
     "show-love": "'Gefällt mir!' zeigen",
