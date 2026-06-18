@@ -75,9 +75,9 @@ export class ListenbrainzProvider implements ScrobbleProvider {
             return Promise.resolve(false);
         }
 
-        const artist: string = track.artists;
-        const trackTitle: string = track.title;
-        const albumTitle: string = track.albumTitle;
+        const artist: string = track.rawFirstArtist;
+        const trackTitle: string = track.rawTitle;
+        const albumTitle: string = track.rawAlbumTitle;
 
         try {
             const isSuccess: boolean = await this.listenbrainzApi.updateNowPlayingAsync(this.token, artist, trackTitle, albumTitle);
@@ -97,9 +97,9 @@ export class ListenbrainzProvider implements ScrobbleProvider {
             return Promise.resolve(false);
         }
 
-        const artist: string = track.artists;
-        const trackTitle: string = track.title;
-        const albumTitle: string = track.albumTitle;
+        const artist: string = track.rawFirstArtist;
+        const trackTitle: string = track.rawTitle;
+        const albumTitle: string = track.rawAlbumTitle;
 
         try {
             const isSuccess: boolean = await this.listenbrainzApi.scrobbleTrackAsync(this.token, artist, trackTitle, albumTitle, startTime);

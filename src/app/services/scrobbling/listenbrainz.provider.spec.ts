@@ -172,9 +172,9 @@ describe('ListenbrainzProvider', () => {
             const provider = createComponent();
             provider.initialize();
             const track: any = {
-                artists: 'test-artist',
-                title: 'test-track',
-                albumTitle: 'test-album',
+                rawFirstArtist: 'test-artist',
+                rawTitle: 'test-track',
+                rawAlbumTitle: 'test-album',
             };
 
             // Act
@@ -198,9 +198,9 @@ describe('ListenbrainzProvider', () => {
                 .returns(() => Promise.resolve(true))
                 .verifiable();
             const track: any = {
-                artists: 'test-artist',
-                title: 'test-track',
-                albumTitle: 'test-album',
+                rawFirstArtist: 'test-artist',
+                rawTitle: 'test-track',
+                rawAlbumTitle: 'test-album',
             };
 
             // Act
@@ -224,9 +224,9 @@ describe('ListenbrainzProvider', () => {
             const provider = createComponent();
             provider.initialize();
             const track: any = {
-                artists: 'test-artist',
-                title: 'test-track',
-                albumTitle: 'test-album',
+                rawFirstArtist: 'test-artist',
+                rawTitle: 'test-track',
+                rawAlbumTitle: 'test-album',
             };
 
             // Act
@@ -251,9 +251,9 @@ describe('ListenbrainzProvider', () => {
                 .returns(() => Promise.resolve(true))
                 .verifiable();
             const track: any = {
-                artists: 'test-artist',
-                title: 'test-track',
-                albumTitle: 'test-album',
+                rawFirstArtists: 'test-artist',
+                rawTitle: 'test-track',
+                rawAlbumTitle: 'test-album',
             };
 
             // Act
