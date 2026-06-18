@@ -223,6 +223,7 @@
     "number": "番号",
     "listenbrainz": "ListenBrainz",
     "enable-listenbrainz-scrobbling": "ListenBrainzへのScrobbleを有効にする",
+    "listenbrainz-love-feedback-not-supported": "Dopamineは現在ListenBrainzへのLove機能をサポートしていません。",
     "token": "トークン",
     "last-fm": "Last.fm",
     "enable-last-fm-scrobbling": "Last.fmへのScrobbleを有効にする",

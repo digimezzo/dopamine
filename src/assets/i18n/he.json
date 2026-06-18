@@ -223,6 +223,7 @@
     "number": "מספר",
     "listenbrainz": "ListenBrainz",
     "enable-listenbrainz-scrobbling": "Enable Listenbrainz scrobbling",
+    "listenbrainz-love-feedback-not-supported": "ListenBrainz Love/Dislike feedback is currently not supported by Dopamine.",
     "token": "Token",
     "last-fm": "Last.fm",
     "enable-last-fm-scrobbling": "הפעלת Scrobbling ב־Last.fm",

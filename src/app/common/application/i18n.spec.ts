@@ -169,6 +169,7 @@ describe('validate i18n', () => {
         'lines',
         'listenbrainz',
         'listenbrainz-login-failed',
+        'listenbrainz-love-feedback-not-supported',
         'loading',
         'log-file',
         'log-in',
