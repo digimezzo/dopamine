@@ -51,7 +51,12 @@ describe('OnlineSettingsComponent', () => {
         listenbrainzProviderMock = Mock.ofType<ListenbrainzProvider>();
         notificationServiceMock = Mock.ofType<NotificationServiceBase>();
         updateServiceMock = Mock.ofType<UpdateServiceBase>();
-        settingsStub = { enableDiscordRichPresence: true, enableLastFmScrobbling: true, downloadLyricsOnline: true, enableListenbrainzScrobbling: true };
+        settingsStub = {
+            enableDiscordRichPresence: true,
+            enableLastFmScrobbling: true,
+            downloadLyricsOnline: true,
+            enableListenbrainzScrobbling: true,
+        };
 
         lastfmProviderMock_signInStateChanged = new Subject();
         lastfmProviderMock_signInStateChanged$ = lastfmProviderMock_signInStateChanged.asObservable();

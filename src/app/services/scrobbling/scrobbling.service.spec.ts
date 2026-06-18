@@ -133,14 +133,16 @@ describe('ScrobblingService', () => {
     describe('PlaybackService.playbackStarted', () => {
         it('should update now playing for signed in providers when artist and title are known', async () => {
             // Arrange
+            lastfmProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
             lastfmProviderMock
-                .setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+                .setup((x) => x.updateNowPlayingAsync(It.isAny()))
+                .returns(() => Promise.resolve(true))
+                .verifiable(Times.once());
             listenbrainzProviderMock
-                .setup((x) => x.signInState).returns(() => SignInState.SignedIn);
-            lastfmProviderMock
-                .setup((x) => x.updateNowPlayingAsync(It.isAny())).returns(() => Promise.resolve(true)).verifiable(Times.once());
-            listenbrainzProviderMock
-                .setup((x) => x.updateNowPlayingAsync(It.isAny())).returns(() => Promise.resolve(true)).verifiable(Times.once());
+                .setup((x) => x.updateNowPlayingAsync(It.isAny()))
+                .returns(() => Promise.resolve(true))
+                .verifiable(Times.once());
 
             const service: ScrobblingService = createService();
             service.initialize();
@@ -159,14 +161,16 @@ describe('ScrobblingService', () => {
 
         it('should not update now playing for signed out providers when artist and title are known', async () => {
             // Arrange
+            lastfmProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedOut);
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedOut);
             lastfmProviderMock
-                .setup((x) => x.signInState).returns(() => SignInState.SignedOut);
+                .setup((x) => x.updateNowPlayingAsync(It.isAny()))
+                .returns(() => Promise.resolve(true))
+                .verifiable(Times.once());
             listenbrainzProviderMock
-                .setup((x) => x.signInState).returns(() => SignInState.SignedOut);
-            lastfmProviderMock
-                .setup((x) => x.updateNowPlayingAsync(It.isAny())).returns(() => Promise.resolve(true)).verifiable(Times.once());
-            listenbrainzProviderMock
-                .setup((x) => x.updateNowPlayingAsync(It.isAny())).returns(() => Promise.resolve(true)).verifiable(Times.once());
+                .setup((x) => x.updateNowPlayingAsync(It.isAny()))
+                .returns(() => Promise.resolve(true))
+                .verifiable(Times.once());
 
             const service: ScrobblingService = createService();
             service.initialize();
@@ -185,14 +189,16 @@ describe('ScrobblingService', () => {
 
         it('should not update now playing for providers when artist is unknown', async () => {
             // Arrange
+            lastfmProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
             lastfmProviderMock
-                .setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+                .setup((x) => x.updateNowPlayingAsync(It.isAny()))
+                .returns(() => Promise.resolve(true))
+                .verifiable(Times.once());
             listenbrainzProviderMock
-                .setup((x) => x.signInState).returns(() => SignInState.SignedIn);
-            lastfmProviderMock
-                .setup((x) => x.updateNowPlayingAsync(It.isAny())).returns(() => Promise.resolve(true)).verifiable(Times.once());
-            listenbrainzProviderMock
-                .setup((x) => x.updateNowPlayingAsync(It.isAny())).returns(() => Promise.resolve(true)).verifiable(Times.once());
+                .setup((x) => x.updateNowPlayingAsync(It.isAny()))
+                .returns(() => Promise.resolve(true))
+                .verifiable(Times.once());
 
             const service: ScrobblingService = createService();
             service.initialize();
@@ -211,14 +217,16 @@ describe('ScrobblingService', () => {
 
         it('should not update now playing when title is unknown', async () => {
             // Arrange
+            lastfmProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+            listenbrainzProviderMock.setup((x) => x.signInState).returns(() => SignInState.SignedIn);
             lastfmProviderMock
-                .setup((x) => x.signInState).returns(() => SignInState.SignedIn);
+                .setup((x) => x.updateNowPlayingAsync(It.isAny()))
+                .returns(() => Promise.resolve(true))
+                .verifiable(Times.once());
             listenbrainzProviderMock
-                .setup((x) => x.signInState).returns(() => SignInState.SignedIn);
-            lastfmProviderMock
-                .setup((x) => x.updateNowPlayingAsync(It.isAny())).returns(() => Promise.resolve(true)).verifiable(Times.once());
-            listenbrainzProviderMock
-                .setup((x) => x.updateNowPlayingAsync(It.isAny())).returns(() => Promise.resolve(true)).verifiable(Times.once());
+                .setup((x) => x.updateNowPlayingAsync(It.isAny()))
+                .returns(() => Promise.resolve(true))
+                .verifiable(Times.once());
 
             const service: ScrobblingService = createService();
             service.initialize();

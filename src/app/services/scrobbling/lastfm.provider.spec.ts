@@ -1,8 +1,8 @@
-import { IMock, Mock, It, Times } from "typemoq";
-import { LastfmProvider } from "./lastfm.provider";
-import { SignInState } from "./sign-in-state";
-import { LastfmApi } from "../../common/api/lastfm/lastfm.api";
-import { Logger } from "../../common/logger";
+import { IMock, Mock, It, Times } from 'typemoq';
+import { LastfmProvider } from './lastfm.provider';
+import { SignInState } from './sign-in-state';
+import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
+import { Logger } from '../../common/logger';
 
 describe('LastFmProvider', () => {
     let settingsStub: any;
@@ -10,11 +10,7 @@ describe('LastFmProvider', () => {
     let loggerMock: IMock<Logger>;
 
     function createComponent(): LastfmProvider {
-        return new LastfmProvider(
-            lastfmApiMock.object,
-            settingsStub,
-            loggerMock.object,
-        );
+        return new LastfmProvider(lastfmApiMock.object, settingsStub, loggerMock.object);
     }
 
     beforeEach(() => {
@@ -123,7 +119,8 @@ describe('LastFmProvider', () => {
     describe('signInAsync', () => {
         it('should sign in when credentials are provided', async () => {
             // Arrange
-            lastfmApiMock.setup((x) => x.getMobileSessionAsync('test-user', 'test-password'))
+            lastfmApiMock
+                .setup((x) => x.getMobileSessionAsync('test-user', 'test-password'))
                 .returns(() => Promise.resolve('test-session-key'));
             const provider = createComponent();
             provider.username = 'test-user';
@@ -144,8 +141,7 @@ describe('LastFmProvider', () => {
             settingsStub.lastFmUsername = '';
             settingsStub.lastFmPassword = '';
             settingsStub.lastFmSessionKey = '';
-            lastfmApiMock.setup((x) => x.getMobileSessionAsync('test-user', 'test-password'))
-                .returns(() => Promise.resolve(''));
+            lastfmApiMock.setup((x) => x.getMobileSessionAsync('test-user', 'test-password')).returns(() => Promise.resolve(''));
             const provider = createComponent();
             provider.username = 'test-user';
             provider.password = 'test-password';
@@ -184,8 +180,10 @@ describe('LastFmProvider', () => {
             settingsStub.lastFmSessionKey = '';
             const provider = createComponent();
             provider.initialize();
-            lastfmApiMock.setup((x) => x.loveTrackAsync(It.isAny(), It.isAny(), It.isAny()))
-                .returns(() => Promise.resolve(true)).verifiable();
+            lastfmApiMock
+                .setup((x) => x.loveTrackAsync(It.isAny(), It.isAny(), It.isAny()))
+                .returns(() => Promise.resolve(true))
+                .verifiable();
             const track: any = {
                 rawArtists: ['test-artist'],
                 rawTitle: 'test-track',
@@ -196,14 +194,16 @@ describe('LastFmProvider', () => {
             await provider.sendTrackLoveAsync(track, true);
 
             // Assert
-            lastfmApiMock.verify(x => x.loveTrackAsync(It.isAny(), It.isAny(), It.isAny()), Times.never());
+            lastfmApiMock.verify((x) => x.loveTrackAsync(It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
         it('should send love when signed in', async () => {
             // Arrange
             settingsStub.lastFmSessionKey = 'test-session-key';
-            lastfmApiMock.setup((x) => x.loveTrackAsync('test-session-key', 'test-artist', 'test-track'))
-                .returns(() => Promise.resolve(true)).verifiable();
+            lastfmApiMock
+                .setup((x) => x.loveTrackAsync('test-session-key', 'test-artist', 'test-track'))
+                .returns(() => Promise.resolve(true))
+                .verifiable();
             const provider = createComponent();
             provider.initialize();
             const track: any = {
@@ -216,7 +216,7 @@ describe('LastFmProvider', () => {
             await provider.sendTrackLoveAsync(track, true);
 
             // Assert
-            lastfmApiMock.verify(x => x.loveTrackAsync('test-session-key', 'test-artist', 'test-track'), Times.once());
+            lastfmApiMock.verify((x) => x.loveTrackAsync('test-session-key', 'test-artist', 'test-track'), Times.once());
         });
 
         it('should send love for all track artists when multiple artists are present', async () => {
@@ -229,17 +229,21 @@ describe('LastFmProvider', () => {
                 rawTitle: 'test-track',
                 rawAlbumTitle: 'test-album',
             };
-            lastfmApiMock.setup((x) => x.loveTrackAsync('test-session-key', 'test-artist-1', 'test-track'))
-                .returns(() => Promise.resolve(true)).verifiable();
-            lastfmApiMock.setup((x) => x.loveTrackAsync('test-session-key', 'test-artist-2', 'test-track'))
-                .returns(() => Promise.resolve(true)).verifiable();
+            lastfmApiMock
+                .setup((x) => x.loveTrackAsync('test-session-key', 'test-artist-1', 'test-track'))
+                .returns(() => Promise.resolve(true))
+                .verifiable();
+            lastfmApiMock
+                .setup((x) => x.loveTrackAsync('test-session-key', 'test-artist-2', 'test-track'))
+                .returns(() => Promise.resolve(true))
+                .verifiable();
 
             // Act
             await provider.sendTrackLoveAsync(track, true);
 
             // Assert
-            lastfmApiMock.verify(x => x.loveTrackAsync('test-session-key', 'test-artist-1', 'test-track'), Times.once());
-            lastfmApiMock.verify(x => x.loveTrackAsync('test-session-key', 'test-artist-2', 'test-track'), Times.once());
+            lastfmApiMock.verify((x) => x.loveTrackAsync('test-session-key', 'test-artist-1', 'test-track'), Times.once());
+            lastfmApiMock.verify((x) => x.loveTrackAsync('test-session-key', 'test-artist-2', 'test-track'), Times.once());
         });
 
         it('should not send unlove when not signed in', async () => {
@@ -247,8 +251,10 @@ describe('LastFmProvider', () => {
             settingsStub.lastFmSessionKey = '';
             const provider = createComponent();
             provider.initialize();
-            lastfmApiMock.setup((x) => x.unloveTrackAsync(It.isAny(), It.isAny(), It.isAny()))
-                .returns(() => Promise.resolve(true)).verifiable();
+            lastfmApiMock
+                .setup((x) => x.unloveTrackAsync(It.isAny(), It.isAny(), It.isAny()))
+                .returns(() => Promise.resolve(true))
+                .verifiable();
             const track: any = {
                 rawArtists: ['test-artist'],
                 rawTitle: 'test-track',
@@ -259,14 +265,16 @@ describe('LastFmProvider', () => {
             await provider.sendTrackLoveAsync(track, false);
 
             // Assert
-            lastfmApiMock.verify(x => x.unloveTrackAsync(It.isAny(), It.isAny(), It.isAny()), Times.never());
+            lastfmApiMock.verify((x) => x.unloveTrackAsync(It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
         it('should send unlove when signed in', async () => {
             // Arrange
             settingsStub.lastFmSessionKey = 'test-session-key';
-            lastfmApiMock.setup((x) => x.unloveTrackAsync('test-session-key', 'test-artist', 'test-track'))
-                .returns(() => Promise.resolve(true)).verifiable();
+            lastfmApiMock
+                .setup((x) => x.unloveTrackAsync('test-session-key', 'test-artist', 'test-track'))
+                .returns(() => Promise.resolve(true))
+                .verifiable();
             const provider = createComponent();
             provider.initialize();
             const track: any = {
@@ -279,7 +287,7 @@ describe('LastFmProvider', () => {
             await provider.sendTrackLoveAsync(track, false);
 
             // Assert
-            lastfmApiMock.verify(x => x.unloveTrackAsync('test-session-key', 'test-artist', 'test-track'), Times.once());
+            lastfmApiMock.verify((x) => x.unloveTrackAsync('test-session-key', 'test-artist', 'test-track'), Times.once());
         });
 
         it('should send unlove for all track artists when multiple artists are present', async () => {
@@ -292,17 +300,21 @@ describe('LastFmProvider', () => {
                 rawTitle: 'test-track',
                 rawAlbumTitle: 'test-album',
             };
-            lastfmApiMock.setup((x) => x.unloveTrackAsync('test-session-key', 'test-artist-1', 'test-track'))
-                .returns(() => Promise.resolve(true)).verifiable();
-            lastfmApiMock.setup((x) => x.unloveTrackAsync('test-session-key', 'test-artist-2', 'test-track'))
-                .returns(() => Promise.resolve(true)).verifiable();
+            lastfmApiMock
+                .setup((x) => x.unloveTrackAsync('test-session-key', 'test-artist-1', 'test-track'))
+                .returns(() => Promise.resolve(true))
+                .verifiable();
+            lastfmApiMock
+                .setup((x) => x.unloveTrackAsync('test-session-key', 'test-artist-2', 'test-track'))
+                .returns(() => Promise.resolve(true))
+                .verifiable();
 
             // Act
             await provider.sendTrackLoveAsync(track, false);
 
             // Assert
-            lastfmApiMock.verify(x => x.unloveTrackAsync('test-session-key', 'test-artist-1', 'test-track'), Times.once());
-            lastfmApiMock.verify(x => x.unloveTrackAsync('test-session-key', 'test-artist-2', 'test-track'), Times.once());
+            lastfmApiMock.verify((x) => x.unloveTrackAsync('test-session-key', 'test-artist-1', 'test-track'), Times.once());
+            lastfmApiMock.verify((x) => x.unloveTrackAsync('test-session-key', 'test-artist-2', 'test-track'), Times.once());
         });
     });
 
@@ -310,8 +322,10 @@ describe('LastFmProvider', () => {
         it('should update now playing when signed in', async () => {
             // Arrange
             settingsStub.lastFmSessionKey = 'test-session-key';
-            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('test-session-key', 'test-artist', 'test-track', 'test-album'))
-                .returns(() => Promise.resolve(true)).verifiable();
+            lastfmApiMock
+                .setup((x) => x.updateTrackNowPlayingAsync('test-session-key', 'test-artist', 'test-track', 'test-album'))
+                .returns(() => Promise.resolve(true))
+                .verifiable();
             const provider = createComponent();
             provider.initialize();
             const track: any = {
@@ -324,7 +338,10 @@ describe('LastFmProvider', () => {
             const result = await provider.updateNowPlayingAsync(track);
 
             // Assert
-            lastfmApiMock.verify(x => x.updateTrackNowPlayingAsync('test-session-key', 'test-artist', 'test-track', 'test-album'), Times.once());
+            lastfmApiMock.verify(
+                (x) => x.updateTrackNowPlayingAsync('test-session-key', 'test-artist', 'test-track', 'test-album'),
+                Times.once(),
+            );
             expect(result).toBe(true);
         });
 
@@ -333,8 +350,10 @@ describe('LastFmProvider', () => {
             settingsStub.lastFmSessionKey = '';
             const provider = createComponent();
             provider.initialize();
-            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny()))
-                .returns(() => Promise.resolve(true)).verifiable();
+            lastfmApiMock
+                .setup((x) => x.updateTrackNowPlayingAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny()))
+                .returns(() => Promise.resolve(true))
+                .verifiable();
             const track: any = {
                 rawFirstArtist: 'test-artist',
                 rawTitle: 'test-track',
@@ -345,7 +364,7 @@ describe('LastFmProvider', () => {
             const result = await provider.updateNowPlayingAsync(track);
 
             // Assert
-            lastfmApiMock.verify(x => x.updateTrackNowPlayingAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
+            lastfmApiMock.verify((x) => x.updateTrackNowPlayingAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
             expect(result).toBe(false);
         });
     });
@@ -355,8 +374,10 @@ describe('LastFmProvider', () => {
             // Arrange
             settingsStub.lastFmSessionKey = 'test-session-key';
             const playbackStartTime: Date = new Date();
-            lastfmApiMock.setup((x) => x.scrobbleTrackAsync('test-session-key', 'test-artist', 'test-track', 'test-album', playbackStartTime))
-                .returns(() => Promise.resolve(true)).verifiable();
+            lastfmApiMock
+                .setup((x) => x.scrobbleTrackAsync('test-session-key', 'test-artist', 'test-track', 'test-album', playbackStartTime))
+                .returns(() => Promise.resolve(true))
+                .verifiable();
             const provider = createComponent();
             provider.initialize();
             const track: any = {
@@ -369,7 +390,10 @@ describe('LastFmProvider', () => {
             const result = await provider.scrobbleAsync(track, playbackStartTime);
 
             // Assert
-            lastfmApiMock.verify(x => x.scrobbleTrackAsync('test-session-key', 'test-artist', 'test-track', 'test-album', playbackStartTime), Times.once());
+            lastfmApiMock.verify(
+                (x) => x.scrobbleTrackAsync('test-session-key', 'test-artist', 'test-track', 'test-album', playbackStartTime),
+                Times.once(),
+            );
             expect(result).toBe(true);
         });
 
@@ -379,8 +403,10 @@ describe('LastFmProvider', () => {
             const provider = createComponent();
             provider.initialize();
             const playbackStartTime: Date = new Date();
-            lastfmApiMock.setup((x) => x.scrobbleTrackAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()))
-                .returns(() => Promise.resolve(true)).verifiable();
+            lastfmApiMock
+                .setup((x) => x.scrobbleTrackAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()))
+                .returns(() => Promise.resolve(true))
+                .verifiable();
             const track: any = {
                 rawFirstArtist: 'test-artist',
                 rawTitle: 'test-track',
@@ -391,10 +417,8 @@ describe('LastFmProvider', () => {
             const result = await provider.scrobbleAsync(track, playbackStartTime);
 
             // Assert
-            lastfmApiMock.verify(x => x.scrobbleTrackAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
+            lastfmApiMock.verify((x) => x.scrobbleTrackAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
             expect(result).toBe(false);
         });
-
     });
-
 });

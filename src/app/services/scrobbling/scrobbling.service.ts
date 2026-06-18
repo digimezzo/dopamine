@@ -86,16 +86,22 @@ export class ScrobblingService {
             return;
         }
 
-        const activeProviders = this.providers.filter(p => p.signInState === SignInState.SignedIn);
+        const activeProviders = this.providers.filter((p) => p.signInState === SignInState.SignedIn);
 
-        await Promise.all(activeProviders.map(async (provider) => {
-            try {
-                await provider.sendTrackLoveAsync(track, love);
-            } catch (e: unknown) {
-                this.logger.error(e, `Could not send '${love ? 'love' : 'unlove'}' to '${provider.id}'`, 'ScrobblingService', 'sendTrackLoveAsync');
-            }
-        }));
-
+        await Promise.all(
+            activeProviders.map(async (provider) => {
+                try {
+                    await provider.sendTrackLoveAsync(track, love);
+                } catch (e: unknown) {
+                    this.logger.error(
+                        e,
+                        `Could not send '${love ? 'love' : 'unlove'}' to '${provider.id}'`,
+                        'ScrobblingService',
+                        'sendTrackLoveAsync',
+                    );
+                }
+            }),
+        );
     }
 
     private async handlePlaybackStartedAsync(playbackStarted: PlaybackStarted): Promise<void> {
@@ -111,21 +117,27 @@ export class ScrobblingService {
             return;
         }
 
-        const activeProviders = this.providers.filter(p => p.signInState === SignInState.SignedIn);
+        const activeProviders = this.providers.filter((p) => p.signInState === SignInState.SignedIn);
 
-        await Promise.all(activeProviders.map(async (provider) => {
-            try {
-                this.logger.info(`Sending Now Playing update to '${provider.id}' for track '${artist} - ${trackTitle}'`, "ScrobblingService", "handlePlaybackStartedAsync");
-                await provider.updateNowPlayingAsync(this.currentTrack);
-            } catch (e: unknown) {
-                this.logger.error(
-                    e,
-                    `Could not update Now Playing for track '${artist} - ${trackTitle}' to '${provider.id}'`,
-                    'ScrobblingService',
-                    'handlePlaybackStartedAsync',
-                );
-            }
-        }));
+        await Promise.all(
+            activeProviders.map(async (provider) => {
+                try {
+                    this.logger.info(
+                        `Sending Now Playing update to '${provider.id}' for track '${artist} - ${trackTitle}'`,
+                        'ScrobblingService',
+                        'handlePlaybackStartedAsync',
+                    );
+                    await provider.updateNowPlayingAsync(this.currentTrack);
+                } catch (e: unknown) {
+                    this.logger.error(
+                        e,
+                        `Could not update Now Playing for track '${artist} - ${trackTitle}' to '${provider.id}'`,
+                        'ScrobblingService',
+                        'handlePlaybackStartedAsync',
+                    );
+                }
+            }),
+        );
     }
 
     private async handlePlaybackProgressChangedAsync(playbackProgress: PlaybackProgress): Promise<void> {
@@ -151,27 +163,29 @@ export class ScrobblingService {
             if (playbackProgress.progressSeconds >= playbackProgress.totalSeconds / 2 || playbackProgress.progressSeconds > 4 * 60) {
                 this.canScrobble = false;
 
-                const activeProviders = this.providers.filter(p => p.signInState === SignInState.SignedIn);
+                const activeProviders = this.providers.filter((p) => p.signInState === SignInState.SignedIn);
 
-                await Promise.all(activeProviders.map(async (provider) => {
-                    try {
-                        const isSuccess = await provider.scrobbleAsync(this.currentTrack, this.currentTrackUTCStartTime);
-                        if (!isSuccess) {
-                            this.logger.warn(
+                await Promise.all(
+                    activeProviders.map(async (provider) => {
+                        try {
+                            const isSuccess = await provider.scrobbleAsync(this.currentTrack, this.currentTrackUTCStartTime);
+                            if (!isSuccess) {
+                                this.logger.warn(
+                                    `Could not Scrobble for track '${artist} - ${trackTitle}' to '${provider.id}'`,
+                                    'ScrobblingService',
+                                    'handlePlaybackProgressChangedAsync',
+                                );
+                            }
+                        } catch (e: unknown) {
+                            this.logger.error(
+                                e,
                                 `Could not Scrobble for track '${artist} - ${trackTitle}' to '${provider.id}'`,
                                 'ScrobblingService',
                                 'handlePlaybackProgressChangedAsync',
                             );
                         }
-                    } catch (e: unknown) {
-                        this.logger.error(
-                            e,
-                            `Could not Scrobble for track '${artist} - ${trackTitle}' to '${provider.id}'`,
-                            'ScrobblingService',
-                            'handlePlaybackProgressChangedAsync',
-                        );
-                    }
-                }));
+                    }),
+                );
             }
         }
     }

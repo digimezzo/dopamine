@@ -8,16 +8,16 @@ import { Logger } from '../../common/logger';
 import { StringUtils } from '../../common/utils/string-utils';
 import { TrackModel } from '../track/track-model';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class LastfmProvider implements ScrobbleProvider {
     public readonly id: string = 'lastfm';
-    
+
     private signInStateChanged: Subject<SignInState> = new Subject();
     private _signInState: SignInState = SignInState.SignedOut;
     public signInStateChanged$: Observable<SignInState> = this.signInStateChanged.asObservable();
 
     private sessionKey: string = '';
-    
+
     public constructor(
         private lastfmApi: LastfmApi,
         private settings: SettingsBase,
@@ -38,7 +38,7 @@ export class LastfmProvider implements ScrobbleProvider {
     public initialize(): void {
         this.initializeSessionFromSettings();
     }
-    
+
     private initializeSessionFromSettings(): void {
         if (!this.settings.enableLastFmScrobbling) {
             return;
@@ -87,7 +87,7 @@ export class LastfmProvider implements ScrobbleProvider {
     public signOut(): void {
         this.sessionKey = '';
         this.settings.lastFmSessionKey = '';
-        
+
         this.logger.info(`User '${this.username}' signed out from Last.fm`, 'LastfmProvider', 'signOut');
 
         this._signInState = SignInState.SignedOut;
@@ -133,7 +133,7 @@ export class LastfmProvider implements ScrobbleProvider {
                 e,
                 `Could not update Now Playing for track '${artist} - ${trackTitle}' on Last.fm`,
                 'LastfmProvider',
-                'updateNowPlayingAsync'
+                'updateNowPlayingAsync',
             );
             return Promise.resolve(false);
         }
@@ -149,21 +149,10 @@ export class LastfmProvider implements ScrobbleProvider {
         const albumTitle: string = track.rawAlbumTitle;
 
         try {
-            const isSuccsess: boolean = await this.lastfmApi.scrobbleTrackAsync(
-                this.sessionKey,
-                artist,
-                trackTitle,
-                albumTitle,
-                startTime,
-            );
+            const isSuccsess: boolean = await this.lastfmApi.scrobbleTrackAsync(this.sessionKey, artist, trackTitle, albumTitle, startTime);
             return Promise.resolve(isSuccsess);
         } catch (e: unknown) {
-            this.logger.error(
-                e,
-                `Could not Scrobble track '${artist} - ${trackTitle}' to Last.fm`,
-                'LastfmProvider',
-                'scrobbleAsync',
-            );
+            this.logger.error(e, `Could not Scrobble track '${artist} - ${trackTitle}' to Last.fm`, 'LastfmProvider', 'scrobbleAsync');
             return Promise.resolve(false);
         }
     }
