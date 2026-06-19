@@ -149,8 +149,8 @@ export class LastfmProvider implements ScrobbleProvider {
         const albumTitle: string = track.rawAlbumTitle;
 
         try {
-            const isSuccsess: boolean = await this.lastfmApi.scrobbleTrackAsync(this.sessionKey, artist, trackTitle, albumTitle, startTime);
-            return Promise.resolve(isSuccsess);
+            const isSuccess: boolean = await this.lastfmApi.scrobbleTrackAsync(this.sessionKey, artist, trackTitle, albumTitle, startTime);
+            return Promise.resolve(isSuccess);
         } catch (e: unknown) {
             this.logger.error(e, `Could not Scrobble track '${artist} - ${trackTitle}' to Last.fm`, 'LastfmProvider', 'scrobbleAsync');
             return Promise.resolve(false);
