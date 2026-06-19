@@ -223,7 +223,13 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
     }
 
     public async shuffleAllAsync(): Promise<void> {
-        const tracks: TrackModels = this.trackService.getVisibleTracks();
+        if (!this.albums || this.albums.length === 0) {
+            return;
+        }
+
+        const albumKeys = this.albums.map(album => album.albumKey);
+        const tracks: TrackModels = this.trackService.getTracksForAlbums(albumKeys);
+        
         this.playbackService.forceShuffled();
         await this.playbackService.enqueueAndPlayTracksAsync(tracks.tracks);
     }
