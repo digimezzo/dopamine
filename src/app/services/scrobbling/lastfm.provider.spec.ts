@@ -59,7 +59,7 @@ describe('LastFmProvider', () => {
             });
 
             // Act
-            provider.signInAsync();
+            await provider.signInAsync();
             subscription.unsubscribe();
         });
 
@@ -75,7 +75,7 @@ describe('LastFmProvider', () => {
             subscription.unsubscribe();
         });
 
-        it('should notify when error', () => {
+        it('should notify when error', async () => {
             // Arrange
             const provider = createComponent();
             const subscription = provider.signInStateChanged$.subscribe((state) => {
@@ -83,7 +83,7 @@ describe('LastFmProvider', () => {
             });
 
             // Act
-            provider.signInAsync();
+            await provider.signInAsync();
             subscription.unsubscribe();
         });
     });
