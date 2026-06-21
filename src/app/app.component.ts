@@ -22,6 +22,8 @@ import { AudioVisualizer } from './services/playback/audio-visualizer';
 import { DiscordService } from './services/discord/discord.service';
 import { DockService } from './services/dock/dock.service';
 import { DatabaseMigratorBase } from './data/database-migrator.base';
+import { RatingBackupService } from './services/rating-backup/rating-backup.service';
+import { TrackRepositoryBase } from './data/repositories/track-repository.base';
 
 @Component({
     selector: 'app-root',
@@ -48,12 +50,14 @@ export class AppComponent implements OnInit {
         private logger: Logger,
         private audioVisualizer: AudioVisualizer,
         private integrationTestRunner: IntegrationTestRunner,
+        private ratingBackupService: RatingBackupService,
+        private trackRepository: TrackRepositoryBase,
     ) {
         log.create('renderer');
         log.transports.file.resolvePath = () => path.join(this.desktop.getApplicationDataDirectory(), 'logs', 'Dopamine.log');
     }
 
-    @ViewChild('playbackQueueDrawer') public playbackQueueDrawer: MatDrawer;
+    @ViewChild('playbackQueueDrawer') public playbackQueueDrawer: MatDrawer | undefined = undefined;
 
     @HostListener('document:keydown', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
@@ -84,6 +88,10 @@ export class AppComponent implements OnInit {
         );
 
         this.databaseMigrator.migrate();
+
+        // Build initial backup and, when confidence is high, auto-restore missing ratings once.
+        PromiseUtils.noAwait(this.createInitialRatingsBackupAndAutoRestoreIfNeededAsync());
+
         this.audioVisualizer.initialize();
         await this.addToPlaylistMenu.initializeAsync();
         this.discordService.initialize();
@@ -96,5 +104,23 @@ export class AppComponent implements OnInit {
         this.eventListenerService.listenToEvents();
         this.lifetimeService.initialize();
         await this.navigationService.navigateToLoadingAsync();
+    }
+
+    private async createInitialRatingsBackupAndAutoRestoreIfNeededAsync(): Promise<void> {
+        try {
+            const tracks = this.trackRepository.getVisibleTracks();
+
+            if (tracks != undefined && tracks.length > 0) {
+                await this.ratingBackupService.createInitialBackupFromTracksAsync(tracks);
+                await this.ratingBackupService.tryAutoRestoreOnStartupAsync(tracks);
+            }
+        } catch (e: unknown) {
+            this.logger.error(
+                e,
+                'Could not create initial ratings backup or auto-restore ratings',
+                'AppComponent',
+                'createInitialRatingsBackupAndAutoRestoreIfNeededAsync',
+            );
+        }
     }
 }
