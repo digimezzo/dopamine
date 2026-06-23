@@ -35,6 +35,9 @@ describe('RatingBackupService', () => {
         fileAccessMock
             .setup((x) => x.combinePath(['/home/user/Music/Dopamine/Ratings', 'ratings-backup.json']))
             .returns(() => '/home/user/Music/Dopamine/Ratings/ratings-backup.json');
+        fileAccessMock
+            .setup((x) => x.combinePath(['/home/user/Music/Dopamine/Ratings', 'auto-restore-v1.done']))
+            .returns(() => '/home/user/Music/Dopamine/Ratings/auto-restore-v1.done');
         loggerMock.setup((x) => x.info(It.isAnyString(), It.isAnyString(), It.isAnyString())).returns(() => {});
         loggerMock.setup((x) => x.error(It.isAny(), It.isAnyString(), It.isAnyString(), It.isAnyString())).returns(() => {});
     });
@@ -344,6 +347,88 @@ describe('RatingBackupService', () => {
             fileAccessMock.verify(
                 (x) => x.writeToFile('/home/user/Music/Dopamine/Ratings/ratings-backup.json', It.isAnyString()),
                 Times.never(),
+            );
+        });
+    });
+
+    describe('tryAutoRestoreOnStartupAsync', () => {
+        it('should mark guard even when no tracks are restored', async () => {
+            // Arrange
+            service = createService();
+
+            fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Dopamine/Ratings/auto-restore-v1.done')).returns(() => false);
+            fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Dopamine/Ratings/ratings-backup.json')).returns(() => true);
+
+            const backupContent = JSON.stringify({
+                version: 1,
+                lastBackupDate: Date.now(),
+                ratings: [{ trackPath: '/path/rated-track.mp3', rating: 5, love: 0, artist: 'A', title: 'T' }],
+            });
+
+            fileAccessMock
+                .setup((x) => x.getFileContentAsString('/home/user/Music/Dopamine/Ratings/ratings-backup.json'))
+                .returns(() => backupContent);
+
+            const tracks: Track[] = [];
+            for (let i = 0; i < 20; i++) {
+                const track = new Track(`/library/unmatched-${i}.mp3`);
+                track.trackId = i + 1;
+                track.rating = 0;
+                track.love = 0;
+                tracks.push(track);
+            }
+
+            // Act
+            const restoredCount = await service.tryAutoRestoreOnStartupAsync(tracks);
+
+            // Assert
+            expect(restoredCount).toEqual(0);
+            fileAccessMock.verify(
+                (x) => x.writeToFile('/home/user/Music/Dopamine/Ratings/auto-restore-v1.done', It.isAnyString()),
+                Times.once(),
+            );
+        });
+
+        it('should restore with exact path match even for small rating sets', async () => {
+            // Arrange
+            service = createService();
+
+            fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Dopamine/Ratings/auto-restore-v1.done')).returns(() => false);
+            fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Dopamine/Ratings/ratings-backup.json')).returns(() => true);
+
+            const backupContent = JSON.stringify({
+                version: 1,
+                lastBackupDate: Date.now(),
+                ratings: [{ trackPath: '/library/song.mp3', rating: 8, love: 1, artist: 'Artist', title: 'Song' }],
+            });
+
+            fileAccessMock
+                .setup((x) => x.getFileContentAsString('/home/user/Music/Dopamine/Ratings/ratings-backup.json'))
+                .returns(() => backupContent);
+
+            fileAccessMock.setup((x) => x.createFullDirectoryPathIfDoesNotExist('/home/user/Music/Dopamine/Ratings')).returns(() => {});
+            fileAccessMock
+                .setup((x) => x.writeToFile('/home/user/Music/Dopamine/Ratings/auto-restore-v1.done', It.isAnyString()))
+                .returns(() => {});
+
+            trackRepositoryMock.setup((x) => x.updateRating(1, 8)).returns(() => {});
+            trackRepositoryMock.setup((x) => x.updateLove(1, 1)).returns(() => {});
+
+            const track = new Track('/library/song.mp3');
+            track.trackId = 1;
+            track.rating = 0;
+            track.love = 0;
+
+            // Act
+            const restoredCount = await service.tryAutoRestoreOnStartupAsync([track]);
+
+            // Assert
+            expect(restoredCount).toEqual(1);
+            trackRepositoryMock.verify((x) => x.updateRating(1, 8), Times.once());
+            trackRepositoryMock.verify((x) => x.updateLove(1, 1), Times.once());
+            fileAccessMock.verify(
+                (x) => x.writeToFile('/home/user/Music/Dopamine/Ratings/auto-restore-v1.done', It.isAnyString()),
+                Times.once(),
             );
         });
     });

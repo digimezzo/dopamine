@@ -24,6 +24,8 @@ import { DockService } from './services/dock/dock.service';
 import { DatabaseMigratorBase } from './data/database-migrator.base';
 import { RatingBackupService } from './services/rating-backup/rating-backup.service';
 import { TrackRepositoryBase } from './data/repositories/track-repository.base';
+import { IndexingService } from './services/indexing/indexing.service';
+import { FolderServiceBase } from './services/folder/folder.service.base';
 
 @Component({
     selector: 'app-root',
@@ -52,6 +54,8 @@ export class AppComponent implements OnInit {
         private integrationTestRunner: IntegrationTestRunner,
         private ratingBackupService: RatingBackupService,
         private trackRepository: TrackRepositoryBase,
+        private indexingService: IndexingService,
+        private folderService: FolderServiceBase,
     ) {
         log.create('renderer');
         log.transports.file.resolvePath = () => path.join(this.desktop.getApplicationDataDirectory(), 'logs', 'Dopamine.log');
@@ -87,10 +91,21 @@ export class AppComponent implements OnInit {
             }),
         );
 
-        this.databaseMigrator.migrate();
+        // Re-attempt backup/restore once indexing completes, because tracks may not be available early at startup.
+        this.subscription.add(
+            this.indexingService.indexingFinished$.subscribe(() => {
+                PromiseUtils.noAwait(this.createInitialRatingsBackupAndAutoRestoreIfNeededAsync());
+            }),
+        );
 
-        // Build initial backup and, when confidence is high, auto-restore missing ratings once.
-        PromiseUtils.noAwait(this.createInitialRatingsBackupAndAutoRestoreIfNeededAsync());
+        // Folder add/remove can change which tracks are present, so allow a fresh restore attempt after next indexing run.
+        this.subscription.add(
+            this.folderService.foldersChanged$.subscribe(() => {
+                PromiseUtils.noAwait(this.ratingBackupService.resetAutoRestoreGuardAsync());
+            }),
+        );
+
+        this.databaseMigrator.migrate();
 
         this.audioVisualizer.initialize();
         await this.addToPlaylistMenu.initializeAsync();
@@ -111,6 +126,7 @@ export class AppComponent implements OnInit {
             const tracks = this.trackRepository.getVisibleTracks();
 
             if (tracks != undefined && tracks.length > 0) {
+                // Restore is intentionally tied to indexing completion only.
                 await this.ratingBackupService.createInitialBackupFromTracksAsync(tracks);
                 await this.ratingBackupService.tryAutoRestoreOnStartupAsync(tracks);
             }

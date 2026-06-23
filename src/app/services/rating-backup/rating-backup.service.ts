@@ -160,11 +160,6 @@ export class RatingBackupService {
                 return Promise.resolve(0);
             }
 
-            if (!this.isHighConfidenceAutoRestoreScenario(tracks, backup)) {
-                this.markAutoRestoreAttempted();
-                return Promise.resolve(0);
-            }
-
             const restoredCount = this.restoreMissingRatingsFromBackup(tracks, backup);
             this.markAutoRestoreAttempted();
 
@@ -272,6 +267,17 @@ export class RatingBackupService {
             }
         } catch (e: unknown) {
             this.logger.error(e, 'Could not delete ratings backup', 'RatingBackupService', 'deleteBackupAsync');
+        }
+    }
+
+    public async resetAutoRestoreGuardAsync(): Promise<void> {
+        try {
+            if (this.fileAccess.pathExists(this._autoRestoreGuardPath)) {
+                await this.fileAccess.deleteFileIfExistsAsync(this._autoRestoreGuardPath);
+                this.logger.info('Reset auto-restore guard file', 'RatingBackupService', 'resetAutoRestoreGuardAsync');
+            }
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not reset auto-restore guard file', 'RatingBackupService', 'resetAutoRestoreGuardAsync');
         }
     }
 
@@ -490,34 +496,6 @@ export class RatingBackupService {
         }
 
         return restoredCount;
-    }
-
-    private isHighConfidenceAutoRestoreScenario(tracks: Track[], backup: RatingBackup): boolean {
-        if (backup.ratings.length === 0) {
-            return false;
-        }
-
-        const ratedTrackCount = tracks.filter((track) => (track.rating ?? 0) > 0 || (track.love ?? 0) > 0).length;
-
-        // Already has ratings/love in DB; auto-restore is unnecessary.
-        if (ratedTrackCount > 0) {
-            return false;
-        }
-
-        let matchableMissingCount = 0;
-
-        for (const track of tracks) {
-            const matchingEntry = this.findMatchingEntryForTrack(track, backup.ratings);
-
-            if (matchingEntry != undefined && ((matchingEntry.rating ?? 0) > 0 || (matchingEntry.love ?? 0) > 0)) {
-                matchableMissingCount++;
-            }
-        }
-
-        // Confidence threshold: at least 10 tracks, or at least 20% of current library.
-        const minimumExpectedMatches = Math.max(10, Math.floor(tracks.length * 0.2));
-
-        return matchableMissingCount >= minimumExpectedMatches;
     }
 
     private findMatchingEntryForTrack(track: Track, ratingEntries: RatingEntry[]): RatingEntry | undefined {
