@@ -144,6 +144,37 @@ export class RatingBackupService {
         return Promise.resolve();
     }
 
+    public restoreRatingsManuallyAsync(): Promise<number> {
+        try {
+            const tracks = this.trackRepository.getVisibleTracks() ?? [];
+
+            if (tracks.length === 0) {
+                this.logger.info('No tracks found, skipping manual restore', 'RatingBackupService', 'restoreRatingsManuallyAsync');
+                return Promise.resolve(0);
+            }
+
+            const backup: RatingBackup = this.loadBackup();
+
+            if (backup.ratings.length === 0) {
+                this.logger.info('No backup entries found, skipping manual restore', 'RatingBackupService', 'restoreRatingsManuallyAsync');
+                return Promise.resolve(0);
+            }
+
+            const restoredCount = this.restoreMissingRatingsFromBackup(tracks, backup);
+
+            this.logger.info(
+                `Manual restore completed, restored ${restoredCount} track ratings`,
+                'RatingBackupService',
+                'restoreRatingsManuallyAsync',
+            );
+
+            return Promise.resolve(restoredCount);
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not manually restore ratings', 'RatingBackupService', 'restoreRatingsManuallyAsync');
+            return Promise.resolve(0);
+        }
+    }
+
     public tryAutoRestoreOnStartupAsync(tracks: Track[]): Promise<number> {
         try {
             if (this.fileAccess.pathExists(this._autoRestoreGuardPath)) {
