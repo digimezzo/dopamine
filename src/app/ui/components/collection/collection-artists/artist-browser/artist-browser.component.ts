@@ -227,6 +227,6 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
     }
 
     public get itemSize(): number {
-        return this.settings.showArtistImages ? 60 : 30;
+        return this.settings.showArtistImages ? 66 : 30;
     }
 }

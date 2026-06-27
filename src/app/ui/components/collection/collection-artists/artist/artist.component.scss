@@ -25,8 +25,6 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    margin-top: 3px;
-    margin-bottom: 3px;
 }
 
 .app-artist__name:hover {
@@ -36,6 +34,8 @@
 .app-artist__name.with-artist-image {
     height: 60px;
     line-height: 60px;
+    margin-top: 3px;
+    margin-bottom: 3px;
 }
 
 .app-artist__image {
