@@ -66,12 +66,17 @@ export class ArtistService implements ArtistServiceBase {
 
     private splitArtists(artists: string[]): ArtistModel[] {
         const splitArtists: string[] = this.artistSplitter.splitArtists(artists);
-        const artistModels: ArtistModel[] = [];
-        for (const artist of splitArtists) {
-            const artwork: ArtistArtwork | undefined = this.getArtwork(artist);
-            artistModels.push(this.artistModelFactory.create(artist, artwork?.artworkId));
+
+        if (this.settings.showArtistImages) {
+            const artistModels: ArtistModel[] = [];
+            for (const artist of splitArtists) {
+                const artwork: ArtistArtwork | undefined = this.getArtwork(artist);
+                artistModels.push(this.artistModelFactory.create(artist, artwork?.artworkId));
+            }
+            return artistModels;
+        } else {
+            return splitArtists.map((artist: string): ArtistModel => this.artistModelFactory.create(artist));
         }
-        return artistModels;
     }
 
     private getArtwork(artist: string): ArtistArtwork | undefined {

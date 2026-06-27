@@ -283,7 +283,7 @@ describe('ArtistService', () => {
             translatorServiceMock.verify((x) => x.get('unknown-artist'), Times.once());
         });
 
-        it('should load the artists artwork', () => {
+        it('should load the artists artwork if showing artist artwork is enabled', () => {
             // Arrange
             const trackArtistDatas: ArtistData[] = [];
             trackArtistDatas.push(new ArtistData(';Aerosmith;'));
@@ -314,6 +314,8 @@ describe('ArtistService', () => {
                 .setup((x) => x.getArtistArtworkForArtist('Bon Jovi'))
                 .returns(() => new ArtistArtwork('bon jovi', 'artwork-id-3'));
 
+            settingsMock.showArtistImages = true;
+
             const service: ArtistService = createService();
 
             // Act
@@ -333,6 +335,52 @@ describe('ArtistService', () => {
 
             expect(artists[3].name).toEqual('');
             expect(artists[3].artworkId).toBeUndefined();
+        });
+
+        it('should not load the artists artwork if showing artist artwork is disabled', () => {
+            // Arrange
+            const trackArtistDatas: ArtistData[] = [];
+            trackArtistDatas.push(new ArtistData(';Aerosmith;'));
+            trackArtistDatas.push(new ArtistData(';aerosmith;'));
+            trackArtistDatas.push(new ArtistData(';Aerosmith;;Alanis Morissette;'));
+            trackArtistDatas.push(new ArtistData(';Alanis Morissette;'));
+            trackArtistDatas.push(new ArtistData(';Bon Jovi;'));
+            trackArtistDatas.push(new ArtistData(';Bon Jovi;Aerosmith;'));
+            trackArtistDatas.push(new ArtistData(''));
+
+            const albumArtistDatas: ArtistData[] = [];
+            albumArtistDatas.push(new ArtistData(';Aerosmith;;Alanis Morissette;'));
+            albumArtistDatas.push(new ArtistData(';Alanis Morissette;'));
+            albumArtistDatas.push(new ArtistData(';Bon Jovi;'));
+            albumArtistDatas.push(new ArtistData(';Bon Jovi;Aerosmith;'));
+            albumArtistDatas.push(new ArtistData(''));
+
+            trackRepositoryMock.setup((x) => x.getTrackArtistData()).returns(() => trackArtistDatas);
+            trackRepositoryMock.setup((x) => x.getAlbumArtistData()).returns(() => albumArtistDatas);
+
+            settingsMock.showArtistImages = false;
+
+            const service: ArtistService = createService();
+
+            // Act
+            const artists: ArtistModel[] = service.getArtists(ArtistType.allArtists);
+
+            // Assert
+            expect(artists.length).toEqual(4);
+
+            expect(artists[0].name).toEqual('Aerosmith');
+            expect(artists[0].artworkId).toBeUndefined();
+
+            expect(artists[1].name).toEqual('Alanis Morissette');
+            expect(artists[1].artworkId).toBeUndefined();
+
+            expect(artists[2].name).toEqual('Bon Jovi');
+            expect(artists[2].artworkId).toBeUndefined();
+
+            expect(artists[3].name).toEqual('');
+            expect(artists[3].artworkId).toBeUndefined();
+
+            artistArtworkRepositoryMock.verify((x) => x.getArtistArtworkForArtist(It.isAnyString()), Times.never());
         });
     });
 
