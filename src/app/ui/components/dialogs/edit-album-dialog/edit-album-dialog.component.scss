@@ -1,0 +1,68 @@
+.edit-album__image {
+    width: 180px;
+    height: 180px;
+    background: var(--theme-album-cover-background);
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.edit-album__image div {
+    grid-row-start: 1;
+    grid-column-start: 1;
+}
+
+.edit-album__image__placeholder {
+    width: 180px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-album__image__placeholder svg {
+    width: 60%;
+    height: 60%;
+}
+
+.edit-album__remove-button {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background: var(--theme-accent-color);
+    margin-top: 4px;
+    margin-right: 4px;
+    justify-self: end;
+    z-index: 99;
+}
+
+.edit-album__spinner {
+    width: 180px;
+    height: 180px;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}
+
+.edit-album__remove-button i {
+    color: var(--theme-highlight-foreground);
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.edit-album__image__line1 {
+    max-width: 180px;
+    height: 24px;
+    line-height: 20px;
+    padding-left: 4px;
+    padding-right: 4px;
+    text-align: var(--theme-album-info-text-align);
+    padding-top: 4px;
+}
+
+.edit-album__image__line2 {
+    max-width: 180px;
+    height: 22px;
+    line-height: 20px;
+    padding-left: 4px;
+    padding-right: 4px;
+    text-align: var(--theme-album-info-text-align);
+}

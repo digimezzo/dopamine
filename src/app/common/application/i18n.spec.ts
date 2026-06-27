@@ -118,6 +118,7 @@ describe('validate i18n', () => {
         'downloading-of-artist-information-from-lastfm-disabled',
         'duration',
         'edit',
+        'edit-album',
         'edit-columns',
         'edit-playlist',
         'edit-track',
@@ -317,6 +318,9 @@ describe('validate i18n', () => {
         'replaygain-preamp-db',
         'replaygain-prevent-clipping',
         'replaygain-log-at-track-start',
+        'replaygain-requires-tags',
+        'replaygain-scan-tags-external-tool',
+        'replaygain-tool-rsgain',
         'show-album-on-now-playing-page',
         'unknown-album',
         'unknown-artist',
@@ -325,6 +329,7 @@ describe('validate i18n', () => {
         'unmute',
         'unsorted',
         'update-album-cover',
+        'update-file-covers',
         'updates',
         'updating-album-artwork',
         'updating-artist-artwork',
@@ -385,6 +390,7 @@ describe('validate i18n', () => {
         'normal-size',
         'large-size',
         'xl-size',
+        'overwrite-manually-edited-covers',
     ].sort();
 
     Constants.languages.forEach((language) => {

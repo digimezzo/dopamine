@@ -25,4 +25,12 @@
     <app-transparent-button class="mt-3" (click)="reindexReplayGainForExistingTracks()">
         {{ 'refresh-replaygain' | translate }}
     </app-transparent-button>
+    <div class="replaygain-help-text mt-3">
+        <div>{{ 'replaygain-requires-tags' | translate }}</div>
+        <div>
+            {{ 'replaygain-scan-tags-external-tool' | translate }}
+            <a href="https://github.com/complexlogic/rsgain" rel="noopener noreferrer">{{ 'replaygain-tool-rsgain' | translate }}</a
+            >.
+        </div>
+    </div>
 </div>

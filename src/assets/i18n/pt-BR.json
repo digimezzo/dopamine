@@ -379,5 +379,11 @@
     "refresh-replaygain-existing-tracks": "Refresh ReplayGain metadata for existing songs only",
     "refresh-replaygain": "Refresh ReplayGain",
     "replaygain-log-at-track-start": "Log ReplayGain correction at track start",
-    "show-album-on-now-playing-page": "Mostrar álbum na página Em reprodução"
+    "show-album-on-now-playing-page": "Mostrar álbum na página Em reprodução",
+    "edit-album": "Edit album",
+    "update-file-covers": "Update file covers",
+    "overwrite-manually-edited-covers": "Overwrite manually edited covers",
+    "replaygain-requires-tags": "ReplayGain only works when your files already contain ReplayGain tags.",
+    "replaygain-scan-tags-external-tool": "Scan your files first with an external tool such as",
+    "replaygain-tool-rsgain": "rsgain"
 }

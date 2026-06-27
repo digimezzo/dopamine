@@ -379,5 +379,11 @@
     "refresh-replaygain-existing-tracks": "Ververs ReplayGain-metadata alleen voor bestaande nummers",
     "refresh-replaygain": "Ververs ReplayGain",
     "replaygain-log-at-track-start": "Log ReplayGain correctie bij het starten van een nummer",
-    "show-album-on-now-playing-page": "Album tonen op de pagina 'Speelt nu'"
+    "show-album-on-now-playing-page": "Album tonen op de pagina 'Speelt nu'",
+    "edit-album": "Album bewerken",
+    "update-file-covers": "Bestandshoezen bijwerken",
+    "overwrite-manually-edited-covers": "Handmatig bewerkte covers overschrijven",
+    "replaygain-requires-tags": "ReplayGain only works when your files already contain ReplayGain tags.",
+    "replaygain-scan-tags-external-tool": "Scan your files first with an external tool such as",
+    "replaygain-tool-rsgain": "rsgain"
 }

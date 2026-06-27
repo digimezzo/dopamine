@@ -33,6 +33,8 @@ jobs:
                     echo "Linux build failed (attempt $i), retrying in 30s..."
                     sleep 30
                   done
+            - name: repackage AppImage with fuse3 runtime
+              run: bash scripts/repackage-appimage-fuse3.sh release x86_64
             - name: fetch current version
               id: ver_name
               uses: notiz-dev/github-action-json-property@release

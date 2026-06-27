@@ -38,6 +38,10 @@ const settings = new SettingsStore();
 log.create('main');
 log.transports.file.resolvePath = () => path.join(app.getPath('userData'), 'logs', 'Dopamine.log');
 
+// Prevent EPIPE crashes when stdout/stderr pipe is closed (e.g. launched from file manager on Linux)
+process.stdout?.on?.('error', () => {});
+process.stderr?.on?.('error', () => {});
+
 /**
  * Variables
  */

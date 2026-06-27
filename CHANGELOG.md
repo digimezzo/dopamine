@@ -3,7 +3,32 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.5] - 2026-05-24
+## [3.0.7] - 2026-06-21
+
+### Fixed
+
+- ReplayGain issues
+- Double-clicking next to an artists group letter causes a crash
+
+## [3.0.6] - 2026-06-13
+
+### Fixed
+
+- Manually edited album covers are overwritten on the next collection refresh
+- Fixed AppImage package not working on modern GNU/Linux distributions
+- Deleting song from playlist sometimes fails
+- Playback controls only work when clicking on upper half of the buttons
+- It's unclear that files must be tagged with an external ReplayGain scanner (for example rsgain) before normalization can take effect.
+- Change to Artist or Album tags is not reflected in the song list view nor in the Now Playing information
+- ReplayGain issues
+- Smart playlist filters ignore text containing accents or other special characters
+- Some MP3 files trigger an "MPEG header not found" error due to a too-narrow initial MPEG header scan range
+
+### Changed
+
+- Updated the Vietnamese translation
+
+## [3.0.5] - 2026-05-31
 
 ### Added
 
@@ -12,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a "Refresh now" button to the main menu
 - Added ReplayGain support
 - Added option to show album name on the now playing page
+- Added possibility to edit the album cover
 
 ### Changed
 

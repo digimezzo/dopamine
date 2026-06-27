@@ -10,6 +10,7 @@ import { AlbumArtworkIndexer } from './album-artwork-indexer';
 import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 import { IIndexingMessage } from './messages/i-indexing-message';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { AlbumArtworkRepositoryBase } from '../../data/repositories/album-artwork-repository.base';
 import { PlaybackService } from '../playback/playback.service';
 import { TrackFiller } from './track-filler';
 import { SchedulerBase } from '../../common/scheduling/scheduler.base';
@@ -29,6 +30,7 @@ describe('IndexingService', () => {
     let ipcProxyMock: IMock<IpcProxyBase>;
     let loggerMock: IMock<Logger>;
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
+    let albumArtworkRepositoryMock: IMock<AlbumArtworkRepositoryBase>;
 
     let folderService_foldersChanged: Subject<void>;
 
@@ -48,6 +50,7 @@ describe('IndexingService', () => {
         ipcProxyMock = Mock.ofType<IpcProxyBase>();
         loggerMock = Mock.ofType<Logger>();
         trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
+        albumArtworkRepositoryMock = Mock.ofType<AlbumArtworkRepositoryBase>();
 
         folderService_foldersChanged = new Subject();
         const folderService_foldersChanged$: Observable<void> = folderService_foldersChanged.asObservable();
@@ -69,6 +72,7 @@ describe('IndexingService', () => {
             playbackServiceMock.object,
             albumArtworkIndexerMock.object,
             artistArtworkIndexerMock.object,
+            albumArtworkRepositoryMock.object,
             trackRepositoryMock.object,
             trackFillerMock.object,
             desktopMock.object,
