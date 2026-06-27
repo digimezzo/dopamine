@@ -9,7 +9,7 @@
         }}</app-toggle-switch>
     </div>
     <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'refresh' | translate }}</div>
+    <div class="title">{{ 'refresh-covers' | translate }}</div>
     <div>{{ 'refresh-all-covers' | translate }}</div>
     <app-toggle-switch class="mt-3" [(isChecked)]="this.overwriteManuallyEditedCovers">{{
         'overwrite-manually-edited-covers' | translate
@@ -22,6 +22,8 @@
         {{ 'refresh-missing' | translate }}
     </app-transparent-button>
     <div class="mt-3" *ngIf="this.settings.showArtistImages">
+        <mat-divider class="my-4"></mat-divider>
+        <div class="title">{{ 'refresh-artist-images' | translate }}</div>
         <div>{{ 'refresh-all-artist-images' | translate }}</div>
         <app-transparent-button class="mt-3" (click)="this.refreshAllArtistImagesAsync()">
             {{ 'refresh-all' | translate }}

@@ -232,6 +232,8 @@ describe('validate i18n', () => {
         'read-tags-error-single-file',
         'refresh',
         'refresh-all',
+        'refresh-covers',
+        'refresh-artist-images',
         'refresh-all-covers',
         'refresh-all-artist-images',
         'refresh-collection-automatically',
