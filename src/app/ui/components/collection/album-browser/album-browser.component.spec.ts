@@ -815,12 +815,15 @@ describe('AlbumBrowserComponent', () => {
     describe('shuffleAllAsync', () => {
         it('should force shuffle and play all tracks', async () => {
             // Arrange
+            const albumData: AlbumData = new AlbumData();
+            albumData.albumKey = 'album-key-1';
+            const album: AlbumModel = new AlbumModel(albumData, translatorServiceMock.object, applicationPathsMock.object);
             const component: AlbumBrowserComponent = createComponent();
             component.albumsPersister = albumsPersisterMock.object;
-            component.albums = [];
+            component.albums = [album];
 
             const tracks: TrackModels = new TrackModels();
-            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
+            trackServiceMock.setup((x) => x.getTracksForAlbums(['album-key-1'])).returns(() => tracks);
 
             // Act
             await component.shuffleAllAsync();
