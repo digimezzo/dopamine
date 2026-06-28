@@ -383,6 +383,6 @@
     "replaygain-tool-rsgain": "rsgain",
     "ratings-backup": "Ratings backup",
     "restore-ratings-from-backup-description": "Restore ratings and love from the backup file for songs that have no rating yet.",
-    "restore-ratings-from-backup": "RESTORE",
+    "restore-ratings-from-backup": "Restore",
     "ratings-restored-count": "Restored ratings for {{count}} songs."
 }
