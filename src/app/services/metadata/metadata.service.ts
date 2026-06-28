@@ -15,6 +15,7 @@ import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.fac
 import { SettingsBase } from '../../common/settings/settings.base';
 import { ImageComparisonStatus } from './image-comparison-status';
 import { ImageRenderData } from './image-render-data';
+import { RatingBackupService } from '../rating-backup/rating-backup.service';
 
 @Injectable({ providedIn: 'root' })
 export class MetadataService {
@@ -30,6 +31,7 @@ export class MetadataService {
         private fileAccess: FileAccessBase,
         private settings: SettingsBase,
         private logger: Logger,
+        private ratingBackupService: RatingBackupService,
     ) {}
 
     public ratingSaved$: Observable<TrackModel> = this.ratingSaved.asObservable();
@@ -117,6 +119,9 @@ export class MetadataService {
                 this.logger.info(`Saved rating to file '${track.path}'`, 'MetadataService', 'saveTrackRating');
             }
 
+            // Backup the rating to a separate file
+            await this.ratingBackupService.backupTrackRatingAsync(track);
+
             this.ratingSaved.next(track);
         } catch (e: unknown) {
             this.logger.error(e, 'Could not save rating', 'MetadataService', 'saveTrackRating');
@@ -127,6 +132,12 @@ export class MetadataService {
     public saveTrackLove(track: TrackModel): void {
         try {
             this.trackRepository.updateLove(track.id, track.love);
+
+            // Backup the love status to a separate file
+            this.ratingBackupService.backupTrackLoveAsync(track).catch((e: unknown) => {
+                this.logger.error(e, 'Could not backup love status', 'MetadataService', 'saveTrackLove');
+            });
+
             this.loveSaved.next(track);
         } catch (e: unknown) {
             this.logger.error(e, 'Could not save love', 'MetadataService', 'saveTrackRatingAsync');
@@ -161,7 +172,6 @@ export class MetadataService {
 
         return ImageComparisonStatus.Different;
     }
-    s;
 
     public async getImageRenderDataFromFileAsync(imageFilePath: string): Promise<ImageRenderData> {
         try {
