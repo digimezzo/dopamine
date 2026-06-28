@@ -305,14 +305,12 @@ describe('ArtistService', () => {
             trackRepositoryMock.setup((x) => x.getAlbumArtistData()).returns(() => albumArtistDatas);
 
             artistArtworkRepositoryMock
-                .setup((x) => x.getArtistArtworkForArtist(It.is((arg: string) => arg.toLowerCase() === 'aerosmith')))
-                .returns(() => new ArtistArtwork('aerosmith', 'artwork-id-1'));
-            artistArtworkRepositoryMock
-                .setup((x) => x.getArtistArtworkForArtist('Alanis Morissette'))
-                .returns(() => new ArtistArtwork('alanis morissette', 'artwork-id-2'));
-            artistArtworkRepositoryMock
-                .setup((x) => x.getArtistArtworkForArtist('Bon Jovi'))
-                .returns(() => new ArtistArtwork('bon jovi', 'artwork-id-3'));
+                .setup((x) => x.getArtistArtworkForArtists(It.isAny()))
+                .returns(() => [
+                    new ArtistArtwork('aerosmith', 'artwork-id-1'),
+                    new ArtistArtwork('alanis morissette', 'artwork-id-2'),
+                    new ArtistArtwork('bon jovi', 'artwork-id-3'),
+                ]);
 
             settingsMock.showArtistImages = true;
 
@@ -380,7 +378,7 @@ describe('ArtistService', () => {
             expect(artists[3].name).toEqual('');
             expect(artists[3].artworkId).toBeUndefined();
 
-            artistArtworkRepositoryMock.verify((x) => x.getArtistArtworkForArtist(It.isAnyString()), Times.never());
+            artistArtworkRepositoryMock.verify((x) => x.getArtistArtworkForArtists(It.isAny()), Times.never());
         });
     });
 
