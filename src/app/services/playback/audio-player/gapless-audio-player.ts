@@ -85,7 +85,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     }
 
     public get totalSeconds(): number {
-        return this._isPlaying ? this._currentBuffer?.duration ?? 0 : 0;
+        return this._isPlaying ? (this._currentBuffer?.duration ?? 0) : 0;
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -142,11 +142,12 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         await this._audio.play();
         this._isPaused = false;
     }
-    public setVolume(linearVolume: number): void {
+    public setVolume(linearVolume: number, replayGainMultiplier: number = 1): void {
         // log(0) is undefined. So we provide a minimum of 0.01.
         const logarithmicVolume: number = linearVolume > 0 ? this.mathExtensions.linearToLogarithmic(linearVolume, 0.01, 1) : 0;
-        this._gainNode.gain.setValueAtTime(logarithmicVolume, 0);
-        this._lastSetLogarithmicVolume = logarithmicVolume;
+        const finalGain: number = logarithmicVolume * replayGainMultiplier;
+        this._gainNode.gain.setValueAtTime(finalGain, 0);
+        this._lastSetLogarithmicVolume = finalGain;
     }
     public async skipToSecondsAsync(seconds: number): Promise<void> {
         const isPaused = this._isPaused;

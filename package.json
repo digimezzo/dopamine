@@ -1,7 +1,7 @@
 {
     "name": "Dopamine",
     "desktopName": "Dopamine",
-    "version": "3.0.6",
+    "version": "3.0.7",
     "versionSuffix": "",
     "copyright": "Copyright Digimezzo Ⓒ 2014 - 2026",
     "description": "Dopamine is an elegant audio player which tries to make organizing and listening to music as simple and pretty as possible.",
@@ -74,7 +74,7 @@
         "@typescript-eslint/parser": "5.48.2",
         "core-js": "2.6.1",
         "electron": "^38.0.0",
-        "electron-builder": "26.3.6",
+        "electron-builder": "26.15.0",
         "electron-reload": "1.5.0",
         "eslint": "^8.33.0",
         "jest": "29.6.1",

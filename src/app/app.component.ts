@@ -22,6 +22,10 @@ import { AudioVisualizer } from './services/playback/audio-visualizer';
 import { DiscordService } from './services/discord/discord.service';
 import { DockService } from './services/dock/dock.service';
 import { DatabaseMigratorBase } from './data/database-migrator.base';
+import { RatingBackupService } from './services/rating-backup/rating-backup.service';
+import { TrackRepositoryBase } from './data/repositories/track-repository.base';
+import { IndexingService } from './services/indexing/indexing.service';
+import { FolderServiceBase } from './services/folder/folder.service.base';
 
 @Component({
     selector: 'app-root',
@@ -48,12 +52,16 @@ export class AppComponent implements OnInit {
         private logger: Logger,
         private audioVisualizer: AudioVisualizer,
         private integrationTestRunner: IntegrationTestRunner,
+        private ratingBackupService: RatingBackupService,
+        private trackRepository: TrackRepositoryBase,
+        private indexingService: IndexingService,
+        private folderService: FolderServiceBase,
     ) {
         log.create('renderer');
         log.transports.file.resolvePath = () => path.join(this.desktop.getApplicationDataDirectory(), 'logs', 'Dopamine.log');
     }
 
-    @ViewChild('playbackQueueDrawer') public playbackQueueDrawer: MatDrawer;
+    @ViewChild('playbackQueueDrawer') public playbackQueueDrawer: MatDrawer | undefined = undefined;
 
     @HostListener('document:keydown', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
@@ -83,7 +91,22 @@ export class AppComponent implements OnInit {
             }),
         );
 
+        // Re-attempt backup/restore once indexing completes, because tracks may not be available early at startup.
+        this.subscription.add(
+            this.indexingService.indexingFinished$.subscribe(() => {
+                PromiseUtils.noAwait(this.createInitialRatingsBackupAndAutoRestoreIfNeededAsync());
+            }),
+        );
+
+        // Folder add/remove can change which tracks are present, so allow a fresh restore attempt after next indexing run.
+        this.subscription.add(
+            this.folderService.foldersChanged$.subscribe(() => {
+                PromiseUtils.noAwait(this.ratingBackupService.resetAutoRestoreGuardAsync());
+            }),
+        );
+
         this.databaseMigrator.migrate();
+
         this.audioVisualizer.initialize();
         await this.addToPlaylistMenu.initializeAsync();
         this.discordService.initialize();
@@ -96,5 +119,24 @@ export class AppComponent implements OnInit {
         this.eventListenerService.listenToEvents();
         this.lifetimeService.initialize();
         await this.navigationService.navigateToLoadingAsync();
+    }
+
+    private async createInitialRatingsBackupAndAutoRestoreIfNeededAsync(): Promise<void> {
+        try {
+            const tracks = this.trackRepository.getVisibleTracks();
+
+            if (tracks != undefined && tracks.length > 0) {
+                // Restore is intentionally tied to indexing completion only.
+                await this.ratingBackupService.createInitialBackupFromTracksAsync(tracks);
+                await this.ratingBackupService.tryAutoRestoreOnStartupAsync(tracks);
+            }
+        } catch (e: unknown) {
+            this.logger.error(
+                e,
+                'Could not create initial ratings backup or auto-restore ratings',
+                'AppComponent',
+                'createInitialRatingsBackupAndAutoRestoreIfNeededAsync',
+            );
+        }
     }
 }

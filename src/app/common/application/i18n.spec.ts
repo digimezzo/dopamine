@@ -386,6 +386,10 @@ describe('validate i18n', () => {
         'large-size',
         'xl-size',
         'overwrite-manually-edited-covers',
+        'restore-ratings-from-backup',
+        'restore-ratings-from-backup-description',
+        'ratings-backup',
+        'ratings-restored-count',
     ].sort();
 
     Constants.languages.forEach((language) => {
