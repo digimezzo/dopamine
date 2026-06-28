@@ -8,6 +8,8 @@ import { PlaybackIndicationServiceBase } from '../../../services/playback-indica
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
 import { MouseSelectionWatcher } from '../mouse-selection-watcher';
 import { ContextMenuOpener } from '../context-menu-opener';
+import { SearchServiceBase } from '../../../services/search/search.service.base';
+import { StringUtils } from '../../../common/utils/string-utils';
 
 @Component({
     selector: 'app-playback-queue',
@@ -27,6 +29,7 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
         public mouseSelectionWatcher: MouseSelectionWatcher,
         private playbackIndicationService: PlaybackIndicationServiceBase,
         private navigationService: NavigationServiceBase,
+        private searchService: SearchServiceBase,
     ) {}
 
     @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })
@@ -35,8 +38,36 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
     @Input()
     public showTitle: boolean = true;
 
+    public searchText: string = '';
+
     public get shouldShowList(): boolean {
         return this._shouldShowList;
+    }
+
+    public get filteredTracks(): TrackModel[] {
+        const queueTracks: TrackModel[] = this.playbackService.playbackQueue.tracks;
+
+        if (StringUtils.isNullOrWhiteSpace(this.searchText)) {
+            return queueTracks;
+        }
+
+        return queueTracks.filter((track: TrackModel) => {
+            const textToSearch: string = [
+                track.title,
+                track.albumTitle,
+                track.albumArtists,
+                track.artists,
+                track.fileName,
+                track.year.toString(),
+                track.genres,
+            ].join(' ');
+
+            return this.searchService.matchesSearchText(textToSearch, this.searchText);
+        });
+    }
+
+    public get hasSearchText(): boolean {
+        return !StringUtils.isNullOrWhiteSpace(this.searchText);
     }
 
     public ngOnDestroy(): void {
@@ -77,5 +108,9 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
 
     public onRemoveFromQueue(): void {
         this.playbackService.removeFromQueue(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
+    }
+
+    public clearSearchText(): void {
+        this.searchText = '';
     }
 }
