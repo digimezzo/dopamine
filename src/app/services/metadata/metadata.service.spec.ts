@@ -16,6 +16,7 @@ import { TrackRepositoryBase } from '../../data/repositories/track-repository.ba
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
+import { RatingBackupService } from '../rating-backup/rating-backup.service';
 
 class FileMetadataImplementation implements IFileMetadata {
     public path!: string;
@@ -65,6 +66,7 @@ describe('MetadataService', () => {
     let settingsMock: IMock<SettingsBase>;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let ratingBackupServiceMock: IMock<RatingBackupService>;
 
     function createService(): MetadataService {
         return new MetadataService(
@@ -76,6 +78,7 @@ describe('MetadataService', () => {
             fileAccessMock.object,
             settingsMock.object,
             loggerMock.object,
+            ratingBackupServiceMock.object,
         );
     }
 
@@ -90,9 +93,12 @@ describe('MetadataService', () => {
         settingsMock = Mock.ofType<SettingsBase>();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        ratingBackupServiceMock = Mock.ofType<RatingBackupService>();
 
         fileAccessMock.setup((x) => x.getFileExtension('path1.mp3')).returns(() => '.mp3');
         fileAccessMock.setup((x) => x.getFileExtension('path2.ogg')).returns(() => '.ogg');
+        ratingBackupServiceMock.setup((x) => x.backupTrackRatingAsync(It.isAny())).returns(async () => {});
+        ratingBackupServiceMock.setup((x) => x.backupTrackLoveAsync(It.isAny())).returns(async () => {});
     });
 
     describe('constructor', () => {
@@ -339,6 +345,19 @@ describe('MetadataService', () => {
             // Assert
             expect(ratingSaved).toBeTruthy();
         });
+
+        it('should backup rating after saving', async () => {
+            // Arrange
+            settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
+            const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object, '');
+            const service: MetadataService = createService();
+
+            // Act
+            await service.saveTrackRatingAsync(track);
+
+            // Assert
+            ratingBackupServiceMock.verify((x) => x.backupTrackRatingAsync(track), Times.once());
+        });
     });
 
     describe('saveTrackLove', () => {
@@ -377,6 +396,19 @@ describe('MetadataService', () => {
 
             // Assert
             expect(loveSaved).toBeTruthy();
+        });
+
+        it('should backup love after saving', () => {
+            // Arrange
+            settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
+            const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object, '');
+            const service: MetadataService = createService();
+
+            // Act
+            service.saveTrackLove(track);
+
+            // Assert
+            ratingBackupServiceMock.verify((x) => x.backupTrackLoveAsync(track), Times.once());
         });
     });
 });

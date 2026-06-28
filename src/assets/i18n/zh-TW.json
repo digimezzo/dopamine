@@ -385,5 +385,9 @@
     "overwrite-manually-edited-covers": "Overwrite manually edited covers",
     "replaygain-requires-tags": "ReplayGain only works when your files already contain ReplayGain tags.",
     "replaygain-scan-tags-external-tool": "Scan your files first with an external tool such as",
-    "replaygain-tool-rsgain": "rsgain"
+    "replaygain-tool-rsgain": "rsgain",
+    "ratings-backup": "Ratings backup",
+    "restore-ratings-from-backup-description": "Restore ratings and love from the backup file for songs that have no rating yet.",
+    "restore-ratings-from-backup": "Restore",
+    "ratings-restored-count": "Restored ratings for {{count}} songs."
 }
