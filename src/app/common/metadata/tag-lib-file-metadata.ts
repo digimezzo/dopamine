@@ -252,19 +252,14 @@ export class TagLibFileMetadata implements IFileMetadata {
             Id3v2FrameClassType.PopularimeterFrame,
         );
 
-        if (allPopularimeterFrames.length === 0) {
+        const preferredPopularimeterFrame: Id3v2PopularimeterFrame | undefined =
+            this.getPreferredPopularimeterFrame(allPopularimeterFrames);
+
+        if (preferredPopularimeterFrame === undefined) {
             return 0;
         }
 
-        const popularimeterFramesForWindowsUser: Id3v2PopularimeterFrame[] = allPopularimeterFrames.filter(
-            (x) => x.user === this.windowsPopMUser,
-        );
-
-        if (popularimeterFramesForWindowsUser.length > 0) {
-            return RatingConverter.popMToStarRating(popularimeterFramesForWindowsUser[0].rating);
-        }
-
-        return RatingConverter.popMToStarRating(allPopularimeterFrames[0].rating);
+        return RatingConverter.popMToStarRating(preferredPopularimeterFrame.rating);
     }
 
     private writeRatingToFile(tagLibFile: File, rating: number): void {
@@ -280,12 +275,23 @@ export class TagLibFileMetadata implements IFileMetadata {
 
         allPopularimeterFrames = id3v2Tag.getFramesByClassType<Id3v2PopularimeterFrame>(Id3v2FrameClassType.PopularimeterFrame);
 
-        const popularimeterFramesForWindowsUser: Id3v2PopularimeterFrame[] = allPopularimeterFrames.filter(
+        const preferredPopularimeterFrame: Id3v2PopularimeterFrame | undefined =
+            this.getPreferredPopularimeterFrame(allPopularimeterFrames);
+
+        if (preferredPopularimeterFrame !== undefined) {
+            preferredPopularimeterFrame.rating = RatingConverter.starToPopMRating(rating);
+        }
+    }
+
+    private getPreferredPopularimeterFrame(allPopularimeterFrames: Id3v2PopularimeterFrame[]): Id3v2PopularimeterFrame | undefined {
+        const popularimeterFrameForWindowsUser: Id3v2PopularimeterFrame | undefined = allPopularimeterFrames.find(
             (x) => x.user === this.windowsPopMUser,
         );
 
-        if (popularimeterFramesForWindowsUser.length > 0) {
-            popularimeterFramesForWindowsUser[0].rating = RatingConverter.starToPopMRating(rating);
+        if (popularimeterFrameForWindowsUser !== undefined) {
+            return popularimeterFrameForWindowsUser;
         }
+
+        return allPopularimeterFrames[0];
     }
 }
