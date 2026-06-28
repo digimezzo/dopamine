@@ -18,6 +18,10 @@ import { DesktopBase } from './common/io/desktop.base';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
 import { LifetimeService } from './services/lifetime/lifetime.service';
 import { DatabaseMigratorBase } from './data/database-migrator.base';
+import { RatingBackupService } from './services/rating-backup/rating-backup.service';
+import { TrackRepositoryBase } from './data/repositories/track-repository.base';
+import { IndexingService } from './services/indexing/indexing.service';
+import { FolderServiceBase } from './services/folder/folder.service.base';
 
 describe('AppComponent', () => {
     let databaseMigratorMock: IMock<DatabaseMigratorBase>;
@@ -39,9 +43,17 @@ describe('AppComponent', () => {
     let matDrawerMock: IMock<MatDrawer>;
 
     let integrationTestRunnerMock: IMock<IntegrationTestRunner>;
+    let ratingBackupServiceMock: IMock<RatingBackupService>;
+    let trackRepositoryMock: IMock<TrackRepositoryBase>;
+    let indexingServiceMock: IMock<IndexingService>;
+    let folderServiceMock: IMock<FolderServiceBase>;
 
     let showNowPlayingRequestedMock: Subject<void>;
     let showNowPlayingRequestedMock$: Observable<void>;
+    let indexingFinishedMock: Subject<void>;
+    let indexingFinishedMock$: Observable<void>;
+    let foldersChangedMock: Subject<void>;
+    let foldersChangedMock$: Observable<void>;
 
     function createComponent(): AppComponent {
         return new AppComponent(
@@ -61,6 +73,10 @@ describe('AppComponent', () => {
             loggerMock.object,
             audioVisualizerMock.object,
             integrationTestRunnerMock.object,
+            ratingBackupServiceMock.object,
+            trackRepositoryMock.object,
+            indexingServiceMock.object,
+            folderServiceMock.object,
         );
     }
 
@@ -82,11 +98,22 @@ describe('AppComponent', () => {
         matDrawerMock = Mock.ofType<MatDrawer>();
         integrationTestRunnerMock = Mock.ofType<IntegrationTestRunner>();
         audioVisualizerMock = Mock.ofType<AudioVisualizer>();
+        ratingBackupServiceMock = Mock.ofType<RatingBackupService>();
+        trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
+        indexingServiceMock = Mock.ofType<IndexingService>();
+        folderServiceMock = Mock.ofType<FolderServiceBase>();
 
         showNowPlayingRequestedMock = new Subject();
         showNowPlayingRequestedMock$ = showNowPlayingRequestedMock.asObservable();
+        indexingFinishedMock = new Subject();
+        indexingFinishedMock$ = indexingFinishedMock.asObservable();
+        foldersChangedMock = new Subject();
+        foldersChangedMock$ = foldersChangedMock.asObservable();
 
         navigationServiceMock.setup((x) => x.showPlaybackQueueRequested$).returns(() => showNowPlayingRequestedMock$);
+        indexingServiceMock.setup((x) => x.indexingFinished$).returns(() => indexingFinishedMock$);
+        folderServiceMock.setup((x) => x.foldersChanged$).returns(() => foldersChangedMock$);
+        trackRepositoryMock.setup((x) => x.getVisibleTracks()).returns(() => []);
     });
 
     describe('constructor', () => {
@@ -189,6 +216,18 @@ describe('AppComponent', () => {
             databaseMigratorMock.verify((x) => x.migrate(), Times.exactly(1));
         });
 
+        it('should reset auto-restore guard when collection folders change', async () => {
+            // Arrange
+            const component: AppComponent = createComponent();
+
+            // Act
+            await component.ngOnInit();
+            foldersChangedMock.next();
+
+            // Assert
+            ratingBackupServiceMock.verify((x) => x.resetAutoRestoreGuardAsync(), Times.once());
+        });
+
         it('should initialize Discord', async () => {
             // Arrange
             const app: AppComponent = createComponent();
@@ -255,6 +294,18 @@ describe('AppComponent', () => {
 
             // Assert
             audioVisualizerMock.verify((x) => x.initialize(), Times.once());
+        });
+
+        it('should retry ratings restore after indexing is finished', async () => {
+            // Arrange
+            const app: AppComponent = createComponent();
+
+            // Act
+            await app.ngOnInit();
+            indexingFinishedMock.next();
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.getVisibleTracks(), Times.exactly(1));
         });
     });
 

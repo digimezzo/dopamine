@@ -9,6 +9,14 @@
         </app-transparent-button>
     </div>
     <mat-divider class="my-4"></mat-divider>
+    <div class="title">{{ 'ratings-backup' | translate }}</div>
+    <div>{{ 'restore-ratings-from-backup-description' | translate }}</div>
+    <div class="mt-4">
+        <app-transparent-button (click)="this.restoreRatingsAsync()">
+            {{ 'restore-ratings-from-backup' | translate }}
+        </app-transparent-button>
+    </div>
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'log-file' | translate }}</div>
     <div>{{ 'something-wrong-look-in-log-file' | translate }}</div>
     <div class="mt-4">

@@ -387,5 +387,9 @@
     "overwrite-manually-edited-covers": "Ghi đè lên các ảnh album đã được chỉnh sửa thủ công",
     "replaygain-requires-tags": "ReplayGain chỉ hoạt động khi các tệp của bạn có chứa thẻ ReplayGain.",
     "replaygain-scan-tags-external-tool": "Trước tiên, hãy quét các tệp của bạn bằng một công cụ bên ngoài, chẳng hạn như",
-    "replaygain-tool-rsgain": "rsgain"
+    "replaygain-tool-rsgain": "rsgain",
+    "ratings-backup": "Ratings backup",
+    "restore-ratings-from-backup-description": "Restore ratings and love from the backup file for songs that have no rating yet.",
+    "restore-ratings-from-backup": "Restore",
+    "ratings-restored-count": "Restored ratings for {{count}} songs."
 }
