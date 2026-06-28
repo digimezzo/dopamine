@@ -1,5 +1,8 @@
 <div class="app-artist">
-    <div class="app-artist__header pointer mx-1" *ngIf="artist.isZoomHeader" (click)="this.requestZoomOut()">
+    <div *ngIf="artist.isZoomHeader"
+         class="app-artist__header pointer mx-1"
+         [ngClass]="{ 'size-big': settings.showArtistImages }"
+         (click)="this.requestZoomOut()">
         {{ artist.zoomHeader }}
     </div>
     <div

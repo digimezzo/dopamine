@@ -17,6 +17,10 @@
     padding-bottom: 2px; // HACK: this is a hack to make the text look centered
 }
 
+.app-artist__header.size-big {
+    margin-top: 39px; // makes all elements the same height (66px)
+}
+
 .app-artist__name {
     height: 30px;
     line-height: 30px;
