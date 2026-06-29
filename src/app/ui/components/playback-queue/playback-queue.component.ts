@@ -77,7 +77,9 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
-                this.playbackIndicationService.setPlayingTrack(this.playbackService.playbackQueue.tracks, playbackStarted.currentTrack);
+                const queueTracks: TrackModel[] = this.playbackService.playbackQueue.tracks;
+                this.playbackIndicationService.clearPlayingTrack(queueTracks);
+                this.playbackIndicationService.setPlayingTrack(queueTracks, playbackStarted.currentTrack);
             }),
         );
 
