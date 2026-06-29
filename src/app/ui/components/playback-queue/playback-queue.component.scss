@@ -1,3 +1,13 @@
 .playback-queue__trackscount {
     color: var(--theme-accent-color);
 }
+
+.playback-queue__header {
+    gap: 8px;
+    justify-content: space-between;
+}
+
+.playback-queue__search {
+    width: 200px;
+    max-width: 100%;
+}
