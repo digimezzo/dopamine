@@ -96,6 +96,11 @@ export class NotificationService implements NotificationServiceBase {
         await this.showSelfClosingNotificationAsync('las la-frown', message, false);
     }
 
+    public async listenbrainzLoginFailedAsync(): Promise<void> {
+        const message: string = await this.translatorService.getAsync('listenbrainz-login-failed');
+        await this.showSelfClosingNotificationAsync('las la-frown', message, false);
+    }
+
     public dismiss(): void {
         this._notificationData = undefined;
         this.dismissNotification.next();

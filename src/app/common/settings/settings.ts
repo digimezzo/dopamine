@@ -490,6 +490,15 @@ export class Settings implements SettingsBase {
         this.set('enableLastFmScrobbling', v);
     }
 
+    // enableListenbrainzScrobbling
+    public get enableListenbrainzScrobbling(): boolean {
+        return this.get<boolean>('enableListenbrainzScrobbling');
+    }
+
+    public set enableListenbrainzScrobbling(v: boolean) {
+        this.set('enableListenbrainzScrobbling', v);
+    }
+
     // showIconInNotificationArea
     public get showIconInNotificationArea(): boolean {
         return this.get<boolean>('showIconInNotificationArea');
@@ -641,6 +650,24 @@ export class Settings implements SettingsBase {
 
     public set lastFmSessionKey(v: string) {
         this.set('lastFmSessionKey', v);
+    }
+
+    // listenbrainzUsername
+    public get listenbrainzUsername(): string {
+        return this.get<string>('listenbrainzUsername');
+    }
+
+    public set listenbrainzUsername(v: string) {
+        this.set('listenbrainzUsername', v);
+    }
+
+    // listenbrainzToken
+    public get listenbrainzToken(): string {
+        return this.get<string>('listenbrainzToken');
+    }
+
+    public set listenbrainzToken(v: string) {
+        this.set('listenbrainzToken', v);
     }
 
     // showLove
