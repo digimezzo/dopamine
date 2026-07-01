@@ -29,6 +29,7 @@ export class SettingsMock implements SettingsBase {
     public downloadArtistInformationFromLastFm: boolean;
     public downloadLyricsOnline: boolean;
     public downloadMissingAlbumCovers: boolean;
+    public showArtistImages: boolean;
     public enableDiscordRichPresence: boolean;
     public enableLastFmScrobbling: boolean;
     public foldersLeftPaneWidthPercent: number;

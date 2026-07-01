@@ -109,9 +109,9 @@ describe('AlbumArtworkCacheService', () => {
                 .setup((x) =>
                     x.toResizedJpegBufferAsync(
                         imageBuffer,
-                        Constants.cachedCoverArtMaximumSize,
-                        Constants.cachedCoverArtMaximumSize,
-                        Constants.cachedCoverArtJpegQuality,
+                        Constants.cachedArtworkMaximumSize,
+                        Constants.cachedArtworkMaximumSize,
+                        Constants.cachedArtworkJpegQuality,
                     ),
                 )
                 .returns(() => Promise.resolve(resizedImageBuffer));

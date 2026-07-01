@@ -1,4 +1,4 @@
-import { IMock, Mock, Times } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { ArtistModel } from './artist-model';
 import { ArtistType } from './artist-type';
 import { ArtistService } from './artist.service';
@@ -9,18 +9,27 @@ import { ArtistSplitter } from './artist-splitter';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { SettingsMock } from '../../testing/settings-mock';
 import { Logger } from '../../common/logger';
+import { ApplicationPaths } from '../../common/application/application-paths';
+import { ArtistModelFactory } from './artist-model-factory';
+import { ArtistArtworkRepository } from '../../data/repositories/artist-artwork-repository';
+import { ArtistArtwork } from '../../data/entities/artist-artwork';
 
 describe('ArtistService', () => {
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
+    let artistArtworkRepositoryMock: IMock<ArtistArtworkRepository>;
     let settingsMock: SettingsBase;
     let artistSplitter: ArtistSplitter;
     let loggerMock: IMock<Logger>;
+    let applicationPathsMock: IMock<ApplicationPaths>;
+    let artistModelFactory: ArtistModelFactory;
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
+        artistArtworkRepositoryMock = Mock.ofType<ArtistArtworkRepository>();
         loggerMock = Mock.ofType<Logger>();
+        applicationPathsMock = Mock.ofType<ApplicationPaths>();
         settingsMock = new SettingsMock();
         settingsMock.artistSplitSeparators = '';
         settingsMock.artistSplitExceptions = '';
@@ -29,13 +38,20 @@ describe('ArtistService', () => {
     });
 
     function createService(): ArtistService {
-        artistSplitter = new ArtistSplitter(translatorServiceMock.object, settingsMock);
-
-        return new ArtistService(artistSplitter, trackRepositoryMock.object, settingsMock, loggerMock.object);
+        artistSplitter = new ArtistSplitter(settingsMock);
+        artistModelFactory = new ArtistModelFactory(translatorServiceMock.object, applicationPathsMock.object);
+        return new ArtistService(
+            artistSplitter,
+            trackRepositoryMock.object,
+            artistArtworkRepositoryMock.object,
+            artistModelFactory,
+            settingsMock,
+            loggerMock.object,
+        );
     }
 
     function createArtistModel(artist: string): ArtistModel {
-        return new ArtistModel(artist, translatorServiceMock.object);
+        return artistModelFactory.create(artist);
     }
 
     describe('constructor', () => {
@@ -266,12 +282,110 @@ describe('ArtistService', () => {
 
             translatorServiceMock.verify((x) => x.get('unknown-artist'), Times.once());
         });
+
+        it('should load the artists artwork if showing artist artwork is enabled', () => {
+            // Arrange
+            const trackArtistDatas: ArtistData[] = [];
+            trackArtistDatas.push(new ArtistData(';Aerosmith;'));
+            trackArtistDatas.push(new ArtistData(';aerosmith;'));
+            trackArtistDatas.push(new ArtistData(';Aerosmith;;Alanis Morissette;'));
+            trackArtistDatas.push(new ArtistData(';Alanis Morissette;'));
+            trackArtistDatas.push(new ArtistData(';Bon Jovi;'));
+            trackArtistDatas.push(new ArtistData(';Bon Jovi;Aerosmith;'));
+            trackArtistDatas.push(new ArtistData(''));
+
+            const albumArtistDatas: ArtistData[] = [];
+            albumArtistDatas.push(new ArtistData(';Aerosmith;;Alanis Morissette;'));
+            albumArtistDatas.push(new ArtistData(';Alanis Morissette;'));
+            albumArtistDatas.push(new ArtistData(';Bon Jovi;'));
+            albumArtistDatas.push(new ArtistData(';Bon Jovi;Aerosmith;'));
+            albumArtistDatas.push(new ArtistData(''));
+
+            trackRepositoryMock.setup((x) => x.getTrackArtistData()).returns(() => trackArtistDatas);
+            trackRepositoryMock.setup((x) => x.getAlbumArtistData()).returns(() => albumArtistDatas);
+
+            artistArtworkRepositoryMock
+                .setup((x) => x.getArtistArtworkForArtists(It.isAny()))
+                .returns(() => [
+                    new ArtistArtwork('aerosmith', 'artwork-id-1'),
+                    new ArtistArtwork('alanis morissette', 'artwork-id-2'),
+                    new ArtistArtwork('bon jovi', 'artwork-id-3'),
+                ]);
+
+            settingsMock.showArtistImages = true;
+
+            const service: ArtistService = createService();
+
+            // Act
+            const artists: ArtistModel[] = service.getArtists(ArtistType.allArtists);
+
+            // Assert
+            expect(artists.length).toEqual(4);
+
+            expect(artists[0].name).toEqual('Aerosmith');
+            expect(artists[0].artworkId).toEqual('artwork-id-1');
+
+            expect(artists[1].name).toEqual('Alanis Morissette');
+            expect(artists[1].artworkId).toEqual('artwork-id-2');
+
+            expect(artists[2].name).toEqual('Bon Jovi');
+            expect(artists[2].artworkId).toEqual('artwork-id-3');
+
+            expect(artists[3].name).toEqual('');
+            expect(artists[3].artworkId).toBeUndefined();
+        });
+
+        it('should not load the artists artwork if showing artist artwork is disabled', () => {
+            // Arrange
+            const trackArtistDatas: ArtistData[] = [];
+            trackArtistDatas.push(new ArtistData(';Aerosmith;'));
+            trackArtistDatas.push(new ArtistData(';aerosmith;'));
+            trackArtistDatas.push(new ArtistData(';Aerosmith;;Alanis Morissette;'));
+            trackArtistDatas.push(new ArtistData(';Alanis Morissette;'));
+            trackArtistDatas.push(new ArtistData(';Bon Jovi;'));
+            trackArtistDatas.push(new ArtistData(';Bon Jovi;Aerosmith;'));
+            trackArtistDatas.push(new ArtistData(''));
+
+            const albumArtistDatas: ArtistData[] = [];
+            albumArtistDatas.push(new ArtistData(';Aerosmith;;Alanis Morissette;'));
+            albumArtistDatas.push(new ArtistData(';Alanis Morissette;'));
+            albumArtistDatas.push(new ArtistData(';Bon Jovi;'));
+            albumArtistDatas.push(new ArtistData(';Bon Jovi;Aerosmith;'));
+            albumArtistDatas.push(new ArtistData(''));
+
+            trackRepositoryMock.setup((x) => x.getTrackArtistData()).returns(() => trackArtistDatas);
+            trackRepositoryMock.setup((x) => x.getAlbumArtistData()).returns(() => albumArtistDatas);
+
+            settingsMock.showArtistImages = false;
+
+            const service: ArtistService = createService();
+
+            // Act
+            const artists: ArtistModel[] = service.getArtists(ArtistType.allArtists);
+
+            // Assert
+            expect(artists.length).toEqual(4);
+
+            expect(artists[0].name).toEqual('Aerosmith');
+            expect(artists[0].artworkId).toBeUndefined();
+
+            expect(artists[1].name).toEqual('Alanis Morissette');
+            expect(artists[1].artworkId).toBeUndefined();
+
+            expect(artists[2].name).toEqual('Bon Jovi');
+            expect(artists[2].artworkId).toBeUndefined();
+
+            expect(artists[3].name).toEqual('');
+            expect(artists[3].artworkId).toBeUndefined();
+
+            artistArtworkRepositoryMock.verify((x) => x.getArtistArtworkForArtists(It.isAny()), Times.never());
+        });
     });
 
     describe('getSourceArtists', () => {
         it('should get the source artists for a given list of artists', () => {
             // Arrange
-            let artistDatas: ArtistData[] = [
+            const artistDatas: ArtistData[] = [
                 new ArtistData(';Artist1;'),
                 new ArtistData(';artist1;'),
                 new ArtistData(';Artist2;'),

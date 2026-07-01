@@ -14,6 +14,7 @@ import { AlbumArtworkRepositoryBase } from '../../data/repositories/album-artwor
 import { PlaybackService } from '../playback/playback.service';
 import { TrackFiller } from './track-filler';
 import { SchedulerBase } from '../../common/scheduling/scheduler.base';
+import { ArtistArtworkIndexer } from './artist-artwork-indexer';
 import { Track } from '../../data/entities/track';
 
 describe('IndexingService', () => {
@@ -21,6 +22,7 @@ describe('IndexingService', () => {
     let folderServiceMock: IMock<FolderServiceBase>;
     let playbackServiceMock: IMock<PlaybackService>;
     let albumArtworkIndexerMock: IMock<AlbumArtworkIndexer>;
+    let artistArtworkIndexerMock: IMock<ArtistArtworkIndexer>;
     let trackFillerMock: IMock<TrackFiller>;
     let desktopMock: IMock<DesktopBase>;
     let schedulerMock: IMock<SchedulerBase>;
@@ -43,6 +45,7 @@ describe('IndexingService', () => {
         desktopMock = Mock.ofType<DesktopBase>();
         schedulerMock = Mock.ofType<SchedulerBase>();
         albumArtworkIndexerMock = Mock.ofType<AlbumArtworkIndexer>();
+        artistArtworkIndexerMock = Mock.ofType<ArtistArtworkIndexer>();
         settingsMock = Mock.ofType<SettingsBase>();
         ipcProxyMock = Mock.ofType<IpcProxyBase>();
         loggerMock = Mock.ofType<Logger>();
@@ -68,6 +71,7 @@ describe('IndexingService', () => {
             folderServiceMock.object,
             playbackServiceMock.object,
             albumArtworkIndexerMock.object,
+            artistArtworkIndexerMock.object,
             albumArtworkRepositoryMock.object,
             trackRepositoryMock.object,
             trackFillerMock.object,
@@ -86,6 +90,30 @@ describe('IndexingService', () => {
 
             // Assert
             expect(sut).toBeDefined();
+        });
+    });
+
+    describe('indexArtistArtworkOnlyAsync', () => {
+        it('should refresh missing artists artwork', async () => {
+            // Arrange
+            const sut: IndexingService = createSut();
+
+            // Act
+            await sut.indexArtistArtworkOnlyAsync(true);
+
+            // Assert
+            artistArtworkIndexerMock.verify((x) => x.refreshMissingArtistsArtworkAsync(), Times.once());
+        });
+
+        it('should refresh all artists artwork', async () => {
+            // Arrange
+            const sut: IndexingService = createSut();
+
+            // Act
+            await sut.indexArtistArtworkOnlyAsync(false);
+
+            // Assert
+            artistArtworkIndexerMock.verify((x) => x.refreshAllArtistsArtworkAsync(), Times.once());
         });
     });
 
