@@ -53,5 +53,14 @@ describe('EditSmartPlaylistDialogComponent', () => {
             // Arrange, Act, Assert
             expect(component).toBeDefined();
         });
+
+        it('should include bpm field', () => {
+            // Arrange, Act
+            const bpmField = component.fields.find((f) => f.name === 'bpm');
+
+            // Assert
+            expect(bpmField).toBeDefined();
+            expect(bpmField?.type).toBe('number');
+        });
     });
 });
