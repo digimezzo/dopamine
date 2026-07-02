@@ -10,6 +10,7 @@ import { MouseSelectionWatcher } from '../mouse-selection-watcher';
 import { ContextMenuOpener } from '../context-menu-opener';
 import { SearchServiceBase } from '../../../services/search/search.service.base';
 import { StringUtils } from '../../../common/utils/string-utils';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
     selector: 'app-playback-queue',
@@ -34,6 +35,9 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
 
     @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public trackContextMenu: MatMenuTrigger;
+
+    @ViewChild(CdkVirtualScrollViewport)
+    public viewPort: CdkVirtualScrollViewport;
 
     @Input()
     public showTitle: boolean = true;
@@ -114,5 +118,16 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
 
     public clearSearchText(): void {
         this.searchText = '';
+    }
+
+    public scrollToPlayingTrack(): void {
+        const tracks: TrackModel[] = this.filteredTracks;
+        const playingTrackIndex: number = tracks.findIndex((t) => t.isPlaying);
+
+        if (playingTrackIndex < 0 || this.viewPort == undefined) {
+            return;
+        }
+
+        setTimeout(() => this.viewPort.scrollToIndex(Math.max(playingTrackIndex - 1, 0), 'smooth'));
     }
 }

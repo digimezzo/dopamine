@@ -6,11 +6,19 @@
             <div *ngIf="this.filteredTracks.length === 1">{{ 'track' | translate }}</div>
             <div *ngIf="this.filteredTracks.length !== 1">{{ 'tracks' | translate }}</div>
         </div>
-        <div class="app-search-box playback-queue__search" [ngClass]="{ 'app-search-box-highlight': this.hasSearchText }">
-            <input class="app-search-box__input p-1" [(ngModel)]="this.searchText" />
-            <div class="app-search-box__icons">
-                <i class="las la-search app-search-box-icon" *ngIf="!this.hasSearchText"></i>
-                <i class="las la-times app-search-box-icon pointer" *ngIf="this.hasSearchText" (click)="clearSearchText()"></i>
+        <div class="d-flex flex-row align-items-center">
+            <app-icon-button
+                class="mr-2"
+                icon="las la-crosshairs"
+                matTooltip="{{ 'jump-to-playing-song' | translate }}"
+                (click)="scrollToPlayingTrack()"
+            ></app-icon-button>
+            <div class="app-search-box playback-queue__search" [ngClass]="{ 'app-search-box-highlight': this.hasSearchText }">
+                <input class="app-search-box__input p-1" [(ngModel)]="this.searchText" />
+                <div class="app-search-box__icons">
+                    <i class="las la-search app-search-box-icon" *ngIf="!this.hasSearchText"></i>
+                    <i class="las la-times app-search-box-icon pointer" *ngIf="this.hasSearchText" (click)="clearSearchText()"></i>
+                </div>
             </div>
         </div>
     </div>

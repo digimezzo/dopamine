@@ -5,6 +5,11 @@
             <div *ngIf="this.tracks.numberOfTracks === 1">{{ 'track' | translate }}</div>
             <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
         </div>
+        <app-icon-button
+            icon="las la-crosshairs"
+            matTooltip="{{ 'jump-to-playing-song' | translate }}"
+            (click)="scrollToPlayingTrack()"
+        ></app-icon-button>
     </div>
     <cdk-virtual-scroll-viewport
         class="app-playlist-track-browser__tracks mt-3"
@@ -16,7 +21,7 @@
         <div *cdkVirtualFor="let track of this.orderedTracks" (mousedown)="setSelectedTracks($event, track)" cdkDrag>
             <app-track
                 [track]="track"
-                canShowHeader="true"
+                [canShowHeader]="true"
                 (dblclick)="playbackService.enqueueAndPlayTracksStartingFromGivenTrackAsync(this.orderedTracks, track)"
                 (contextmenu)="onPlaylistTrackContextMenu($event, track)"
             ></app-track>

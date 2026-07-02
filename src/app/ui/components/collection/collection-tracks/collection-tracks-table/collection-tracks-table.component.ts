@@ -188,6 +188,16 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
         this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
     }
 
+    public scrollToPlayingTrack(): void {
+        const playingTrackIndex: number = this.orderedTracks.findIndex((t) => t.isPlaying);
+
+        if (playingTrackIndex < 0 || this.viewPort == undefined) {
+            return;
+        }
+
+        setTimeout(() => this.viewPort.scrollToIndex(Math.max(playingTrackIndex - 1, 0), 'smooth'));
+    }
+
     private orderTracks(): void {
         let orderedTracks: TrackModel[] = [];
 

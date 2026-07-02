@@ -5,21 +5,29 @@
             <div *ngIf="this.tracks.numberOfTracks === 1">{{ 'track' | translate }}</div>
             <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
         </div>
-        <app-iterable-menu
-            *ngIf="this.showOrdering"
-            [tooltipKey]="'choose-order'"
-            [currentItem]="selectedTrackOrder"
-            [items]="trackOrders"
-            [itemKeyFn]="trackOrderKey"
-            [applyItemFn]="applyTrackOrder"
-        >
-        </app-iterable-menu>
+        <div class="d-flex flex-row align-items-center">
+            <app-icon-button
+                class="mr-2"
+                icon="las la-crosshairs"
+                matTooltip="{{ 'jump-to-playing-song' | translate }}"
+                (click)="scrollToPlayingTrack()"
+            ></app-icon-button>
+            <app-iterable-menu
+                *ngIf="this.showOrdering"
+                [tooltipKey]="'choose-order'"
+                [currentItem]="selectedTrackOrder"
+                [items]="trackOrders"
+                [itemKeyFn]="trackOrderKey"
+                [applyItemFn]="applyTrackOrder"
+            >
+            </app-iterable-menu>
+        </div>
     </div>
     <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="46">
         <div *cdkVirtualFor="let track of this.orderedTracks" (mousedown)="setSelectedTracks($event, track)">
             <app-track
                 [track]="track"
-                canShowHeader="true"
+                [canShowHeader]="true"
                 (dblclick)="playbackService.enqueueAndPlayTracksStartingFromGivenTrackAsync(this.orderedTracks, track)"
                 (contextmenu)="onTrackContextMenu($event, track)"
             ></app-track>

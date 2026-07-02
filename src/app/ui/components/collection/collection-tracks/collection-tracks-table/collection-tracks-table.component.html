@@ -11,11 +11,19 @@
             >
             </i>
         </div>
-        <i
-            class="las la-columns secondary-text pointer font-16px"
-            (click)="this.showEditColumnsDialogAsync()"
-            matTooltip="{{ 'edit-columns' | translate }}"
-        ></i>
+        <div class="d-flex flex-row align-items-center">
+            <app-icon-button
+                class="mr-2"
+                icon="las la-crosshairs"
+                (click)="this.scrollToPlayingTrack()"
+                matTooltip="{{ 'jump-to-playing-song' | translate }}"
+            ></app-icon-button>
+            <app-icon-button
+                icon="las la-columns"
+                (click)="this.showEditColumnsDialogAsync()"
+                matTooltip="{{ 'edit-columns' | translate }}"
+            ></app-icon-button>
+        </div>
     </div>
     <div class="mt-3 scrollbar-gutter-stable-y">
         <table class="tracks-table">

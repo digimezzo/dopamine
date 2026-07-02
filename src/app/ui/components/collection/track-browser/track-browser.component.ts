@@ -161,6 +161,16 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
         this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
     }
 
+    public scrollToPlayingTrack(): void {
+        const playingTrackIndex: number = this.orderedTracks.findIndex((t) => t.isPlaying);
+
+        if (playingTrackIndex < 0 || this.viewPort == undefined) {
+            return;
+        }
+
+        setTimeout(() => this.viewPort.scrollToIndex(Math.max(playingTrackIndex - 1, 0), 'smooth'));
+    }
+
     public applyTrackOrder = (trackOrder: TrackOrder): void => {
         this.selectedTrackOrder = trackOrder;
         this.tracksPersister.setSelectedTrackOrder(this.selectedTrackOrder);
