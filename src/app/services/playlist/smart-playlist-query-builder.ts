@@ -18,6 +18,7 @@ export class SmartPlaylistQueryBuilder {
         discnumber: 't.DiscNumber',
         disccount: 't.DiscCount',
         year: 't.Year',
+        bpm: 't.BeatsPerMinute',
         rating: 't.NewRating',
         love: 't.Love',
         playcount: 't.PlayCount',
@@ -26,6 +27,18 @@ export class SmartPlaylistQueryBuilder {
 
     private readonly delimitedFields: Set<string> = new Set(['artist', 'albumartist', 'genre']);
     private readonly textFields: Set<string> = new Set(['artist', 'albumartist', 'genre', 'title', 'albumtitle']);
+    private readonly numericFields: Set<string> = new Set([
+        'bitrate',
+        'tracknumber',
+        'trackcount',
+        'discnumber',
+        'disccount',
+        'year',
+        'bpm',
+        'rating',
+        'playcount',
+        'skipcount',
+    ]);
     private readonly accentReplacements: Array<[string, string]> = [
         ['à', 'a'],
         ['á', 'a'],
@@ -93,6 +106,7 @@ export class SmartPlaylistQueryBuilder {
 
         const isDelimited = this.delimitedFields.has(rule.field);
         const isTextField = this.textFields.has(rule.field);
+        const isNumeric = this.numericFields.has(rule.field);
         const escapedValue = this.escapeRuleValue(rule.value, isTextField);
 
         switch (rule.operator) {
@@ -103,6 +117,9 @@ export class SmartPlaylistQueryBuilder {
                 if (isTextField) {
                     return `${this.buildAccentInsensitiveExpression(column)} = '${escapedValue}'`;
                 }
+                if (isNumeric) {
+                    return `${column} = ${this.toNumber(rule.value)}`;
+                }
                 return `${column} = '${escapedValue}'`;
 
             case 'isnot':
@@ -111,6 +128,9 @@ export class SmartPlaylistQueryBuilder {
                 }
                 if (isTextField) {
                     return `${this.buildAccentInsensitiveExpression(column)} != '${escapedValue}'`;
+                }
+                if (isNumeric) {
+                    return `${column} != ${this.toNumber(rule.value)}`;
                 }
                 return `${column} != '${escapedValue}'`;
 

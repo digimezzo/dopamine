@@ -63,5 +63,56 @@ describe('SmartPlaylistQueryBuilder', () => {
             expect(whereClause).toContain("'ô', 'o'");
             expect(whereClause).toContain("LIKE '%;rock;%'");
         });
+
+        it('should build numeric clause for bpm with greaterthan', () => {
+            // Arrange
+            const definition: SmartPlaylistDefinition = {
+                name: 'test',
+                match: 'all',
+                limitType: undefined,
+                limitValue: undefined,
+                rules: [{ field: 'bpm', operator: 'greaterthan', value: '120' }],
+            };
+
+            // Act
+            const whereClause: string = queryBuilder.buildWhereClause(definition);
+
+            // Assert
+            expect(whereClause).toContain('(t.BeatsPerMinute > 120)');
+        });
+
+        it('should build numeric clause for bpm with is operator', () => {
+            // Arrange
+            const definition: SmartPlaylistDefinition = {
+                name: 'test',
+                match: 'all',
+                limitType: undefined,
+                limitValue: undefined,
+                rules: [{ field: 'bpm', operator: 'is', value: '5' }],
+            };
+
+            // Act
+            const whereClause: string = queryBuilder.buildWhereClause(definition);
+
+            // Assert
+            expect(whereClause).toContain('(t.BeatsPerMinute = 5)');
+        });
+
+        it('should build numeric clause for bpm with isnot operator', () => {
+            // Arrange
+            const definition: SmartPlaylistDefinition = {
+                name: 'test',
+                match: 'all',
+                limitType: undefined,
+                limitValue: undefined,
+                rules: [{ field: 'bpm', operator: 'isnot', value: '5' }],
+            };
+
+            // Act
+            const whereClause: string = queryBuilder.buildWhereClause(definition);
+
+            // Assert
+            expect(whereClause).toContain('(t.BeatsPerMinute != 5)');
+        });
     });
 });
