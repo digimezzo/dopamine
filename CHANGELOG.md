@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added possibility to download and show artist images in the list of artists (Thank you @FranzDeschler)
 - Added BPM filter to smart playlists
 - Added Kadbury theme (Thank you @kkdeep)
+- Added a button to jump to the playing song on each songs list
 
 ### Fixed
 
