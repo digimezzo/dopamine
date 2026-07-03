@@ -928,6 +928,15 @@ export class Settings implements SettingsBase {
         this.set('useCompactYearView', v);
     }
 
+    // useCompactTrackListView
+    public get useCompactTrackListView(): boolean {
+        return this.get<boolean>('useCompactTrackListView');
+    }
+
+    public set useCompactTrackListView(v: boolean) {
+        this.set('useCompactTrackListView', v);
+    }
+
     // showAlbumArtOnDockIcon
     public get showAlbumArtOnDockIcon(): boolean {
         return this.get<boolean>('showAlbumArtOnDockIcon');

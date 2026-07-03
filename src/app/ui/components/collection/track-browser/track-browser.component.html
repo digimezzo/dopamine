@@ -23,7 +23,7 @@
             </app-iterable-menu>
         </div>
     </div>
-    <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="46">
+    <cdk-virtual-scroll-viewport class="flex-grow mt-3" [itemSize]="this.trackItemSize">
         <div *cdkVirtualFor="let track of this.orderedTracks" (mousedown)="setSelectedTracks($event, track)">
             <app-track
                 [track]="track"

@@ -391,5 +391,7 @@
     "ratings-backup": "Ratings backup",
     "restore-ratings-from-backup-description": "Restore ratings and love from the backup file for songs that have no rating yet.",
     "restore-ratings-from-backup": "Restore",
-    "ratings-restored-count": "Restored ratings for {{count}} songs."
+    "ratings-restored-count": "Restored ratings for {{count}} songs.",
+    "tracklist": "Liste des morceaux",
+    "compact-tracklist-view": "Vue compacte de la liste des morceaux (masquer les artistes des morceaux)"
 }

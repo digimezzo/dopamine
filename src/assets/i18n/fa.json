@@ -24,7 +24,7 @@
     "genres": "ژانرها",
     "track": "ترانه",
     "tracks": "آهنگ ها",
-    "artists-and-albums": "هنرمندان و آلبوم\u200Cها",
+    "artists-and-albums": "هنرمندان و آلبوم‌ها",
     "playlists": "لیست های پخش",
     "folders": "پوشه ها",
     "folder": "پوشه",
@@ -82,7 +82,7 @@
     "refresh-missing-covers": "بازخوانی جلدها فقط برای آلبوم هایی که هنوز جلد ندارند",
     "refresh-artist-images": "بارگذاری دوبارهٔ تصاویر هنرمندان",
     "refresh-all-artist-images": "همهٔ تصاویر هنرمندان را نوسازی کن، حتی اگر از قبل تصویری وجود داشته باشد.",
-    "refresh-missing-artist-images": "فقط تصاویر هنرمندانِ موجود\u200Cنبود\u200Cه را جستجو کن.",
+    "refresh-missing-artist-images": "فقط تصاویر هنرمندانِ موجود‌نبود‌ه را جستجو کن.",
     "playback-queue": "صف پخش",
     "folder-already-added": "این پوشه قبلاً اضافه شده است",
     "refreshing": "تازه کردن...",
@@ -90,7 +90,7 @@
     "added-tracks": "{{numberOfAddedTracks}} آهنگ اضافه شد ({{percentageOfAddedTracks}}%)",
     "updating-tracks": "به روز رسانی آهنگ ها",
     "updating-album-artwork": "به روز رسانی جلد آلبوم",
-    "updating-artist-artwork": "به\u200Cروزرسانی تصاویر هنرمندان",
+    "updating-artist-artwork": "به‌روزرسانی تصاویر هنرمندان",
     "click-here-to-download-new-version": "برای دانلود نسخه {{نسخه}} اینجا کلیک کنید",
     "yes": "آره",
     "no": "خیر",
@@ -391,5 +391,7 @@
     "ratings-backup": "Ratings backup",
     "restore-ratings-from-backup-description": "Restore ratings and love from the backup file for songs that have no rating yet.",
     "restore-ratings-from-backup": "Restore",
-    "ratings-restored-count": "Restored ratings for {{count}} songs."
+    "ratings-restored-count": "Restored ratings for {{count}} songs.",
+    "tracklist": "Song list",
+    "compact-tracklist-view": "Compact song list view (hide song artists)"
 }
