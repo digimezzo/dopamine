@@ -381,7 +381,7 @@
     "replaygain-mode": "回放增益模式",
     "replaygain-mode-track": "音轨",
     "replaygain-mode-album": "专辑",
-    "replaygain-preamp-db": "回放增益放大 (分贝)",
+    "replaygain-preamp-db": "回放增益放大（分贝）",
     "replaygain-prevent-clipping": "防止使用峰值数据造成削波",
     "refresh-replaygain-existing-tracks": "仅刷新存在歌曲的回放增益元数据",
     "refresh-replaygain": "刷新回放增益",
