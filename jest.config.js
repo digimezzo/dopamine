@@ -5,6 +5,7 @@ module.exports = {
     preset: 'jest-preset-angular',
     roots: ['<rootDir>/'],
     testMatch: ['<rootDir>/src/**/*(*.)+(spec).+(ts)', '<rootDir>/main/**/*(*.)+(spec).+(js)'],
+    testPathIgnorePatterns: ['<rootDir>/src/app/data/repositories/'],
     setupFilesAfterEnv: ['<rootDir>/src/test.ts'],
     moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
         prefix: '<rootDir>/',

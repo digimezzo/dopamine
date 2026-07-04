@@ -15,6 +15,7 @@ export abstract class SettingsBase {
     public abstract followAlbumCoverColor: boolean;
     public abstract skipRemovedFilesDuringRefresh: boolean;
     public abstract downloadMissingAlbumCovers: boolean;
+    public abstract showArtistImages: boolean;
     public abstract showAllFoldersInCollection: boolean;
     public abstract refreshCollectionAutomatically: boolean;
     public abstract albumsRightPaneWidthPercent: number;
@@ -100,6 +101,7 @@ export abstract class SettingsBase {
     public abstract jumpToPlayingSong: boolean;
     public abstract showSquareImages: boolean;
     public abstract useCompactYearView: boolean;
+    public abstract useCompactTrackListView: boolean;
     public abstract showAlbumArtOnDockIcon: boolean;
     public abstract miniPlayerAlwaysOnTop: boolean;
     public abstract miniPlayerLockPosition: boolean;

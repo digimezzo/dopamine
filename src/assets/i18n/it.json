@@ -24,6 +24,7 @@
     "genres": "Generi",
     "track": "Brano",
     "tracks": "Brani",
+    "artists-and-albums": "Artisti e albumi",
     "playlists": "Playlist",
     "folders": "Cartelle",
     "folder": "Cartella",
@@ -75,8 +76,13 @@
     "download-title": "Scaricamento",
     "download-action": "Scarica",
     "download-missing-album-covers": "Scarica le copertine degli album mancanti",
+    "download-artist-images": "Scarica immagini degli artisti",
+    "refresh-covers": "Ricarica le copertine degli album",
     "refresh-all-covers": "Aggiorna le copertine di tutti gli album, inclusi quelli che ne hanno già una.",
     "refresh-missing-covers": "Aggiorna le copertine solamente per gli album che non ne hanno già una",
+    "refresh-artist-images": "Ricarica le immagini degli artisti",
+    "refresh-all-artist-images": "Aggiorna tutte le immagini degli artisti, anche se ne esiste già una.",
+    "refresh-missing-artist-images": "Cerca solo le immagini degli artisti mancanti.",
     "playback-queue": "Coda di riproduzione",
     "folder-already-added": "Questa cartella è stata già aggiunta",
     "refreshing": "Aggiornamento...",
@@ -84,6 +90,7 @@
     "added-tracks": "Aggiunto/i {{numberOfAddedTracks}} brano/i ({{percentageOfAddedTracks}}%)",
     "updating-tracks": "Aggiornamento dei brani",
     "updating-album-artwork": "Aggiornamento delle copertine",
+    "updating-artist-artwork": "Aggiorna le immagini degli artisti",
     "click-here-to-download-new-version": "Fai clic qui per scaricare la versione {{version}}",
     "yes": "Sì",
     "no": "No",
@@ -389,5 +396,7 @@
     "ratings-backup": "Ratings backup",
     "restore-ratings-from-backup-description": "Restore ratings and love from the backup file for songs that have no rating yet.",
     "restore-ratings-from-backup": "Restore",
-    "ratings-restored-count": "Restored ratings for {{count}} songs."
+    "ratings-restored-count": "Restored ratings for {{count}} songs.",
+    "tracklist": "Song list",
+    "compact-tracklist-view": "Compact song list view (hide song artists)"
 }

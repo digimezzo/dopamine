@@ -24,6 +24,7 @@
     "genres": "流派",
     "track": "歌曲",
     "tracks": "歌曲",
+    "artists-and-albums": "艺术家和专辑",
     "playlists": "播放列表",
     "folders": "文件夹",
     "folder": "文件夹",
@@ -75,8 +76,13 @@
     "download-title": "下载",
     "download-action": "下载",
     "download-missing-album-covers": "下载缺失的专辑封面",
+    "download-artist-images": "下载艺术家图片",
+    "refresh-covers": "重新加载专辑封面",
     "refresh-all-covers": "刷新所有专辑的封面，包含已有封面的专辑。",
     "refresh-missing-covers": "仅刷新无封面的专辑",
+    "refresh-artist-images": "重新加载艺术家图片",
+    "refresh-all-artist-images": "更新所有艺术家图片，即使已经存在图片。",
+    "refresh-missing-artist-images": "仅搜索缺失的艺术家图片。",
     "playback-queue": "播放队列",
     "folder-already-added": "此文件夹已被添加过了",
     "refreshing": "刷新中...",
@@ -84,6 +90,7 @@
     "added-tracks": "已添加 {{numberOfAddedTracks}} 首歌曲 ({{percentageOfAddedTracks}}%)",
     "updating-tracks": "更新歌曲中",
     "updating-album-artwork": "更新专辑封面中",
+    "updating-artist-artwork": "更新艺术家图片",
     "click-here-to-download-new-version": "点此下载新版本 {{version}}",
     "yes": "是",
     "no": "不",
@@ -389,5 +396,7 @@
     "ratings-backup": "Ratings backup",
     "restore-ratings-from-backup-description": "Restore ratings and love from the backup file for songs that have no rating yet.",
     "restore-ratings-from-backup": "Restore",
-    "ratings-restored-count": "Restored ratings for {{count}} songs."
+    "ratings-restored-count": "Restored ratings for {{count}} songs.",
+    "tracklist": "Song list",
+    "compact-tracklist-view": "Compact song list view (hide song artists)"
 }

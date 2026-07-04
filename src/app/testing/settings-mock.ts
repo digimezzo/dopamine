@@ -29,6 +29,7 @@ export class SettingsMock implements SettingsBase {
     public downloadArtistInformationFromLastFm: boolean;
     public downloadLyricsOnline: boolean;
     public downloadMissingAlbumCovers: boolean;
+    public showArtistImages: boolean;
     public enableDiscordRichPresence: boolean;
     public enableLastFmScrobbling: boolean;
     public enableListenbrainzScrobbling: boolean;
@@ -104,6 +105,7 @@ export class SettingsMock implements SettingsBase {
     public jumpToPlayingSong: boolean;
     public showSquareImages: boolean;
     public useCompactYearView: boolean;
+    public useCompactTrackListView: boolean;
     public showAlbumArtOnDockIcon: boolean;
     public miniPlayerAlwaysOnTop: boolean;
     public miniPlayerLockPosition: boolean;

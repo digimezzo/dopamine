@@ -43,9 +43,9 @@ export class AlbumArtworkCacheService implements AlbumArtworkCacheServiceBase {
             const cachedArtworkFilePath: string = this.applicationPaths.coverArtFullPath(albumArtworkCacheId.id);
             const resizedImageBuffer: Buffer = await this.imageProcessor.toResizedJpegBufferAsync(
                 imageBuffer,
-                Constants.cachedCoverArtMaximumSize,
-                Constants.cachedCoverArtMaximumSize,
-                Constants.cachedCoverArtJpegQuality,
+                Constants.cachedArtworkMaximumSize,
+                Constants.cachedArtworkMaximumSize,
+                Constants.cachedArtworkJpegQuality,
             );
             await this.imageProcessor.convertImageBufferToFileAsync(resizedImageBuffer, cachedArtworkFilePath);
 

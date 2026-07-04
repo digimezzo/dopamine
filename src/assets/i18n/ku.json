@@ -24,6 +24,7 @@
     "genres": "Cûre",
     "track": "Stran",
     "tracks": "Stran",
+    "artists-and-albums": "Hunermend û albûm",
     "playlists": "Lîsteya lîstinê",
     "folders": "Peldank",
     "folder": "Peldank",
@@ -75,8 +76,13 @@
     "download-title": "Daxîne",
     "download-action": "Daxîne",
     "download-missing-album-covers": "Bergên windayî daxîne",
+    "download-artist-images": "Wêneyên hunermendan dakêşin",
+    "refresh-covers": "Bergên albûman dîsa bar bike",
     "refresh-all-covers": "Bergê hemû elbuman ji nû ve rojane bike.",
     "refresh-missing-covers": "Bergê hemû elbuman ji nû ve rojane bike tenê ji bo elbumên ku bergên wan hîn tune ne",
+    "refresh-artist-images": "Wêneyên hunermendan dîsa bar bike",
+    "refresh-all-artist-images": "Hemû wêneyên hunermendan nû bike, heta ger jixwe yek hebe.",
+    "refresh-missing-artist-images": "Tenê li wêneyên hunermendên winda bigere.",
     "playback-queue": "Rêzeya lîstinê",
     "folder-already-added": "Jixwe ev peldank hatiye tevlîkirin",
     "refreshing": "Tê rojanekirin...",
@@ -84,6 +90,7 @@
     "added-tracks": "{{numberOfAddedTracks}} stran tevlî ({{percentageOfAddedTracks}}%) bûn",
     "updating-tracks": "Stran tên rojanekirin",
     "updating-album-artwork": "Bergên elbuman tên rojanekirin",
+    "updating-artist-artwork": "Wêneyên hunermendan nûve bikin",
     "click-here-to-download-new-version": "Bo daxistina goherto {{version}} li vir bitikîne",
     "yes": "Erê",
     "no": "Na",
@@ -389,5 +396,7 @@
     "ratings-backup": "Ratings backup",
     "restore-ratings-from-backup-description": "Restore ratings and love from the backup file for songs that have no rating yet.",
     "restore-ratings-from-backup": "Restore",
-    "ratings-restored-count": "Restored ratings for {{count}} songs."
+    "ratings-restored-count": "Restored ratings for {{count}} songs.",
+    "tracklist": "Song list",
+    "compact-tracklist-view": "Compact song list view (hide song artists)"
 }

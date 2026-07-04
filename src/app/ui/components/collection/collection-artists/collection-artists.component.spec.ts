@@ -16,7 +16,6 @@ import { Scheduler } from '../../../../common/scheduling/scheduler';
 import { Logger } from '../../../../common/logger';
 import { DateTime } from '../../../../common/date-time';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
-import { FileAccess } from '../../../../common/io/file-access';
 import { ArtistType } from '../../../../services/artist/artist-type';
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { AlbumModel } from '../../../../services/album/album-model';
@@ -42,7 +41,6 @@ describe('CollectionArtistsComponent', () => {
 
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
-    let fileAccessMock: IMock<FileAccess>;
     let applicationPathsMock: IMock<ApplicationPaths>;
 
     let selectedArtistsChangedMock: Subject<string[]>;
@@ -82,7 +80,7 @@ describe('CollectionArtistsComponent', () => {
     }
 
     function createArtistModel(artistName: string): ArtistModel {
-        return new ArtistModel(artistName, translatorServiceMock.object);
+        return new ArtistModel(artistName, 'artist-artworkId', translatorServiceMock.object, applicationPathsMock.object);
     }
 
     function createAlbumModel(albumKey: string): AlbumModel {
@@ -123,7 +121,6 @@ describe('CollectionArtistsComponent', () => {
 
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
-        fileAccessMock = Mock.ofType<FileAccess>();
 
         selectedArtistsChangedMock = new Subject();
         selectedArtistsChangedMock$ = selectedArtistsChangedMock.asObservable();

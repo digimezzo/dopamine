@@ -24,6 +24,7 @@
     "genres": "الأنواع",
     "track": "الأغنية",
     "tracks": "الأغاني",
+    "artists-and-albums": "الفنانون والألبومات",
     "playlists": "قوائم التشغيل",
     "folders": "المجلدات",
     "folder": "المجلد",
@@ -75,8 +76,13 @@
     "download-title": "تحميل",
     "download-action": "تحميل",
     "download-missing-album-covers": "تحميل أغلفة الألبومات المفقودة",
+    "download-artist-images": "تنزيل صور الفنانين",
+    "refresh-covers": "إعادة تحميل أغلفة الألبومات",
     "refresh-all-covers": "تحديث الأغلفة لجميع الألبومات، بما في ذلك التي لديها غلاف بالفعل.",
     "refresh-missing-covers": "تحديث الأغلفة فقط للألبومات التي ليس لديها غلاف بعد",
+    "refresh-artist-images": "إعادة تحميل صور الفنانين",
+    "refresh-all-artist-images": "تحديث جميع صور الفنانين، حتى إذا كانت صورة موجودة بالفعل.",
+    "refresh-missing-artist-images": "البحث فقط عن صور الفنانين المفقودة.",
     "playback-queue": "قائمة انتظار التشغيل",
     "folder-already-added": "تم إضافة هذا المجلد بالفعل",
     "refreshing": "جاري التحديث...",
@@ -84,6 +90,7 @@
     "added-tracks": "تم إضافة {{numberOfAddedTracks}} أغنية ({{percentageOfAddedTracks}}%)",
     "updating-tracks": "تحديث الأغاني",
     "updating-album-artwork": "تحديث أغلفة الألبومات",
+    "updating-artist-artwork": "تحديث صور الفنانين",
     "click-here-to-download-new-version": "انقر هنا لتحميل الإصدار {{version}}",
     "yes": "نعم",
     "no": "لا",
@@ -389,5 +396,7 @@
     "ratings-backup": "Ratings backup",
     "restore-ratings-from-backup-description": "Restore ratings and love from the backup file for songs that have no rating yet.",
     "restore-ratings-from-backup": "Restore",
-    "ratings-restored-count": "Restored ratings for {{count}} songs."
+    "ratings-restored-count": "Restored ratings for {{count}} songs.",
+    "tracklist": "Song list",
+    "compact-tracklist-view": "Compact song list view (hide song artists)"
 }

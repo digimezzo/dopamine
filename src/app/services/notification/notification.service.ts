@@ -62,6 +62,11 @@ export class NotificationService implements NotificationServiceBase {
         this.showDismissibleNotification('las la-sync', message, true, false);
     }
 
+    public async updatingArtistArtworkAsync(): Promise<void> {
+        const message: string = await this.translatorService.getAsync('updating-artist-artwork');
+        this.showDismissibleNotification('las la-sync', message, true, false);
+    }
+
     public async singleTrackAddedToPlaylistAsync(playlistName: string): Promise<void> {
         const message: string = await this.translatorService.getAsync('single-track-added-to-playlist', {
             playlistName: playlistName,

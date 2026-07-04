@@ -53,8 +53,8 @@ export class Constants {
 
     public static readonly fontSizes: number[] = [12, 13, 14, 15];
 
-    public static readonly cachedCoverArtMaximumSize: number = 360;
-    public static readonly cachedCoverArtJpegQuality: number = 80;
+    public static readonly cachedArtworkMaximumSize: number = 360;
+    public static readonly cachedArtworkJpegQuality: number = 80;
 
     public static readonly externalCoverArtPatterns: string[] = [
         'front.png',
@@ -106,7 +106,8 @@ export class Constants {
 
     // Transparent 1x1 Gif to avoid broken image icons.
     // See: https://stackoverflow.com/questions/22051573/how-to-hide-image-broken-icon-using-only-css-html/29111371
-    public static emptyImage: string = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+    public static readonly emptyImage: string = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+    public static readonly emptyImageBuffer: Buffer = Buffer.from(Constants.emptyImage.split(',')[1], 'base64');
 
     public static readonly removablePrefixes: string[] = ['the', 'le', 'les', 'a', 'and'];
 

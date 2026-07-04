@@ -175,6 +175,15 @@ export class Settings implements SettingsBase {
         this.set('downloadMissingAlbumCovers', v);
     }
 
+    // showArtistImages
+    public get showArtistImages(): boolean {
+        return this.get<boolean>('showArtistImages');
+    }
+
+    public set showArtistImages(v: boolean) {
+        this.set('showArtistImages', v);
+    }
+
     // showAllFoldersInCollection
     public get showAllFoldersInCollection(): boolean {
         return this.get<boolean>('showAllFoldersInCollection');
@@ -944,6 +953,15 @@ export class Settings implements SettingsBase {
 
     public set useCompactYearView(v: boolean) {
         this.set('useCompactYearView', v);
+    }
+
+    // useCompactTrackListView
+    public get useCompactTrackListView(): boolean {
+        return this.get<boolean>('useCompactTrackListView');
+    }
+
+    public set useCompactTrackListView(v: boolean) {
+        this.set('useCompactTrackListView', v);
     }
 
     // showAlbumArtOnDockIcon

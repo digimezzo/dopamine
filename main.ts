@@ -9,7 +9,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/ban-types */
-import { app, BrowserWindow, ipcMain, Menu, nativeImage, nativeTheme, protocol, Tray } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, nativeImage, nativeTheme, protocol, screen, Tray } from 'electron';
 import log from 'electron-log';
 import * as path from 'path';
 import * as url from 'url';
@@ -153,21 +153,143 @@ function createTaskbarButtonIcon(name: 'play' | 'pause' | 'next' | 'previous') {
     return nativeImage.createFromPath(path.join(globalAny.__static, `icons/${iconFileName[name]}`));
 }
 
+type WindowState = {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    isMaximized: number;
+};
+
+function clamp(value: number, min: number, max: number): number {
+    return Math.min(Math.max(value, min), max);
+}
+
+function hasFiniteNumbers(values: number[]): boolean {
+    return values.every((value) => Number.isFinite(value));
+}
+
+function normalizeWindowState(
+    windowState: WindowState,
+    minimumSize: { width: number; height: number },
+): { normalized: WindowState; changed: boolean } {
+    const fallbackDisplay = screen.getPrimaryDisplay();
+    const matchingDisplay = screen.getDisplayMatching({
+        x: windowState.x,
+        y: windowState.y,
+        width: windowState.width,
+        height: windowState.height,
+    });
+    const display = matchingDisplay ?? fallbackDisplay;
+    const workArea = display.workArea;
+
+    const width = clamp(windowState.width, minimumSize.width, workArea.width);
+    const height = clamp(windowState.height, minimumSize.height, workArea.height);
+
+    const maxX = workArea.x + Math.max(0, workArea.width - width);
+    const maxY = workArea.y + Math.max(0, workArea.height - height);
+    const x = clamp(windowState.x, workArea.x, maxX);
+    const y = clamp(windowState.y, workArea.y, maxY);
+
+    const normalized: WindowState = {
+        x,
+        y,
+        width,
+        height,
+        isMaximized: windowState.isMaximized === 1 ? 1 : 0,
+    };
+
+    const changed =
+        normalized.x !== windowState.x ||
+        normalized.y !== windowState.y ||
+        normalized.width !== windowState.width ||
+        normalized.height !== windowState.height ||
+        normalized.isMaximized !== windowState.isMaximized;
+
+    return { normalized, changed };
+}
+
+function getDefaultFullPlayerWindowState(): WindowState {
+    return { x: 50, y: 50, width: 1000, height: 650, isMaximized: 0 };
+}
+
+function parseFullPlayerWindowState(stateAsString: string): WindowState | undefined {
+    const parts = stateAsString.split(';').map(Number);
+
+    if (parts.length < 4 || !hasFiniteNumbers(parts.slice(0, 4))) {
+        return undefined;
+    }
+
+    return {
+        x: parts[0],
+        y: parts[1],
+        width: parts[2],
+        height: parts[3],
+        isMaximized: parts.length >= 5 && parts[4] === 1 ? 1 : 0,
+    };
+}
+
+function parseCoverPlayerWindowState(stateAsString: string): WindowState | undefined {
+    const parts = stateAsString.split(';').map(Number);
+
+    if (parts.length < 2 || !hasFiniteNumbers(parts.slice(0, 2))) {
+        return undefined;
+    }
+
+    return {
+        x: parts[0],
+        y: parts[1],
+        width: 350,
+        height: 430,
+        isMaximized: 0,
+    };
+}
+
+function serializeFullPlayerWindowState(windowState: WindowState): string {
+    return `${windowState.x};${windowState.y};${windowState.width};${windowState.height};${windowState.isMaximized}`;
+}
+
+function serializeCoverPlayerWindowPosition(windowState: WindowState): string {
+    return `${windowState.x};${windowState.y}`;
+}
+
 function setInitialWindowState(mainWindow: BrowserWindow): void {
     try {
-        let windowPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
-
-        if (settings.get('playerType') === 'cover') {
-            windowPositionSizeMaximizedAsString = `${settings.get('coverPlayerPosition')};350;430;0`;
+        let fullState = parseFullPlayerWindowState(settings.get('fullPlayerPositionSizeMaximized'));
+        if (!fullState) {
+            fullState = getDefaultFullPlayerWindowState();
+            settings.set('fullPlayerPositionSizeMaximized', serializeFullPlayerWindowState(fullState));
         }
 
-        const windowPositionSizeMaximized: number[] = windowPositionSizeMaximizedAsString.split(';').map(Number);
-        mainWindow.setPosition(windowPositionSizeMaximized[0], windowPositionSizeMaximized[1]);
+        const normalizedFullState = normalizeWindowState(fullState, { width: 700, height: 500 });
+        if (normalizedFullState.changed) {
+            settings.set('fullPlayerPositionSizeMaximized', serializeFullPlayerWindowState(normalizedFullState.normalized));
+        }
 
-        if (settings.get('playerType') !== 'full') {
+        const isCoverPlayer = settings.get('playerType') === 'cover';
+        let windowState = normalizedFullState.normalized;
+
+        if (isCoverPlayer) {
+            const parsedCoverState = parseCoverPlayerWindowState(settings.get('coverPlayerPosition'));
+            if (!parsedCoverState) {
+                const defaultCoverState: WindowState = { x: 50, y: 50, width: 350, height: 430, isMaximized: 0 };
+                settings.set('coverPlayerPosition', serializeCoverPlayerWindowPosition(defaultCoverState));
+                windowState = normalizeWindowState(defaultCoverState, { width: 350, height: 430 }).normalized;
+            } else {
+                const normalizedCoverState = normalizeWindowState(parsedCoverState, { width: 350, height: 430 });
+                windowState = normalizedCoverState.normalized;
+                if (normalizedCoverState.changed) {
+                    settings.set('coverPlayerPosition', serializeCoverPlayerWindowPosition(windowState));
+                }
+            }
+        }
+
+        mainWindow.setPosition(windowState.x, windowState.y);
+
+        if (isCoverPlayer) {
             mainWindow.resizable = false;
             mainWindow.maximizable = false;
-            mainWindow.setContentSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
+            mainWindow.setContentSize(windowState.width, windowState.height);
             if (isMacOS()) {
                 mainWindow.fullScreenable = false;
             }
@@ -175,8 +297,8 @@ function setInitialWindowState(mainWindow: BrowserWindow): void {
             if (isMacOS()) {
                 mainWindow.fullScreenable = true;
             }
-            mainWindow.setSize(windowPositionSizeMaximized[2], windowPositionSizeMaximized[3]);
-            if (windowPositionSizeMaximized[4] === 1) {
+            mainWindow.setSize(windowState.width, windowState.height);
+            if (windowState.isMaximized === 1) {
                 mainWindow.maximize();
             }
         }
@@ -388,16 +510,21 @@ function createMainWindow(): void {
 }
 
 function setCoverPlayer(mainWindow: BrowserWindow): void {
-    const coverPlayerPositionAsString: string = settings.get('coverPlayerPosition');
-    const coverPlayerPosition: number[] = coverPlayerPositionAsString.split(';').map(Number);
+    const parsedCoverState = parseCoverPlayerWindowState(settings.get('coverPlayerPosition'));
+    const coverState = parsedCoverState ?? { x: 50, y: 50, width: 350, height: 430, isMaximized: 0 };
+    const normalizedCoverState = normalizeWindowState(coverState, { width: 350, height: 430 });
+
+    if (!parsedCoverState || normalizedCoverState.changed) {
+        settings.set('coverPlayerPosition', serializeCoverPlayerWindowPosition(normalizedCoverState.normalized));
+    }
 
     if (isMacOS()) {
         mainWindow.fullScreenable = false;
     }
     mainWindow.resizable = false;
     mainWindow.maximizable = false;
-    mainWindow.setPosition(coverPlayerPosition[0], coverPlayerPosition[1]);
-    mainWindow.setContentSize(350, 430);
+    mainWindow.setPosition(normalizedCoverState.normalized.x, normalizedCoverState.normalized.y);
+    mainWindow.setContentSize(normalizedCoverState.normalized.width, normalizedCoverState.normalized.height);
 }
 
 function pushFilesToQueue(files: string[], functionName: string): void {
@@ -577,19 +704,23 @@ try {
             log.info('[Main] [set-full-player] Setting playerType to full player');
             if (mainWindow) {
                 mainWindow.setAlwaysOnTop(false);
-                const fullPlayerPositionSizeMaximizedAsString: string = settings.get('fullPlayerPositionSizeMaximized');
-                console.log(fullPlayerPositionSizeMaximizedAsString);
-                const fullPlayerPositionSizeMaximized: number[] = fullPlayerPositionSizeMaximizedAsString.split(';').map(Number);
+                const parsedFullState = parseFullPlayerWindowState(settings.get('fullPlayerPositionSizeMaximized'));
+                const fullState = parsedFullState ?? getDefaultFullPlayerWindowState();
+                const normalizedFullState = normalizeWindowState(fullState, { width: 700, height: 500 });
+
+                if (!parsedFullState || normalizedFullState.changed) {
+                    settings.set('fullPlayerPositionSizeMaximized', serializeFullPlayerWindowState(normalizedFullState.normalized));
+                }
 
                 if (isMacOS()) {
                     mainWindow.fullScreenable = true;
                 }
                 mainWindow.resizable = true;
                 mainWindow.maximizable = true;
-                mainWindow.setPosition(fullPlayerPositionSizeMaximized[0], fullPlayerPositionSizeMaximized[1]);
-                mainWindow.setSize(fullPlayerPositionSizeMaximized[2], fullPlayerPositionSizeMaximized[3]);
+                mainWindow.setPosition(normalizedFullState.normalized.x, normalizedFullState.normalized.y);
+                mainWindow.setSize(normalizedFullState.normalized.width, normalizedFullState.normalized.height);
 
-                if (fullPlayerPositionSizeMaximized[4] === 1) {
+                if (normalizedFullState.normalized.isMaximized === 1) {
                     mainWindow.maximize();
                 }
             }

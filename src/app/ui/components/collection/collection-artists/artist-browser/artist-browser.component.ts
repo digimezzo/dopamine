@@ -21,6 +21,7 @@ import { ArtistSorter } from '../../../../../common/sorting/artist-sorter';
 import { Timer } from '../../../../../common/scheduling/timer';
 import { TrackServiceBase } from '../../../../../services/track/track.service.base';
 import { TrackModels } from '../../../../../services/track/track-models';
+import { SettingsBase } from '../../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-artist-browser',
@@ -53,6 +54,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         private artistSorter: ArtistSorter,
         private semanticZoomHeaderAdder: SemanticZoomHeaderAdder,
         private scheduler: SchedulerBase,
+        public settings: SettingsBase,
         private logger: Logger,
     ) {}
 
@@ -222,5 +224,9 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         }
 
         await this.playbackService.enqueueAndPlayArtistAsync(artist, this.selectedArtistType);
+    }
+
+    public get itemSize(): number {
+        return this.settings.showArtistImages ? 66 : 30;
     }
 }

@@ -19,6 +19,7 @@
     transition: all 0.25s ease 0s;
     cursor: pointer;
     outline: none;
+    padding-top: 1px; // HACK: required so that the icon looks vertically centered, otherwise it looks a bit off
 }
 
 .app-icon-button-button:hover {

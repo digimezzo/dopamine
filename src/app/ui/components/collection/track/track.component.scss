@@ -5,6 +5,10 @@
     border-radius: 6px;
 }
 
+.app-track__body.compact {
+    height: 32px;
+}
+
 .app-track__body:hover {
     background: var(--theme-hovered-item-background);
 }
@@ -18,6 +22,10 @@
     justify-content: center;
 }
 
+.app-track__left.compact {
+    height: 32px;
+}
+
 .app-track__right {
     display: flex;
     flex-direction: column;
@@ -26,12 +34,21 @@
     min-width: 0;
 }
 
+.app-track__right.compact {
+    height: 32px;
+}
+
 .app-track__top {
     display: flex;
     flex-direction: row;
     height: 23px;
     justify-content: space-between;
     align-items: flex-end;
+}
+
+.app-track__top.compact {
+    height: 32px;
+    align-items: center;
 }
 
 .app-track__bottom {
@@ -47,6 +64,10 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+}
+
+.app-track__playback__and__duration.compact {
+    gap: 2px;
 }
 
 .disc-label {

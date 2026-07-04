@@ -20,6 +20,8 @@ import { ArtistSorter } from '../../../../../common/sorting/artist-sorter';
 import { PlaybackService } from '../../../../../services/playback/playback.service';
 import { TrackServiceBase } from '../../../../../services/track/track.service.base';
 import { TrackModels } from '../../../../../services/track/track-models';
+import { ApplicationPaths } from '../../../../../common/application/application-paths';
+import { SettingsMock } from '../../../../../testing/settings-mock';
 
 export class CdkVirtualScrollViewportMock {
     private _scrollToIndexIndex: number = -1;
@@ -54,9 +56,11 @@ describe('ArtistBrowserComponent', () => {
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let semanticZoomHeaderAdderMock: IMock<SemanticZoomHeaderAdder>;
     let artistsPersisterMock: IMock<ArtistsPersister>;
+    let applicationPathsMock: IMock<ApplicationPaths>;
     let semanticZoomService_zoomOutRequested: Subject<void>;
     let semanticZoomService_zoomInRequested: Subject<string>;
     let applicationService_mouseButtonReleased: Subject<void>;
+    let settingsMock: SettingsMock;
 
     let artist1: ArtistModel;
     let artist2: ArtistModel;
@@ -75,6 +79,7 @@ describe('ArtistBrowserComponent', () => {
             artistSorterMock.object,
             semanticZoomHeaderAdder,
             schedulerMock.object,
+            settingsMock,
             loggerMock.object,
         );
     }
@@ -91,6 +96,7 @@ describe('ArtistBrowserComponent', () => {
             artistSorterMock.object,
             semanticZoomHeaderAdderMock.object,
             schedulerMock.object,
+            settingsMock,
             loggerMock.object,
         );
     }
@@ -111,6 +117,8 @@ describe('ArtistBrowserComponent', () => {
         schedulerMock = Mock.ofType<SchedulerBase>();
         loggerMock = Mock.ofType<Logger>();
         playbackServiceMock = Mock.ofType<PlaybackService>();
+        applicationPathsMock = Mock.ofType<ApplicationPaths>();
+        settingsMock = new SettingsMock();
 
         guidFactoryMock.setup((x) => x.create()).returns(() => '91c70666-8ad0-4037-8590-47f0c453c97d');
 
@@ -127,8 +135,8 @@ describe('ArtistBrowserComponent', () => {
         applicationServiceMock.setup((x) => x.mouseButtonReleased$).returns(() => applicationService_mouseButtonReleased$);
 
         artistsPersisterMock = Mock.ofType<ArtistsPersister>();
-        artist1 = new ArtistModel('One artist', translatorServiceMock.object);
-        artist2 = new ArtistModel('Two artist', translatorServiceMock.object);
+        artist1 = new ArtistModel('One artist', undefined, translatorServiceMock.object, applicationPathsMock.object);
+        artist2 = new ArtistModel('Two artist', undefined, translatorServiceMock.object, applicationPathsMock.object);
 
         artistSorterMock.setup((x) => x.sortAscending([])).returns(() => []);
         artistSorterMock.setup((x) => x.sortDescending([])).returns(() => []);

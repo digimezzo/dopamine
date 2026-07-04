@@ -23,6 +23,7 @@ import { PlaybackService } from '../../../../services/playback/playback.service'
 import { MetadataService } from '../../../../services/metadata/metadata.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-track-browser',
@@ -47,6 +48,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
         private guidFactory: GuidFactory,
         private trackSorter: TrackSorter,
         private trackService: TrackServiceBase,
+        public settings: SettingsBase,
         collectionService: CollectionServiceBase,
         translatorService: TranslatorServiceBase,
         dialogService: DialogServiceBase,
@@ -78,6 +80,10 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
     public orderedTracks: TrackModel[] = [];
 
     public selectedTrackOrder: TrackOrder;
+
+    public get trackItemSize(): number {
+        return this.settings.useCompactTrackListView ? 32 : 46;
+    }
 
     public get tracksPersister(): BaseTracksPersister {
         return this._tracksPersister;
@@ -159,6 +165,16 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
 
     public setSelectedTracks(event: MouseEvent, trackToSelect: TrackModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
+    }
+
+    public scrollToPlayingTrack(): void {
+        const playingTrackIndex: number = this.orderedTracks.findIndex((t) => t.isPlaying);
+
+        if (playingTrackIndex < 0 || this.viewPort == undefined) {
+            return;
+        }
+
+        setTimeout(() => this.viewPort.scrollToIndex(Math.max(playingTrackIndex - 1, 0), 'smooth'));
     }
 
     public applyTrackOrder = (trackOrder: TrackOrder): void => {

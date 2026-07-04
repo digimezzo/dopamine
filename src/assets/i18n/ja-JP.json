@@ -24,6 +24,7 @@
     "genres": "ジャンル",
     "track": "トラック",
     "tracks": "トラック",
+    "artists-and-albums": "アーティストとアルバム",
     "playlists": "プレイリスト",
     "folders": "フォルダー",
     "folder": "フォルダー",
@@ -75,8 +76,13 @@
     "download-title": "ダウンロード",
     "download-action": "ダウンロード",
     "download-missing-album-covers": "アルバムアートがないアルバムの画像をダウンロードする",
+    "download-artist-images": "アーティスト画像をダウンロード",
+    "refresh-covers": "アルバムカバーを再読み込み",
     "refresh-all-covers": "すでにアルバムアートがあるアルバム（曲）を含む、すべてのアルバムのアルバムアートを更新します",
     "refresh-missing-covers": "アルバムアートがないアルバム（曲）のみ更新します",
+    "refresh-artist-images": "アーティスト画像を再読み込み",
+    "refresh-all-artist-images": "既に画像が存在する場合でも、すべてのアーティスト画像を更新する。",
+    "refresh-missing-artist-images": "不足しているアーティスト画像のみを検索する。",
     "playback-queue": "再生キュー",
     "folder-already-added": "このフォルダーはすでに追加されています",
     "refreshing": "更新中...",
@@ -84,6 +90,7 @@
     "added-tracks": "{{numberOfAddedTracks}}曲 ({{percentageOfAddedTracks}}%)が追加されました。",
     "updating-tracks": "曲を更新中",
     "updating-album-artwork": "アルバムアートを更新中...",
+    "updating-artist-artwork": "アーティスト画像を更新",
     "click-here-to-download-new-version": "新しいバージョン{{version}}をダウンロードするには、ここをクリックしてください",
     "yes": "はい",
     "no": "いいえ",
@@ -390,4 +397,6 @@
     "restore-ratings-from-backup-description": "評価されていない曲の評価とお気に入りをバックアップから復元する",
     "restore-ratings-from-backup": "復元",
     "ratings-restored-count": "{{count}}曲の評価を復元しました。"
+    "tracklist": "Song list",
+    "compact-tracklist-view": "Compact song list view (hide song artists)"
 }

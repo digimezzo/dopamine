@@ -24,6 +24,7 @@
     "genres": "Genres",
     "track": "Nummer",
     "tracks": "Nummers",
+    "artists-and-albums": "Artiesten en albums",
     "playlists": "Afspeellijsten",
     "folders": "Mappen",
     "folder": "Map",
@@ -75,8 +76,13 @@
     "download-title": "Downloaden",
     "download-action": "Downloaden",
     "download-missing-album-covers": "Download ontbrekende albumhoezen",
+    "download-artist-images": "Afbeeldingen van artiesten downloaden",
+    "refresh-covers": "Albumhoezen opnieuw laden",
     "refresh-all-covers": "Ververs albumhoezen voor alle albums, inclusief albums die al een albumhoes hebben.",
     "refresh-missing-covers": "Ververs albumhoezen alleen voor albums die nog geen albumhoes hebben",
+    "refresh-artist-images": "Afbeeldingen van artiesten opnieuw laden",
+    "refresh-all-artist-images": "Alle artiestafbeeldingen vernieuwen, zelfs als er al een aanwezig is.",
+    "refresh-missing-artist-images": "Alleen ontbrekende artiestafbeeldingen zoeken.",
     "playback-queue": "Afspeelwachtrij",
     "folder-already-added": "Deze map werd al toegevoegd",
     "refreshing": "Verversen...",
@@ -84,6 +90,7 @@
     "added-tracks": "{{numberOfAddedTracks}} nummers toegevoegd ({{percentageOfAddedTracks}}%)",
     "updating-tracks": "Bijwerken van nummers",
     "updating-album-artwork": "Verversen van albumhoezen",
+    "updating-artist-artwork": "Afbeeldingen van artiesten bijwerken",
     "click-here-to-download-new-version": "Klik hier om de versie {{version}} te downloaden",
     "yes": "Ja",
     "no": "Nee",
@@ -389,5 +396,7 @@
     "ratings-backup": "Ratings backup",
     "restore-ratings-from-backup-description": "Restore ratings and love from the backup file for songs that have no rating yet.",
     "restore-ratings-from-backup": "Restore",
-    "ratings-restored-count": "Restored ratings for {{count}} songs."
+    "ratings-restored-count": "Restored ratings for {{count}} songs.",
+    "tracklist": "Nummerslijst",
+    "compact-tracklist-view": "Compacte nummerslijstweergave (verberg artiesten van nummers)"
 }

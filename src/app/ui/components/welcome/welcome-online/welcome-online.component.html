@@ -8,7 +8,10 @@
     <app-toggle-switch class="mt-3" [(isChecked)]="settings.downloadMissingAlbumCovers">
         {{ 'download-missing-album-covers' | translate }}</app-toggle-switch
     >
-    <app-toggle-switch [(isChecked)]="settings.enableDiscordRichPresence">
+    <app-toggle-switch class="mt-3" [(isChecked)]="settings.showArtistImages">
+        {{ 'download-artist-images' | translate }}</app-toggle-switch
+    >
+    <app-toggle-switch class="mt-3" [(isChecked)]="settings.enableDiscordRichPresence">
         {{ 'enable-discord-rich-presence' | translate }}</app-toggle-switch
     >
 </div>

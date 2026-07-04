@@ -24,6 +24,7 @@
     "genres": "Genres",
     "track": "Morceau",
     "tracks": "Morceaux",
+    "artists-and-albums": "Artistes et albums",
     "playlists": "Listes de lectures",
     "folders": "Dossiers",
     "folder": "Dossier",
@@ -75,8 +76,13 @@
     "download-title": "Téléchargement",
     "download-action": "Télécharger",
     "download-missing-album-covers": "Télécharger les pochettes d'album manquantes",
+    "download-artist-images": "Télécharger des images d’artistes",
+    "refresh-covers": "Recharger les pochettes d'album",
     "refresh-all-covers": "Actualiser les pochettes de tous les albums, y compris ceux qui ont déjà une pochette.",
     "refresh-missing-covers": "Actualiser les pochettes uniquement pour les albums qui n'ont pas encore de pochette",
+    "refresh-artist-images": "Recharger les images des artistes",
+    "refresh-all-artist-images": "Actualiser toutes les images d’artistes, même si une existe déjà.",
+    "refresh-missing-artist-images": "Rechercher uniquement les images d’artistes manquantes.",
     "playback-queue": "File d’attente de lecture",
     "folder-already-added": "Ce dossier a déjà été ajouté",
     "refreshing": "Actualisation...",
@@ -84,6 +90,7 @@
     "added-tracks": "Ajouté {{numberOfAddedTracks}} morceaux ({{percentageOfAddedTracks}}%)",
     "updating-tracks": "Mise à jour des morceaux",
     "updating-album-artwork": "Mise à jour des pochettes des albums",
+    "updating-artist-artwork": "Mettre à jour les images des artistes",
     "click-here-to-download-new-version": "Cliquez ici pour télécharger la version {{version}}",
     "yes": "Oui",
     "no": "Non",
@@ -389,5 +396,7 @@
     "ratings-backup": "Ratings backup",
     "restore-ratings-from-backup-description": "Restore ratings and love from the backup file for songs that have no rating yet.",
     "restore-ratings-from-backup": "Restore",
-    "ratings-restored-count": "Restored ratings for {{count}} songs."
+    "ratings-restored-count": "Restored ratings for {{count}} songs.",
+    "tracklist": "Liste des morceaux",
+    "compact-tracklist-view": "Vue compacte de la liste des morceaux (masquer les artistes des morceaux)"
 }

@@ -4,13 +4,16 @@ import { ArtistData } from '../../data/entities/artist-data';
 import { ArtistModel } from './artist-model';
 import { ArtistType } from './artist-type';
 import { ArtistServiceBase } from './artist.service.base';
-import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { ArtistSplitter } from './artist-splitter';
 import { Timer } from '../../common/scheduling/timer';
 import { Logger } from '../../common/logger';
 import { CollectionUtils } from '../../common/utils/collections-utils';
 import { SettingsBase } from '../../common/settings/settings.base';
+import { ArtistModelFactory } from './artist-model-factory';
+import { ArtistArtwork } from '../../data/entities/artist-artwork';
+import { ArtistArtworkRepositoryBase } from '../../data/repositories/artist-artwork-repository.base';
+import { StringUtils } from '../../common/utils/string-utils';
 
 @Injectable()
 export class ArtistService implements ArtistServiceBase {
@@ -18,6 +21,8 @@ export class ArtistService implements ArtistServiceBase {
     public constructor(
         private artistSplitter: ArtistSplitter,
         private trackRepository: TrackRepositoryBase,
+        private artistArtworkRepository: ArtistArtworkRepositoryBase,
+        private artistModelFactory: ArtistModelFactory,
         private settings: SettingsBase,
         private logger: Logger,
     ) {}
@@ -51,13 +56,42 @@ export class ArtistService implements ArtistServiceBase {
         timer.start();
 
         this.sourceArtists = artists;
-        const splitArtists: ArtistModel[] = this.artistSplitter.splitArtists(artists);
+        const artistModels: ArtistModel[] = this.splitArtists(artists);
 
         timer.stop();
 
         this.logger.info(`Finished splitting artists. Time required: ${timer.elapsedMilliseconds} ms`, 'ArtistService', 'getArtists');
 
-        return splitArtists;
+        return artistModels;
+    }
+
+    private splitArtists(artists: string[]): ArtistModel[] {
+        const splitArtists: string[] = this.artistSplitter.splitArtists(artists);
+
+        if (this.settings.showArtistImages) {
+            const artworks: ArtistArtwork[] = this.getAllArtistArtwork(splitArtists);
+            return splitArtists.map((artist: string): ArtistModel => {
+                const artwork: ArtistArtwork | undefined = artworks.find((artwork: ArtistArtwork): boolean =>
+                    StringUtils.equalsIgnoreCase(artwork.artist, artist.toLowerCase()),
+                );
+                return this.artistModelFactory.create(artist, artwork?.artworkId);
+            });
+        } else {
+            return splitArtists.map((artist: string): ArtistModel => this.artistModelFactory.create(artist));
+        }
+    }
+
+    private getAllArtistArtwork(artists: string[]): ArtistArtwork[] {
+        try {
+            return this.artistArtworkRepository.getArtistArtworkForArtists(artists);
+        } catch (e: unknown) {
+            this.logger.error(e, `Cannot load artwork for artists`, 'ArtistService', 'getArtwork');
+            return [];
+        }
+    }
+
+    private getArtworkForArtist(artist: string, artworks: ArtistArtwork[]): ArtistArtwork | undefined {
+        return artworks.find((artwork: ArtistArtwork): boolean => StringUtils.equalsIgnoreCase(artwork.artist, artist.toLowerCase()));
     }
 
     public getSourceArtists(artists: ArtistModel[]): string[] {

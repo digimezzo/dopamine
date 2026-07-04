@@ -10,6 +10,7 @@ import { AlbumKeyGenerator } from '../../data/album-key-generator';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { Track } from '../../data/entities/track';
 import { MetadataPatcher } from '../../common/metadata/metadata-patcher';
+import { ArtistsKeyGenerator } from '../../data/artists-key-generator';
 
 class FileMetadataImplementation implements IFileMetadata {
     public path!: string;
@@ -47,6 +48,7 @@ describe('TrackFiller', () => {
     let trackFieldCreatorMock: IMock<TrackFieldCreator>;
     let metadataPatcherMock: IMock<MetadataPatcher>;
     let albumKeyGeneratorMock: IMock<AlbumKeyGenerator>;
+    let artistsKeyGeneratorMock: IMock<ArtistsKeyGenerator>;
     let fileAccessMock: IMock<FileAccessBase>;
     let mimeTypesMock: IMock<MimeTypes>;
     let dateTimeMock: IMock<DateTime>;
@@ -58,6 +60,7 @@ describe('TrackFiller', () => {
             trackFieldCreatorMock.object,
             metadataPatcherMock.object,
             albumKeyGeneratorMock.object,
+            artistsKeyGeneratorMock.object,
             fileAccessMock.object,
             mimeTypesMock.object,
             dateTimeMock.object,
@@ -70,6 +73,7 @@ describe('TrackFiller', () => {
         trackFieldCreatorMock = Mock.ofType<TrackFieldCreator>();
         metadataPatcherMock = Mock.ofType<MetadataPatcher>();
         albumKeyGeneratorMock = Mock.ofType<AlbumKeyGenerator>();
+        artistsKeyGeneratorMock = Mock.ofType<ArtistsKeyGenerator>();
         fileAccessMock = Mock.ofType<FileAccessBase>();
         mimeTypesMock = Mock.ofType<MimeTypes>();
         dateTimeMock = Mock.ofType<DateTime>();
@@ -95,6 +99,10 @@ describe('TrackFiller', () => {
         albumKeyGeneratorMock
             .setup((x) => x.generateAlbumKey('Album title', ['Album artist 1', 'Album artist 2']))
             .returns(() => ';Album title;;Album artist 1;;Album artist 2;');
+
+        artistsKeyGeneratorMock
+            .setup((x) => x.generateArtistsKey(';Artist 1;;Artist 2;'))
+            .returns(() => ';artist 1;;artist 2;');
 
         mimeTypesMock.setup((x) => x.getMimeTypeForFileExtension('.mp3')).returns(() => 'audio/mpeg');
 
@@ -222,6 +230,30 @@ describe('TrackFiller', () => {
             metadataPatcherMock.verify((x) => x.joinUnsplittableMetadata(['Album artist 1', 'Album artist 2']), Times.exactly(2));
             albumKeyGeneratorMock.verify((x) => x.generateAlbumKey('Album title', ['Album artist 1', 'Album artist 2']), Times.exactly(1));
             expect(track.albumKey).toEqual(';Album title;;Album artist 1;;Album artist 2;');
+        });
+
+        it('should fill in track artistsKey with a generated key', async () => {
+            // Arrange
+            const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataStub.artists = ['Artist 1', 'Artist 2'];
+
+            fileMetadataFactoryMock
+                .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
+                .returns(() => Promise.resolve(fileMetadataStub));
+            fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
+            const trackFiller: TrackFiller = createTrackFiller();
+            const track: Track = new Track('/home/user/Music/Track 1.mp3');
+
+            metadataPatcherMock
+                .setup((x) => x.joinUnsplittableMetadata(It.isAny()))
+                .returns(() => fileMetadataStub.artists);
+
+            // Act
+            await trackFiller.addFileMetadataToTrackAsync(track, false);
+
+            // Assert
+            artistsKeyGeneratorMock.verify((x) => x.generateArtistsKey(';Artist 1;;Artist 2;'), Times.exactly(1));
+            expect(track.artistsKey).toEqual(';artist 1;;artist 2;');
         });
 
         it('should fill in track fileName with the file name of the audio file', async () => {

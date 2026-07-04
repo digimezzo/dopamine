@@ -24,6 +24,7 @@
     "genres": "Genrer",
     "track": "Låt",
     "tracks": "Låtar",
+    "artists-and-albums": "Artister och album",
     "playlists": "Spellistor",
     "folders": "Mappar",
     "folder": "Mapp",
@@ -75,8 +76,13 @@
     "download-title": "Ladda ner",
     "download-action": "Ladda ner",
     "download-missing-album-covers": "Ladda ner saknade skivomslag",
+    "download-artist-images": "Ladda ner artistbilder",
+    "refresh-covers": "Ladda om albumomslag",
     "refresh-all-covers": "Uppdatera skivomslag för alla album, inklusive de som redan har ett skivomslag.",
     "refresh-missing-covers": "Uppdatera skivomslag endast för album som inte har något skivomslag ännu",
+    "refresh-artist-images": "Ladda om artistbilder",
+    "refresh-all-artist-images": "Uppdatera alla artistbilder, även om en redan finns.",
+    "refresh-missing-artist-images": "Sök endast efter saknade artistbilder.",
     "playback-queue": "Uppspelningskö",
     "folder-already-added": "Den här mappen har redan lagts till",
     "refreshing": "Uppdaterar...",
@@ -84,6 +90,7 @@
     "added-tracks": "Lagt till {{numberOfAddedTracks}} låtar ({{percentageOfAddedTracks}}%)",
     "updating-tracks": "Uppdaterar låtar",
     "updating-album-artwork": "Uppdaterar skivomslag",
+    "updating-artist-artwork": "Uppdatera artistbilder",
     "click-here-to-download-new-version": "Klicka här för att ladda ner version {{version}}",
     "yes": "Ja",
     "no": "Nej",
@@ -389,5 +396,7 @@
     "ratings-backup": "Ratings backup",
     "restore-ratings-from-backup-description": "Restore ratings and love from the backup file for songs that have no rating yet.",
     "restore-ratings-from-backup": "Restore",
-    "ratings-restored-count": "Restored ratings for {{count}} songs."
+    "ratings-restored-count": "Restored ratings for {{count}} songs.",
+    "tracklist": "Song list",
+    "compact-tracklist-view": "Compact song list view (hide song artists)"
 }

@@ -10,6 +10,7 @@ import { TrackFieldCreator } from './track-field-creator';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
 import { MetadataPatcher } from '../../common/metadata/metadata-patcher';
+import { ArtistsKeyGenerator } from '../../data/artists-key-generator';
 
 @Injectable()
 export class TrackFiller {
@@ -18,6 +19,7 @@ export class TrackFiller {
         private trackFieldCreator: TrackFieldCreator,
         private metadataPatcher: MetadataPatcher,
         private albumKeyGenerator: AlbumKeyGenerator,
+        private artistsKeyGenerator: ArtistsKeyGenerator,
         private fileAccess: FileAccessBase,
         private mimeTypes: MimeTypes,
         private dateTime: DateTime,
@@ -65,6 +67,8 @@ export class TrackFiller {
             );
             track.albumKey2 = this.albumKeyGenerator.generateAlbumKey2(fileMetadata.album);
             track.albumKey3 = this.albumKeyGenerator.generateAlbumKey3(this.fileAccess.getDirectoryPath(track.path));
+            
+            track.artistsKey = this.artistsKeyGenerator.generateArtistsKey(track.artists);
 
             track.replayGainTrackGain = this.trackFieldCreator.createNumberField(fileMetadata.replayGainTrackGain);
             track.replayGainTrackPeak = this.trackFieldCreator.createNumberField(fileMetadata.replayGainTrackPeak);

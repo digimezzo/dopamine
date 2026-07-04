@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Subscription } from 'rxjs';
 import { Logger } from '../../../../../common/logger';
 import { PlaybackStarted } from '../../../../../services/playback/playback-started';
@@ -42,6 +43,9 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
 
     @ViewChild('playlistTrackContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public playlistTrackContextMenu: MatMenuTrigger;
+
+    @ViewChild(CdkVirtualScrollViewport)
+    public viewPort: CdkVirtualScrollViewport;
 
     public orderedTracks: TrackModel[] = [];
 
@@ -135,6 +139,16 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
         if (tracks.length > 0) {
             this.desktop.showFileInDirectory(tracks[0].path);
         }
+    }
+
+    public scrollToPlayingTrack(): void {
+        const playingTrackIndex: number = this.orderedTracks.findIndex((t) => t.isPlaying);
+
+        if (playingTrackIndex < 0 || this.viewPort == undefined) {
+            return;
+        }
+
+        setTimeout(() => this.viewPort.scrollToIndex(Math.max(playingTrackIndex - 1, 0), 'smooth'));
     }
 
     private orderTracks(): void {

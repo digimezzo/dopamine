@@ -14,25 +14,32 @@
     </div>
     <div
         class="app-track__body px-1"
-        [ngClass]="{ 'selected-item-background-important': track.isSelected }"
+        [ngClass]="{ 'selected-item-background-important': track.isSelected, compact: this.settings.useCompactTrackListView }"
         matRipple
         [matRippleTrigger]="trigger"
         #trigger
     >
-        <div class="app-track__left secondary-text">
+        <div class="app-track__left secondary-text" [ngClass]="{ compact: this.settings.useCompactTrackListView }">
             {{ track.number | formatTrackNumber }}
         </div>
-        <div class="app-track__right">
-            <div class="app-track__top">
+        <div class="app-track__right" [ngClass]="{ compact: this.settings.useCompactTrackListView }">
+            <div class="app-track__top" [ngClass]="{ compact: this.settings.useCompactTrackListView }">
                 <span class="app-track__top__title ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">{{ track.title }}</span>
-                <div class="app-track__playback__and__duration">
+                <div class="app-track__playback__and__duration" [ngClass]="{ compact: this.settings.useCompactTrackListView }">
                     <app-playback-indicator *ngIf="track.isPlaying" class="mx-2" [isSelected]="track.isSelected"></app-playback-indicator>
                     <div [ngClass]="{ 'accent-color': track.isPlaying }">
                         {{ track.durationInMilliseconds | formatTrackDuration }}
                     </div>
+                    <div
+                        class="d-flex flex-row align-items-center justify-content-center red ml-2"
+                        *ngIf="this.settings.useCompactTrackListView"
+                    >
+                        <app-rating class="app-track__rating" [track]="track" *ngIf="this.settings.showRating"></app-rating>
+                        <app-love class="app-track__love ml-2" [track]="track" *ngIf="this.settings.showLove"></app-love>
+                    </div>
                 </div>
             </div>
-            <div class="app-track__bottom">
+            <div class="app-track__bottom" *ngIf="!this.settings.useCompactTrackListView">
                 <span class="ellipsis secondary-text smaller">{{ track.artists }}</span>
                 <span></span>
                 <div class="d-flex flex-row align-items-center justify-content-center red">
