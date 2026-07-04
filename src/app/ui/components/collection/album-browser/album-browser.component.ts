@@ -106,14 +106,13 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
 
     @Input()
     public set selectedArtists(selectedArtists: ArtistModel[]) {
+        this.artistBackground = '';
         if (selectedArtists.length == 1) {
             const artworkPath: string = selectedArtists[0].artworkPath;
             if (artworkPath !== Constants.emptyImage) {
                 this.artistBackground = artworkPath.replace(/\\/g, '/');
-                return;
             }
         }
-        this.artistBackground = '';
     }
 
     public get isSortedByYear(): boolean {
