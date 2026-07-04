@@ -396,7 +396,7 @@
     "ratings-backup": "評価のバックアップ",
     "restore-ratings-from-backup-description": "評価されていない曲の評価とお気に入りをバックアップから復元する",
     "restore-ratings-from-backup": "復元",
-    "ratings-restored-count": "{{count}}曲の評価を復元しました。"
+    "ratings-restored-count": "{{count}}曲の評価を復元しました。",
     "tracklist": "Song list",
     "compact-tracklist-view": "Compact song list view (hide song artists)"
 }

@@ -402,6 +402,8 @@ describe('validate i18n', () => {
         'restore-ratings-from-backup-description',
         'ratings-backup',
         'ratings-restored-count',
+        'compact-tracklist-view',
+        'tracklist',
     ].sort();
 
     Constants.languages.forEach((language) => {
