@@ -19,4 +19,5 @@ export abstract class NotificationServiceBase {
     public abstract singleTrackAddedToPlaybackQueueAsync(): Promise<void>;
     public abstract multipleTracksAddedToPlaybackQueueAsync(numberOfAddedTracks: number): Promise<void>;
     public abstract lastFmLoginFailedAsync(): Promise<void>;
+    public abstract listenbrainzLoginFailedAsync(): Promise<void>;
 }

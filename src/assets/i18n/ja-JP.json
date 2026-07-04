@@ -228,6 +228,10 @@
     "columns": "列",
     "duration": "再生時間",
     "number": "番号",
+    "listenbrainz": "ListenBrainz",
+    "enable-listenbrainz-scrobbling": "ListenBrainzへのScrobbleを有効にする",
+    "listenbrainz-love-feedback-not-supported": "Dopamineは現在ListenBrainzへのLove機能をサポートしていません。",
+    "token": "トークン",
     "last-fm": "Last.fm",
     "enable-last-fm-scrobbling": "Last.fmへのScrobbleを有効にする",
     "username": "ユーザー名",
@@ -235,6 +239,7 @@
     "log-in": "ログイン",
     "logged-in": "ログイン済",
     "logged-out": "ログアウト済",
+    "listenbrainz-login-failed": "ListenBrainzへのログインに失敗",
     "last-fm-login-failed": "Last.fmへのログインに失敗",
     "love": "お気に入り",
     "show-love": "お気に入りを表示",
@@ -388,10 +393,10 @@
     "replaygain-requires-tags": "ReplayGainは、ファイルにすでにReplayGainタグが含まれている場合にのみ機能します。",
     "replaygain-scan-tags-external-tool": "まず、次のような外部ツールを使用してファイルをスキャンしてください：",
     "replaygain-tool-rsgain": "rsgain",
-    "ratings-backup": "Ratings backup",
-    "restore-ratings-from-backup-description": "Restore ratings and love from the backup file for songs that have no rating yet.",
-    "restore-ratings-from-backup": "Restore",
-    "ratings-restored-count": "Restored ratings for {{count}} songs.",
+    "ratings-backup": "評価のバックアップ",
+    "restore-ratings-from-backup-description": "評価されていない曲の評価とお気に入りをバックアップから復元する",
+    "restore-ratings-from-backup": "復元",
+    "ratings-restored-count": "{{count}}曲の評価を復元しました。"
     "tracklist": "Song list",
     "compact-tracklist-view": "Compact song list view (hide song artists)"
 }
