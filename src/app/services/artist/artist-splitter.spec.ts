@@ -19,6 +19,7 @@ describe('ArtistSplitter', () => {
         'Artist6 | Artist7',
         '',
         'Artist2ft.Artist3& Artist4',
+        ' Artist9   ft.  Artist10   ',
     ];
 
     beforeEach(() => {
@@ -36,7 +37,7 @@ describe('ArtistSplitter', () => {
             const splitArtists: string[] = splitter.splitArtists(artists);
 
             // Assert
-            expect(splitArtists.length).toEqual(10);
+            expect(splitArtists.length).toEqual(12);
             expect(splitArtists).toContain('Artist1');
             expect(splitArtists).toContain('Artist2');
             expect(splitArtists).toContain('Artist3');
@@ -47,6 +48,8 @@ describe('ArtistSplitter', () => {
             expect(splitArtists).toContain('Artist6 | Artist7');
             expect(splitArtists).toContain('');
             expect(splitArtists).toContain('Artist2ft.Artist3& Artist4');
+            expect(splitArtists).toContain('Artist9');
+            expect(splitArtists).toContain('Artist10');
         });
 
         it('should split without duplicates on all configured separators excluding pipe for substrings that are not in the exception list', () => {
@@ -58,7 +61,7 @@ describe('ArtistSplitter', () => {
             const splitArtists: string[] = splitter.splitArtists(artists);
 
             // Assert
-            expect(splitArtists.length).toEqual(9);
+            expect(splitArtists.length).toEqual(11);
             expect(splitArtists).toContain('Artist1');
             expect(splitArtists).toContain('Artist2');
             expect(splitArtists).toContain('Artist3');
@@ -79,7 +82,7 @@ describe('ArtistSplitter', () => {
             const splitArtists: string[] = splitter.splitArtists(artists);
 
             // Assert
-            expect(splitArtists.length).toEqual(11);
+            expect(splitArtists.length).toEqual(12);
             expect(splitArtists).toContain('Artist1');
             expect(splitArtists).toContain('Artist2');
             expect(splitArtists).toContain('Artist1 ft. Artist2 feat. Artist3');

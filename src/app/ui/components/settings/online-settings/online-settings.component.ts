@@ -2,11 +2,12 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { SignInState } from '../../../../services/scrobbling/sign-in-state';
-import { ScrobblingService } from '../../../../services/scrobbling/scrobbling.service';
+import { LastfmProvider } from '../../../../services/scrobbling/lastfm.provider';
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { NotificationServiceBase } from '../../../../services/notification/notification.service.base';
 import { DiscordService } from '../../../../services/discord/discord.service';
 import { UpdateServiceBase } from '../../../../services/update/update.service.base';
+import { ListenbrainzProvider } from '../../../../services/scrobbling/listenbrainz.provider';
 
 @Component({
     selector: 'app-online-settings',
@@ -16,12 +17,14 @@ import { UpdateServiceBase } from '../../../../services/update/update.service.ba
     encapsulation: ViewEncapsulation.None,
 })
 export class OnlineSettingsComponent implements OnInit, OnDestroy {
-    private _signInState: SignInState = SignInState.SignedOut;
+    private _lastfmSignInState: SignInState = SignInState.SignedOut;
+    private _listenbrainzSignInState: SignInState = SignInState.SignedOut;
     private subscription: Subscription = new Subscription();
 
     public constructor(
         public discordService: DiscordService,
-        private scrobblingService: ScrobblingService,
+        private lastfmProvider: LastfmProvider,
+        private listenbrainzProvider: ListenbrainzProvider,
         private notificationService: NotificationServiceBase,
         private updateService: UpdateServiceBase,
         public settings: SettingsBase,
@@ -29,22 +32,33 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
 
     public signInStateEnum: typeof SignInState = SignInState;
 
-    public get signInState(): SignInState {
-        return this._signInState;
+    public get lastfmSignInState(): SignInState {
+        return this._lastfmSignInState;
+    }
+
+    public get listenbrainzSignInState(): SignInState {
+        return this._listenbrainzSignInState;
     }
 
     public get lastFmUserName(): string {
-        return this.scrobblingService.username;
+        return this.lastfmProvider.username;
     }
     public set lastFmUserName(v: string) {
-        this.scrobblingService.username = v;
+        this.lastfmProvider.username = v;
     }
 
     public get lastFmPassword(): string {
-        return this.scrobblingService.password;
+        return this.lastfmProvider.password;
     }
     public set lastFmPassword(v: string) {
-        this.scrobblingService.password = v;
+        this.lastfmProvider.password = v;
+    }
+
+    public get listenbrainzToken(): string {
+        return this.listenbrainzProvider.token;
+    }
+    public set listenbrainzToken(v: string) {
+        this.listenbrainzProvider.token = v;
     }
 
     public ngOnDestroy(): void {
@@ -53,8 +67,8 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.subscription.add(
-            this.scrobblingService.signInStateChanged$.subscribe((signInState: SignInState) => {
-                this._signInState = signInState;
+            this.lastfmProvider.signInStateChanged$.subscribe((signInState: SignInState) => {
+                this._lastfmSignInState = signInState;
 
                 if (signInState === SignInState.Error) {
                     PromiseUtils.noAwait(this.notificationService.lastFmLoginFailedAsync());
@@ -62,7 +76,18 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
             }),
         );
 
-        this._signInState = this.scrobblingService.signInState;
+        this.subscription.add(
+            this.listenbrainzProvider.signInStateChanged$.subscribe((signInState: SignInState) => {
+                this._listenbrainzSignInState = signInState;
+
+                if (signInState === SignInState.Error) {
+                    PromiseUtils.noAwait(this.notificationService.listenbrainzLoginFailedAsync());
+                }
+            }),
+        );
+
+        this._lastfmSignInState = this.lastfmProvider.signInState;
+        this._listenbrainzSignInState = this.listenbrainzProvider.signInState;
     }
 
     public get downloadLyricsOnline(): boolean {
@@ -81,12 +106,12 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
         this.settings.enableLastFmScrobbling = v;
 
         if (!v) {
-            this.scrobblingService.signOut();
+            this.lastfmProvider.signOut();
         }
     }
 
     public async signInToLastFmAsync(): Promise<void> {
-        await this.scrobblingService.signInAsync();
+        await this.lastfmProvider.signInAsync();
     }
 
     public get checkForUpdates(): boolean {
@@ -99,5 +124,21 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
         if (v) {
             void this.updateService.checkForUpdatesAsync();
         }
+    }
+
+    public get enableListenbrainzScrobbling(): boolean {
+        return this.settings.enableListenbrainzScrobbling;
+    }
+
+    public set enableListenbrainzScrobbling(v: boolean) {
+        this.settings.enableListenbrainzScrobbling = v;
+
+        if (!v) {
+            this.listenbrainzProvider.signOut();
+        }
+    }
+
+    public async signInToListenbrainzAsync(): Promise<void> {
+        await this.listenbrainzProvider.signInAsync();
     }
 }

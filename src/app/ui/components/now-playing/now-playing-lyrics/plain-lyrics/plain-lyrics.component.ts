@@ -10,4 +10,9 @@ import { LyricsModel } from '../../../../../services/lyrics/lyrics-model';
 })
 export class PlainLyricsComponent {
     @Input() public lyrics: LyricsModel | undefined;
+    @Input() public fontSize: number = 1.5;
+
+    public get fontSizeInVmin(): string {
+        return `${this.fontSize * 2}vmin`;
+    }
 }

@@ -43,7 +43,9 @@
 .app-collection-playback-controls__playback-pane {
     position: absolute;
     bottom: 0;
-    z-index: 1;
+    left: 0;
+    right: 0;
+    z-index: 3;
 }
 
 .app-collection-header__controls {

@@ -1,4 +1,4 @@
-const { File, PictureType, TagTypes, Id3v2FrameClassType } = require('node-taglib-sharp');
+const { File, PictureType, TagTypes, Id3v2FrameClassType } = require('@digimezzo/node-taglib-sharp');
 const { RatingConverter } = require('./rating-converter');
 
 class TagLibFileMetadata {

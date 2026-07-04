@@ -23,7 +23,7 @@ describe('DefaultThemesCreator', () => {
             const defaultThemes: Theme[] = defaultThemesCreator.createAllThemes();
 
             // Assert
-            expect(defaultThemes.length).toEqual(10);
+            expect(defaultThemes.length).toEqual(11);
             expect(defaultThemes[0].name).toEqual('Dopamine');
             expect(defaultThemes[1].name).toEqual('Adwaita');
             expect(defaultThemes[2].name).toEqual('Zune');
@@ -34,6 +34,7 @@ describe('DefaultThemesCreator', () => {
             expect(defaultThemes[7].name).toEqual('Palenight');
             expect(defaultThemes[8].name).toEqual('Catppuccin');
             expect(defaultThemes[9].name).toEqual('Dracula');
+            expect(defaultThemes[10].name).toEqual('Kadbury');
         });
     });
 });

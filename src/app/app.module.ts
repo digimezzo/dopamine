@@ -302,6 +302,8 @@ import { AlbumPlaceholderComponent } from './ui/components/highlights/album-plac
 import { EditSmartPlaylistDialogComponent } from './ui/components/dialogs/edit-smart-playlist-dialog/edit-smart-playlist-dialog.component';
 import { HighlightsPlaybackPaneComponent } from './ui/components/highlights/highlights-playback-pane/highlights-playback-pane.component';
 import { WindowDraggableDirective } from './ui/directives/window-draggable.directive';
+import { EditAlbumDialogComponent } from './ui/components/dialogs/edit-album-dialog/edit-album-dialog.component';
+import { ListenbrainzApi } from './common/api/listenbrainz/listenbrainz.api';
 import { ArtistArtworkRepositoryBase } from './data/repositories/artist-artwork-repository.base';
 import { ArtistArtworkRepository } from './data/repositories/artist-artwork-repository';
 import { OnlineArtistArtworkGetter } from './services/indexing/online-artist-artwork-getter';
@@ -479,6 +481,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         CoverPlayerVolumeControlComponent,
         VolumeIconComponent,
         EditTracksDialogComponent,
+        EditAlbumDialogComponent,
         IterableMenuComponent,
     ],
     imports: [
@@ -528,6 +531,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         ImageProcessor,
         CachedAlbumArtworkGetter,
         LastfmApi,
+        ListenbrainzApi,
         Logger,
         Hacks,
         Shuffler,

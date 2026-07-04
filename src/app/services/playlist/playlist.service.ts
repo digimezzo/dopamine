@@ -213,11 +213,10 @@ export class PlaylistService implements PlaylistServiceBase {
                 }
             }
 
-            await this.fileAccess.clearFileContentsAsync(playlistPath);
-
-            for (const playlistTrack of playlistTracksAfterRemoval) {
-                await this.fileAccess.appendTextToFileAsync(playlistPath, playlistTrack.path);
-            }
+            await this.fileAccess.replaceMultiLineTextInFileAsync(
+                playlistPath,
+                playlistTracksAfterRemoval.map((x) => x.path),
+            );
         } catch (e: unknown) {
             this.logger.error(
                 e,

@@ -84,15 +84,41 @@ describe('ArtistArtworkRepository', () => {
         });
     });
 
-    describe('getArtistArtworkForArtist', () => {
-        it('should return the artwork for a specific artist', () => {
+    describe('getArtistArtworkForArtists', () => {
+        it('should return the artwork for all given artists', () => {
             // Arrange, Act
-            const artwork: ArtistArtwork | undefined = repository.getArtistArtworkForArtist('Metallica');
+            const artwork: ArtistArtwork[] = repository.getArtistArtworkForArtists(['Metallica', 'Aerosmith', 'Alanis Morissette']);
 
             // Assert
             expect(artwork).not.toBeUndefined();
-            expect(artwork!.artist).toEqual('metallica');
-            expect(artwork!.artworkId).toEqual('artist-1');
+            expect(artwork.length).toEqual(3);
+            expect(artwork).toContainEqual(
+                expect.objectContaining({
+                    artist: 'metallica',
+                    artworkId: 'artist-1',
+                }),
+            );
+            expect(artwork).toContainEqual(
+                expect.objectContaining({
+                    artist: 'aerosmith',
+                    artworkId: 'artist-2',
+                }),
+            );
+            expect(artwork).toContainEqual(
+                expect.objectContaining({
+                    artist: 'alanis morissette',
+                    artworkId: 'artist-3',
+                }),
+            );
+        });
+
+        it('should return an empty array if no entry was found', () => {
+            // Arrange, Act
+            const artwork: ArtistArtwork[] = repository.getArtistArtworkForArtists(['unknown-artist']);
+
+            // Assert
+            expect(artwork).not.toBeUndefined();
+            expect(artwork.length).toEqual(0);
         });
     });
 

@@ -8,6 +8,9 @@ import { PlaybackIndicationServiceBase } from '../../../services/playback-indica
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
 import { MouseSelectionWatcher } from '../mouse-selection-watcher';
 import { ContextMenuOpener } from '../context-menu-opener';
+import { SearchServiceBase } from '../../../services/search/search.service.base';
+import { StringUtils } from '../../../common/utils/string-utils';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
     selector: 'app-playback-queue',
@@ -27,16 +30,48 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
         public mouseSelectionWatcher: MouseSelectionWatcher,
         private playbackIndicationService: PlaybackIndicationServiceBase,
         private navigationService: NavigationServiceBase,
+        private searchService: SearchServiceBase,
     ) {}
 
     @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public trackContextMenu: MatMenuTrigger;
 
+    @ViewChild(CdkVirtualScrollViewport)
+    public viewPort: CdkVirtualScrollViewport;
+
     @Input()
     public showTitle: boolean = true;
 
+    public searchText: string = '';
+
     public get shouldShowList(): boolean {
         return this._shouldShowList;
+    }
+
+    public get filteredTracks(): TrackModel[] {
+        const queueTracks: TrackModel[] = this.playbackService.playbackQueue.tracks;
+
+        if (StringUtils.isNullOrWhiteSpace(this.searchText)) {
+            return queueTracks;
+        }
+
+        return queueTracks.filter((track: TrackModel) => {
+            const textToSearch: string = [
+                track.title,
+                track.albumTitle,
+                track.albumArtists,
+                track.artists,
+                track.fileName,
+                track.year.toString(),
+                track.genres,
+            ].join(' ');
+
+            return this.searchService.matchesSearchText(textToSearch, this.searchText);
+        });
+    }
+
+    public get hasSearchText(): boolean {
+        return !StringUtils.isNullOrWhiteSpace(this.searchText);
     }
 
     public ngOnDestroy(): void {
@@ -46,7 +81,9 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
-                this.playbackIndicationService.setPlayingTrack(this.playbackService.playbackQueue.tracks, playbackStarted.currentTrack);
+                const queueTracks: TrackModel[] = this.playbackService.playbackQueue.tracks;
+                this.playbackIndicationService.clearPlayingTrack(queueTracks);
+                this.playbackIndicationService.setPlayingTrack(queueTracks, playbackStarted.currentTrack);
             }),
         );
 
@@ -77,5 +114,20 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
 
     public onRemoveFromQueue(): void {
         this.playbackService.removeFromQueue(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
+    }
+
+    public clearSearchText(): void {
+        this.searchText = '';
+    }
+
+    public scrollToPlayingTrack(): void {
+        const tracks: TrackModel[] = this.filteredTracks;
+        const playingTrackIndex: number = tracks.findIndex((t) => t.isPlaying);
+
+        if (playingTrackIndex < 0 || this.viewPort == undefined) {
+            return;
+        }
+
+        setTimeout(() => this.viewPort.scrollToIndex(Math.max(playingTrackIndex - 1, 0), 'smooth'));
     }
 }

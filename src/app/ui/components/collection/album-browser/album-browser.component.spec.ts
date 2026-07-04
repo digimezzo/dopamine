@@ -18,10 +18,12 @@ import { PlaybackService } from '../../../../services/playback/playback.service'
 import { SettingsMock } from '../../../../testing/settings-mock';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { TrackModels } from '../../../../services/track/track-models';
+import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
 
 describe('AlbumBrowserComponent', () => {
     let trackServiceMock: IMock<TrackServiceBase>;
     let playbackServiceMock: IMock<PlaybackService>;
+    let dialogServiceMock: IMock<DialogServiceBase>;
     let applicationServiceMock: IMock<ApplicationServiceBase>;
     let albumRowsGetterMock: IMock<AlbumRowsGetter>;
     let nativeElementProxyMock: IMock<NativeElementProxy>;
@@ -42,6 +44,7 @@ describe('AlbumBrowserComponent', () => {
         return new AlbumBrowserComponent(
             trackServiceMock.object,
             playbackServiceMock.object,
+            dialogServiceMock.object,
             applicationServiceMock.object,
             albumRowsGetterMock.object,
             nativeElementProxyMock.object,
@@ -56,6 +59,7 @@ describe('AlbumBrowserComponent', () => {
     beforeEach(() => {
         trackServiceMock = Mock.ofType<TrackServiceBase>();
         playbackServiceMock = Mock.ofType<PlaybackService>();
+        dialogServiceMock = Mock.ofType<DialogServiceBase>();
         applicationServiceMock = Mock.ofType<ApplicationServiceBase>();
         albumRowsGetterMock = Mock.ofType<AlbumRowsGetter>();
         nativeElementProxyMock = Mock.ofType<NativeElementProxy>();
@@ -632,6 +636,39 @@ describe('AlbumBrowserComponent', () => {
         });
     });
 
+    describe('onEditAsync', () => {
+        it('should open edit albums dialog for selected albums', async () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            const albumData2: AlbumData = new AlbumData();
+            const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
+            const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, applicationPathsMock.object);
+            const selectedAlbums: AlbumModel[] = [album1, album2];
+            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => selectedAlbums);
+            const component: AlbumBrowserComponent = createComponent();
+
+            // Act
+            await component.onEditAsync(album1);
+
+            // Assert
+            dialogServiceMock.verify((x) => x.showEditAlbumsAsync(selectedAlbums), Times.once());
+        });
+
+        it('should open edit albums dialog for context album when no albums are selected', async () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
+            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => []);
+            const component: AlbumBrowserComponent = createComponent();
+
+            // Act
+            await component.onEditAsync(album1);
+
+            // Assert
+            dialogServiceMock.verify((x) => x.showEditAlbumsAsync([album1]), Times.once());
+        });
+    });
+
     describe('ngOnInit', () => {
         it('should initialize useCompactYearView from settings', () => {
             // Arrange
@@ -778,12 +815,15 @@ describe('AlbumBrowserComponent', () => {
     describe('shuffleAllAsync', () => {
         it('should force shuffle and play all tracks', async () => {
             // Arrange
+            const albumData: AlbumData = new AlbumData();
+            albumData.albumKey = 'album-key-1';
+            const album: AlbumModel = new AlbumModel(albumData, translatorServiceMock.object, applicationPathsMock.object);
             const component: AlbumBrowserComponent = createComponent();
             component.albumsPersister = albumsPersisterMock.object;
-            component.albums = [];
+            component.albums = [album];
 
             const tracks: TrackModels = new TrackModels();
-            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
+            trackServiceMock.setup((x) => x.getTracksForAlbums(['album-key-1'])).returns(() => tracks);
 
             // Act
             await component.shuffleAllAsync();

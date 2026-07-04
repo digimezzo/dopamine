@@ -161,7 +161,10 @@ export class TrackRepository implements TrackRepositoryBase {
         const statement = database.prepare(
             `${QueryParts.selectAlbumDataQueryPart(albumKeyIndex, false)}
                 WHERE (t.AlbumKey${albumKeyIndex} IS NOT NULL AND t.AlbumKey${albumKeyIndex} <> ''
-                AND t.AlbumKey${albumKeyIndex} NOT IN (SELECT AlbumKey FROM AlbumArtwork)) OR NeedsAlbumArtworkIndexing=1
+                AND t.AlbumKey${albumKeyIndex} NOT IN (SELECT AlbumKey FROM AlbumArtwork))
+                OR (NeedsAlbumArtworkIndexing=1
+                    AND t.AlbumKey${albumKeyIndex} NOT IN (SELECT AlbumKey FROM AlbumArtwork WHERE ArtworkID = '')
+                    AND t.AlbumKey${albumKeyIndex} NOT IN (SELECT AlbumKey FROM AlbumArtwork WHERE IsManuallySet = 1))
                 GROUP BY t.AlbumKey${albumKeyIndex};`,
         );
 
@@ -407,6 +410,20 @@ export class TrackRepository implements TrackRepositoryBase {
         statement.run(albumKey);
     }
 
+    public enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover: boolean, albumKeyIndex: string): void {
+        const database: any = this.databaseFactory.create();
+
+        if (onlyWhenHasNoCover) {
+            const statement: any = database.prepare(
+                `UPDATE Track SET NeedsAlbumArtworkIndexing=1 WHERE AlbumKey${albumKeyIndex} NOT IN (SELECT AlbumKey FROM AlbumArtwork WHERE ArtworkID IS NOT NULL AND ArtworkID <> '');`,
+            );
+            statement.run();
+        } else {
+            const statement: any = database.prepare(`UPDATE Track SET NeedsAlbumArtworkIndexing=1;`);
+            statement.run();
+        }
+    }
+
     public updateTrack(track: Track): void {
         const database: any = this.databaseFactory.create();
 
@@ -448,6 +465,9 @@ export class TrackRepository implements TrackRepositoryBase {
                  PlayCount=@playCount,
                  SkipCount=@skipCount,
                  DateLastPlayed=@dateLastPlayed,
+                 Composers=@composers,
+                 Conductor=@conductor,
+                 BeatsPerMinute=@beatsPerMinute,
                  ReplayGainTrackGain=@replayGainTrackGain,
                  ReplayGainTrackPeak=@replayGainTrackPeak,
                  ReplayGainAlbumGain=@replayGainAlbumGain,
@@ -493,6 +513,9 @@ export class TrackRepository implements TrackRepositoryBase {
             playCount: track.playCount,
             skipCount: track.skipCount,
             dateLastPlayed: track.dateLastPlayed,
+            composers: track.composers,
+            conductor: track.conductor,
+            beatsPerMinute: track.beatsPerMinute,
             replayGainTrackGain: track.replayGainTrackGain,
             replayGainTrackPeak: track.replayGainTrackPeak,
             replayGainAlbumGain: track.replayGainAlbumGain,

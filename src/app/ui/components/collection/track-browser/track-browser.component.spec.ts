@@ -171,6 +171,7 @@ describe('TrackBrowserComponent', () => {
             guidFactoryMock.object,
             trackSorterMock.object,
             trackServiceMock.object,
+            settingsMock,
             collectionServiceMock.object,
             translatorServiceMock.object,
             dialogServiceMock.object,

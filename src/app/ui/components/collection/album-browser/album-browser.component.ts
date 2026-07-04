@@ -20,6 +20,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
 import { TrackModels } from '../../../../services/track/track-models';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import {ArtistModel} from "../../../../services/artist/artist-model";
+import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
 
 @Component({
     selector: 'app-album-browser',
@@ -37,6 +38,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
     public constructor(
         public trackService: TrackServiceBase,
         public playbackService: PlaybackService,
+        public dialogService: DialogServiceBase,
         private applicationService: ApplicationServiceBase,
         private albumRowsGetter: AlbumRowsGetter,
         private nativeElementProxy: NativeElementProxy,
@@ -226,8 +228,21 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
         await this.playbackService.enqueueAndPlayAlbumAsync(album);
     }
 
+    public async onEditAsync(album: AlbumModel): Promise<void> {
+        const selectedAlbums: AlbumModel[] = this.mouseSelectionWatcher.selectedItems as AlbumModel[];
+        const albumsToEdit: AlbumModel[] = selectedAlbums.length > 0 ? selectedAlbums : [album];
+
+        await this.dialogService.showEditAlbumsAsync(albumsToEdit);
+    }
+
     public async shuffleAllAsync(): Promise<void> {
-        const tracks: TrackModels = this.trackService.getVisibleTracks();
+        if (!this.albums || this.albums.length === 0) {
+            return;
+        }
+
+        const albumKeys = this.albums.map(album => album.albumKey);
+        const tracks: TrackModels = this.trackService.getTracksForAlbums(albumKeys);
+
         this.playbackService.forceShuffled();
         await this.playbackService.enqueueAndPlayTracksAsync(tracks.tracks);
     }

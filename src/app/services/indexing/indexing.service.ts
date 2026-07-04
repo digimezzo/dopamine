@@ -11,6 +11,7 @@ import { AddingTracksMessage } from './messages/adding-tracks-message';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';
 import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { AlbumArtworkRepositoryBase } from '../../data/repositories/album-artwork-repository.base';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { Track } from '../../data/entities/track';
 import { TrackFiller } from './track-filler';
@@ -32,6 +33,7 @@ export class IndexingService implements OnDestroy {
         private playbackService: PlaybackService,
         private albumArtworkIndexer: AlbumArtworkIndexer,
         private artistArtworkIndexer: ArtistArtworkIndexer,
+        private albumArtworkRepository: AlbumArtworkRepositoryBase,
         private trackRepository: TrackRepositoryBase,
         private trackFiller: TrackFiller,
         private desktop: DesktopBase,
@@ -129,6 +131,8 @@ export class IndexingService implements OnDestroy {
             return;
         }
 
+        const updatedTracks: Track[] = [];
+
         // Update track metadata in the database
         for (const track of tracks) {
             const fileMetaData: IFileMetadata | undefined = fileMetaDatas.find((f) => f.path === track.path);
@@ -140,17 +144,18 @@ export class IndexingService implements OnDestroy {
             const updatedTrack: Track = await this.trackFiller.addGivenFileMetadataToTrackAsync(track, fileMetaData, false);
 
             this.trackRepository.updateTrack(updatedTrack);
+            updatedTracks.push(updatedTrack);
         }
 
         // Trigger album artwork indexing
         await this.indexAlbumArtworkOnlyAsync(false);
 
         // Refresh UI
-        this.playbackService.updateQueueTracks(tracks);
+        this.playbackService.updateQueueTracks(updatedTracks);
         this.indexingFinished.next();
     }
 
-    public async indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover: boolean): Promise<void> {
+    public async indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover: boolean, overwriteManuallyEditedCovers: boolean = false): Promise<void> {
         if (this.isIndexingCollection) {
             this.logger.info('Already indexing.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
 
@@ -161,6 +166,15 @@ export class IndexingService implements OnDestroy {
         this.foldersHaveChanged = false;
 
         this.logger.info('Indexing collection.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
+
+        const albumKeyIndex = this.settings.albumKeyIndex;
+
+        if (overwriteManuallyEditedCovers) {
+            this.albumArtworkRepository.clearManuallySetFlag();
+        }
+
+        this.trackRepository.enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover, albumKeyIndex);
+        this.albumArtworkRepository.deleteAlbumArtworkWithoutCover();
 
         await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 

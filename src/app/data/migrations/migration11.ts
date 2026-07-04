@@ -1,16 +1,10 @@
 import { Migration } from '../migration';
 
 export class Migration11 extends Migration {
-    public id: number = 10;
-    public name: string = 'Migration10';
+    public id: number = 11;
+    public name: string = 'Migration11';
 
     public up(): void {
-        this.sql(`CREATE TABLE ArtistArtwork (
-                        ArtistArtworkID	    INTEGER,
-                        Artist	            TEXT,
-                        ArtworkID	        TEXT,
-                        PRIMARY KEY(ArtistArtworkID));`);
-
-        this.sql('ALTER TABLE Track ADD ArtistsKey TEXT;');
+        this.sql('ALTER TABLE AlbumArtwork ADD COLUMN IsManuallySet INTEGER DEFAULT 0;');
     }
 }
