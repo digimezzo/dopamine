@@ -2,6 +2,9 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { LogViewer } from '../../../../common/io/log-viewer';
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { NavigationServiceBase } from '../../../../services/navigation/navigation.service.base';
+import { RatingBackupService } from '../../../../services/rating-backup/rating-backup.service';
+import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
+import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 
 @Component({
     selector: 'app-advanced-settings',
@@ -15,6 +18,9 @@ export class AdvancedSettingsComponent {
         public settings: SettingsBase,
         private navigationService: NavigationServiceBase,
         private logViewer: LogViewer,
+        private ratingBackupService: RatingBackupService,
+        private dialogService: DialogServiceBase,
+        private translatorService: TranslatorServiceBase,
     ) {}
 
     public viewLog(): void {
@@ -23,5 +29,11 @@ export class AdvancedSettingsComponent {
 
     public async showWelcomeScreenAsync(): Promise<void> {
         await this.navigationService.navigateToWelcomeAsync();
+    }
+
+    public async restoreRatingsAsync(): Promise<void> {
+        const restoredCount = await this.ratingBackupService.restoreRatingsManuallyAsync();
+        const message = this.translatorService.get('ratings-restored-count', { count: restoredCount });
+        this.dialogService.showInfoDialog(message);
     }
 }

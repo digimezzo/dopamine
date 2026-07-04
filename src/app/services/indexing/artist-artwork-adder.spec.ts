@@ -9,7 +9,6 @@ import { TrackRepositoryBase } from '../../data/repositories/track-repository.ba
 import { ArtistArtwork } from '../../data/entities/artist-artwork';
 import { NotificationServiceBase } from '../notification/notification.service.base';
 import { OnlineArtistArtworkGetter } from './online-artist-artwork-getter';
-import { Subscription } from 'rxjs';
 
 const artistArtworkData: Buffer = Buffer.from([1, 2, 3]);
 
@@ -192,60 +191,6 @@ describe('ArtistArtworkAdder', () => {
 
             // Assert
             artistArtworkRepositoryMock.verify((x) => x.addArtistArtwork(newArtistArtwork), Times.exactly(1));
-        });
-    });
-
-    describe('updateArtistArtworkAsync', () => {
-        it('should not update artist artwork in the database if the artwork was not added to the cache', async () => {
-            // Arrange
-            artistArtworkCacheServiceMock
-                .setup((x) => x.addArtworkDataToCacheAsync(artistArtworkData))
-                .returns(() => Promise.resolve(undefined));
-
-            // Act
-            await artistArtworkAdder.updateArtistArtworkAsync('artist1', artistArtworkData);
-
-            // Assert
-            artistArtworkRepositoryMock.verify((x) => x.updateArtistArtwork(It.isAny()), Times.never());
-        });
-
-        it('should update artist artwork in the database if the artwork was added to the cache', async () => {
-            // Arrange
-            const artistArtworkCacheId: ArtistArtworkCacheId = new ArtistArtworkCacheId(guidFactoryMock.object);
-            artistArtworkCacheServiceMock
-                .setup((x) => x.addArtworkDataToCacheAsync(artistArtworkData))
-                .returns(() => Promise.resolve(artistArtworkCacheId));
-
-            const newArtistArtwork: ArtistArtwork = new ArtistArtwork('artist1', artistArtworkCacheId.id);
-
-            // Act
-            await artistArtworkAdder.updateArtistArtworkAsync('artist1', artistArtworkData);
-
-            // Assert
-            artistArtworkRepositoryMock.verify((x) => x.updateArtistArtwork(newArtistArtwork), Times.exactly(1));
-        });
-
-        it('should notify that the artist image was changed', async () => {
-            // Arrange
-            const artistArtworkCacheId: ArtistArtworkCacheId = new ArtistArtworkCacheId(guidFactoryMock.object);
-            artistArtworkCacheServiceMock
-                .setup((x) => x.addArtworkDataToCacheAsync(artistArtworkData))
-                .returns(() => Promise.resolve(artistArtworkCacheId));
-
-            let artworkChanged: boolean = false;
-            const subscription: Subscription = new Subscription();
-            subscription.add(
-                artistArtworkAdder.artistArtworkChanged$.subscribe(() => {
-                    artworkChanged = true;
-                }),
-            );
-
-            // Act
-            await artistArtworkAdder.updateArtistArtworkAsync('artist1', artistArtworkData);
-
-            // Assert
-            expect(artworkChanged).toEqual(true);
-            subscription.unsubscribe();
         });
     });
 });

@@ -1,5 +1,5 @@
 import { Observable, Subject } from 'rxjs';
-import { IMock, Mock, Times } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { PlaybackQueueComponent } from './playback-queue.component';
 import { PlaybackService } from '../../../services/playback/playback.service';
 import { ContextMenuOpener } from '../context-menu-opener';
@@ -13,6 +13,7 @@ import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { TrackModel } from '../../../services/track/track-model';
 import { Track } from '../../../data/entities/track';
 import { SettingsMock } from '../../../testing/settings-mock';
+import { SearchServiceBase } from '../../../services/search/search.service.base';
 
 describe('PlaybackQueueComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
@@ -20,6 +21,7 @@ describe('PlaybackQueueComponent', () => {
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let playbackIndicationServiceMock: IMock<PlaybackIndicationServiceBase>;
     let navigationServiceMock: IMock<NavigationServiceBase>;
+    let searchServiceMock: IMock<SearchServiceBase>;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let playbackQueue: TrackModels;
@@ -35,6 +37,7 @@ describe('PlaybackQueueComponent', () => {
             mouseSelectionWatcherMock.object,
             playbackIndicationServiceMock.object,
             navigationServiceMock.object,
+            searchServiceMock.object,
         );
     }
 
@@ -44,9 +47,17 @@ describe('PlaybackQueueComponent', () => {
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         playbackIndicationServiceMock = Mock.ofType<PlaybackIndicationServiceBase>();
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         settingsMock = new SettingsMock();
+
+        searchServiceMock
+            .setup((x) =>
+                x.matchesSearchText('dummy title dummy album dummy album artist dummy artist dummy.mp3 1999 dummy genre', 'dummy'),
+            )
+            .returns(() => true);
+        searchServiceMock.setup((x) => x.matchesSearchText(It.isAny(), It.isAny())).returns(() => false);
 
         playbackServicePlaybackStarted = new Subject();
         const playbackServicePlaybackStarted$: Observable<PlaybackStarted> = playbackServicePlaybackStarted.asObservable();
@@ -235,6 +246,82 @@ describe('PlaybackQueueComponent', () => {
 
             // Assert
             playbackServiceMock.verify((x) => x.removeFromQueue([trackModel]), Times.once());
+        });
+    });
+
+    describe('filteredTracks', () => {
+        it('should return all queue tracks when searchText is empty', () => {
+            // Arrange
+            const component: PlaybackQueueComponent = createComponent();
+            component.searchText = '';
+
+            // Act
+            const filteredTracks: TrackModel[] = component.filteredTracks;
+
+            // Assert
+            expect(filteredTracks).toEqual(playbackQueue.tracks);
+        });
+
+        it('should return only matching tracks when searchText has a value', () => {
+            // Arrange
+            const matchingTrack: Track = new Track('Path 1');
+            matchingTrack.fileName = 'dummy.mp3';
+            matchingTrack.trackTitle = 'dummy title';
+            matchingTrack.albumTitle = 'dummy album';
+            matchingTrack.albumArtists = ';dummy album artist;';
+            matchingTrack.artists = ';dummy artist;';
+            matchingTrack.year = 1999;
+            matchingTrack.genres = ';dummy genre;';
+
+            const nonMatchingTrack: Track = new Track('Path 2');
+            nonMatchingTrack.fileName = 'other.mp3';
+            nonMatchingTrack.trackTitle = 'other title';
+            nonMatchingTrack.albumTitle = 'other album';
+            nonMatchingTrack.albumArtists = ';other album artist;';
+            nonMatchingTrack.artists = ';other artist;';
+            nonMatchingTrack.year = 2001;
+            nonMatchingTrack.genres = ';other genre;';
+
+            const matchingTrackModel: TrackModel = new TrackModel(
+                matchingTrack,
+                dateTimeMock.object,
+                translatorServiceMock.object,
+                settingsMock,
+            );
+            const nonMatchingTrackModel: TrackModel = new TrackModel(
+                nonMatchingTrack,
+                dateTimeMock.object,
+                translatorServiceMock.object,
+                settingsMock,
+            );
+
+            playbackQueue = new TrackModels();
+            playbackQueue.addTrack(matchingTrackModel);
+            playbackQueue.addTrack(nonMatchingTrackModel);
+            playbackServiceMock.setup((x) => x.playbackQueue).returns(() => playbackQueue);
+
+            const component: PlaybackQueueComponent = createComponent();
+            component.searchText = 'dummy';
+
+            // Act
+            const filteredTracks: TrackModel[] = component.filteredTracks;
+
+            // Assert
+            expect(filteredTracks).toEqual([matchingTrackModel]);
+        });
+    });
+
+    describe('clearSearchText', () => {
+        it('should clear searchText', () => {
+            // Arrange
+            const component: PlaybackQueueComponent = createComponent();
+            component.searchText = 'some search text';
+
+            // Act
+            component.clearSearchText();
+
+            // Assert
+            expect(component.searchText).toEqual('');
         });
     });
 });

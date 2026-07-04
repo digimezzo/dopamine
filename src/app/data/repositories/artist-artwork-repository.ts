@@ -35,16 +35,19 @@ export class ArtistArtworkRepository implements ArtistArtworkRepositoryBase {
         return statement.all();
     }
 
-    public getArtistArtworkForArtist(artist: string): ArtistArtwork | undefined {
+    public getArtistArtworkForArtists(artists: string[]): ArtistArtwork[] {
+        const normalizedArtists: string[] = artists.map((artist) => artist.toLowerCase());
+        const placeholders: string = normalizedArtists.map(() => '?').join(',');
+
         const statement = this.database.prepare(
             `SELECT ArtistArtworkID AS artistArtworkId, 
                     Artist AS artist, 
                     ArtworkID AS artworkId 
             FROM ArtistArtwork
-            WHERE Artist=?;`,
+            WHERE Artist IN (${placeholders});`,
         );
 
-        return statement.get(artist.toLowerCase());
+        return statement.all(...normalizedArtists);
     }
 
     public getNumberOfArtistArtwork(): number {

@@ -22,7 +22,7 @@ export class FanartApi {
         const thumbnailUrls: string[] = await this.getAllArtistThumbnailsAsync(musicBrainzId);
         return thumbnailUrls[0];
     }
-    
+
     public async getAllArtistThumbnailsAsync(musicBrainzId: string): Promise<string[]> {
         const url: string = `http://webservice.fanart.tv/v3/music/${musicBrainzId}?api_key=${SensitiveInformation.fanartApiKey}`;
         const response: FanartResponse = await this.httpClient.get<any>(url).toPromise();

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SmartPlaylistDefinition, SmartPlaylistRule } from './smart-playlist-parser';
 import { Constants } from '../../common/application/constants';
 import { ClauseCreator } from '../../data/clause-creator';
+import { StringUtils } from '../../common/utils/string-utils';
 
 @Injectable()
 export class SmartPlaylistQueryBuilder {
@@ -17,6 +18,7 @@ export class SmartPlaylistQueryBuilder {
         discnumber: 't.DiscNumber',
         disccount: 't.DiscCount',
         year: 't.Year',
+        bpm: 't.BeatsPerMinute',
         rating: 't.NewRating',
         love: 't.Love',
         playcount: 't.PlayCount',
@@ -24,6 +26,48 @@ export class SmartPlaylistQueryBuilder {
     };
 
     private readonly delimitedFields: Set<string> = new Set(['artist', 'albumartist', 'genre']);
+    private readonly textFields: Set<string> = new Set(['artist', 'albumartist', 'genre', 'title', 'albumtitle']);
+    private readonly numericFields: Set<string> = new Set([
+        'bitrate',
+        'tracknumber',
+        'trackcount',
+        'discnumber',
+        'disccount',
+        'year',
+        'bpm',
+        'rating',
+        'playcount',
+        'skipcount',
+    ]);
+    private readonly accentReplacements: Array<[string, string]> = [
+        ['à', 'a'],
+        ['á', 'a'],
+        ['â', 'a'],
+        ['ã', 'a'],
+        ['ä', 'a'],
+        ['å', 'a'],
+        ['ç', 'c'],
+        ['è', 'e'],
+        ['é', 'e'],
+        ['ê', 'e'],
+        ['ë', 'e'],
+        ['ì', 'i'],
+        ['í', 'i'],
+        ['î', 'i'],
+        ['ï', 'i'],
+        ['ñ', 'n'],
+        ['ò', 'o'],
+        ['ó', 'o'],
+        ['ô', 'o'],
+        ['õ', 'o'],
+        ['ö', 'o'],
+        ['ù', 'u'],
+        ['ú', 'u'],
+        ['û', 'u'],
+        ['ü', 'u'],
+        ['ý', 'y'],
+        ['ÿ', 'y'],
+    ];
 
     public buildWhereClause(definition: SmartPlaylistDefinition): string {
         if (definition.rules.length === 0) {
@@ -61,12 +105,20 @@ export class SmartPlaylistQueryBuilder {
         }
 
         const isDelimited = this.delimitedFields.has(rule.field);
-        const escapedValue = ClauseCreator.escapeQuotes(rule.value);
+        const isTextField = this.textFields.has(rule.field);
+        const isNumeric = this.numericFields.has(rule.field);
+        const escapedValue = this.escapeRuleValue(rule.value, isTextField);
 
         switch (rule.operator) {
             case 'is':
                 if (isDelimited) {
                     return this.buildDelimitedEquals(column, escapedValue);
+                }
+                if (isTextField) {
+                    return `${this.buildAccentInsensitiveExpression(column)} = '${escapedValue}'`;
+                }
+                if (isNumeric) {
+                    return `${column} = ${this.toNumber(rule.value)}`;
                 }
                 return `${column} = '${escapedValue}'`;
 
@@ -74,12 +126,24 @@ export class SmartPlaylistQueryBuilder {
                 if (isDelimited) {
                     return `NOT ${this.buildDelimitedEquals(column, escapedValue)}`;
                 }
+                if (isTextField) {
+                    return `${this.buildAccentInsensitiveExpression(column)} != '${escapedValue}'`;
+                }
+                if (isNumeric) {
+                    return `${column} != ${this.toNumber(rule.value)}`;
+                }
                 return `${column} != '${escapedValue}'`;
 
             case 'contains':
+                if (isTextField) {
+                    return `${this.buildAccentInsensitiveExpression(column)} LIKE '%${escapedValue}%'`;
+                }
                 return `LOWER(${column}) LIKE LOWER('%${escapedValue}%')`;
 
             case 'doesnotcontain':
+                if (isTextField) {
+                    return `${this.buildAccentInsensitiveExpression(column)} NOT LIKE '%${escapedValue}%'`;
+                }
                 return `LOWER(${column}) NOT LIKE LOWER('%${escapedValue}%')`;
 
             case 'greaterthan':
@@ -95,7 +159,25 @@ export class SmartPlaylistQueryBuilder {
 
     private buildDelimitedEquals(column: string, escapedValue: string): string {
         const delimiter = Constants.columnValueDelimiter;
-        return `LOWER(${column}) LIKE LOWER('%${delimiter}${escapedValue}${delimiter}%')`;
+        return `${this.buildAccentInsensitiveExpression(column)} LIKE '%${delimiter}${escapedValue}${delimiter}%'`;
+    }
+
+    private escapeRuleValue(ruleValue: string, isTextField: boolean): string {
+        if (!isTextField) {
+            return ClauseCreator.escapeQuotes(ruleValue);
+        }
+
+        return ClauseCreator.escapeQuotes(StringUtils.removeAccents(ruleValue).toLowerCase());
+    }
+
+    private buildAccentInsensitiveExpression(column: string): string {
+        let expression = `LOWER(${column})`;
+
+        for (const replacement of this.accentReplacements) {
+            expression = `REPLACE(${expression}, '${replacement[0]}', '${replacement[1]}')`;
+        }
+
+        return expression;
     }
 
     private toNumber(value: string): number {

@@ -780,7 +780,7 @@ describe('ArtistBrowserComponent', () => {
             playbackServiceMock.verify((x) => x.enqueueAndPlayArtistAsync(artist1, ArtistType.albumArtists), Times.once());
         });
     });
-    
+
     describe('onEditArtistAsync', () => {
         it('should force shuffle and play the selected artist', async () => {
             // Arrange
@@ -810,6 +810,34 @@ describe('ArtistBrowserComponent', () => {
             // Assert
             playbackServiceMock.verify((x) => x.forceShuffled(), Times.once());
             playbackServiceMock.verify((x) => x.enqueueAndPlayTracksAsync(tracks.tracks), Times.once());
+        });
+    });
+
+    describe('enqueueAndPlayArtistAsync', () => {
+        it('should enqueue and play artist for selected artist type when artist is not a zoom header', async () => {
+            // Arrange
+            const component: ArtistBrowserComponent = createComponent();
+            component.selectedArtistType = ArtistType.trackArtists;
+            artist1.isZoomHeader = false;
+
+            // Act
+            await component.enqueueAndPlayArtistAsync(artist1);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.enqueueAndPlayArtistAsync(artist1, ArtistType.trackArtists), Times.once());
+        });
+
+        it('should not enqueue and play artist when artist is a zoom header', async () => {
+            // Arrange
+            const component: ArtistBrowserComponent = createComponent();
+            component.selectedArtistType = ArtistType.trackArtists;
+            artist1.isZoomHeader = true;
+
+            // Act
+            await component.enqueueAndPlayArtistAsync(artist1);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.enqueueAndPlayArtistAsync(It.isAny(), It.isAny()), Times.never());
         });
     });
 });

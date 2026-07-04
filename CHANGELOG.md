@@ -3,7 +3,45 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.5] - 2026-05-24
+## [3.0.7] - 2026-07-03
+
+### Added
+
+- Added automatic rating and love backup for situations where the database needs to be reset
+- Added a search field on the queue screens
+- Added possibility to download and show artist images in the list of artists (Thank you @FranzDeschler)
+- Added BPM filter to smart playlists
+- Added Kadbury theme (Thank you @kkdeep)
+- Added a button to jump to the playing song on each songs list
+- Added option to show a more compact song list
+
+### Fixed
+
+- ReplayGain issues
+- Double-clicking next to an artists group letter causes a crash
+- Album shuffle button in Genres tab shuffles globally instead of within the genre
+- Lyrics are too small and sizing doesn't work when there are no smart lyrics
+- Window is outside of the screen when external display is disconnected
+
+## [3.0.6] - 2026-06-13
+
+### Fixed
+
+- Manually edited album covers are overwritten on the next collection refresh
+- Fixed AppImage package not working on modern GNU/Linux distributions
+- Deleting song from playlist sometimes fails
+- Playback controls only work when clicking on upper half of the buttons
+- It's unclear that files must be tagged with an external ReplayGain scanner (for example rsgain) before normalization can take effect.
+- Change to Artist or Album tags is not reflected in the song list view nor in the Now Playing information
+- ReplayGain issues
+- Smart playlist filters ignore text containing accents or other special characters
+- Some MP3 files trigger an "MPEG header not found" error due to a too-narrow initial MPEG header scan range
+
+### Changed
+
+- Updated the Vietnamese translation
+
+## [3.0.5] - 2026-05-31
 
 ### Added
 
@@ -12,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a "Refresh now" button to the main menu
 - Added ReplayGain support
 - Added option to show album name on the now playing page
+- Added possibility to edit the album cover
 
 ### Changed
 

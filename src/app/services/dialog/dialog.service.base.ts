@@ -1,5 +1,6 @@
 import { PlaylistModel } from '../playlist/playlist-model';
 import { TrackModel } from '../track/track-model';
+import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
 
 export abstract class DialogServiceBase {
@@ -18,6 +19,7 @@ export abstract class DialogServiceBase {
     public abstract showCreateSmartPlaylistDialogAsync(): Promise<void>;
     public abstract showEditColumnsDialogAsync(): Promise<void>;
     public abstract showEditTracksAsync(tracks: TrackModel[]): Promise<boolean>;
+    public abstract showEditAlbumsAsync(albums: AlbumModel[]): Promise<void>;
     public abstract showEditArtistAsync(artist: ArtistModel): Promise<void>;
     public abstract cannotPlayM4aFileAsync(): Promise<void>;
     public abstract cannotPlayAudioFileAsync(): Promise<void>;

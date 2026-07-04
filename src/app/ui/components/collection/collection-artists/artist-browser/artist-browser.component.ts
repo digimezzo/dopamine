@@ -226,7 +226,15 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         await this.playbackService.enqueueAndPlayTracksAsync(tracks.tracks);
     }
 
+    public async enqueueAndPlayArtistAsync(artist: ArtistModel): Promise<void> {
+        if (artist.isZoomHeader) {
+            return;
+        }
+
+        await this.playbackService.enqueueAndPlayArtistAsync(artist, this.selectedArtistType);
+    }
+
     public get itemSize(): number {
-        return this.settings.showArtistImages ? 60 : 30;
+        return this.settings.showArtistImages ? 66 : 30;
     }
 }

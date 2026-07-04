@@ -13,6 +13,7 @@ import { SettingsBase } from '../../common/settings/settings.base';
 import { ArtistModelFactory } from './artist-model-factory';
 import { ArtistArtwork } from '../../data/entities/artist-artwork';
 import { ArtistArtworkRepositoryBase } from '../../data/repositories/artist-artwork-repository.base';
+import { StringUtils } from '../../common/utils/string-utils';
 
 @Injectable()
 export class ArtistService implements ArtistServiceBase {
@@ -66,20 +67,31 @@ export class ArtistService implements ArtistServiceBase {
 
     private splitArtists(artists: string[]): ArtistModel[] {
         const splitArtists: string[] = this.artistSplitter.splitArtists(artists);
-        const artistModels: ArtistModel[] = [];
-        for (const artist of splitArtists) {
-            const artwork: ArtistArtwork | undefined = this.getArtwork(artist);
-            artistModels.push(this.artistModelFactory.create(artist, artwork?.artworkId));
+
+        if (this.settings.showArtistImages) {
+            const artworks: ArtistArtwork[] = this.getAllArtistArtwork(splitArtists);
+            return splitArtists.map((artist: string): ArtistModel => {
+                const artwork: ArtistArtwork | undefined = artworks.find((artwork: ArtistArtwork): boolean =>
+                    StringUtils.equalsIgnoreCase(artwork.artist, artist.toLowerCase()),
+                );
+                return this.artistModelFactory.create(artist, artwork?.artworkId);
+            });
+        } else {
+            return splitArtists.map((artist: string): ArtistModel => this.artistModelFactory.create(artist));
         }
-        return artistModels;
     }
 
-    private getArtwork(artist: string): ArtistArtwork | undefined {
+    private getAllArtistArtwork(artists: string[]): ArtistArtwork[] {
         try {
-            return this.artistArtworkRepository.getArtistArtworkForArtist(artist);
+            return this.artistArtworkRepository.getArtistArtworkForArtists(artists);
         } catch (e: unknown) {
-            this.logger.error(e, `Cannot load artwork for artist '${artist}'`, 'ArtistService', 'getArtwork');
+            this.logger.error(e, `Cannot load artwork for artists`, 'ArtistService', 'getArtwork');
+            return [];
         }
+    }
+
+    private getArtworkForArtist(artist: string, artworks: ArtistArtwork[]): ArtistArtwork | undefined {
+        return artworks.find((artwork: ArtistArtwork): boolean => StringUtils.equalsIgnoreCase(artwork.artist, artist.toLowerCase()));
     }
 
     public getSourceArtists(artists: ArtistModel[]): string[] {

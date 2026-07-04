@@ -86,7 +86,15 @@
     </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'replaygain-normalization' | translate }}</div>
-    <div>
+    <div class="replaygain-help-text">
+        <div>{{ 'replaygain-requires-tags' | translate }}</div>
+        <div>
+            {{ 'replaygain-scan-tags-external-tool' | translate }}
+            <a href="https://github.com/complexlogic/rsgain" rel="noopener noreferrer">{{ 'replaygain-tool-rsgain' | translate }}</a
+            >.
+        </div>
+    </div>
+    <div class="mt-3">
         <app-toggle-switch [(isChecked)]="this.settings.useReplayGainNormalization">
             {{ 'enable-replaygain-normalization' | translate }}</app-toggle-switch
         >

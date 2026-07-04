@@ -32,6 +32,7 @@ export class SettingsMock implements SettingsBase {
     public showArtistImages: boolean;
     public enableDiscordRichPresence: boolean;
     public enableLastFmScrobbling: boolean;
+    public enableListenbrainzScrobbling: boolean;
     public foldersLeftPaneWidthPercent: number;
     public foldersTabOpenedFolder: string;
     public foldersTabOpenedSubfolder: string;
@@ -53,6 +54,8 @@ export class SettingsMock implements SettingsBase {
     public lastFmPassword: string;
     public lastFmSessionKey: string;
     public lastFmUsername: string;
+    public listenbrainzToken: string;
+    public listenbrainzUsername: string;
     public minimizeToNotificationArea: boolean;
     public playlistsLeftPaneWidthPercent: number;
     public playlistsRightPaneWidthPercent: number;
@@ -102,6 +105,7 @@ export class SettingsMock implements SettingsBase {
     public jumpToPlayingSong: boolean;
     public showSquareImages: boolean;
     public useCompactYearView: boolean;
+    public useCompactTrackListView: boolean;
     public showAlbumArtOnDockIcon: boolean;
     public miniPlayerAlwaysOnTop: boolean;
     public miniPlayerLockPosition: boolean;

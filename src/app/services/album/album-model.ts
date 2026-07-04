@@ -25,6 +25,14 @@ export class AlbumModel implements ISelectable {
         return 'file:///' + this.applicationPaths.coverArtFullPath(this.albumData.artworkId!);
     }
 
+    public get artworkId(): string | undefined {
+        return this.albumData.artworkId;
+    }
+
+    public set artworkId(value: string | undefined) {
+        this.albumData.artworkId = value;
+    }
+
     public get albumArtist(): string {
         const albumArtists = DataDelimiter.fromDelimitedString(this.albumData.albumArtists);
 
