@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Kadbury theme (Thank you @kkdeep)
 - Added a button to jump to the playing song on each songs list
 - Added option to show a more compact song list
+- Added ListenBrainz scrobbling (Thank you @ugokitakunai)
 
 ### Fixed
 
