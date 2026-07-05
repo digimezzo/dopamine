@@ -14,6 +14,7 @@ import { TrackModel } from '../../../services/track/track-model';
 import { Track } from '../../../data/entities/track';
 import { SettingsMock } from '../../../testing/settings-mock';
 import { SearchServiceBase } from '../../../services/search/search.service.base';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 describe('PlaybackQueueComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
@@ -322,6 +323,41 @@ describe('PlaybackQueueComponent', () => {
 
             // Assert
             expect(component.searchText).toEqual('');
+        });
+    });
+
+    describe('dropTrack', () => {
+        it('should reorder queue when searchText is empty', () => {
+            // Arrange
+            const component: PlaybackQueueComponent = createComponent();
+            const event: CdkDragDrop<TrackModel[]> = {
+                previousIndex: 4,
+                currentIndex: 3,
+            } as CdkDragDrop<TrackModel[]>;
+
+            // Act
+            component.dropTrack(event);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.reorderQueue(4, 3), Times.once());
+            mouseSelectionWatcherMock.verify((x) => x.initialize(playbackQueue.tracks), Times.once());
+        });
+
+        it('should not reorder queue when searchText is not empty', () => {
+            // Arrange
+            const component: PlaybackQueueComponent = createComponent();
+            component.searchText = 'dummy';
+            const event: CdkDragDrop<TrackModel[]> = {
+                previousIndex: 4,
+                currentIndex: 3,
+            } as CdkDragDrop<TrackModel[]>;
+
+            // Act
+            component.dropTrack(event);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.reorderQueue(It.isAny(), It.isAny()), Times.never());
+            mouseSelectionWatcherMock.verify((x) => x.initialize(It.isAny()), Times.never());
         });
     });
 });

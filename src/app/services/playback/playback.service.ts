@@ -228,6 +228,10 @@ export class PlaybackService {
         this.queue.removeTracks(tracksToRemove);
     }
 
+    public reorderQueue(previousIndex: number, currentIndex: number): void {
+        this.queue.moveTrackInPlaybackOrder(previousIndex, currentIndex);
+    }
+
     public async playQueuedTrackAsync(trackToPlay: TrackModel): Promise<void> {
         await this.stopAndPlayAsync(trackToPlay, false);
     }

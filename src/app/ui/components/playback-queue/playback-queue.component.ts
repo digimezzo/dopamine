@@ -11,6 +11,7 @@ import { ContextMenuOpener } from '../context-menu-opener';
 import { SearchServiceBase } from '../../../services/search/search.service.base';
 import { StringUtils } from '../../../common/utils/string-utils';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
     selector: 'app-playback-queue',
@@ -129,5 +130,18 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
         }
 
         setTimeout(() => this.viewPort.scrollToIndex(Math.max(playingTrackIndex - 1, 0), 'smooth'));
+    }
+
+    public get canReorderQueue(): boolean {
+        return !this.hasSearchText;
+    }
+
+    public dropTrack(event: CdkDragDrop<TrackModel[]>): void {
+        if (!this.canReorderQueue) {
+            return;
+        }
+
+        this.playbackService.reorderQueue(event.previousIndex, event.currentIndex);
+        this.mouseSelectionWatcher.initialize(this.playbackService.playbackQueue.tracks);
     }
 }

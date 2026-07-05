@@ -80,6 +80,23 @@ export class Queue {
         }
     }
 
+    public moveTrackInPlaybackOrder(fromPlaybackOrderIndex: number, toPlaybackOrderIndex: number): void {
+        if (fromPlaybackOrderIndex === toPlaybackOrderIndex) {
+            return;
+        }
+
+        if (fromPlaybackOrderIndex < 0 || fromPlaybackOrderIndex >= this.playbackOrder.length) {
+            return;
+        }
+
+        if (toPlaybackOrderIndex < 0 || toPlaybackOrderIndex >= this.playbackOrder.length) {
+            return;
+        }
+
+        const [movedTrackIndex]: number[] = this.playbackOrder.splice(fromPlaybackOrderIndex, 1);
+        this.playbackOrder.splice(toPlaybackOrderIndex, 0, movedTrackIndex);
+    }
+
     public shuffle(): void {
         this.populatePlayBackOrder();
         this.shufflePlaybackOrder();

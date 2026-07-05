@@ -2347,6 +2347,19 @@ describe('PlaybackService', () => {
         });
     });
 
+    describe('reorderQueue', () => {
+        it('should move tracks in queue from previous index to current index', () => {
+            // Arrange
+            const service: PlaybackService = createService();
+
+            // Act
+            service.reorderQueue(4, 3);
+
+            // Assert
+            queueMock.verify((x) => x.moveTrackInPlaybackOrder(4, 3), Times.once());
+        });
+    });
+
     describe('addTracksToQueueAsync', () => {
         it('should not add tracks to the queue if tracksToAdd is empty', async () => {
             // Arrange
