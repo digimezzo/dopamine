@@ -66,7 +66,7 @@ describe('ManageAlbumsComponent', () => {
             await component.refreshAllArtistImagesAsync();
 
             // Assert
-            indexingServiceMock.verify((x) => x.indexArtistArtworkOnlyAsync(false), Times.exactly(1));
+            indexingServiceMock.verify((x) => x.indexArtistArtworkOnlyAsync(false, false), Times.exactly(1));
         });
     });
 

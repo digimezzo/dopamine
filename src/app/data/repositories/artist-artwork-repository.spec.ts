@@ -15,6 +15,7 @@ describe('ArtistArtworkRepository', () => {
                     ArtistArtworkID	    INTEGER,
                     Artist	            TEXT,
                     ArtworkID	        TEXT,
+                    IsManuallySet	    INTEGER,
                     PRIMARY KEY(ArtistArtworkID)
             );`,
         );
@@ -195,7 +196,10 @@ describe('ArtistArtworkRepository', () => {
 
     describe('deleteAllArtistArtwork', () => {
         it('should delete all artist artwork including manually set images', () => {
-            // Arrange, Act
+            // Arrange
+            repository.clearManuallySetFlag();
+
+            // Act
             const deletedRows: number = repository.deleteAllArtistArtwork();
 
             // Assert
@@ -204,10 +208,7 @@ describe('ArtistArtworkRepository', () => {
         });
 
         it('should delete all artist artwork except manually set images', () => {
-            // Arrange
-            repository.clearManuallySetFlag();
-
-            // Act
+            // Arrange, Act
             const deletedRows: number = repository.deleteAllArtistArtwork();
 
             // Assert

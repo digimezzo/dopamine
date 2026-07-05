@@ -59,14 +59,12 @@ describe('OnlineArtistArtworkGetter', () => {
         it('should use MusicBrainz API as fallback', async () => {
             // Arrange
             lastfmApiMock.setup((x) => x.getArtistInfoAsync(It.isAnyString(), false, 'EN')).returns(() => Promise.resolve(lastfmArtist));
-            musicBrainzApiMock
-                .setup((x) => x.getMusicBrainzIdAsync(It.isAnyString()))
-                .returns(() => Promise.resolve(lastfmArtist.musicBrainzId));
-            lastfmApiMock.setup((x) => x.getArtistInfoAsync(artist, false, 'EN')).returns(() => Promise.resolve(lastfmArtist));
             fanartApiMock.setup((x) => x.getAllArtistThumbnailsAsync(lastfmArtist.musicBrainzId)).returns(() => Promise.resolve([]));
 
             const alternativeMusicBrainzId = '456';
-            musicBrainzApiMock.setup((x) => x.getMusicBrainzIdAsync(It.isAnyString())).returns(() => Promise.resolve(alternativeMusicBrainzId));
+            musicBrainzApiMock
+                .setup((x) => x.getMusicBrainzIdAsync(It.isAnyString()))
+                .returns(() => Promise.resolve(alternativeMusicBrainzId));
             fanartApiMock.setup((x) => x.getAllArtistThumbnailsAsync(alternativeMusicBrainzId)).returns(() => Promise.resolve([imageUrl]));
             imageProcessorMock
                 .setup((x) => x.convertOnlineImageToBufferAsync(It.isAnyString()))
@@ -119,7 +117,7 @@ describe('OnlineArtistArtworkGetter', () => {
         it('should return undefined if converting file to data throws error', async () => {
             // Arrange
             lastfmApiMock.setup((x) => x.getArtistInfoAsync(It.isAnyString(), false, 'EN')).returns(() => Promise.resolve(lastfmArtist));
-            imageProcessorMock.setup((x) => x.convertOnlineImageToBufferAsync(It.isAnyString())).throws(new Error('An error occurred'));
+            fanartApiMock.setup((x) => x.getAllArtistThumbnailsAsync(lastfmArtist.musicBrainzId)).returns(() => Promise.resolve([imageUrl]));
             imageProcessorMock.setup((x) => x.convertOnlineImageToBufferAsync(imageUrl)).throws(new Error('An error occurred'));
 
             // Act

@@ -24,7 +24,7 @@ import { AlbumData } from '../../../../data/entities/album-data';
 import { Track } from '../../../../data/entities/track';
 import { TrackModels } from '../../../../services/track/track-models';
 import { ApplicationPaths } from '../../../../common/application/application-paths';
-import { EditArtistDialogComponent } from '../../dialogs/edit-artist-dialog/edit-artist-dialog.component';
+import { ArtistArtworkAdder } from '../../../../services/indexing/artist-artwork-adder';
 
 describe('CollectionArtistsComponent', () => {
     let searchServiceMock: IMock<SearchServiceBase>;
@@ -39,6 +39,7 @@ describe('CollectionArtistsComponent', () => {
     let settingsStub: any;
     let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
+    let artistArtworkAdderMock: IMock<ArtistArtworkAdder>;
 
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -78,6 +79,7 @@ describe('CollectionArtistsComponent', () => {
             settingsStub,
             schedulerMock.object,
             loggerMock.object,
+            artistArtworkAdderMock.object,
         );
 
         return component;
@@ -122,6 +124,7 @@ describe('CollectionArtistsComponent', () => {
         schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
         applicationPathsMock = Mock.ofType<ApplicationPaths>();
+        artistArtworkAdderMock = Mock.ofType<ArtistArtworkAdder>();
 
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
@@ -148,6 +151,7 @@ describe('CollectionArtistsComponent', () => {
 
         artistArtworkChangedMock = new Subject();
         artistArtworkChangedMock$ = artistArtworkChangedMock.asObservable();
+        artistArtworkAdderMock.setup((x) => x.artistArtworkChanged$).returns(() => artistArtworkChangedMock$);
     });
 
     describe('constructor', () => {
