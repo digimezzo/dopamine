@@ -15,13 +15,13 @@ export class ArtistArtworkRepository implements ArtistArtworkRepositoryBase {
     public constructor(private databaseFactory: DatabaseFactory) {}
 
     public addArtistArtwork(artistArtwork: ArtistArtwork): void {
-        const statement = this.database.prepare('INSERT INTO ArtistArtwork (Artist, ArtworkID) VALUES (?, ?);');
-        statement.run(artistArtwork.artist.toLowerCase(), artistArtwork.artworkId);
+        const statement = this.database.prepare('INSERT INTO ArtistArtwork (Artist, ArtworkID, isManuallySet) VALUES (?, ?, ?);');
+        statement.run(artistArtwork.artist.toLowerCase(), artistArtwork.artworkId, artistArtwork.isManuallySet);
     }
 
     public updateArtistArtwork(artistArtwork: ArtistArtwork): void {
-        const statement = this.database.prepare('UPDATE ArtistArtwork SET ArtworkID = ? WHERE Artist = ?;');
-        statement.run(artistArtwork.artworkId, artistArtwork.artist.toLowerCase());
+        const statement = this.database.prepare('UPDATE ArtistArtwork SET ArtworkID = ?, isManuallySet = ? WHERE Artist = ?;');
+        statement.run(artistArtwork.artworkId, artistArtwork.isManuallySet, artistArtwork.artist.toLowerCase());
     }
 
     public getAllArtistArtwork(): ArtistArtwork[] | undefined {
@@ -84,7 +84,7 @@ export class ArtistArtworkRepository implements ArtistArtworkRepositoryBase {
     }
 
     public deleteAllArtistArtwork(): number {
-        const statement = this.database.prepare(`DELETE FROM ArtistArtwork WHERE 1=1;`);
+        const statement = this.database.prepare(`DELETE FROM ArtistArtwork WHERE IsManuallySet = 0;`);
         const info = statement.run();
         return info.changes;
     }
@@ -93,6 +93,11 @@ export class ArtistArtworkRepository implements ArtistArtworkRepositoryBase {
         const statement = this.database.prepare(`DELETE FROM ArtistArtwork WHERE ArtworkID=?`);
         const info = statement.run(ArtistArtworkCacheId.defaultArtworkId);
         return info.changes;
+    }
+
+    public clearManuallySetFlag(): void {
+        const statement = this.database.prepare(`UPDATE ArtistArtwork SET IsManuallySet = 0 WHERE IsManuallySet = 1;`);
+        statement.run();
     }
 
     private get database(): any {

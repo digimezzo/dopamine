@@ -32,10 +32,10 @@ describe('ArtistArtworkRepository', () => {
     }
 
     function fillTestData(): void {
-        const statement = database.prepare('INSERT INTO ArtistArtwork (Artist, ArtworkID) VALUES (?, ?);');
-        statement.run('metallica', 'artist-1');
-        statement.run('aerosmith', 'artist-2');
-        statement.run('alanis morissette', 'artist-3');
+        const statement = database.prepare('INSERT INTO ArtistArtwork (Artist, ArtworkID, IsManuallySet) VALUES (?, ?, ?);');
+        statement.run('metallica', 'artist-1', 0);
+        statement.run('aerosmith', 'artist-2', 0);
+        statement.run('alanis morissette', 'artist-3', 1);
     }
 
     beforeEach(() => {
@@ -80,9 +80,10 @@ describe('ArtistArtworkRepository', () => {
             repository.updateArtistArtwork(artistArtwork);
 
             // Assert
-            const artworkInDatabase: ArtistArtwork | undefined = repository.getArtistArtworkForArtist('metallica');
+            const artworkInDatabase: ArtistArtwork[] = repository.getArtistArtworkForArtists(['metallica']);
             expect(artworkInDatabase).not.toBeUndefined();
-            expect(artworkInDatabase?.artworkId).toEqual('artist-99');
+            expect(artworkInDatabase.length).toEqual(1);
+            expect(artworkInDatabase[0].artworkId).toEqual('artist-99');
         });
     });
 
@@ -193,13 +194,25 @@ describe('ArtistArtworkRepository', () => {
     });
 
     describe('deleteAllArtistArtwork', () => {
-        it('should delete all artist artwork', () => {
+        it('should delete all artist artwork including manually set images', () => {
             // Arrange, Act
             const deletedRows: number = repository.deleteAllArtistArtwork();
 
             // Assert
             expect(deletedRows).toEqual(3);
             expect(repository.getNumberOfArtistArtwork()).toEqual(0);
+        });
+
+        it('should delete all artist artwork except manually set images', () => {
+            // Arrange
+            repository.clearManuallySetFlag();
+
+            // Act
+            const deletedRows: number = repository.deleteAllArtistArtwork();
+
+            // Assert
+            expect(deletedRows).toEqual(2);
+            expect(repository.getNumberOfArtistArtwork()).toEqual(1);
         });
     });
 

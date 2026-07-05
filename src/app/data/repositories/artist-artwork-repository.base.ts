@@ -9,5 +9,6 @@ export abstract class ArtistArtworkRepositoryBase {
     public abstract getAllArtistArtwork(): ArtistArtwork[] | undefined;
     public abstract getArtistArtworkForArtists(artists: string[]): ArtistArtwork[];
     public abstract deleteArtistArtworkWithDefaultId(): number;
-    public abstract deleteAllArtistArtwork(): number
+    public abstract deleteAllArtistArtwork(): number;
+    public abstract clearManuallySetFlag(): void;
 }
