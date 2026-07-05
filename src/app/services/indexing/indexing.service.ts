@@ -18,7 +18,7 @@ import { TrackFiller } from './track-filler';
 import { PlaybackService } from '../playback/playback.service';
 import { SchedulerBase } from '../../common/scheduling/scheduler.base';
 import { ArtistArtworkIndexer } from './artist-artwork-indexer';
-import { ArtistArtworkRepository } from '../../data/repositories/artist-artwork-repository';
+import { ArtistArtworkRepositoryBase } from '../../data/repositories/artist-artwork-repository.base';
 
 @Injectable()
 export class IndexingService implements OnDestroy {
@@ -35,7 +35,7 @@ export class IndexingService implements OnDestroy {
         private albumArtworkIndexer: AlbumArtworkIndexer,
         private artistArtworkIndexer: ArtistArtworkIndexer,
         private albumArtworkRepository: AlbumArtworkRepositoryBase,
-        private artistArtworkRepository: ArtistArtworkRepository,
+        private artistArtworkRepository: ArtistArtworkRepositoryBase,
         private trackRepository: TrackRepositoryBase,
         private trackFiller: TrackFiller,
         private desktop: DesktopBase,

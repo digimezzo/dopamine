@@ -16,7 +16,7 @@ import { TrackFiller } from './track-filler';
 import { SchedulerBase } from '../../common/scheduling/scheduler.base';
 import { ArtistArtworkIndexer } from './artist-artwork-indexer';
 import { Track } from '../../data/entities/track';
-import { ArtistArtworkRepository } from '../../data/repositories/artist-artwork-repository';
+import { ArtistArtworkRepositoryBase } from '../../data/repositories/artist-artwork-repository.base';
 
 describe('IndexingService', () => {
     let notificationServiceMock: IMock<NotificationServiceBase>;
@@ -32,7 +32,7 @@ describe('IndexingService', () => {
     let loggerMock: IMock<Logger>;
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
     let albumArtworkRepositoryMock: IMock<AlbumArtworkRepositoryBase>;
-    let artistArtworkRepositoryMock: IMock<ArtistArtworkRepository>;
+    let artistArtworkRepositoryMock: IMock<ArtistArtworkRepositoryBase>;
 
     let folderService_foldersChanged: Subject<void>;
 
@@ -53,7 +53,7 @@ describe('IndexingService', () => {
         loggerMock = Mock.ofType<Logger>();
         trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
         albumArtworkRepositoryMock = Mock.ofType<AlbumArtworkRepositoryBase>();
-        artistArtworkRepositoryMock = Mock.ofType<ArtistArtworkRepository>();
+        artistArtworkRepositoryMock = Mock.ofType<ArtistArtworkRepositoryBase>();
 
         folderService_foldersChanged = new Subject();
         const folderService_foldersChanged$: Observable<void> = folderService_foldersChanged.asObservable();

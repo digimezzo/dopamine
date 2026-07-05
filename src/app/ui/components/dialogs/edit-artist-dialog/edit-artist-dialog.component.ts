@@ -10,6 +10,7 @@ import { Constants } from '../../../../common/application/constants';
 import { OnlineArtistArtworkGetter } from '../../../../services/indexing/online-artist-artwork-getter';
 import { ArtistArtworkAdder } from '../../../../services/indexing/artist-artwork-adder';
 import { Logger } from '../../../../common/logger';
+import { ArrayUtils } from '../../../../common/utils/array-utils';
 
 @Component({
     selector: 'app-edit-artist-dialog',
@@ -59,10 +60,9 @@ export class EditArtistDialogComponent implements OnInit {
 
     public async searchForImagesOnline(): Promise<void> {
         const artistName: string = this.artist.displayName;
-        const imageUrls: string[] | undefined = await this.onlineArtistArtworkGetter.getAllOnlineArtworkUrlsAsync(artistName);
-        this.alternativeImageUrls = imageUrls ?? [];
+        this.alternativeImageUrls = (await this.onlineArtistArtworkGetter.getAllOnlineArtworkUrlsAsync(artistName)) ?? [];
 
-        if (imageUrls === undefined) {
+        if (ArrayUtils.isNullOrEmpty(this.alternativeImageUrls)) {
             this.dialogService.showInfoDialog(await this.translatorService.getAsync('no-images-found-online'));
         }
     }
