@@ -643,6 +643,24 @@ describe('PlaybackService', () => {
             // Assert
             queueMock.verify((x) => x.unShuffle(), Times.exactly(1));
         });
+
+        it('should save queue after debounce when toggling shuffle', () => {
+            // Arrange
+            jest.useFakeTimers();
+            settingsStub.rememberPlaybackStateAfterRestart = true;
+            const service: PlaybackService = createService();
+
+            // Act
+            service.toggleIsShuffled();
+
+            // Assert
+            queuePersisterMock.verify((x) => x.save(It.isAny(), It.isAny(), It.isAny()), Times.never());
+
+            jest.runAllTimers();
+
+            queuePersisterMock.verify((x) => x.save(It.isAny(), It.isAny(), It.isAny()), Times.once());
+            jest.useRealTimers();
+        });
     });
 
     describe('forceShuffled', () => {
@@ -2345,6 +2363,24 @@ describe('PlaybackService', () => {
             // Assert
             queueMock.verify((x) => x.removeTracks([trackModel1]), Times.once());
         });
+
+        it('should save queue after debounce when tracks are removed', () => {
+            // Arrange
+            jest.useFakeTimers();
+            settingsStub.rememberPlaybackStateAfterRestart = true;
+            const service: PlaybackService = createService();
+
+            // Act
+            service.removeFromQueue([trackModel1]);
+
+            // Assert
+            queuePersisterMock.verify((x) => x.save(It.isAny(), It.isAny(), It.isAny()), Times.never());
+
+            jest.runAllTimers();
+
+            queuePersisterMock.verify((x) => x.save(It.isAny(), It.isAny(), It.isAny()), Times.once());
+            jest.useRealTimers();
+        });
     });
 
     describe('reorderQueue', () => {
@@ -2357,6 +2393,42 @@ describe('PlaybackService', () => {
 
             // Assert
             queueMock.verify((x) => x.moveTrackInPlaybackOrder(4, 3), Times.once());
+        });
+
+        it('should save queue after debounce when remember playback state is enabled', () => {
+            // Arrange
+            jest.useFakeTimers();
+            settingsStub.rememberPlaybackStateAfterRestart = true;
+            const service: PlaybackService = createService();
+
+            // Act
+            service.reorderQueue(4, 3);
+
+            // Assert
+            queuePersisterMock.verify((x) => x.save(It.isAny(), It.isAny(), It.isAny()), Times.never());
+
+            jest.runAllTimers();
+
+            queuePersisterMock.verify((x) => x.save(It.isAny(), It.isAny(), It.isAny()), Times.once());
+            jest.useRealTimers();
+        });
+
+        it('should debounce queue saves when reordered repeatedly', () => {
+            // Arrange
+            jest.useFakeTimers();
+            settingsStub.rememberPlaybackStateAfterRestart = true;
+            const service: PlaybackService = createService();
+
+            // Act
+            service.reorderQueue(4, 3);
+            service.reorderQueue(3, 2);
+            service.reorderQueue(2, 1);
+
+            // Assert
+            jest.runAllTimers();
+
+            queuePersisterMock.verify((x) => x.save(It.isAny(), It.isAny(), It.isAny()), Times.once());
+            jest.useRealTimers();
         });
     });
 
@@ -2384,6 +2456,24 @@ describe('PlaybackService', () => {
             // Assert
             queueMock.verify((x) => x.addTracks([trackModel1]), Times.once());
             notificationServiceMock.verify((x) => x.singleTrackAddedToPlaybackQueueAsync(), Times.exactly(1));
+        });
+
+        it('should save queue after debounce when tracks are added', async () => {
+            // Arrange
+            jest.useFakeTimers();
+            settingsStub.rememberPlaybackStateAfterRestart = true;
+            const service: PlaybackService = createService();
+
+            // Act
+            await service.addTracksToQueueAsync([trackModel1]);
+
+            // Assert
+            queuePersisterMock.verify((x) => x.save(It.isAny(), It.isAny(), It.isAny()), Times.never());
+
+            jest.runAllTimers();
+
+            queuePersisterMock.verify((x) => x.save(It.isAny(), It.isAny(), It.isAny()), Times.once());
+            jest.useRealTimers();
         });
     });
 
