@@ -78,11 +78,11 @@ export class ArtistArtworkAdder {
         }
     }
 
-    public async updateArtistArtworkAsync(artist: string, artistArtwork: Buffer): Promise<void> {
+    public async updateArtistArtworkAsync(artist: string, artistArtwork: Buffer, isManuallySet: boolean): Promise<void> {
         const artistArtworkCacheId: ArtistArtworkCacheId | undefined =
             await this.artistArtworkCacheService.addArtworkDataToCacheAsync(artistArtwork);
         if (artistArtworkCacheId != undefined) {
-            const newArtistArtwork: ArtistArtwork = new ArtistArtwork(artist, artistArtworkCacheId.id);
+            const newArtistArtwork: ArtistArtwork = new ArtistArtwork(artist, artistArtworkCacheId.id, isManuallySet ? 1 : 0);
             this.artistArtworkRepository.updateArtistArtwork(newArtistArtwork);
             this.artistArtworkChanged.next();
         } else {

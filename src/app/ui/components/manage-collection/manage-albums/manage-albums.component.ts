@@ -11,6 +11,7 @@ import { IndexingService } from '../../../../services/indexing/indexing.service'
 })
 export class ManageAlbumsComponent {
     public overwriteManuallyEditedCovers: boolean = false;
+    public overwriteManuallyEditedArtistImages: boolean = false;
 
     public constructor(
         public settings: SettingsBase,
@@ -89,7 +90,7 @@ export class ManageAlbumsComponent {
     }
 
     public async refreshAllArtistImagesAsync(): Promise<void> {
-        await this.indexingService.indexArtistArtworkOnlyAsync(false);
+        await this.indexingService.indexArtistArtworkOnlyAsync(false, this.overwriteManuallyEditedArtistImages);
     }
 
     public async refreshMissingArtistImagesAsync(): Promise<void> {

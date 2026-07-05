@@ -78,9 +78,11 @@ export class EditArtistDialogComponent implements OnInit {
     public async saveArtistAsync(): Promise<void> {
         try {
             let image: Buffer | undefined = undefined;
+            let manuallySet: boolean = false;
             if (StringUtils.isNullOrWhiteSpace(this.imagePath) && !StringUtils.isNullOrWhiteSpace(this.originalImagePath)) {
                 image = Constants.emptyImageBuffer;
             } else if (this.imagePath !== this.originalImagePath) {
+                manuallySet = true;
                 if (this.imagePath.startsWith('file:///')) {
                     image = await this.imageProcessor.convertLocalImageToBufferAsync(this.imagePath);
                 } else {
@@ -89,7 +91,7 @@ export class EditArtistDialogComponent implements OnInit {
             }
 
             if (image !== undefined) {
-                await this.artistArtworkAdder.updateArtistArtworkAsync(this.artist.displayName, image);
+                await this.artistArtworkAdder.updateArtistArtworkAsync(this.artist.displayName, image, manuallySet);
             }
         } catch (e: unknown) {
             this.logger.error(

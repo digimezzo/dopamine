@@ -25,6 +25,9 @@
         <mat-divider class="my-4"></mat-divider>
         <div class="title">{{ 'refresh-artist-images' | translate }}</div>
         <div>{{ 'refresh-all-artist-images' | translate }}</div>
+        <app-toggle-switch class="mt-3" [(isChecked)]="this.overwriteManuallyEditedArtistImages">{{
+                'overwrite-manually-edited-artist-images' | translate
+            }}</app-toggle-switch>
         <app-transparent-button class="mt-3" (click)="this.refreshAllArtistImagesAsync()">
             {{ 'refresh-all' | translate }}
         </app-transparent-button>

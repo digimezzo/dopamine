@@ -99,7 +99,7 @@ describe('EditArtistDialogComponent', () => {
             desktopMock.verify((x) => x.showSelectFileDialogAsync(It.isAnyString()), Times.once());
             expect(component.imagePath).toEqual(selectedFile);
             imageProcessorMock.verify((x) => x.convertLocalImageToBufferAsync(component.imagePath), Times.once());
-            artistArtworkAdderMock.verify((x) => x.updateArtistArtworkAsync(artistName, artistArtworkData), Times.once());
+            artistArtworkAdderMock.verify((x) => x.updateArtistArtworkAsync(artistName, artistArtworkData, true), Times.once());
         });
     });
 
@@ -118,7 +118,7 @@ describe('EditArtistDialogComponent', () => {
             // Assert
             expect(component.imagePath).toEqual(imageUrl);
             imageProcessorMock.verify((x) => x.convertOnlineImageToBufferAsync(imageUrl), Times.once());
-            artistArtworkAdderMock.verify((x) => x.updateArtistArtworkAsync(artistName, artistArtworkData), Times.once());
+            artistArtworkAdderMock.verify((x) => x.updateArtistArtworkAsync(artistName, artistArtworkData, true), Times.once());
         });
     });
 
@@ -134,7 +134,7 @@ describe('EditArtistDialogComponent', () => {
 
             // Assert
             expect(component.imagePath).toEqual('');
-            artistArtworkAdderMock.verify((x) => x.updateArtistArtworkAsync(artistName, Constants.emptyImageBuffer), Times.once());
+            artistArtworkAdderMock.verify((x) => x.updateArtistArtworkAsync(artistName, Constants.emptyImageBuffer, false), Times.once());
         });
     });
 
