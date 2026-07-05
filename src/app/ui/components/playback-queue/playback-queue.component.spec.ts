@@ -39,6 +39,7 @@ describe('PlaybackQueueComponent', () => {
             playbackIndicationServiceMock.object,
             navigationServiceMock.object,
             searchServiceMock.object,
+            settingsMock,
         );
     }
 

@@ -12,6 +12,7 @@ import { SearchServiceBase } from '../../../services/search/search.service.base'
 import { StringUtils } from '../../../common/utils/string-utils';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { SettingsBase } from '../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-playback-queue',
@@ -32,6 +33,7 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
         private playbackIndicationService: PlaybackIndicationServiceBase,
         private navigationService: NavigationServiceBase,
         private searchService: SearchServiceBase,
+        public settings: SettingsBase,
     ) {}
 
     @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })
@@ -73,6 +75,10 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
 
     public get hasSearchText(): boolean {
         return !StringUtils.isNullOrWhiteSpace(this.searchText);
+    }
+
+    public get trackItemSize(): number {
+        return this.settings.useCompactTrackListView ? 32 : 46;
     }
 
     public ngOnDestroy(): void {

@@ -25,7 +25,7 @@
     <cdk-virtual-scroll-viewport
         *ngIf="this.shouldShowList"
         class="flex-grow mt-3"
-        itemSize="46"
+        [itemSize]="this.trackItemSize"
         (cdkDropListDropped)="this.dropTrack($event)"
         cdkDropList
         [cdkDropListData]="this.filteredTracks"
