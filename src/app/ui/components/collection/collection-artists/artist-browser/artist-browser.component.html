@@ -57,7 +57,7 @@
         <button mat-menu-item (click)="onShuffleAndPlayAsync(artist)">
             <span>{{ 'shuffle' | translate }}</span>
         </button>
-        <button mat-menu-item (click)="onEditArtistAsync(artist)">
+        <button mat-menu-item (click)="onEditArtistAsync(artist)" *ngIf="settings.showArtistImages">
             <span>{{ 'edit' | translate }}</span>
         </button>
     </ng-template>
