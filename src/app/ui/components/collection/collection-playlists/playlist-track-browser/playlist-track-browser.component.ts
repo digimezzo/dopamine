@@ -16,6 +16,7 @@ import { PlaybackIndicationServiceBase } from '../../../../../services/playback-
 import { DesktopBase } from '../../../../../common/io/desktop.base';
 import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
+import { SettingsBase } from '../../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-playlist-track-browser',
@@ -37,6 +38,7 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
         private playbackIndicationService: PlaybackIndicationServiceBase,
         private translatorService: TranslatorServiceBase,
         private dialogService: DialogServiceBase,
+        public settings: SettingsBase,
         private desktop: DesktopBase,
         private logger: Logger,
     ) {}
@@ -54,6 +56,10 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
 
     @Input()
     public canRemoveFromPlaylist: boolean = true;
+
+    public get trackItemSize(): number {
+        return this.settings.useCompactTrackListView ? 32 : 46;
+    }
 
     public get tracksPersister(): BaseTracksPersister {
         return this._tracksPersister;
@@ -158,6 +164,11 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
             orderedTracks = this.tracks.tracks;
         } catch (e: unknown) {
             this.logger.error(e, 'Could not order tracks', 'PlaylistTrackBrowserComponent', 'orderTracks');
+        }
+
+        // Playlist virtual scroll uses fixed-size rows; ensure no row renders extra header height.
+        for (const track of orderedTracks) {
+            track.showHeader = false;
         }
 
         this.orderedTracks = [...orderedTracks];

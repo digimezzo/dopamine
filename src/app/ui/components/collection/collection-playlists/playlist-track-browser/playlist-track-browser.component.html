@@ -14,7 +14,7 @@
     <cdk-virtual-scroll-viewport
         class="app-playlist-track-browser__tracks mt-3"
         (cdkDropListDropped)="this.dropTrackAsync($event)"
-        itemSize="46"
+        [itemSize]="this.trackItemSize"
         cdkDropList
         [cdkDropListDisabled]="!this.canReorder"
     >
