@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - ReplayGain issues
 - Double-clicking next to an artists group letter causes a crash
-- Album shuffle button in Genres tab shuffles globally instead of within the genre
+- Album shuffle button in Genres tab shuffles globally instead of within the genre (Thank you @UrielJaloto)
 - Lyrics are too small and sizing doesn't work when there are no smart lyrics
 - Window is outside of the screen when external display is disconnected
 
