@@ -21,7 +21,6 @@ import { TrackServiceBase } from '../../../../services/track/track.service.base'
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 import { TrackOrder } from '../track-order';
-import { EditArtistDialogComponent } from '../../dialogs/edit-artist-dialog/edit-artist-dialog.component';
 import { ArtistArtworkAdder } from '../../../../services/indexing/artist-artwork-adder';
 
 @Component({

@@ -39,7 +39,6 @@ describe('CollectionArtistsComponent', () => {
     let settingsStub: any;
     let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
-    let editArtistDialogComponentMock: IMock<EditArtistDialogComponent>;
 
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -79,7 +78,6 @@ describe('CollectionArtistsComponent', () => {
             settingsStub,
             schedulerMock.object,
             loggerMock.object,
-            editArtistDialogComponentMock.object,
         );
 
         return component;
@@ -124,7 +122,6 @@ describe('CollectionArtistsComponent', () => {
         schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
         applicationPathsMock = Mock.ofType<ApplicationPaths>();
-        editArtistDialogComponentMock = Mock.ofType<EditArtistDialogComponent>();
 
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
@@ -151,7 +148,6 @@ describe('CollectionArtistsComponent', () => {
 
         artistArtworkChangedMock = new Subject();
         artistArtworkChangedMock$ = artistArtworkChangedMock.asObservable();
-        editArtistDialogComponentMock.setup((x) => x.artistArtworkChanged$).returns(() => artistArtworkChangedMock$);
     });
 
     describe('constructor', () => {

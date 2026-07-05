@@ -130,7 +130,7 @@ describe('IndexingService', () => {
 
             // Assert
             artistArtworkRepositoryMock.verify((x) => x.clearManuallySetFlag(), Times.once());
-            artistArtworkIndexerMock.verify((x) => x.refreshAllArtistsArtworkAsync(true), Times.once());
+            artistArtworkIndexerMock.verify((x) => x.refreshAllArtistsArtworkAsync(), Times.once());
         });
     });
 
