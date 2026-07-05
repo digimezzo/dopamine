@@ -56,14 +56,18 @@ export class OnlineArtistArtworkGetter {
                 return artistImageUrls;
             }
 
-            this.logger.info(`Could not find online artwork for '${artistName}'`, 'OnlineArtistArtworkGetter', 'getAllOnlineArtworkAsync');
+            this.logger.info(
+                `Could not find online artwork for '${artistName}'`,
+                'OnlineArtistArtworkGetter',
+                'getAllOnlineArtworkUrlsAsync',
+            );
             return [];
         } catch (error) {
             this.logger.error(
                 error,
                 `Could not get artist images for '${artistName}'`,
                 'OnlineArtistArtworkGetter',
-                'getAllOnlineArtworkAsync',
+                'getAllOnlineArtworkUrlsAsync',
             );
         }
     }
