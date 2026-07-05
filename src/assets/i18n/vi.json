@@ -390,6 +390,7 @@
     "edit-album": "Chỉnh sửa album",
     "update-file-covers": "Cập nhật ảnh thu nhỏ tệp",
     "overwrite-manually-edited-covers": "Ghi đè lên các ảnh album đã được chỉnh sửa thủ công",
+    "overwrite-manually-edited-artist-images": "Ghi đè hình ảnh đã chỉnh sửa thủ công",
     "replaygain-requires-tags": "ReplayGain chỉ hoạt động khi các tệp của bạn có chứa thẻ ReplayGain.",
     "replaygain-scan-tags-external-tool": "Trước tiên, hãy quét các tệp của bạn bằng một công cụ bên ngoài, chẳng hạn như",
     "replaygain-tool-rsgain": "rsgain",

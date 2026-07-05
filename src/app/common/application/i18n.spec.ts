@@ -398,6 +398,7 @@ describe('validate i18n', () => {
         'large-size',
         'xl-size',
         'overwrite-manually-edited-covers',
+        'overwrite-manually-edited-artist-images',
         'restore-ratings-from-backup',
         'restore-ratings-from-backup-description',
         'ratings-backup',

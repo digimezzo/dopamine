@@ -390,6 +390,7 @@
     "edit-album": "アルバムを編集",
     "update-file-covers": "ファイルのカバーを更新",
     "overwrite-manually-edited-covers": "手動で編集されたカバーを上書きする",
+    "overwrite-manually-edited-artist-images": "手動で編集した画像を上書き",
     "replaygain-requires-tags": "ReplayGainは、ファイルにすでにReplayGainタグが含まれている場合にのみ機能します。",
     "replaygain-scan-tags-external-tool": "まず、次のような外部ツールを使用してファイルをスキャンしてください：",
     "replaygain-tool-rsgain": "rsgain",

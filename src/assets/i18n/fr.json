@@ -390,6 +390,7 @@
     "edit-album": "Éditer l'album",
     "update-file-covers": "Mettre à jour les pochettes des fichiers",
     "overwrite-manually-edited-covers": "Écraser les pochettes modifiées manuellement",
+    "overwrite-manually-edited-artist-images": "Écraser les images modifiées manuellement",
     "replaygain-requires-tags": "ReplayGain only works when your files already contain ReplayGain tags.",
     "replaygain-scan-tags-external-tool": "Scan your files first with an external tool such as",
     "replaygain-tool-rsgain": "rsgain",
