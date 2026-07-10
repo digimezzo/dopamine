@@ -35,7 +35,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lyrics are too small and sizing doesn't work when there are no smart lyrics
 - Window is outside of the screen when external display is disconnected
 
+### Changed
+
+- Updated the Vietnamese translation
+
 ## [3.0.6] - 2026-06-13
+
+### Changed
+
+- Updated the Vietnamese translation
 
 ### Fixed
 
@@ -48,10 +56,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ReplayGain issues
 - Smart playlist filters ignore text containing accents or other special characters
 - Some MP3 files trigger an "MPEG header not found" error due to a too-narrow initial MPEG header scan range
-
-### Changed
-
-- Updated the Vietnamese translation
 
 ## [3.0.5] - 2026-05-31
 
