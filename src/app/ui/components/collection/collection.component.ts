@@ -8,6 +8,7 @@ import { AnimatedPage } from '../animated-page';
 import { enterLeftToRight, enterRightToLeft } from '../../animations/animations';
 import { CollectionNavigationService } from '../../../services/collection-navigation/collection-navigation.service';
 import { PlaybackService } from '../../../services/playback/playback.service';
+import { SemanticZoomServiceBase } from '../../../services/semantic-zoom/semantic-zoom.service.base';
 
 @Component({
     selector: 'app-collection',
@@ -18,11 +19,15 @@ import { PlaybackService } from '../../../services/playback/playback.service';
     animations: [enterLeftToRight, enterRightToLeft],
 })
 export class CollectionComponent extends AnimatedPage implements AfterViewInit {
+    private readonly artistsPage: number = 0;
+    private readonly genresPage: number = 1;
+
     public constructor(
         public appearanceService: AppearanceServiceBase,
         public collectionNavigationService: CollectionNavigationService,
         public settings: SettingsBase,
         private playbackService: PlaybackService,
+        private semanticZoomService: SemanticZoomServiceBase,
         public audioVisualizerService: AudioVisualizerServiceBase,
         private audioVisualizer: AudioVisualizer,
         private documentProxy: DocumentProxy,
@@ -33,8 +38,27 @@ export class CollectionComponent extends AnimatedPage implements AfterViewInit {
 
     @HostListener('document:keyup', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
-        if (event.key === ' ' && !(event.target instanceof HTMLInputElement)) {
+        if (!this.shouldHandleCollectionKeyboardEvent(event)) {
+            return;
+        }
+
+        if (event.key === ' ') {
             void this.playbackService.togglePlaybackAsync();
+            return;
+        }
+
+        if (!this.isArtistsOrGenresPage(this.page)) {
+            return;
+        }
+
+        if (event.ctrlKey || event.metaKey || event.altKey) {
+            return;
+        }
+
+        const pressedKey: string = event.key.toLowerCase();
+
+        if (/^[a-z]$/.test(pressedKey)) {
+            this.semanticZoomService.requestZoomIn(pressedKey);
         }
     }
 
@@ -52,5 +76,13 @@ export class CollectionComponent extends AnimatedPage implements AfterViewInit {
         this.page = page;
 
         this.collectionNavigationService.page = page;
+    }
+
+    private shouldHandleCollectionKeyboardEvent(event: KeyboardEvent): boolean {
+        return !(event.target instanceof HTMLInputElement) && !(event.target instanceof HTMLTextAreaElement);
+    }
+
+    private isArtistsOrGenresPage(page: number): boolean {
+        return page === this.artistsPage || page === this.genresPage;
     }
 }

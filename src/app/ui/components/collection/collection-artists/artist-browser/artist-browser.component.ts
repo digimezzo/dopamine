@@ -205,11 +205,27 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         this.shouldZoomOut = false;
         await this.scheduler.sleepAsync(Constants.semanticZoomInDelayMilliseconds);
 
-        const selectedIndex = this.orderedArtists.findIndex((elem) => elem.zoomHeader === text && elem.isZoomHeader);
+        const normalizedText: string = text.toLowerCase();
+        const selectedIndex = this.orderedArtists.findIndex((elem) => elem.zoomHeader === normalizedText && elem.isZoomHeader);
 
         if (selectedIndex > -1) {
             this.viewPort.scrollToIndex(selectedIndex, 'smooth');
+            this.selectArtistsByZoomHeader(normalizedText);
         }
+    }
+
+    private selectArtistsByZoomHeader(zoomHeader: string): void {
+        for (const artist of this.artists) {
+            artist.isSelected = false;
+        }
+
+        const selectedArtists: ArtistModel[] = this.artists.filter((artist) => !artist.isZoomHeader && artist.zoomHeader === zoomHeader);
+
+        for (const selectedArtist of selectedArtists) {
+            selectedArtist.isSelected = true;
+        }
+
+        this.artistsPersister.setSelectedArtists(selectedArtists);
     }
 
     public async shuffleAllAsync(): Promise<void> {

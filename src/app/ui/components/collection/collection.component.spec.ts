@@ -1,4 +1,4 @@
-import { IMock, Mock, Times } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { CollectionComponent } from './collection.component';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { SettingsBase } from '../../../common/settings/settings.base';
@@ -7,12 +7,14 @@ import { AudioVisualizerServiceBase } from '../../../services/audio-visualizer/a
 import { DocumentProxy } from '../../../common/io/document-proxy';
 import { CollectionNavigationService } from '../../../services/collection-navigation/collection-navigation.service';
 import { PlaybackService } from '../../../services/playback/playback.service';
+import { SemanticZoomServiceBase } from '../../../services/semantic-zoom/semantic-zoom.service.base';
 
 describe('CollectionComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let collectionNavigationServiceMock: IMock<CollectionNavigationService>;
     let settingsMock: IMock<SettingsBase>;
     let playbackServiceMock: IMock<PlaybackService>;
+    let semanticZoomServiceMock: IMock<SemanticZoomServiceBase>;
     let audioVisualizerMock: IMock<AudioVisualizer>;
     let audioVisualizerServiceMock: IMock<AudioVisualizerServiceBase>;
     let documentProxyMock: IMock<DocumentProxy>;
@@ -25,6 +27,7 @@ describe('CollectionComponent', () => {
             collectionNavigationServiceMock.object,
             settingsMock.object,
             playbackServiceMock.object,
+            semanticZoomServiceMock.object,
             audioVisualizerServiceMock.object,
             audioVisualizerMock.object,
             documentProxyMock.object,
@@ -37,6 +40,7 @@ describe('CollectionComponent', () => {
             collectionNavigationServiceStub,
             settingsMock.object,
             playbackServiceMock.object,
+            semanticZoomServiceMock.object,
             audioVisualizerServiceMock.object,
             audioVisualizerMock.object,
             documentProxyMock.object,
@@ -48,6 +52,7 @@ describe('CollectionComponent', () => {
         collectionNavigationServiceMock = Mock.ofType<CollectionNavigationService>();
         settingsMock = Mock.ofType<SettingsBase>();
         playbackServiceMock = Mock.ofType<PlaybackService>();
+        semanticZoomServiceMock = Mock.ofType<SemanticZoomServiceBase>();
         audioVisualizerMock = Mock.ofType<AudioVisualizer>();
         audioVisualizerServiceMock = Mock.ofType<AudioVisualizerServiceBase>();
         documentProxyMock = Mock.ofType<DocumentProxy>();
@@ -157,6 +162,120 @@ describe('CollectionComponent', () => {
 
             // Assert
             playbackServiceMock.verify((x) => x.togglePlaybackAsync(), Times.never());
+        });
+
+        it('should request semantic zoom when a letter is pressed on artists page', () => {
+            // Arrange
+            collectionNavigationServiceMock.setup((x) => x.page).returns(() => 0);
+            const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
+            keyboardEventMock.setup((x) => x.type).returns(() => 'keyup');
+            keyboardEventMock.setup((x) => x.target).returns(() => document.createElement('div'));
+            keyboardEventMock.setup((x) => x.key).returns(() => 'A');
+            keyboardEventMock.setup((x) => x.ctrlKey).returns(() => false);
+            keyboardEventMock.setup((x) => x.metaKey).returns(() => false);
+            keyboardEventMock.setup((x) => x.altKey).returns(() => false);
+            const component: CollectionComponent = createComponent();
+
+            // Act
+            component.handleKeyboardEvent(keyboardEventMock.object);
+
+            // Assert
+            semanticZoomServiceMock.verify((x) => x.requestZoomIn('a'), Times.once());
+        });
+
+        it('should request semantic zoom when a letter is pressed on genres page', () => {
+            // Arrange
+            collectionNavigationServiceMock.setup((x) => x.page).returns(() => 1);
+            const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
+            keyboardEventMock.setup((x) => x.type).returns(() => 'keyup');
+            keyboardEventMock.setup((x) => x.target).returns(() => document.createElement('div'));
+            keyboardEventMock.setup((x) => x.key).returns(() => 'g');
+            keyboardEventMock.setup((x) => x.ctrlKey).returns(() => false);
+            keyboardEventMock.setup((x) => x.metaKey).returns(() => false);
+            keyboardEventMock.setup((x) => x.altKey).returns(() => false);
+            const component: CollectionComponent = createComponent();
+
+            // Act
+            component.handleKeyboardEvent(keyboardEventMock.object);
+
+            // Assert
+            semanticZoomServiceMock.verify((x) => x.requestZoomIn('g'), Times.once());
+        });
+
+        it('should not request semantic zoom on pages other than artists and genres', () => {
+            // Arrange
+            collectionNavigationServiceMock.setup((x) => x.page).returns(() => 2);
+            const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
+            keyboardEventMock.setup((x) => x.type).returns(() => 'keyup');
+            keyboardEventMock.setup((x) => x.target).returns(() => document.createElement('div'));
+            keyboardEventMock.setup((x) => x.key).returns(() => 'a');
+            keyboardEventMock.setup((x) => x.ctrlKey).returns(() => false);
+            keyboardEventMock.setup((x) => x.metaKey).returns(() => false);
+            keyboardEventMock.setup((x) => x.altKey).returns(() => false);
+            const component: CollectionComponent = createComponent();
+
+            // Act
+            component.handleKeyboardEvent(keyboardEventMock.object);
+
+            // Assert
+            semanticZoomServiceMock.verify((x) => x.requestZoomIn(It.isAnyString()), Times.never());
+        });
+
+        it('should not request semantic zoom when key is not a letter', () => {
+            // Arrange
+            collectionNavigationServiceMock.setup((x) => x.page).returns(() => 0);
+            const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
+            keyboardEventMock.setup((x) => x.type).returns(() => 'keyup');
+            keyboardEventMock.setup((x) => x.target).returns(() => document.createElement('div'));
+            keyboardEventMock.setup((x) => x.key).returns(() => '1');
+            keyboardEventMock.setup((x) => x.ctrlKey).returns(() => false);
+            keyboardEventMock.setup((x) => x.metaKey).returns(() => false);
+            keyboardEventMock.setup((x) => x.altKey).returns(() => false);
+            const component: CollectionComponent = createComponent();
+
+            // Act
+            component.handleKeyboardEvent(keyboardEventMock.object);
+
+            // Assert
+            semanticZoomServiceMock.verify((x) => x.requestZoomIn(It.isAnyString()), Times.never());
+        });
+
+        it('should not request semantic zoom when modifier keys are pressed', () => {
+            // Arrange
+            collectionNavigationServiceMock.setup((x) => x.page).returns(() => 0);
+            const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
+            keyboardEventMock.setup((x) => x.type).returns(() => 'keyup');
+            keyboardEventMock.setup((x) => x.target).returns(() => document.createElement('div'));
+            keyboardEventMock.setup((x) => x.key).returns(() => 'a');
+            keyboardEventMock.setup((x) => x.ctrlKey).returns(() => true);
+            keyboardEventMock.setup((x) => x.metaKey).returns(() => false);
+            keyboardEventMock.setup((x) => x.altKey).returns(() => false);
+            const component: CollectionComponent = createComponent();
+
+            // Act
+            component.handleKeyboardEvent(keyboardEventMock.object);
+
+            // Assert
+            semanticZoomServiceMock.verify((x) => x.requestZoomIn(It.isAnyString()), Times.never());
+        });
+
+        it('should not request semantic zoom when key is pressed inside textarea', () => {
+            // Arrange
+            collectionNavigationServiceMock.setup((x) => x.page).returns(() => 0);
+            const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
+            keyboardEventMock.setup((x) => x.type).returns(() => 'keyup');
+            keyboardEventMock.setup((x) => x.target).returns(() => document.createElement('textarea'));
+            keyboardEventMock.setup((x) => x.key).returns(() => 'a');
+            keyboardEventMock.setup((x) => x.ctrlKey).returns(() => false);
+            keyboardEventMock.setup((x) => x.metaKey).returns(() => false);
+            keyboardEventMock.setup((x) => x.altKey).returns(() => false);
+            const component: CollectionComponent = createComponent();
+
+            // Act
+            component.handleKeyboardEvent(keyboardEventMock.object);
+
+            // Assert
+            semanticZoomServiceMock.verify((x) => x.requestZoomIn(It.isAnyString()), Times.never());
         });
     });
 

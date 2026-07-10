@@ -303,6 +303,57 @@ describe('GenreBrowserComponent', () => {
             expect(viewportMockAny.scrollToIndexbehavior).toEqual('smooth');
         });
 
+        it('should select and persist all genres for the zoomed letter when zoom in is requested', async () => {
+            // Arrange
+            const component: GenreBrowserComponent = createComponentWithSemanticZoomAdderMock();
+            const headerA: GenreModel = new GenreModel('A', translatorServiceMock.object);
+            const genreA1: GenreModel = new GenreModel('Alternative', translatorServiceMock.object);
+            const genreA2: GenreModel = new GenreModel('Ambient', translatorServiceMock.object);
+            const headerB: GenreModel = new GenreModel('B', translatorServiceMock.object);
+            const genreB1: GenreModel = new GenreModel('Blues', translatorServiceMock.object);
+
+            headerA.isZoomHeader = true;
+            headerB.isZoomHeader = true;
+
+            semanticZoomHeaderAdderMock.reset();
+            semanticZoomHeaderAdderMock
+                .setup((x) => x.addZoomHeaders(It.isAny()))
+                .returns(() => [headerA, genreA1, genreA2, headerB, genreB1]);
+
+            genresPersisterMock.reset();
+            genresPersisterMock.setup((x) => x.getSelectedGenreOrder()).returns(() => GenreOrder.byGenreAscending);
+            genresPersisterMock.setup((x) => x.getSelectedGenres(It.isAny())).returns(() => []);
+
+            const viewportMockAny: any = new CdkVirtualScrollViewportMock() as any;
+            component.viewPort = viewportMockAny;
+            component.genresPersister = genresPersisterMock.object;
+            component.genres = [genreA1, genreA2, genreB1];
+            genreB1.isSelected = true;
+
+            // Act
+            component.ngOnInit();
+            semanticZoomService_zoomInRequested.next('A');
+            await flushPromises();
+
+            // Assert
+            expect(viewportMockAny.scrollToIndexIndex).toEqual(0);
+            expect(genreA1.isSelected).toBeTruthy();
+            expect(genreA2.isSelected).toBeTruthy();
+            expect(genreB1.isSelected).toBeFalsy();
+            genresPersisterMock.verify(
+                (x) =>
+                    x.setSelectedGenres(
+                        It.is(
+                            (genres: GenreModel[]) =>
+                                genres.length === 2 &&
+                                genres[0].displayName === genreA1.displayName &&
+                                genres[1].displayName === genreA2.displayName,
+                        ),
+                    ),
+                Times.once(),
+            );
+        });
+
         it('should set shouldZoomOut to false when mouse button is released', () => {
             // Arrange
             const component: GenreBrowserComponent = createComponent();
