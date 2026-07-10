@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Scroll issues on the playlists screen when using compact songs list
+- "Show in Folder" in Snap version does not work for directories outside of /home (Thank you @mvanhorn)
 
 ## [3.0.7] - 2026-07-03
 
