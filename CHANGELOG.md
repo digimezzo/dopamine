@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Changed
 
+- Updated the Bulgarian translation (Thank you kukata)
 - Updated the Simplified Chinese translation (Thank you @jeremyooh)
 - Updated the Portuguese translation (Thank you @Blackspirits)
 - Updated the Vietnamese translation (Thank you @honhatduy)
