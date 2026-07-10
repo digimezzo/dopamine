@@ -2,6 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import * as remote from '@electron/remote';
 import { ChildProcess, execSync, spawn } from 'child_process';
 import { OpenDialogReturnValue } from 'electron';
+import * as os from 'os';
+import * as path from 'path';
 import { Observable, Subject } from 'rxjs';
 import { DesktopBase } from './desktop.base';
 import SaveDialogReturnValue = Electron.SaveDialogReturnValue;
@@ -86,6 +88,11 @@ export class Desktop implements DesktopBase, OnDestroy {
     }
 
     public showFileInDirectory(filePath: string): void {
+        if (process.platform === 'linux' && process.env.SNAP != undefined && !this.isInHomeDirectory(filePath)) {
+            void remote.shell.openPath(path.dirname(filePath)).catch(() => undefined);
+            return;
+        }
+
         remote.shell.showItemInFolder(filePath);
     }
 
@@ -116,6 +123,18 @@ export class Desktop implements DesktopBase, OnDestroy {
     public setWindowAlwaysOnTop(alwaysOnTop: boolean): void {
         const win = remote.getCurrentWindow();
         win.setAlwaysOnTop(alwaysOnTop);
+    }
+
+    private isInHomeDirectory(filePath: string): boolean {
+        const homeDirectory = os.homedir();
+
+        if (homeDirectory === '') {
+            return false;
+        }
+
+        const relativePath = path.relative(path.resolve(homeDirectory), path.resolve(filePath));
+
+        return relativePath === '' || (!relativePath.startsWith('..') && !path.isAbsolute(relativePath));
     }
 
     /**
