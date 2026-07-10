@@ -1,6 +1,6 @@
 import { MatDrawer } from '@angular/material/sidenav';
 import { Observable, Subject } from 'rxjs';
-import { IMock, Mock, Times } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { AppComponent } from './app.component';
 import { Logger } from './common/logger';
 import { IntegrationTestRunner } from './testing/integration-test-runner';
@@ -22,6 +22,7 @@ import { RatingBackupService } from './services/rating-backup/rating-backup.serv
 import { TrackRepositoryBase } from './data/repositories/track-repository.base';
 import { IndexingService } from './services/indexing/indexing.service';
 import { FolderServiceBase } from './services/folder/folder.service.base';
+import { Track } from './data/entities/track';
 
 describe('AppComponent', () => {
     let databaseMigratorMock: IMock<DatabaseMigratorBase>;
@@ -102,6 +103,11 @@ describe('AppComponent', () => {
         trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
         indexingServiceMock = Mock.ofType<IndexingService>();
         folderServiceMock = Mock.ofType<FolderServiceBase>();
+
+        ratingBackupServiceMock.setup((x) => x.createInitialBackupFromTracksAsync(It.isAny())).returns(async () => {});
+        ratingBackupServiceMock.setup((x) => x.tryAutoRestoreOnStartupAsync(It.isAny())).returns(async () => 0);
+        matDrawerMock.setup((x) => x.toggle()).returns(async () => 'open');
+        ratingBackupServiceMock.setup((x) => x.syncBackupFromTracksAsync(It.isAny())).returns(async () => {});
 
         showNowPlayingRequestedMock = new Subject();
         showNowPlayingRequestedMock$ = showNowPlayingRequestedMock.asObservable();
@@ -216,7 +222,7 @@ describe('AppComponent', () => {
             databaseMigratorMock.verify((x) => x.migrate(), Times.exactly(1));
         });
 
-        it('should reset auto-restore guard when collection folders change', async () => {
+        it('should retry ratings backup and restore when collection folders change', async () => {
             // Arrange
             const component: AppComponent = createComponent();
 
@@ -299,10 +305,12 @@ describe('AppComponent', () => {
         it('should retry ratings restore after indexing is finished', async () => {
             // Arrange
             const app: AppComponent = createComponent();
+            trackRepositoryMock.setup((x) => x.getVisibleTracks()).returns(() => [new Track('/library/song.mp3')]);
 
             // Act
             await app.ngOnInit();
             indexingFinishedMock.next();
+            await new Promise((resolve) => setTimeout(resolve, 0));
 
             // Assert
             trackRepositoryMock.verify((x) => x.getVisibleTracks(), Times.exactly(1));

@@ -23,6 +23,17 @@ interface RatingEntry {
     title?: string; // Fallback for matching if path changes
 }
 
+interface AutoRestoreSafetyDiagnostics {
+    isSafe: boolean;
+    reason: string;
+    tracksWithDbState: number;
+    maxSafeExistingState: number;
+    confidentlyMatchableMissingTracks: number;
+    minimumExpectedMatches: number;
+    meaningfulEntriesCount: number;
+    tracksCount: number;
+}
+
 @Injectable({
     providedIn: 'root',
 })
@@ -60,25 +71,33 @@ export class RatingBackupService {
             this.logger.error(e, 'Could not access music directory', 'RatingBackupService', 'initialize');
         }
 
-        if (!StringUtils.isNullOrWhiteSpace(musicDirectory) && this.fileAccess.pathExists(musicDirectory)) {
-            this._ratingsDirectoryPath = this.fileAccess.combinePath([musicDirectory, 'Dopamine', 'Ratings']);
-            this._ratingsBackupPath = this.fileAccess.combinePath([this._ratingsDirectoryPath, this._backupFileName]);
-            this._autoRestoreGuardPath = this.fileAccess.combinePath([this._ratingsDirectoryPath, this._autoRestoreGuardFileName]);
+        const hasMusicDirectory = !StringUtils.isNullOrWhiteSpace(musicDirectory) && this.fileAccess.pathExists(musicDirectory);
+        const baseDirectory = hasMusicDirectory ? musicDirectory : this.desktop.getApplicationDataDirectory();
+        this._ratingsDirectoryPath = this.getRatingsDirectoryPath(baseDirectory, hasMusicDirectory);
+        this._ratingsBackupPath = this.fileAccess.combinePath([this._ratingsDirectoryPath, this._backupFileName]);
+        this._autoRestoreGuardPath = this.fileAccess.combinePath([this._ratingsDirectoryPath, this._autoRestoreGuardFileName]);
+
+        if (hasMusicDirectory) {
             this.logger.info(
                 `Music directory found at '${musicDirectory}'. Saving ratings backup to '${this._ratingsBackupPath}'`,
                 'RatingBackupService',
                 'initialize',
             );
         } else {
-            this._ratingsDirectoryPath = this.fileAccess.combinePath([this.desktop.getApplicationDataDirectory(), 'Ratings']);
-            this._ratingsBackupPath = this.fileAccess.combinePath([this._ratingsDirectoryPath, this._backupFileName]);
-            this._autoRestoreGuardPath = this.fileAccess.combinePath([this._ratingsDirectoryPath, this._autoRestoreGuardFileName]);
             this.logger.info(
                 `Music directory not found. Saving ratings backup to '${this._ratingsBackupPath}'`,
                 'RatingBackupService',
                 'initialize',
             );
         }
+    }
+
+    private getRatingsDirectoryPath(baseDirectory: string, useMusicDirectoryLayout: boolean): string {
+        if (useMusicDirectoryLayout) {
+            return this.fileAccess.combinePath([baseDirectory, 'Dopamine', 'Ratings']);
+        }
+
+        return this.fileAccess.combinePath([baseDirectory, 'Ratings']);
     }
 
     public backupTrackRatingAsync(track: TrackModel): Promise<void> {
@@ -99,13 +118,20 @@ export class RatingBackupService {
 
             // Update or add the rating entry
             const existingIndex = backup.ratings.findIndex((r) => r.trackPath === track.path);
-            if (existingIndex >= 0) {
-                const existingEntry = backup.ratings[existingIndex];
+            const existingEntry = existingIndex >= 0 ? backup.ratings[existingIndex] : undefined;
+            const nextRating = source === 'rating' ? track.rating : (existingEntry?.rating ?? 0);
+            const nextLove = source === 'love' ? track.love : (existingEntry?.love ?? 0);
+
+            // Keep backup focused on recoverable state only.
+            if (!this.hasMeaningfulState(nextRating, nextLove)) {
+                if (existingIndex >= 0) {
+                    backup.ratings.splice(existingIndex, 1);
+                }
+            } else if (existingIndex >= 0) {
                 backup.ratings[existingIndex] = {
                     trackPath: track.path,
-                    // Keep existing values unless this save explicitly owns the field.
-                    rating: source === 'rating' ? track.rating : existingEntry.rating,
-                    love: source === 'love' ? track.love : existingEntry.love,
+                    rating: nextRating,
+                    love: nextLove,
                     artist: this.getPrimaryArtistFromModel(track),
                     artists: this.getArtistsFromModel(track),
                     title: track.title,
@@ -113,9 +139,8 @@ export class RatingBackupService {
             } else {
                 backup.ratings.push({
                     trackPath: track.path,
-                    // New entries can safely include both fields from the current model snapshot.
-                    rating: track.rating,
-                    love: track.love,
+                    rating: nextRating,
+                    love: nextLove,
                     artist: this.getPrimaryArtistFromModel(track),
                     artists: this.getArtistsFromModel(track),
                     title: track.title,
@@ -155,12 +180,14 @@ export class RatingBackupService {
 
             const backup: RatingBackup = this.loadBackup();
 
-            if (backup.ratings.length === 0) {
+            const meaningfulEntries = this.getMeaningfulEntries(backup.ratings);
+
+            if (meaningfulEntries.length === 0) {
                 this.logger.info('No backup entries found, skipping manual restore', 'RatingBackupService', 'restoreRatingsManuallyAsync');
                 return Promise.resolve(0);
             }
 
-            const restoredCount = this.restoreMissingRatingsFromBackup(tracks, backup);
+            const restoredCount = this.restoreMissingRatingsFromBackup(tracks, meaningfulEntries);
 
             this.logger.info(
                 `Manual restore completed, restored ${restoredCount} track ratings`,
@@ -175,23 +202,37 @@ export class RatingBackupService {
         }
     }
 
-    public tryAutoRestoreOnStartupAsync(tracks: Track[]): Promise<number> {
+    public async tryAutoRestoreOnStartupAsync(tracks: Track[]): Promise<number> {
         try {
             if (this.fileAccess.pathExists(this._autoRestoreGuardPath)) {
-                return Promise.resolve(0);
+                return 0;
             }
 
             if (tracks.length === 0) {
-                return Promise.resolve(0);
+                return 0;
             }
 
             const backup: RatingBackup = this.loadBackup();
 
-            if (backup.ratings.length === 0) {
-                return Promise.resolve(0);
+            const meaningfulEntries = this.getMeaningfulEntries(backup.ratings);
+
+            if (meaningfulEntries.length === 0) {
+                return 0;
             }
 
-            const restoredCount = this.restoreMissingRatingsFromBackup(tracks, backup);
+            const diagnostics = this.getAutoRestoreSafetyDiagnostics(tracks, meaningfulEntries);
+
+            if (!diagnostics.isSafe) {
+                this.logger.info(
+                    `Skipped auto-restore: ${diagnostics.reason}. Details: tracksWithDbState=${diagnostics.tracksWithDbState}, maxSafeExistingState=${diagnostics.maxSafeExistingState}, confidentlyMatchableMissingTracks=${diagnostics.confidentlyMatchableMissingTracks}, minimumExpectedMatches=${diagnostics.minimumExpectedMatches}, meaningfulEntries=${diagnostics.meaningfulEntriesCount}, tracks=${diagnostics.tracksCount}`,
+                    'RatingBackupService',
+                    'tryAutoRestoreOnStartupAsync',
+                );
+                this.markAutoRestoreAttempted();
+                return 0;
+            }
+
+            const restoredCount = this.restoreMissingRatingsFromBackup(tracks, meaningfulEntries);
             this.markAutoRestoreAttempted();
 
             this.logger.info(
@@ -200,10 +241,10 @@ export class RatingBackupService {
                 'tryAutoRestoreOnStartupAsync',
             );
 
-            return Promise.resolve(restoredCount);
+            return restoredCount;
         } catch (e: unknown) {
             this.logger.error(e, 'Could not auto-restore ratings on startup', 'RatingBackupService', 'tryAutoRestoreOnStartupAsync');
-            return Promise.resolve(0);
+            return 0;
         }
     }
 
@@ -211,7 +252,43 @@ export class RatingBackupService {
         try {
             if (this.fileAccess.pathExists(this._ratingsBackupPath)) {
                 const fileContent = this.fileAccess.getFileContentAsString(this._ratingsBackupPath);
-                const backup = JSON.parse(fileContent) as RatingBackup;
+                const parsedBackup = JSON.parse(fileContent) as Partial<RatingBackup>;
+                const backup: RatingBackup = {
+                    version: parsedBackup.version ?? this._backupVersion,
+                    lastBackupDate: parsedBackup.lastBackupDate ?? 0,
+                    ratings: Array.isArray(parsedBackup.ratings) ? parsedBackup.ratings : [],
+                };
+
+                const meaningfulEntries = this.getMeaningfulEntries(backup.ratings);
+
+                // One-time cleanup: drop legacy zero-only rows and persist immediately.
+                if (meaningfulEntries.length !== backup.ratings.length) {
+                    const sanitizedBackup: RatingBackup = {
+                        version: backup.version,
+                        lastBackupDate: Date.now(),
+                        ratings: meaningfulEntries,
+                    };
+
+                    try {
+                        this.fileAccess.writeToFile(this._ratingsBackupPath, JSON.stringify(sanitizedBackup, undefined, 2));
+                    } catch (writeError: unknown) {
+                        this.logger.error(
+                            writeError,
+                            'Could not persist cleaned ratings backup; continuing with in-memory cleaned backup',
+                            'RatingBackupService',
+                            'loadBackup',
+                        );
+                    }
+
+                    this.logger.info(
+                        `Cleaned ratings backup from ${backup.ratings.length} to ${meaningfulEntries.length} entries`,
+                        'RatingBackupService',
+                        'loadBackup',
+                    );
+
+                    return sanitizedBackup;
+                }
+
                 this.logger.info(`Loaded ratings backup with ${backup.ratings.length} entries`, 'RatingBackupService', 'loadBackup');
                 return backup;
             }
@@ -220,6 +297,10 @@ export class RatingBackupService {
         }
 
         // Return a new empty backup if loading fails or file doesn't exist
+        return this.createEmptyBackup();
+    }
+
+    private createEmptyBackup(): RatingBackup {
         return {
             version: this._backupVersion,
             lastBackupDate: 0,
@@ -245,8 +326,8 @@ export class RatingBackupService {
                 return Promise.resolve();
             }
 
-            // Filter to only tracks with ratings
-            const ratedTracks = tracksWithRatings.filter((track) => track.rating !== undefined && track.rating !== 0);
+            // Filter to only tracks with meaningful recoverable state.
+            const ratedTracks = tracksWithRatings.filter((track) => this.hasMeaningfulState(track.rating, track.love));
 
             if (ratedTracks.length === 0) {
                 this.logger.info(
@@ -258,14 +339,7 @@ export class RatingBackupService {
             }
 
             // Create rating entries from tracks
-            const ratingEntries: RatingEntry[] = ratedTracks.map((track) => ({
-                trackPath: track.path,
-                rating: track.rating ?? 0,
-                love: track.love ?? 0,
-                artist: this.getPrimaryArtistFromTrack(track),
-                artists: this.getArtistsFromTrack(track),
-                title: this.getBackupTitleFromTrack(track),
-            }));
+            const ratingEntries: RatingEntry[] = ratedTracks.map((track) => this.createEntryFromTrack(track));
 
             // Create and save backup
             const backup: RatingBackup = {
@@ -285,6 +359,51 @@ export class RatingBackupService {
         } catch (e: unknown) {
             this.logger.error(e, 'Could not create initial backup', 'RatingBackupService', 'createInitialBackupFromTracksAsync');
             // Don't throw - initial backup failure should not prevent app startup
+        }
+
+        return Promise.resolve();
+    }
+
+    public syncBackupFromTracksAsync(tracks: Track[]): Promise<void> {
+        try {
+            const meaningfulTracks = tracks.filter((track) => this.hasMeaningfulState(track.rating, track.love));
+
+            if (meaningfulTracks.length === 0) {
+                return Promise.resolve();
+            }
+
+            this.fileAccess.createFullDirectoryPathIfDoesNotExist(this._ratingsDirectoryPath);
+
+            const backup = this.loadBackup();
+            let numberOfChangedEntries = 0;
+
+            for (const track of meaningfulTracks) {
+                const nextEntry = this.createEntryFromTrack(track);
+                const existingIndex = backup.ratings.findIndex((entry) => entry.trackPath === track.path);
+
+                if (existingIndex < 0) {
+                    backup.ratings.push(nextEntry);
+                    numberOfChangedEntries++;
+                    continue;
+                }
+
+                if (!this.entriesAreEqual(backup.ratings[existingIndex], nextEntry)) {
+                    backup.ratings[existingIndex] = nextEntry;
+                    numberOfChangedEntries++;
+                }
+            }
+
+            if (numberOfChangedEntries > 0) {
+                backup.lastBackupDate = Date.now();
+                this.fileAccess.writeToFile(this._ratingsBackupPath, JSON.stringify(backup, undefined, 2));
+                this.logger.info(
+                    `Synced ratings backup from indexed tracks. Updated ${numberOfChangedEntries} entries.`,
+                    'RatingBackupService',
+                    'syncBackupFromTracksAsync',
+                );
+            }
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not sync ratings backup from tracks', 'RatingBackupService', 'syncBackupFromTracksAsync');
         }
 
         return Promise.resolve();
@@ -491,8 +610,8 @@ export class RatingBackupService {
         return left.every((value, index) => value === right[index]);
     }
 
-    private restoreMissingRatingsFromBackup(tracks: Track[], backup: RatingBackup): number {
-        if (backup.ratings.length === 0) {
+    private restoreMissingRatingsFromBackup(tracks: Track[], ratingEntries: RatingEntry[]): number {
+        if (ratingEntries.length === 0) {
             return 0;
         }
 
@@ -511,13 +630,9 @@ export class RatingBackupService {
                 continue;
             }
 
-            const matchingEntry = this.findMatchingEntryForTrack(track, backup.ratings);
+            const matchingEntry = this.findMatchingEntryForTrack(track, ratingEntries);
 
             if (matchingEntry == undefined) {
-                continue;
-            }
-
-            if ((matchingEntry.rating ?? 0) === 0 && (matchingEntry.love ?? 0) === 0) {
                 continue;
             }
 
@@ -571,6 +686,87 @@ export class RatingBackupService {
                 normalizedEntryPrimaryArtist === normalizedTrackPrimaryArtist
             );
         });
+    }
+
+    private hasMeaningfulState(rating: number | undefined | null, love: number | undefined | null): boolean {
+        return (rating ?? 0) > 0 || (love ?? 0) > 0;
+    }
+
+    private createEntryFromTrack(track: Track): RatingEntry {
+        return {
+            trackPath: track.path,
+            rating: track.rating ?? 0,
+            love: track.love ?? 0,
+            artist: this.getPrimaryArtistFromTrack(track),
+            artists: this.getArtistsFromTrack(track),
+            title: this.getBackupTitleFromTrack(track),
+        };
+    }
+
+    private entriesAreEqual(left: RatingEntry, right: RatingEntry): boolean {
+        return (
+            left.trackPath === right.trackPath &&
+            left.rating === right.rating &&
+            left.love === right.love &&
+            this.normalizeText(left.title ?? '') === this.normalizeText(right.title ?? '') &&
+            this.normalizeText(this.getPrimaryArtistFromEntry(left)) === this.normalizeText(this.getPrimaryArtistFromEntry(right)) &&
+            this.sameStringArrays(
+                this.normalizeArtistList(this.getArtistsFromEntry(left)),
+                this.normalizeArtistList(this.getArtistsFromEntry(right)),
+            )
+        );
+    }
+
+    private getMeaningfulEntries(entries: RatingEntry[]): RatingEntry[] {
+        return entries.filter((entry) => this.hasMeaningfulState(entry.rating, entry.love));
+    }
+
+    private getAutoRestoreSafetyDiagnostics(tracks: Track[], meaningfulEntries: RatingEntry[]): AutoRestoreSafetyDiagnostics {
+        if (meaningfulEntries.length === 0) {
+            return {
+                isSafe: false,
+                reason: 'No meaningful backup entries found',
+                tracksWithDbState: 0,
+                maxSafeExistingState: 0,
+                confidentlyMatchableMissingTracks: 0,
+                minimumExpectedMatches: 0,
+                meaningfulEntriesCount: 0,
+                tracksCount: tracks.length,
+            };
+        }
+
+        const tracksWithDbState = tracks.filter((track) => this.hasMeaningfulState(track.rating, track.love)).length;
+        const maxSafeExistingState = 0;
+
+        let confidentlyMatchableMissingTracks = 0;
+
+        for (const track of tracks) {
+            if (this.hasMeaningfulState(track.rating, track.love)) {
+                continue;
+            }
+
+            const matchingEntry = this.findMatchingEntryForTrack(track, meaningfulEntries);
+
+            if (matchingEntry != undefined) {
+                confidentlyMatchableMissingTracks++;
+            }
+        }
+
+        // Restore is additive only (writes only to missing DB state), so require at least one confident match.
+        const minimumExpectedMatches = 1;
+
+        const isSafe = confidentlyMatchableMissingTracks >= minimumExpectedMatches;
+
+        return {
+            isSafe,
+            reason: isSafe ? 'Safe to auto-restore' : 'No confidently matchable missing tracks',
+            tracksWithDbState,
+            maxSafeExistingState,
+            confidentlyMatchableMissingTracks,
+            minimumExpectedMatches,
+            meaningfulEntriesCount: meaningfulEntries.length,
+            tracksCount: tracks.length,
+        };
     }
 
     private markAutoRestoreAttempted(): void {

@@ -111,6 +111,47 @@ describe('RatingBackupService', () => {
                 Times.once(),
             );
         });
+
+        it('should remove an existing backup entry when resulting rating and love are both zero', async () => {
+            // Arrange
+            service = createService();
+            const track = new TrackModel(new Track('/path/to/track.mp3'), dateTimeMock.object, translatorMock.object, '');
+            track.rating = 0;
+            track.love = 0;
+
+            const backupContent = JSON.stringify({
+                version: 1,
+                lastBackupDate: 123,
+                ratings: [{ trackPath: '/path/to/track.mp3', rating: 5, love: 0, artist: 'A', title: 'T' }],
+            });
+
+            fileAccessMock.setup((x) => x.createFullDirectoryPathIfDoesNotExist('/home/user/Music/Dopamine/Ratings')).returns(() => {});
+            fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Dopamine/Ratings/ratings-backup.json')).returns(() => true);
+            fileAccessMock
+                .setup((x) => x.getFileContentAsString('/home/user/Music/Dopamine/Ratings/ratings-backup.json'))
+                .returns(() => backupContent);
+            fileAccessMock
+                .setup((x) =>
+                    x.writeToFile(
+                        '/home/user/Music/Dopamine/Ratings/ratings-backup.json',
+                        It.is((content: string) => content.includes('"ratings": []')),
+                    ),
+                )
+                .returns(() => {});
+
+            // Act
+            await service.backupTrackRatingAsync(track);
+
+            // Assert
+            fileAccessMock.verify(
+                (x) =>
+                    x.writeToFile(
+                        '/home/user/Music/Dopamine/Ratings/ratings-backup.json',
+                        It.is((content: string) => content.includes('"ratings": []')),
+                    ),
+                Times.once(),
+            );
+        });
     });
 
     function createTrackModel(path: string, artists: string, title: string): TrackModel {
@@ -155,6 +196,47 @@ describe('RatingBackupService', () => {
             // Assert
             expect(backup.version).toEqual(1);
             expect(backup.ratings.length).toEqual(0);
+        });
+
+        it('should remove zero-only entries and persist cleaned backup on load', () => {
+            // Arrange
+            service = createService();
+            const backupContent = JSON.stringify({
+                version: 1,
+                lastBackupDate: 1234567890,
+                ratings: [
+                    { trackPath: '/path/to/unrated.mp3', rating: 0, love: 0, artist: 'A', title: 'T0' },
+                    { trackPath: '/path/to/rated.mp3', rating: 5, love: 0, artist: 'B', title: 'T1' },
+                ],
+            });
+
+            fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Dopamine/Ratings/ratings-backup.json')).returns(() => true);
+            fileAccessMock
+                .setup((x) => x.getFileContentAsString('/home/user/Music/Dopamine/Ratings/ratings-backup.json'))
+                .returns(() => backupContent);
+            fileAccessMock
+                .setup((x) =>
+                    x.writeToFile(
+                        '/home/user/Music/Dopamine/Ratings/ratings-backup.json',
+                        It.is((content: string) => content.includes('/path/to/rated.mp3') && !content.includes('/path/to/unrated.mp3')),
+                    ),
+                )
+                .returns(() => {});
+
+            // Act
+            const backup = service.loadBackup();
+
+            // Assert
+            expect(backup.ratings.length).toEqual(1);
+            expect(backup.ratings[0].trackPath).toEqual('/path/to/rated.mp3');
+            fileAccessMock.verify(
+                (x) =>
+                    x.writeToFile(
+                        '/home/user/Music/Dopamine/Ratings/ratings-backup.json',
+                        It.is((content: string) => content.includes('/path/to/rated.mp3') && !content.includes('/path/to/unrated.mp3')),
+                    ),
+                Times.once(),
+            );
         });
     });
 
@@ -349,6 +431,83 @@ describe('RatingBackupService', () => {
                 Times.never(),
             );
         });
+
+        it('should skip creation when track has null rating and no love', async () => {
+            // Arrange
+            service = createService();
+            const track1 = new Track('/path/to/track1.mp3');
+            track1.rating = null as unknown as number;
+            track1.love = 0;
+
+            fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Dopamine/Ratings/ratings-backup.json')).returns(() => false);
+
+            // Act
+            await service.createInitialBackupFromTracksAsync([track1]);
+
+            // Assert
+            fileAccessMock.verify(
+                (x) => x.writeToFile('/home/user/Music/Dopamine/Ratings/ratings-backup.json', It.isAnyString()),
+                Times.never(),
+            );
+        });
+    });
+
+    describe('syncBackupFromTracksAsync', () => {
+        it('should add a meaningful track to backup when missing', async () => {
+            // Arrange
+            service = createService();
+
+            fileAccessMock.setup((x) => x.createFullDirectoryPathIfDoesNotExist('/home/user/Music/Dopamine/Ratings')).returns(() => {});
+            fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Dopamine/Ratings/ratings-backup.json')).returns(() => true);
+            fileAccessMock
+                .setup((x) => x.getFileContentAsString('/home/user/Music/Dopamine/Ratings/ratings-backup.json'))
+                .returns(() => JSON.stringify({ version: 1, lastBackupDate: 1, ratings: [] }));
+            fileAccessMock
+                .setup((x) =>
+                    x.writeToFile(
+                        '/home/user/Music/Dopamine/Ratings/ratings-backup.json',
+                        It.is((content: string) => content.includes('/library/new.mp3') && content.includes('"rating": 7')),
+                    ),
+                )
+                .returns(() => {});
+
+            const track = new Track('/library/new.mp3');
+            track.rating = 7;
+            track.love = 0;
+            track.artists = ';Artist;';
+            track.trackTitle = 'Song';
+
+            // Act
+            await service.syncBackupFromTracksAsync([track]);
+
+            // Assert
+            fileAccessMock.verify(
+                (x) =>
+                    x.writeToFile(
+                        '/home/user/Music/Dopamine/Ratings/ratings-backup.json',
+                        It.is((content: string) => content.includes('/library/new.mp3') && content.includes('"rating": 7')),
+                    ),
+                Times.once(),
+            );
+        });
+
+        it('should skip writing when all tracks are non-meaningful', async () => {
+            // Arrange
+            service = createService();
+
+            const track = new Track('/library/unrated.mp3');
+            track.rating = 0;
+            track.love = 0;
+
+            // Act
+            await service.syncBackupFromTracksAsync([track]);
+
+            // Assert
+            fileAccessMock.verify(
+                (x) => x.writeToFile('/home/user/Music/Dopamine/Ratings/ratings-backup.json', It.isAnyString()),
+                Times.never(),
+            );
+        });
     });
 
     describe('tryAutoRestoreOnStartupAsync', () => {
@@ -430,6 +589,55 @@ describe('RatingBackupService', () => {
                 (x) => x.writeToFile('/home/user/Music/Dopamine/Ratings/auto-restore-v1.done', It.isAnyString()),
                 Times.once(),
             );
+        });
+
+        it('should restore missing tracks even when many tracks already have state', async () => {
+            // Arrange
+            service = createService();
+
+            fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Dopamine/Ratings/auto-restore-v1.done')).returns(() => false);
+            fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Dopamine/Ratings/ratings-backup.json')).returns(() => true);
+
+            const backupContent = JSON.stringify({
+                version: 1,
+                lastBackupDate: Date.now(),
+                ratings: [{ trackPath: '/library/missing.mp3', rating: 9, love: 1, artist: 'Artist', title: 'Missing' }],
+            });
+
+            fileAccessMock
+                .setup((x) => x.getFileContentAsString('/home/user/Music/Dopamine/Ratings/ratings-backup.json'))
+                .returns(() => backupContent);
+
+            fileAccessMock.setup((x) => x.createFullDirectoryPathIfDoesNotExist('/home/user/Music/Dopamine/Ratings')).returns(() => {});
+            fileAccessMock
+                .setup((x) => x.writeToFile('/home/user/Music/Dopamine/Ratings/auto-restore-v1.done', It.isAnyString()))
+                .returns(() => {});
+
+            trackRepositoryMock.setup((x) => x.updateRating(5, 9)).returns(() => {});
+            trackRepositoryMock.setup((x) => x.updateLove(5, 1)).returns(() => {});
+
+            const tracks: Track[] = [];
+            for (let i = 1; i <= 4; i++) {
+                const existingTrack = new Track(`/library/existing-${i}.mp3`);
+                existingTrack.trackId = i;
+                existingTrack.rating = 7;
+                existingTrack.love = 0;
+                tracks.push(existingTrack);
+            }
+
+            const missingTrack = new Track('/library/missing.mp3');
+            missingTrack.trackId = 5;
+            missingTrack.rating = 0;
+            missingTrack.love = 0;
+            tracks.push(missingTrack);
+
+            // Act
+            const restoredCount = await service.tryAutoRestoreOnStartupAsync(tracks);
+
+            // Assert
+            expect(restoredCount).toEqual(1);
+            trackRepositoryMock.verify((x) => x.updateRating(5, 9), Times.once());
+            trackRepositoryMock.verify((x) => x.updateLove(5, 1), Times.once());
         });
     });
 });
