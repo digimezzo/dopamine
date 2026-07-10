@@ -1,5 +1,21 @@
 import * as remote from '@electron/remote';
+import * as os from 'os';
 import { Desktop } from './desktop';
+
+jest.mock('@electron/remote', () => ({
+    shell: {
+        showItemInFolder: jest.fn(),
+        openPath: jest.fn(),
+    },
+}));
+
+jest.mock('os', () => {
+    const actualOs = jest.requireActual('os');
+    return {
+        ...actualOs,
+        homedir: jest.fn(() => '/home/me'),
+    };
+});
 
 describe('Desktop', () => {
     let shellMock: { showItemInFolder: jest.Mock; openPath: jest.Mock };
@@ -20,12 +36,10 @@ describe('Desktop', () => {
     }
 
     beforeEach(() => {
-        shellMock = {
-            showItemInFolder: jest.fn(),
-            openPath: jest.fn().mockResolvedValue(''),
-        };
-
-        (remote as unknown as { shell: typeof shellMock }).shell = shellMock;
+        shellMock = (remote as any).shell;
+        shellMock.openPath.mockResolvedValue('');
+        shellMock.showItemInFolder.mockClear();
+        shellMock.openPath.mockClear();
 
         process.env.HOME = '/home/me';
         setPlatform('linux');
@@ -51,7 +65,7 @@ describe('Desktop', () => {
             process.env.HOME = originalHome;
         }
 
-        delete (remote as unknown as { shell?: typeof shellMock }).shell;
+        jest.clearAllMocks();
     });
 
     describe('showFileInDirectory', () => {
