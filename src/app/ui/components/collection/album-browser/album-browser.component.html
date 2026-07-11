@@ -1,4 +1,5 @@
 <div class="app-selected-artist__backgroundimage"
+     *ngIf="showArtistBackground"
      [ngStyle]="{ 'background-image': 'url(' + artistBackground + ')' }"></div>
 
 <div class="h-100 w-100 d-flex flex-column" #albumBrowserElement>

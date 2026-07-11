@@ -55,6 +55,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
     public albumOrderEnum: typeof AlbumOrder = AlbumOrder;
     public useCompactYearView: boolean = false;
     public artistBackground: string = '';
+    public showArtistBackground: boolean = false;
 
     public ngOnDestroy(): void {
         this.destroy$.next();
@@ -113,6 +114,11 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
                 this.artistBackground = artworkPath.replace(/\\/g, '/');
             }
         }
+    }
+
+    @Input()
+    public set showArtistBackgroundImage(showArtistBackground: boolean) {
+        this.showArtistBackground = this.settings.showArtistImages && showArtistBackground;
     }
 
     public get isSortedByYear(): boolean {
@@ -239,7 +245,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
             return;
         }
 
-        const albumKeys = this.albums.map(album => album.albumKey);
+        const albumKeys = this.albums.map((album) => album.albumKey);
         const tracks: TrackModels = this.trackService.getTracksForAlbums(albumKeys);
 
         this.playbackService.forceShuffled();
