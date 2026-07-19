@@ -195,11 +195,27 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         this.shouldZoomOut = false;
         await this.scheduler.sleepAsync(Constants.semanticZoomInDelayMilliseconds);
 
-        const selectedIndex = this.orderedGenres.findIndex((elem) => elem.zoomHeader === text && elem.isZoomHeader);
+        const normalizedText: string = text.toLowerCase();
+        const selectedIndex = this.orderedGenres.findIndex((elem) => elem.zoomHeader === normalizedText && elem.isZoomHeader);
 
         if (selectedIndex > -1) {
             this.viewPort.scrollToIndex(selectedIndex, 'smooth');
+            this.selectGenresByZoomHeader(normalizedText);
         }
+    }
+
+    private selectGenresByZoomHeader(zoomHeader: string): void {
+        for (const genre of this.genres) {
+            genre.isSelected = false;
+        }
+
+        const selectedGenres: GenreModel[] = this.genres.filter((genre) => !genre.isZoomHeader && genre.zoomHeader === zoomHeader);
+
+        for (const selectedGenre of selectedGenres) {
+            selectedGenre.isSelected = true;
+        }
+
+        this.genresPersister.setSelectedGenres(selectedGenres);
     }
 
     public async shuffleAllAsync(): Promise<void> {

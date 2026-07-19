@@ -88,6 +88,7 @@ const config = {
     mac: {
         target: ['dmg'],
         artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
+        identity: '-',
     },
     linux: {
         target: ['AppImage', 'deb', 'rpm', 'pacman', 'snap'],

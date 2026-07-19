@@ -1011,6 +1011,61 @@ describe('Queue', () => {
     });
 
     describe('tracks', () => {
+        describe('moveTrackInPlaybackOrder', () => {
+            it('should move track position in playback order when indexes are valid', () => {
+                // Arrange
+                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+                const queue: Queue = createQueue();
+                queue.setTracks([track1, track2, track3], false);
+
+                // Act
+                queue.moveTrackInPlaybackOrder(2, 1);
+
+                // Assert
+                const tracksInPlaybackOrder: TrackModel[] = queue.tracksInPlaybackOrder;
+                expect(tracksInPlaybackOrder[0].path).toBe(track1.path);
+                expect(tracksInPlaybackOrder[1].path).toBe(track3.path);
+                expect(tracksInPlaybackOrder[2].path).toBe(track2.path);
+            });
+
+            it('should not move track when from index is out of range', () => {
+                // Arrange
+                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+
+                const queue: Queue = createQueue();
+                queue.setTracks([track1, track2], false);
+
+                // Act
+                queue.moveTrackInPlaybackOrder(-1, 1);
+
+                // Assert
+                const tracksInPlaybackOrder: TrackModel[] = queue.tracksInPlaybackOrder;
+                expect(tracksInPlaybackOrder[0].path).toBe(track1.path);
+                expect(tracksInPlaybackOrder[1].path).toBe(track2.path);
+            });
+
+            it('should not move track when to index is out of range', () => {
+                // Arrange
+                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+
+                const queue: Queue = createQueue();
+                queue.setTracks([track1, track2], false);
+
+                // Act
+                queue.moveTrackInPlaybackOrder(0, 2);
+
+                // Assert
+                const tracksInPlaybackOrder: TrackModel[] = queue.tracksInPlaybackOrder;
+                expect(tracksInPlaybackOrder[0].path).toBe(track1.path);
+                expect(tracksInPlaybackOrder[1].path).toBe(track2.path);
+            });
+        });
+
         it('should return the tracks in their original order when not shuffled', () => {
             // Arrange
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');

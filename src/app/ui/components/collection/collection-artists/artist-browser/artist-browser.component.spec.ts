@@ -346,6 +346,58 @@ describe('ArtistBrowserComponent', () => {
             expect(viewportMockAny.scrollToIndexbehavior).toEqual('smooth');
         });
 
+        it('should select and persist all artists for the zoomed letter when zoom in is requested', async () => {
+            // Arrange
+            const component: ArtistBrowserComponent = createComponentWithSemanticZoomAdderMock();
+            const headerA: ArtistModel = new ArtistModel('A', undefined, translatorServiceMock.object, applicationPathsMock.object);
+            const artistA1: ArtistModel = new ArtistModel('Alpha', undefined, translatorServiceMock.object, applicationPathsMock.object);
+            const artistA2: ArtistModel = new ArtistModel('Adele', undefined, translatorServiceMock.object, applicationPathsMock.object);
+            const headerB: ArtistModel = new ArtistModel('B', undefined, translatorServiceMock.object, applicationPathsMock.object);
+            const artistB1: ArtistModel = new ArtistModel('Beatles', undefined, translatorServiceMock.object, applicationPathsMock.object);
+
+            headerA.isZoomHeader = true;
+            headerB.isZoomHeader = true;
+
+            semanticZoomHeaderAdderMock.reset();
+            semanticZoomHeaderAdderMock
+                .setup((x) => x.addZoomHeaders(It.isAny()))
+                .returns(() => [headerA, artistA1, artistA2, headerB, artistB1]);
+
+            artistsPersisterMock.reset();
+            artistsPersisterMock.setup((x) => x.getSelectedArtistType()).returns(() => ArtistType.trackArtists);
+            artistsPersisterMock.setup((x) => x.getSelectedArtistOrder()).returns(() => ArtistOrder.byArtistAscending);
+            artistsPersisterMock.setup((x) => x.getSelectedArtists(It.isAny())).returns(() => []);
+
+            const viewportMockAny: any = new CdkVirtualScrollViewportMock() as any;
+            component.viewPort = viewportMockAny;
+            component.artistsPersister = artistsPersisterMock.object;
+            component.artists = [artistA1, artistA2, artistB1];
+            artistB1.isSelected = true;
+
+            // Act
+            component.ngOnInit();
+            semanticZoomService_zoomInRequested.next('A');
+            await flushPromises();
+
+            // Assert
+            expect(viewportMockAny.scrollToIndexIndex).toEqual(0);
+            expect(artistA1.isSelected).toBeTruthy();
+            expect(artistA2.isSelected).toBeTruthy();
+            expect(artistB1.isSelected).toBeFalsy();
+            artistsPersisterMock.verify(
+                (x) =>
+                    x.setSelectedArtists(
+                        It.is(
+                            (artists: ArtistModel[]) =>
+                                artists.length === 2 &&
+                                artists[0].displayName === artistA1.displayName &&
+                                artists[1].displayName === artistA2.displayName,
+                        ),
+                    ),
+                Times.once(),
+            );
+        });
+
         it('should set shouldZoomOut to false when mouse button is released', () => {
             // Arrange
             const component: ArtistBrowserComponent = createComponent();

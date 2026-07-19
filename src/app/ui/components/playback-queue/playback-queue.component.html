@@ -22,8 +22,16 @@
             </div>
         </div>
     </div>
-    <cdk-virtual-scroll-viewport *ngIf="this.shouldShowList" class="flex-grow mt-3" itemSize="46">
-        <div *cdkVirtualFor="let track of this.filteredTracks" (mousedown)="setSelectedTracks($event, track)">
+    <cdk-virtual-scroll-viewport
+        *ngIf="this.shouldShowList"
+        class="flex-grow mt-3"
+        [itemSize]="this.trackItemSize"
+        (cdkDropListDropped)="this.dropTrack($event)"
+        cdkDropList
+        [cdkDropListData]="this.filteredTracks"
+        [cdkDropListDisabled]="!this.canReorderQueue"
+    >
+        <div *cdkVirtualFor="let track of this.filteredTracks" (mousedown)="setSelectedTracks($event, track)" cdkDrag>
             <app-track
                 [track]="track"
                 (dblclick)="this.playbackService.playQueuedTrackAsync(track)"
