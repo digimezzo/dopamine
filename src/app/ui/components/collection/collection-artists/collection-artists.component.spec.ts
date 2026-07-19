@@ -24,6 +24,7 @@ import { AlbumData } from '../../../../data/entities/album-data';
 import { Track } from '../../../../data/entities/track';
 import { TrackModels } from '../../../../services/track/track-models';
 import { ApplicationPaths } from '../../../../common/application/application-paths';
+import { ArtistArtworkAdder } from '../../../../services/indexing/artist-artwork-adder';
 
 describe('CollectionArtistsComponent', () => {
     let searchServiceMock: IMock<SearchServiceBase>;
@@ -38,6 +39,7 @@ describe('CollectionArtistsComponent', () => {
     let settingsStub: any;
     let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
+    let artistArtworkAdderMock: IMock<ArtistArtworkAdder>;
 
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -58,6 +60,9 @@ describe('CollectionArtistsComponent', () => {
     let collectionChangedMock: Subject<void>;
     let collectionChangedMock$: Observable<void>;
 
+    let artistArtworkChangedMock: Subject<void>;
+    let artistArtworkChangedMock$: Observable<void>;
+
     const flushPromises = () => new Promise(process.nextTick);
 
     function createComponent(): CollectionArtistsComponent {
@@ -74,6 +79,7 @@ describe('CollectionArtistsComponent', () => {
             settingsStub,
             schedulerMock.object,
             loggerMock.object,
+            artistArtworkAdderMock.object,
         );
 
         return component;
@@ -118,6 +124,7 @@ describe('CollectionArtistsComponent', () => {
         schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
         applicationPathsMock = Mock.ofType<ApplicationPaths>();
+        artistArtworkAdderMock = Mock.ofType<ArtistArtworkAdder>();
 
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
@@ -141,6 +148,10 @@ describe('CollectionArtistsComponent', () => {
         collectionChangedMock = new Subject();
         collectionChangedMock$ = collectionChangedMock.asObservable();
         collectionServiceMock.setup((x) => x.collectionChanged$).returns(() => collectionChangedMock$);
+
+        artistArtworkChangedMock = new Subject();
+        artistArtworkChangedMock$ = artistArtworkChangedMock.asObservable();
+        artistArtworkAdderMock.setup((x) => x.artistArtworkChanged$).returns(() => artistArtworkChangedMock$);
     });
 
     describe('constructor', () => {
@@ -990,6 +1001,19 @@ describe('CollectionArtistsComponent', () => {
             expect(component.tracks.tracks.length).toEqual(2);
             expect(component.tracks.tracks[0]).toEqual(track1);
             expect(component.tracks.tracks[1]).toEqual(track2);
+        });
+
+        it('should reload the artists if the artist artwork was changed', async () => {
+            // Arrange
+            const component: CollectionArtistsComponent = createComponent();
+            artistsPersisterMock.setup((x) => x.getSelectedArtistType()).returns(() => ArtistType.allArtists);
+            await component.ngOnInit();
+
+            // Act
+            collectionChangedMock.next();
+
+            // Assert
+            artistServiceMock.verify((x) => x.getArtists(ArtistType.allArtists), Times.once());
         });
     });
 });

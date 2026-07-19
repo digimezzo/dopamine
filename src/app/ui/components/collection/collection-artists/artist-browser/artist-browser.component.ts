@@ -22,6 +22,7 @@ import { Timer } from '../../../../../common/scheduling/timer';
 import { TrackServiceBase } from '../../../../../services/track/track.service.base';
 import { TrackModels } from '../../../../../services/track/track-models';
 import { SettingsBase } from '../../../../../common/settings/settings.base';
+import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
 
 @Component({
     selector: 'app-artist-browser',
@@ -54,6 +55,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         private artistSorter: ArtistSorter,
         private semanticZoomHeaderAdder: SemanticZoomHeaderAdder,
         private scheduler: SchedulerBase,
+        private dialogService: DialogServiceBase,
         public settings: SettingsBase,
         private logger: Logger,
     ) {}
@@ -153,6 +155,12 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
 
         this.playbackService.forceShuffled();
         await this.playbackService.enqueueAndPlayArtistAsync(artist, this.selectedArtistType);
+    }
+
+    public async onEditArtistAsync(artist: ArtistModel): Promise<void> {
+        if (artist !== undefined) {
+            await this.dialogService.showEditArtistAsync(artist);
+        }
     }
 
     private orderArtists(): void {

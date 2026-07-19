@@ -8,9 +8,13 @@ import { ArtistArtworkRepositoryBase } from '../../data/repositories/artist-artw
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { NotificationServiceBase } from '../notification/notification.service.base';
 import { ArrayUtils } from '../../common/utils/array-utils';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ArtistArtworkAdder {
+    private artistArtworkChanged: Subject<void> = new Subject();
+    public readonly artistArtworkChanged$: Observable<void> = this.artistArtworkChanged.asObservable();
+
     public constructor(
         private artistArtworkCacheService: ArtistArtworkCacheServiceBase,
         private artistArtworkRepository: ArtistArtworkRepositoryBase,
@@ -69,8 +73,20 @@ export class ArtistArtworkAdder {
                     }
                 }
             } catch (e: unknown) {
-                this.logger.error(e, `Could not add artist artwork for '${artist}'`, 'ArtistArtworkAdder', 'addMissingArtistArtworkAsync');
+                this.logger.error(e, `Could not add artist artwork for '${artist}'`, 'ArtistArtworkAdder', 'addArtistArtworkAsync');
             }
+        }
+    }
+
+    public async updateArtistArtworkAsync(artist: string, artistArtwork: Buffer, isManuallySet: boolean): Promise<void> {
+        const artistArtworkCacheId: ArtistArtworkCacheId | undefined =
+            await this.artistArtworkCacheService.addArtworkDataToCacheAsync(artistArtwork);
+        if (artistArtworkCacheId != undefined) {
+            const newArtistArtwork: ArtistArtwork = new ArtistArtwork(artist, artistArtworkCacheId.id, isManuallySet ? 1 : 0);
+            this.artistArtworkRepository.updateArtistArtwork(newArtistArtwork);
+            this.artistArtworkChanged.next();
+        } else {
+            throw new Error(`Could not update artist artwork for '${artist}'`);
         }
     }
 }
