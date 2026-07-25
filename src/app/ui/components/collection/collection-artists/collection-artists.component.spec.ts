@@ -991,5 +991,49 @@ describe('CollectionArtistsComponent', () => {
             expect(component.tracks.tracks[0]).toEqual(track1);
             expect(component.tracks.tracks[1]).toEqual(track2);
         });
+        
+        it('should keep the selected artists if the selected artists have changed', async () => {
+            // Arrange
+            const artist1: ArtistModel = createArtistModel('artist1');
+            const artist2: ArtistModel = createArtistModel('artist2');
+            artistServiceMock.setup((x) => x.getArtists(ArtistType.allArtists)).returns(() => [artist1, artist2]);
+            artistsPersisterMock.setup((x) => x.getSelectedArtistType()).returns(() => ArtistType.allArtists);
+
+            const component: CollectionArtistsComponent = createComponent();
+            await component.ngOnInit();
+            expect(component.selectedArtists.length).toEqual(0);
+
+            // Act
+            selectedArtistsChangedMock.next([artist1.name, artist2.name]);
+
+            // Assert
+            expect(component.selectedArtists.length).toEqual(2);
+            expect(component.selectedArtists[0]).toEqual(artist1);
+            expect(component.selectedArtists[1]).toEqual(artist2);
+        });
+    });
+
+    describe('ngOnDestroy', () => {
+        it('should reset the selected artists', async () => {
+            // Arrange
+            const artist1: ArtistModel = createArtistModel('artist1');
+            const artist2: ArtistModel = createArtistModel('artist2');
+            artistServiceMock.setup((x) => x.getArtists(ArtistType.allArtists)).returns(() => [artist1, artist2]);
+            artistsPersisterMock.setup((x) => x.getSelectedArtistType()).returns(() => ArtistType.allArtists);
+            artistsPersisterMock.setup((x) => x.getSelectedArtists([artist1, artist2])).returns(() => [artist1, artist2]);
+
+            const component: CollectionArtistsComponent = createComponent();
+            await component.ngOnInit();
+
+            expect(component.selectedArtists.length).toEqual(2);
+            expect(component.selectedArtists[0]).toEqual(artist1);
+            expect(component.selectedArtists[1]).toEqual(artist2);
+
+            // Act
+            component.ngOnDestroy();
+
+            // Assert
+            expect(component.selectedArtists.length).toEqual(0);
+        });
     });
 });
