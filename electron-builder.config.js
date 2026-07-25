@@ -7,6 +7,9 @@ const config = {
         base: 'core22', // Must match build server (currently Ubuntu 22.04)
         grade: 'stable',
         confinement: 'strict',
+        summary: 'The audio player that keeps it simple.',
+        description:
+            'Dopamine is an elegant audio player which tries to make organizing and listening to music as simple and pretty as possible.',
         plugs: [
             // REQUIRED for Electron desktop apps
             'desktop',
