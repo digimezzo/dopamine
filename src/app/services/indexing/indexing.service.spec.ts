@@ -16,6 +16,7 @@ import { TrackFiller } from './track-filler';
 import { SchedulerBase } from '../../common/scheduling/scheduler.base';
 import { ArtistArtworkIndexer } from './artist-artwork-indexer';
 import { Track } from '../../data/entities/track';
+import { ArtistArtworkRepositoryBase } from '../../data/repositories/artist-artwork-repository.base';
 
 describe('IndexingService', () => {
     let notificationServiceMock: IMock<NotificationServiceBase>;
@@ -31,6 +32,7 @@ describe('IndexingService', () => {
     let loggerMock: IMock<Logger>;
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
     let albumArtworkRepositoryMock: IMock<AlbumArtworkRepositoryBase>;
+    let artistArtworkRepositoryMock: IMock<ArtistArtworkRepositoryBase>;
 
     let folderService_foldersChanged: Subject<void>;
 
@@ -51,6 +53,7 @@ describe('IndexingService', () => {
         loggerMock = Mock.ofType<Logger>();
         trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
         albumArtworkRepositoryMock = Mock.ofType<AlbumArtworkRepositoryBase>();
+        artistArtworkRepositoryMock = Mock.ofType<ArtistArtworkRepositoryBase>();
 
         folderService_foldersChanged = new Subject();
         const folderService_foldersChanged$: Observable<void> = folderService_foldersChanged.asObservable();
@@ -73,6 +76,7 @@ describe('IndexingService', () => {
             albumArtworkIndexerMock.object,
             artistArtworkIndexerMock.object,
             albumArtworkRepositoryMock.object,
+            artistArtworkRepositoryMock.object,
             trackRepositoryMock.object,
             trackFillerMock.object,
             desktopMock.object,
@@ -105,7 +109,7 @@ describe('IndexingService', () => {
             artistArtworkIndexerMock.verify((x) => x.refreshMissingArtistsArtworkAsync(), Times.once());
         });
 
-        it('should refresh all artists artwork', async () => {
+        it('should refresh all artists artwork including manually set images', async () => {
             // Arrange
             const sut: IndexingService = createSut();
 
@@ -113,6 +117,19 @@ describe('IndexingService', () => {
             await sut.indexArtistArtworkOnlyAsync(false);
 
             // Assert
+            artistArtworkRepositoryMock.verify((x) => x.clearManuallySetFlag(), Times.never());
+            artistArtworkIndexerMock.verify((x) => x.refreshAllArtistsArtworkAsync(), Times.once());
+        });
+
+        it('should refresh all artists artwork except manually set images', async () => {
+            // Arrange
+            const sut: IndexingService = createSut();
+
+            // Act
+            await sut.indexArtistArtworkOnlyAsync(false, true);
+
+            // Assert
+            artistArtworkRepositoryMock.verify((x) => x.clearManuallySetFlag(), Times.once());
             artistArtworkIndexerMock.verify((x) => x.refreshAllArtistsArtworkAsync(), Times.once());
         });
     });

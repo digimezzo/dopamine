@@ -22,6 +22,8 @@ import { EditSmartPlaylistDialogComponent } from '../../ui/components/dialogs/ed
 import { FileFormats } from '../../common/application/file-formats';
 import { AlbumModel } from '../album/album-model';
 import { EditAlbumDialogComponent } from '../../ui/components/dialogs/edit-album-dialog/edit-album-dialog.component';
+import { ArtistModel } from '../artist/artist-model';
+import { EditArtistDialogComponent } from '../../ui/components/dialogs/edit-artist-dialog/edit-artist-dialog.component';
 
 @Injectable()
 export class DialogService implements DialogServiceBase {
@@ -153,10 +155,20 @@ export class DialogService implements DialogServiceBase {
         await dialogRef.afterClosed().toPromise();
     }
 
+    public async showEditArtistAsync(artist: ArtistModel): Promise<void> {
+        const dialogRef: MatDialogRef<EditArtistDialogComponent> = this.dialog.open(EditArtistDialogComponent, {
+            data: artist,
+            maxWidth: '750px',
+        });
+
+        await dialogRef.afterClosed().toPromise();
+    }
+
     public async cannotPlayM4aFileAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('cannot-play-m4a-file');
         this.showErrorDialog(message);
     }
+
     public async cannotPlayAudioFileAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('cannot-play-audio-file');
         this.showErrorDialog(message);

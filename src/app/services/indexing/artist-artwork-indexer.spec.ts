@@ -115,7 +115,7 @@ describe('ArtistArtworkIndexer', () => {
             notificationServiceMock.verify((x) => x.updatingArtistArtworkAsync(), Times.once());
         });
 
-        it('should delete all artist artwork from cache', async () => {
+        it('should delete all artist artwork from database', async () => {
             // Arrange, Act
             await artistArtworkIndexer.refreshAllArtistsArtworkAsync();
 

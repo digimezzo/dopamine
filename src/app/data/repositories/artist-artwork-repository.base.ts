@@ -5,8 +5,10 @@ export abstract class ArtistArtworkRepositoryBase {
     public abstract getNumberOfArtistArtworkThatHasNoTrack(): number;
     public abstract deleteArtistArtworkThatHasNoTrack(): number;
     public abstract addArtistArtwork(artistArtwork: ArtistArtwork): void;
+    public abstract updateArtistArtwork(artistArtwork: ArtistArtwork): void;
     public abstract getAllArtistArtwork(): ArtistArtwork[] | undefined;
     public abstract getArtistArtworkForArtists(artists: string[]): ArtistArtwork[];
     public abstract deleteArtistArtworkWithDefaultId(): number;
-    public abstract deleteAllArtistArtwork(): number
+    public abstract deleteAllArtistArtwork(): number;
+    public abstract clearManuallySetFlag(): void;
 }
