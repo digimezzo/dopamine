@@ -58,10 +58,12 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
     public artists: ArtistModel[] = [];
     public albums: AlbumModel[] = [];
     public tracks: TrackModels = new TrackModels();
+    public selectedArtists: ArtistModel[] = [];
 
     public get selectedAlbumOrder(): AlbumOrder {
         return this._selectedAlbumOrder;
     }
+
     public set selectedAlbumOrder(v: AlbumOrder) {
         this._selectedAlbumOrder = v;
         this.albumsPersister.setSelectedAlbumOrder(v);
@@ -80,6 +82,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
                 const artists: ArtistModel[] = this.getArtistsByDisplayNames(displayNames);
                 this.getAlbumsForArtists(artists);
                 this.getTracksForArtists(artists);
+                this.selectedArtists = artists;
             }),
         );
 
@@ -144,6 +147,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         this.artists = [];
         this.albums = [];
         this.tracks = new TrackModels();
+        this.selectedArtists = [];
     }
 
     private getArtists(): void {
@@ -154,6 +158,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
     private getAlbums(): void {
         const selectedArtists: ArtistModel[] = this.artistsPersister.getSelectedArtists(this.artists);
         this.getAlbumsForArtists(selectedArtists);
+        this.selectedArtists = selectedArtists;
     }
 
     private getTracks(): void {

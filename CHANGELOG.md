@@ -3,11 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.8] - 2026-07-10
+## [3.0.8] - 2026-07-25
 
 ### Added
 
 - Pressing a letter on the keyboard, scrolls to the pressed letter on artists and genres screens and selects all artists and genres starting with that letter focussing on albums for those artists or genres
+- Added option to show artist image as background (Thank you @FranzDeschler)
 
 ## Changed
 
@@ -20,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Scroll issues on the playlists screen when using compact songs list
 - "Show in Folder" in Snap version does not work for directories outside of /home (Thank you @mvanhorn)
+- Snap package is broken
 
 ## [3.0.7] - 2026-07-03
 

@@ -19,6 +19,7 @@ import { SettingsMock } from '../../../../testing/settings-mock';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { TrackModels } from '../../../../services/track/track-models';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
+import { ArtistModel } from '../../../../services/artist/artist-model';
 
 describe('AlbumBrowserComponent', () => {
     let trackServiceMock: IMock<TrackServiceBase>;
@@ -831,6 +832,51 @@ describe('AlbumBrowserComponent', () => {
             // Assert
             playbackServiceMock.verify((x) => x.forceShuffled(), Times.once());
             playbackServiceMock.verify((x) => x.enqueueAndPlayTracksAsync(tracks.tracks), Times.once());
+        });
+    });
+
+    describe('selectedArtists', () => {
+        it('should set the artist image as background when one artist is selected', () => {
+            // Arrange
+            const artworkId: string = 'artwork-1';
+            const artists: ArtistModel[] = [new ArtistModel('Metallica', artworkId, translatorServiceMock.object, applicationPathsMock.object)];
+
+            applicationPathsMock.setup((x) => x.artistArtFullPath(artworkId)).returns(() => `Cache/ArtistArt/${artworkId}.jpg`);
+
+            const component: AlbumBrowserComponent = createComponent();
+            expect(component.artistBackground).toEqual('');
+
+            // Act
+            component.selectedArtists = artists;
+
+            // Assert
+            expect(component.artistBackground).toEqual(`file:///Cache/ArtistArt/${artworkId}.jpg`);
+        });
+
+        it('should clear the background when multiple artists are selected', () => {
+            // Arrange
+            const artists: ArtistModel[] = [
+                new ArtistModel('Apocalyptica', 'artwork-1', translatorServiceMock.object, applicationPathsMock.object),
+                new ArtistModel('Metallica', 'artwork-2', translatorServiceMock.object, applicationPathsMock.object),
+            ];
+            const component: AlbumBrowserComponent = createComponent();
+
+            // Act
+            component.selectedArtists = artists;
+
+            // Assert
+            expect(component.artistBackground).toEqual('');
+        });
+
+        it('should clear the background when no artist is selected', () => {
+            // Arrange
+            const component: AlbumBrowserComponent = createComponent();
+
+            // Act
+            component.selectedArtists = [];
+
+            // Assert
+            expect(component.artistBackground).toEqual('');
         });
     });
 });

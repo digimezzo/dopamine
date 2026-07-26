@@ -19,6 +19,7 @@ import { PlaybackService } from '../../../../services/playback/playback.service'
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { TrackModels } from '../../../../services/track/track-models';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
+import {ArtistModel} from "../../../../services/artist/artist-model";
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
 
 @Component({
@@ -52,8 +53,9 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
     public readonly albumOrderKey = albumOrderKey;
 
     public albumOrderEnum: typeof AlbumOrder = AlbumOrder;
-
     public useCompactYearView: boolean = false;
+    public artistBackground: string = '';
+    public showArtistBackground: boolean = false;
 
     public ngOnDestroy(): void {
         this.destroy$.next();
@@ -101,6 +103,22 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
     public set albums(v: AlbumModel[]) {
         this._albums = v;
         this.mouseSelectionWatcher.initialize(this.albums, false);
+    }
+
+    @Input()
+    public set selectedArtists(selectedArtists: ArtistModel[]) {
+        this.artistBackground = '';
+        if (selectedArtists.length == 1) {
+            const artworkPath: string = selectedArtists[0].artworkPath;
+            if (artworkPath !== Constants.emptyImage) {
+                this.artistBackground = artworkPath.replace(/\\/g, '/');
+            }
+        }
+    }
+
+    @Input()
+    public set showArtistBackgroundImage(showArtistBackground: boolean) {
+        this.showArtistBackground = this.settings.showArtistImages && showArtistBackground;
     }
 
     public get isSortedByYear(): boolean {
@@ -227,9 +245,9 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
             return;
         }
 
-        const albumKeys = this.albums.map(album => album.albumKey);
+        const albumKeys = this.albums.map((album) => album.albumKey);
         const tracks: TrackModels = this.trackService.getTracksForAlbums(albumKeys);
-        
+
         this.playbackService.forceShuffled();
         await this.playbackService.enqueueAndPlayTracksAsync(tracks.tracks);
     }
