@@ -60,6 +60,23 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
     public tracks: TrackModels = new TrackModels();
     public selectedArtists: ArtistModel[] = [];
 
+    public get showArtistBackground(): boolean {
+        return (
+            this.settings.showArtistImages &&
+            this.settings.showArtistImagesAsBackground &&
+            this.selectedArtists.length === 1 &&
+            this.selectedArtists[0].artworkPath !== Constants.emptyImage
+        );
+    }
+
+    public get artistBackground(): string {
+        if (!this.showArtistBackground) {
+            return '';
+        }
+
+        return this.selectedArtists[0].artworkPath.replace(/\\/g, '/');
+    }
+
     public get selectedAlbumOrder(): AlbumOrder {
         return this._selectedAlbumOrder;
     }
@@ -122,6 +139,9 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
     }
 
     public splitDragEnd(event: IOutputData): void {
+        this.leftPaneSize = <number>event.sizes[0];
+        this.centerPaneSize = <number>event.sizes[1];
+        this.rightPaneSize = <number>event.sizes[2];
         this.settings.artistsLeftPaneWidthPercent = <number>event.sizes[0];
         this.settings.artistsRightPaneWidthPercent = <number>event.sizes[2];
     }

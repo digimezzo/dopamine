@@ -1,3 +1,24 @@
-as-split-area {
+.collection-viewport {
     position: relative;
+}
+
+/* Full-width layer behind the split. The opaque side panes mask it, while the
+   transparent center pane and transparent gutters let it show through, so the
+   image renders continuously across the center including the gutters. */
+.app-selected-artist__backgroundimage {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(8px);
+    opacity: 0.15;
+}
+
+as-split {
+    position: relative;
+    z-index: 1;
 }
