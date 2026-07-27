@@ -16,6 +16,7 @@ export abstract class SettingsBase {
     public abstract skipRemovedFilesDuringRefresh: boolean;
     public abstract downloadMissingAlbumCovers: boolean;
     public abstract showArtistImages: boolean;
+    public abstract showArtistImagesAsBackground: boolean;
     public abstract showAllFoldersInCollection: boolean;
     public abstract refreshCollectionAutomatically: boolean;
     public abstract albumsRightPaneWidthPercent: number;

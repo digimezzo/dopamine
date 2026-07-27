@@ -402,5 +402,6 @@
     "restore-ratings-from-backup": "恢复",
     "ratings-restored-count": "已恢复 {{count}} 首歌曲的评分",
     "tracklist": "歌曲列表",
-    "compact-tracklist-view": "紧凑歌曲列表视图（隐藏艺术家信息）"
+    "compact-tracklist-view": "紧凑歌曲列表视图（隐藏艺术家信息）",
+    "show-artist-images-as-background": "Show artist images as background"
 }

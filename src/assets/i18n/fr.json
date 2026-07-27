@@ -402,5 +402,6 @@
     "restore-ratings-from-backup": "Restore",
     "ratings-restored-count": "Restored ratings for {{count}} songs.",
     "tracklist": "Liste des morceaux",
-    "compact-tracklist-view": "Vue compacte de la liste des morceaux (masquer les artistes des morceaux)"
+    "compact-tracklist-view": "Vue compacte de la liste des morceaux (masquer les artistes des morceaux)",
+    "show-artist-images-as-background": "Afficher les images des artistes en arrière-plan"
 }

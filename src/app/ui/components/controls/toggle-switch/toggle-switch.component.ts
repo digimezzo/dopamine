@@ -9,10 +9,17 @@ export class ToggleSwitchComponent {
     @Input()
     public isChecked: boolean = false;
 
+    @Input()
+    public isDisabled: boolean = false;
+
     @Output()
     public isCheckedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     public onCheckedChanged(checked: boolean): void {
+        if (this.isDisabled) {
+            return;
+        }
+
         this.isChecked = checked;
         this.isCheckedChange.emit(this.isChecked);
     }

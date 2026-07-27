@@ -402,5 +402,6 @@
     "restore-ratings-from-backup": "Khôi phục",
     "ratings-restored-count": "Đã khôi phục xếp hạng cho {{count}} bài hát.",
     "tracklist": "Danh sách bài hát",
-    "compact-tracklist-view": "Chế độ xem danh sách bài hát thu gọn (ẩn tên nghệ sĩ)"
+    "compact-tracklist-view": "Chế độ xem danh sách bài hát thu gọn (ẩn tên nghệ sĩ)",
+    "show-artist-images-as-background": "Show artist images as background"
 }

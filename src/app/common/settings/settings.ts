@@ -184,6 +184,15 @@ export class Settings implements SettingsBase {
         this.set('showArtistImages', v);
     }
 
+    // showArtistImagesAsBackground
+    public get showArtistImagesAsBackground(): boolean {
+        return this.get<boolean>('showArtistImagesAsBackground');
+    }
+
+    public set showArtistImagesAsBackground(v: boolean) {
+        this.set('showArtistImagesAsBackground', v);
+    }
+
     // showAllFoldersInCollection
     public get showAllFoldersInCollection(): boolean {
         return this.get<boolean>('showAllFoldersInCollection');

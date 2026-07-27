@@ -30,6 +30,7 @@ export class SettingsMock implements SettingsBase {
     public downloadLyricsOnline: boolean;
     public downloadMissingAlbumCovers: boolean;
     public showArtistImages: boolean;
+    public showArtistImagesAsBackground: boolean;
     public enableDiscordRichPresence: boolean;
     public enableLastFmScrobbling: boolean;
     public enableListenbrainzScrobbling: boolean;

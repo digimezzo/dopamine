@@ -13,6 +13,7 @@ export const DEFAULT_SETTINGS = {
     skipRemovedFilesDuringRefresh: true,
     downloadMissingAlbumCovers: true,
     showArtistImages: false,
+    showArtistImagesAsBackground: true,
     showAllFoldersInCollection: true,
     refreshCollectionAutomatically: true,
     albumsRightPaneWidthPercent: 30,

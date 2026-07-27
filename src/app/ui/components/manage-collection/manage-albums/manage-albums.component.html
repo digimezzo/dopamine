@@ -4,8 +4,9 @@
         <app-toggle-switch [(isChecked)]="settings.downloadMissingAlbumCovers">{{
             'download-missing-album-covers' | translate
         }}</app-toggle-switch>
-        <app-toggle-switch [(isChecked)]="settings.showArtistImages">{{
-            'download-artist-images' | translate
+        <app-toggle-switch [(isChecked)]="settings.showArtistImages">{{ 'download-artist-images' | translate }}</app-toggle-switch>
+        <app-toggle-switch [(isChecked)]="settings.showArtistImagesAsBackground" [isDisabled]="!settings.showArtistImages">{{
+            'show-artist-images-as-background' | translate
         }}</app-toggle-switch>
     </div>
     <mat-divider class="my-4"></mat-divider>

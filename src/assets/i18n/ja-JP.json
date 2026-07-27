@@ -402,5 +402,6 @@
     "restore-ratings-from-backup": "復元",
     "ratings-restored-count": "{{count}}曲の評価を復元しました。",
     "tracklist": "Song list",
-    "compact-tracklist-view": "Compact song list view (hide song artists)"
+    "compact-tracklist-view": "Compact song list view (hide song artists)",
+    "show-artist-images-as-background": "Show artist images as background"
 }

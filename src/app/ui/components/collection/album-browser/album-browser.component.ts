@@ -19,7 +19,7 @@ import { PlaybackService } from '../../../../services/playback/playback.service'
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { TrackModels } from '../../../../services/track/track-models';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
-import {ArtistModel} from "../../../../services/artist/artist-model";
+import { ArtistModel } from '../../../../services/artist/artist-model';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
 
 @Component({
@@ -118,7 +118,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
 
     @Input()
     public set showArtistBackgroundImage(showArtistBackground: boolean) {
-        this.showArtistBackground = this.settings.showArtistImages && showArtistBackground;
+        this.showArtistBackground = this.settings.showArtistImages && this.settings.showArtistImagesAsBackground && showArtistBackground;
     }
 
     public get isSortedByYear(): boolean {

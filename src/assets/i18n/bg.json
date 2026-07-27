@@ -402,5 +402,6 @@
     "restore-ratings-from-backup": "Възстановяване",
     "ratings-restored-count": "Възстановени рейтинги за {{count}} песни.",
     "tracklist": "Списък с песни",
-    "compact-tracklist-view": "Компактен изглед на списъка с песни (скриване на изпълнителите)"
+    "compact-tracklist-view": "Компактен изглед на списъка с песни (скриване на изпълнителите)",
+    "show-artist-images-as-background": "Show artist images as background"
 }
