@@ -158,7 +158,7 @@ export class DialogService implements DialogServiceBase {
     public async showEditArtistAsync(artist: ArtistModel): Promise<void> {
         const dialogRef: MatDialogRef<EditArtistDialogComponent> = this.dialog.open(EditArtistDialogComponent, {
             data: artist,
-            maxWidth: '750px',
+            width: '684px',
         });
 
         await dialogRef.afterClosed().toPromise();
