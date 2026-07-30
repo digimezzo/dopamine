@@ -50,7 +50,7 @@ export class EditArtistDialogComponent implements OnInit {
     public async selectLocalImageAsync(): Promise<void> {
         const selectedFile: string = await this.desktop.showSelectFileDialogAsync(this.translatorService.get('choose-image'));
         if (!StringUtils.isNullOrWhiteSpace(selectedFile)) {
-            this.imagePath = selectedFile;
+            this.imagePath = 'file:///' + selectedFile;
         }
     }
 
@@ -83,10 +83,11 @@ export class EditArtistDialogComponent implements OnInit {
                 image = Constants.emptyImageBuffer;
             } else if (this.imagePath !== this.originalImagePath) {
                 manuallySet = true;
-                if (this.imagePath.startsWith('file:///')) {
-                    image = await this.imageProcessor.convertLocalImageToBufferAsync(this.imagePath);
-                } else {
+                if (this.imagePath.startsWith('http://') || this.imagePath.startsWith('https://')) {
                     image = await this.imageProcessor.convertOnlineImageToBufferAsync(this.imagePath);
+                } else {
+                    const localImagePath: string = this.imagePath.replace('file:///', '');
+                    image = await this.imageProcessor.convertLocalImageToBufferAsync(localImagePath);
                 }
             }
 

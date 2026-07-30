@@ -82,7 +82,7 @@ describe('EditArtistDialogComponent', () => {
         it('should set a local image as artist image', async () => {
             // Arrange
             createComponent(artistName);
-            const selectedFile: string = 'file:///any/path/to/file.jpg';
+            const selectedFile: string = '/any/path/to/file.jpg';
             desktopMock.setup((x) => x.showSelectFileDialogAsync(It.isAnyString())).returns(() => Promise.resolve(selectedFile));
 
             imageProcessorMock
@@ -97,8 +97,8 @@ describe('EditArtistDialogComponent', () => {
 
             // Assert
             desktopMock.verify((x) => x.showSelectFileDialogAsync(It.isAnyString()), Times.once());
-            expect(component.imagePath).toEqual(selectedFile);
-            imageProcessorMock.verify((x) => x.convertLocalImageToBufferAsync(component.imagePath), Times.once());
+            expect(component.imagePath).toEqual('file:///' + selectedFile);
+            imageProcessorMock.verify((x) => x.convertLocalImageToBufferAsync(selectedFile), Times.once());
             artistArtworkAdderMock.verify((x) => x.updateArtistArtworkAsync(artistName, artistArtworkData, true), Times.once());
         });
     });
