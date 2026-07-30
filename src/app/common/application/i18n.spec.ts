@@ -408,6 +408,7 @@ describe('validate i18n', () => {
         'ratings-restored-count',
         'compact-tracklist-view',
         'tracklist',
+        'show-artist-images-as-background',
     ].sort();
 
     Constants.languages.forEach((language) => {
