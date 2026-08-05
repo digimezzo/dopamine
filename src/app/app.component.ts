@@ -98,10 +98,10 @@ export class AppComponent implements OnInit {
             }),
         );
 
-        // Folder add/remove can change which tracks are present, so allow a fresh restore attempt after next indexing run.
+        // Folder add/remove can change which tracks are present, so run backup/restore immediately on the current indexed tracks.
         this.subscription.add(
             this.folderService.foldersChanged$.subscribe(() => {
-                PromiseUtils.noAwait(this.ratingBackupService.resetAutoRestoreGuardAsync());
+                PromiseUtils.noAwait(this.resetGuardAndRetryRatingsRestoreAsync());
             }),
         );
 
@@ -129,6 +129,7 @@ export class AppComponent implements OnInit {
                 // Restore is intentionally tied to indexing completion only.
                 await this.ratingBackupService.createInitialBackupFromTracksAsync(tracks);
                 await this.ratingBackupService.tryAutoRestoreOnStartupAsync(tracks);
+                await this.ratingBackupService.syncBackupFromTracksAsync(tracks);
             }
         } catch (e: unknown) {
             this.logger.error(
@@ -138,5 +139,10 @@ export class AppComponent implements OnInit {
                 'createInitialRatingsBackupAndAutoRestoreIfNeededAsync',
             );
         }
+    }
+
+    private async resetGuardAndRetryRatingsRestoreAsync(): Promise<void> {
+        await this.ratingBackupService.resetAutoRestoreGuardAsync();
+        await this.createInitialRatingsBackupAndAutoRestoreIfNeededAsync();
     }
 }

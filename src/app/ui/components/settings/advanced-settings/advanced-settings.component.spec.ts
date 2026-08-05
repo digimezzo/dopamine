@@ -88,7 +88,9 @@ describe('AdvancedSettingsComponent', () => {
             // Arrange
             const component: AdvancedSettingsComponent = createComponent();
             ratingBackupServiceMock.setup((x) => x.restoreRatingsManuallyAsync()).returns(async () => 5);
-            translatorServiceMock.setup((x) => x.get('ratings-restored-count', { count: 5 })).returns(() => 'Restored ratings for 5 songs.');
+            translatorServiceMock
+                .setup((x) => x.get('ratings-restored-count', { count: 5 }))
+                .returns(() => 'Restored ratings for 5 songs.');
 
             // Act
             await component.restoreRatingsAsync();
