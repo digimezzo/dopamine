@@ -1,5 +1,5 @@
 class SensitiveInformation {
-    static lastfmApiKey = '1be93666a6e8d3d79b05b1c74682cb62';
+    static lastfmApiKey = process.env.LASTFM_API_KEY || '';
 }
 
 exports.SensitiveInformation = SensitiveInformation;
