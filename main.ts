@@ -372,14 +372,29 @@ function createMainWindow(): void {
         mainWindow = undefined;
     });
 
+    // Show the window at most once, regardless of which trigger fires first.
+    let hasShownMainWindow = false;
+    const showMainWindow = (reason: string) => {
+        if (hasShownMainWindow || !mainWindow) {
+            return;
+        }
+
+        hasShownMainWindow = true;
+        log.info(`[Main] [showMainWindow] Showing main window (trigger: ${reason})`);
+        mainWindow.show();
+        mainWindow.focus();
+    };
+
     // 'ready-to-show' doesn't fire on Windows in dev mode. In prod it seems to work.
     // See: https://github.com/electron/electron/issues/7779
-    mainWindow.on('ready-to-show', () => {
-        if (mainWindow) {
-            mainWindow.show();
-            mainWindow.focus();
-        }
-    });
+    mainWindow.on('ready-to-show', () => showMainWindow('ready-to-show'));
+
+    // On some Linux setups (e.g. the first launch of the snap package), GPU/compositor
+    // initialization transiently fails and 'ready-to-show' never fires, leaving the window
+    // hidden and the app appearing not to start. Fall back to showing the window once the
+    // content has loaded, and use a safety timeout as a last resort.
+    mainWindow.webContents.on('did-finish-load', () => showMainWindow('did-finish-load'));
+    setTimeout(() => showMainWindow('timeout'), 10000);
 
     // Makes links open in external browser
     const handleRedirect = (e: any, localUrl: string) => {
