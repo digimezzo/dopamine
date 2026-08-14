@@ -1273,6 +1273,32 @@ describe('AppearanceService', () => {
             expect(service.backgroundRgbColor.equals(new RgbColor(5, 85, 85))).toBeTruthy();
         });
 
+        it('should fall back to the selected theme accent color when follow the system color is enabled but no system accent color is available', async () => {
+            // Arrange
+            settingsMock.reset();
+            settingsMock.setup((x) => x.theme).returns(() => 'Theme 2');
+            settingsMock.setup((x) => x.fontSize).returns(() => 13);
+            settingsMock.setup((x) => x.useLightBackgroundTheme).returns(() => false);
+            desktopMock.setup((x) => x.shouldUseDarkColors()).returns(() => false);
+            desktopMock.setup((x) => x.getAccentColor()).returns(() => '');
+            settingsMock.setup((x) => x.followSystemColor).returns(() => true);
+            settingsMock.setup((x) => x.followAlbumCoverColor).returns(() => false);
+            settingsMock.setup((x) => x.followSystemTheme).returns(() => false);
+            const service: AppearanceServiceBase = createService();
+            resetElements();
+
+            // Act
+            await service.applyAppearanceAsync();
+            await flushPromises();
+
+            // Assert
+            assertSelectedThemeAccentColorCssProperties();
+            expect(service.accentRgbColor.equals(new RgbColor(204, 204, 204))).toBeTruthy();
+            expect(isNaN(service.accentRgbColor.red)).toBeFalsy();
+            expect(isNaN(service.accentRgbColor.green)).toBeFalsy();
+            expect(isNaN(service.accentRgbColor.blue)).toBeFalsy();
+        });
+
         it('should apply the colors of the album cover when follow the system color is disabled and follow album cover color is enabled', async () => {
             // Arrange
             settingsMock.reset();

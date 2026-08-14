@@ -453,7 +453,10 @@ export class AppearanceService implements AppearanceServiceBase {
 
         try {
             const systemAccentColorWithTransparency: string = this.desktop.getAccentColor();
-            systemAccentColor = '#' + systemAccentColorWithTransparency.substr(0, 6);
+
+            if (!StringUtils.isNullOrWhiteSpace(systemAccentColorWithTransparency) && systemAccentColorWithTransparency.length >= 6) {
+                systemAccentColor = '#' + systemAccentColorWithTransparency.substr(0, 6);
+            }
         } catch (e: unknown) {
             this.logger.error(e, 'Could not get system accent color', 'AppearanceService', 'getSystemAccentColor');
         }
