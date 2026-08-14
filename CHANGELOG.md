@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Pressing a letter on the keyboard, scrolls to the pressed letter on artists and genres screens and selects all artists and genres starting with that letter focussing on albums for those artists or genres
 - Added option to show artist image as background (Thank you @FranzDeschler)
+- Added option to edit artist images (Thank you @FranzDeschler)
 
 ## Changed
 
