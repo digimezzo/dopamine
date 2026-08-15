@@ -1,0 +1,38 @@
+<app-dialog-header icon="las la-sliders-h" title="{{ 'equalizer' | translate }}"></app-dialog-header>
+<mat-dialog-content>
+    <div class="equalizer">
+        <div class="equalizer__header">
+            <app-toggle-switch [(isChecked)]="this.isEnabled">{{ 'enable-equalizer' | translate }}</app-toggle-switch>
+            <mat-form-field class="equalizer__preset" [class.equalizer__preset--disabled]="!this.isEnabled">
+                <mat-select [(ngModel)]="this.selectedPreset" [disabled]="!this.isEnabled">
+                    <mat-option *ngFor="let preset of this.presetNames" [value]="preset">
+                        {{ 'equalizer-preset-' + preset | translate }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="equalizer__bands" [class.equalizer__bands--disabled]="!this.isEnabled">
+            <div class="equalizer-band" *ngFor="let frequency of this.bands; let i = index">
+                <div class="equalizer-band__value">{{ this.formatGain(this.gains[i]) }}</div>
+                <div class="equalizer-band__slider-container">
+                    <input
+                        class="equalizer-band__slider"
+                        type="range"
+                        [min]="this.minimumGain"
+                        [max]="this.maximumGain"
+                        step="1"
+                        [value]="this.gains[i]"
+                        [disabled]="!this.isEnabled"
+                        (input)="this.onGainChanged(i, $event)"
+                    />
+                </div>
+                <div class="equalizer-band__frequency">{{ this.formatFrequency(frequency) }}</div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <app-transparent-button class="mr-2" (click)="this.reset()">{{ 'reset' | translate }}</app-transparent-button>
+    <app-accent-button [mat-dialog-close]="true">{{ 'close' | translate }}</app-accent-button>
+</mat-dialog-actions>

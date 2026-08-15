@@ -5,6 +5,8 @@ import { MathExtensions } from '../../../common/math-extensions';
 import { Logger } from '../../../common/logger';
 import { TrackModel } from '../../track/track-model';
 import { PathUtils } from '../../../common/utils/path-utils';
+import { AudioEqualizer } from './audio-equalizer';
+import { EqualizerServiceBase } from '../../equalizer/equalizer.service.base';
 
 @Injectable({
     providedIn: 'root',
@@ -31,15 +33,21 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     private skipSecondsAfterStarting: number = 0;
     private _lastSetLogarithmicVolume: number = 0;
     private _analyser: AnalyserNode;
+    private _equalizer: AudioEqualizer;
 
     public constructor(
         private mathExtensions: MathExtensions,
+        private equalizerService: EqualizerServiceBase,
         private logger: Logger,
     ) {
         this._audio = new Audio();
         this._audioContext = new AudioContext();
         this._gainNode = this._audioContext.createGain();
-        this._gainNode.connect(this._audioContext.destination);
+
+        this._equalizer = new AudioEqualizer(this._audioContext);
+        this._gainNode.connect(this._equalizer.input);
+        this._equalizer.output.connect(this._audioContext.destination);
+        this.equalizerService.register(this._equalizer);
 
         this._analyser = this._audioContext.createAnalyser();
         this._analyser.fftSize = 128;

@@ -30,6 +30,11 @@
                 matTooltip="{{ 'highlights' | translate }}"
             ></i>
             <i
+                class="app-collection-playback-pane-controls__buttons las la-sliders-h pointer mr-2"
+                (click)="this.showEqualizerAsync()"
+                matTooltip="{{ 'equalizer' | translate }}"
+            ></i>
+            <i
                 class="app-collection-playback-pane-controls__buttons las la-tasks pointer mr-4"
                 (click)="this.showPlaybackQueue()"
                 matTooltip="{{ 'playback-queue' | translate }}"

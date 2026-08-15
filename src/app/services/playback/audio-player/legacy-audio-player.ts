@@ -4,6 +4,8 @@ import { MathExtensions } from '../../../common/math-extensions';
 import { IAudioPlayer } from './i-audio-player';
 import { TrackModel } from '../../track/track-model';
 import { PathUtils } from '../../../common/utils/path-utils';
+import { AudioEqualizer } from './audio-equalizer';
+import { EqualizerServiceBase } from '../../equalizer/equalizer.service.base';
 
 export class LegacyAudioPlayer implements IAudioPlayer {
     private _audio: HTMLAudioElement;
@@ -12,12 +14,14 @@ export class LegacyAudioPlayer implements IAudioPlayer {
     private _playingPreloadedTrack: Subject<TrackModel> = new Subject();
     private _audioContext: AudioContext;
     private _analyser: AnalyserNode;
+    private _equalizer: AudioEqualizer;
     private _isPaused: boolean = false;
     private shouldPauseAfterStarting: boolean = false;
     private skipSecondsAfterStarting: number = 0;
 
     public constructor(
         private mathExtensions: MathExtensions,
+        private equalizerService: EqualizerServiceBase,
         private logger: Logger,
     ) {
         this._audio = new Audio();
@@ -25,6 +29,11 @@ export class LegacyAudioPlayer implements IAudioPlayer {
 
         this._analyser = this._audioContext.createAnalyser();
         this._analyser.fftSize = 128;
+
+        this._equalizer = new AudioEqualizer(this._audioContext);
+        this._equalizer.output.connect(this._analyser);
+        this._analyser.connect(this._audioContext.destination);
+        this.equalizerService.register(this._equalizer);
 
         this.connectVisualizer();
 
@@ -157,7 +166,6 @@ export class LegacyAudioPlayer implements IAudioPlayer {
 
     private connectVisualizer(): void {
         const mediaElementSource: MediaElementAudioSourceNode = this._audioContext.createMediaElementSource(this._audio);
-        this._analyser.connect(this._audioContext.destination);
-        mediaElementSource.connect(this._analyser);
+        mediaElementSource.connect(this._equalizer.input);
     }
 }

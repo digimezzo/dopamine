@@ -94,6 +94,9 @@ export abstract class SettingsBase {
     public abstract useGaplessPlayback: boolean;
     public abstract useCrossfade: boolean;
     public abstract crossfadeDuration: number;
+    public abstract audioEqualizerEnabled: boolean;
+    public abstract audioEqualizerPreset: string;
+    public abstract audioEqualizerGains: string;
     public abstract useReplayGainNormalization: boolean;
     public abstract replayGainMode: string;
     public abstract replayGainPreAmp: number;

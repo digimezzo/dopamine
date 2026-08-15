@@ -102,6 +102,7 @@ import { TrackComponent } from './ui/components/collection/track/track.component
 import { ConfirmationDialogComponent } from './ui/components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { DialogHeaderComponent } from './ui/components/dialogs/dialog-header/dialog-header.component';
 import { EditColumnsDialogComponent } from './ui/components/dialogs/edit-columns-dialog/edit-columns-dialog.component';
+import { EqualizerDialogComponent } from './ui/components/dialogs/equalizer-dialog/equalizer-dialog.component';
 import { EditPlaylistDialogComponent } from './ui/components/dialogs/edit-playlist-dialog/edit-playlist-dialog.component';
 import { ErrorDialogComponent } from './ui/components/dialogs/error-dialog/error-dialog.component';
 import { InputDialogComponent } from './ui/components/dialogs/input-dialog/input-dialog.component';
@@ -225,6 +226,8 @@ import { TrackServiceBase } from './services/track/track.service.base';
 import { GenreServiceBase } from './services/genre/genre.service.base';
 import { ArtistServiceBase } from './services/artist/artist.service.base';
 import { DialogServiceBase } from './services/dialog/dialog.service.base';
+import { EqualizerServiceBase } from './services/equalizer/equalizer.service.base';
+import { EqualizerService } from './services/equalizer/equalizer.service';
 import { UpdateServiceBase } from './services/update/update.service.base';
 import { TranslatorServiceBase } from './services/translator/translator.service.base';
 import { IndexingService } from './services/indexing/indexing.service';
@@ -376,6 +379,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         InfoDialogComponent,
         LicenseDialogComponent,
         EditColumnsDialogComponent,
+        EqualizerDialogComponent,
         ManageCollectionComponent,
         ManageMusicComponent,
         ManageRefreshComponent,
@@ -614,6 +618,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         { provide: UpdateServiceBase, useClass: UpdateService },
         { provide: NotificationServiceBase, useClass: NotificationService },
         { provide: DialogServiceBase, useClass: DialogService },
+        { provide: EqualizerServiceBase, useClass: EqualizerService },
         { provide: ArtistServiceBase, useClass: ArtistService },
         { provide: GenreServiceBase, useClass: GenreService },
         { provide: TrackServiceBase, useClass: TrackService },

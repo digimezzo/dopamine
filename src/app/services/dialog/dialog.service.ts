@@ -24,6 +24,7 @@ import { AlbumModel } from '../album/album-model';
 import { EditAlbumDialogComponent } from '../../ui/components/dialogs/edit-album-dialog/edit-album-dialog.component';
 import { ArtistModel } from '../artist/artist-model';
 import { EditArtistDialogComponent } from '../../ui/components/dialogs/edit-artist-dialog/edit-artist-dialog.component';
+import { EqualizerDialogComponent } from '../../ui/components/dialogs/equalizer-dialog/equalizer-dialog.component';
 
 @Injectable()
 export class DialogService implements DialogServiceBase {
@@ -131,6 +132,14 @@ export class DialogService implements DialogServiceBase {
     public async showEditColumnsDialogAsync(): Promise<void> {
         const dialogRef: MatDialogRef<EditColumnsDialogComponent> = this.dialog.open(EditColumnsDialogComponent, {
             width: '450px',
+        });
+
+        await dialogRef.afterClosed().toPromise();
+    }
+
+    public async showEqualizerDialogAsync(): Promise<void> {
+        const dialogRef: MatDialogRef<EqualizerDialogComponent> = this.dialog.open(EqualizerDialogComponent, {
+            width: '520px',
         });
 
         await dialogRef.afterClosed().toPromise();

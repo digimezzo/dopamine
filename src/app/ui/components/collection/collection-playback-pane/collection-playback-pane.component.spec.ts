@@ -3,18 +3,26 @@ import { CollectionPlaybackPaneComponent } from './collection-playback-pane.comp
 import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
 import { NavigationServiceBase } from '../../../../services/navigation/navigation.service.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
+import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
 
 describe('CollectionPlaybackPaneComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let settingsMock: IMock<SettingsBase>;
     let navigationServiceMock: IMock<NavigationServiceBase>;
+    let dialogServiceMock: IMock<DialogServiceBase>;
     let component: CollectionPlaybackPaneComponent;
 
     beforeEach(() => {
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         settingsMock = Mock.ofType<SettingsBase>();
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
-        component = new CollectionPlaybackPaneComponent(appearanceServiceMock.object, settingsMock.object, navigationServiceMock.object);
+        dialogServiceMock = Mock.ofType<DialogServiceBase>();
+        component = new CollectionPlaybackPaneComponent(
+            appearanceServiceMock.object,
+            settingsMock.object,
+            navigationServiceMock.object,
+            dialogServiceMock.object,
+        );
     });
 
     describe('constructor', () => {
@@ -67,6 +75,18 @@ describe('CollectionPlaybackPaneComponent', () => {
 
             // Assert
             navigationServiceMock.verify((x) => x.navigateToNowPlayingAsync(), Times.exactly(1));
+        });
+    });
+
+    describe('showEqualizerAsync', () => {
+        it('should request to show the equalizer dialog', async () => {
+            // Arrange
+
+            // Act
+            await component.showEqualizerAsync();
+
+            // Assert
+            dialogServiceMock.verify((x) => x.showEqualizerDialogAsync(), Times.exactly(1));
         });
     });
 });

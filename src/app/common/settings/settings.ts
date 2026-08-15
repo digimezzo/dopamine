@@ -892,6 +892,33 @@ export class Settings implements SettingsBase {
         this.set('crossfadeDuration', v);
     }
 
+    // audioEqualizerEnabled
+    public get audioEqualizerEnabled(): boolean {
+        return this.get<boolean>('audioEqualizerEnabled');
+    }
+
+    public set audioEqualizerEnabled(v: boolean) {
+        this.set('audioEqualizerEnabled', v);
+    }
+
+    // audioEqualizerPreset
+    public get audioEqualizerPreset(): string {
+        return this.get<string>('audioEqualizerPreset');
+    }
+
+    public set audioEqualizerPreset(v: string) {
+        this.set('audioEqualizerPreset', v);
+    }
+
+    // audioEqualizerGains
+    public get audioEqualizerGains(): string {
+        return this.get<string>('audioEqualizerGains');
+    }
+
+    public set audioEqualizerGains(v: string) {
+        this.set('audioEqualizerGains', v);
+    }
+
     // useReplayGainNormalization
     public get useReplayGainNormalization(): boolean {
         return this.get<boolean>('useReplayGainNormalization');

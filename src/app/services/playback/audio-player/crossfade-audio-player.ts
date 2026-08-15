@@ -5,6 +5,8 @@ import { IAudioPlayer } from './i-audio-player';
 import { TrackModel } from '../../track/track-model';
 import { PathUtils } from '../../../common/utils/path-utils';
 import { SettingsBase } from '../../../common/settings/settings.base';
+import { AudioEqualizer } from './audio-equalizer';
+import { EqualizerServiceBase } from '../../equalizer/equalizer.service.base';
 
 export class CrossfadeAudioPlayer implements IAudioPlayer {
     private _audioContext: AudioContext;
@@ -20,6 +22,7 @@ export class CrossfadeAudioPlayer implements IAudioPlayer {
 
     private _masterGain!: GainNode;
     private _analyser!: AnalyserNode;
+    private _equalizer!: AudioEqualizer;
 
     private _crossfadeTimer: NodeJS.Timeout | number | undefined;
     private _isCrossfading = false;
@@ -39,6 +42,7 @@ export class CrossfadeAudioPlayer implements IAudioPlayer {
         private mathExtensions: MathExtensions,
 
         private settings: SettingsBase,
+        private equalizerService: EqualizerServiceBase,
         private logger: Logger,
     ) {
         this._audioContext = new AudioContext();
@@ -47,8 +51,11 @@ export class CrossfadeAudioPlayer implements IAudioPlayer {
         this._analyser = this._audioContext.createAnalyser();
         this._analyser.fftSize = 128;
 
-        this._masterGain.connect(this._analyser);
+        this._equalizer = new AudioEqualizer(this._audioContext);
+        this._masterGain.connect(this._equalizer.input);
+        this._equalizer.output.connect(this._analyser);
         this._analyser.connect(this._audioContext.destination);
+        this.equalizerService.register(this._equalizer);
 
         this.initializeAudioElements();
     }
