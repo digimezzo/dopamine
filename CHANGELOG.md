@@ -5,6 +5,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.0.9] - 2026-08-14
 
+### Added
+
+- Equalizer
+
 ### Fixed
 
 - Crash on startup when failing to get the system color when "Follow system color" is enabled
