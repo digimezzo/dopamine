@@ -118,6 +118,19 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         }
     }
 
+    public get hasSelectedGenres(): boolean {
+        if (this.genresPersister == undefined) {
+            return false;
+        }
+
+        return this.genresPersister.getSelectedGenres(this.genres).length > 0;
+    }
+
+    public clearSelectedGenres(): void {
+        this.mouseSelectionWatcher.initialize(this.genres, false);
+        this.genresPersister.setSelectedGenres([]);
+    }
+
     public applyGenreOrder = (genreOrder: GenreOrder): void => {
         this.selectedGenreOrder = genreOrder;
         this.genresPersister.setSelectedGenreOrder(this.selectedGenreOrder);

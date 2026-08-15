@@ -7,6 +7,14 @@
         </div>
         <div class="d-flex flex-row align-items-center">
             <app-icon-button
+                *ngIf="this.hasSelectedPlaylists"
+                class="mr-2"
+                icon="las la-eraser"
+                style="margin-top: 1px"
+                matTooltip="{{ 'clear-selection' | translate }}"
+                (click)="this.clearSelectedPlaylists()"
+            ></app-icon-button>
+            <app-icon-button
                 class="mr-2"
                 icon="las la-plus"
                 style="margin-top: 1px"

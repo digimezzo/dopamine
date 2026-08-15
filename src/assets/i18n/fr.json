@@ -421,5 +421,6 @@
     "equalizer-preset-rock": "Rock",
     "equalizer-preset-treble-boost": "Amplification des aigus",
     "equalizer-preset-treble-reducer": "Réduction des aigus",
-    "equalizer-preset-vocal": "Voix"
+    "equalizer-preset-vocal": "Voix",
+    "clear-selection": "Effacer la sélection"
 }

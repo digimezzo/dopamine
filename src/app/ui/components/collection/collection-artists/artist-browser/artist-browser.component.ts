@@ -122,11 +122,24 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         );
     }
 
+    public get hasSelectedArtists(): boolean {
+        if (this.artistsPersister == undefined) {
+            return false;
+        }
+
+        return this.artistsPersister.getSelectedArtists(this.artists).length > 0;
+    }
+
     public setSelectedArtists(event: MouseEvent, artistToSelect: ArtistModel): void {
         if (!artistToSelect.isZoomHeader) {
             this.mouseSelectionWatcher.setSelectedItems(event, artistToSelect);
             this.artistsPersister.setSelectedArtists(this.mouseSelectionWatcher.selectedItems as ArtistModel[]);
         }
+    }
+
+    public clearSelectedArtists(): void {
+        this.mouseSelectionWatcher.initialize(this.artists, false);
+        this.artistsPersister.setSelectedArtists([]);
     }
 
     public applyArtistType = (artistType: ArtistType): void => {

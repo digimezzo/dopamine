@@ -421,5 +421,6 @@
     "equalizer-preset-rock": "Rock",
     "equalizer-preset-treble-boost": "Hoge tonen versterken",
     "equalizer-preset-treble-reducer": "Hoge tonen verminderen",
-    "equalizer-preset-vocal": "Zang"
+    "equalizer-preset-vocal": "Zang",
+    "clear-selection": "Selectie wissen"
 }

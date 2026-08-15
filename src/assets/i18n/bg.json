@@ -421,5 +421,6 @@
     "equalizer-preset-rock": "",
     "equalizer-preset-treble-boost": "",
     "equalizer-preset-treble-reducer": "",
-    "equalizer-preset-vocal": ""
+    "equalizer-preset-vocal": "",
+    "clear-selection": ""
 }

@@ -141,6 +141,20 @@ export class PlaylistFolderBrowserComponent {
         this.playlistService.setActivePlaylistFolder(this.mouseSelectionWatcher.selectedItems as PlaylistFolderModel[]);
     }
 
+    public get hasSelectedPlaylistFolders(): boolean {
+        if (this.playlistFoldersPersister == undefined) {
+            return false;
+        }
+
+        return this.playlistFoldersPersister.getSelectedPlaylistFolders(this.playlistFolders).length > 0;
+    }
+
+    public clearSelectedPlaylistFolders(): void {
+        this.mouseSelectionWatcher.initialize(this.playlistFolders, false);
+        this.playlistFoldersPersister.setSelectedPlaylistFolders([]);
+        this.playlistService.setActivePlaylistFolder([]);
+    }
+
     public onShowInFolder(playlistFolder: PlaylistFolderModel): void {
         this.desktop.showFileInDirectory(playlistFolder.path);
     }
