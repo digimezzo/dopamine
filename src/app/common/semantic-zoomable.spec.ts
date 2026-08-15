@@ -67,5 +67,21 @@ describe('SemanticZoomable', () => {
             // Assert
             expect(header).toEqual('#');
         });
+
+        it('should return the accent-free header if the first letter is an accented alphabetical character', () => {
+            // Arrange
+            const zoomable1 = new SemanticZoomableImplementation();
+            zoomable1.displayName = 'Şebnem';
+            const zoomable2 = new SemanticZoomableImplementation();
+            zoomable2.displayName = 'Ünal';
+
+            // Act
+            const header1: string = zoomable1.zoomHeader;
+            const header2: string = zoomable2.zoomHeader;
+
+            // Assert
+            expect(header1).toEqual('s');
+            expect(header2).toEqual('u');
+        });
     });
 });

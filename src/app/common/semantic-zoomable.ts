@@ -11,7 +11,7 @@ export abstract class SemanticZoomable {
     }
 
     public get zoomHeader(): string {
-        const firstCharacter: string = this.sortableName.charAt(0);
+        const firstCharacter: string = StringUtils.removeAccents(this.sortableName.charAt(0));
 
         if (Constants.alphabeticalHeaders.includes(firstCharacter)) {
             return firstCharacter;
