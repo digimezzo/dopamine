@@ -42,7 +42,7 @@
         <div *ngIf="!this.playlistService.hasActivePlaylistFolder">
             {{ 'select-playlist-folder' | translate }}
         </div>
-        <div class="d-flex flex-column" *ngIf="this.playlistService.hasActivePlaylistFolder">
+        <div class="d-flex flex-column" *ngIf="this.playlistService.hasActivePlaylistFolder && !this.hasActiveSearch">
             <div class="mb-3">{{ 'playlist-folder-is-empty' | translate }}</div>
             <div class="d-flex">
                 <app-icon-text-button class="mr-2" icon="las la-plus" (click)="createPlaylistAsync()">{{

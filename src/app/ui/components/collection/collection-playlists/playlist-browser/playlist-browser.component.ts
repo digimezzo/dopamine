@@ -18,6 +18,8 @@ import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Constants } from '../../../../../common/application/constants';
 import { DesktopBase } from '../../../../../common/io/desktop.base';
+import { SearchServiceBase } from '../../../../../services/search/search.service.base';
+import { StringUtils } from '../../../../../common/utils/string-utils';
 
 @Component({
     selector: 'app-playlist-browser',
@@ -46,6 +48,7 @@ export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDes
         private mouseSelectionWatcher: MouseSelectionWatcher,
         public contextMenuOpener: ContextMenuOpener,
         private desktop: DesktopBase,
+        public searchService: SearchServiceBase,
         private logger: Logger,
     ) {}
 
@@ -80,6 +83,11 @@ export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDes
 
     public get hasPlaylists(): boolean {
         return this._playlists.length > 0;
+    }
+
+    // Mirrors the debounced text used by the playlists filter, so the empty-folder message doesn't flash while the search settles.
+    public get hasActiveSearch(): boolean {
+        return !StringUtils.isNullOrWhiteSpace(this.searchService.delayedSearchText);
     }
 
     public ngOnDestroy(): void {

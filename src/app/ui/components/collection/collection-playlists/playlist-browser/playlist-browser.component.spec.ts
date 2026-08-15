@@ -18,6 +18,7 @@ import { PlaylistRow } from './playlist-row';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ElementRef } from '@angular/core';
 import { DesktopBase } from '../../../../../common/io/desktop.base';
+import { SearchServiceBase } from '../../../../../services/search/search.service.base';
 
 describe('PlaylistBrowserComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
@@ -30,6 +31,7 @@ describe('PlaylistBrowserComponent', () => {
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let desktopMock: IMock<DesktopBase>;
+    let searchServiceMock: IMock<SearchServiceBase>;
     let loggerMock: IMock<Logger>;
 
     let playlistsPersisterMock: IMock<PlaylistsPersister>;
@@ -56,6 +58,7 @@ describe('PlaylistBrowserComponent', () => {
             mouseSelectionWatcherMock.object,
             contextMenuOpenerMock.object,
             desktopMock.object,
+            searchServiceMock.object,
             loggerMock.object,
         );
     }
@@ -71,6 +74,7 @@ describe('PlaylistBrowserComponent', () => {
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         desktopMock = Mock.ofType<DesktopBase>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
         loggerMock = Mock.ofType<Logger>();
 
         playlistsPersisterMock = Mock.ofType<PlaylistsPersister>();
