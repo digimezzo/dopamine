@@ -181,7 +181,13 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
             return;
         }
 
-        moveItemInArray(this.orderedTracks, event.previousIndex, event.currentIndex);
+        // With CDK virtual scroll, drag indices are relative to the rendered range, not the full list.
+        // Offset them so reordering works when a large playlist is scrolled.
+        const renderedRangeStart: number = this.viewPort != undefined ? this.viewPort.getRenderedRange().start : 0;
+        const previousIndex: number = event.previousIndex + renderedRangeStart;
+        const currentIndex: number = event.currentIndex + renderedRangeStart;
+
+        moveItemInArray(this.orderedTracks, previousIndex, currentIndex);
 
         // HACK: required so that the dragged item does not snap back to its original place
         // See: https://github.com/angular/components/issues/14873

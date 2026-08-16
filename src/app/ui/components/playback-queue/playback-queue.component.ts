@@ -147,7 +147,13 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.playbackService.reorderQueue(event.previousIndex, event.currentIndex);
+        // With CDK virtual scroll, drag indices are relative to the rendered range, not the full list.
+        // Offset them so reordering works when a large queue is scrolled.
+        const renderedRangeStart: number = this.viewPort != undefined ? this.viewPort.getRenderedRange().start : 0;
+        const previousIndex: number = event.previousIndex + renderedRangeStart;
+        const currentIndex: number = event.currentIndex + renderedRangeStart;
+
+        this.playbackService.reorderQueue(previousIndex, currentIndex);
         this.mouseSelectionWatcher.initialize(this.playbackService.playbackQueue.tracks);
     }
 }
