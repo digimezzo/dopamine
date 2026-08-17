@@ -110,6 +110,7 @@ export class SettingsMock implements SettingsBase {
     public showSquareImages: boolean;
     public useCompactYearView: boolean;
     public useCompactTrackListView: boolean;
+    public useCompactTotalDuration: boolean;
     public showAlbumArtOnDockIcon: boolean;
     public miniPlayerAlwaysOnTop: boolean;
     public miniPlayerLockPosition: boolean;

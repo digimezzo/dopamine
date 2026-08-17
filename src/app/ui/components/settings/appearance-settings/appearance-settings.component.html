@@ -45,6 +45,11 @@
             {{ 'compact-tracklist-view' | translate }}</app-toggle-switch
         >
     </div>
+    <div>
+        <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.useCompactTotalDuration">
+            {{ 'compact-total-duration' | translate }}</app-toggle-switch
+        >
+    </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'title-bar' | translate }}</div>
     <app-toggle-switch [(isChecked)]="settings.useSystemTitleBar"> {{ 'use-system-title-bar' | translate }}</app-toggle-switch>

@@ -5,9 +5,13 @@ import {TranslatorServiceBase} from "../../services/translator/translator.servic
 export class FormatTotalDurationPipe implements PipeTransform {
     public constructor(private translatorService: TranslatorServiceBase) {}
 
-    public transform(totalMilliseconds: number | undefined): string {
+    public transform(totalMilliseconds: number | undefined, useCompactFormat: boolean = false): string {
         if (totalMilliseconds == undefined || totalMilliseconds <= 0) {
             return '';
+        }
+
+        if (useCompactFormat) {
+            return this.formatCompact(totalMilliseconds);
         }
 
         const dayText: string = this.translatorService.get('day');
@@ -44,5 +48,18 @@ export class FormatTotalDurationPipe implements PipeTransform {
         }
 
         return `${secondsOnly} ${secondsOnly === 1 ? secondText : secondsText}`;
+    }
+
+    private formatCompact(totalMilliseconds: number): string {
+        const totalSeconds: number = Math.floor(totalMilliseconds / 1000);
+        const hours: number = Math.floor(totalSeconds / (60 * 60));
+        const minutes: number = Math.floor(totalSeconds / 60) % 60;
+        const seconds: number = totalSeconds % 60;
+
+        if (hours > 0) {
+            return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
     }
 }

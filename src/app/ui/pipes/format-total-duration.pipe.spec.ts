@@ -169,5 +169,65 @@ describe('FormatTotalDurationPipe', () => {
             // Assert
             expect(formattedTotalDuration).toEqual('1.5 days');
         });
+
+        it('should return an empty string in compact format if total duration is undefined', () => {
+            // Arrange
+
+            // Act
+            const formattedTotalDuration: string = formatTotalDurationPipe.transform(undefined, true);
+
+            // Assert
+            expect(formattedTotalDuration).toEqual('');
+        });
+
+        it('should return an empty string in compact format if total duration is 0 milliseconds', () => {
+            // Arrange
+
+            // Act
+            const formattedTotalDuration: string = formatTotalDurationPipe.transform(0, true);
+
+            // Assert
+            expect(formattedTotalDuration).toEqual('');
+        });
+
+        it('should return "0:05" in compact format if total duration is 5000 milliseconds', () => {
+            // Arrange
+
+            // Act
+            const formattedTotalDuration: string = formatTotalDurationPipe.transform(5000, true);
+
+            // Assert
+            expect(formattedTotalDuration).toEqual('0:05');
+        });
+
+        it('should return "42:53" in compact format if total duration is 2573000 milliseconds', () => {
+            // Arrange
+
+            // Act
+            const formattedTotalDuration: string = formatTotalDurationPipe.transform(2573000, true);
+
+            // Assert
+            expect(formattedTotalDuration).toEqual('42:53');
+        });
+
+        it('should return "1:14:30" in compact format if total duration is 4470000 milliseconds', () => {
+            // Arrange
+
+            // Act
+            const formattedTotalDuration: string = formatTotalDurationPipe.transform(4470000, true);
+
+            // Assert
+            expect(formattedTotalDuration).toEqual('1:14:30');
+        });
+
+        it('should return "26:00:00" in compact format for durations over a day', () => {
+            // Arrange
+
+            // Act
+            const formattedTotalDuration: string = formatTotalDurationPipe.transform(93600000, true);
+
+            // Assert
+            expect(formattedTotalDuration).toEqual('26:00:00');
+        });
     });
 });
