@@ -102,6 +102,7 @@ export const DEFAULT_SETTINGS = {
     showSquareImages: false,
     useCompactYearView: false,
     useCompactTrackListView: false,
+    useCompactTotalDuration: false,
     showAlbumArtOnDockIcon: true,
     miniPlayerAlwaysOnTop: false,
     miniPlayerLockPosition: false,

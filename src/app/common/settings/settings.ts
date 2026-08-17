@@ -1000,6 +1000,15 @@ export class Settings implements SettingsBase {
         this.set('useCompactTrackListView', v);
     }
 
+    // useCompactTotalDuration
+    public get useCompactTotalDuration(): boolean {
+        return this.get<boolean>('useCompactTotalDuration');
+    }
+
+    public set useCompactTotalDuration(v: boolean) {
+        this.set('useCompactTotalDuration', v);
+    }
+
     // showAlbumArtOnDockIcon
     public get showAlbumArtOnDockIcon(): boolean {
         return this.get<boolean>('showAlbumArtOnDockIcon');

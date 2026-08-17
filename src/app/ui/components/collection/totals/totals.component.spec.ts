@@ -1,10 +1,14 @@
+import { IMock, Mock } from 'typemoq';
 import { TotalsComponent } from './totals.component';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 describe('SnackBarComponent', () => {
     let component: TotalsComponent;
+    let settingsMock: IMock<SettingsBase>;
 
     beforeEach(() => {
-        component = new TotalsComponent();
+        settingsMock = Mock.ofType<SettingsBase>();
+        component = new TotalsComponent(settingsMock.object);
     });
 
     describe('constructor', () => {
