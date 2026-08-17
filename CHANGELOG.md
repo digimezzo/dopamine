@@ -3,12 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.9] - 2026-08-16
+## [3.0.9] - 2026-08-17
 
 ### Added
 
 - Added an equalizer
 - Added a clear selection button on artists, genres, albums, playlist folders and playlists screens.
+- Added an option to show a more compact total duration in songs lists
 
 ### Fixed
 
@@ -16,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Snap version does not start on the first launch
 - Artists whose names start with accented letters (e.g. Ş, Ü) incorrectly grouped under # instead of their base letter in the artists list
 - Tracks of multi-disc albums were grouped by disc number across albums instead of being listed per album
+- When sorting large playlists, songs sometimes move back to their original position.
 
 ## [3.0.8] - 2026-08-05
 
