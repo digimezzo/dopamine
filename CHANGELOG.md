@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.9] - 2026-08-17
+## [3.0.9] - 2026-08-19
 
 ### Added
 
@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Artists whose names start with accented letters (e.g. Ş, Ü) incorrectly grouped under # instead of their base letter in the artists list
 - Tracks of multi-disc albums were grouped by disc number across albums instead of being listed per album
 - When sorting large playlists, songs sometimes move back to their original position.
+- Newline character not processed correctly on some lyrics
 
 ## [3.0.8] - 2026-08-05
 
