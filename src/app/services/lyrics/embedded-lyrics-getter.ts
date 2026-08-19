@@ -18,6 +18,10 @@ export class EmbeddedLyricsGetter implements ILyricsGetter {
             return LyricsModel.empty(track);
         }
 
-        return LyricsModel.plain(track, '', LyricsSourceType.embedded, fileMetadata.lyrics);
+        // Some tags use carriage returns (\r or \r\n) as line breaks. CSS 'white-space: pre-line' only breaks on '\n',
+        // so normalize all line endings to '\n' to ensure the lyrics are displayed across multiple lines.
+        const normalizedLyrics: string = fileMetadata.lyrics.replace(/\r\n?/g, '\n');
+
+        return LyricsModel.plain(track, '', LyricsSourceType.embedded, normalizedLyrics);
     }
 }
