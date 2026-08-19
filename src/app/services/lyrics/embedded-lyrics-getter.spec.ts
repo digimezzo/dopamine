@@ -45,6 +45,20 @@ describe('EmbeddedLyricsGetter', () => {
             expect(lyrics.plainText).toEqual('lyrics');
         });
 
+        it('should normalize carriage return line endings to line feeds', async () => {
+            // Arrange
+            const track = MockCreator.createTrackModel('path', 'title', 'artists');
+            const metadataMock: IFileMetadata = { lyrics: 'line 1\rline 2\r\nline 3\nline 4' } as IFileMetadata;
+            fileMetadataFactoryMock.setup((x) => x.createAsync(track.path)).returns(() => Promise.resolve(metadataMock));
+            const instance: EmbeddedLyricsGetter = createInstance();
+
+            // Act
+            const lyrics: LyricsModel = await instance.getLyricsAsync(track);
+
+            // Assert
+            expect(lyrics.plainText).toEqual('line 1\nline 2\nline 3\nline 4');
+        });
+
         it('should return empty lyrics if there are no metadata lyrics', async () => {
             // Arrange
             const track = MockCreator.createTrackModel('path', 'title', 'artists');
