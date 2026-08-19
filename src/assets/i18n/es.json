@@ -422,5 +422,6 @@
     "equalizer-preset-treble-boost": "",
     "equalizer-preset-treble-reducer": "",
     "equalizer-preset-vocal": "",
-    "clear-selection": ""
+    "clear-selection": "",
+    "compact-total-duration": ""
 }

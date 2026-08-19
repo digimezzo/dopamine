@@ -422,5 +422,6 @@
     "equalizer-preset-treble-boost": "Amplification des aigus",
     "equalizer-preset-treble-reducer": "Réduction des aigus",
     "equalizer-preset-vocal": "Voix",
-    "clear-selection": "Effacer la sélection"
+    "clear-selection": "Effacer la sélection",
+    "compact-total-duration": "Format compact de la durée totale ((H)H:MM:SS)"
 }

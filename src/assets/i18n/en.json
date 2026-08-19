@@ -403,7 +403,6 @@
     "ratings-restored-count": "Restored ratings for {{count}} songs.",
     "tracklist": "Song list",
     "compact-tracklist-view": "Compact song list view (hide song artists)",
-    "compact-total-duration": "Compact total duration format ((H)H:MM:SS)",
     "show-artist-images-as-background": "Show artist images as background",
     "equalizer": "Equalizer",
     "enable-equalizer": "Enable equalizer",
@@ -423,5 +422,6 @@
     "equalizer-preset-treble-boost": "Treble boost",
     "equalizer-preset-treble-reducer": "Treble reducer",
     "equalizer-preset-vocal": "Vocal",
-    "clear-selection": "Clear selection"
+    "clear-selection": "Clear selection",
+    "compact-total-duration": "Compact total duration format ((H)H:MM:SS)"
 }
