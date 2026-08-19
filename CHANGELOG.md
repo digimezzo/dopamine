@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a clear selection button on artists, genres, albums, playlist folders and playlists screens.
 - Added an option to show a more compact total duration in songs lists
 
+
+### Changed
+
+- Updated the Portuguese (Brazil) translation
+
 ### Fixed
 
 - Crash on startup when failing to get the system color when "Follow system color" is enabled
