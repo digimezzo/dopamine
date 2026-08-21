@@ -31,7 +31,7 @@
         [cdkDropListData]="this.filteredTracks"
         [cdkDropListDisabled]="!this.canReorderQueue"
     >
-        <div *cdkVirtualFor="let track of this.filteredTracks" (mousedown)="setSelectedTracks($event, track)" cdkDrag>
+        <div *cdkVirtualFor="let track of this.filteredTracks" (mousedown)="setSelectedTracks($event, track)" cdkDrag [cdkDragData]="track">
             <app-track
                 [track]="track"
                 (dblclick)="this.playbackService.playQueuedTrackAsync(track)"
