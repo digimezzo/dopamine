@@ -21,6 +21,8 @@ Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 
 ![Dopaminescreenshot 4](Dopamine.screenshot.4.png)
 
+![Dopaminescreenshot 3](Dopamine.screenshot.5.png)
+
 ![Dopaminescreenshot 3](Dopamine.screenshot.3.png)
 
 ## Debugging
