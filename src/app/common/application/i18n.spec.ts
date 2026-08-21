@@ -446,5 +446,18 @@ describe('validate i18n', () => {
             // Assert
             expect(result).toEqual(validKeys);
         });
+
+        it(`"${fileName}" should not contain empty values`, () => {
+            // Arrange
+            const filePath = path.resolve(__dirname, `../../../assets/i18n/${fileName}`);
+            const fileContent = fs.readFileSync(filePath, 'utf-8');
+            const jsonData = JSON.parse(fileContent);
+
+            // Act
+            const emptyKeys = Object.keys(jsonData).filter((key) => typeof jsonData[key] !== 'string' || jsonData[key].trim() === '');
+
+            // Assert
+            expect(emptyKeys).toEqual([]);
+        });
     });
 });
