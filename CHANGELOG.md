@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Empty strings in Equalizer with incomplete language packs
+- When sorting large playlists, songs sometimes still move back to their original position.
 
 ## [3.0.9] - 2026-08-19
 
