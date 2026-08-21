@@ -5,6 +5,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.0.10] - 2026-08-21
 
+### Changed
+
+- Improved the equalizer design
+
 ### Fixed
 
 - Empty strings in Equalizer with incomplete language packs
