@@ -330,10 +330,19 @@ describe('PlaybackQueueComponent', () => {
     describe('dropTrack', () => {
         it('should reorder queue when searchText is empty', () => {
             // Arrange
+            playbackQueue = new TrackModels();
+            for (let i = 0; i < 5; i++) {
+                playbackQueue.addTrack(
+                    new TrackModel(new Track(`DummyPath${i}`), dateTimeMock.object, translatorServiceMock.object, settingsMock),
+                );
+            }
+            playbackServiceMock.setup((x) => x.playbackQueue).returns(() => playbackQueue);
+
             const component: PlaybackQueueComponent = createComponent();
             const event: CdkDragDrop<TrackModel[]> = {
-                previousIndex: 4,
-                currentIndex: 3,
+                previousIndex: 1,
+                currentIndex: 0,
+                item: { data: playbackQueue.tracks[4] },
             } as CdkDragDrop<TrackModel[]>;
 
             // Act
