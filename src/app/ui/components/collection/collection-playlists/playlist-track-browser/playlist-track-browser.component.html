@@ -18,7 +18,7 @@
         cdkDropList
         [cdkDropListDisabled]="!this.canReorder"
     >
-        <div *cdkVirtualFor="let track of this.orderedTracks" (mousedown)="setSelectedTracks($event, track)" cdkDrag>
+        <div *cdkVirtualFor="let track of this.orderedTracks" (mousedown)="setSelectedTracks($event, track)" cdkDrag [cdkDragData]="track">
             <app-track
                 [track]="track"
                 [canShowHeader]="true"
