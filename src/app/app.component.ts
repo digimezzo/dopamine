@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import log from 'electron-log';
+import * as os from 'os';
 import * as path from 'path';
 import { Subscription } from 'rxjs';
 import { ProductInformation } from './common/application/product-information';
@@ -79,6 +80,12 @@ export class AppComponent implements OnInit {
 
         this.logger.info(
             `+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`,
+            'AppComponent',
+            'ngOnInit',
+        );
+
+        this.logger.info(
+            `Operating system: ${os.type()} ${os.release()} (${os.platform()} ${os.arch()})`,
             'AppComponent',
             'ngOnInit',
         );
