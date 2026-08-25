@@ -423,5 +423,7 @@
     "equalizer-preset-treble-reducer": "Treble reducer",
     "equalizer-preset-vocal": "Vocal",
     "clear-selection": "Clear selection",
-    "compact-total-duration": "Compact total duration format ((H)H:MM:SS)"
+    "compact-total-duration": "Compact total duration format ((H)H:MM:SS)",
+    "by-file-name-ascending": "File name A-Z",
+    "by-file-name-descending": "File name Z-A"
 }

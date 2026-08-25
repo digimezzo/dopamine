@@ -105,4 +105,48 @@ export class TrackSorter {
 
         return sorted;
     }
+
+    public sortByFileNameAscending(tracks: TrackModel[]): TrackModel[] {
+        const timer = new Timer();
+        timer.start();
+
+        const sorted: TrackModel[] = sort(tracks).by([
+            {
+                asc: (t) => t.fileName,
+                comparer: new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' }).compare,
+            },
+        ]);
+
+        timer.stop();
+
+        this.logger.info(
+            `Finished sorting tracks by file name ascending. Time required: ${timer.elapsedMilliseconds} ms`,
+            'TrackSorter',
+            'sortByFileNameAscending',
+        );
+
+        return sorted;
+    }
+
+    public sortByFileNameDescending(tracks: TrackModel[]): TrackModel[] {
+        const timer = new Timer();
+        timer.start();
+
+        const sorted: TrackModel[] = sort(tracks).by([
+            {
+                desc: (t) => t.fileName,
+                comparer: new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' }).compare,
+            },
+        ]);
+
+        timer.stop();
+
+        this.logger.info(
+            `Finished sorting tracks by file name descending. Time required: ${timer.elapsedMilliseconds} ms`,
+            'TrackSorter',
+            'sortByFileNameDescending',
+        );
+
+        return sorted;
+    }
 }

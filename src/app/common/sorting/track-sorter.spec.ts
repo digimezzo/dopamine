@@ -42,6 +42,7 @@ describe('TrackSorter', () => {
         track.trackNumber = trackNumber;
         track.discNumber = discNumber;
         track.albumKey = ';' + albumTitle + ';;' + albumArtists[0] + ';';
+        track.fileName = path;
 
         return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object, settingsMock);
     }
@@ -139,6 +140,48 @@ describe('TrackSorter', () => {
             expect(sortedTracks[7]).toBe(trackModel8);
             expect(sortedTracks[8]).toBe(trackModel9);
             expect(sortedTracks[9]).toBe(trackModel10);
+        });
+    });
+
+    describe('sortByFileNameAscending', () => {
+        it('should sort by file name ascending', () => {
+            // Arrange
+
+            // Act
+            const sortedTracks: TrackModel[] = trackSorter.sortByFileNameAscending(tracks);
+
+            // Assert
+            expect(sortedTracks[0]).toBe(trackModel1);
+            expect(sortedTracks[1]).toBe(trackModel2);
+            expect(sortedTracks[2]).toBe(trackModel3);
+            expect(sortedTracks[3]).toBe(trackModel4);
+            expect(sortedTracks[4]).toBe(trackModel5);
+            expect(sortedTracks[5]).toBe(trackModel6);
+            expect(sortedTracks[6]).toBe(trackModel7);
+            expect(sortedTracks[7]).toBe(trackModel8);
+            expect(sortedTracks[8]).toBe(trackModel9);
+            expect(sortedTracks[9]).toBe(trackModel10);
+        });
+    });
+
+    describe('sortByFileNameDescending', () => {
+        it('should sort by file name descending', () => {
+            // Arrange
+
+            // Act
+            const sortedTracks: TrackModel[] = trackSorter.sortByFileNameDescending(tracks);
+
+            // Assert
+            expect(sortedTracks[0]).toBe(trackModel10);
+            expect(sortedTracks[1]).toBe(trackModel9);
+            expect(sortedTracks[2]).toBe(trackModel8);
+            expect(sortedTracks[3]).toBe(trackModel7);
+            expect(sortedTracks[4]).toBe(trackModel6);
+            expect(sortedTracks[5]).toBe(trackModel5);
+            expect(sortedTracks[6]).toBe(trackModel4);
+            expect(sortedTracks[7]).toBe(trackModel3);
+            expect(sortedTracks[8]).toBe(trackModel2);
+            expect(sortedTracks[9]).toBe(trackModel1);
         });
     });
 });
