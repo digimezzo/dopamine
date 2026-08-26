@@ -453,7 +453,7 @@ function createMainWindow(): void {
     mainWindow.on(
         'move',
         debounce(() => {
-            if (mainWindow && !mainWindow.isMaximized()) {
+            if (mainWindow && !mainWindow.isMaximized() && !mainWindow.isFullScreen()) {
                 const position: number[] = mainWindow.getPosition();
                 const size: number[] = mainWindow.getSize();
 
@@ -470,7 +470,7 @@ function createMainWindow(): void {
     mainWindow.on(
         'resize',
         debounce(() => {
-            if (mainWindow && !mainWindow.isMaximized()) {
+            if (mainWindow && !mainWindow.isMaximized() && !mainWindow.isFullScreen()) {
                 const position: number[] = mainWindow.getPosition();
                 const size: number[] = mainWindow.getSize();
 
