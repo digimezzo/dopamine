@@ -207,6 +207,14 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
                     orderedTracks = this.trackSorter.sortByDateCreatedDescending(this.tracks.tracks);
                     this.hideAllHeaders(orderedTracks);
                     break;
+                case TrackOrder.byFileNameAscending:
+                    orderedTracks = this.trackSorter.sortByFileNameAscending(this.tracks.tracks);
+                    this.hideAllHeaders(orderedTracks);
+                    break;
+                case TrackOrder.byFileNameDescending:
+                    orderedTracks = this.trackSorter.sortByFileNameDescending(this.tracks.tracks);
+                    this.hideAllHeaders(orderedTracks);
+                    break;
                 case TrackOrder.byAlbum:
                     orderedTracks = this.trackSorter.sortByAlbum(this.tracks.tracks);
                     this.showAlbumHeaders(orderedTracks);

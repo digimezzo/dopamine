@@ -428,7 +428,9 @@ describe('validate i18n', () => {
         "equalizer-preset-vocal",
         "clear-selection",
         "reset",
-        "compact-total-duration"
+        "compact-total-duration",
+        "by-file-name-ascending",
+        "by-file-name-descending"
     ].sort();
 
     Constants.languages.forEach((language) => {

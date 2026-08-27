@@ -41,7 +41,13 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         private logger: Logger,
     ) {}
 
-    public trackOrders: TrackOrder[] = [TrackOrder.byTrackTitleAscending, TrackOrder.byTrackTitleDescending, TrackOrder.byAlbum];
+    public trackOrders: TrackOrder[] = [
+        TrackOrder.byTrackTitleAscending,
+        TrackOrder.byTrackTitleDescending,
+        TrackOrder.byFileNameAscending,
+        TrackOrder.byFileNameDescending,
+        TrackOrder.byAlbum,
+    ];
 
     public leftPaneSize: number = 100 - this.settings.albumsRightPaneWidthPercent;
     public rightPaneSize: number = this.settings.albumsRightPaneWidthPercent;

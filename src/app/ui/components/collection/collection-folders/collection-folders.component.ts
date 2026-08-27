@@ -66,6 +66,8 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         TrackOrder.none,
         TrackOrder.byTrackTitleAscending,
         TrackOrder.byTrackTitleDescending,
+        TrackOrder.byFileNameAscending,
+        TrackOrder.byFileNameDescending,
         TrackOrder.byDateCreatedAscending,
         TrackOrder.byDateCreatedDescending,
     ];

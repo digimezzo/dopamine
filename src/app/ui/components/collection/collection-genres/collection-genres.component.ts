@@ -46,7 +46,13 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         private logger: Logger,
     ) {}
 
-    public trackOrders: TrackOrder[] = [TrackOrder.byTrackTitleAscending, TrackOrder.byTrackTitleDescending, TrackOrder.byAlbum];
+    public trackOrders: TrackOrder[] = [
+        TrackOrder.byTrackTitleAscending,
+        TrackOrder.byTrackTitleDescending,
+        TrackOrder.byFileNameAscending,
+        TrackOrder.byFileNameDescending,
+        TrackOrder.byAlbum,
+    ];
 
     public leftPaneSize: number = this.settings.genresLeftPaneWidthPercent;
     public centerPaneSize: number = 100 - this.settings.genresLeftPaneWidthPercent - this.settings.genresRightPaneWidthPercent;

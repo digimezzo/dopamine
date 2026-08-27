@@ -5,6 +5,8 @@ describe('TrackOrder', () => {
         [
             [TrackOrder.byTrackTitleAscending, 'by-track-title-ascending'],
             [TrackOrder.byTrackTitleDescending, 'by-track-title-descending'],
+            [TrackOrder.byFileNameAscending, 'by-file-name-ascending'],
+            [TrackOrder.byFileNameDescending, 'by-file-name-descending'],
             [TrackOrder.byDateCreatedAscending, 'oldest-first'],
             [TrackOrder.byDateCreatedDescending, 'newest-first'],
             [TrackOrder.byAlbum, 'by-album'],

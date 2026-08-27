@@ -3,16 +3,18 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.10] - 2026-08-21
+## [3.0.10] - 2026-08-27
 
 ### Changed
 
 - Improved the equalizer design
+- Updated the German translation (Thank you @mgfirewater)
 
 ### Fixed
 
 - Empty strings in Equalizer with incomplete language packs
 - When sorting large playlists, songs sometimes still move back to their original position.
+- Mini player has incorrect size on macOS
 
 ## [3.0.9] - 2026-08-19
 
@@ -47,7 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Changed
 
 - Improved rating and love backup
-- Updated the Bulgarian translation (Thank you kukata)
+- Updated the Bulgarian translation (Thank you @kukata)
 - Updated the Simplified Chinese translation (Thank you @jeremyooh)
 - Updated the Portuguese translation (Thank you @Blackspirits)
 - Updated the Vietnamese translation (Thank you @honhatduy)

@@ -289,6 +289,9 @@ function setInitialWindowState(mainWindow: BrowserWindow): void {
         if (isCoverPlayer) {
             mainWindow.resizable = false;
             mainWindow.maximizable = false;
+            // The window minimum size (700x500) is larger than the cover player. On macOS this minimum
+            // is strictly enforced, clamping the cover player size, so we lower it before resizing.
+            mainWindow.setMinimumSize(windowState.width, windowState.height);
             mainWindow.setContentSize(windowState.width, windowState.height);
             if (isMacOS()) {
                 mainWindow.fullScreenable = false;
@@ -297,6 +300,7 @@ function setInitialWindowState(mainWindow: BrowserWindow): void {
             if (isMacOS()) {
                 mainWindow.fullScreenable = true;
             }
+            mainWindow.setMinimumSize(700, 500);
             mainWindow.setSize(windowState.width, windowState.height);
             if (windowState.isMaximized === 1) {
                 mainWindow.maximize();
@@ -449,7 +453,7 @@ function createMainWindow(): void {
     mainWindow.on(
         'move',
         debounce(() => {
-            if (mainWindow && !mainWindow.isMaximized()) {
+            if (mainWindow && !mainWindow.isMaximized() && !mainWindow.isFullScreen()) {
                 const position: number[] = mainWindow.getPosition();
                 const size: number[] = mainWindow.getSize();
 
@@ -466,7 +470,7 @@ function createMainWindow(): void {
     mainWindow.on(
         'resize',
         debounce(() => {
-            if (mainWindow && !mainWindow.isMaximized()) {
+            if (mainWindow && !mainWindow.isMaximized() && !mainWindow.isFullScreen()) {
                 const position: number[] = mainWindow.getPosition();
                 const size: number[] = mainWindow.getSize();
 
@@ -538,6 +542,9 @@ function setCoverPlayer(mainWindow: BrowserWindow): void {
     }
     mainWindow.resizable = false;
     mainWindow.maximizable = false;
+    // The window minimum size (700x500) is larger than the cover player. On macOS this minimum
+    // is strictly enforced, clamping the cover player size, so we lower it before resizing.
+    mainWindow.setMinimumSize(normalizedCoverState.normalized.width, normalizedCoverState.normalized.height);
     mainWindow.setPosition(normalizedCoverState.normalized.x, normalizedCoverState.normalized.y);
     mainWindow.setContentSize(normalizedCoverState.normalized.width, normalizedCoverState.normalized.height);
 }
@@ -732,6 +739,8 @@ try {
                 }
                 mainWindow.resizable = true;
                 mainWindow.maximizable = true;
+                // Restore the full player minimum size, which was lowered for the cover player.
+                mainWindow.setMinimumSize(700, 500);
                 mainWindow.setPosition(normalizedFullState.normalized.x, normalizedFullState.normalized.y);
                 mainWindow.setSize(normalizedFullState.normalized.width, normalizedFullState.normalized.height);
 
