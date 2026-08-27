@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Improved the equalizer design
 - Updated the German translation (Thank you @mgfirewater)
+- Updated the Russian translation (Thank you @adem4ik)
 
 ### Fixed
 
