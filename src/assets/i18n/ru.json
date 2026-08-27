@@ -423,7 +423,7 @@
     "equalizer-preset-treble-reducer": "Ослабление высоких",
     "equalizer-preset-vocal": "Вокал",
     "clear-selection": "Очистить выделение",
-    "compact-total-duration": "Компактный формат общей длительности ((Ч)Ч:ММ:СС)"
+    "compact-total-duration": "Компактный формат общей длительности ((Ч)Ч:ММ:СС)",
     "by-file-name-ascending": "File name A-Z",
     "by-file-name-descending": "File name Z-A"
 }
