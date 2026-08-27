@@ -745,7 +745,14 @@ try {
                 mainWindow.setSize(normalizedFullState.normalized.width, normalizedFullState.normalized.height);
 
                 if (normalizedFullState.normalized.isMaximized === 1) {
-                    mainWindow.maximize();
+                    // On Linux/Wayland the compositor applies size changes asynchronously. Maximizing in
+                    // the same tick makes the window remember the minimum size as its restored size, so we
+                    // defer maximizing until after setSize has been applied.
+                    setTimeout(() => {
+                        if (mainWindow && settings.get('playerType') === 'full') {
+                            mainWindow.maximize();
+                        }
+                    }, 100);
                 }
             }
         });
@@ -760,6 +767,23 @@ try {
                     mainWindow.fullScreenable = true;
                     mainWindow.fullScreen = false;
                     return;
+                }
+
+                // Persist the maximized state and restored bounds before unmaximizing, so the full player
+                // can be restored correctly later. The 'maximize' event is unreliable on Linux/Wayland,
+                // so we read the state explicitly here instead of depending on it.
+                if (mainWindow.isMaximized()) {
+                    const normalBounds = mainWindow.getNormalBounds();
+                    settings.set(
+                        'fullPlayerPositionSizeMaximized',
+                        serializeFullPlayerWindowState({
+                            x: normalBounds.x,
+                            y: normalBounds.y,
+                            width: normalBounds.width,
+                            height: normalBounds.height,
+                            isMaximized: 1,
+                        }),
+                    );
                 }
 
                 mainWindow.unmaximize();
