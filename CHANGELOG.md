@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.10] - 2026-08-24
+## [3.0.10] - 2026-08-27
 
 ### Changed
 
@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Empty strings in Equalizer with incomplete language packs
 - When sorting large playlists, songs sometimes still move back to their original position.
+- Mini player has incorrect size on macOS
 
 ## [3.0.9] - 2026-08-19
 
