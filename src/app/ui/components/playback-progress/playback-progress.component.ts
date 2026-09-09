@@ -32,9 +32,12 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
     // Amplitude ramps down to 0 over this distance, so the wave ends flush with the flat track.
     private readonly waveTaperLength: number = this.waveLength * 2;
     // How fast the wave pattern flows, in pixels per second.
-    private readonly waveSpeed: number = 18;
+    private readonly waveSpeed: number = 15;
+    private readonly waveTransitionSpeed: number = 2;
 
     private wavePhase: number = 0;
+    private waveAmplitudeMultiplier: number = 0;
+    private targetWaveAmplitudeMultiplier: number = 0;
     private lastWaveFrameTime: number = 0;
     private waveAnimationFrameId: number | undefined;
     private progressTrackResizeObserver: ResizeObserver | undefined;
@@ -58,7 +61,7 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
-        this.stopWaveAnimation();
+        this.cancelWaveAnimation();
         this.progressTrackResizeObserver?.disconnect();
     }
 
@@ -105,6 +108,22 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
     }
 
     private startWaveAnimation(): void {
+        this.targetWaveAmplitudeMultiplier = 1;
+        this.runWaveAnimation();
+    }
+
+    private stopWaveAnimation(): void {
+        this.targetWaveAmplitudeMultiplier = 0;
+
+        if (this.waveAmplitudeMultiplier > 0) {
+            this.runWaveAnimation();
+            return;
+        }
+
+        this.cancelWaveAnimation();
+    }
+
+    private runWaveAnimation(): void {
         if (this.waveAnimationFrameId != undefined) {
             return;
         }
@@ -119,8 +138,23 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
                 if (timestamp - this.lastWaveFrameTime >= frameIntervalMilliseconds) {
                     const deltaSeconds: number = this.lastWaveFrameTime === 0 ? 0 : (timestamp - this.lastWaveFrameTime) / 1000;
                     this.lastWaveFrameTime = timestamp;
-                    this.wavePhase = (this.wavePhase + this.waveSpeed * deltaSeconds) % this.waveLength;
+                    const amplitudeChange: number = this.waveTransitionSpeed * deltaSeconds;
+                    this.waveAmplitudeMultiplier = this.moveTowards(
+                        this.waveAmplitudeMultiplier,
+                        this.targetWaveAmplitudeMultiplier,
+                        amplitudeChange,
+                    );
+
+                    if (this.targetWaveAmplitudeMultiplier > 0) {
+                        this.wavePhase = (this.wavePhase + this.waveSpeed * deltaSeconds) % this.waveLength;
+                    }
+
                     this.renderWave();
+                }
+
+                if (this.targetWaveAmplitudeMultiplier === 0 && this.waveAmplitudeMultiplier === 0) {
+                    this.waveAnimationFrameId = undefined;
+                    return;
                 }
 
                 this.waveAnimationFrameId = requestAnimationFrame(renderFrame);
@@ -130,11 +164,19 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
         });
     }
 
-    private stopWaveAnimation(): void {
+    private cancelWaveAnimation(): void {
         if (this.waveAnimationFrameId != undefined) {
             cancelAnimationFrame(this.waveAnimationFrameId);
             this.waveAnimationFrameId = undefined;
         }
+    }
+
+    private moveTowards(currentValue: number, targetValue: number, maximumChange: number): number {
+        if (currentValue < targetValue) {
+            return Math.min(currentValue + maximumChange, targetValue);
+        }
+
+        return Math.max(currentValue - maximumChange, targetValue);
     }
 
     private renderWave(): void {
@@ -181,7 +223,7 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
         const distanceFromEnd: number = width - x;
 
         if (distanceFromEnd >= this.waveTaperLength) {
-            return this.waveAmplitude;
+            return this.waveAmplitudeMultiplier * this.waveAmplitude;
         }
 
         if (distanceFromEnd <= 0) {
@@ -191,7 +233,7 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
         const t: number = distanceFromEnd / this.waveTaperLength;
 
         // Smoothstep easing avoids a visible kink where the wave flattens into the track.
-        return this.waveAmplitude * (t * t * (3 - 2 * t));
+        return this.waveAmplitudeMultiplier * this.waveAmplitude * (t * t * (3 - 2 * t));
     }
 
     public progressThumbMouseDown(): void {

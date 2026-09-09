@@ -23,7 +23,7 @@
 .app-playback-progress-wave {
     position: absolute;
     left: 0;
-    top: 0;
+    top: -1px;
     width: 100%;
     height: 100%;
     overflow: visible;
@@ -40,7 +40,7 @@
     position: absolute;
     width: 100%;
     right: 0;
-    top: 4.75px;
+    top: 3.75px;
     z-index: 0;
     height: 2.5px;
     border-radius: 2.5px;
