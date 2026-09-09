@@ -20,6 +20,13 @@
     overflow: hidden;
 }
 
+.app-playback-progress-bar.wave-disabled {
+    top: 3.75px;
+    height: 2.5px;
+    border-radius: 2.5px;
+    background-color: var(--theme-accent-color);
+}
+
 .app-playback-progress-wave {
     position: absolute;
     left: 0;

@@ -28,6 +28,7 @@ export class SettingsMock implements SettingsBase {
     public closeToNotificationArea: boolean;
     public downloadArtistInformationFromLastFm: boolean;
     public downloadLyricsOnline: boolean;
+    public showWaveProgress: boolean = true;
     public downloadMissingAlbumCovers: boolean;
     public showArtistImages: boolean;
     public showArtistImagesAsBackground: boolean;

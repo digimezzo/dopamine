@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { Logger } from '../../../common/logger';
 import { MathExtensions } from '../../../common/math-extensions';
 import { NativeElementProxy } from '../../../common/native-element-proxy';
+import { SettingsBase } from '../../../common/settings/settings.base';
 import { PlaybackProgress } from '../../../services/playback/playback-progress';
 import { PlaybackService } from '../../../services/playback/playback.service';
 
@@ -46,6 +47,7 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
         private playbackService: PlaybackService,
         private mathExtensions: MathExtensions,
         private nativeElementProxy: NativeElementProxy,
+        public settings: SettingsBase,
         private ngZone: NgZone,
         private logger: Logger,
     ) {}
@@ -108,6 +110,10 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
     }
 
     private startWaveAnimation(): void {
+        if (!this.settings.showWaveProgress) {
+            return;
+        }
+
         this.targetWaveAmplitudeMultiplier = 1;
         this.runWaveAnimation();
     }
@@ -135,6 +141,11 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
             const frameIntervalMilliseconds: number = 33;
 
             const renderFrame: FrameRequestCallback = (timestamp: number): void => {
+                if (!this.settings.showWaveProgress) {
+                    this.waveAnimationFrameId = undefined;
+                    return;
+                }
+
                 if (timestamp - this.lastWaveFrameTime >= frameIntervalMilliseconds) {
                     const deltaSeconds: number = this.lastWaveFrameTime === 0 ? 0 : (timestamp - this.lastWaveFrameTime) / 1000;
                     this.lastWaveFrameTime = timestamp;
@@ -181,6 +192,10 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
 
     private renderWave(): void {
         try {
+            if (!this.settings.showWaveProgress) {
+                return;
+            }
+
             const width: number = this.progressBarPosition;
             const svgElement: SVGSVGElement | undefined = this.waveSvg?.nativeElement;
             const pathElement: SVGPathElement | undefined = this.wavePath?.nativeElement;

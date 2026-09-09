@@ -425,5 +425,6 @@
     "clear-selection": "Selectie wissen",
     "compact-total-duration": "Compacte notatie voor totale duur ((U)U:MM:SS)",
     "by-file-name-ascending": "Bestandsnaam A-Z",
-    "by-file-name-descending": "Bestandsnaam Z-A"
+    "by-file-name-descending": "Bestandsnaam Z-A",
+    "show-wave-progress": "Golfvormige voortgang weergeven"
 }
