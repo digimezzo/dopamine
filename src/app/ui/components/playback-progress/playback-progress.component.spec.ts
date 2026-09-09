@@ -1,4 +1,4 @@
-import { ElementRef } from '@angular/core';
+import { ElementRef, NgZone } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { PlaybackProgressComponent } from './playback-progress.component';
@@ -13,6 +13,7 @@ describe('PlaybackProgressComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let mathExtensionsMock: IMock<MathExtensions>;
     let nativeElementProxyMock: IMock<NativeElementProxy>;
+    let ngZoneMock: IMock<NgZone>;
     let loggerMock: IMock<Logger>;
     let progressTrackElementRef: ElementRef;
 
@@ -22,12 +23,14 @@ describe('PlaybackProgressComponent', () => {
         playbackServiceMock = Mock.ofType<PlaybackService>();
         mathExtensionsMock = Mock.ofType<MathExtensions>();
         nativeElementProxyMock = Mock.ofType<NativeElementProxy>();
+        ngZoneMock = Mock.ofType<NgZone>();
         loggerMock = Mock.ofType<Logger>();
         progressTrackElementRef = new ElementRef({});
         component = new PlaybackProgressComponent(
             playbackServiceMock.object,
             mathExtensionsMock.object,
             nativeElementProxyMock.object,
+            ngZoneMock.object,
             loggerMock.object,
         );
 
@@ -39,6 +42,10 @@ describe('PlaybackProgressComponent', () => {
         const playbackServiceProgressChanged$: Observable<PlaybackProgress> = playbackServiceProgressChanged.asObservable();
 
         playbackServiceMock.setup((x) => x.progressChanged$).returns(() => playbackServiceProgressChanged$);
+        playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => new Subject().asObservable());
+        playbackServiceMock.setup((x) => x.playbackResumed$).returns(() => new Subject().asObservable());
+        playbackServiceMock.setup((x) => x.playbackPaused$).returns(() => new Subject().asObservable());
+        playbackServiceMock.setup((x) => x.playbackStopped$).returns(() => new Subject().asObservable());
 
         component.ngOnInit();
     });
