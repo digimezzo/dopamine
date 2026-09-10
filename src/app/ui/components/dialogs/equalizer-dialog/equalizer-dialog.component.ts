@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { EqualizerServiceBase } from '../../../../services/equalizer/equalizer.service.base';
 import { EqualizerService } from '../../../../services/equalizer/equalizer.service';
 
@@ -7,7 +7,7 @@ import { EqualizerService } from '../../../../services/equalizer/equalizer.servi
     templateUrl: './equalizer-dialog.component.html',
     styleUrls: ['./equalizer-dialog.component.scss'],
 })
-export class EqualizerDialogComponent implements AfterViewInit {
+export class EqualizerDialogComponent implements AfterViewInit, OnDestroy {
     public readonly minimumGain: number = EqualizerService.minimumGain;
     public readonly maximumGain: number = EqualizerService.maximumGain;
 
@@ -21,6 +21,7 @@ export class EqualizerDialogComponent implements AfterViewInit {
     public dots: { x: number; y: number }[] = [];
 
     private activeBandIndex: number = -1;
+    private resizeObserver?: ResizeObserver;
 
     @ViewChild('bandsContainer') private bandsContainer!: ElementRef<HTMLElement>;
     @ViewChildren('track') private tracks!: QueryList<ElementRef<HTMLElement>>;
@@ -28,7 +29,14 @@ export class EqualizerDialogComponent implements AfterViewInit {
     public constructor(public equalizerService: EqualizerServiceBase) {}
 
     public ngAfterViewInit(): void {
+        // Re-measure whenever the container gets its real size so the viewBox (and dot scale) stays correct.
+        this.resizeObserver = new ResizeObserver(() => this.updateCurve());
+        this.resizeObserver.observe(this.bandsContainer.nativeElement);
         setTimeout(() => this.updateCurve());
+    }
+
+    public ngOnDestroy(): void {
+        this.resizeObserver?.disconnect();
     }
 
     @HostListener('window:resize')
