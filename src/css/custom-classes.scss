@@ -42,6 +42,13 @@
     overflow: hidden;
 }
 
+/* Only animate while the notification bar is expanding/collapsing, not during window resizes */
+:root.notification-bar-animating .collection-viewport {
+    transition:
+        height 150ms ease-in-out,
+        max-height 150ms ease-in-out;
+}
+
 .semantic-zoom-out-viewport {
     height: calc(100vh - 210px);
     max-height: calc(100vh - 210px);
