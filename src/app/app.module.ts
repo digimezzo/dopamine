@@ -1,4 +1,5 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { LOCATION_INITIALIZED } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -128,6 +129,7 @@ import { NowPlayingPlaybackPaneComponent } from './ui/components/now-playing/now
 import { NowPlayingShowcaseComponent } from './ui/components/now-playing/now-playing-showcase/now-playing-showcase.component';
 import { NowPlayingComponent } from './ui/components/now-playing/now-playing.component';
 import { PlaybackControlsComponent } from './ui/components/playback-controls/playback-controls.component';
+import { PlaybackSpeedControlComponent } from './ui/components/playback-speed-control/playback-speed-control.component';
 import { PlaybackCoverArtComponent } from './ui/components/playback-cover-art/playback-cover-art.component';
 import { PlaybackIndicatorComponent } from './ui/components/playback-indicator/playback-indicator.component';
 import { PlaybackInformationComponent } from './ui/components/playback-information/playback-information.component';
@@ -423,6 +425,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         CollectionTracksComponent,
         CollectionGenresComponent,
         PlaybackControlsComponent,
+        PlaybackSpeedControlComponent,
         PlaybackProgressComponent,
         PlaybackTimeComponent,
         PlaybackInformationComponent,
@@ -506,6 +509,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         MatSortModule,
         MatBottomSheetModule,
         DragDropModule,
+        OverlayModule,
         HammerModule,
         FormsModule,
         ReactiveFormsModule,

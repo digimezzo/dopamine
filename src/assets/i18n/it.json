@@ -109,6 +109,7 @@
     "previous": "Precedente",
     "loop": "Ripeti",
     "shuffle": "Mischia",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "Rimuovere cartella?",
     "confirm-delete-folder-long": "Sei sicuro di voler rimuovere la cartella '{{folderPath}}'?",
     "error": "Errore",

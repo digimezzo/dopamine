@@ -109,6 +109,7 @@
     "previous": "قبلی",
     "loop": "حلقه",
     "shuffle": "بر زدن",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "پوشه حذف شود؟",
     "confirm-delete-folder-long": "آیا مطمئن هستید که می خواهید پوشه \"{{folderPath}}\" را حذف کنید؟",
     "error": "خطا",

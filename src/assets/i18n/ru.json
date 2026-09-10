@@ -109,6 +109,7 @@
     "previous": "Предыдущая",
     "loop": "Повторять",
     "shuffle": "Перемешать",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "Удалить папку?",
     "confirm-delete-folder-long": "Хотите удалить папку «{{folderPath}}»?",
     "error": "Ошибка",

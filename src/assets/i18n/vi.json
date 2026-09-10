@@ -109,6 +109,7 @@
     "previous": "Bài trước",
     "loop": "Phát lặp lại",
     "shuffle": "Phát ngẫu nhiên",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "Xóa thư mục?",
     "confirm-delete-folder-long": "Bạn có chắc muốn xóa thư mục '{{folderPath}}'?",
     "error": "Lỗi",

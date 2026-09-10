@@ -109,6 +109,7 @@
     "previous": "Anterior",
     "loop": "Repetir",
     "shuffle": "Aleatório",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "Eliminar pasta?",
     "confirm-delete-folder-long": "Tens a certeza de que queres eliminar a pasta '{{folderPath}}'?",
     "error": "Erro",

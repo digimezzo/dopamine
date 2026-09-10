@@ -221,6 +221,7 @@ describe('validate i18n', () => {
         'play',
         'play-all',
         'playback-queue',
+        'playback-speed',
         'playback-state',
         'playing',
         'playing-with-dopamine',

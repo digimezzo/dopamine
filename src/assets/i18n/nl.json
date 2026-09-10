@@ -109,6 +109,7 @@
     "previous": "Vorige",
     "loop": "Herhalen",
     "shuffle": "Mixen",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "Map verwijderen?",
     "error": "Fout",
     "confirm-delete-folder-long": "Weet u zeker dat u de map '{{folderPath}}' wilt verwijderen?",

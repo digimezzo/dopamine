@@ -109,6 +109,7 @@
     "previous": "Önceki",
     "loop": "Döngü",
     "shuffle": "Karışık",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "Klasörü silinsin mi?",
     "confirm-delete-folder-long": "'{{folderPath}}' klasörünü silmek istediğinizden emin misiniz?",
     "error": "Hata",

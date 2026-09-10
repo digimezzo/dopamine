@@ -109,6 +109,7 @@
     "previous": "Föregående",
     "loop": "Upprepa",
     "shuffle": "Blanda",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "Radera mapp?",
     "confirm-delete-folder-long": "Är du säker på att du vill ta bort mappen '{{folderPath}}'?",
     "error": "Fel",

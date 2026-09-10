@@ -160,6 +160,13 @@ export class CrossfadeAudioPlayer implements IAudioPlayer {
         this._masterGain.gain.value = logarithmicVolume * replayGainMultiplier;
     }
 
+    public setPlaybackRate(rate: number): void {
+        this._currentAudio.defaultPlaybackRate = rate;
+        this._currentAudio.playbackRate = rate;
+        this._nextAudio.defaultPlaybackRate = rate;
+        this._nextAudio.playbackRate = rate;
+    }
+
     // eslint-disable-next-line @typescript-eslint/require-await
     public async skipToSecondsAsync(seconds: number): Promise<void> {
         this._currentAudio.currentTime = seconds;

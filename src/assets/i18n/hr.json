@@ -109,6 +109,7 @@
     "previous": "Prethodno",
     "loop": "Ponavljanje",
     "shuffle": "Nasumično",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "Izbrisati mapu?",
     "confirm-delete-folder-long": "Sigurno želiš izbrisati mapu '{{folderPath}}'?",
     "error": "Greška",
