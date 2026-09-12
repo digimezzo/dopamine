@@ -3,12 +3,17 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.11] - 2026-09-11
+## [3.0.11] - 2026-09-12
 
 ### Added
 
 - Added optional wave progress bar
 - Ctrl+F now selects all text in the search box for quick replacement
+
+### Changed
+
+- Updated the Simplified Chinese translation (Thank you @jeremyooh)
+- Updated the Vietnamese translation (Thank you @honhatduy)
 
 ## [3.0.10] - 2026-08-28
 
