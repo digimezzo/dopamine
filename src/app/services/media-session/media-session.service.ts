@@ -39,4 +39,8 @@ export class MediaSessionService {
             playbackInformation.imageUrl,
         );
     }
+
+    public clearMetadata(): void {
+        this.mediaSessionProxy.clearMetadata();
+    }
 }

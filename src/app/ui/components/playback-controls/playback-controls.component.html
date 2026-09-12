@@ -1,4 +1,4 @@
-<div class="app-playback-controls">
+<div class="app-playback-controls" [class.app-playback-controls--compact]="canCompact && settings.showStopButton">
     <!-- Loop -->
     <div
         class="app-playback-controls__button pointer mx-1"
@@ -60,6 +60,17 @@
         matTooltip="{{ 'next' | translate }}"
     >
         <i class="app-playback-controls__icon las la-step-forward"></i>
+    </div>
+
+    <!-- Stop -->
+    <div
+        *ngIf="settings.showStopButton"
+        class="app-playback-controls__button pointer mx-1"
+        (click)="playbackService.stopPlayback()"
+        matRipple
+        matTooltip="{{ 'stop' | translate }}"
+    >
+        <i class="app-playback-controls__icon las la-stop"></i>
     </div>
 
     <!-- Shuffle -->

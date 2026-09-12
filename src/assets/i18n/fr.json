@@ -426,5 +426,8 @@
     "compact-total-duration": "Format compact de la durée totale ((H)H:MM:SS)",
     "by-file-name-ascending": "Nom de fichier A-Z",
     "by-file-name-descending": "Nom de fichier Z-A",
-    "show-wave-progress": "Afficher la progression en forme d'onde"
+    "show-wave-progress": "Afficher la progression en forme d'onde",
+    "stop": "Arrêter",
+    "show-stop-button": "Afficher le bouton d'arrêt",
+    "playback-controls": "Contrôles de lecture"
 }

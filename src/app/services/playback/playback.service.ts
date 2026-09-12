@@ -302,10 +302,10 @@ export class PlaybackService {
 
     public async resumeAsync(): Promise<void> {
         if (!this.isPlaying) {
-            const firstTrack: TrackModel | undefined = this.queue.getFirstTrack();
+            const trackToResume: TrackModel | undefined = this.currentTrack ?? this.queue.getFirstTrack();
 
-            if (firstTrack != undefined) {
-                await this.stopAndPlayAsync(this.queue.getFirstTrack()!, false);
+            if (trackToResume != undefined) {
+                await this.stopAndPlayAsync(trackToResume, false);
                 return;
             }
 
@@ -465,6 +465,27 @@ export class PlaybackService {
         }
 
         this.currentTrack = undefined;
+        this.mediaSessionService.clearMetadata();
+        this.playbackStopped.next();
+    }
+
+    /**
+     * Fully stops playback and resets progress to the start, keeping the current track so that a subsequent resumeAsync() restarts it from the beginning.
+     */
+    public stopPlayback(): void {
+        if (this.currentTrack == undefined) {
+            return;
+        }
+
+        this.audioPlayer.stop();
+        this._isPlaying = false;
+        this._canPause = false;
+        this._canResume = true;
+        this.stopUpdatingProgress();
+        this.mediaSessionService.clearMetadata();
+
+        this.logger.info(`Stopping playback for '${this.currentTrack.path}'`, 'PlaybackService', 'stopPlayback');
+
         this.playbackStopped.next();
     }
 

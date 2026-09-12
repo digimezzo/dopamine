@@ -4,6 +4,12 @@
     height: 36px;
 }
 
+.app-playback-controls--compact .app-playback-controls__button,
+.app-playback-controls--compact .app-playback-controls__circled-button {
+    margin-left: 2px !important;
+    margin-right: 2px !important;
+}
+
 .app-playback-controls__button {
     display: flex;
     justify-content: center;

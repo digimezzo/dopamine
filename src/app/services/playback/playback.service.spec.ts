@@ -2682,6 +2682,88 @@ describe('PlaybackService', () => {
         });
     });
 
+    describe('stopPlayback', () => {
+        it('should not stop the audio player if there is no current track', () => {
+            // Arrange
+            const service: PlaybackService = createService();
+
+            // Act
+            service.stopPlayback();
+
+            // Assert
+            audioPlayerMock.verify((x) => x.stop(), Times.never());
+        });
+
+        it('should stop the audio player, reset playing state and keep the current track', async () => {
+            // Arrange
+            const service: PlaybackService = createService();
+            queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
+            await service.enqueueAndPlayTracksAsync(trackModels);
+            audioPlayerMock.reset();
+
+            // Act
+            service.stopPlayback();
+
+            // Assert
+            audioPlayerMock.verify((x) => x.stop(), Times.once());
+            expect(service.isPlaying).toBeFalsy();
+            expect(service.canPause).toBeFalsy();
+            expect(service.canResume).toBeTruthy();
+            expect(service.currentTrack).toBe(trackModel1);
+        });
+
+        it('should clear media session metadata', async () => {
+            // Arrange
+            const service: PlaybackService = createService();
+            queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
+            await service.enqueueAndPlayTracksAsync(trackModels);
+            audioPlayerMock.reset();
+
+            // Act
+            service.stopPlayback();
+
+            // Assert
+            mediaSessionServiceMock.verify((x) => x.clearMetadata(), Times.once());
+        });
+
+        it('should raise an event that playback is stopped', async () => {
+            // Arrange
+            const service: PlaybackService = createService();
+            queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
+            await service.enqueueAndPlayTracksAsync(trackModels);
+            audioPlayerMock.reset();
+            let playbackIsStopped: boolean = false;
+
+            subscription.add(
+                service.playbackStopped$.subscribe(() => {
+                    playbackIsStopped = true;
+                }),
+            );
+
+            // Act
+            service.stopPlayback();
+
+            // Assert
+            expect(playbackIsStopped).toBeTruthy();
+        });
+
+        it('should resume the same track from the start when resumeAsync is called after stopPlayback', async () => {
+            // Arrange
+            const service: PlaybackService = createService();
+            queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
+            await service.enqueueAndPlayTracksAsync(trackModels);
+            audioPlayerMock.reset();
+            service.stopPlayback();
+            audioPlayerMock.reset();
+
+            // Act
+            await service.resumeAsync();
+
+            // Assert
+            audioPlayerMock.verify((x) => x.playAsync(trackModel1), Times.once());
+        });
+    });
+
     describe('toggleMute', () => {
         it('should apply a volume of 0 and save the volume to the settings when toggling to muted', () => {
             // Arrange

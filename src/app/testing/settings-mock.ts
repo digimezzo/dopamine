@@ -52,6 +52,7 @@ export class SettingsMock implements SettingsBase {
     public genresTabSelectedTrackOrder: string;
     public invertNotificationAreaIconColor: boolean;
     public keepPlaybackControlsVisibleOnNowPlayingPage: boolean;
+    public showStopButton: boolean;
     public language: string;
     public lastFmPassword: string;
     public lastFmSessionKey: string;

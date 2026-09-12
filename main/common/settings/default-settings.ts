@@ -77,6 +77,7 @@ export const DEFAULT_SETTINGS = {
     audioVisualizerStyle: 'flames',
     audioVisualizerFrameRate: 10,
     keepPlaybackControlsVisibleOnNowPlayingPage: false,
+    showStopButton: false,
     albumsDefinedByTitleAndArtist: true,
     albumsDefinedByTitle: false,
     albumsDefinedByFolders: false,

@@ -426,5 +426,8 @@
     "compact-total-duration": "Компактный формат общей длительности ((Ч)Ч:ММ:СС)",
     "by-file-name-ascending": "File name A-Z",
     "by-file-name-descending": "File name Z-A",
-    "show-wave-progress": "Show wave progress"
+    "show-wave-progress": "Show wave progress",
+    "stop": "Stop",
+    "show-stop-button": "Show stop button",
+    "playback-controls": "Playback controls"
 }

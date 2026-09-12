@@ -44,7 +44,7 @@
                     (click)="this.openPlaybackQueue()"
                     matTooltip="{{ 'playback-queue' | translate }}"
                 ></i>
-                <app-playback-controls></app-playback-controls>
+                <app-playback-controls [canCompact]="true"></app-playback-controls>
                 <app-volume-icon
                     class="ml-3 pointer"
                     matTooltip="{{ 'volume' | translate }}"

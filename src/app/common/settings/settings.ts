@@ -773,6 +773,15 @@ export class Settings implements SettingsBase {
         this.set('keepPlaybackControlsVisibleOnNowPlayingPage', v);
     }
 
+    // showStopButton
+    public get showStopButton(): boolean {
+        return this.get<boolean>('showStopButton');
+    }
+
+    public set showStopButton(v: boolean) {
+        this.set('showStopButton', v);
+    }
+
     // albumsDefinedByTitleAndArtist
     public get albumsDefinedByTitleAndArtist(): boolean {
         return this.get<boolean>('albumsDefinedByTitleAndArtist');

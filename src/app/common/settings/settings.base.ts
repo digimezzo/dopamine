@@ -81,6 +81,7 @@ export abstract class SettingsBase {
     public abstract audioVisualizerStyle: string;
     public abstract audioVisualizerFrameRate: number;
     public abstract keepPlaybackControlsVisibleOnNowPlayingPage: boolean;
+    public abstract showStopButton: boolean;
     public abstract albumsDefinedByTitleAndArtist: boolean;
     public abstract albumsDefinedByTitle: boolean;
     public abstract albumsDefinedByFolders: boolean;
