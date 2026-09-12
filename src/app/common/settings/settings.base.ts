@@ -76,6 +76,7 @@ export abstract class SettingsBase {
     public abstract showAlbumOnNowPlayingPage: boolean;
     public abstract downloadArtistInformationFromLastFm: boolean;
     public abstract downloadLyricsOnline: boolean;
+    public abstract showWaveProgress: boolean;
     public abstract showAudioVisualizer: boolean;
     public abstract audioVisualizerStyle: string;
     public abstract audioVisualizerFrameRate: number;

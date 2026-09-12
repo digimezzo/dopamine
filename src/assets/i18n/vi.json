@@ -425,5 +425,6 @@
     "clear-selection": "Bỏ chọn",
     "compact-total-duration": "Rút gọn định dạng tổng thời lượng ((H)H:MM:SS)",
     "by-file-name-ascending": "Tên tệp A-Z",
-    "by-file-name-descending": "Tên tệp Z-A"
+    "by-file-name-descending": "Tên tệp Z-A",
+    "show-wave-progress": "Show wave progress"
 }

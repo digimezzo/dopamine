@@ -430,7 +430,8 @@ describe('validate i18n', () => {
         "reset",
         "compact-total-duration",
         "by-file-name-ascending",
-        "by-file-name-descending"
+        "by-file-name-descending",
+        "show-wave-progress"
     ].sort();
 
     Constants.languages.forEach((language) => {

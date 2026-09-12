@@ -425,5 +425,6 @@
     "clear-selection": "Clear selection",
     "compact-total-duration": "Compact total duration format ((H)H:MM:SS)",
     "by-file-name-ascending": "File name A-Z",
-    "by-file-name-descending": "File name Z-A"
+    "by-file-name-descending": "File name Z-A",
+    "show-wave-progress": "Show wave progress"
 }

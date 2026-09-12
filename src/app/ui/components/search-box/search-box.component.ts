@@ -47,6 +47,12 @@ export class SearchBoxComponent {
             this.clearSearchText();
             event.preventDefault();
             input.blur();
+            return;
+        }
+
+        if (this.isSearchShortcut(event)) {
+            event.preventDefault();
+            input.select();
         }
     }
 
@@ -57,5 +63,6 @@ export class SearchBoxComponent {
     private focusSearchBox(event: KeyboardEvent, input: HTMLInputElement): void {
         event.preventDefault();
         input.focus();
+        input.select();
     }
 }

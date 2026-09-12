@@ -3,7 +3,7 @@
     position: relative;
     display: inline-block;
     width: 32px;
-    height: 5px;
+    height: 2px;
 }
 
 /* Hide default HTML checkbox */
@@ -23,7 +23,7 @@
     right: 0;
     bottom: 0;
     width: 32px;
-    height: 16px;
+    height: 12px;
 }
 
 .slider {
@@ -40,10 +40,10 @@
 .slider:before {
     position: absolute;
     content: '';
-    height: 16px;
-    width: 16px;
+    height: 12px;
+    width: 12px;
     left: 0;
-    bottom: -6px;
+    bottom: -5px;
     background-color: var(--theme-slider-thumb-background);
     transition: 0.25s;
     filter: brightness(0.5);
@@ -54,12 +54,12 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-    transform: translateX(16px);
+    transform: translateX(20px);
     filter: brightness(1);
 }
 
 .slider {
-    border-radius: 5px;
+    border-radius: 2.5px;
 }
 
 .slider:before {

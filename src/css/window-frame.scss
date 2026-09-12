@@ -59,3 +59,8 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+/* Only animate while the notification bar is expanding/collapsing, not during window resizes */
+:root.notification-bar-animating .window-frame__content__with__notification__bar {
+    transition: max-height 150ms ease-in-out;
+}

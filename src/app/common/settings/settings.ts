@@ -727,6 +727,15 @@ export class Settings implements SettingsBase {
         this.set('downloadLyricsOnline', v);
     }
 
+    // showWaveProgress
+    public get showWaveProgress(): boolean {
+        return this.get<boolean>('showWaveProgress') ?? true;
+    }
+
+    public set showWaveProgress(v: boolean) {
+        this.set('showWaveProgress', v);
+    }
+
     // showAudioVisualizer
     public get showAudioVisualizer(): boolean {
         return this.get<boolean>('showAudioVisualizer');

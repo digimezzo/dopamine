@@ -72,6 +72,7 @@ export const DEFAULT_SETTINGS = {
     showAlbumOnNowPlayingPage: true,
     downloadArtistInformationFromLastFm: true,
     downloadLyricsOnline: true,
+    showWaveProgress: true,
     showAudioVisualizer: true,
     audioVisualizerStyle: 'flames',
     audioVisualizerFrameRate: 10,

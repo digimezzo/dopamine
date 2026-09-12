@@ -6,8 +6,17 @@
     (mousedown)="progressContainerMouseDown($event)"
     (touchstart)="progressContainerTouchStart($event)"
 >
-    <div class="app-playback-progress-track" #progressTrack></div>
-    <div class="app-playback-progress-bar" #progressBar [ngStyle]="{ width: this.progressBarPosition + 'px' }"></div>
+    <div class="app-playback-progress-track" #progressTrack [ngStyle]="{ left: this.progressBarPosition + 'px' }"></div>
+    <div
+        class="app-playback-progress-bar"
+        [class.wave-disabled]="!this.settings.showWaveProgress"
+        #progressBar
+        [ngStyle]="{ width: this.progressBarPosition + 'px' }"
+    >
+        <svg *ngIf="this.settings.showWaveProgress" class="app-playback-progress-wave" #waveSvg preserveAspectRatio="none">
+            <path #wavePath></path>
+        </svg>
+    </div>
     <div
         class="app-playback-progress-thumb"
         #progressThumb

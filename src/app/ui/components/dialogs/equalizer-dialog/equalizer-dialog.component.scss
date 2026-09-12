@@ -68,7 +68,7 @@
 }
 
 .equalizer__chart-dot {
-    fill: var(--theme-accent-color);
+    fill: var(--theme-slider-thumb-background);
 }
 
 .equalizer-band {
@@ -110,7 +110,7 @@
 }
 
 .equalizer-band__track-line {
-    width: 4px;
+    width: 2px;
     height: 100%;
     border-radius: 2px;
     background-color: var(--theme-slider-background);

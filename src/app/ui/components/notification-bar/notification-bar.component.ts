@@ -57,11 +57,36 @@ export class NotificationBarComponent implements OnInit {
         const element: HTMLElement = this.documentProxy.getDocumentElement();
         element.style.setProperty('--notification-bar-correction', '30px');
         this.isExpanded = true;
+        this.animateLayoutTransition();
     }
 
     private dismissNotification(): void {
         const element: HTMLElement = this.documentProxy.getDocumentElement();
         element.style.setProperty('--notification-bar-correction', '0px');
         this.isExpanded = false;
+        this.animateLayoutTransition();
+    }
+
+    // Temporarily enables the layout height transition (scoped via CSS class) and keeps cdk-virtual-scroll-viewport
+    // sizes in sync while it runs (see CdkVirtualScrollViewportPatchDirective). Scoping to this window avoids adding
+    // a permanent transition that would also delay real window resizes.
+    private animateLayoutTransition(): void {
+        const animationDurationMilliseconds = 200;
+        const element: HTMLElement = this.documentProxy.getDocumentElement();
+        const startTime: number = performance.now();
+
+        element.classList.add('notification-bar-animating');
+
+        const pulse = (): void => {
+            window.dispatchEvent(new Event('resize'));
+
+            if (performance.now() - startTime < animationDurationMilliseconds) {
+                requestAnimationFrame(pulse);
+            } else {
+                element.classList.remove('notification-bar-animating');
+            }
+        };
+
+        requestAnimationFrame(pulse);
     }
 }

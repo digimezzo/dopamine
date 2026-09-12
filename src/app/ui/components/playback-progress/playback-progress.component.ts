@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Logger } from '../../../common/logger';
 import { MathExtensions } from '../../../common/math-extensions';
 import { NativeElementProxy } from '../../../common/native-element-proxy';
+import { SettingsBase } from '../../../common/settings/settings.base';
 import { PlaybackProgress } from '../../../services/playback/playback-progress';
 import { PlaybackService } from '../../../services/playback/playback.service';
 
@@ -20,10 +21,34 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
     public progressTrack: ElementRef;
     private progressMargin: number = 6;
 
+    @ViewChild('waveSvg')
+    public waveSvg: ElementRef<SVGSVGElement>;
+
+    @ViewChild('wavePath')
+    public wavePath: ElementRef<SVGPathElement>;
+
+    private readonly waveHeight: number = 12;
+    private readonly waveLength: number = 28;
+    private readonly waveAmplitude: number = 2.5;
+    // Amplitude ramps down to 0 over this distance, so the wave ends flush with the flat track.
+    private readonly waveTaperLength: number = this.waveLength * 2;
+    // How fast the wave pattern flows, in pixels per second.
+    private readonly waveSpeed: number = 15;
+    private readonly waveTransitionSpeed: number = 2;
+
+    private wavePhase: number = 0;
+    private waveAmplitudeMultiplier: number = 0;
+    private targetWaveAmplitudeMultiplier: number = 0;
+    private lastWaveFrameTime: number = 0;
+    private waveAnimationFrameId: number | undefined;
+    private progressTrackResizeObserver: ResizeObserver | undefined;
+
     public constructor(
         private playbackService: PlaybackService,
         private mathExtensions: MathExtensions,
         private nativeElementProxy: NativeElementProxy,
+        public settings: SettingsBase,
+        private ngZone: NgZone,
         private logger: Logger,
     ) {}
 
@@ -38,6 +63,8 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
+        this.cancelWaveAnimation();
+        this.progressTrackResizeObserver?.disconnect();
     }
 
     public ngOnInit(): void {
@@ -48,13 +75,180 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
                 }
             }),
         );
+
+        this.subscription.add(this.playbackService.playbackStarted$.subscribe(() => this.startWaveAnimation()));
+        this.subscription.add(this.playbackService.playbackResumed$.subscribe(() => this.startWaveAnimation()));
+        this.subscription.add(this.playbackService.playbackPaused$.subscribe(() => this.stopWaveAnimation()));
+        this.subscription.add(this.playbackService.playbackStopped$.subscribe(() => this.stopWaveAnimation()));
     }
 
     public ngAfterViewInit(): void {
         // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
         setTimeout(() => {
             this.applyPlaybackProgress(this.playbackService.progress);
+            this.renderWave();
+
+            // Note: playbackService.isPlaying stays true while paused, so canPause is used to detect actual playback.
+            if (this.playbackService.canPause) {
+                this.startWaveAnimation();
+            }
         }, 0);
+
+        // The track's width can still change after this (e.g. when switching screens), so re-measure whenever it does.
+        try {
+            this.progressTrackResizeObserver = new ResizeObserver(() => {
+                if (!this.isProgressThumbDown && !this.isProgressContainerDown) {
+                    this.applyPlaybackProgress(this.playbackService.progress);
+                    this.renderWave();
+                }
+            });
+
+            this.progressTrackResizeObserver.observe(this.progressTrack.nativeElement);
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not observe progress track resize', 'PlaybackProgressComponent', 'ngAfterViewInit');
+        }
+    }
+
+    private startWaveAnimation(): void {
+        if (!this.settings.showWaveProgress) {
+            return;
+        }
+
+        this.targetWaveAmplitudeMultiplier = 1;
+        this.runWaveAnimation();
+    }
+
+    private stopWaveAnimation(): void {
+        this.targetWaveAmplitudeMultiplier = 0;
+
+        if (this.waveAmplitudeMultiplier > 0) {
+            this.runWaveAnimation();
+            return;
+        }
+
+        this.cancelWaveAnimation();
+    }
+
+    private runWaveAnimation(): void {
+        if (this.waveAnimationFrameId != undefined) {
+            return;
+        }
+
+        this.lastWaveFrameTime = 0;
+
+        // Runs outside Angular to avoid triggering change detection on every animation frame.
+        this.ngZone.runOutsideAngular(() => {
+            const frameIntervalMilliseconds: number = 33;
+
+            const renderFrame: FrameRequestCallback = (timestamp: number): void => {
+                if (!this.settings.showWaveProgress) {
+                    this.waveAnimationFrameId = undefined;
+                    return;
+                }
+
+                if (timestamp - this.lastWaveFrameTime >= frameIntervalMilliseconds) {
+                    const deltaSeconds: number = this.lastWaveFrameTime === 0 ? 0 : (timestamp - this.lastWaveFrameTime) / 1000;
+                    this.lastWaveFrameTime = timestamp;
+                    const amplitudeChange: number = this.waveTransitionSpeed * deltaSeconds;
+                    this.waveAmplitudeMultiplier = this.moveTowards(
+                        this.waveAmplitudeMultiplier,
+                        this.targetWaveAmplitudeMultiplier,
+                        amplitudeChange,
+                    );
+
+                    if (this.targetWaveAmplitudeMultiplier > 0) {
+                        this.wavePhase = (this.wavePhase + this.waveSpeed * deltaSeconds) % this.waveLength;
+                    }
+
+                    this.renderWave();
+                }
+
+                if (this.targetWaveAmplitudeMultiplier === 0 && this.waveAmplitudeMultiplier === 0) {
+                    this.waveAnimationFrameId = undefined;
+                    return;
+                }
+
+                this.waveAnimationFrameId = requestAnimationFrame(renderFrame);
+            };
+
+            this.waveAnimationFrameId = requestAnimationFrame(renderFrame);
+        });
+    }
+
+    private cancelWaveAnimation(): void {
+        if (this.waveAnimationFrameId != undefined) {
+            cancelAnimationFrame(this.waveAnimationFrameId);
+            this.waveAnimationFrameId = undefined;
+        }
+    }
+
+    private moveTowards(currentValue: number, targetValue: number, maximumChange: number): number {
+        if (currentValue < targetValue) {
+            return Math.min(currentValue + maximumChange, targetValue);
+        }
+
+        return Math.max(currentValue - maximumChange, targetValue);
+    }
+
+    private renderWave(): void {
+        try {
+            if (!this.settings.showWaveProgress) {
+                return;
+            }
+
+            const width: number = this.progressBarPosition;
+            const svgElement: SVGSVGElement | undefined = this.waveSvg?.nativeElement;
+            const pathElement: SVGPathElement | undefined = this.wavePath?.nativeElement;
+
+            if (svgElement == undefined || pathElement == undefined) {
+                return;
+            }
+
+            svgElement.setAttribute('width', `${width}`);
+            svgElement.setAttribute('height', `${this.waveHeight}`);
+            svgElement.setAttribute('viewBox', `0 0 ${width} ${this.waveHeight}`);
+            pathElement.setAttribute('d', this.createWavePath(width, this.wavePhase));
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not render wave', 'PlaybackProgressComponent', 'renderWave');
+        }
+    }
+
+    private createWavePath(width: number, phase: number): string {
+        if (width <= 0) {
+            return '';
+        }
+
+        const centerY: number = this.waveHeight / 2;
+        const step: number = 4;
+        const segments: string[] = [];
+
+        for (let x: number = 0; x < width; x += step) {
+            const amplitude: number = this.waveAmplitudeAt(x, width);
+            const y: number = centerY - amplitude * Math.sin((2 * Math.PI * (x + phase)) / this.waveLength);
+            segments.push(`${segments.length === 0 ? 'M' : 'L'} ${x} ${y.toFixed(2)}`);
+        }
+
+        // Always end exactly on the center line, flush with the flat track.
+        segments.push(`L ${width} ${centerY}`);
+
+        return segments.join(' ');
+    }
+
+    private waveAmplitudeAt(x: number, width: number): number {
+        const distanceFromEnd: number = width - x;
+
+        if (distanceFromEnd >= this.waveTaperLength) {
+            return this.waveAmplitudeMultiplier * this.waveAmplitude;
+        }
+
+        if (distanceFromEnd <= 0) {
+            return 0;
+        }
+
+        const t: number = distanceFromEnd / this.waveTaperLength;
+
+        // Smoothstep easing avoids a visible kink where the wave flattens into the track.
+        return this.waveAmplitudeMultiplier * this.waveAmplitude * (t * t * (3 - 2 * t));
     }
 
     public progressThumbMouseDown(): void {
@@ -169,6 +363,8 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
             );
         } catch (e: unknown) {
             this.logger.error(e, 'Could not apply playback progress', 'PlaybackProgressComponent', 'applyPlaybackProgress');
+        } finally {
+            this.renderWave();
         }
     }
 
@@ -184,6 +380,8 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
             );
         } catch (e: unknown) {
             this.logger.error(e, 'Could not apply mouse progress', 'PlaybackProgressComponent', 'applyMouseProgress');
+        } finally {
+            this.renderWave();
         }
     }
 }

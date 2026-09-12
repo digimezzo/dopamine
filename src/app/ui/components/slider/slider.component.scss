@@ -14,10 +14,9 @@
     position: absolute;
     width: 0;
     left: 0;
-    top: 3.5px;
+    top: 5px;
     z-index: 1;
-    height: 5px;
-    border-radius: 5px;
+    height: 2px;
     background-color: var(--theme-accent-color);
 }
 
@@ -25,10 +24,9 @@
     position: absolute;
     width: 100%;
     right: 0;
-    top: 3.5px;
+    top: 5px;
     z-index: 0;
-    height: 5px;
-    border-radius: 5px;
+    height: 2px;
     background-color: var(--theme-slider-background);
 }
 

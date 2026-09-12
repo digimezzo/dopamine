@@ -162,6 +162,7 @@ describe('SearchBoxComponent', () => {
             expect(preventDefaultSpy).toHaveBeenCalledTimes(1);
             appSearchBoxMock.verify((x) => x.blur(), Times.never());
             appSearchBoxMock.verify((x) => x.focus(), Times.once());
+            appSearchBoxMock.verify((x) => x.select(), Times.once());
         });
 
         it('should focus appSearchBox on Meta+KeyF (macOS)', () => {
@@ -184,9 +185,10 @@ describe('SearchBoxComponent', () => {
             expect(preventDefaultSpy).toHaveBeenCalledTimes(1);
             appSearchBoxMock.verify((x) => x.blur(), Times.never());
             appSearchBoxMock.verify((x) => x.focus(), Times.once());
+            appSearchBoxMock.verify((x) => x.select(), Times.once());
         });
 
-        it('should not focus appSearchBox on Ctrl+KeyF if appSearchBox is active', () => {
+        it('should select text in appSearchBox on Ctrl+KeyF if appSearchBox is active', () => {
             // Arrange
             documentProxyMock.setup((x) => x.getActiveElement()).returns(() => appSearchBoxMock.object);
 
@@ -203,12 +205,13 @@ describe('SearchBoxComponent', () => {
             component.handleKeyboardEvent(event);
 
             // Assert
-            expect(preventDefaultSpy).not.toHaveBeenCalled();
+            expect(preventDefaultSpy).toHaveBeenCalledTimes(1);
             appSearchBoxMock.verify((x) => x.blur(), Times.never());
             appSearchBoxMock.verify((x) => x.focus(), Times.never());
+            appSearchBoxMock.verify((x) => x.select(), Times.once());
         });
 
-        it('should not focus appSearchBox on Meta+KeyF (macOS) if appSearchBox is active', () => {
+        it('should select text in appSearchBox on Meta+KeyF (macOS) if appSearchBox is active', () => {
             // Arrange
             documentProxyMock.setup((x) => x.getActiveElement()).returns(() => appSearchBoxMock.object);
 
@@ -225,9 +228,10 @@ describe('SearchBoxComponent', () => {
             component.handleKeyboardEvent(event);
 
             // Assert
-            expect(preventDefaultSpy).not.toHaveBeenCalled();
+            expect(preventDefaultSpy).toHaveBeenCalledTimes(1);
             appSearchBoxMock.verify((x) => x.blur(), Times.never());
             appSearchBoxMock.verify((x) => x.focus(), Times.never());
+            appSearchBoxMock.verify((x) => x.select(), Times.once());
         });
 
         it('should not focus appSearchBox on Ctrl+Shift+KeyF', () => {
