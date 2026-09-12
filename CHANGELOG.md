@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated the Simplified Chinese translation (Thank you @jeremyooh)
 - Updated the Vietnamese translation (Thank you @honhatduy)
 
+### Fixed
+
+- Adding artist image doesn't always work
+
 ## [3.0.10] - 2026-08-28
 
 ### Changed
