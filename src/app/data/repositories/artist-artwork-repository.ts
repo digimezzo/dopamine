@@ -21,7 +21,10 @@ export class ArtistArtworkRepository implements ArtistArtworkRepositoryBase {
 
     public updateArtistArtwork(artistArtwork: ArtistArtwork): void {
         const statement = this.database.prepare('UPDATE ArtistArtwork SET ArtworkID = ?, isManuallySet = ? WHERE Artist = ?;');
-        statement.run(artistArtwork.artworkId, artistArtwork.isManuallySet, artistArtwork.artist.toLowerCase());
+        const info = statement.run(artistArtwork.artworkId, artistArtwork.isManuallySet, artistArtwork.artist.toLowerCase());
+        if (info.changes === 0) {
+            this.addArtistArtwork(artistArtwork);
+        }
     }
 
     public getAllArtistArtwork(): ArtistArtwork[] | undefined {
@@ -36,6 +39,10 @@ export class ArtistArtworkRepository implements ArtistArtworkRepositoryBase {
     }
 
     public getArtistArtworkForArtists(artists: string[]): ArtistArtwork[] {
+        if (!artists || artists.length === 0) {
+            return [];
+        }
+
         const normalizedArtists: string[] = artists.map((artist) => artist.toLowerCase());
         const placeholders: string = normalizedArtists.map(() => '?').join(',');
 

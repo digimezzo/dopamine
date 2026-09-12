@@ -86,6 +86,18 @@ describe('ArtistArtworkRepository', () => {
             expect(artworkInDatabase.length).toEqual(1);
             expect(artworkInDatabase[0].artworkId).toEqual('artist-99');
         });
+
+        it('should insert the artworkId if the artist does not exist in the database', () => {
+            // Arrange, Act
+            const artistArtwork: ArtistArtwork = new ArtistArtwork('new-artist', 'artist-100');
+            repository.updateArtistArtwork(artistArtwork);
+
+            // Assert
+            const artworkInDatabase: ArtistArtwork[] = repository.getArtistArtworkForArtists(['new-artist']);
+            expect(artworkInDatabase).not.toBeUndefined();
+            expect(artworkInDatabase.length).toEqual(1);
+            expect(artworkInDatabase[0].artworkId).toEqual('artist-100');
+        });
     });
 
     describe('getAllArtistArtwork', () => {
@@ -100,6 +112,14 @@ describe('ArtistArtworkRepository', () => {
     });
 
     describe('getArtistArtworkForArtists', () => {
+        it('should return empty array if artists array is empty', () => {
+            // Arrange, Act
+            const artwork: ArtistArtwork[] = repository.getArtistArtworkForArtists([]);
+
+            // Assert
+            expect(artwork).toEqual([]);
+        });
+
         it('should return the artwork for all given artists', () => {
             // Arrange, Act
             const artwork: ArtistArtwork[] = repository.getArtistArtworkForArtists(['Metallica', 'Aerosmith', 'Alanis Morissette']);
