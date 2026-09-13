@@ -6,10 +6,8 @@
 }
 
 .app-icon-button-button {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    place-items: center;
     height: 25px;
     width: 25px;
     background: transparent;
@@ -19,7 +17,6 @@
     transition: all 0.25s ease 0s;
     cursor: pointer;
     outline: none;
-    padding-top: 1px; // HACK: required so that the icon looks vertically centered, otherwise it looks a bit off
 }
 
 .app-icon-button-button:hover {
@@ -31,11 +28,18 @@
 }
 
 .app-icon-button-icon {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    font-size: calc(var(--fontsize) * 1.2);
+    display: block;
+    width: calc(var(--fontsize) * 1.2);
+    height: calc(var(--fontsize) * 1.2);
+    background-color: currentColor;
+    mask-image: var(--icon-url);
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    -webkit-mask-image: var(--icon-url);
+    -webkit-mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
     // color: var(--theme-accent-color);
 }
 
