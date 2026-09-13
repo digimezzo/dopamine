@@ -7,7 +7,7 @@ export abstract class SemanticZoomable {
     public isZoomHeader: boolean = false;
 
     public get sortableName(): string {
-        return StringUtils.getSortableString(this.displayName, true);
+        return StringUtils.getSortableString(this.displayName);
     }
 
     public get zoomHeader(): string {

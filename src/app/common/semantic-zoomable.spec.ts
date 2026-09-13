@@ -39,7 +39,7 @@ describe('SemanticZoomable', () => {
             const sortableName: string = semanticZoomable.sortableName;
 
             // Assert
-            expect(sortableName).toEqual('text');
+            expect(sortableName).toEqual('the text');
         });
     });
 

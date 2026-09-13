@@ -109,8 +109,6 @@ export class Constants {
     public static readonly emptyImage: string = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
     public static readonly emptyImageBuffer: Buffer = Buffer.from(Constants.emptyImage.split(',')[1], 'base64');
 
-    public static readonly removablePrefixes: string[] = ['the', 'le', 'les', 'a', 'and'];
-
     public static readonly unknownArtist: string = 'unknown-artist';
     public static readonly unknownGenre: string = 'unknown-genre';
     public static readonly unknownTitle: string = 'unknown-title';

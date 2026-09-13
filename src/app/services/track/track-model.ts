@@ -70,7 +70,7 @@ export class TrackModel implements ISelectable {
     }
 
     public get sortableTitle(): string {
-        return StringUtils.getSortableString(this.title, false);
+        return StringUtils.getSortableString(this.title);
     }
 
     public get artists(): string {
@@ -110,7 +110,7 @@ export class TrackModel implements ISelectable {
     }
 
     public get sortableArtists(): string {
-        return StringUtils.getSortableString(this.artists, false);
+        return StringUtils.getSortableString(this.artists);
     }
 
     public get genres(): string {
@@ -130,7 +130,7 @@ export class TrackModel implements ISelectable {
     }
 
     public get sortableGenres(): string {
-        return StringUtils.getSortableString(this.genres, false);
+        return StringUtils.getSortableString(this.genres);
     }
 
     public get albumKey(): string {
@@ -178,15 +178,15 @@ export class TrackModel implements ISelectable {
     }
 
     public get sortableAlbumArtists(): string {
-        return StringUtils.getSortableString(this.albumArtists, false);
+        return StringUtils.getSortableString(this.albumArtists);
     }
 
     public get sortableAlbumTitle(): string {
-        return StringUtils.getSortableString(this.albumTitle, false);
+        return StringUtils.getSortableString(this.albumTitle);
     }
 
     public get sortableAlbumProperties(): string {
-        return StringUtils.getSortableString(`${this.albumKey};${this.discNumber};${this.number}`, false);
+        return StringUtils.getSortableString(`${this.albumKey};${this.discNumber};${this.number}`);
     }
 
     public get durationInMilliseconds(): number {

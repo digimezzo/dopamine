@@ -1,5 +1,3 @@
-import { Constants } from '../application/constants';
-
 export class StringUtils {
     public static get empty(): string {
         return '';
@@ -73,25 +71,13 @@ export class StringUtils {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
-    public static getSortableString(originalString: string | undefined, removePrefixes: boolean): string {
+    public static getSortableString(originalString: string | undefined): string {
         if (this.isNullOrWhiteSpace(originalString)) {
             return '';
         }
 
         try {
-            const trimmedAndLowerCasedOriginalString: string = originalString!.trim().toLowerCase();
-
-            if (!removePrefixes) {
-                return trimmedAndLowerCasedOriginalString;
-            }
-
-            for (const removablePrefix of Constants.removablePrefixes) {
-                const prefixFollowedBySpace: string = `${removablePrefix} `;
-
-                if (trimmedAndLowerCasedOriginalString.startsWith(prefixFollowedBySpace)) {
-                    return trimmedAndLowerCasedOriginalString.replace(prefixFollowedBySpace, '').trim();
-                }
-            }
+            return originalString!.trim().toLowerCase();
         } catch (e: unknown) {
             // Ignore this error
         }
