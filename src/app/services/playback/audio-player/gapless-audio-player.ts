@@ -13,7 +13,7 @@ import { EqualizerServiceBase } from '../../equalizer/equalizer.service.base';
 })
 export class GaplessAudioPlayer implements IAudioPlayer {
     private _audio: HTMLAudioElement;
-    private _tempAudio: HTMLAudioElement;
+    private _tempAudio: HTMLAudioElement = new Audio();
     private _playbackFinished: Subject<void> = new Subject();
     private _playbackFailed: Subject<string> = new Subject();
 
@@ -32,6 +32,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     private shouldPauseAfterStarting: boolean = false;
     private skipSecondsAfterStarting: number = 0;
     private _lastSetLogarithmicVolume: number = 0;
+    private _playbackRate: number = 1;
     private _analyser: AnalyserNode;
     private _equalizer: AudioEqualizer;
 
@@ -65,6 +66,8 @@ export class GaplessAudioPlayer implements IAudioPlayer {
             this.logger.error(e, 'Could not perform setSinkId()', 'AudioPlayer', 'constructor');
         }
         this._audio.volume = 0;
+        this._audio.defaultPlaybackRate = 1;
+        this._audio.playbackRate = 1;
         this._audio.muted = false;
     }
 
@@ -85,7 +88,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
             if (this._isPaused) {
                 return this._audioPausedAt;
             } else {
-                return this._audioContext.currentTime - this._audioStartTime;
+                return (this._audioContext.currentTime - this._audioStartTime) * this._playbackRate;
             }
         } else {
             return 0;
@@ -104,6 +107,8 @@ export class GaplessAudioPlayer implements IAudioPlayer {
 
         this._tempAudio = new Audio();
         this._tempAudio.volume = 0;
+        this._tempAudio.defaultPlaybackRate = this._playbackRate;
+        this._tempAudio.playbackRate = this._playbackRate;
         this._tempAudio.muted = false;
         this._tempAudio.src = playableAudioFilePath;
     }
@@ -131,8 +136,8 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     }
 
     public pause(): void {
+        this._audioPausedAt = this.progressSeconds;
         this._isPaused = true;
-        this._audioPausedAt = this._audioContext.currentTime - this._audioStartTime;
 
         if (this._sourceNode) {
             this._sourceNode.onended = () => {
@@ -157,6 +162,20 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         this._gainNode.gain.setValueAtTime(finalGain, 0);
         this._lastSetLogarithmicVolume = finalGain;
     }
+
+    public setPlaybackRate(rate: number): void {
+        const progressSeconds: number = this.progressSeconds;
+        this._playbackRate = rate;
+        this._audio.defaultPlaybackRate = rate;
+        this._audio.playbackRate = rate;
+        this._tempAudio.defaultPlaybackRate = rate;
+        this._tempAudio.playbackRate = rate;
+
+        if (this._sourceNode) {
+            this._sourceNode.playbackRate.setValueAtTime(rate, this._audioContext.currentTime);
+            this._audioStartTime = this._audioContext.currentTime - progressSeconds / rate;
+        }
+    }
     public async skipToSecondsAsync(seconds: number): Promise<void> {
         const isPaused = this._isPaused;
         await this.playWebAudioAsync(seconds);
@@ -164,6 +183,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
 
         if (isPaused) {
             this.pause();
+            this._audioPausedAt = seconds;
         }
     }
 
@@ -200,6 +220,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
             // Create a new buffer source node
             this._sourceNode = this._audioContext.createBufferSource();
             this._sourceNode.buffer = this._currentBuffer;
+            this._sourceNode.playbackRate.setValueAtTime(this._playbackRate, this._audioContext.currentTime);
 
             // Connect the source to the analyser
             this._sourceNode.connect(this._analyser);
@@ -224,7 +245,7 @@ export class GaplessAudioPlayer implements IAudioPlayer {
             };
 
             // Store the current time when audio starts playing
-            this._audioStartTime = this._audioContext.currentTime - offset;
+            this._audioStartTime = this._audioContext.currentTime - offset / this._playbackRate;
 
             // Sync playback position with HTML5 Audio
             this._sourceNode.start(0, offset);

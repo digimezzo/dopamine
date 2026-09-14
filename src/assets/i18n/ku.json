@@ -109,6 +109,7 @@
     "previous": "Paş",
     "loop": "Dûbare bike",
     "shuffle": "Tevlîhev bike",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "Peldankê jê bibe?",
     "confirm-delete-folder-long": "Tu dixwazî peldanka '{{folderPath}}' jê bibî?",
     "error": "Şaşetî",

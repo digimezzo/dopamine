@@ -109,6 +109,7 @@
     "previous": "הקודם",
     "loop": "ניגון בלולאה",
     "shuffle": "ערבוב",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "למחוק את התיקייה?",
     "confirm-delete-folder-long": "למחוק את התיקייה ‚{{folderPath}}’?",
     "error": "שגיאה",

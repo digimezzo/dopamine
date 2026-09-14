@@ -45,6 +45,7 @@ export class PlaybackService {
     private _canPause: boolean = false;
     private _canResume: boolean = true;
     private _volumeBeforeMute: number = 0;
+    private _playbackSpeed: number = 1;
     private _shouldReportProgress: boolean = false;
     private _progressInterval: number = 0;
     private subscription: Subscription = new Subscription();
@@ -70,6 +71,7 @@ export class PlaybackService {
         this._audioPlayer = this.audioPlayerFactory.create();
         this.initializeSubscriptions();
         this.applyVolumeFromSettings();
+        this._audioPlayer.setPlaybackRate(this._playbackSpeed);
     }
 
     public get playbackQueue(): TrackModels {
@@ -95,6 +97,17 @@ export class PlaybackService {
 
     public set volume(v: number) {
         this.applyVolume(v);
+    }
+
+    public get playbackSpeed(): number {
+        return this._playbackSpeed;
+    }
+
+    public set playbackSpeed(v: number) {
+        const clampedSpeed: number = Math.min(3, Math.max(0.5, v));
+        const playbackSpeed: number = Math.round((clampedSpeed - 0.5) / 0.05) * 0.05 + 0.5;
+        this._playbackSpeed = Math.round(playbackSpeed * 100) / 100;
+        this._audioPlayer.setPlaybackRate(this._playbackSpeed);
     }
 
     public get progress(): PlaybackProgress {

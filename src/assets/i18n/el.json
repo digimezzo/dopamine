@@ -109,6 +109,7 @@
     "previous": "Προηγούμενο",
     "loop": "Λούπα",
     "shuffle": "Ανάμιξη",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "Διαγραφή φακέλου?",
     "confirm-delete-folder-long": "Είσαι σίγουρος σχετικά με την διαγραφή του φακέλου '{{folderPath}}'?",
     "error": "Σφάλμα",

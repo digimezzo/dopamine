@@ -109,6 +109,7 @@
     "previous": "前の曲",
     "loop": "リピート再生",
     "shuffle": "シャッフル再生",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "フォルダーを削除してもよろしいですか?",
     "confirm-delete-folder-long": "このフォルダーを削除してもよろしいですか? '{{folderPath}}'",
     "error": "エラー",
