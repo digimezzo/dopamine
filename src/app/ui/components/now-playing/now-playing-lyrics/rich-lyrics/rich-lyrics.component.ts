@@ -13,6 +13,8 @@ import { Subscription } from 'rxjs';
     encapsulation: ViewEncapsulation.None,
 })
 export class RichLyricsComponent implements OnChanges, OnDestroy {
+    private readonly minimumRichLyricSize: number = 0.5;
+
     @Input() public lyrics!: LyricsModel;
 
     public cText: string = '';
@@ -122,8 +124,8 @@ export class RichLyricsComponent implements OnChanges, OnDestroy {
         const parent = document.getElementsByClassName('rich-contain')[0];
 
         if (main != undefined && parent != undefined) {
-            while (main.offsetWidth < main.scrollWidth) {
-                this.mainRichLyricSize -= 0.05;
+            while (this.mainRichLyricSize > this.minimumRichLyricSize && main.offsetWidth < main.scrollWidth) {
+                this.mainRichLyricSize = Math.max(this.minimumRichLyricSize, this.mainRichLyricSize - 0.05);
                 this.cd.detectChanges();
             }
         }

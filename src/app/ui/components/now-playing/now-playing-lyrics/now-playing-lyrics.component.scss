@@ -8,6 +8,13 @@
     width: 100%;
 }
 
+.app-now-playing-lyrics__track {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    min-width: 0;
+}
+
 .app-now-playing-lyrics__picture {
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2)) drop-shadow(0 6px 20px rgba(0, 0, 0, 0.2));
 }
@@ -22,6 +29,7 @@
 
 .app-now-playing-lyrics__text {
     flex: 1;
+    min-width: 0;
     margin-left: 50px;
     overflow-y: auto;
 }

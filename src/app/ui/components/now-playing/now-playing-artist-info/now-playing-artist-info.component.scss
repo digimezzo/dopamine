@@ -5,13 +5,25 @@
     height: 100%;
 }
 
-.app-now-playing-artist-info__picture {
+.app-now-playing-artist-info__artist {
     --artist-image-size: clamp(160px, min(28vw, 44vh), 430px);
+    display: flex;
+    flex: 0 0 var(--artist-image-size);
+    flex-direction: column;
+    min-width: 0;
+    width: var(--artist-image-size);
+}
+
+.app-now-playing-artist-info__picture {
     width: var(--artist-image-size);
     height: var(--artist-image-size);
     margin-right: 50px;
     background: var(--theme-album-cover-background);
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2)) drop-shadow(0 6px 20px rgba(0, 0, 0, 0.2));
+}
+
+.app-now-playing-artist-info__name {
+    max-width: 100%;
 }
 
 .app-now-playing-artist-info__spinner {

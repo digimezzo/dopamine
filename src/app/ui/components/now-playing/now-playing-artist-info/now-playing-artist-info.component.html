@@ -1,7 +1,7 @@
 <div class="app-now-playing-artist-info">
     <div class="d-flex h-100 w-100" *ngIf="this.settings.downloadArtistInformationFromLastFm">
         <div class="d-flex flex-row h-100 w-100">
-            <div class="d-flex flex-column">
+            <div class="app-now-playing-artist-info__artist">
                 <div
                     class="app-now-playing-artist-info__picture d-flex justify-content-center align-items-center"
                     [ngClass]="{ 'app-now-playing-artist-info-rounded': !this.settings.showSquareImages }"
@@ -15,10 +15,12 @@
                     />
                 </div>
                 <div class="mt-4">
-                    <div class="largest" *ngIf="this.artist.name">
+                    <div class="app-now-playing-artist-info__name ellipsis-two-lines largest" *ngIf="this.artist.name">
                         {{ this.artist.name }}
                     </div>
-                    <div class="largest" *ngIf="!this.artist.name">{{ 'unknown-artist' | translate }}</div>
+                    <div class="app-now-playing-artist-info__name ellipsis-two-lines largest" *ngIf="!this.artist.name">
+                        {{ 'unknown-artist' | translate }}
+                    </div>
                 </div>
             </div>
             <div *ngIf="this.isBusy" class="app-now-playing-artist-info__spinner">
