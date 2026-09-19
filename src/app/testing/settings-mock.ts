@@ -109,6 +109,7 @@ export class SettingsMock implements SettingsBase {
     public replayGainPreventClipping: boolean;
     public logReplayGainAtTrackStart: boolean;
     public jumpToPlayingSong: boolean;
+    public rememberScrollPosition: boolean;
     public showSquareImages: boolean;
     public useCompactYearView: boolean;
     public useCompactTrackListView: boolean;

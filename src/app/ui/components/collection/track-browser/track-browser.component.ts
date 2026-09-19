@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
 import { GuidFactory } from '../../../../common/guid.factory';
@@ -24,6 +24,8 @@ import { MetadataService } from '../../../../services/metadata/metadata.service'
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
+import { ScrollPositionService } from '../../../../services/scroll-position/scroll-position.service';
+import { SearchServiceBase } from '../../../../services/search/search.service.base';
 
 @Component({
     selector: 'app-track-browser',
@@ -33,7 +35,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
     providers: [MouseSelectionWatcher],
     encapsulation: ViewEncapsulation.None,
 })
-export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, OnDestroy {
+export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, AfterViewInit, OnDestroy {
     private _tracks: TrackModels = new TrackModels();
     private _tracksPersister: BaseTracksPersister;
     private subscription: Subscription = new Subscription();
@@ -54,6 +56,8 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
         dialogService: DialogServiceBase,
         desktop: DesktopBase,
         logger: Logger,
+        scrollPositionService: ScrollPositionService,
+        searchService: SearchServiceBase,
     ) {
         super(
             playbackService,
@@ -65,10 +69,15 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
             collectionService,
             translatorService,
             desktop,
+            scrollPositionService,
+            searchService,
         );
     }
 
     @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
+
+    @Input()
+    public scrollPositionKey: string = 'tracks';
 
     @Input()
     public readonly trackOrders: TrackOrder[] = [];
@@ -111,7 +120,14 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
     }
 
     public ngOnDestroy(): void {
+        this.disposeScrollPosition(this.scrollPositionKey);
+
         this.subscription.unsubscribe();
+    }
+
+    public ngAfterViewInit(): void {
+        this.initializeScrollPosition(this.viewPort, this.scrollPositionKey);
+        this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.orderedTracks.length > 0);
     }
 
     public ngOnInit(): void {
@@ -242,9 +258,9 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
             'TrackBrowserComponent',
             'orderTracks',
         );
-
         this.playbackIndicationService.setPlayingTrack(this.orderedTracks, this.playbackService.currentTrack);
-        this.trackService.scrollToPlayingTrack(this.orderedTracks, this.viewPort);
+        // Don't auto-jump to the playing track here: a restored scroll position should always win on mount.
+        this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.orderedTracks.length > 0);
     }
 
     private hideAllHeaders(orderedTracks: TrackModel[]): void {

@@ -13,6 +13,8 @@ import { TrackModel } from '../../../../services/track/track-model';
 import { DateTime } from '../../../../common/date-time';
 import { SettingsMock } from '../../../../testing/settings-mock';
 import { PlaybackService } from '../../../../services/playback/playback.service';
+import { ScrollPositionService } from '../../../../services/scroll-position/scroll-position.service';
+import { SearchServiceBase } from '../../../../services/search/search.service.base';
 
 describe('TrackBrowserBase', () => {
     let playbackServiceMock: IMock<PlaybackService>;
@@ -24,6 +26,8 @@ describe('TrackBrowserBase', () => {
     let collectionServiceMock: IMock<CollectionServiceBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let desktopMock: IMock<DesktopBase>;
+    let scrollPositionServiceMock: IMock<ScrollPositionService>;
+    let searchServiceMock: IMock<SearchServiceBase>;
     let settingsMock: any;
 
     let track1: Track;
@@ -41,6 +45,8 @@ describe('TrackBrowserBase', () => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         collectionServiceMock = Mock.ofType<CollectionServiceBase>();
         desktopMock = Mock.ofType<DesktopBase>();
+        scrollPositionServiceMock = Mock.ofType<ScrollPositionService>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
         settingsMock = new SettingsMock();
 
         translatorServiceMock.setup((x) => x.getAsync('delete-song')).returns(() => Promise.resolve('delete-song'));
@@ -83,6 +89,8 @@ describe('TrackBrowserBase', () => {
             collectionServiceMock.object,
             translatorServiceMock.object,
             desktopMock.object,
+            scrollPositionServiceMock.object,
+            searchServiceMock.object,
         );
     }
 

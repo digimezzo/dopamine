@@ -105,6 +105,7 @@ export abstract class SettingsBase {
     public abstract replayGainPreventClipping: boolean;
     public abstract logReplayGainAtTrackStart: boolean;
     public abstract jumpToPlayingSong: boolean;
+    public abstract rememberScrollPosition: boolean;
     public abstract showSquareImages: boolean;
     public abstract useCompactYearView: boolean;
     public abstract useCompactTrackListView: boolean;

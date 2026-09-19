@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Constants } from '../../../../common/application/constants';
@@ -20,6 +21,9 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
 import { TrackModels } from '../../../../services/track/track-models';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
+import { ScrollPositionService } from '../../../../services/scroll-position/scroll-position.service';
+import { SearchServiceBase } from '../../../../services/search/search.service.base';
+import { BaseVirtualScrollBrowser } from '../base-virtual-scroll-browser';
 
 @Component({
     selector: 'app-album-browser',
@@ -28,7 +32,7 @@ import { DialogServiceBase } from '../../../../services/dialog/dialog.service.ba
     styleUrls: ['./album-browser.component.scss'],
     providers: [MouseSelectionWatcher],
 })
-export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class AlbumBrowserComponent extends BaseVirtualScrollBrowser implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     private _albums: AlbumModel[] = [];
     private _albumsPersister: BaseAlbumsPersister;
     private availableWidthInPixels: number = 0;
@@ -46,7 +50,11 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
         public addToPlaylistMenu: AddToPlaylistMenu,
         private settings: SettingsBase,
         private logger: Logger,
-    ) {}
+        scrollPositionService: ScrollPositionService,
+        searchService: SearchServiceBase,
+    ) {
+        super(scrollPositionService, searchService);
+    }
 
     public readonly albumOrders: AlbumOrder[] = Object.values(AlbumOrder).filter((x): x is AlbumOrder => typeof x === 'number');
     public readonly albumOrderKey = albumOrderKey;
@@ -55,6 +63,8 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
     public useCompactYearView: boolean = false;
 
     public ngOnDestroy(): void {
+        this.disposeScrollPosition(this.scrollPositionKey);
+
         this.destroy$.next();
         this.destroy$.complete();
     }
@@ -80,7 +90,12 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
 
     public selectedAlbumOrder: AlbumOrder;
 
+    @Input()
+    public scrollPositionKey: string = 'albums';
+
     @ViewChild('albumBrowserElement') public albumBrowserElement: ElementRef;
+
+    @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
 
     public get albumsPersister(): BaseAlbumsPersister {
         return this._albumsPersister;
@@ -113,7 +128,12 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
     public ngAfterViewInit(): void {
         // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
         setTimeout(() => {
+            this.initializeScrollPosition(this.viewPort, this.scrollPositionKey);
             this.initializeAvailableWidth();
+
+            if (this.albumRows.length > 0) {
+                this.orderAlbums();
+            }
 
             this.applicationService.windowSizeChanged$
                 .pipe(debounceTime(Constants.albumsRedrawDelayMilliseconds), takeUntil(this.destroy$))
@@ -181,6 +201,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit, OnChanges, 
                 this.useCompactYearView,
             );
             this.applySelectedAlbums();
+            this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.albumRows.length > 0);
 
             timer.stop();
 

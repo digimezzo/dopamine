@@ -19,6 +19,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ElementRef } from '@angular/core';
 import { DesktopBase } from '../../../../../common/io/desktop.base';
 import { SearchServiceBase } from '../../../../../services/search/search.service.base';
+import { ScrollPositionService } from '../../../../../services/scroll-position/scroll-position.service';
 
 describe('PlaylistBrowserComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
@@ -33,6 +34,7 @@ describe('PlaylistBrowserComponent', () => {
     let desktopMock: IMock<DesktopBase>;
     let searchServiceMock: IMock<SearchServiceBase>;
     let loggerMock: IMock<Logger>;
+    let scrollPositionServiceMock: IMock<ScrollPositionService>;
 
     let playlistsPersisterMock: IMock<PlaylistsPersister>;
 
@@ -60,6 +62,7 @@ describe('PlaylistBrowserComponent', () => {
             desktopMock.object,
             searchServiceMock.object,
             loggerMock.object,
+            scrollPositionServiceMock.object,
         );
     }
 
@@ -75,7 +78,9 @@ describe('PlaylistBrowserComponent', () => {
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         desktopMock = Mock.ofType<DesktopBase>();
         searchServiceMock = Mock.ofType<SearchServiceBase>();
+        searchServiceMock.setup((x) => x.delayedSearchTextChanged$).returns(() => new Subject<string>().asObservable());
         loggerMock = Mock.ofType<Logger>();
+        scrollPositionServiceMock = Mock.ofType<ScrollPositionService>();
 
         playlistsPersisterMock = Mock.ofType<PlaylistsPersister>();
 

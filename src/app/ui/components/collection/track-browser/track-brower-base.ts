@@ -10,9 +10,12 @@ import { DesktopBase } from '../../../../common/io/desktop.base';
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { PlaybackService } from '../../../../services/playback/playback.service';
+import { ScrollPositionService } from '../../../../services/scroll-position/scroll-position.service';
+import { SearchServiceBase } from '../../../../services/search/search.service.base';
+import { BaseVirtualScrollBrowser } from '../base-virtual-scroll-browser';
 
 @Directive()
-export class TrackBrowserBase {
+export class TrackBrowserBase extends BaseVirtualScrollBrowser {
     public constructor(
         public playbackService: PlaybackService,
         public dialogService: DialogServiceBase,
@@ -23,7 +26,11 @@ export class TrackBrowserBase {
         private collectionService: CollectionServiceBase,
         private translatorService: TranslatorServiceBase,
         private desktop: DesktopBase,
-    ) {}
+        scrollPositionService: ScrollPositionService,
+        searchService: SearchServiceBase,
+    ) {
+        super(scrollPositionService, searchService);
+    }
 
     @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public trackContextMenu: MatMenuTrigger;

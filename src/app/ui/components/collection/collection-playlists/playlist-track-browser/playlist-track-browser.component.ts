@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Subscription } from 'rxjs';
@@ -17,6 +17,9 @@ import { DesktopBase } from '../../../../../common/io/desktop.base';
 import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { SettingsBase } from '../../../../../common/settings/settings.base';
+import { ScrollPositionService } from '../../../../../services/scroll-position/scroll-position.service';
+import { SearchServiceBase } from '../../../../../services/search/search.service.base';
+import { BaseVirtualScrollBrowser } from '../../base-virtual-scroll-browser';
 
 @Component({
     selector: 'app-playlist-track-browser',
@@ -25,7 +28,7 @@ import { SettingsBase } from '../../../../../common/settings/settings.base';
     styleUrls: ['./playlist-track-browser.component.scss'],
     providers: [MouseSelectionWatcher],
 })
-export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
+export class PlaylistTrackBrowserComponent extends BaseVirtualScrollBrowser implements OnInit, AfterViewInit, OnDestroy {
     private _tracks: TrackModels = new TrackModels();
     private _tracksPersister: BaseTracksPersister;
     private subscription: Subscription = new Subscription();
@@ -41,7 +44,11 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
         public settings: SettingsBase,
         private desktop: DesktopBase,
         private logger: Logger,
-    ) {}
+        scrollPositionService: ScrollPositionService,
+        searchService: SearchServiceBase,
+    ) {
+        super(scrollPositionService, searchService);
+    }
 
     @ViewChild('playlistTrackContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public playlistTrackContextMenu: MatMenuTrigger;
@@ -56,6 +63,9 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
 
     @Input()
     public canRemoveFromPlaylist: boolean = true;
+
+    @Input()
+    public scrollPositionKey: string = 'playlists-tracks';
 
     public get trackItemSize(): number {
         return this.settings.useCompactTrackListView ? 32 : 46;
@@ -80,10 +90,18 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
         this._tracks = v;
         this.orderTracks();
         this.mouseSelectionWatcher.initialize(this.orderedTracks, false);
+        this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.orderedTracks.length > 0);
     }
 
     public ngOnDestroy(): void {
+        this.disposeScrollPosition(this.scrollPositionKey);
+
         this.subscription.unsubscribe();
+    }
+
+    public ngAfterViewInit(): void {
+        this.initializeScrollPosition(this.viewPort, this.scrollPositionKey);
+        this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.orderedTracks.length > 0);
     }
 
     public ngOnInit(): void {

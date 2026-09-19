@@ -429,5 +429,7 @@
     "show-wave-progress": "Golfvormige voortgang weergeven",
     "stop": "Stoppen",
     "show-stop-button": "Stopknop weergeven",
-    "playback-controls": "Afspeelbediening"
+    "playback-controls": "Afspeelbediening",
+    "scrolling": "Scrollen",
+    "remember-scroll-position": "Scrollpositie van lijsten onthouden"
 }

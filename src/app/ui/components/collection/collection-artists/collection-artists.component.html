@@ -13,6 +13,7 @@
                     class="p-3 fill"
                     [artists]="this.artists | artistsFilter: this.searchService.delayedSearchText"
                     [(artistsPersister)]="this.artistsPersister"
+                    scrollPositionKey="artists-artists"
                 ></app-artist-browser></div
         ></as-split-area>
         <as-split-area [size]="centerPaneSize" minSize="5" maxSize="95"
@@ -20,6 +21,7 @@
                 class="p-3 fill"
                 [albums]="this.albums | albumsFilter: this.searchService.delayedSearchText"
                 [(albumsPersister)]="this.albumsPersister"
+                scrollPositionKey="artists-albums"
             ></app-album-browser
         ></as-split-area>
         <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95"
@@ -29,6 +31,7 @@
                     [tracks]="this.tracks | tracksFilter: this.searchService.delayedSearchText"
                     [(tracksPersister)]="this.tracksPersister"
                     [trackOrders]="this.trackOrders"
+                    scrollPositionKey="artists-tracks"
                 ></app-track-browser></div
         ></as-split-area>
     </as-split>

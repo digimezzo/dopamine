@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Logger } from '../../../../../common/logger';
 import { NativeElementProxy } from '../../../../../common/native-element-proxy';
@@ -20,6 +21,8 @@ import { Constants } from '../../../../../common/application/constants';
 import { DesktopBase } from '../../../../../common/io/desktop.base';
 import { SearchServiceBase } from '../../../../../services/search/search.service.base';
 import { StringUtils } from '../../../../../common/utils/string-utils';
+import { ScrollPositionService } from '../../../../../services/scroll-position/scroll-position.service';
+import { BaseVirtualScrollBrowser } from '../../base-virtual-scroll-browser';
 
 @Component({
     selector: 'app-playlist-browser',
@@ -28,7 +31,7 @@ import { StringUtils } from '../../../../../common/utils/string-utils';
     styleUrls: ['./playlist-browser.component.scss'],
     providers: [MouseSelectionWatcher],
 })
-export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDestroy {
+export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implements AfterViewInit, OnChanges, OnDestroy {
     public readonly playlistOrders: PlaylistOrder[] = Object.values(PlaylistOrder).filter((x): x is PlaylistOrder => typeof x === 'number');
     public readonly playlistOrderKey = playlistOrderKey;
 
@@ -50,16 +53,24 @@ export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDes
         private desktop: DesktopBase,
         public searchService: SearchServiceBase,
         private logger: Logger,
-    ) {}
+        scrollPositionService: ScrollPositionService,
+    ) {
+        super(scrollPositionService, searchService);
+    }
 
     public playlistRows: PlaylistRow[] = [];
 
     public selectedPlaylistOrder: PlaylistOrder;
 
+    @Input()
+    public scrollPositionKey: string = 'playlists';
+
     @ViewChild('playlistContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public playlistContextMenu: MatMenuTrigger;
 
     @ViewChild('playlistBrowserElement') public playlistBrowserElement: ElementRef;
+
+    @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
 
     public get playlistsPersister(): PlaylistsPersister {
         return this._playlistsPersister;
@@ -91,6 +102,8 @@ export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDes
     }
 
     public ngOnDestroy(): void {
+        this.disposeScrollPosition(this.scrollPositionKey);
+
         this.destroy$.next();
         this.destroy$.complete();
     }
@@ -106,7 +119,12 @@ export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDes
     public ngAfterViewInit(): void {
         // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
         setTimeout(() => {
+            this.initializeScrollPosition(this.viewPort, this.scrollPositionKey);
             this.initializeAvailableWidth();
+
+            if (this.playlistRows.length > 0) {
+                this.orderPlaylists();
+            }
 
             this.applicationService.windowSizeChanged$
                 .pipe(debounceTime(Constants.playlistsRedrawDelayMilliseconds), takeUntil(this.destroy$))
@@ -210,6 +228,7 @@ export class PlaylistBrowserComponent implements AfterViewInit, OnChanges, OnDes
                 this.selectedPlaylistOrder,
             );
             this.applySelectedPlaylists();
+            this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.playlistRows.length > 0);
         } catch (e: unknown) {
             this.logger.error(e, 'Could not order playlists', 'PlaylistBrowserComponent', 'orderPlaylists');
         }

@@ -6,6 +6,7 @@
                     class="p-3 fill"
                     [(playlistFoldersPersister)]="this.playlistFoldersPersister"
                     [playlistFolders]="this.playlistFolders"
+                    scrollPositionKey="playlists-folders"
                 ></app-playlist-folder-browser></div
         ></as-split-area>
         <as-split-area [size]="centerPaneSize" minSize="5" maxSize="95">
@@ -13,6 +14,7 @@
                 class="p-3 fill"
                 [playlists]="this.playlists | playlistsFilter: this.searchService.delayedSearchText"
                 [(playlistsPersister)]="this.playlistsPersister"
+                scrollPositionKey="playlists-playlists"
             ></app-playlist-browser>
         </as-split-area>
         <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95"
@@ -23,6 +25,7 @@
                     [(tracksPersister)]="this.tracksPersister"
                     [canReorder]="!this.searchService.delayedSearchText"
                     [canRemoveFromPlaylist]="this.canRemoveFromPlaylist"
+                    scrollPositionKey="playlists-tracks"
                 ></app-playlist-track-browser></div
         ></as-split-area>
     </as-split>

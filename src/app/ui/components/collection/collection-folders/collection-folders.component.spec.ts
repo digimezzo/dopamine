@@ -31,6 +31,7 @@ import { Folder } from '../../../../data/entities/folder';
 import { Constants } from '../../../../common/application/constants';
 import { DesktopBase } from '../../../../common/io/desktop.base';
 import { MetadataService } from '../../../../services/metadata/metadata.service';
+import { ScrollPositionService } from '../../../../services/scroll-position/scroll-position.service';
 
 describe('CollectionFoldersComponent', () => {
     let settingsStub: any;
@@ -55,6 +56,7 @@ describe('CollectionFoldersComponent', () => {
     let dateTimeMock: IMock<DateTime>;
     let folderTracksPersisterMock: IMock<FolderTracksPersister>;
     let desktopMock: IMock<DesktopBase>;
+    let scrollPositionServiceMock: IMock<ScrollPositionService>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
     let playbackServicePlaybackStoppedMock: Subject<void>;
@@ -104,15 +106,18 @@ describe('CollectionFoldersComponent', () => {
             loggerMock.object,
             hacksMock.object,
             desktopMock.object,
+            scrollPositionServiceMock.object,
         );
     }
 
     beforeEach(() => {
         settingsStub = { foldersLeftPaneWidthPercent: 30 };
         searchServiceMock = Mock.ofType<SearchServiceBase>();
+        searchServiceMock.setup((x) => x.delayedSearchTextChanged$).returns(() => new Subject<string>().asObservable());
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         indexingServiceMock = Mock.ofType<IndexingService>();
         collectionServiceMock = Mock.ofType<CollectionServiceBase>();
+        scrollPositionServiceMock = Mock.ofType<ScrollPositionService>();
         metadataServiceMock = Mock.ofType<MetadataService>();
         playbackServiceMock = Mock.ofType<PlaybackService>();
         folderServiceMock = Mock.ofType<FolderServiceBase>();

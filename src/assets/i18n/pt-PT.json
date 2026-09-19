@@ -429,5 +429,7 @@
     "show-wave-progress": "Show wave progress",
     "stop": "Stop",
     "show-stop-button": "Show stop button",
-    "playback-controls": "Playback controls"
+    "playback-controls": "Playback controls",
+    "scrolling": "Scrolling",
+    "remember-scroll-position": "Remember scroll position of lists"
 }

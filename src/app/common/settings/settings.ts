@@ -991,6 +991,15 @@ export class Settings implements SettingsBase {
         this.set('jumpToPlayingSong', v);
     }
 
+    // rememberScrollPosition
+    public get rememberScrollPosition(): boolean {
+        return this.get<boolean>('rememberScrollPosition');
+    }
+
+    public set rememberScrollPosition(v: boolean) {
+        this.set('rememberScrollPosition', v);
+    }
+
     // showSquareImages
     public get showSquareImages(): boolean {
         return this.get<boolean>('showSquareImages');
