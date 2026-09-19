@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added optional wave progress bar
 - Ctrl+F now selects all text in the search box for quick replacement
 - Added optional Stop button (Hidden by default, but can be enabled in the settings.)
+- Scroll position is now remembered when switching screens
 
 ### Changed
 
