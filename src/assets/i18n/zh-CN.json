@@ -426,8 +426,8 @@
     "compact-total-duration": "紧凑型总时长格式 ((H)H:MM:SS)",
     "by-file-name-ascending": "文件名 A-Z",
     "by-file-name-descending": "文件名 Z-A",
-    "show-wave-progress": "Show wave progress",
-    "stop": "Stop",
-    "show-stop-button": "Show stop button",
-    "playback-controls": "Playback controls"
+    "show-wave-progress": "显示波浪型进度",
+    "stop": "停止",
+    "show-stop-button": "显示停止按钮",
+    "playback-controls": "播放控件"
 }
