@@ -13,21 +13,14 @@
     height: 25px;
     width: 25px;
     background: transparent;
-    border: 1px solid var(--theme-button-border);
-    border-radius: 25px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.25s ease 0s;
+    border: 0;
+    transition: color 0.15s ease;
     cursor: pointer;
     outline: none;
-    padding-top: 1px; // HACK: required so that the icon looks vertically centered, otherwise it looks a bit off
 }
 
 .app-icon-button-button:hover {
-    background-color: var(--theme-accent-color);
-    box-shadow: 0 5px 15px rgba(var(--theme-rgb-accent), 0.4);
-    color: var(--theme-highlight-foreground);
-    transform: translateY(-3px);
-    border: 1px solid #00000000;
+    color: var(--theme-accent-color);
 }
 
 .app-icon-button-icon {
@@ -35,10 +28,6 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    font-size: calc(var(--fontsize) * 1.2);
-    // color: var(--theme-accent-color);
-}
-
-.app-icon-button-button:hover .app-icon-button-icon {
-    color: var(--theme-highlight-foreground);
+    font-size: 18px;
+    line-height: 1;
 }
