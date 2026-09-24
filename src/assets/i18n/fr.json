@@ -109,7 +109,7 @@
     "previous": "Précédent",
     "loop": "Boucle",
     "shuffle": "Aléatoire",
-    "playback-speed": "Playback speed",
+    "playback-speed": "Vitesse de lecture",
     "confirm-delete-folder": "Supprimer dossier?",
     "confirm-delete-folder-long": "Voulez-vous vraiment supprimer le dossier '{{folderPath}}'?",
     "error": "Erreur",
