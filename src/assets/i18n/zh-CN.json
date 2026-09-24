@@ -109,6 +109,7 @@
     "previous": "上一首",
     "loop": "循环",
     "shuffle": "随机",
+    "playback-speed": "播放速度",
     "confirm-delete-folder": "移除文件夹？",
     "confirm-delete-folder-long": "确定移除文件夹 '{{folderPath}}'？",
     "error": "错误",

@@ -150,6 +150,11 @@ export class LegacyAudioPlayer implements IAudioPlayer {
         this._audio.volume = Math.min(1, logarithmicVolume * replayGainMultiplier);
     }
 
+    public setPlaybackRate(rate: number): void {
+        this._audio.defaultPlaybackRate = rate;
+        this._audio.playbackRate = rate;
+    }
+
     // eslint-disable-next-line @typescript-eslint/require-await
     public async skipToSecondsAsync(seconds: number): Promise<void> {
         this._audio.currentTime = seconds;

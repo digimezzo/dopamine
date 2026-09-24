@@ -109,6 +109,7 @@
     "previous": "Předchozí",
     "loop": "Smyčka",
     "shuffle": "Náhodně",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "Odstranit složku?",
     "confirm-delete-folder-long": "Opravdu chcete odstranit složku '{{folderPath}}'?",
     "error": "Chyba",

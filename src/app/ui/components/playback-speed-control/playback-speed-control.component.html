@@ -1,0 +1,51 @@
+<button
+    cdkOverlayOrigin
+    #speedOrigin="cdkOverlayOrigin"
+    class="app-playback-speed-control__trigger pointer"
+    (click)="togglePopup()"
+    matRipple
+    matTooltip="{{ 'playback-speed' | translate }}"
+>
+    {{ formatSpeed(speed) }}x
+</button>
+
+<ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="speedOrigin"
+    [cdkConnectedOverlayOpen]="isPopupOpen"
+    [cdkConnectedOverlayPositions]="popupPositions"
+    [cdkConnectedOverlayViewportMargin]="popupViewportMargin"
+    [cdkConnectedOverlayPush]="true"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+    (backdropClick)="closePopup()"
+    (detach)="closePopup()"
+>
+    <div class="app-playback-speed-control mat-mdc-elevation-specific mat-elevation-z8">
+        <div class="app-playback-speed-control__header">
+            <span>{{ 'playback-speed' | translate }}</span>
+            <span class="accent-color">{{ formatSpeed(speed) }}x</span>
+        </div>
+        <div class="app-playback-speed-control__adjustment">
+            <button class="app-playback-speed-control__adjustment-button" (click)="decreaseSpeed()">−</button>
+            <app-slider
+                class="app-playback-speed-control__slider"
+                [maximum]="maximumSpeed - minimumSpeed"
+                [stepSize]="speedStep"
+                [mouseStepSize]="speedStep"
+                [(value)]="sliderValue"
+            ></app-slider>
+            <button class="app-playback-speed-control__adjustment-button" (click)="increaseSpeed()">+</button>
+        </div>
+        <div class="app-playback-speed-control__presets">
+            <button
+                *ngFor="let preset of speedPresets"
+                class="app-playback-speed-control__preset"
+                [class.app-playback-speed-control__preset--selected]="speed === preset"
+                (click)="setSpeed(preset)"
+            >
+                {{ formatSpeed(preset) }}x
+            </button>
+        </div>
+    </div>
+</ng-template>

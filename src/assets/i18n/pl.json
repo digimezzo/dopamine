@@ -109,6 +109,7 @@
     "previous": "Poprzedni",
     "loop": "W pętli",
     "shuffle": "Losowo",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "Usunąć folder?",
     "confirm-delete-folder-long": "Czy na pewno chcesz usunąć folder '{{folderPath}}'?",
     "error": "Błąd",

@@ -109,6 +109,7 @@
     "previous": "이전",
     "loop": "반복",
     "shuffle": "랜덤",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "폴더 삭제?",
     "confirm-delete-folder-long": "폴더를 삭제 하시겠습니까? '{{folderPath}}'?",
     "error": "오류",

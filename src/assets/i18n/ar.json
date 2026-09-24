@@ -109,6 +109,7 @@
     "previous": "السابق",
     "loop": "التكرار",
     "shuffle": "خلط",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "حذف المجلد؟",
     "confirm-delete-folder-long": "هل أنت متأكد من أنك تريد حذف المجلد '{{folderPath}}'؟",
     "error": "خطأ",

@@ -109,6 +109,7 @@
     "previous": "Предишна",
     "loop": "Loop",
     "shuffle": "Разбъркайте",
+    "playback-speed": "Playback speed",
     "confirm-delete-folder": "Изтрий папка?",
     "confirm-delete-folder-long": "Наистина ли искате да изтриете папката '{{folderPath}}'?",
     "error": "Грешка",

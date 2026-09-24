@@ -109,6 +109,7 @@
     "previous": "上一個",
     "loop": "循環",
     "shuffle": "隨機",
+    "playback-speed": "播放速度",
     "confirm-delete-folder": "刪除資料夾？",
     "confirm-delete-folder-long": "確定要刪除資料夾「{{folderPath}}」？",
     "error": "錯誤",
