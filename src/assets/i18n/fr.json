@@ -431,5 +431,6 @@
     "show-stop-button": "Afficher le bouton d'arrêt",
     "playback-controls": "Contrôles de lecture",
     "scrolling": "Défilement",
-    "remember-scroll-position": "Se souvenir de la position de défilement des listes"
+    "remember-scroll-position": "Se souvenir de la position de défilement des listes",
+    "clear-queue": "Vider la file d’attente"
 }

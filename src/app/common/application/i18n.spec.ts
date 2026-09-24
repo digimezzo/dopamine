@@ -428,6 +428,7 @@ describe('validate i18n', () => {
         "equalizer-preset-treble-boost",
         "equalizer-preset-treble-reducer",
         "equalizer-preset-vocal",
+        "clear-queue",
         "clear-selection",
         "reset",
         "compact-total-duration",

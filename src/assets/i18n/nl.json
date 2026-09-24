@@ -431,5 +431,6 @@
     "show-stop-button": "Stopknop weergeven",
     "playback-controls": "Afspeelbediening",
     "scrolling": "Scrollen",
-    "remember-scroll-position": "Scrollpositie van lijsten onthouden"
+    "remember-scroll-position": "Scrollpositie van lijsten onthouden",
+    "clear-queue": "Wachtrij wissen"
 }

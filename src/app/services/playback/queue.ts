@@ -70,7 +70,7 @@ export class Queue {
             return;
         }
 
-        for (const trackToRemove of tracksToRemove) {
+        for (const trackToRemove of [...tracksToRemove]) {
             const trackIndex: number = this._tracks.indexOf(trackToRemove);
 
             if (trackIndex !== -1) {

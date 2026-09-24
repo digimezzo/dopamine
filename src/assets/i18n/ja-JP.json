@@ -431,5 +431,6 @@
     "show-stop-button": "Show stop button",
     "playback-controls": "Playback controls",
     "scrolling": "Scrolling",
-    "remember-scroll-position": "Remember scroll position of lists"
+    "remember-scroll-position": "Remember scroll position of lists",
+    "clear-queue": "Clear queue"
 }
