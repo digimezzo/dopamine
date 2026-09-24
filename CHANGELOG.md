@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added optional Stop button (Hidden by default, but can be enabled in the settings.)
 - Scroll position is now remembered when switching screens
 - Added buttons to the playback queue to clear the queue and to add the queued songs to a playlist
+- Added album release date to album image tooltips and optionally on the nog playing page
 
 ### Changed
 
