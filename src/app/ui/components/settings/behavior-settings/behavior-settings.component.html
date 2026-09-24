@@ -70,6 +70,11 @@
             {{ 'show-album-on-now-playing-page' | translate }}</app-toggle-switch
         >
     </div>
+    <div>
+        <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.showYearOnNowPlayingPage">
+            {{ 'show-year-on-now-playing-page' | translate }}</app-toggle-switch
+        >
+    </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'playback-controls' | translate }}</div>
     <div>

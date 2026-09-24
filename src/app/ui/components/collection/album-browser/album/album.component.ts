@@ -23,4 +23,12 @@ export class AlbumComponent {
     public formatYear(year: number): string {
         return YearFormatter.formatYear(year);
     }
+
+    public getAlbumTooltip(albumTitle: string, year: number): string {
+        if (year === undefined || year === 0) {
+            return albumTitle;
+        }
+
+        return `${albumTitle} (${year})`;
+    }
 }

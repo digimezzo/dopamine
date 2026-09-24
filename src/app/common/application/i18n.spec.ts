@@ -334,6 +334,7 @@ describe('validate i18n', () => {
         'replaygain-scan-tags-external-tool',
         'replaygain-tool-rsgain',
         'show-album-on-now-playing-page',
+        'show-year-on-now-playing-page',
         'unknown-album',
         'unknown-artist',
         'unknown-genre',

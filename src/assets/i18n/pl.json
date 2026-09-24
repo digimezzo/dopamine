@@ -432,5 +432,6 @@
     "playback-controls": "Playback controls",
     "scrolling": "Scrolling",
     "remember-scroll-position": "Remember scroll position of lists",
-    "clear-queue": "Clear queue"
+    "clear-queue": "Clear queue",
+    "show-year-on-now-playing-page": "Show year on now playing page"
 }

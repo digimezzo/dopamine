@@ -432,5 +432,6 @@
     "playback-controls": "Contrôles de lecture",
     "scrolling": "Défilement",
     "remember-scroll-position": "Se souvenir de la position de défilement des listes",
-    "clear-queue": "Vider la file d’attente"
+    "clear-queue": "Vider la file d’attente",
+    "show-year-on-now-playing-page": "Afficher l'année sur la page 'Lecture en cours'"
 }

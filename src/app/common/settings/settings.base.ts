@@ -74,6 +74,7 @@ export abstract class SettingsBase {
     public abstract listenbrainzToken: string;
     public abstract showLove: boolean;
     public abstract showAlbumOnNowPlayingPage: boolean;
+    public abstract showYearOnNowPlayingPage: boolean;
     public abstract downloadArtistInformationFromLastFm: boolean;
     public abstract downloadLyricsOnline: boolean;
     public abstract showWaveProgress: boolean;

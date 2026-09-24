@@ -709,6 +709,15 @@ export class Settings implements SettingsBase {
         this.set('showAlbumOnNowPlayingPage', v);
     }
 
+    // showYearOnNowPlayingPage
+    public get showYearOnNowPlayingPage(): boolean {
+        return this.get<boolean>('showYearOnNowPlayingPage') ?? true;
+    }
+
+    public set showYearOnNowPlayingPage(v: boolean) {
+        this.set('showYearOnNowPlayingPage', v);
+    }
+
     // downloadArtistInformationFromLastFm
     public get downloadArtistInformationFromLastFm(): boolean {
         return this.get<boolean>('downloadArtistInformationFromLastFm');
