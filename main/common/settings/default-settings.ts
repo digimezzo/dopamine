@@ -101,6 +101,7 @@ export const DEFAULT_SETTINGS = {
     replayGainPreventClipping: true,
     logReplayGainAtTrackStart: false,
     jumpToPlayingSong: true,
+    rememberScrollPosition: true,
     showSquareImages: false,
     useCompactYearView: false,
     useCompactTrackListView: false,

@@ -2383,6 +2383,36 @@ describe('PlaybackService', () => {
         });
     });
 
+    describe('clearQueue', () => {
+        it('should remove all tracks from the queue', () => {
+            // Arrange
+            queueMock.setup((x) => x.tracks).returns(() => tracks.tracks);
+            const service: PlaybackService = createService();
+
+            // Act
+            service.clearQueue();
+
+            // Assert
+            queueMock.verify((x) => x.removeTracks(tracks.tracks), Times.once());
+        });
+
+        it('should save queue after debounce when the queue is cleared', () => {
+            // Arrange
+            jest.useFakeTimers();
+            settingsStub.rememberPlaybackStateAfterRestart = true;
+            queueMock.setup((x) => x.tracks).returns(() => tracks.tracks);
+            const service: PlaybackService = createService();
+
+            // Act
+            service.clearQueue();
+            jest.runAllTimers();
+
+            // Assert
+            queuePersisterMock.verify((x) => x.save(It.isAny(), It.isAny(), It.isAny()), Times.once());
+            jest.useRealTimers();
+        });
+    });
+
     describe('reorderQueue', () => {
         it('should move tracks in queue from previous index to current index', () => {
             // Arrange

@@ -9,6 +9,18 @@
         <div class="d-flex flex-row align-items-center">
             <app-icon-button
                 class="mr-2"
+                icon="las la-trash"
+                matTooltip="{{ 'clear-queue' | translate }}"
+                (click)="clearQueue()"
+            ></app-icon-button>
+            <app-icon-button
+                class="mr-2"
+                icon="las la-save"
+                matTooltip="{{ 'add-to-playlist' | translate }}"
+                [matMenuTriggerFor]="saveQueueToPlaylistMenu"
+            ></app-icon-button>
+            <app-icon-button
+                class="mr-2"
                 icon="las la-crosshairs"
                 matTooltip="{{ 'jump-to-playing-song' | translate }}"
                 (click)="scrollToPlayingTrack()"
@@ -45,6 +57,32 @@
         [totalFileSizeInBytes]="this.playbackService.playbackQueue.totalFileSizeInBytes"
     ></app-totals>
 </div>
+
+<mat-menu #saveQueueToPlaylistMenu="matMenu">
+    <div *ngIf="!this.addToPlaylistMenu.hasPlaylists" mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
+    <div *ngIf="this.addToPlaylistMenu.hasPlaylists">
+        <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
+            <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
+                <span>{{ playlist.key }}</span>
+            </button>
+            <mat-menu #playlistsMenu="matMenu">
+                <button
+                    *ngFor="let playlist of $any(this.addToPlaylistMenu.playlists)[$any(playlist).key] | keyvalue"
+                    mat-menu-item
+                    (click)="
+                        this.addToPlaylistMenu.addTracksToPlaylistAsync(
+                            $any(playlist.value).path,
+                            $any(playlist.value).name,
+                            this.playbackService.playbackQueue.tracks
+                        )
+                    "
+                >
+                    <span>{{ $any(playlist.value).name }}</span>
+                </button>
+            </mat-menu>
+        </ng-container>
+    </div>
+</mat-menu>
 
 <div
     #trackContextMenuAnchor

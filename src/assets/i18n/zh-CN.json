@@ -430,4 +430,8 @@
     "stop": "停止",
     "show-stop-button": "显示停止按钮",
     "playback-controls": "播放控件"
+    "scrolling": "Scrolling",
+    "remember-scroll-position": "Remember scroll position of lists",
+    "clear-queue": "Clear queue",
+    "show-year-on-now-playing-page": "Show year on now playing page"
 }

@@ -1,5 +1,5 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../../common/application/constants';
@@ -20,6 +20,9 @@ import { GenreSorter } from '../../../../../common/sorting/genre-sorter';
 import { Timer } from '../../../../../common/scheduling/timer';
 import { TrackModels } from '../../../../../services/track/track-models';
 import { TrackServiceBase } from '../../../../../services/track/track.service.base';
+import { ScrollPositionService } from '../../../../../services/scroll-position/scroll-position.service';
+import { SearchServiceBase } from '../../../../../services/search/search.service.base';
+import { BaseVirtualScrollBrowser } from '../../base-virtual-scroll-browser';
 
 @Component({
     selector: 'app-genre-browser',
@@ -28,7 +31,7 @@ import { TrackServiceBase } from '../../../../../services/track/track.service.ba
     styleUrls: ['./genre-browser.component.scss'],
     providers: [MouseSelectionWatcher],
 })
-export class GenreBrowserComponent implements OnInit, OnDestroy {
+export class GenreBrowserComponent extends BaseVirtualScrollBrowser implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
 
     public readonly genreOrders: GenreOrder[] = Object.values(GenreOrder).filter((x): x is GenreOrder => typeof x === 'number');
@@ -50,7 +53,11 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         private semanticZoomHeaderAdder: SemanticZoomHeaderAdder,
         private scheduler: SchedulerBase,
         private logger: Logger,
-    ) {}
+        scrollPositionService: ScrollPositionService,
+        searchService: SearchServiceBase,
+    ) {
+        super(scrollPositionService, searchService);
+    }
 
     public shouldZoomOut: boolean = false;
 
@@ -60,6 +67,9 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
     public orderedGenres: GenreModel[] = [];
 
     public selectedGenreOrder: GenreOrder;
+
+    @Input()
+    public scrollPositionKey: string = 'genres';
 
     public get genresPersister(): GenresPersister {
         return this._genresPersister;
@@ -88,7 +98,14 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
+        this.disposeScrollPosition(this.scrollPositionKey);
+
         this.subscription.unsubscribe();
+    }
+
+    public ngAfterViewInit(): void {
+        this.initializeScrollPosition(this.viewPort, this.scrollPositionKey);
+        this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.orderedGenres.length > 0);
     }
 
     public ngOnInit(): void {
@@ -190,6 +207,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         }
 
         this.orderedGenres = [...orderedGenres];
+        this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.orderedGenres.length > 0);
     }
 
     private applySelectedGenres(): void {

@@ -712,6 +712,22 @@ describe('Queue', () => {
             expect(queue.tracks[1]).toEqual(track3Clone);
         });
 
+        it('should remove all tracks when removing the live queue tracks', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2, track3], false);
+
+            // Act
+            queue.removeTracks(queue.tracks);
+
+            // Assert
+            expect(queue.tracks).toEqual([]);
+        });
+
         it('should not remove tracks from unshuffled playback order if tracksToRemove is undefined', () => {
             // Arrange
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');

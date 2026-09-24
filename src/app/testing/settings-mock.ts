@@ -78,6 +78,7 @@ export class SettingsMock implements SettingsBase {
     public showIconInNotificationArea: boolean;
     public showLove: boolean;
     public showAlbumOnNowPlayingPage: boolean;
+    public showYearOnNowPlayingPage: boolean;
     public showPlaylistsPage: boolean;
     public showRating: boolean;
     public showTracksPage: boolean;
@@ -109,6 +110,7 @@ export class SettingsMock implements SettingsBase {
     public replayGainPreventClipping: boolean;
     public logReplayGainAtTrackStart: boolean;
     public jumpToPlayingSong: boolean;
+    public rememberScrollPosition: boolean;
     public showSquareImages: boolean;
     public useCompactYearView: boolean;
     public useCompactTrackListView: boolean;

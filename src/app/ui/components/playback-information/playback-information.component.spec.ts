@@ -133,6 +133,12 @@ describe('PlaybackInformationComponent', () => {
             expect(component.showLove).toBeFalsy();
         });
 
+        it('should initialize showYear as false', () => {
+            const component: PlaybackInformationComponent = createComponent();
+
+            expect(component.showYear).toBeFalsy();
+        });
+
         it('should initialize contentAnimation as "down"', () => {
             // Arrange
 

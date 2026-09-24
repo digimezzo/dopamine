@@ -102,4 +102,14 @@ describe('AlbumComponent', () => {
             expect(result).toEqual('-500');
         });
     });
+
+    describe('getAlbumTooltip', () => {
+        it('should append the release year to the album title', () => {
+            expect(component.getAlbumTooltip('Album title', 2023)).toEqual('Album title (2023)');
+        });
+
+        it('should return only the album title when the release year is unknown', () => {
+            expect(component.getAlbumTooltip('Album title', 0)).toEqual('Album title');
+        });
+    });
 });

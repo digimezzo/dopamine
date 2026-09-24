@@ -1,5 +1,5 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../../common/application/constants';
@@ -23,6 +23,9 @@ import { TrackServiceBase } from '../../../../../services/track/track.service.ba
 import { TrackModels } from '../../../../../services/track/track-models';
 import { SettingsBase } from '../../../../../common/settings/settings.base';
 import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
+import { ScrollPositionService } from '../../../../../services/scroll-position/scroll-position.service';
+import { SearchServiceBase } from '../../../../../services/search/search.service.base';
+import { BaseVirtualScrollBrowser } from '../../base-virtual-scroll-browser';
 
 @Component({
     selector: 'app-artist-browser',
@@ -31,7 +34,7 @@ import { DialogServiceBase } from '../../../../../services/dialog/dialog.service
     styleUrls: ['./artist-browser.component.scss'],
     providers: [MouseSelectionWatcher],
 })
-export class ArtistBrowserComponent implements OnInit, OnDestroy {
+export class ArtistBrowserComponent extends BaseVirtualScrollBrowser implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
 
     public readonly artistTypes: ArtistType[] = Object.values(ArtistType).filter((x): x is ArtistType => typeof x === 'number');
@@ -58,7 +61,11 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         private dialogService: DialogServiceBase,
         public settings: SettingsBase,
         private logger: Logger,
-    ) {}
+        scrollPositionService: ScrollPositionService,
+        searchService: SearchServiceBase,
+    ) {
+        super(scrollPositionService, searchService);
+    }
 
     public shouldZoomOut: boolean = false;
 
@@ -70,6 +77,9 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
     public selectedArtistOrder: ArtistOrder;
 
     public selectedArtistType: ArtistType;
+
+    @Input()
+    public scrollPositionKey: string = 'artists';
 
     public get artistsPersister(): ArtistsPersister {
         return this._artistsPersister;
@@ -99,7 +109,14 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
+        this.disposeScrollPosition(this.scrollPositionKey);
+
         this.subscription.unsubscribe();
+    }
+
+    public ngAfterViewInit(): void {
+        this.initializeScrollPosition(this.viewPort, this.scrollPositionKey);
+        this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.orderedArtists.length > 0);
     }
 
     public ngOnInit(): void {
@@ -212,6 +229,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         }
 
         this.orderedArtists = [...orderedArtists];
+        this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.orderedArtists.length > 0);
     }
 
     private applySelectedArtists(): void {

@@ -429,5 +429,9 @@
     "show-wave-progress": "Golfvormige voortgang weergeven",
     "stop": "Stoppen",
     "show-stop-button": "Stopknop weergeven",
-    "playback-controls": "Afspeelbediening"
+    "playback-controls": "Afspeelbediening",
+    "scrolling": "Scrollen",
+    "remember-scroll-position": "Scrollpositie van lijsten onthouden",
+    "clear-queue": "Wachtrij wissen",
+    "show-year-on-now-playing-page": "Jaar tonen op de pagina 'Speelt nu'"
 }

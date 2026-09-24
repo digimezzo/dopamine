@@ -6,43 +6,28 @@
 }
 
 .app-icon-button-button {
-    display: grid;
-    place-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     height: 25px;
     width: 25px;
     background: transparent;
-    border: 1px solid var(--theme-button-border);
-    border-radius: 25px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.25s ease 0s;
+    border: 0;
+    transition: color 0.15s ease;
     cursor: pointer;
     outline: none;
 }
 
 .app-icon-button-button:hover {
-    background-color: var(--theme-accent-color);
-    box-shadow: 0 5px 15px rgba(var(--theme-rgb-accent), 0.4);
-    color: var(--theme-highlight-foreground);
-    transform: translateY(-3px);
-    border: 1px solid #00000000;
+    color: var(--theme-accent-color);
 }
 
 .app-icon-button-icon {
-    display: block;
-    width: calc(var(--fontsize) * 1.2);
-    height: calc(var(--fontsize) * 1.2);
-    background-color: currentColor;
-    mask-image: var(--icon-url);
-    mask-position: center;
-    mask-repeat: no-repeat;
-    mask-size: contain;
-    -webkit-mask-image: var(--icon-url);
-    -webkit-mask-position: center;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-size: contain;
-    // color: var(--theme-accent-color);
-}
-
-.app-icon-button-button:hover .app-icon-button-icon {
-    color: var(--theme-highlight-foreground);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    line-height: 1;
 }

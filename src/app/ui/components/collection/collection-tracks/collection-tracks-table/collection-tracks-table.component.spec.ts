@@ -25,6 +25,8 @@ import { SettingsMock } from '../../../../../testing/settings-mock';
 import { PlaybackService } from '../../../../../services/playback/playback.service';
 import { MetadataService } from '../../../../../services/metadata/metadata.service';
 import { TrackServiceBase } from '../../../../../services/track/track.service.base';
+import { ScrollPositionService } from '../../../../../services/scroll-position/scroll-position.service';
+import { SearchServiceBase } from '../../../../../services/search/search.service.base';
 
 describe('CollectionTracksTableComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
@@ -44,6 +46,8 @@ describe('CollectionTracksTableComponent', () => {
     let desktopMock: IMock<DesktopBase>;
     let loggerMock: IMock<Logger>;
     let settingsMock: any;
+    let scrollPositionServiceMock: IMock<ScrollPositionService>;
+    let searchServiceMock: IMock<SearchServiceBase>;
 
     let playbackStartedMock: Subject<PlaybackStarted>;
     let playbackStartedMock$: Observable<PlaybackStarted>;
@@ -84,6 +88,8 @@ describe('CollectionTracksTableComponent', () => {
             translatorServiceMock.object,
             desktopMock.object,
             loggerMock.object,
+            scrollPositionServiceMock.object,
+            searchServiceMock.object,
         );
 
         return component;
@@ -107,6 +113,9 @@ describe('CollectionTracksTableComponent', () => {
         desktopMock = Mock.ofType<DesktopBase>();
         loggerMock = Mock.ofType<Logger>();
         settingsMock = new SettingsMock();
+        scrollPositionServiceMock = Mock.ofType<ScrollPositionService>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
+        searchServiceMock.setup((x) => x.delayedSearchTextChanged$).returns(() => new Subject<string>().asObservable());
 
         playbackStartedMock = new Subject();
         playbackStartedMock$ = playbackStartedMock.asObservable();

@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Logger } from '../../../../../common/logger';
 import { PlaybackStarted } from '../../../../../services/playback/playback-started';
@@ -23,6 +23,8 @@ import { ContextMenuOpener } from '../../../context-menu-opener';
 import { MetadataService } from '../../../../../services/metadata/metadata.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { TrackServiceBase } from '../../../../../services/track/track.service.base';
+import { ScrollPositionService } from '../../../../../services/scroll-position/scroll-position.service';
+import { SearchServiceBase } from '../../../../../services/search/search.service.base';
 
 @Component({
     selector: 'app-collection-tracks-table',
@@ -32,7 +34,8 @@ import { TrackServiceBase } from '../../../../../services/track/track.service.ba
     providers: [MouseSelectionWatcher],
     encapsulation: ViewEncapsulation.None,
 })
-export class CollectionTracksTableComponent extends TrackBrowserBase implements OnInit, OnDestroy {
+export class CollectionTracksTableComponent extends TrackBrowserBase implements OnInit, AfterViewInit, OnDestroy {
+    private static readonly scrollPositionKey: string = 'tracks-table';
     private subscription: Subscription = new Subscription();
     private _tracks: TrackModels = new TrackModels();
 
@@ -53,6 +56,8 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
         translatorService: TranslatorServiceBase,
         desktop: DesktopBase,
         logger: Logger,
+        scrollPositionService: ScrollPositionService,
+        searchService: SearchServiceBase,
     ) {
         super(
             playbackService,
@@ -64,6 +69,8 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
             collectionService,
             translatorService,
             desktop,
+            scrollPositionService,
+            searchService,
         );
     }
 
@@ -181,7 +188,14 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
     }
 
     public ngOnDestroy(): void {
+        this.disposeScrollPosition(CollectionTracksTableComponent.scrollPositionKey);
+
         this.subscription.unsubscribe();
+    }
+
+    public ngAfterViewInit(): void {
+        this.initializeScrollPosition(this.viewPort, CollectionTracksTableComponent.scrollPositionKey);
+        this.restoreScrollPosition(this.viewPort, CollectionTracksTableComponent.scrollPositionKey, this.orderedTracks.length > 0);
     }
 
     public setSelectedTracks(event: MouseEvent, trackToSelect: TrackModel): void {
@@ -281,7 +295,8 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
 
         this.orderedTracks = [...orderedTracks];
         this.playbackIndicationService.setPlayingTrack(this.orderedTracks, this.playbackService.currentTrack);
-        this.trackService.scrollToPlayingTrack(this.orderedTracks, this.viewPort);
+        // Don't auto-jump to the playing track here: a restored scroll position should always win on mount.
+        this.restoreScrollPosition(this.viewPort, CollectionTracksTableComponent.scrollPositionKey, this.orderedTracks.length > 0);
     }
 
     private updateTrackRating(trackWithUpToDateRating: TrackModel): void {

@@ -69,6 +69,9 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     public showAlbum: boolean = false;
 
     @Input()
+    public showYear: boolean = false;
+
+    @Input()
     public height: number = 0;
 
     @Input()

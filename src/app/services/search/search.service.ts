@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Constants } from '../../common/application/constants';
 import { StringUtils } from '../../common/utils/string-utils';
@@ -11,12 +11,15 @@ export class SearchService implements SearchServiceBase {
     private _searchText: string = '';
     private _delayedSearchText: string = '';
 
+    public delayedSearchTextChanged$: Observable<string> = this.updateDelayedSearchText.pipe(
+        debounceTime(Constants.searchDelayMilliseconds),
+        distinctUntilChanged(),
+    );
+
     public constructor() {
-        this.updateDelayedSearchText
-            .pipe(debounceTime(Constants.searchDelayMilliseconds), distinctUntilChanged())
-            .subscribe((searchText) => {
-                this._delayedSearchText = searchText;
-            });
+        this.delayedSearchTextChanged$.subscribe((searchText) => {
+            this._delayedSearchText = searchText;
+        });
     }
 
     public get searchText(): string {

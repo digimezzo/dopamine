@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div *ngIf="this.showYear" class="app-album__information">
-                <div class="app-album__information__line1 ellipsis" matTooltip="{{ album.albumTitle }}">
+                <div class="app-album__information__line1 ellipsis" [matTooltip]="this.getAlbumTooltip(album.albumTitle, album.year)">
                     {{ album.albumTitle }}
                 </div>
                 <div class="app-album__information__line2 ellipsis secondary-text smaller" matTooltip="{{ album.albumArtist }}">
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div *ngIf="!this.showYear" class="app-album__information">
-                <div class="app-album__information__line1 ellipsis" matTooltip="{{ album.albumTitle }}">
+                <div class="app-album__information__line1 ellipsis" [matTooltip]="this.getAlbumTooltip(album.albumTitle, album.year)">
                     {{ album.albumTitle }}
                 </div>
                 <div class="app-album__information__line2 ellipsis secondary-text smaller" matTooltip="{{ album.albumArtist }}">

@@ -19,6 +19,8 @@ import { SettingsMock } from '../../../../testing/settings-mock';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { TrackModels } from '../../../../services/track/track-models';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
+import { ScrollPositionService } from '../../../../services/scroll-position/scroll-position.service';
+import { SearchServiceBase } from '../../../../services/search/search.service.base';
 
 describe('AlbumBrowserComponent', () => {
     let trackServiceMock: IMock<TrackServiceBase>;
@@ -35,6 +37,8 @@ describe('AlbumBrowserComponent', () => {
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let settingsMock: SettingsMock;
+    let scrollPositionServiceMock: IMock<ScrollPositionService>;
+    let searchServiceMock: IMock<SearchServiceBase>;
     let windowSizeChanged: Subject<void>;
     let mouseButtonReleased: Subject<void>;
     let windowSizeChanged$: Observable<void>;
@@ -53,6 +57,8 @@ describe('AlbumBrowserComponent', () => {
             addToPlaylistMenuMock.object,
             settingsMock,
             loggerMock.object,
+            scrollPositionServiceMock.object,
+            searchServiceMock.object,
         );
     }
 
@@ -71,6 +77,9 @@ describe('AlbumBrowserComponent', () => {
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         settingsMock = new SettingsMock();
+        scrollPositionServiceMock = Mock.ofType<ScrollPositionService>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
+        searchServiceMock.setup((x) => x.delayedSearchTextChanged$).returns(() => new Subject<string>().asObservable());
         windowSizeChanged = new Subject();
         mouseButtonReleased = new Subject();
         windowSizeChanged$ = windowSizeChanged.asObservable();

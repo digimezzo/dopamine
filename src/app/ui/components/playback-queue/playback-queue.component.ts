@@ -13,6 +13,7 @@ import { StringUtils } from '../../../common/utils/string-utils';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { SettingsBase } from '../../../common/settings/settings.base';
+import { AddToPlaylistMenu } from '../add-to-playlist-menu';
 
 @Component({
     selector: 'app-playback-queue',
@@ -28,6 +29,7 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
 
     public constructor(
         public playbackService: PlaybackService,
+        public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         private playbackIndicationService: PlaybackIndicationServiceBase,
@@ -121,6 +123,10 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
 
     public onRemoveFromQueue(): void {
         this.playbackService.removeFromQueue(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
+    }
+
+    public clearQueue(): void {
+        this.playbackService.clearQueue();
     }
 
     public clearSearchText(): void {

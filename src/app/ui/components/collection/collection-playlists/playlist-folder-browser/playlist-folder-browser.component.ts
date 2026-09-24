@@ -1,8 +1,10 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Logger } from '../../../../../common/logger';
 import { StringUtils } from '../../../../../common/utils/string-utils';
 import { PlaylistFolderModel } from '../../../../../services/playlist-folder/playlist-folder-model';
+import { Subscription } from 'rxjs';
 import { PlaylistFoldersPersister } from '../playlist-folders-persister';
 import { AppearanceServiceBase } from '../../../../../services/appearance/appearance.service.base';
 import { PlaylistFolderServiceBase } from '../../../../../services/playlist-folder/playlist-folder.service.base';
@@ -13,6 +15,9 @@ import { TranslatorServiceBase } from '../../../../../services/translator/transl
 import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { DesktopBase } from '../../../../../common/io/desktop.base';
+import { ScrollPositionService } from '../../../../../services/scroll-position/scroll-position.service';
+import { SearchServiceBase } from '../../../../../services/search/search.service.base';
+import { BaseVirtualScrollBrowser } from '../../base-virtual-scroll-browser';
 
 @Component({
     selector: 'app-playlist-folder-browser',
@@ -21,9 +26,11 @@ import { DesktopBase } from '../../../../../common/io/desktop.base';
     styleUrls: ['./playlist-folder-browser.component.scss'],
     providers: [MouseSelectionWatcher],
 })
-export class PlaylistFolderBrowserComponent {
+export class PlaylistFolderBrowserComponent extends BaseVirtualScrollBrowser implements AfterViewInit, OnDestroy {
+    @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
     private _playlistFolders: PlaylistFolderModel[] = [];
     private _playlistFoldersPersister: PlaylistFoldersPersister;
+    private subscription: Subscription = new Subscription();
 
     public constructor(
         public appearanceService: AppearanceServiceBase,
@@ -36,7 +43,24 @@ export class PlaylistFolderBrowserComponent {
         private mouseSelectionWatcher: MouseSelectionWatcher,
         private desktop: DesktopBase,
         private logger: Logger,
-    ) {}
+        scrollPositionService: ScrollPositionService,
+        searchService: SearchServiceBase,
+    ) {
+        super(scrollPositionService, searchService);
+    }
+
+    @Input()
+    public scrollPositionKey: string = 'playlist-folders';
+
+    public ngOnDestroy(): void {
+        this.disposeScrollPosition(this.scrollPositionKey);
+        this.subscription.unsubscribe();
+    }
+
+    public ngAfterViewInit(): void {
+        this.initializeScrollPosition(this.viewPort, this.scrollPositionKey, false);
+        this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.playlistFolders.length > 0, false);
+    }
 
     public get playlistFolders(): PlaylistFolderModel[] {
         return this._playlistFolders;
@@ -51,6 +75,8 @@ export class PlaylistFolderBrowserComponent {
         if (this.playlistFoldersPersister != undefined) {
             this.applySelectedPlaylistFolders();
         }
+
+        this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.playlistFolders.length > 0, false);
     }
 
     public get playlistFoldersPersister(): PlaylistFoldersPersister {

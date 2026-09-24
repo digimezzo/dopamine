@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { IOutputData } from 'angular-split';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
@@ -28,6 +29,8 @@ import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { DesktopBase } from '../../../../common/io/desktop.base';
 import { TrackOrder } from '../track-order';
+import { ScrollPositionService } from '../../../../services/scroll-position/scroll-position.service';
+import { BaseVirtualScrollBrowser } from '../base-virtual-scroll-browser';
 
 @Component({
     selector: 'app-collection-folders',
@@ -37,7 +40,8 @@ import { TrackOrder } from '../track-order';
     providers: [MouseSelectionWatcher],
     encapsulation: ViewEncapsulation.None,
 })
-export class CollectionFoldersComponent implements OnInit, OnDestroy {
+export class CollectionFoldersComponent extends BaseVirtualScrollBrowser implements OnInit, AfterViewInit, OnDestroy {
+    private static readonly subfolderScrollPositionKey: string = 'folders-subfolders';
     private subscription: Subscription = new Subscription();
 
     public constructor(
@@ -60,7 +64,10 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         private logger: Logger,
         private hacks: Hacks,
         private desktop: DesktopBase,
-    ) {}
+        scrollPositionService: ScrollPositionService,
+    ) {
+        super(scrollPositionService, searchService);
+    }
 
     public trackOrders: TrackOrder[] = [
         TrackOrder.none,
@@ -75,6 +82,8 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     @ViewChild('subfolderContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public subfolderContextMenu: MatMenuTrigger;
 
+    @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
+
     public leftPaneSize: number = this.settings.foldersLeftPaneWidthPercent;
     public rightPaneSize: number = 100 - this.settings.foldersLeftPaneWidthPercent;
 
@@ -86,8 +95,15 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     public tracks: TrackModels = new TrackModels();
 
     public ngOnDestroy(): void {
+        this.disposeScrollPosition(CollectionFoldersComponent.subfolderScrollPositionKey);
+
         this.subscription.unsubscribe();
         this.clearLists();
+    }
+
+    public ngAfterViewInit(): void {
+        this.initializeScrollPosition(this.viewPort, CollectionFoldersComponent.subfolderScrollPositionKey);
+        this.restoreScrollPosition(this.viewPort, CollectionFoldersComponent.subfolderScrollPositionKey, this.subfolders.length > 0);
     }
 
     public async ngOnInit(): Promise<void> {
@@ -151,6 +167,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
             this.playbackIndicationService.setPlayingSubfolder(this.subfolders, this.playbackService.currentTrack);
             this.playbackIndicationService.setPlayingTrack(this.tracks.tracks, this.playbackService.currentTrack);
+            this.restoreScrollPosition(this.viewPort, CollectionFoldersComponent.subfolderScrollPositionKey, this.subfolders.length > 0);
         } catch (e: unknown) {
             this.logger.error(e, 'Could not set the opened subfolder', 'CollectionFoldersComponent', 'setOpenedSubfolderAsync');
         }

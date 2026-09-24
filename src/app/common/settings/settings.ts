@@ -709,6 +709,15 @@ export class Settings implements SettingsBase {
         this.set('showAlbumOnNowPlayingPage', v);
     }
 
+    // showYearOnNowPlayingPage
+    public get showYearOnNowPlayingPage(): boolean {
+        return this.get<boolean>('showYearOnNowPlayingPage') ?? true;
+    }
+
+    public set showYearOnNowPlayingPage(v: boolean) {
+        this.set('showYearOnNowPlayingPage', v);
+    }
+
     // downloadArtistInformationFromLastFm
     public get downloadArtistInformationFromLastFm(): boolean {
         return this.get<boolean>('downloadArtistInformationFromLastFm');
@@ -989,6 +998,15 @@ export class Settings implements SettingsBase {
 
     public set jumpToPlayingSong(v: boolean) {
         this.set('jumpToPlayingSong', v);
+    }
+
+    // rememberScrollPosition
+    public get rememberScrollPosition(): boolean {
+        return this.get<boolean>('rememberScrollPosition');
+    }
+
+    public set rememberScrollPosition(v: boolean) {
+        this.set('rememberScrollPosition', v);
     }
 
     // showSquareImages

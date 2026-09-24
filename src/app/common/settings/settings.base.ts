@@ -74,6 +74,7 @@ export abstract class SettingsBase {
     public abstract listenbrainzToken: string;
     public abstract showLove: boolean;
     public abstract showAlbumOnNowPlayingPage: boolean;
+    public abstract showYearOnNowPlayingPage: boolean;
     public abstract downloadArtistInformationFromLastFm: boolean;
     public abstract downloadLyricsOnline: boolean;
     public abstract showWaveProgress: boolean;
@@ -105,6 +106,7 @@ export abstract class SettingsBase {
     public abstract replayGainPreventClipping: boolean;
     public abstract logReplayGainAtTrackStart: boolean;
     public abstract jumpToPlayingSong: boolean;
+    public abstract rememberScrollPosition: boolean;
     public abstract showSquareImages: boolean;
     public abstract useCompactYearView: boolean;
     public abstract useCompactTrackListView: boolean;

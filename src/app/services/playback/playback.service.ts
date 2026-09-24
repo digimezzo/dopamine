@@ -234,6 +234,11 @@ export class PlaybackService {
         this.scheduleQueueSave();
     }
 
+    public clearQueue(): void {
+        this.queue.removeTracks(this.queue.tracks);
+        this.scheduleQueueSave();
+    }
+
     public reorderQueue(previousIndex: number, currentIndex: number): void {
         this.queue.moveTrackInPlaybackOrder(previousIndex, currentIndex);
         this.scheduleQueueSave();

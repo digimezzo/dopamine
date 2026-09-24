@@ -23,6 +23,8 @@ import { SettingsMock } from '../../../../testing/settings-mock';
 import { PlaybackService } from '../../../../services/playback/playback.service';
 import { MetadataService } from '../../../../services/metadata/metadata.service';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
+import { ScrollPositionService } from '../../../../services/scroll-position/scroll-position.service';
+import { SearchServiceBase } from '../../../../services/search/search.service.base';
 
 describe('TrackBrowserComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
@@ -42,6 +44,8 @@ describe('TrackBrowserComponent', () => {
     let dateTimeMock: IMock<DateTime>;
     let guidFactoryMock: IMock<GuidFactory>;
     let settingsMock: any;
+    let scrollPositionServiceMock: IMock<ScrollPositionService>;
+    let searchServiceMock: IMock<SearchServiceBase>;
 
     let playbackStartedMock: Subject<PlaybackStarted>;
     let playbackStartedMock$: Observable<PlaybackStarted>;
@@ -84,6 +88,9 @@ describe('TrackBrowserComponent', () => {
         dateTimeMock = Mock.ofType<DateTime>();
         guidFactoryMock = Mock.ofType<GuidFactory>();
         settingsMock = new SettingsMock();
+        scrollPositionServiceMock = Mock.ofType<ScrollPositionService>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
+        searchServiceMock.setup((x) => x.delayedSearchTextChanged$).returns(() => new Subject<string>().asObservable());
 
         playbackStartedMock = new Subject();
         playbackStartedMock$ = playbackStartedMock.asObservable();
@@ -177,6 +184,8 @@ describe('TrackBrowserComponent', () => {
             dialogServiceMock.object,
             desktopMock.object,
             loggerMock.object,
+            scrollPositionServiceMock.object,
+            searchServiceMock.object,
         );
     }
 

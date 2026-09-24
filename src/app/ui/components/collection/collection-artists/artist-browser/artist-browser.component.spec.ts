@@ -23,6 +23,8 @@ import { TrackModels } from '../../../../../services/track/track-models';
 import { ApplicationPaths } from '../../../../../common/application/application-paths';
 import { SettingsMock } from '../../../../../testing/settings-mock';
 import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
+import { ScrollPositionService } from '../../../../../services/scroll-position/scroll-position.service';
+import { SearchServiceBase } from '../../../../../services/search/search.service.base';
 
 export class CdkVirtualScrollViewportMock {
     private _scrollToIndexIndex: number = -1;
@@ -39,6 +41,10 @@ export class CdkVirtualScrollViewportMock {
     public scrollToIndex(index: number, behavior?: ScrollBehavior): void {
         this._scrollToIndexIndex = index;
         this._scrollToIndexBehavior = behavior;
+    }
+
+    public elementScrolled(): Observable<Event> {
+        return new Subject<Event>().asObservable();
     }
 }
 
@@ -59,6 +65,8 @@ describe('ArtistBrowserComponent', () => {
     let artistsPersisterMock: IMock<ArtistsPersister>;
     let applicationPathsMock: IMock<ApplicationPaths>;
     let dialogServiceMock: IMock<DialogServiceBase>;
+    let scrollPositionServiceMock: IMock<ScrollPositionService>;
+    let searchServiceMock: IMock<SearchServiceBase>;
     let semanticZoomService_zoomOutRequested: Subject<void>;
     let semanticZoomService_zoomInRequested: Subject<string>;
     let applicationService_mouseButtonReleased: Subject<void>;
@@ -84,6 +92,8 @@ describe('ArtistBrowserComponent', () => {
             dialogServiceMock.object,
             settingsMock,
             loggerMock.object,
+            scrollPositionServiceMock.object,
+            searchServiceMock.object,
         );
     }
 
@@ -102,6 +112,8 @@ describe('ArtistBrowserComponent', () => {
             dialogServiceMock.object,
             settingsMock,
             loggerMock.object,
+            scrollPositionServiceMock.object,
+            searchServiceMock.object,
         );
     }
 
@@ -124,6 +136,9 @@ describe('ArtistBrowserComponent', () => {
         applicationPathsMock = Mock.ofType<ApplicationPaths>();
         dialogServiceMock = Mock.ofType<DialogServiceBase>();
         settingsMock = new SettingsMock();
+        scrollPositionServiceMock = Mock.ofType<ScrollPositionService>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
+        searchServiceMock.setup((x) => x.delayedSearchTextChanged$).returns(() => new Subject<string>().asObservable());
 
         guidFactoryMock.setup((x) => x.create()).returns(() => '91c70666-8ad0-4037-8590-47f0c453c97d');
 

@@ -15,9 +15,11 @@ import { Track } from '../../../data/entities/track';
 import { SettingsMock } from '../../../testing/settings-mock';
 import { SearchServiceBase } from '../../../services/search/search.service.base';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { AddToPlaylistMenu } from '../add-to-playlist-menu';
 
 describe('PlaybackQueueComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
+    let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let playbackIndicationServiceMock: IMock<PlaybackIndicationServiceBase>;
@@ -34,6 +36,7 @@ describe('PlaybackQueueComponent', () => {
     function createComponent(): PlaybackQueueComponent {
         return new PlaybackQueueComponent(
             playbackServiceMock.object,
+            addToPlaylistMenuMock.object,
             contextMenuOpenerMock.object,
             mouseSelectionWatcherMock.object,
             playbackIndicationServiceMock.object,
@@ -45,6 +48,7 @@ describe('PlaybackQueueComponent', () => {
 
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<PlaybackService>();
+        addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         playbackIndicationServiceMock = Mock.ofType<PlaybackIndicationServiceBase>();
@@ -248,6 +252,19 @@ describe('PlaybackQueueComponent', () => {
 
             // Assert
             playbackServiceMock.verify((x) => x.removeFromQueue([trackModel]), Times.once());
+        });
+    });
+
+    describe('clearQueue', () => {
+        it('should remove all tracks from the queue', () => {
+            // Arrange
+            const component: PlaybackQueueComponent = createComponent();
+
+            // Act
+            component.clearQueue();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.clearQueue(), Times.once());
         });
     });
 
