@@ -95,7 +95,8 @@ const config = {
     },
     linux: {
         target: ['AppImage', 'deb', 'rpm', 'pacman', 'snap'],
-        category: 'Audio',
+        // AudioVideo is required as main category for Audio/Player to be valid (freedesktop menu spec)
+        category: 'AudioVideo;Audio;Player;',
         artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
         synopsis: 'The audio player that keeps it simple.',
         description:
