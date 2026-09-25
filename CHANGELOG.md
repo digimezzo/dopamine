@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adding artist image doesn't always work
 - Crash when displaying rich lyrics of songs with a lot of artists
 - On KDE, Dopamine appears under "Lost & Found" in the application menu instead of "Multimedia" (Thank you @adem4ik).
+- Failure to index files with malformed TXXX frames
 
 ## [3.0.10] - 2026-08-28
 
