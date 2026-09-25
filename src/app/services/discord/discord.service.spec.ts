@@ -15,6 +15,7 @@ import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 import { DiscordApiCommand } from './discord-api-command';
 import { DiscordApiCommandType } from './discord-api-command-type';
 import { SettingsMock } from '../../testing/settings-mock';
+import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
 
 describe('DiscordService', () => {
     let playbackServiceMock: IMock<PlaybackService>;
@@ -24,6 +25,7 @@ describe('DiscordService', () => {
     let ipcProxyMock: IMock<IpcProxyBase>;
     let settingsMock: SettingsMock;
     let loggerMock: IMock<Logger>;
+    let lastfmApiMock: IMock<LastfmApi>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
     let playbackServicePlaybackStoppedMock: Subject<void>;
@@ -41,6 +43,7 @@ describe('DiscordService', () => {
         ipcProxyMock = Mock.ofType<IpcProxyBase>();
         settingsMock = new SettingsMock();
         loggerMock = Mock.ofType<Logger>();
+        lastfmApiMock = Mock.ofType<LastfmApi>();
 
         translatorServiceMock.setup((x) => x.get('playing')).returns(() => 'Playing');
         translatorServiceMock.setup((x) => x.get('paused')).returns(() => 'Paused');
@@ -93,6 +96,7 @@ describe('DiscordService', () => {
             ipcProxyMock.object,
             settingsMock,
             loggerMock.object,
+            lastfmApiMock.object,
         );
     }
 

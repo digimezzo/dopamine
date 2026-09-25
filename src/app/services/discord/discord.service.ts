@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DateProxy } from '../../common/io/date-proxy';
 import { Logger } from '../../common/logger';
@@ -9,12 +9,15 @@ import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 import { DiscordApiCommandType } from './discord-api-command-type';
 import { DiscordApiCommand } from './discord-api-command';
 import { PresenceArgs } from './presence-args';
+import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
 
 @Injectable({ providedIn: 'root' })
 export class DiscordService {
     private _subscription: Subscription | undefined;
     private _updatePresenceTimeout: ReturnType<typeof setTimeout>;
     private _updatePresenceTimeoutMillis: number = 1000;
+    private readonly _maximumCoverArtCacheEntries: number = 256;
+    private _coverArtUrls: Map<string, string | undefined> = new Map();
 
     public constructor(
         private playbackService: PlaybackService,
@@ -23,6 +26,7 @@ export class DiscordService {
         private ipcProxy: IpcProxyBase,
         private settings: SettingsBase,
         private logger: Logger,
+        @Optional() private lastfmApi?: LastfmApi,
     ) {}
 
     public get enableDiscordRichPresence(): boolean {
@@ -105,7 +109,7 @@ export class DiscordService {
 
             let smallImageKey: string = 'pause';
             let smallImageText: string = this.translatorService.get('paused');
-            const largeImageKey: string = 'icon';
+            const largeImageKey: string = this.getCachedCoverArtUrl(this.playbackService.currentTrack) ?? 'icon';
             const largeImageText: string = this.translatorService.get('playing-with-dopamine');
             let startTime: number = 0;
             let shouldSendTimestamps: boolean = false;
@@ -130,6 +134,68 @@ export class DiscordService {
             };
 
             this.ipcProxy.sendToMainProcess('discord-api-command', new DiscordApiCommand(DiscordApiCommandType.SetPresence, args));
+
+            this.loadCoverArtUrlAsync(this.playbackService.currentTrack);
         }, this._updatePresenceTimeoutMillis);
+    }
+
+    private getCoverArtCacheKey(track: NonNullable<PlaybackService['currentTrack']>): string {
+        return `${track.rawFirstArtist}\u0000${track.rawAlbumTitle || track.title}`;
+    }
+
+    private getCachedCoverArtUrl(track: NonNullable<PlaybackService['currentTrack']>): string | undefined {
+        return this._coverArtUrls.get(this.getCoverArtCacheKey(track));
+    }
+
+    private cacheCoverArtUrl(cacheKey: string, imageUrl: string | undefined): void {
+        this._coverArtUrls.delete(cacheKey);
+        this._coverArtUrls.set(cacheKey, imageUrl);
+
+        while (this._coverArtUrls.size > this._maximumCoverArtCacheEntries) {
+            const oldestCacheKey: string | undefined = this._coverArtUrls.keys().next().value;
+            if (oldestCacheKey == undefined) {
+                return;
+            }
+
+            this._coverArtUrls.delete(oldestCacheKey);
+        }
+    }
+
+    private loadCoverArtUrlAsync(track: NonNullable<PlaybackService['currentTrack']>): void {
+        if (this.lastfmApi == undefined || String(track.rawFirstArtist).trim() === '') {
+            return;
+        }
+
+        const cacheKey: string = this.getCoverArtCacheKey(track);
+        if (this._coverArtUrls.has(cacheKey)) {
+            return;
+        }
+
+        const albumInfoPromise: Promise<Awaited<ReturnType<LastfmApi['getAlbumInfoAsync']>>> | undefined = this.lastfmApi.getAlbumInfoAsync(
+            track.rawFirstArtist,
+            track.rawAlbumTitle || track.title,
+            false,
+            'EN',
+        );
+
+        if (albumInfoPromise == undefined) {
+            this.cacheCoverArtUrl(cacheKey, undefined);
+            return;
+        }
+
+        albumInfoPromise
+            .then((album) => {
+                const imageUrl: string = album?.largestImage() ?? '';
+                const discordImageUrl: string = imageUrl.startsWith('https://') ? imageUrl : '';
+                this.cacheCoverArtUrl(cacheKey, discordImageUrl || undefined);
+
+                if (this.playbackService.currentTrack?.path === track.path && discordImageUrl !== '') {
+                    this.updatePresence();
+                }
+            })
+            .catch((error: unknown) => {
+                this.cacheCoverArtUrl(cacheKey, undefined);
+                this.logger.error(error, `Could not get Discord cover art for '${track.title}'`, 'DiscordService', 'loadCoverArtUrlAsync');
+            });
     }
 }
