@@ -20,7 +20,7 @@
             [ngClass]="this.smallFontClasses"
             [style.font-size.px]="smallFontSize * 0.75"
             [style.line-height]="1.5"
-            *ngIf="this.showAlbum && this.showYear && this.topContentTrack?.rawAlbumTitle && this.topContentTrack.year"
+            *ngIf="this.showAlbum && this.showYear && this.topContentTrack?.rawAlbumTitle && this.topContentTrack?.year"
         >
             {{ this.topContentTrack.year }}
         </div>
@@ -62,7 +62,7 @@
             [ngClass]="this.smallFontClasses"
             [style.font-size.px]="smallFontSize * 0.75"
             [style.line-height]="1.5"
-            *ngIf="this.showAlbum && this.showYear && this.bottomContentTrack?.rawAlbumTitle && this.bottomContentTrack.year"
+            *ngIf="this.showAlbum && this.showYear && this.bottomContentTrack?.rawAlbumTitle && this.bottomContentTrack?.year"
         >
             {{ this.bottomContentTrack.year }}
         </div>
