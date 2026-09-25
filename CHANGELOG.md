@@ -23,7 +23,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Adding artist image doesn't always work
-- Improved centering of icons on round buttons
 - Crash when displaying rich lyrics of songs with a lot of artists
 - On KDE, Dopamine appears under "Lost & Found" in the application menu instead of "Multimedia" (Thank you @adem4ik).
 
