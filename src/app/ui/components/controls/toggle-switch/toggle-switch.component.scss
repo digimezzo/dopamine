@@ -66,6 +66,29 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
+/* Restores the thicker look from before the wave progress bar was introduced */
+.switch.thick {
+    height: 5px;
+}
+
+.switch.thick .invisible-background {
+    height: 16px;
+}
+
+.switch.thick .slider {
+    border-radius: 5px;
+}
+
+.switch.thick .slider:before {
+    height: 16px;
+    width: 16px;
+    bottom: -6px;
+}
+
+.switch.thick input:checked + .slider:before {
+    transform: translateX(16px);
+}
+
 .inactive-opacity {
     opacity: 0.4;
 }

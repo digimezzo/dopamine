@@ -73,6 +73,7 @@ export const DEFAULT_SETTINGS = {
     downloadArtistInformationFromLastFm: true,
     downloadLyricsOnline: true,
     showWaveProgress: true,
+    useThickSliders: false,
     showAudioVisualizer: true,
     audioVisualizerStyle: 'flames',
     audioVisualizerFrameRate: 10,

@@ -434,5 +434,7 @@
     "scrolling": "Scrolling",
     "remember-scroll-position": "Remember scroll position of lists",
     "clear-queue": "Clear queue",
-    "show-year-on-now-playing-page": "Show year on now playing page"
+    "show-year-on-now-playing-page": "Show year on now playing page",
+    "progress-bar": "Progress bar",
+    "use-thick-progress-and-volume-bars": "Use thick progress bars, volume bars and toggle switches."
 }

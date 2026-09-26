@@ -94,15 +94,22 @@
         <app-toggle-switch class="mt-3" [(isChecked)]="settings.showFoldersPage"> {{ 'folders' | translate }}</app-toggle-switch>
     </div>
     <mat-divider class="my-4"></mat-divider>
+    <div class="title">{{ 'progress-bar' | translate }}</div>
+    <div>
+        <app-toggle-switch [isDisabled]="this.settings.useThickSliders" [(isChecked)]="this.settings.showWaveProgress">
+            {{ 'show-wave-progress' | translate }}</app-toggle-switch
+        >
+    </div>
+    <div class="mt-3">
+        <app-toggle-switch [isChecked]="this.settings.useThickSliders" (isCheckedChange)="this.onUseThickSlidersChanged($event)">
+            {{ 'use-thick-progress-and-volume-bars' | translate }}</app-toggle-switch
+        >
+    </div>
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'audio-visualizer' | translate }}</div>
     <div>
         <app-toggle-switch [(isChecked)]="this.audioVisualizerService.showAudioVisualizer">
             {{ 'show-audio-visualizer' | translate }}</app-toggle-switch
-        >
-    </div>
-    <div class="mt-3">
-        <app-toggle-switch [(isChecked)]="this.settings.showWaveProgress">
-            {{ 'show-wave-progress' | translate }}</app-toggle-switch
         >
     </div>
     <div [ngClass]="{ inactive: !this.audioVisualizerService.showAudioVisualizer }">

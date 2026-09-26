@@ -434,5 +434,7 @@
     "scrolling": "Scrollen",
     "remember-scroll-position": "Scrollpositie van lijsten onthouden",
     "clear-queue": "Wachtrij wissen",
-    "show-year-on-now-playing-page": "Jaar tonen op de pagina 'Speelt nu'"
+    "show-year-on-now-playing-page": "Jaar tonen op de pagina 'Speelt nu'",
+    "progress-bar": "Voortgangsbalk",
+    "use-thick-progress-and-volume-bars": "Dikke voortgangs-, volumebalken en schakelaars gebruiken."
 }

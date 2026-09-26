@@ -1,5 +1,5 @@
 <div class="d-flex flex-row align-items-center my-2" [ngClass]="{ inactive: this.isDisabled }">
-    <label class="switch mr-3">
+    <label class="switch mr-3" [ngClass]="{ thick: this.settings.useThickSliders }">
         <input
             #theCheckBox
             type="checkbox"

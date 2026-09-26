@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-toggle-switch',
@@ -6,6 +7,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     styleUrls: ['./toggle-switch.component.scss'],
 })
 export class ToggleSwitchComponent {
+    public constructor(public settings: SettingsBase) {}
+
     @Input()
     public isChecked: boolean = false;
 

@@ -42,3 +42,11 @@
     background: var(--theme-slider-thumb-background);
     cursor: grab;
 }
+
+/* Restores the thicker look from before the wave progress bar was introduced */
+.app-slider-container.thick .app-slider-bar,
+.app-slider-container.thick .app-slider-track {
+    top: 3.5px;
+    height: 5px;
+    border-radius: 5px;
+}

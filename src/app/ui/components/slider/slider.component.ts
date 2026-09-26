@@ -12,6 +12,7 @@ import {
 import { Logger } from '../../../common/logger';
 import { MathExtensions } from '../../../common/math-extensions';
 import { NativeElementProxy } from '../../../common/native-element-proxy';
+import { SettingsBase } from '../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-slider',
@@ -29,6 +30,7 @@ export class SliderComponent implements AfterViewInit {
         private nativeElementProxy: NativeElementProxy,
         private mathExtensions: MathExtensions,
         private logger: Logger,
+        public settings: SettingsBase,
     ) {}
 
     @Input()

@@ -26,6 +26,13 @@
     background-color: var(--theme-accent-color);
 }
 
+/* Restores the thicker look from before the wave progress bar was introduced */
+.app-playback-progress-bar.wave-disabled.thick {
+    top: 3.5px;
+    height: 5px;
+    border-radius: 5px;
+}
+
 .app-playback-progress-wave {
     position: absolute;
     left: 0;
@@ -40,6 +47,10 @@
         stroke-width: 2;
         stroke-linecap: round;
     }
+
+    &.thick path {
+        stroke-width: 5;
+    }
 }
 
 .app-playback-progress-track {
@@ -50,6 +61,12 @@
     z-index: 0;
     height: 2px;
     background-color: var(--theme-slider-background);
+}
+
+.app-playback-progress-track.thick {
+    top: 3.5px;
+    height: 5px;
+    border-radius: 5px;
 }
 
 .app-playback-progress-thumb {

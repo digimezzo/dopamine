@@ -32,4 +32,12 @@ export class AppearanceSettingsComponent implements OnInit, OnDestroy {
     public async openThemesDirectoryAsync(): Promise<void> {
         await this.desktop.openPathAsync(this.appearanceService.themesDirectoryPath);
     }
+
+    public onUseThickSlidersChanged(useThickSliders: boolean): void {
+        this.settings.useThickSliders = useThickSliders;
+
+        if (useThickSliders) {
+            this.settings.showWaveProgress = false;
+        }
+    }
 }

@@ -745,6 +745,15 @@ export class Settings implements SettingsBase {
         this.set('showWaveProgress', v);
     }
 
+    // useThickSliders
+    public get useThickSliders(): boolean {
+        return this.get<boolean>('useThickSliders') ?? false;
+    }
+
+    public set useThickSliders(v: boolean) {
+        this.set('useThickSliders', v);
+    }
+
     // showAudioVisualizer
     public get showAudioVisualizer(): boolean {
         return this.get<boolean>('showAudioVisualizer');

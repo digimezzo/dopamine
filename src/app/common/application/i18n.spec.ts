@@ -439,7 +439,9 @@ describe('validate i18n', () => {
         "show-wave-progress",
         "playback-controls",
         "show-stop-button",
-        "stop"
+        "stop",
+        "progress-bar",
+        "use-thick-progress-and-volume-bars"
     ].sort();
 
     Constants.languages.forEach((language) => {
