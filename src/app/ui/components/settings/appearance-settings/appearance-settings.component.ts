@@ -40,4 +40,12 @@ export class AppearanceSettingsComponent implements OnInit, OnDestroy {
             this.settings.showWaveProgress = false;
         }
     }
+
+    public onShowWaveProgressChanged(showWaveProgress: boolean): void {
+        this.settings.showWaveProgress = showWaveProgress;
+
+        if (showWaveProgress) {
+            this.settings.useThickSliders = false;
+        }
+    }
 }

@@ -96,7 +96,7 @@
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'progress-bar' | translate }}</div>
     <div>
-        <app-toggle-switch [isDisabled]="this.settings.useThickSliders" [(isChecked)]="this.settings.showWaveProgress">
+        <app-toggle-switch [isChecked]="this.settings.showWaveProgress" (isCheckedChange)="this.onShowWaveProgressChanged($event)">
             {{ 'show-wave-progress' | translate }}</app-toggle-switch
         >
     </div>
