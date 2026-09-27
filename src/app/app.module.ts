@@ -2,7 +2,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { LOCATION_INITIALIZED } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatRippleModule } from '@angular/material/core';
@@ -19,7 +19,6 @@ import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions, MatTooltipModule
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AngularSplitModule } from 'angular-split';
 import 'reflect-metadata';
 import '../polyfills';
@@ -44,6 +43,7 @@ import { FileAccess } from './common/io/file-access';
 import { IpcProxy } from './common/io/ipc-proxy';
 import { LogViewer } from './common/io/log-viewer';
 import { TranslateServiceProxy } from './common/io/translate-service-proxy';
+import { UserTranslations } from './services/translator/user-translations';
 import { Logger } from './common/logger';
 import { MathExtensions } from './common/math-extensions';
 import { FileMetadataFactory } from './common/metadata/file-metadata.factory';
@@ -319,10 +319,6 @@ import { ArtistsKeyGenerator } from './data/artists-key-generator';
 import { MusicBrainzApi } from './common/api/musicbrainz/musicbrainz.api';
 import { EditArtistDialogComponent } from './ui/components/dialogs/edit-artist-dialog/edit-artist-dialog.component';
 
-export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
-
 /** Custom options the configure the tooltip's default show/hide delays. */
 export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
     showDelay: 500,
@@ -520,12 +516,12 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient],
+                useExisting: UserTranslations,
             },
         }),
     ],
     providers: [
+        UserTranslations,
         {
             provide: APP_INITIALIZER,
             useFactory: appInitializerFactory,

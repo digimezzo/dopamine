@@ -5,12 +5,18 @@ import { Language } from '../../common/application/language';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { TranslatorService } from './translator.service';
 import { TranslateServiceProxyBase } from '../../common/io/translate-service-proxy.base';
+import { UserTranslations } from './user-translations';
 
 describe('TranslatorService', () => {
     let translateServiceProxyMock: IMock<TranslateServiceProxyBase>;
     let settingsMock: IMock<SettingsBase>;
+    let userTranslationsMock: IMock<UserTranslations>;
+    let userLanguages: Language[];
 
     beforeEach(() => {
+        userTranslationsMock = Mock.ofType<UserTranslations>();
+        userLanguages = [];
+        userTranslationsMock.setup((x) => x.getLanguages()).returns(() => userLanguages);
         translateServiceProxyMock = Mock.ofType<TranslateServiceProxyBase>();
         translateServiceProxyMock
             .setup((x) => x.get('welcome-to-dopamine', undefined))
@@ -39,7 +45,7 @@ describe('TranslatorService', () => {
     const flushPromises = () => new Promise(process.nextTick);
 
     function createService(): TranslatorService {
-        return new TranslatorService(translateServiceProxyMock.object, settingsMock.object);
+        return new TranslatorService(translateServiceProxyMock.object, settingsMock.object, userTranslationsMock.object);
     }
 
     describe('constructor', () => {
@@ -74,6 +80,21 @@ describe('TranslatorService', () => {
             // Assert
             expect(service.languages).toEqual(Constants.languages);
         });
+
+        it('should include and refresh user languages without duplicating bundled codes', () => {
+            const customLanguage = new Language('xx', 'Test', 'Test', false);
+            const overriddenEnglish = new Language('en', 'My English', 'My English', false);
+            userLanguages = [customLanguage, overriddenEnglish];
+            const service = createService();
+
+            expect(service.languages.find((language) => language.code === 'en')).toBe(overriddenEnglish);
+            expect(service.languages.filter((language) => language.code === 'en')).toHaveLength(1);
+            expect(service.languages).toContain(customLanguage);
+
+            userLanguages = [];
+            service.refreshLanguages();
+            expect(service.languages).toEqual(Constants.languages);
+        });
     });
 
     describe('selectedLanguage', () => {
@@ -92,7 +113,7 @@ describe('TranslatorService', () => {
         it('should save selected language to settings', () => {
             // Arrange
             const settingsStub: any = { defaultLanguage: 'en', language: 'fr' };
-            const service: TranslatorService = new TranslatorService(translateServiceProxyMock.object, settingsStub);
+            const service: TranslatorService = new TranslatorService(translateServiceProxyMock.object, settingsStub, userTranslationsMock.object);
             const germanLanguage: Language = new Language('de', 'German', 'Deutch', false);
 
             // Act
@@ -105,7 +126,7 @@ describe('TranslatorService', () => {
         it('should apply language from settings', () => {
             // Arrange
             const settingsStub: any = { defaultLanguage: 'en', language: 'fr' };
-            const service: TranslatorService = new TranslatorService(translateServiceProxyMock.object, settingsStub);
+            const service: TranslatorService = new TranslatorService(translateServiceProxyMock.object, settingsStub, userTranslationsMock.object);
             const germanLanguage: Language = new Language('de', 'German', 'Deutch', false);
 
             // Act
@@ -118,7 +139,7 @@ describe('TranslatorService', () => {
         it('should notify that language has changed', async () => {
             // Arrange
             const settingsStub: any = { defaultLanguage: 'en', language: 'fr' };
-            const service: TranslatorService = new TranslatorService(translateServiceProxyMock.object, settingsStub);
+            const service: TranslatorService = new TranslatorService(translateServiceProxyMock.object, settingsStub, userTranslationsMock.object);
             const germanLanguage: Language = new Language('de', 'German', 'Deutch', false);
 
             const subscription: Subscription = new Subscription();

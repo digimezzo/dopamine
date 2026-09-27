@@ -6,6 +6,7 @@ import { PromiseUtils } from '../../common/utils/promise-utils';
 import { TranslatorServiceBase } from './translator.service.base';
 import { TranslateServiceProxyBase } from '../../common/io/translate-service-proxy.base';
 import { SettingsBase } from '../../common/settings/settings.base';
+import { UserTranslations } from './user-translations';
 
 @Injectable()
 export class TranslatorService implements TranslatorServiceBase {
@@ -14,13 +15,36 @@ export class TranslatorService implements TranslatorServiceBase {
     public constructor(
         private translateServiceProxy: TranslateServiceProxyBase,
         private settings: SettingsBase,
+        private userTranslations: UserTranslations,
     ) {
         this.translateServiceProxy.setDefaultLang(this.settings.defaultLanguage);
+        this.refreshLanguages();
     }
 
     public languageChanged$: Observable<void> = this.languageChanged.asObservable();
 
     public languages: Language[] = Constants.languages;
+
+    public get translationsDirectoryPath(): string {
+        return this.userTranslations.directoryPath;
+    }
+
+    public compareLanguages(first: Language, second: Language): boolean {
+        return first?.code === second?.code;
+    }
+
+    public refreshLanguages(): void {
+        const languages = [...Constants.languages];
+        for (const language of this.userTranslations.getLanguages()) {
+            const existingIndex = languages.findIndex((item) => item.code === language.code);
+            if (existingIndex === -1) {
+                languages.push(language);
+            } else {
+                languages[existingIndex] = language;
+            }
+        }
+        this.languages = languages;
+    }
 
     public get selectedLanguage(): Language {
         return this.languages.find((x) => x.code === this.settings.language)!;

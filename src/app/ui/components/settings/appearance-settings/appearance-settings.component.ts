@@ -33,6 +33,10 @@ export class AppearanceSettingsComponent implements OnInit, OnDestroy {
         await this.desktop.openPathAsync(this.appearanceService.themesDirectoryPath);
     }
 
+    public async openTranslationsDirectoryAsync(): Promise<void> {
+        await this.desktop.openPathAsync(this.translatorService.translationsDirectoryPath);
+    }
+
     public onUseThickSlidersChanged(useThickSliders: boolean): void {
         this.settings.useThickSliders = useThickSliders;
 

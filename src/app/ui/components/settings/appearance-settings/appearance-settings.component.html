@@ -57,13 +57,18 @@
     <div class="title">{{ 'language' | translate }}</div>
     <div>{{ 'choose-language' | translate }}</div>
     <mat-form-field class="mt-2">
-        <mat-select [(ngModel)]="translatorService.selectedLanguage">
+        <mat-select [(ngModel)]="translatorService.selectedLanguage" [compareWith]="translatorService.compareLanguages" (openedChange)="translatorService.refreshLanguages()">
             <mat-option *ngFor="let language of translatorService.languages" [value]="language">
                 <div *ngIf="!language.showEnglishName">{{ language.localizedName }}</div>
                 <div *ngIf="language.showEnglishName">{{ language.localizedName }} ({{ language.englishName }})</div>
             </mat-option>
         </mat-select>
     </mat-form-field>
+    <div>
+        <app-icon-text-button (click)="openTranslationsDirectoryAsync()" icon="las la-plus">{{
+            'add-more-languages' | translate
+        }}</app-icon-text-button>
+    </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'text-size' | translate }}</div>
     <div>{{ 'choose-text-size' | translate }}</div>

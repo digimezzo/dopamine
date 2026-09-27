@@ -11,6 +11,9 @@ export class TranslateServiceProxy implements TranslateServiceProxyBase {
     }
 
     public async use(lang: string): Promise<void> {
+        if (this.translateService.currentLang !== lang) {
+            this.translateService.resetLang(lang);
+        }
         await this.translateService.use(lang).toPromise();
     }
 

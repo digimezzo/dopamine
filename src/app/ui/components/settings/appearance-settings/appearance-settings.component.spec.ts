@@ -23,6 +23,7 @@ describe('AppearanceSettingsComponent', () => {
         desktopMock = Mock.ofType<DesktopBase>();
 
         appearanceServiceMock.setup((x) => x.themesDirectoryPath).returns(() => '/my/path');
+        translatorServiceMock.setup((x) => x.translationsDirectoryPath).returns(() => '/my/translations');
 
         component = new AppearanceSettingsComponent(
             appearanceServiceMock.object,
@@ -87,6 +88,14 @@ describe('AppearanceSettingsComponent', () => {
 
             // Assert
             desktopMock.verify((x) => x.openPathAsync('/my/path'), Times.once());
+        });
+    });
+
+    describe('openTranslationsDirectory', () => {
+        it('should open the translations directory', async () => {
+            await component.openTranslationsDirectoryAsync();
+
+            desktopMock.verify((x) => x.openPathAsync('/my/translations'), Times.once());
         });
     });
 });

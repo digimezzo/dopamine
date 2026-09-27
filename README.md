@@ -25,6 +25,20 @@ Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 
 ![Dopaminescreenshot 3](Dopamine.screenshot.3.png)
 
+## Custom translations
+
+Dopamine creates a `Translations` directory inside its application data directory, next to `Dopamine.db`, and copies all bundled translations there. You can copy one of those JSON files to a new language code (such as `xx.json`) or edit an existing one. Dopamine adds missing bundled files again when the language menu opens, but never overwrites your edits. Use the same flat key/value format; include `language-name-english` and `language-name-localized` to label a new language in the welcome and appearance language menus. For example:
+
+```json
+{
+    "language-name-english": "Example language",
+    "language-name-localized": "Example name",
+    "welcome-to-dopamine": "Welcome!"
+}
+```
+
+The menu discovers new files when opened. A user file with the same name as a bundled language overrides that language's translations. Missing keys fall back to the default English translation (unless the file overrides English itself). To test edits to a translation that is already selected, select another language, then switch back to reload the file.
+
 ## Debugging
 
 I recommend using JetBrains Rider or WebStorm to debug this project. The **.run** folder contains a debugging configuration **Debug renderer** that allows you to attach to the Dopamine instance that is started when running `npm start`. Most of the code runs in the Electron renderer. That is why only a renderer configuration is provided for now.

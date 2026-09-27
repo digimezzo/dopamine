@@ -16,5 +16,6 @@ export abstract class DesktopBase {
     public abstract moveFileToTrashAsync(filePath: string): Promise<void>;
     public abstract getMusicDirectory(): string;
     public abstract getApplicationDataDirectory(): string;
+    public abstract getBundledTranslationsDirectory(): string;
     public abstract setWindowAlwaysOnTop(alwaysOnTop: boolean): void;
 }

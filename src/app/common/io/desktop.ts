@@ -120,6 +120,10 @@ export class Desktop implements DesktopBase, OnDestroy {
         return remote.app.getPath('userData');
     }
 
+    public getBundledTranslationsDirectory(): string {
+        return path.join(remote.app.getAppPath(), remote.app.isPackaged ? 'dist' : 'src', 'assets', 'i18n');
+    }
+
     public setWindowAlwaysOnTop(alwaysOnTop: boolean): void {
         const win = remote.getCurrentWindow();
         win.setAlwaysOnTop(alwaysOnTop);
