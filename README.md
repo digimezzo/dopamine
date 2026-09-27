@@ -97,6 +97,7 @@ $ npm install                # Install dependencies
 $ npm start                  # Start Dopamine
 $ npm run electron:windows   # Build for Windows
 $ npm run electron:linux     # Build for Linux
+$ npm run electron:linux:arm64 # Build for Linux ARM64 (run on an ARM64 host)
 $ npm run electron:mac       # Build for Mac
 ```
 

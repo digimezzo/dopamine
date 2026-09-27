@@ -62,6 +62,54 @@ jobs:
                   name: dopamine-merge-snap
                   path: release/Dopamine-*.snap
 
+    merge_build_on_linux_arm64:
+        runs-on: ubuntu-22.04-arm
+        if: github.event.pull_request.merged == true
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: '22'
+            - name: update package directory
+              run: sudo apt update
+            - name: install rpm and libarchive
+              run: sudo apt install rpm libarchive-tools
+            - name: install dependencies
+              run: npm install
+            - name: run unit tests
+              run: npm run test
+            - name: build ARM64 packages
+              run: |
+                  for i in 1 2 3; do
+                    npm run electron:linux:arm64 && break
+                    if [ "$i" -eq 3 ]; then
+                      echo "Linux ARM64 build failed after 3 attempts"
+                      exit 1
+                    fi
+                    echo "Linux ARM64 build failed (attempt $i), retrying in 30s..."
+                    sleep 30
+                  done
+            - name: upload ARM64 rpm artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dopamine-merge-arm64-rpm
+                  path: release/Dopamine-*.rpm
+            - name: upload ARM64 deb artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dopamine-merge-arm64-deb
+                  path: release/Dopamine-*.deb
+            - name: upload ARM64 AppImage artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dopamine-merge-arm64-appimage
+                  path: release/Dopamine-*.AppImage
+            - name: upload ARM64 snap artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dopamine-merge-arm64-snap
+                  path: release/Dopamine-*.snap
+
     merge_build_pacman_on_arch:
         runs-on: ubuntu-22.04
         if: github.event.pull_request.merged == true
