@@ -436,5 +436,6 @@
     "clear-queue": "Vider la file d’attente",
     "show-year-on-now-playing-page": "Afficher l'année sur la page 'Lecture en cours'",
     "progress-bar": "Barre de progression",
-    "use-thick-progress-and-volume-bars": "Utiliser des barres de progression, de volume et des interrupteurs épais."
+    "use-thick-progress-and-volume-bars": "Utiliser des barres de progression, de volume et des interrupteurs épais.",
+    "add-more-languages": "Ajouter plus de langues"
 }

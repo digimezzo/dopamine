@@ -12,6 +12,7 @@ describe('validate i18n', () => {
         'add-folder',
         'add-folder-error',
         'add-folders-with-your-music',
+        'add-more-languages',
         'add-more-themes',
         'add-symbol',
         'add-symbol-error',

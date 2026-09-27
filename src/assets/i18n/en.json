@@ -153,7 +153,6 @@
     "paused": "Paused",
     "now-playing": "Now playing",
     "add-more-themes": "Add more themes",
-    "add-more-languages": "Add more languages",
     "refresh-themes": "Refresh themes",
     "playlist-folder": "Playlist folder",
     "playlist-folders": "Playlist folders",
@@ -437,5 +436,6 @@
     "clear-queue": "Clear queue",
     "show-year-on-now-playing-page": "Show year on now playing page",
     "progress-bar": "Progress bar",
-    "use-thick-progress-and-volume-bars": "Use thick progress bars, volume bars and toggle switches."
+    "use-thick-progress-and-volume-bars": "Use thick progress bars, volume bars and toggle switches.",
+    "add-more-languages": "Add more languages"
 }
