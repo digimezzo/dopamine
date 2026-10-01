@@ -19,4 +19,5 @@ export interface IAudioPlayer {
     skipToSecondsAsync(seconds: number): Promise<void>;
     preloadNext(track: TrackModel): void;
     getAudio(): HTMLAudioElement | undefined;
+    setAudioOutputDeviceAsync(deviceId: string): Promise<void>;
 }

@@ -23,10 +23,10 @@ export class AudioPlayerFactory {
             return new CrossfadeAudioPlayer(this.mathExtensions, this.settings, this.equalizerService, this.logger);
         } else if (this.settings.useGaplessPlayback) {
             this.logger.info('Creating GaplessAudioPlayer for audio playback.', 'AudioPlayerFactory', 'create');
-            return new GaplessAudioPlayer(this.mathExtensions, this.equalizerService, this.logger);
+            return new GaplessAudioPlayer(this.mathExtensions, this.equalizerService, this.logger, this.settings);
         } else {
             this.logger.info('Creating LegacyAudioPlayer for audio playback.', 'AudioPlayerFactory', 'create');
-            return new LegacyAudioPlayer(this.mathExtensions, this.equalizerService, this.logger);
+            return new LegacyAudioPlayer(this.mathExtensions, this.equalizerService, this.logger, this.settings);
         }
     }
 }

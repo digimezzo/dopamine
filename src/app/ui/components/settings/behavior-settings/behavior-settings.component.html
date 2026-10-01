@@ -90,6 +90,21 @@
         >
     </div>
     <mat-divider class="my-4"></mat-divider>
+    <div class="title">{{ 'audio-output-device' | translate }}</div>
+    <div>
+        <mat-form-field class="mt-2 audio-output-device-form-field">
+            <mat-select
+                [ngModel]="this.settings.preferredAudioOutputDeviceId"
+                (ngModelChange)="this.onAudioOutputDeviceChangeAsync($event)"
+            >
+                <mat-option value="">{{ 'audio-output-device-system-default' | translate }}</mat-option>
+                <mat-option *ngFor="let device of this.audioOutputDevices" [value]="device.deviceId">
+                    {{ device.label }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'gapless-playback' | translate }}</div>
     <div>
         <app-toggle-switch [(isChecked)]="this.settings.useGaplessPlayback"> {{ 'enable-gapless-playback' | translate }}</app-toggle-switch>

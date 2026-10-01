@@ -437,5 +437,7 @@
     "show-year-on-now-playing-page": "Show year on now playing page",
     "progress-bar": "Progress bar",
     "use-thick-progress-and-volume-bars": "Use thick progress bars, volume bars and toggle switches.",
-    "add-more-languages": "Add more languages"
+    "add-more-languages": "Add more languages",
+    "audio-output-device": "Audio output device",
+    "audio-output-device-system-default": "System default"
 }

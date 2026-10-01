@@ -6,6 +6,7 @@ import { TrackModel } from '../../track/track-model';
 import { PathUtils } from '../../../common/utils/path-utils';
 import { AudioEqualizer } from './audio-equalizer';
 import { EqualizerServiceBase } from '../../equalizer/equalizer.service.base';
+import { SettingsBase } from '../../../common/settings/settings.base';
 
 export class LegacyAudioPlayer implements IAudioPlayer {
     private _audio: HTMLAudioElement;
@@ -23,6 +24,7 @@ export class LegacyAudioPlayer implements IAudioPlayer {
         private mathExtensions: MathExtensions,
         private equalizerService: EqualizerServiceBase,
         private logger: Logger,
+        private settings: SettingsBase,
     ) {
         this._audio = new Audio();
         this._audioContext = new AudioContext();
@@ -52,6 +54,18 @@ export class LegacyAudioPlayer implements IAudioPlayer {
         this._audio.playbackRate = 1;
         this._audio.volume = 1;
         this._audio.muted = false;
+
+        this.setAudioOutputDeviceAsync(this.settings.preferredAudioOutputDeviceId);
+    }
+
+    public async setAudioOutputDeviceAsync(deviceId: string): Promise<void> {
+        try {
+            // setSinkId() on AudioContext is not yet part of the TS lib.dom typings.
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
+            await (this._audioContext as any).setSinkId(deviceId || 'default');
+        } catch (e: unknown) {
+            this.logger.error(e, `Could not set audio output device '${deviceId}'`, 'LegacyAudioPlayer', 'setAudioOutputDeviceAsync');
+        }
     }
 
     public playbackFinished$: Observable<void> = this._playbackFinished.asObservable();

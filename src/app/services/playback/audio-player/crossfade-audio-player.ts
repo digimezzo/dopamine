@@ -58,6 +58,18 @@ export class CrossfadeAudioPlayer implements IAudioPlayer {
         this.equalizerService.register(this._equalizer);
 
         this.initializeAudioElements();
+
+        this.setAudioOutputDeviceAsync(this.settings.preferredAudioOutputDeviceId);
+    }
+
+    public async setAudioOutputDeviceAsync(deviceId: string): Promise<void> {
+        try {
+            // setSinkId() on AudioContext is not yet part of the TS lib.dom typings.
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
+            await (this._audioContext as any).setSinkId(deviceId || 'default');
+        } catch (e: unknown) {
+            this.logger.error(e, `Could not set audio output device '${deviceId}'`, 'CrossfadeAudioPlayer', 'setAudioOutputDeviceAsync');
+        }
     }
 
     private initializeAudioElements(): void {
