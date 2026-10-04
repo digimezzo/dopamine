@@ -12,6 +12,7 @@ import { SettingsMock } from '../../testing/settings-mock';
 import { ArtistModel } from '../artist/artist-model';
 import { Logger } from '../../common/logger';
 import { ArtistServiceBase } from '../artist/artist.service.base';
+import { AlbumSorter } from '../../common/sorting/album-sorter';
 
 describe('AlbumService', () => {
     let artistServiceMock: IMock<ArtistServiceBase>;
@@ -56,6 +57,25 @@ describe('AlbumService', () => {
     });
 
     describe('getAllAlbums', () => {
+        it('should retain album prefixes when artist prefix skipping is enabled', () => {
+            settingsMock.sortPrefixes = '[The][A]';
+            const titles = ['The Wall', 'A Night at the Opera', 'Animals'];
+            const albumDatas = titles.map((title) => {
+                const albumData = new AlbumData();
+                albumData.albumTitle = title;
+                albumData.albumKey = title;
+                return albumData;
+            });
+            trackRepositoryMock.setup((repository) => repository.getAllAlbumData('')).returns(() => albumDatas);
+            const albums = createService().getAllAlbums();
+            const sorter = new AlbumSorter(loggerMock.object);
+            const ascending = ['A Night at the Opera', 'Animals', 'The Wall'];
+            expect(sorter.sortByAlbumTitleAscending(albums).map((album) => album.albumTitle)).toEqual(ascending);
+            expect(sorter.sortByAlbumTitleDescending(albums).map((album) => album.albumTitle)).toEqual([...ascending].reverse());
+            expect(albums.map((album) => album.albumTitle)).toEqual(titles);
+            expect(albums.map((album) => album.albumKey)).toEqual(titles);
+        });
+
         it('should return an empty collection if no albumData is found in the database', () => {
             // Arrange
             trackRepositoryMock.setup((x) => x.getAllAlbumData('')).returns(() => undefined);

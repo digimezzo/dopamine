@@ -13,7 +13,12 @@ export class PlaylistRowsGetter {
         private playlistSpaceCalculator: ItemSpaceCalculator,
     ) {}
 
-    public getPlaylistRows(availableWidthInPixels: number, playlists: PlaylistModel[], playlistOrder: PlaylistOrder): PlaylistRow[] {
+    public getPlaylistRows(
+        availableWidthInPixels: number,
+        playlists: PlaylistModel[],
+        playlistOrder: PlaylistOrder,
+        playlistWidthInPixels: number = Constants.albumSizeInPixels,
+    ): PlaylistRow[] {
         const playlistRows: PlaylistRow[] = [];
 
         if (playlists == undefined) {
@@ -25,7 +30,7 @@ export class PlaylistRowsGetter {
         }
 
         const numberOfPlaylistsPerRow: number = this.playlistSpaceCalculator.calculateNumberOfItemsPerRow(
-            Constants.albumSizeInPixels,
+            playlistWidthInPixels,
             availableWidthInPixels,
         );
 

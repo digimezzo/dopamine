@@ -40,6 +40,12 @@
                     (click)="this.toggleYearView()"
                 ></app-icon-button>
             </div>
+            <app-cover-size-control
+                class="mr-2"
+                titleKey="album-size"
+                [size]="this.albumCoverSize"
+                (sizeChange)="this.setAlbumCoverSize($event)"
+            ></app-cover-size-control>
             <app-iterable-menu
                 [tooltipKey]="'choose-order'"
                 [currentItem]="selectedAlbumOrder"
@@ -50,7 +56,13 @@
             </app-iterable-menu>
         </div>
     </div>
-    <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="170">
+    <cdk-virtual-scroll-viewport
+        class="flex-grow mt-3"
+        [itemSize]="this.albumRowHeight"
+        [minBufferPx]="this.albumRowHeight"
+        [maxBufferPx]="this.albumRowHeight * 2"
+        [style.--album-cover-size]="this.albumCoverSize + 'px'"
+    >
         <div *cdkVirtualFor="let albumRow of this.albumRows">
             <div class="d-flex flex-row">
                 <app-album

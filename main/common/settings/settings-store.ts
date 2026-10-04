@@ -33,6 +33,19 @@ export class SettingsStore {
 
     private applyDefaults() {
         let changed = false;
+        if ('artistSortPrefixes' in this.data) {
+            if (!('sortPrefixes' in this.data)) {
+                this.data.sortPrefixes = this.data.artistSortPrefixes;
+            }
+            delete this.data.artistSortPrefixes;
+            changed = true;
+        }
+        for (const key of ['ignoreArtistSortPrefixes', 'ignoreAlbumSortPrefixes', 'ignoreGenreSortPrefixes']) {
+            if (key in this.data) {
+                delete this.data[key];
+                changed = true;
+            }
+        }
         for (const [key, defaultValue] of Object.entries(DEFAULT_SETTINGS)) {
             if (!(key in this.data)) {
                 this.data[key] = defaultValue;

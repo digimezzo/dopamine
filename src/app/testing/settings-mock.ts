@@ -96,6 +96,7 @@ export class SettingsMock implements SettingsBase {
     public rememberPlaybackStateAfterRestart: boolean;
     public artistSplitSeparators: string;
     public artistSplitExceptions: string;
+    public sortPrefixes: string = '';
     public playerType: string;
     public fullPlayerPositionSizeMaximized: string;
     public coverPlayerPosition: string;
@@ -115,6 +116,8 @@ export class SettingsMock implements SettingsBase {
     public rememberScrollPosition: boolean;
     public showSquareImages: boolean;
     public useCompactYearView: boolean;
+    public albumCoverSize: number = 130;
+    public playlistCoverSize: number = 130;
     public useCompactTrackListView: boolean;
     public useCompactTotalDuration: boolean;
     public showAlbumArtOnDockIcon: boolean;

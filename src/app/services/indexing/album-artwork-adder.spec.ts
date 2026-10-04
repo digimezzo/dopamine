@@ -84,6 +84,18 @@ describe('AlbumArtworkAdder', () => {
     });
 
     describe('addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync', () => {
+        it.each(['', '   '])('should not index shared artwork for a blank album key %p', async (albumKey: string) => {
+            const albumData: AlbumData = new AlbumData();
+            albumData.albumKey = albumKey;
+            trackRepositoryMock.setup((x) => x.getAlbumDataThatNeedsIndexing('')).returns(() => [albumData]);
+
+            await albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
+
+            trackRepositoryMock.verify((x) => x.getLastModifiedTrackForAlbumKeyAsync('', It.isAny()), Times.never());
+            albumArtworkCacheServiceMock.verify((x) => x.addArtworkDataToCacheAsync(It.isAny()), Times.never());
+            albumArtworkRepositoryMock.verify((x) => x.addAlbumArtwork(It.isAny()), Times.never());
+        });
+
         it('should get album data that needs indexing', async () => {
             // Arrange
 

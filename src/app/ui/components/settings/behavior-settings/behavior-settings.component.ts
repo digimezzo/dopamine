@@ -36,10 +36,12 @@ export class BehaviorSettingsComponent implements OnInit {
         this.artistSplitSeparators = CollectionUtils.fromString(this.settings.artistSplitSeparators);
         this.artistSplitExceptions = CollectionUtils.fromString(this.settings.artistSplitExceptions);
         this.loadAudioOutputDevicesAsync();
+        this.sortPrefixes = CollectionUtils.fromString(this.settings.sortPrefixes);
     }
 
     public artistSplitSeparators: string[] = [];
     public artistSplitExceptions: string[] = [];
+    public sortPrefixes: string[] = [];
     public replayGainModes: string[] = ['track', 'album'];
     public audioOutputDevices: AudioOutputDeviceModel[] = [];
 
@@ -50,6 +52,50 @@ export class BehaviorSettingsComponent implements OnInit {
     public async onAudioOutputDeviceChangeAsync(deviceId: string): Promise<void> {
         this.settings.preferredAudioOutputDeviceId = deviceId;
         await this.playbackService.audioPlayer.setAudioOutputDeviceAsync(deviceId);
+    }
+
+    public async addSortPrefixAsync(): Promise<void> {
+        const dialogTitle: string = await this.translatorService.getAsync('add-prefix');
+        const newPrefix: string = await this.dialogService.showInputDialogAsync(dialogTitle, '', '', ['[', ']']);
+
+        if (StringUtils.isNullOrWhiteSpace(newPrefix)) {
+            return;
+        }
+
+        const prefix = newPrefix.trim();
+        if (CollectionUtils.includesIgnoreCase(this.sortPrefixes, prefix)) {
+            return;
+        }
+
+        try {
+            const prefixes = [...this.sortPrefixes, prefix];
+            this.settings.sortPrefixes = CollectionUtils.toString(prefixes);
+            this.sortPrefixes = prefixes;
+        } catch (error: unknown) {
+            this.logger.error(error, `Could not add sort prefix "${prefix}"`, 'BehaviorSettingsComponent', 'addSortPrefixAsync');
+            const errorText: string = await this.translatorService.getAsync('add-prefix-error');
+            this.dialogService.showErrorDialog(errorText);
+        }
+    }
+
+    public async removeSortPrefixAsync(prefix: string): Promise<void> {
+        const dialogTitle: string = await this.translatorService.getAsync('remove-prefix');
+        const dialogText: string = await this.translatorService.getAsync('confirm-remove-prefix', { prefix });
+        const userHasConfirmed: boolean = await this.dialogService.showConfirmationDialogAsync(dialogTitle, dialogText);
+
+        if (!userHasConfirmed) {
+            return;
+        }
+
+        try {
+            const prefixes = this.sortPrefixes.filter((value) => value !== prefix);
+            this.settings.sortPrefixes = CollectionUtils.toString(prefixes);
+            this.sortPrefixes = prefixes;
+        } catch (error: unknown) {
+            this.logger.error(error, 'Could not remove sort prefix', 'BehaviorSettingsComponent', 'removeSortPrefixAsync');
+            const errorText: string = await this.translatorService.getAsync('remove-prefix-error');
+            this.dialogService.showErrorDialog(errorText);
+        }
     }
 
     public async addSplitSeparatorAsync(): Promise<void> {

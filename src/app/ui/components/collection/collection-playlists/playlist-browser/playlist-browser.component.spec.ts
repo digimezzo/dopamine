@@ -20,6 +20,7 @@ import { ElementRef } from '@angular/core';
 import { DesktopBase } from '../../../../../common/io/desktop.base';
 import { SearchServiceBase } from '../../../../../services/search/search.service.base';
 import { ScrollPositionService } from '../../../../../services/scroll-position/scroll-position.service';
+import { SettingsMock } from '../../../../../testing/settings-mock';
 
 describe('PlaylistBrowserComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
@@ -35,6 +36,7 @@ describe('PlaylistBrowserComponent', () => {
     let searchServiceMock: IMock<SearchServiceBase>;
     let loggerMock: IMock<Logger>;
     let scrollPositionServiceMock: IMock<ScrollPositionService>;
+    let settingsMock: SettingsMock;
 
     let playlistsPersisterMock: IMock<PlaylistsPersister>;
 
@@ -60,6 +62,7 @@ describe('PlaylistBrowserComponent', () => {
             mouseSelectionWatcherMock.object,
             contextMenuOpenerMock.object,
             desktopMock.object,
+            settingsMock,
             searchServiceMock.object,
             loggerMock.object,
             scrollPositionServiceMock.object,
@@ -81,6 +84,7 @@ describe('PlaylistBrowserComponent', () => {
         searchServiceMock.setup((x) => x.delayedSearchTextChanged$).returns(() => new Subject<string>().asObservable());
         loggerMock = Mock.ofType<Logger>();
         scrollPositionServiceMock = Mock.ofType<ScrollPositionService>();
+        settingsMock = new SettingsMock();
 
         playlistsPersisterMock = Mock.ofType<PlaylistsPersister>();
 
@@ -210,7 +214,7 @@ describe('PlaylistBrowserComponent', () => {
             jest.runAllTimers();
 
             // Assert
-            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(600, playlists, playlistOrder), Times.once());
+            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(600, playlists, playlistOrder, 134), Times.once());
         });
 
         it('should not fill the playlist rows on window size changed if the available width has not changed', () => {
@@ -236,7 +240,7 @@ describe('PlaylistBrowserComponent', () => {
             jest.runAllTimers();
 
             // Assert
-            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(It.isAny(), It.isAny(), It.isAny()), Times.never());
+            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
         it('should not fill the playlist rows on window size changed if the available width has changed after ngOnDestroy invocation', () => {
@@ -269,7 +273,7 @@ describe('PlaylistBrowserComponent', () => {
             jest.runAllTimers();
 
             // Assert
-            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(It.isAny(), It.isAny(), It.isAny()), Times.never());
+            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
         it('should fill the playlist rows on mouse button released if the available width has changed', () => {
@@ -302,7 +306,7 @@ describe('PlaylistBrowserComponent', () => {
             jest.runAllTimers();
 
             // Assert
-            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(600, playlists, playlistOrder), Times.once());
+            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(600, playlists, playlistOrder, 134), Times.once());
         });
 
         it('should not fill the playlist rows on mouse button released if the available width has changed after ngOnDestroy invocation', () => {
@@ -335,7 +339,7 @@ describe('PlaylistBrowserComponent', () => {
             jest.runAllTimers();
 
             // Assert
-            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(It.isAny(), It.isAny(), It.isAny()), Times.never());
+            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
         it('should not fill the playlist rows on mouse button released if the available width has not changed', () => {
@@ -361,7 +365,42 @@ describe('PlaylistBrowserComponent', () => {
             jest.runAllTimers();
 
             // Assert
-            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(It.isAny(), It.isAny(), It.isAny()), Times.never());
+            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
+        });
+    });
+
+    describe('ngOnInit', () => {
+        it('should initialize playlistCoverSize from settings', () => {
+            // Arrange
+            settingsMock.playlistCoverSize = 200;
+            const component = createComponent();
+
+            // Act
+            component.ngOnInit();
+
+            // Assert
+            expect(component.playlistCoverSize).toBe(200);
+        });
+    });
+
+    describe('setPlaylistCoverSize', () => {
+        it('should save the playlist cover size, update the row height and reorder playlists', () => {
+            // Arrange
+            const component = createComponent();
+            const playlists = [playlistModel1, playlistModel2];
+            const playlistOrder = PlaylistOrder.byPlaylistNameAscending;
+            playlistsPersisterMock.setup((x) => x.getSelectedPlaylistOrder()).returns(() => playlistOrder);
+            component.playlistsPersister = playlistsPersisterMock.object;
+            component.playlists = playlists;
+
+            // Act
+            component.setPlaylistCoverSize(180);
+
+            // Assert
+            expect(component.playlistCoverSize).toBe(180);
+            expect(component.playlistRowHeight).toBe(224);
+            expect(settingsMock.playlistCoverSize).toBe(180);
+            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(It.isAny(), playlists, playlistOrder, 184), Times.once());
         });
     });
 
@@ -394,7 +433,7 @@ describe('PlaylistBrowserComponent', () => {
             component.playlists = playlists;
 
             const playlistOrder = PlaylistOrder.byPlaylistNameAscending;
-            playlistRowsGetterMock.setup((x) => x.getPlaylistRows(0, playlists, playlistOrder)).returns(() => playlistRows);
+            playlistRowsGetterMock.setup((x) => x.getPlaylistRows(0, playlists, playlistOrder, 134)).returns(() => playlistRows);
 
             playlistsPersisterMock.setup((x) => x.getSelectedPlaylists(playlists)).returns(() => [playlistModel2]);
 
@@ -418,7 +457,7 @@ describe('PlaylistBrowserComponent', () => {
 
             const playlistOrder = PlaylistOrder.byPlaylistNameAscending;
             const error = new Error('An error occurred');
-            playlistRowsGetterMock.setup((x) => x.getPlaylistRows(0, playlists, playlistOrder)).throws(error);
+            playlistRowsGetterMock.setup((x) => x.getPlaylistRows(0, playlists, playlistOrder, 134)).throws(error);
 
             // Act
             component.applyPlaylistOrder(playlistOrder);
@@ -426,7 +465,7 @@ describe('PlaylistBrowserComponent', () => {
             // Assert
             expect(component.selectedPlaylistOrder).toEqual(playlistOrder);
             playlistsPersisterMock.verify((x) => x.setSelectedPlaylistOrder(playlistOrder), Times.once());
-            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(0, playlists, playlistOrder), Times.once());
+            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(0, playlists, playlistOrder, 134), Times.once());
             playlistsPersisterMock.verify((x) => x.getSelectedPlaylists(It.isAny()), Times.never());
             expect(component.playlistRows).toEqual([]);
             expect(playlistModel1.isSelected).toBeFalsy();
@@ -447,7 +486,7 @@ describe('PlaylistBrowserComponent', () => {
             component.ngOnChanges({});
 
             // Assert
-            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(It.isAny(), It.isAny(), It.isAny()), Times.never());
+            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
         it('should not order the playlists when given changes for playlists and playlists is empty', () => {
@@ -460,7 +499,7 @@ describe('PlaylistBrowserComponent', () => {
             component.ngOnChanges(playlistsChanges);
 
             // Assert
-            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(It.isAny(), It.isAny(), It.isAny()), Times.never());
+            playlistRowsGetterMock.verify((x) => x.getPlaylistRows(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
         it('should order the playlists when given changes for playlists', () => {
@@ -473,7 +512,7 @@ describe('PlaylistBrowserComponent', () => {
             playlistsPersisterMock.setup((x) => x.getSelectedPlaylistOrder()).returns(() => playlistOrder);
             component.playlistsPersister = playlistsPersisterMock.object;
 
-            playlistRowsGetterMock.setup((x) => x.getPlaylistRows(0, playlists, playlistOrder)).returns(() => playlistRows);
+            playlistRowsGetterMock.setup((x) => x.getPlaylistRows(0, playlists, playlistOrder, 134)).returns(() => playlistRows);
             playlistsPersisterMock.setup((x) => x.getSelectedPlaylists(playlists)).returns(() => [playlistModel2]);
 
             const playlistsChanges: any = { playlists: { previousValue: [], currentValue: playlists } };
@@ -498,7 +537,7 @@ describe('PlaylistBrowserComponent', () => {
             playlistsPersisterMock.setup((x) => x.getSelectedPlaylistOrder()).returns(() => playlistOrder);
             component.playlistsPersister = playlistsPersisterMock.object;
 
-            playlistRowsGetterMock.setup((x) => x.getPlaylistRows(0, playlists, playlistOrder)).returns(() => playlistRows);
+            playlistRowsGetterMock.setup((x) => x.getPlaylistRows(0, playlists, playlistOrder, 134)).returns(() => playlistRows);
             playlistsPersisterMock.setup((x) => x.getSelectedPlaylists(playlists)).returns(() => [playlistModel2]);
 
             const playlistsPersisterChanges: any = {

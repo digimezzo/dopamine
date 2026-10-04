@@ -1,9 +1,12 @@
+$cover-size: var(--album-cover-size, 130px);
+$tile-size: calc(#{$cover-size} + 4px);
+
 .app-album {
-    width: 124px;
+    width: $tile-size;
 }
 
 .app-album-border {
-    width: 124px;
+    width: $tile-size;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,7 +19,7 @@
 }
 
 .app-album-content {
-    width: 124px;
+    width: $tile-size;
     display: flex;
     flex-direction: column;
 }
@@ -38,8 +41,8 @@
 }
 
 .app-album__cover {
-    width: 120px;
-    height: 120px;
+    width: $cover-size;
+    height: $cover-size;
     background: var(--theme-album-cover-background);
     display: grid;
     grid-template-columns: 1fr;
@@ -51,8 +54,8 @@
 }
 
 .app-album__cover__placeholder {
-    width: 120px;
-    height: 120px;
+    width: $cover-size;
+    height: $cover-size;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -66,7 +69,7 @@
 .app-album__information {
     display: flex;
     flex-direction: column;
-    width: 120px;
+    width: $cover-size;
     height: 46px;
 }
 
@@ -88,6 +91,9 @@
 }
 
 .app-album__image {
+    display: block;
+    width: $cover-size;
+    height: $cover-size;
 }
 
 .app-album-rounded {

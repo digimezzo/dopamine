@@ -439,5 +439,13 @@
     "use-thick-progress-and-volume-bars": "Use thick progress bars, volume bars and toggle switches.",
     "add-more-languages": "Add more languages",
     "audio-output-device": "Audio output device",
-    "audio-output-device-system-default": "System default"
+    "audio-output-device-system-default": "System default",
+    "album-size": "Album size",
+    "playlist-size": "Playlist size",
+    "sort-prefixes": "Prefixes to ignore when sorting artists",
+    "add-prefix": "Add a prefix",
+    "add-prefix-error": "Could not add the prefix",
+    "remove-prefix": "Remove prefix",
+    "confirm-remove-prefix": "Are you sure you want to remove '{{prefix}}'?",
+    "remove-prefix-error": "Could not remove the prefix"
 }

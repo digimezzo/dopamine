@@ -12,6 +12,7 @@ import { TrackRepositoryBase } from '../../data/repositories/track-repository.ba
 import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
 import { NotificationServiceBase } from '../notification/notification.service.base';
 import { SettingsBase } from '../../common/settings/settings.base';
+import { StringUtils } from '../../common/utils/string-utils';
 
 @Injectable({ providedIn: 'root' })
 export class AlbumArtworkAdder {
@@ -78,6 +79,10 @@ export class AlbumArtworkAdder {
     }
 
     private async addAlbumArtworkAsync(albumKeyIndex: string, albumKey: string): Promise<void> {
+        if (StringUtils.isNullOrWhiteSpace(albumKey)) {
+            return;
+        }
+
         const track: Track | undefined = this.trackRepository.getLastModifiedTrackForAlbumKeyAsync(albumKeyIndex, albumKey);
 
         if (track == undefined) {

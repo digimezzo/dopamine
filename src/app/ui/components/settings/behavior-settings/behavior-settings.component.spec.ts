@@ -9,6 +9,7 @@ import { TranslatorServiceBase } from '../../../../services/translator/translato
 import { Logger } from '../../../../common/logger';
 import { AudioOutputDeviceService } from '../../../../services/audio-output-device/audio-output-device.service';
 import { PlaybackService } from '../../../../services/playback/playback.service';
+import { SettingsMock } from '../../../../testing/settings-mock';
 
 describe('BehaviorSettingsComponent', () => {
     let component: BehaviorSettingsComponent;
@@ -45,6 +46,76 @@ describe('BehaviorSettingsComponent', () => {
             audioOutputDeviceServiceMock.object,
             playbackServiceMock.object,
         );
+    });
+
+    describe('artist sort prefixes', () => {
+        beforeEach(() => {
+            component.settings = new SettingsMock();
+            translatorServiceMock.setup((service) => service.getAsync('add-prefix')).returns(() => Promise.resolve('Add prefix'));
+            translatorServiceMock.setup((service) => service.getAsync('remove-prefix')).returns(() => Promise.resolve('Remove prefix'));
+            translatorServiceMock
+                .setup((service) => service.getAsync('confirm-remove-prefix', { prefix: 'The' }))
+                .returns(() => Promise.resolve('Remove The?'));
+        });
+
+        it('should load saved prefixes', () => {
+            component.settings.sortPrefixes = '[The][A]';
+            component.ngOnInit();
+            expect(component.sortPrefixes).toEqual(['The', 'A']);
+        });
+
+        it('should trim and persist an added prefix', async () => {
+            dialogServiceMock
+                .setup((service) => service.showInputDialogAsync('Add prefix', '', '', ['[', ']']))
+                .returns(() => Promise.resolve(' The '));
+            await component.addSortPrefixAsync();
+            expect(component.sortPrefixes).toEqual(['The']);
+            expect(component.settings.sortPrefixes).toEqual('[The]');
+        });
+
+        it.each(['', '   ', ' the '])('should ignore empty or duplicate input %s', async (input) => {
+            component.settings.sortPrefixes = '[The]';
+            component.ngOnInit();
+            dialogServiceMock
+                .setup((service) => service.showInputDialogAsync('Add prefix', '', '', ['[', ']']))
+                .returns(() => Promise.resolve(input));
+            await component.addSortPrefixAsync();
+            expect(component.sortPrefixes).toEqual(['The']);
+            expect(component.settings.sortPrefixes).toEqual('[The]');
+        });
+
+        it('should persist removal after confirmation', async () => {
+            component.settings.sortPrefixes = '[The][A]';
+            component.ngOnInit();
+            dialogServiceMock
+                .setup((service) => service.showConfirmationDialogAsync('Remove prefix', 'Remove The?'))
+                .returns(() => Promise.resolve(true));
+            await component.removeSortPrefixAsync('The');
+            expect(component.sortPrefixes).toEqual(['A']);
+            expect(component.settings.sortPrefixes).toEqual('[A]');
+        });
+
+        it('should leave an empty list when the last prefix is removed', async () => {
+            component.settings.sortPrefixes = '[The]';
+            component.ngOnInit();
+            dialogServiceMock
+                .setup((service) => service.showConfirmationDialogAsync('Remove prefix', 'Remove The?'))
+                .returns(() => Promise.resolve(true));
+            await component.removeSortPrefixAsync('The');
+            expect(component.sortPrefixes).toEqual([]);
+            expect(component.settings.sortPrefixes).toEqual('');
+        });
+
+        it('should preserve prefixes when removal is cancelled', async () => {
+            component.settings.sortPrefixes = '[The]';
+            component.ngOnInit();
+            dialogServiceMock
+                .setup((service) => service.showConfirmationDialogAsync('Remove prefix', 'Remove The?'))
+                .returns(() => Promise.resolve(false));
+            await component.removeSortPrefixAsync('The');
+            expect(component.sortPrefixes).toEqual(['The']);
+            expect(component.settings.sortPrefixes).toEqual('[The]');
+        });
     });
 
     describe('constructor', () => {

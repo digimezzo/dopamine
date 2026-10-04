@@ -21,6 +21,7 @@ export class AlbumRowsGetter {
         albums: AlbumModel[],
         albumOrder: AlbumOrder,
         useCompactYearView: boolean,
+        albumWidthInPixels: number = Constants.albumSizeInPixels,
     ): AlbumRow[] {
         const albumRows: AlbumRow[] = [];
 
@@ -29,7 +30,7 @@ export class AlbumRowsGetter {
         }
 
         const numberOfAlbumsPerRow: number = this.albumSpaceCalculator.calculateNumberOfItemsPerRow(
-            Constants.albumSizeInPixels,
+            albumWidthInPixels,
             availableWidthInPixels,
         );
 

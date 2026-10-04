@@ -14,7 +14,7 @@
     </div>
 </div>
 <div class="cover-player__content" (contextmenu)="onCoverPlayerContextMenu($event)">
-    <div class="cover-player__cover-pane">
+    <div class="cover-player__cover-pane" [class.wave-progress-enabled]="this.settings.showWaveProgress">
         <app-playback-cover-art class="cover-player-cover-pane__cover" [size]="350"></app-playback-cover-art>
         <div class="cover-player-cover-pane__songinfo" [@songVisibility]="songVisibility">
             <app-playback-information

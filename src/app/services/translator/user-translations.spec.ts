@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { DesktopBase } from '../../common/io/desktop.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { UserTranslations } from './user-translations';
@@ -79,7 +79,22 @@ describe('UserTranslations', () => {
         fs.writeFileSync(path.join(translations.directoryPath, 'en.json'), JSON.stringify({ hello: 'custom' }));
 
         expect(await translations.getTranslation('en').toPromise()).toEqual({ hello: 'custom' });
-        expect(http.get).not.toHaveBeenCalled();
+    });
+
+    it('fills in keys missing from user JSON with bundled translations', async () => {
+        http.get.mockReturnValue(of({ hello: 'bundled', added: 'new key' }));
+        translations.getLanguages();
+        fs.writeFileSync(path.join(translations.directoryPath, 'en.json'), JSON.stringify({ hello: 'custom' }));
+
+        expect(await translations.getTranslation('en').toPromise()).toEqual({ hello: 'custom', added: 'new key' });
+    });
+
+    it('loads user JSON for a language without a bundled translation', async () => {
+        http.get.mockReturnValue(throwError(() => new Error('404')));
+        translations.getLanguages();
+        fs.writeFileSync(path.join(translations.directoryPath, 'xx.json'), JSON.stringify({ hello: 'custom' }));
+
+        expect(await translations.getTranslation('xx').toPromise()).toEqual({ hello: 'custom' });
     });
 
     it('ignores malformed files and falls back to bundled translations', async () => {

@@ -3,6 +3,7 @@ import { ArtistModel } from '../../services/artist/artist-model';
 import { Timer } from '../scheduling/timer';
 import { sort } from 'fast-sort';
 import { Logger } from '../logger';
+import { Constants } from '../application/constants';
 
 @Injectable({ providedIn: 'root' })
 export class ArtistSorter {
@@ -27,17 +28,22 @@ export class ArtistSorter {
         const timer = new Timer();
         timer.start();
 
-        const sortConfig = ascending
-            ? [
-                  { asc: (a: ArtistModel) => a.zoomHeader, comparer: this.compare },
-                  { asc: (a: ArtistModel) => a.sortableName, comparer: this.compare },
-              ]
-            : [
-                  { desc: (a: ArtistModel) => a.zoomHeader, comparer: this.compare },
-                  { desc: (a: ArtistModel) => a.sortableName, comparer: this.compare },
-              ];
-
-        const sorted = sort(artists).by(sortConfig);
+        const keyedArtists = artists.map((artist) => {
+            const sortableName = artist.sortableName;
+            const firstCharacter = sortableName.charAt(0);
+            const zoomHeader = Constants.alphabeticalHeaders.includes(firstCharacter) ? firstCharacter : '#';
+            return { artist, sortableName, zoomHeader };
+        });
+        const ordered = ascending
+            ? sort(keyedArtists).by([
+                  { asc: (item) => item.zoomHeader, comparer: this.compare },
+                  { asc: (item) => item.sortableName, comparer: this.compare },
+              ])
+            : sort(keyedArtists).by([
+                  { desc: (item) => item.zoomHeader, comparer: this.compare },
+                  { desc: (item) => item.sortableName, comparer: this.compare },
+              ]);
+        const sorted = ordered.map((item) => item.artist);
 
         timer.stop();
 

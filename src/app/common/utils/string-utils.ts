@@ -71,13 +71,38 @@ export class StringUtils {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
-    public static getSortableString(originalString: string | undefined): string {
+    public static getSortableString(originalString: string | undefined, ignoredPrefixes: string[] = []): string {
+        if (ignoredPrefixes.length === 0) {
+            return this.getSortableStringWithPreparedPrefixes(originalString, ignoredPrefixes);
+        }
+
+        return this.createSortableStringGetter(ignoredPrefixes)(originalString);
+    }
+
+    public static createSortableStringGetter(ignoredPrefixes: string[]): (originalString: string | undefined) => string {
+        const prefixes = ignoredPrefixes
+            .map((value) => value.trim().toLowerCase())
+            .filter((value) => value.length > 0)
+            .sort((first, second) => second.length - first.length);
+
+        return (originalString) => this.getSortableStringWithPreparedPrefixes(originalString, prefixes);
+    }
+
+    private static getSortableStringWithPreparedPrefixes(originalString: string | undefined, prefixes: string[]): string {
         if (this.isNullOrWhiteSpace(originalString)) {
             return '';
         }
 
         try {
-            return originalString!.trim().toLowerCase();
+            const name = originalString!.trim().toLowerCase();
+            const prefix = prefixes.find(
+                (value) =>
+                    name.startsWith(value) &&
+                    /^\s/.test(name.substring(value.length)) &&
+                    name.substring(value.length).trim().length > 0,
+            );
+
+            return prefix ? name.substring(prefix.length).trimStart() : name;
         } catch (e: unknown) {
             // Ignore this error
         }

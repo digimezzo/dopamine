@@ -13,6 +13,8 @@ import { ApplicationPaths } from '../../common/application/application-paths';
 import { ArtistModelFactory } from './artist-model-factory';
 import { ArtistArtworkRepository } from '../../data/repositories/artist-artwork-repository';
 import { ArtistArtwork } from '../../data/entities/artist-artwork';
+import { CollectionUtils } from '../../common/utils/collections-utils';
+import { StringUtils } from '../../common/utils/string-utils';
 
 describe('ArtistService', () => {
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -39,7 +41,7 @@ describe('ArtistService', () => {
 
     function createService(): ArtistService {
         artistSplitter = new ArtistSplitter(settingsMock);
-        artistModelFactory = new ArtistModelFactory(translatorServiceMock.object, applicationPathsMock.object);
+        artistModelFactory = new ArtistModelFactory(translatorServiceMock.object, applicationPathsMock.object, settingsMock);
         return new ArtistService(
             artistSplitter,
             trackRepositoryMock.object,
@@ -55,6 +57,41 @@ describe('ArtistService', () => {
     }
 
     describe('constructor', () => {
+        it('should reuse prepared prefixes until the setting changes', () => {
+            createService();
+            const parsePrefixes = jest.spyOn(CollectionUtils, 'fromString');
+            const preparePrefixes = jest.spyOn(StringUtils, 'createSortableStringGetter');
+            try {
+                settingsMock.sortPrefixes = '[The]';
+                const firstArtist = createArtistModel('The Beatles');
+                expect(firstArtist.sortableName).toEqual('beatles');
+                expect(createArtistModel('The Who').zoomHeader).toEqual('w');
+                expect(parsePrefixes).toHaveBeenCalledTimes(1);
+                expect(preparePrefixes).toHaveBeenCalledTimes(1);
+
+                settingsMock.sortPrefixes = '';
+                expect(createArtistModel('The Beatles').zoomHeader).toEqual('t');
+                expect(parsePrefixes).toHaveBeenCalledTimes(2);
+                expect(preparePrefixes).toHaveBeenCalledTimes(2);
+                expect(firstArtist.sortableName).toEqual('beatles');
+            } finally {
+                parsePrefixes.mockRestore();
+                preparePrefixes.mockRestore();
+            }
+        });
+
+        it('should apply current prefix settings to newly created artist models', () => {
+            settingsMock.sortPrefixes = '[The][A]';
+            createService();
+            const artist = createArtistModel('The Beatles');
+            expect(artist.sortableName).toEqual('beatles');
+            expect(artist.zoomHeader).toEqual('b');
+            expect(artist.name).toEqual('The Beatles');
+
+            settingsMock.sortPrefixes = '';
+            expect(createArtistModel('The Beatles').zoomHeader).toEqual('t');
+        });
+
         it('should create', () => {
             // Act
             const service: ArtistService = createService();

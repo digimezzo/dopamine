@@ -58,9 +58,47 @@ describe('ArtistSorter', () => {
         artistSorter = new ArtistSorter(loggerMock.object);
     });
 
-    function createArtistModel(artistName: string): ArtistModel {
-        return new ArtistModel(artistName, undefined, Mock.ofType<TranslatorServiceBase>().object, Mock.ofType<ApplicationPaths>().object);
+    function createArtistModel(artistName: string, ignoredPrefixes: string[] = []): ArtistModel {
+        return new ArtistModel(
+            artistName,
+            undefined,
+            Mock.ofType<TranslatorServiceBase>().object,
+            Mock.ofType<ApplicationPaths>().object,
+            ignoredPrefixes,
+        );
     }
+
+    it('should sort by prefix-free names in both directions', () => {
+        const prefixes = ['The', 'A'];
+        const prefixedArtists = ['The Who', 'Therapy?', 'The Beatles', 'A Tribe Called Quest', 'ABBA'].map((name) =>
+            createArtistModel(name, prefixes),
+        );
+        const ascending = ['ABBA', 'The Beatles', 'Therapy?', 'A Tribe Called Quest', 'The Who'];
+        expect(artistSorter.sortAscending(prefixedArtists).map((artist) => artist.name)).toEqual(ascending);
+        expect(artistSorter.sortDescending(prefixedArtists).map((artist) => artist.name)).toEqual([...ascending].reverse());
+    });
+
+    it('should compute each artist sort key only once per sort without retaining stale names', () => {
+        const firstArtist = createArtistModel('The Zombies', ['The']);
+        const secondArtist = createArtistModel('ABBA', ['The']);
+        const firstGetter = jest.spyOn(firstArtist, 'sortableName', 'get');
+        const secondGetter = jest.spyOn(secondArtist, 'sortableName', 'get');
+        const input = [firstArtist, secondArtist];
+
+        expect(artistSorter.sortAscending(input)).toEqual([secondArtist, firstArtist]);
+        expect(firstGetter).toHaveBeenCalledTimes(1);
+        expect(secondGetter).toHaveBeenCalledTimes(1);
+        expect(input).toEqual([firstArtist, secondArtist]);
+
+        firstArtist.name = 'The Aardvarks';
+        expect(artistSorter.sortAscending(input)).toEqual([firstArtist, secondArtist]);
+        expect(firstGetter).toHaveBeenCalledTimes(2);
+        expect(secondGetter).toHaveBeenCalledTimes(2);
+
+        expect(artistSorter.sortDescending(input)).toEqual([secondArtist, firstArtist]);
+        expect(firstGetter).toHaveBeenCalledTimes(3);
+        expect(secondGetter).toHaveBeenCalledTimes(3);
+    });
 
     describe('sortAscending', () => {
         it('should return an empty collection when undefined is provided', () => {

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Language } from '../../common/application/language';
 import { DesktopBase } from '../../common/io/desktop.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
@@ -73,7 +74,11 @@ export class UserTranslations implements TranslateLoader {
             try {
                 const translation = JSON.parse(this.fileAccess.getFileContentAsString(filePath)) as Record<string, string>;
                 if (translation != null && typeof translation === 'object' && !Array.isArray(translation)) {
-                    return of(translation);
+                    // User files are copied once, so bundled keys fill in strings added by later versions
+                    return this.bundledLoader.getTranslation(code).pipe(
+                        catchError(() => of({})),
+                        map((bundled: Object) => ({ ...bundled, ...translation })),
+                    );
                 }
             } catch {}
         }

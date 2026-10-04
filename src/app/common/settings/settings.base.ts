@@ -92,6 +92,7 @@ export abstract class SettingsBase {
     public abstract rememberPlaybackStateAfterRestart: boolean;
     public abstract artistSplitSeparators: string;
     public abstract artistSplitExceptions: string;
+    public abstract sortPrefixes: string;
     public abstract playerType: string;
     public abstract fullPlayerPositionSizeMaximized: string;
     public abstract coverPlayerPosition: string;
@@ -111,6 +112,8 @@ export abstract class SettingsBase {
     public abstract rememberScrollPosition: boolean;
     public abstract showSquareImages: boolean;
     public abstract useCompactYearView: boolean;
+    public abstract albumCoverSize: number;
+    public abstract playlistCoverSize: number;
     public abstract useCompactTrackListView: boolean;
     public abstract useCompactTotalDuration: boolean;
     public abstract showAlbumArtOnDockIcon: boolean;

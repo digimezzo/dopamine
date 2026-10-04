@@ -1,0 +1,12 @@
+.cover-size-popup {
+    width: 240px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background-color: var(--theme-dialog-background);
+}
+
+.cover-size-popup__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

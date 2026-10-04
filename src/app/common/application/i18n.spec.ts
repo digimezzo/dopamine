@@ -9,6 +9,12 @@ describe('validate i18n', () => {
         'add',
         'add-artist',
         'add-artist-error',
+        'add-prefix',
+        'add-prefix-error',
+        'sort-prefixes',
+        'confirm-remove-prefix',
+        'remove-prefix',
+        'remove-prefix-error',
         'add-folder',
         'add-folder-error',
         'add-folders-with-your-music',
@@ -442,7 +448,11 @@ describe('validate i18n', () => {
         "show-stop-button",
         "stop",
         "progress-bar",
-        "use-thick-progress-and-volume-bars"
+        "use-thick-progress-and-volume-bars",
+        "album-size",
+        "playlist-size",
+        "audio-output-device",
+        "audio-output-device-system-default",
     ].sort();
 
     Constants.languages.forEach((language) => {
