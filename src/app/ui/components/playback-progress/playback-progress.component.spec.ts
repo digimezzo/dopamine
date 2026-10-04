@@ -220,6 +220,74 @@ describe('PlaybackProgressComponent', () => {
             expect(component.progressThumbPosition).toEqual(44);
             mathExtensionsMock.verify((x) => x.clamp(44, 0, 488), Times.exactly(1));
         });
+
+        it('should clip the footer along the wave and restore it when disabled', () => {
+            let showWaveProgress: boolean = true;
+            const container: HTMLElement = document.createElement('div');
+            container.className = 'window-frame';
+            const footer: HTMLElement = document.createElement('div');
+            footer.className = 'theme-footer-background';
+            const progressContainer: HTMLElement = document.createElement('div');
+            const svg: SVGSVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            const path: SVGPathElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            container.append(footer, progressContainer);
+            progressContainer.append(svg);
+            svg.append(path);
+            component.progressContainer = new ElementRef(progressContainer);
+            component.waveSvg = new ElementRef(svg);
+            component.wavePath = new ElementRef(path);
+            settingsMock.setup((x) => x.showWaveProgress).returns(() => showWaveProgress);
+            playbackServiceMock.setup((x) => x.progress).returns(() => new PlaybackProgress(150, 300));
+            mathExtensionsMock.setup((x) => x.clamp(244, 0, 488)).returns(() => 244);
+
+            jest.useFakeTimers();
+            component.ngAfterViewInit();
+            jest.runAllTimers();
+
+            expect(footer.style.height).toBe('84px');
+            expect(footer.style.clipPath).toContain('polygon(');
+            expect(path.getAttribute('d')).toContain('L 250 6');
+
+            showWaveProgress = false;
+            component.ngDoCheck();
+
+            expect(footer.style.clipPath).toBe('');
+            expect(footer.style.height).toBe('');
+            component.ngOnDestroy();
+        });
+
+        it('should clip the mini player cover along the wave and restore it when disabled', () => {
+            let showWaveProgress: boolean = true;
+            const player: HTMLElement = document.createElement('app-cover-player');
+            const coverPane: HTMLElement = document.createElement('div');
+            coverPane.className = 'cover-player__cover-pane';
+            const progressContainer: HTMLElement = document.createElement('div');
+            const svg: SVGSVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            const path: SVGPathElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            player.append(coverPane, progressContainer);
+            progressContainer.append(svg);
+            svg.append(path);
+            component.progressContainer = new ElementRef(progressContainer);
+            component.waveSvg = new ElementRef(svg);
+            component.wavePath = new ElementRef(path);
+            settingsMock.setup((x) => x.showWaveProgress).returns(() => showWaveProgress);
+            playbackServiceMock.setup((x) => x.progress).returns(() => new PlaybackProgress(150, 300));
+            mathExtensionsMock.setup((x) => x.clamp(244, 0, 488)).returns(() => 244);
+
+            jest.useFakeTimers();
+            component.ngAfterViewInit();
+            jest.runAllTimers();
+
+            expect(coverPane.style.clipPath).toContain('polygon(0 0, 100% 0');
+            expect(coverPane.style.clipPath).toContain('250px');
+            expect(path.getAttribute('d')).toContain('L 250 6');
+
+            showWaveProgress = false;
+            component.ngDoCheck();
+
+            expect(coverPane.style.clipPath).toBe('');
+            component.ngOnDestroy();
+        });
     });
 
     describe('progressThumbMouseDown', () => {

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, DoCheck, ElementRef, HostListener, NgZone, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Logger } from '../../../common/logger';
 import { MathExtensions } from '../../../common/math-extensions';
@@ -14,8 +14,11 @@ import { PlaybackService } from '../../../services/playback/playback.service';
     styleUrls: ['./playback-progress.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewInit {
+export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewInit, DoCheck {
     private subscription: Subscription = new Subscription();
+
+    @ViewChild('progressContainer')
+    public progressContainer: ElementRef<HTMLElement>;
 
     @ViewChild('progressTrack')
     public progressTrack: ElementRef;
@@ -42,6 +45,9 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
     private lastWaveFrameTime: number = 0;
     private waveAnimationFrameId: number | undefined;
     private progressTrackResizeObserver: ResizeObserver | undefined;
+    private footerBackground: HTMLElement | null = null;
+    private coverPane: HTMLElement | null = null;
+    private wasWaveEnabled: boolean = true;
 
     public constructor(
         private playbackService: PlaybackService,
@@ -65,6 +71,32 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
         this.subscription.unsubscribe();
         this.cancelWaveAnimation();
         this.progressTrackResizeObserver?.disconnect();
+        this.clearFooterClip();
+    }
+
+    public ngDoCheck(): void {
+        if (this.wasWaveEnabled === this.settings.showWaveProgress) {
+            return;
+        }
+
+        this.wasWaveEnabled = this.settings.showWaveProgress;
+
+        if (this.wasWaveEnabled) {
+            setTimeout(() => {
+                if (this.settings.showWaveProgress) {
+                    this.renderWave();
+
+                    if (this.playbackService.canPause) {
+                        this.startWaveAnimation();
+                    }
+                }
+            }, 0);
+        } else {
+            this.cancelWaveAnimation();
+            this.clearFooterClip();
+            this.waveAmplitudeMultiplier = 0;
+            this.targetWaveAmplitudeMultiplier = 0;
+        }
     }
 
     public ngOnInit(): void {
@@ -83,6 +115,9 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
     }
 
     public ngAfterViewInit(): void {
+        this.footerBackground = this.progressContainer?.nativeElement.closest('.window-frame')?.querySelector('.theme-footer-background') ?? null;
+        this.coverPane = this.progressContainer?.nativeElement.closest('app-cover-player')?.querySelector('.cover-player__cover-pane') ?? null;
+
         // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
         setTimeout(() => {
             this.applyPlaybackProgress(this.playbackService.progress);
@@ -207,31 +242,84 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
             svgElement.setAttribute('width', `${width}`);
             svgElement.setAttribute('height', `${this.waveHeight}`);
             svgElement.setAttribute('viewBox', `0 0 ${width} ${this.waveHeight}`);
-            pathElement.setAttribute('d', this.createWavePath(width, this.wavePhase));
+            const points: Array<{ x: number; y: number }> = this.createWavePoints(width, this.wavePhase);
+            pathElement.setAttribute('d', points.map((point, index) => `${index === 0 ? 'M' : 'L'} ${point.x} ${point.y}`).join(' '));
+            this.renderFooterClip(svgElement, points);
+            this.renderCoverClip(svgElement, points);
         } catch (e: unknown) {
             this.logger.error(e, 'Could not render wave', 'PlaybackProgressComponent', 'renderWave');
         }
     }
 
-    private createWavePath(width: number, phase: number): string {
+    private createWavePoints(width: number, phase: number): Array<{ x: number; y: number }> {
         if (width <= 0) {
-            return '';
+            return [];
         }
 
         const centerY: number = this.waveHeight / 2;
         const step: number = 4;
-        const segments: string[] = [];
+        const points: Array<{ x: number; y: number }> = [];
 
         for (let x: number = 0; x < width; x += step) {
             const amplitude: number = this.waveAmplitudeAt(x, width);
             const y: number = centerY - amplitude * Math.sin((2 * Math.PI * (x + phase)) / this.waveLength);
-            segments.push(`${segments.length === 0 ? 'M' : 'L'} ${x} ${y.toFixed(2)}`);
+            points.push({ x, y: Number(y.toFixed(2)) });
         }
 
-        // Always end exactly on the center line, flush with the flat track.
-        segments.push(`L ${width} ${centerY}`);
+        points.push({ x: width, y: centerY });
 
-        return segments.join(' ');
+        return points;
+    }
+
+    private renderFooterClip(svgElement: SVGSVGElement, points: Array<{ x: number; y: number }>): void {
+        if (this.footerBackground == null) {
+            return;
+        }
+
+        // Extend only the clipped footer so wave crests above the old seam still have a background.
+        this.footerBackground.style.height = '84px';
+        const backgroundBounds: DOMRect = this.footerBackground.getBoundingClientRect();
+        const waveBounds: DOMRect = svgElement.getBoundingClientRect();
+        const centerY: number = waveBounds.top - backgroundBounds.top + this.waveHeight / 2;
+        const xOffset: number = waveBounds.left - backgroundBounds.left;
+        const playedEdge: number = xOffset + this.progressBarPosition;
+        const boundary: string[] = points.map((point) => `${xOffset + point.x}px ${waveBounds.top - backgroundBounds.top + point.y}px`);
+
+        if (boundary.length === 0) {
+            boundary.push(`0px ${centerY}px`);
+        }
+
+        boundary.push(`${playedEdge}px ${centerY}px`, `100% ${centerY}px`, '100% 100%', '0 100%');
+        this.footerBackground.style.clipPath = `polygon(${boundary.join(', ')})`;
+    }
+
+    private renderCoverClip(svgElement: SVGSVGElement, points: Array<{ x: number; y: number }>): void {
+        if (this.coverPane == null) {
+            return;
+        }
+
+        const coverBounds: DOMRect = this.coverPane.getBoundingClientRect();
+        const waveBounds: DOMRect = svgElement.getBoundingClientRect();
+        const centerY: number = waveBounds.top - coverBounds.top + this.waveHeight / 2;
+        const xOffset: number = waveBounds.left - coverBounds.left;
+        const boundary: string[] = points.map((point) => `${xOffset + point.x}px ${waveBounds.top - coverBounds.top + point.y}px`);
+
+        if (boundary.length === 0) {
+            boundary.push(`0px ${centerY}px`);
+        }
+
+        this.coverPane.style.clipPath = `polygon(0 0, 100% 0, 100% ${centerY}px, ${boundary.reverse().join(', ')})`;
+    }
+
+    private clearFooterClip(): void {
+        if (this.footerBackground != null) {
+            this.footerBackground.style.clipPath = '';
+            this.footerBackground.style.height = '';
+        }
+
+        if (this.coverPane != null) {
+            this.coverPane.style.clipPath = '';
+        }
     }
 
     private waveAmplitudeAt(x: number, width: number): number {

@@ -65,6 +65,11 @@
     position: relative;
     width: 350px;
     height: 350px;
+
+    &.wave-progress-enabled {
+        height: 354px;
+        margin-bottom: -4px;
+    }
 }
 
 .cover-player-cover-pane__cover {
@@ -74,6 +79,11 @@
     z-index: 0;
     top: 0;
     left: 0;
+}
+
+.cover-player__cover-pane.wave-progress-enabled .cover-player-cover-pane__cover {
+    transform: scaleY(1.012);
+    transform-origin: top;
 }
 
 .cover-player-cover-pane__songinfo {
