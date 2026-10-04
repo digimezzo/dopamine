@@ -42,6 +42,14 @@ describe('CachedAlbumArtworkGetter', () => {
     });
 
     describe('getCachedAlbumArtworkPath', () => {
+        it.each(['', '   '])('should ignore shared cached artwork for a blank album key %p', (albumKey: string) => {
+            const instance: CachedAlbumArtworkGetter = createInstance();
+            trackRepositoryMock.setup((x) => x.getAlbumDataForAlbumKey('', albumKey)).returns(() => [createAlbumData('unrelated-artwork')]);
+            applicationPathsMock.setup((x) => x.coverArtFullPath('unrelated-artwork')).returns(() => '/my/path/unrelated-artwork');
+
+            expect(instance.getCachedAlbumArtworkPath(albumKey)).toEqual('');
+        });
+
         it('should return empty string if nothing found for given albumKey', () => {
             // Arrange
             const instance: CachedAlbumArtworkGetter = createInstance();

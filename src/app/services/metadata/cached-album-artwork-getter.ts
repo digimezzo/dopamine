@@ -14,6 +14,10 @@ export class CachedAlbumArtworkGetter {
     ) {}
 
     public getCachedAlbumArtworkPath(albumKey: string): string {
+        if (StringUtils.isNullOrWhiteSpace(albumKey)) {
+            return '';
+        }
+
         const albumDataForAlbumKey: AlbumData[] = this.trackRepository.getAlbumDataForAlbumKey(this.settings.albumKeyIndex, albumKey) ?? [];
 
         if (albumDataForAlbumKey.length > 0 && !StringUtils.isNullOrWhiteSpace(albumDataForAlbumKey[0].artworkId)) {

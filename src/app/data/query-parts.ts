@@ -41,7 +41,8 @@ export class QueryParts {
                                                        MAX(t.DateAdded) AS dateAdded,
                                                        MAX(t.DateLastPlayed) AS dateLastPlayed,
                                                        SUM(t.PlayCount) AS playCount FROM Track t
-                                                       LEFT JOIN AlbumArtwork a ON t.AlbumKey${albumKeyIndex}=a.AlbumKey`;
+                                                       LEFT JOIN AlbumArtwork a ON t.AlbumKey${albumKeyIndex}=a.AlbumKey
+                                                       AND TRIM(t.AlbumKey${albumKeyIndex}) <> ''`;
 
         if (onlyVisibleAlbumData) {
             selectAlbumDataQueryPart += ' ' + this.folderJoins();

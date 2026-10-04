@@ -39,7 +39,8 @@ class QueryParts {
                                                        MAX(t.DateFileCreated) AS dateFileCreated,
                                                        MAX(t.DateAdded) AS dateAdded,
                                                        MAX(t.DateLastPlayed) AS dateLastPlayed FROM Track t
-                                                       LEFT JOIN AlbumArtwork a ON t.AlbumKey${albumKeyIndex}=a.AlbumKey`;
+                                                       LEFT JOIN AlbumArtwork a ON t.AlbumKey${albumKeyIndex}=a.AlbumKey
+                                                       AND TRIM(t.AlbumKey${albumKeyIndex}) <> ''`;
 
         if (onlyVisibleAlbumData) {
             selectAlbumDataQueryPart += ' ' + this.#folderJoins();
