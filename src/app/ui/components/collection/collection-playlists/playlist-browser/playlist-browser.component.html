@@ -28,6 +28,12 @@
                 matTooltip="{{ 'create-smart-playlist' | translate }}"
                 (click)="createSmartPlaylistAsync()"
             ></app-icon-button>
+            <app-cover-size-control
+                class="mr-2"
+                titleKey="playlist-size"
+                [size]="this.playlistCoverSize"
+                (sizeChange)="this.setPlaylistCoverSize($event)"
+            ></app-cover-size-control>
             <app-iterable-menu
                 [tooltipKey]="'choose-order'"
                 [currentItem]="selectedPlaylistOrder"
@@ -54,7 +60,14 @@
             </div>
         </div>
     </div>
-    <cdk-virtual-scroll-viewport class="mt-3 flex-grow" itemSize="148" *ngIf="this.hasPlaylists">
+    <cdk-virtual-scroll-viewport
+        class="mt-3 flex-grow"
+        *ngIf="this.hasPlaylists"
+        [itemSize]="this.playlistRowHeight"
+        [minBufferPx]="this.playlistRowHeight"
+        [maxBufferPx]="this.playlistRowHeight * 2"
+        [style.--playlist-cover-size]="this.playlistCoverSize + 'px'"
+    >
         <div *cdkVirtualFor="let playlistRow of this.playlistRows">
             <div class="d-flex flex-row">
                 <app-playlist

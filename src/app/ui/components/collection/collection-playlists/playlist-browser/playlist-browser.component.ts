@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Logger } from '../../../../../common/logger';
@@ -23,6 +23,7 @@ import { SearchServiceBase } from '../../../../../services/search/search.service
 import { StringUtils } from '../../../../../common/utils/string-utils';
 import { ScrollPositionService } from '../../../../../services/scroll-position/scroll-position.service';
 import { BaseVirtualScrollBrowser } from '../../base-virtual-scroll-browser';
+import { SettingsBase } from '../../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-playlist-browser',
@@ -31,7 +32,7 @@ import { BaseVirtualScrollBrowser } from '../../base-virtual-scroll-browser';
     styleUrls: ['./playlist-browser.component.scss'],
     providers: [MouseSelectionWatcher],
 })
-export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implements AfterViewInit, OnChanges, OnDestroy {
+export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     public readonly playlistOrders: PlaylistOrder[] = Object.values(PlaylistOrder).filter((x): x is PlaylistOrder => typeof x === 'number');
     public readonly playlistOrderKey = playlistOrderKey;
 
@@ -51,6 +52,7 @@ export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implement
         private mouseSelectionWatcher: MouseSelectionWatcher,
         public contextMenuOpener: ContextMenuOpener,
         private desktop: DesktopBase,
+        private settings: SettingsBase,
         public searchService: SearchServiceBase,
         private logger: Logger,
         scrollPositionService: ScrollPositionService,
@@ -61,6 +63,19 @@ export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implement
     public playlistRows: PlaylistRow[] = [];
 
     public selectedPlaylistOrder: PlaylistOrder;
+
+    public playlistCoverSize: number = 130;
+
+    // Cover + 4px padding + 24px name + 16px vertical margin (m-2)
+    public get playlistRowHeight(): number {
+        return this.playlistCoverSize + 44;
+    }
+
+    public setPlaylistCoverSize(size: number): void {
+        this.playlistCoverSize = size;
+        this.settings.playlistCoverSize = size;
+        this.orderPlaylists();
+    }
 
     @Input()
     public scrollPositionKey: string = 'playlists';
@@ -99,6 +114,10 @@ export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implement
     // Mirrors the debounced text used by the playlists filter, so the empty-folder message doesn't flash while the search settles.
     public get hasActiveSearch(): boolean {
         return !StringUtils.isNullOrWhiteSpace(this.searchService.delayedSearchText);
+    }
+
+    public ngOnInit(): void {
+        this.playlistCoverSize = this.settings.playlistCoverSize;
     }
 
     public ngOnDestroy(): void {
@@ -226,6 +245,7 @@ export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implement
                 this.availableWidthInPixels,
                 this.playlists,
                 this.selectedPlaylistOrder,
+                this.playlistCoverSize + 4,
             );
             this.applySelectedPlaylists();
             this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.playlistRows.length > 0);

@@ -25,8 +25,6 @@
                         class="app-playlist__image"
                         [ngClass]="{ 'app-playlist-rounded': !this.settings.showSquareImages }"
                         [attr.src]="this.playlist.imagePath | imageToFilePath"
-                        width="120"
-                        height="120"
                         loading="lazy"
                         draggable="false"
                     />

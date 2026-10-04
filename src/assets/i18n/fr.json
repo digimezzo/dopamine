@@ -437,5 +437,7 @@
     "show-year-on-now-playing-page": "Afficher l'année sur la page 'Lecture en cours'",
     "progress-bar": "Barre de progression",
     "use-thick-progress-and-volume-bars": "Utiliser des barres de progression, de volume et des interrupteurs épais.",
-    "add-more-languages": "Ajouter plus de langues"
+    "add-more-languages": "Ajouter plus de langues",
+    "album-size": "Taille des albums",
+    "playlist-size": "Taille des listes de lecture"
 }

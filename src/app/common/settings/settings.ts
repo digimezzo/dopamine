@@ -1036,6 +1036,24 @@ export class Settings implements SettingsBase {
         this.set('useCompactYearView', v);
     }
 
+    // albumCoverSize
+    public get albumCoverSize(): number {
+        return this.get<number>('albumCoverSize');
+    }
+
+    public set albumCoverSize(v: number) {
+        this.set('albumCoverSize', v);
+    }
+
+    // playlistCoverSize
+    public get playlistCoverSize(): number {
+        return this.get<number>('playlistCoverSize');
+    }
+
+    public set playlistCoverSize(v: number) {
+        this.set('playlistCoverSize', v);
+    }
+
     // useCompactTrackListView
     public get useCompactTrackListView(): boolean {
         return this.get<boolean>('useCompactTrackListView');

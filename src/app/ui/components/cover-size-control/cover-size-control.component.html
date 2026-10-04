@@ -1,0 +1,32 @@
+<app-icon-button
+    cdkOverlayOrigin
+    #sizeOrigin="cdkOverlayOrigin"
+    icon="las la-search-plus"
+    matTooltip="{{ this.titleKey | translate }}"
+    (click)="this.togglePopup()"
+></app-icon-button>
+<ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="sizeOrigin"
+    [cdkConnectedOverlayOpen]="this.isPopupOpen"
+    [cdkConnectedOverlayPositions]="this.popupPositions"
+    [cdkConnectedOverlayPush]="true"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+    (backdropClick)="this.closePopup()"
+    (detach)="this.closePopup()"
+>
+    <div class="cover-size-popup mat-mdc-elevation-specific mat-elevation-z8">
+        <div class="cover-size-popup__header">
+            <span>{{ this.titleKey | translate }}</span>
+            <span class="accent-color">{{ this.size }} px</span>
+        </div>
+        <app-slider
+            class="mt-3"
+            [maximum]="this.maximumSize - this.minimumSize"
+            [stepSize]="this.sizeStep"
+            [mouseStepSize]="this.sizeStep"
+            [(value)]="this.sliderValue"
+        ></app-slider>
+    </div>
+</ng-template>

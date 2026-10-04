@@ -130,6 +130,7 @@ import { NowPlayingShowcaseComponent } from './ui/components/now-playing/now-pla
 import { NowPlayingComponent } from './ui/components/now-playing/now-playing.component';
 import { PlaybackControlsComponent } from './ui/components/playback-controls/playback-controls.component';
 import { PlaybackSpeedControlComponent } from './ui/components/playback-speed-control/playback-speed-control.component';
+import { CoverSizeControlComponent } from './ui/components/cover-size-control/cover-size-control.component';
 import { PlaybackCoverArtComponent } from './ui/components/playback-cover-art/playback-cover-art.component';
 import { PlaybackIndicatorComponent } from './ui/components/playback-indicator/playback-indicator.component';
 import { PlaybackInformationComponent } from './ui/components/playback-information/playback-information.component';
@@ -422,6 +423,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         CollectionGenresComponent,
         PlaybackControlsComponent,
         PlaybackSpeedControlComponent,
+        CoverSizeControlComponent,
         PlaybackProgressComponent,
         PlaybackTimeComponent,
         PlaybackInformationComponent,

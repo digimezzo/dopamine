@@ -105,6 +105,8 @@ export const DEFAULT_SETTINGS = {
     rememberScrollPosition: true,
     showSquareImages: false,
     useCompactYearView: false,
+    albumCoverSize: 130,
+    playlistCoverSize: 130,
     useCompactTrackListView: false,
     useCompactTotalDuration: false,
     showAlbumArtOnDockIcon: true,

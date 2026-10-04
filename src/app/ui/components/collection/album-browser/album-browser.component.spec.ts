@@ -270,7 +270,7 @@ describe('AlbumBrowserComponent', () => {
             component.ngOnChanges({});
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
         it('should not order the albums given changes for albumsPersister and albumsPersister is undefined', () => {
@@ -293,7 +293,7 @@ describe('AlbumBrowserComponent', () => {
             component.ngOnChanges({ albumsPersister: albumsPersisterChanges, albums: albumsChanges });
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
         it('should order the albums given changes for albumsPersister and albums if albumsPersister is not undefined', () => {
@@ -317,7 +317,7 @@ describe('AlbumBrowserComponent', () => {
             component.ngOnChanges({ albumsPersister: albumsPersisterChanges, albums: albumsChanges });
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byAlbumArtist, false), Times.exactly(1));
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byAlbumArtist, false, 134), Times.exactly(1));
         });
 
         it('should apply the selected albums', () => {
@@ -379,7 +379,7 @@ describe('AlbumBrowserComponent', () => {
             jest.runAllTimers();
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(600, albums, AlbumOrder.byAlbumArtist, false), Times.exactly(1));
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(600, albums, AlbumOrder.byAlbumArtist, false, 134), Times.exactly(1));
         });
 
         it('should not fill the album rows on window size changed if the available width has not changed', () => {
@@ -409,7 +409,10 @@ describe('AlbumBrowserComponent', () => {
             jest.runAllTimers();
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byAlbumArtist, It.isAny()), Times.never());
+            albumRowsGetterMock.verify(
+                (x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byAlbumArtist, It.isAny(), It.isAny()),
+                Times.never(),
+            );
         });
 
         it('should fill the album rows on mouse button released if the available width has changed', () => {
@@ -441,7 +444,7 @@ describe('AlbumBrowserComponent', () => {
             jest.runAllTimers();
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(600, albums, AlbumOrder.byAlbumArtist, false), Times.exactly(1));
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(600, albums, AlbumOrder.byAlbumArtist, false, 134), Times.exactly(1));
         });
 
         it('should not fill the album rows on mouse button released if the available width has not changed', () => {
@@ -470,7 +473,10 @@ describe('AlbumBrowserComponent', () => {
             jest.runAllTimers();
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byAlbumArtist, It.isAny()), Times.never());
+            albumRowsGetterMock.verify(
+                (x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byAlbumArtist, It.isAny(), It.isAny()),
+                Times.never(),
+            );
         });
     });
 
@@ -531,7 +537,7 @@ describe('AlbumBrowserComponent', () => {
             component.applyAlbumOrder(AlbumOrder.byYearAscending);
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byYearAscending, false), Times.exactly(1));
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byYearAscending, false, 134), Times.exactly(1));
         });
 
         it('should apply the selected albums', () => {
@@ -702,6 +708,18 @@ describe('AlbumBrowserComponent', () => {
             // Assert
             expect(component.useCompactYearView).toBe(false);
         });
+
+        it('should initialize albumCoverSize from settings', () => {
+            // Arrange
+            settingsMock.albumCoverSize = 200;
+            const component: AlbumBrowserComponent = createComponent();
+
+            // Act
+            component.ngOnInit();
+
+            // Assert
+            expect(component.albumCoverSize).toBe(200);
+        });
     });
 
     describe('toggleYearView', () => {
@@ -817,7 +835,29 @@ describe('AlbumBrowserComponent', () => {
             component.toggleYearView();
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byYearAscending, true), Times.exactly(1));
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byYearAscending, true, 134), Times.exactly(1));
+        });
+    });
+
+    describe('setAlbumCoverSize', () => {
+        it('should save the album cover size, update the row height and reorder albums', () => {
+            // Arrange
+            const albums: AlbumModel[] = [new AlbumModel(new AlbumData(), translatorServiceMock.object, applicationPathsMock.object)];
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
+            const component: AlbumBrowserComponent = createComponent();
+            component.ngOnInit();
+            component.albumsPersister = albumsPersisterMock.object;
+            component.albums = albums;
+            albumRowsGetterMock.reset();
+
+            // Act
+            component.setAlbumCoverSize(180);
+
+            // Assert
+            expect(component.albumCoverSize).toBe(180);
+            expect(component.albumRowHeight).toBe(246);
+            expect(settingsMock.albumCoverSize).toBe(180);
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byAlbumArtist, It.isAny(), 184), Times.once());
         });
     });
 

@@ -109,6 +109,17 @@ describe('AlbumRowsGetter', () => {
             expect(albumRows.length).toBe(0);
         });
 
+        it('should calculate the number of albums per row using the provided album width', () => {
+            // Arrange
+            albumSorterMock.setup((x) => x.sortByAlbumTitleAscending(albums)).returns(() => albums);
+
+            // Act
+            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byAlbumTitleAscending, false, 184);
+
+            // Assert
+            itemSpaceCalculatorMock.verify((x) => x.calculateNumberOfItemsPerRow(184, 280), Times.once());
+        });
+
         it('should sort by album title ascending when provided AlbumOrder.byAlbumTitleAscending', () => {
             // Arrange
             albumSorterMock.setup((x) => x.sortByAlbumTitleAscending(albums)).returns(() => albums);

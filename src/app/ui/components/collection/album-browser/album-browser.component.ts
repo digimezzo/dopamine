@@ -62,6 +62,19 @@ export class AlbumBrowserComponent extends BaseVirtualScrollBrowser implements O
     public albumOrderEnum: typeof AlbumOrder = AlbumOrder;
     public useCompactYearView: boolean = false;
 
+    public albumCoverSize: number = 130;
+
+    public setAlbumCoverSize(size: number): void {
+        this.albumCoverSize = size;
+        this.settings.albumCoverSize = size;
+        this.orderAlbums();
+    }
+
+    // Cover + 4px padding + 46px title/artist + 16px vertical margin (m-2)
+    public get albumRowHeight(): number {
+        return this.albumCoverSize + 66;
+    }
+
     public ngOnDestroy(): void {
         this.disposeScrollPosition(this.scrollPositionKey);
 
@@ -123,6 +136,7 @@ export class AlbumBrowserComponent extends BaseVirtualScrollBrowser implements O
 
     public ngOnInit(): void {
         this.useCompactYearView = this.settings.useCompactYearView;
+        this.albumCoverSize = this.settings.albumCoverSize;
     }
 
     public ngAfterViewInit(): void {
@@ -199,6 +213,7 @@ export class AlbumBrowserComponent extends BaseVirtualScrollBrowser implements O
                 this.albums,
                 this.selectedAlbumOrder,
                 this.useCompactYearView,
+                this.albumCoverSize + 4,
             );
             this.applySelectedAlbums();
             this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.albumRows.length > 0);

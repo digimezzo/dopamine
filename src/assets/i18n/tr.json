@@ -437,5 +437,7 @@
     "show-year-on-now-playing-page": "Şimdi oynatılan sayfasında yılı göster",
     "progress-bar": "İlerleme çubuğu",
     "use-thick-progress-and-volume-bars": "Kalın ilerleme çubukları, ses seviyesi çubukları ve açma/kapama anahtarları kullanın.",
-    "add-more-languages": "Daha fazla dil ekle"
+    "add-more-languages": "Daha fazla dil ekle",
+    "album-size": "Album size",
+    "playlist-size": "Playlist size"
 }

@@ -437,5 +437,7 @@
     "show-year-on-now-playing-page": "Jaar tonen op de pagina 'Speelt nu'",
     "progress-bar": "Voortgangsbalk",
     "use-thick-progress-and-volume-bars": "Dikke voortgangs-, volumebalken en schakelaars gebruiken.",
-    "add-more-languages": "Meer talen toevoegen"
+    "add-more-languages": "Meer talen toevoegen",
+    "album-size": "Albumgrootte",
+    "playlist-size": "Afspeellijstgrootte"
 }
