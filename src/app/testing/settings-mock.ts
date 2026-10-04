@@ -96,6 +96,7 @@ export class SettingsMock implements SettingsBase {
     public rememberPlaybackStateAfterRestart: boolean;
     public artistSplitSeparators: string;
     public artistSplitExceptions: string;
+    public sortPrefixes: string = '';
     public playerType: string;
     public fullPlayerPositionSizeMaximized: string;
     public coverPlayerPosition: string;

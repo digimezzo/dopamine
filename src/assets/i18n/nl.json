@@ -439,5 +439,11 @@
     "use-thick-progress-and-volume-bars": "Dikke voortgangs-, volumebalken en schakelaars gebruiken.",
     "add-more-languages": "Meer talen toevoegen",
     "album-size": "Albumgrootte",
-    "playlist-size": "Afspeellijstgrootte"
+    "playlist-size": "Afspeellijstgrootte",
+    "sort-prefixes": "Voorvoegsels om te negeren bij het sorteren van artiesten",
+    "add-prefix": "Voorvoegsel toevoegen",
+    "add-prefix-error": "Het voorvoegsel kon niet worden toegevoegd",
+    "remove-prefix": "Voorvoegsel verwijderen",
+    "confirm-remove-prefix": "Weet u zeker dat u het voorvoegsel '{{prefix}}' wilt verwijderen?",
+    "remove-prefix-error": "Het voorvoegsel kon niet worden verwijderd"
 }

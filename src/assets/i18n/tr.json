@@ -439,5 +439,11 @@
     "use-thick-progress-and-volume-bars": "Kalın ilerleme çubukları, ses seviyesi çubukları ve açma/kapama anahtarları kullanın.",
     "add-more-languages": "Daha fazla dil ekle",
     "album-size": "Album size",
-    "playlist-size": "Playlist size"
+    "playlist-size": "Playlist size",
+    "sort-prefixes": "Prefixes to ignore when sorting artists",
+    "add-prefix": "Add a prefix",
+    "add-prefix-error": "Could not add the prefix",
+    "remove-prefix": "Remove prefix",
+    "confirm-remove-prefix": "Are you sure you want to remove '{{prefix}}'?",
+    "remove-prefix-error": "Could not remove the prefix"
 }

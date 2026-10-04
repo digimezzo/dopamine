@@ -875,6 +875,14 @@ export class Settings implements SettingsBase {
         this.set('artistSplitExceptions', v);
     }
 
+    public get sortPrefixes(): string {
+        return this.get<string>('sortPrefixes') ?? this.get<string>('artistSortPrefixes') ?? '';
+    }
+
+    public set sortPrefixes(v: string) {
+        this.set('sortPrefixes', v);
+    }
+
     // playerType
     public get playerType(): string {
         return this.get<string>('playerType');

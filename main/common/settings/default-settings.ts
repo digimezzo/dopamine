@@ -87,6 +87,7 @@ export const DEFAULT_SETTINGS = {
     rememberPlaybackStateAfterRestart: true,
     artistSplitSeparators: '[feat.][ft.]',
     artistSplitExceptions: '',
+    sortPrefixes: '[the][le][les][a][and]',
     playerType: 'full',
     fullPlayerPositionSizeMaximized: '50;50;1000;650;0',
     coverPlayerPosition: '50;50',

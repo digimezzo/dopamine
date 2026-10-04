@@ -439,5 +439,11 @@
     "use-thick-progress-and-volume-bars": "Utiliser des barres de progression, de volume et des interrupteurs épais.",
     "add-more-languages": "Ajouter plus de langues",
     "album-size": "Taille des albums",
-    "playlist-size": "Taille des listes de lecture"
+    "playlist-size": "Taille des listes de lecture",
+    "sort-prefixes": "Préfixes à ignorer lors du tri des artistes",
+    "add-prefix": "Ajouter un préfixe",
+    "add-prefix-error": "Impossible d'ajouter le préfixe",
+    "remove-prefix": "Supprimer le préfixe",
+    "confirm-remove-prefix": "Êtes-vous sûr de vouloir supprimer le préfixe '{{prefix}}'?",
+    "remove-prefix-error": "Impossible de supprimer le préfixe"
 }

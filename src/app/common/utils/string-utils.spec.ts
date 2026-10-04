@@ -262,6 +262,32 @@ describe('StringUtils', () => {
     });
 
     describe('getSortableString', () => {
+        it('should prepare a reusable prefix matcher without mutating the original list', () => {
+            const prefixes = [' The ', 'The Amazing', ''];
+            const getSortableString = StringUtils.createSortableStringGetter(prefixes);
+            expect(prefixes).toEqual([' The ', 'The Amazing', '']);
+            expect(getSortableString('The Amazing Band')).toEqual('band');
+            expect(getSortableString('The Beatles')).toEqual('beatles');
+            expect(getSortableString('The Zombies')).toEqual('zombies');
+            expect(getSortableString(undefined)).toEqual('');
+            expect(getSortableString('The')).toEqual('the');
+            expect(getSortableString('Therapy?')).toEqual('therapy?');
+        });
+
+        it.each([
+            ['  tHe Wall  ', ['The'], 'wall'],
+            ['A Night at the Opera', ['The', 'A'], 'night at the opera'],
+            ['Therapy?', ['The'], 'therapy?'],
+            ['A-ha', ['A'], 'a-ha'],
+            ['The', ['The'], 'the'],
+            ['The   ', ['The'], 'the'],
+            ['The The', ['The'], 'the'],
+            ['A. Band', ['A.'], 'band'],
+            ['The Amazing Band', ['The', ' The Amazing ', ''], 'band'],
+        ])('should normalize %s using only literal whole-word prefixes', (name, prefixes, expected) => {
+            expect(StringUtils.getSortableString(name as string, prefixes as string[])).toEqual(expected);
+        });
+
         it('should return an empty string given undefined', () => {
             // Arrange
 

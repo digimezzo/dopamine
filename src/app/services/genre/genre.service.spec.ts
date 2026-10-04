@@ -5,6 +5,8 @@ import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { GenreData } from '../../data/entities/genre-data';
 import { Logger } from '../../common/logger';
+import { GenreSorter } from '../../common/sorting/genre-sorter';
+import { SemanticZoomableModel } from '../../common/semantic-zoomable-model';
 
 describe('GenreService', () => {
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -34,6 +36,20 @@ describe('GenreService', () => {
     });
 
     describe('getGenres', () => {
+        it('should retain genre prefixes in sorting and alphabetical headers', () => {
+            trackRepositoryMock
+                .setup((repository) => repository.getGenreData())
+                .returns(() => [new GenreData(';The Blues;Rock;A cappella;')]);
+            const genres = service.getGenres();
+            const sorter = new GenreSorter(loggerMock.object);
+            const ascending = ['A cappella', 'Rock', 'The Blues'];
+            expect(sorter.sortAscending(genres).map((genre) => genre.name)).toEqual(ascending);
+            expect(sorter.sortDescending(genres).map((genre) => genre.name)).toEqual([...ascending].reverse());
+            expect(genres[0].displayName).toEqual('The Blues');
+            const header = new SemanticZoomableModel(genres[0]);
+            expect(header.zoomHeader).toEqual('t');
+        });
+
         it('should get all genres without duplicates', () => {
             // Arrange
             const genreDatas: GenreData[] = [];
