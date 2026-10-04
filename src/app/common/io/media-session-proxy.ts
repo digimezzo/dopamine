@@ -26,4 +26,14 @@ export class MediaSessionProxy {
     public clearMetadata(): void {
         window.navigator.mediaSession.metadata = null;
     }
+
+    public setPlaybackState(state: MediaSessionPlaybackState): void {
+        window.navigator.mediaSession.playbackState = state;
+    }
+
+    public setPositionState(state?: MediaPositionState): void {
+        if (typeof window.navigator.mediaSession.setPositionState === 'function') {
+            window.navigator.mediaSession.setPositionState(state);
+        }
+    }
 }

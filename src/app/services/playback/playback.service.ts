@@ -108,6 +108,7 @@ export class PlaybackService {
         const playbackSpeed: number = Math.round((clampedSpeed - 0.5) / 0.05) * 0.05 + 0.5;
         this._playbackSpeed = Math.round(playbackSpeed * 100) / 100;
         this._audioPlayer.setPlaybackRate(this._playbackSpeed);
+        this.updateMediaSessionPlaybackState();
     }
 
     public get progress(): PlaybackProgress {
@@ -311,6 +312,7 @@ export class PlaybackService {
         this._canPause = false;
         this._canResume = true;
         this.pauseUpdatingProgress();
+        this.updateMediaSessionPlaybackState();
         this.playbackPaused.next();
 
         if (this.currentTrack != undefined) {
@@ -378,14 +380,13 @@ export class PlaybackService {
 
     public async skipByFractionOfTotalSecondsAsync(fractionOfTotalSeconds: number): Promise<void> {
         const seconds: number = fractionOfTotalSeconds * this.audioPlayer.totalSeconds;
-        await this.audioPlayer.skipToSecondsAsync(seconds);
-        this._progress = this.getCurrentProgress();
-        this.playbackSkipped.next();
+        await this.skipToSecondsAsync(seconds);
     }
 
     private async skipToSecondsAsync(seconds: number): Promise<void> {
         await this.audioPlayer.skipToSecondsAsync(seconds);
         this._progress = this.getCurrentProgress();
+        this.updateMediaSessionPlaybackState();
         this.playbackSkipped.next();
     }
 
@@ -852,9 +853,23 @@ export class PlaybackService {
         return new PlaybackProgress(this.audioPlayer.progressSeconds, this.audioPlayer.totalSeconds);
     }
 
+    private updateMediaSessionPlaybackState(): void {
+        if (this.currentTrack == undefined || !this._isPlaying) {
+            return;
+        }
+
+        this.mediaSessionService.updatePlaybackState(
+            this.audioPlayer.totalSeconds,
+            this.audioPlayer.progressSeconds,
+            this._playbackSpeed,
+            this._canPause,
+        );
+    }
+
     private reportProgress(): void {
         if (this._shouldReportProgress) {
             this._progress = this.getCurrentProgress();
+            this.updateMediaSessionPlaybackState();
             this.progressChanged.next(this._progress);
         }
     }

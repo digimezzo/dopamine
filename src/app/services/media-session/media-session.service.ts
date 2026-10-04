@@ -41,6 +41,24 @@ export class MediaSessionService {
     }
 
     public clearMetadata(): void {
+        this.mediaSessionProxy.setPlaybackState('none');
+        this.mediaSessionProxy.setPositionState();
         this.mediaSessionProxy.clearMetadata();
+    }
+
+    public updatePlaybackState(duration: number, position: number, playbackRate: number, isPlaying: boolean): void {
+        this.mediaSessionProxy.setPlaybackState(isPlaying ? 'playing' : 'paused');
+
+        if (!Number.isFinite(duration) || duration <= 0 || !Number.isFinite(position) ||
+            !Number.isFinite(playbackRate) || playbackRate <= 0) {
+            this.mediaSessionProxy.setPositionState();
+            return;
+        }
+
+        this.mediaSessionProxy.setPositionState({
+            duration,
+            position: Math.min(duration, Math.max(0, position)),
+            playbackRate,
+        });
     }
 }
