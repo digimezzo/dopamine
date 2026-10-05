@@ -103,9 +103,9 @@ export class ArtistService implements ArtistServiceBase {
         for (const sourceArtist of sourceArtistsSurroundedBySpaces) {
             if (
                 [...lowerCaseArtistNames].some((name) =>
+                    sourceArtist.toLowerCase() === ` ${name} ` ||
                     separators.some(
                         (separator) =>
-                            sourceArtist.toLowerCase() === ` ${name} ` ||
                             sourceArtist.toLowerCase().includes(` ${separator} ${name} `) ||
                             sourceArtist.toLowerCase().includes(` ${name} ${separator} `),
                     ),

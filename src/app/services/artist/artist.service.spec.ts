@@ -420,6 +420,29 @@ describe('ArtistService', () => {
     });
 
     describe('getSourceArtists', () => {
+        it.each(['', '   '])('should match exact source artists when separators are %p', (separators) => {
+            settingsMock.artistSplitSeparators = separators;
+            trackRepositoryMock.setup((repository) => repository.getTrackArtistData()).returns(() => [
+                new ArtistData(';Artist1;'),
+                new ArtistData(';artist1;'),
+                new ArtistData(';Artist10;'),
+                new ArtistData(';Artist2 & Artist3;'),
+            ]);
+            const service = createService();
+            service.getArtists(ArtistType.trackArtists);
+
+            expect(service.getSourceArtists([createArtistModel('ARTIST1')])).toEqual(['Artist1', 'artist1']);
+            expect(service.getSourceArtists([createArtistModel('Artist2 & Artist3')])).toEqual(['Artist2 & Artist3']);
+            expect(service.getSourceArtists([createArtistModel('Artist1'), createArtistModel('Artist10')])).toEqual([
+                'Artist1',
+                'artist1',
+                'Artist10',
+            ]);
+            expect(service.getSourceArtists([createArtistModel('Artist2')])).toEqual([]);
+            expect(service.getSourceArtists([createArtistModel('Missing artist')])).toEqual([]);
+            expect(service.getSourceArtists([])).toEqual([]);
+        });
+
         it('should get the source artists for a given list of artists', () => {
             // Arrange
             const artistDatas: ArtistData[] = [
