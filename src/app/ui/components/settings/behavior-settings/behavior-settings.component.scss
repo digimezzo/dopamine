@@ -2,6 +2,11 @@
     width: 220px;
 }
 
+.audio-output-device-form-field {
+    width: 100%;
+    max-width: 420px;
+}
+
 .replaygain-help-text {
     color: var(--theme-secondary-text);
     font-size: 13px;

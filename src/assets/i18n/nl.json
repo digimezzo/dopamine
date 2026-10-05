@@ -438,6 +438,8 @@
     "progress-bar": "Voortgangsbalk",
     "use-thick-progress-and-volume-bars": "Dikke voortgangs-, volumebalken en schakelaars gebruiken.",
     "add-more-languages": "Meer talen toevoegen",
+    "audio-output-device": "Audio-uitvoerapparaat",
+    "audio-output-device-system-default": "Systeemstandaard",
     "album-size": "Albumgrootte",
     "playlist-size": "Afspeellijstgrootte",
     "sort-prefixes": "Voorvoegsels om te negeren bij het sorteren van artiesten",

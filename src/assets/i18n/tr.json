@@ -420,6 +420,8 @@
     "equalizer-preset-jazz": "Caz(Jazz)",
     "equalizer-preset-pop": "Pop",
     "equalizer-preset-rock": "Rock",
+    "audio-output-device": "Audio output device",
+    "audio-output-device-system-default": "System default",
     "equalizer-preset-treble-boost": "Tiz güçlendirme",
     "equalizer-preset-treble-reducer": "Tiz azaltma",
     "equalizer-preset-vocal": "Vokal",

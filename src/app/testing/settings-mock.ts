@@ -102,6 +102,7 @@ export class SettingsMock implements SettingsBase {
     public coverPlayerPosition: string;
     public useGaplessPlayback: boolean;
     public useCrossfade: boolean;
+    public preferredAudioOutputDeviceId: string = '';
     public audioEqualizerEnabled: boolean;
     public audioEqualizerPreset: string = 'flat';
     public audioEqualizerGains: string = '0;0;0;0;0;0;0;0;0;0';

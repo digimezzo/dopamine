@@ -425,6 +425,8 @@
     "equalizer-preset-vocal": "Stimme",
     "clear-selection": "Auswahl aufheben",
     "compact-total-duration": "Kompaktes Format für die Gesamtdauer (Std.:Min.:Sek.)",
+    "audio-output-device": "Audio output device",
+    "audio-output-device-system-default": "System default",
     "by-file-name-ascending": "Dateiname A-Z",
     "by-file-name-descending": "Dateiname Z-A",
     "show-wave-progress": "Fortschritt als Welle anzeigen",

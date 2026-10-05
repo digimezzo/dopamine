@@ -99,6 +99,7 @@ export abstract class SettingsBase {
     public abstract useGaplessPlayback: boolean;
     public abstract useCrossfade: boolean;
     public abstract crossfadeDuration: number;
+    public abstract preferredAudioOutputDeviceId: string;
     public abstract audioEqualizerEnabled: boolean;
     public abstract audioEqualizerPreset: string;
     public abstract audioEqualizerGains: string;

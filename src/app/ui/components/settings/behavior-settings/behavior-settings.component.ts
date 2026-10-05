@@ -8,6 +8,9 @@ import { DialogServiceBase } from '../../../../services/dialog/dialog.service.ba
 import { StringUtils } from '../../../../common/utils/string-utils';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { Logger } from '../../../../common/logger';
+import { AudioOutputDeviceService } from '../../../../services/audio-output-device/audio-output-device.service';
+import { AudioOutputDeviceModel } from '../../../../services/audio-output-device/audio-output-device.model';
+import { PlaybackService } from '../../../../services/playback/playback.service';
 
 @Component({
     selector: 'app-behavior-settings',
@@ -25,11 +28,14 @@ export class BehaviorSettingsComponent implements OnInit {
         private translatorService: TranslatorServiceBase,
         public settings: SettingsBase,
         private logger: Logger,
+        private audioOutputDeviceService: AudioOutputDeviceService,
+        private playbackService: PlaybackService,
     ) {}
 
     public ngOnInit(): void {
         this.artistSplitSeparators = CollectionUtils.fromString(this.settings.artistSplitSeparators);
         this.artistSplitExceptions = CollectionUtils.fromString(this.settings.artistSplitExceptions);
+        this.loadAudioOutputDevicesAsync();
         this.sortPrefixes = CollectionUtils.fromString(this.settings.sortPrefixes);
     }
 
@@ -37,6 +43,16 @@ export class BehaviorSettingsComponent implements OnInit {
     public artistSplitExceptions: string[] = [];
     public sortPrefixes: string[] = [];
     public replayGainModes: string[] = ['track', 'album'];
+    public audioOutputDevices: AudioOutputDeviceModel[] = [];
+
+    public async loadAudioOutputDevicesAsync(): Promise<void> {
+        this.audioOutputDevices = await this.audioOutputDeviceService.getAudioOutputDevicesAsync();
+    }
+
+    public async onAudioOutputDeviceChangeAsync(deviceId: string): Promise<void> {
+        this.settings.preferredAudioOutputDeviceId = deviceId;
+        await this.playbackService.audioPlayer.setAudioOutputDeviceAsync(deviceId);
+    }
 
     public async addSortPrefixAsync(): Promise<void> {
         const dialogTitle: string = await this.translatorService.getAsync('add-prefix');

@@ -94,6 +94,7 @@ export const DEFAULT_SETTINGS = {
     useGaplessPlayback: false,
     useCrossfade: false,
     crossfadeDuration: 5,
+    preferredAudioOutputDeviceId: '',
     audioEqualizerEnabled: false,
     audioEqualizerPreset: 'flat',
     audioEqualizerGains: '0;0;0;0;0;0;0;0;0;0',

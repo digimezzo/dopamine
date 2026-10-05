@@ -450,7 +450,9 @@ describe('validate i18n', () => {
         "progress-bar",
         "use-thick-progress-and-volume-bars",
         "album-size",
-        "playlist-size"
+        "playlist-size",
+        "audio-output-device",
+        "audio-output-device-system-default",
     ].sort();
 
     Constants.languages.forEach((language) => {

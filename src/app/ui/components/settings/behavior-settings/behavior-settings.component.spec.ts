@@ -7,6 +7,8 @@ import { TrayServiceBase } from '../../../../services/tray/tray.service.base';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { Logger } from '../../../../common/logger';
+import { AudioOutputDeviceService } from '../../../../services/audio-output-device/audio-output-device.service';
+import { PlaybackService } from '../../../../services/playback/playback.service';
 import { SettingsMock } from '../../../../testing/settings-mock';
 
 describe('BehaviorSettingsComponent', () => {
@@ -18,6 +20,8 @@ describe('BehaviorSettingsComponent', () => {
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let settingsMock: IMock<SettingsBase>;
     let loggerMock: IMock<Logger>;
+    let audioOutputDeviceServiceMock: IMock<AudioOutputDeviceService>;
+    let playbackServiceMock: IMock<PlaybackService>;
 
     beforeEach(() => {
         settingsMock = Mock.ofType<SettingsBase>();
@@ -27,6 +31,9 @@ describe('BehaviorSettingsComponent', () => {
         dialogServiceMock = Mock.ofType<DialogServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         loggerMock = Mock.ofType<Logger>();
+        audioOutputDeviceServiceMock = Mock.ofType<AudioOutputDeviceService>();
+        playbackServiceMock = Mock.ofType<PlaybackService>();
+        audioOutputDeviceServiceMock.setup((x) => x.getAudioOutputDevicesAsync()).returns(() => Promise.resolve([]));
 
         component = new BehaviorSettingsComponent(
             trayServiceMock.object,
@@ -36,6 +43,8 @@ describe('BehaviorSettingsComponent', () => {
             translatorServiceMock.object,
             settingsMock.object,
             loggerMock.object,
+            audioOutputDeviceServiceMock.object,
+            playbackServiceMock.object,
         );
     });
 
