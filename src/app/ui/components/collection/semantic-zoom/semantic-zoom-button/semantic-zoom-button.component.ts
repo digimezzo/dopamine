@@ -13,6 +13,10 @@ export class SemanticZoomButtonComponent {
     @Input() public text: string = '';
     @Input() public isZoomable: boolean = false;
 
+    public get displayText(): string {
+        return this.text === 'i\u0307' ? '\u0130' : this.text;
+    }
+
     public requestZoomIn(): void {
         this.semanticZoomService.requestZoomIn(this.text);
     }

@@ -9,6 +9,7 @@ import { enterLeftToRight, enterRightToLeft } from '../../animations/animations'
 import { CollectionNavigationService } from '../../../services/collection-navigation/collection-navigation.service';
 import { PlaybackService } from '../../../services/playback/playback.service';
 import { SemanticZoomServiceBase } from '../../../services/semantic-zoom/semantic-zoom.service.base';
+import { Constants } from '../../../common/application/constants';
 
 @Component({
     selector: 'app-collection',
@@ -55,9 +56,9 @@ export class CollectionComponent extends AnimatedPage implements AfterViewInit {
             return;
         }
 
-        const pressedKey: string = event.key.toLowerCase();
+        const pressedKey: string = event.key.toLowerCase().normalize('NFC').replace('\u0131', 'i');
 
-        if (/^[a-z]$/.test(pressedKey)) {
+        if (pressedKey !== '#' && Constants.extendedAlphabeticalHeaders.includes(pressedKey)) {
             this.semanticZoomService.requestZoomIn(pressedKey);
         }
     }

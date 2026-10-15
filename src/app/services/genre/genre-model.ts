@@ -14,6 +14,10 @@ export class GenreModel extends SemanticZoomable implements ISelectable {
 
     public isSelected: boolean = false;
 
+    public get zoomHeader(): string {
+        return StringUtils.getExtendedAlphabeticalHeader(this.sortableName);
+    }
+
     public get displayName(): string {
         if (StringUtils.isNullOrWhiteSpace(this.name)) {
             return this.translatorService.get(Constants.unknownGenre);

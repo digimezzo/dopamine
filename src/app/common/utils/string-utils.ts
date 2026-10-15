@@ -1,4 +1,16 @@
+import { Constants } from '../application/constants';
+
 export class StringUtils {
+    public static getExtendedAlphabeticalHeader(sortableName: string): string {
+        const normalizedName = sortableName.normalize('NFC');
+        if (normalizedName.startsWith('i\u0307')) {
+            return 'i\u0307';
+        }
+
+        const firstCharacter = normalizedName.charAt(0).replace('\u0131', 'i');
+        return Constants.extendedAlphabeticalHeaders.includes(firstCharacter) ? firstCharacter : '#';
+    }
+
     public static get empty(): string {
         return '';
     }

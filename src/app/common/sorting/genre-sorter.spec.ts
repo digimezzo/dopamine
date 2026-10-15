@@ -3,6 +3,8 @@ import { GenreModel } from '../../services/genre/genre-model';
 import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
 import { GenreSorter } from './genre-sorter';
 import { Logger } from '../logger';
+import { SemanticZoomHeaderAdder } from '../semantic-zoom-header-adder';
+import { GuidFactory } from '../guid.factory';
 
 describe('GenreSorter', () => {
     let genreModel1: GenreModel;
@@ -57,6 +59,39 @@ describe('GenreSorter', () => {
         ];
 
         genreSorter = new GenreSorter(loggerMock.object);
+    });
+
+    it('should group Turkish genres and keep separators in the same order', () => {
+        const names = [
+            '123',
+            'Caa',
+            'Czz',
+            '\u00e7aa',
+            '\u00e7zz',
+            'Gzz',
+            '\u011faa',
+            'Izz',
+            '\u0130aa',
+            'Ozz',
+            '\u00f6aa',
+            'Szz',
+            '\u015faa',
+            'Uzz',
+            '\u00fcaa',
+            'Wzz',
+        ];
+        const input = [...names].reverse().map((name) => new GenreModel(name, translatorServiceMock.object));
+        const sorted = genreSorter.sortAscending(input);
+        expect(sorted.map((genre) => genre.name)).toEqual(names);
+        const headerAdder = new SemanticZoomHeaderAdder(Mock.ofType<GuidFactory>().object);
+        expect(
+            headerAdder
+                .addZoomHeaders(sorted)
+                .filter((genre) => genre.isZoomHeader)
+                .map((genre) => genre.zoomHeader),
+        ).toEqual(['#', 'c', '\u00e7', 'g', '\u011f', 'i', 'i\u0307', 'o', '\u00f6', 's', '\u015f', 'u', '\u00fc', 'w']);
+        expect(genreSorter.sortDescending(input).map((genre) => genre.name)).toEqual([...names].reverse());
+        expect(new GenreModel('\u0131\u015f\u0131k', translatorServiceMock.object).zoomHeader).toBe('i');
     });
 
     describe('sortAscending', () => {

@@ -4,6 +4,9 @@ import { TranslatorServiceBase } from '../../services/translator/translator.serv
 import { ArtistSorter } from './artist-sorter';
 import { Logger } from '../logger';
 import { ApplicationPaths } from '../application/application-paths';
+import { SemanticZoomableModel } from '../semantic-zoomable-model';
+import { SemanticZoomHeaderAdder } from '../semantic-zoom-header-adder';
+import { GuidFactory } from '../guid.factory';
 
 describe('ArtistSorter', () => {
     let artistModel1: ArtistModel;
@@ -67,6 +70,70 @@ describe('ArtistSorter', () => {
             ignoredPrefixes,
         );
     }
+
+    it.each([
+        ['Istanbul', 'i'],
+        ['istanbul', 'i'],
+        ['\u0131\u015f\u0131k', 'i'],
+        ['\u0130brahim', 'i\u0307'],
+        ['I\u0307brahim', 'i\u0307'],
+        ['\u00c7ile', '\u00e7'],
+        ['c\u0327ile', '\u00e7'],
+        ['\u011eaye', '\u011f'],
+        ['\u00d6zlem', '\u00f6'],
+        ['\u015eebnem', '\u015f'],
+        ['\u00dcmit', '\u00fc'],
+        ['The \u0130brahim', 'i\u0307'],
+        ['123', '#'],
+    ])('should preserve the header for %s in models and separators', (name, header) => {
+        const artist = createArtistModel(name, ['The']);
+        expect(artist.zoomHeader).toBe(header);
+        expect(new SemanticZoomableModel(artist).zoomHeader).toBe(header);
+        expect(artist.zoomHeaderText).toBe(header === 'i\u0307' ? '\u0130' : header);
+        expect(new SemanticZoomableModel(artist).zoomHeaderText).toBe(artist.zoomHeaderText);
+    });
+
+    it('should keep Turkish groups separate in fixed header order in both directions', () => {
+        const names = [
+            '123',
+            'Caa',
+            'Czz',
+            '\u00c7aa',
+            '\u00c7zz',
+            'Gzz',
+            '\u011eaa',
+            'Izz',
+            '\u0130aa',
+            'Ozz',
+            '\u00d6aa',
+            'Szz',
+            '\u015eaa',
+            'Uzz',
+            '\u00dcaa',
+            'Wzz',
+        ];
+        const input = [...names].reverse().map((name) => createArtistModel(name));
+        expect(artistSorter.sortAscending(input).map((artist) => artist.name)).toEqual(names);
+        expect(artistSorter.sortDescending(input).map((artist) => artist.name)).toEqual([...names].reverse());
+        const headerAdder = new SemanticZoomHeaderAdder(Mock.ofType<GuidFactory>().object);
+        const withHeaders = headerAdder.addZoomHeaders(artistSorter.sortAscending(input));
+        expect(withHeaders.filter((artist) => artist.isZoomHeader).map((artist) => artist.zoomHeader)).toEqual([
+            '#',
+            'c',
+            '\u00e7',
+            'g',
+            '\u011f',
+            'i',
+            'i\u0307',
+            'o',
+            '\u00f6',
+            's',
+            '\u015f',
+            'u',
+            '\u00fc',
+            'w',
+        ]);
+    });
 
     it('should sort by prefix-free names in both directions', () => {
         const prefixes = ['The', 'A'];

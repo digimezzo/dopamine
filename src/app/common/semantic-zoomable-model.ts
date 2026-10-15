@@ -14,4 +14,8 @@ export class SemanticZoomableModel extends SemanticZoomable {
     public get sortableName(): string {
         return this.semanticZoomable.sortableName;
     }
+
+    public get zoomHeader(): string {
+        return this.semanticZoomable.zoomHeader;
+    }
 }

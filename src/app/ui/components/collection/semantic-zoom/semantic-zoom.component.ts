@@ -31,18 +31,28 @@ export class SemanticZoomComponent implements OnInit {
 
     public fadeIn: string = 'hidden';
 
-    @Input()
-    public SemanticZoomables: SemanticZoomable[] = [];
+    private semanticZoomables: SemanticZoomable[] = [];
 
-    public buttonTexts: string[][] = [
-        ['#', 'a', 'b', 'c'],
-        ['d', 'e', 'f', 'g'],
-        ['h', 'i', 'j', 'k'],
-        ['l', 'm', 'n', 'o'],
-        ['p', 'q', 'r', 's'],
-        ['t', 'u', 'v', 'w'],
-        ['x', 'y', 'z'],
-    ];
+    @Input()
+    public set SemanticZoomables(value: SemanticZoomable[]) {
+        this.semanticZoomables = value;
+        const presentHeaders = new Set(value.map((item) => item.zoomHeader));
+        const headers = Constants.extendedAlphabeticalHeaders.filter(
+            (header) => Constants.alphabeticalHeaders.includes(header) || presentHeaders.has(header),
+        );
+        this.buttonTexts = [];
+        for (let index = 0; index < headers.length; index += 4) {
+            this.buttonTexts.push(headers.slice(index, index + 4));
+        }
+    }
+
+    public get SemanticZoomables(): SemanticZoomable[] {
+        return this.semanticZoomables;
+    }
+
+    public buttonTexts: string[][] = Array.from({ length: 7 }, (_, index) =>
+        Constants.alphabeticalHeaders.slice(index * 4, index * 4 + 4),
+    );
 
     public async ngOnInit(): Promise<void> {
         await this.scheduler.sleepAsync(Constants.semanticZoomOutDelayMilliseconds);

@@ -3,6 +3,7 @@ import { GenreModel } from '../../services/genre/genre-model';
 import { Logger } from '../logger';
 import { Timer } from '../scheduling/timer';
 import { sort } from 'fast-sort';
+import { Constants } from '../application/constants';
 
 @Injectable({ providedIn: 'root' })
 export class GenreSorter {
@@ -29,11 +30,11 @@ export class GenreSorter {
 
         const sortConfig = ascending
             ? [
-                  { asc: (g: GenreModel) => g.zoomHeader, comparer: this.compare },
+                  { asc: (g: GenreModel) => Constants.extendedAlphabeticalHeaders.indexOf(g.zoomHeader) },
                   { asc: (g: GenreModel) => g.sortableName, comparer: this.compare },
               ]
             : [
-                  { desc: (g: GenreModel) => g.zoomHeader, comparer: this.compare },
+                  { desc: (g: GenreModel) => Constants.extendedAlphabeticalHeaders.indexOf(g.zoomHeader) },
                   { desc: (g: GenreModel) => g.sortableName, comparer: this.compare },
               ];
 

@@ -4,6 +4,7 @@ import { Timer } from '../scheduling/timer';
 import { sort } from 'fast-sort';
 import { Logger } from '../logger';
 import { Constants } from '../application/constants';
+import { StringUtils } from '../utils/string-utils';
 
 @Injectable({ providedIn: 'root' })
 export class ArtistSorter {
@@ -30,17 +31,17 @@ export class ArtistSorter {
 
         const keyedArtists = artists.map((artist) => {
             const sortableName = artist.sortableName;
-            const firstCharacter = sortableName.charAt(0);
-            const zoomHeader = Constants.alphabeticalHeaders.includes(firstCharacter) ? firstCharacter : '#';
-            return { artist, sortableName, zoomHeader };
+            const zoomHeader = StringUtils.getExtendedAlphabeticalHeader(sortableName);
+            const headerIndex = Constants.extendedAlphabeticalHeaders.indexOf(zoomHeader);
+            return { artist, sortableName, headerIndex };
         });
         const ordered = ascending
             ? sort(keyedArtists).by([
-                  { asc: (item) => item.zoomHeader, comparer: this.compare },
+                  { asc: (item) => item.headerIndex },
                   { asc: (item) => item.sortableName, comparer: this.compare },
               ])
             : sort(keyedArtists).by([
-                  { desc: (item) => item.zoomHeader, comparer: this.compare },
+                  { desc: (item) => item.headerIndex },
                   { desc: (item) => item.sortableName, comparer: this.compare },
               ]);
         const sorted = ordered.map((item) => item.artist);

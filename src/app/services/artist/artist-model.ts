@@ -23,6 +23,10 @@ export class ArtistModel extends SemanticZoomable implements ISelectable {
 
     public isSelected: boolean = false;
 
+    public get zoomHeader(): string {
+        return StringUtils.getExtendedAlphabeticalHeader(this.sortableName);
+    }
+
     public get sortableName(): string {
         if (this.isUnknownArtist || this.isZoomHeader) {
             return super.sortableName;
