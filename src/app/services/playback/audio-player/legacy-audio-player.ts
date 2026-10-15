@@ -16,6 +16,7 @@ export class LegacyAudioPlayer implements IAudioPlayer {
     private _audioContext: AudioContext;
     private _analyser: AnalyserNode;
     private _equalizer: AudioEqualizer;
+    private _mediaElementSource: MediaElementAudioSourceNode | undefined;
     private _isPaused: boolean = false;
     private shouldPauseAfterStarting: boolean = false;
     private skipSecondsAfterStarting: number = 0;
@@ -111,6 +112,7 @@ export class LegacyAudioPlayer implements IAudioPlayer {
             // Intentionally left blank
         };
 
+        this.releaseAudio(this._audio);
         this._audio = tempAudio;
 
         this.connectVisualizer();
@@ -184,7 +186,18 @@ export class LegacyAudioPlayer implements IAudioPlayer {
     }
 
     private connectVisualizer(): void {
-        const mediaElementSource: MediaElementAudioSourceNode = this._audioContext.createMediaElementSource(this._audio);
-        mediaElementSource.connect(this._equalizer.input);
+        // Each track gets a new HTMLAudioElement, and therefore a new MediaElementAudioSourceNode. The previous
+        // source node must be disconnected: connected nodes are never garbage collected and keep being processed
+        // on the audio render thread, so leaking one per track makes playback glitch more and more over time.
+        this._mediaElementSource?.disconnect();
+        this._mediaElementSource = this._audioContext.createMediaElementSource(this._audio);
+        this._mediaElementSource.connect(this._equalizer.input);
+    }
+
+    private releaseAudio(audio: HTMLAudioElement): void {
+        // Free the decoder and media resources held by an element that is no longer used.
+        audio.pause();
+        audio.removeAttribute('src');
+        audio.load();
     }
 }
