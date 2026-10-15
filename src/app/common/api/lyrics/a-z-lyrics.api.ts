@@ -9,6 +9,7 @@ import { Lyrics } from './lyrics';
 import { HttpClient } from '@angular/common/http';
 import * as cheerio from 'cheerio';
 import { CheerioAPI } from 'cheerio';
+import { StringUtils } from '../../utils/string-utils';
 
 @Injectable()
 export class AZLyricsApi implements ILyricsApi {
@@ -46,6 +47,7 @@ export class AZLyricsApi implements ILyricsApi {
     }
 
     private sanitizeForLink(data: string): string {
+        data = StringUtils.removeAccents(data);
         data = data.replace(/\W/g, '');
         data = data.toLowerCase();
 
