@@ -308,6 +308,7 @@ import { AlbumPlaceholderComponent } from './ui/components/highlights/album-plac
 import { EditSmartPlaylistDialogComponent } from './ui/components/dialogs/edit-smart-playlist-dialog/edit-smart-playlist-dialog.component';
 import { HighlightsPlaybackPaneComponent } from './ui/components/highlights/highlights-playback-pane/highlights-playback-pane.component';
 import { WindowDraggableDirective } from './ui/directives/window-draggable.directive';
+import { ControlsVisibilityDirective, ControlTooltipDirective } from './ui/directives/controls-visibility.directive';
 import { EditAlbumDialogComponent } from './ui/components/dialogs/edit-album-dialog/edit-album-dialog.component';
 import { ListenbrainzApi } from './common/api/listenbrainz/listenbrainz.api';
 import { ArtistArtworkRepositoryBase } from './data/repositories/artist-artwork-repository.base';
@@ -362,6 +363,8 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         AppComponent,
         WebviewDirective,
         WindowDraggableDirective,
+        ControlsVisibilityDirective,
+        ControlTooltipDirective,
         CdkVirtualScrollViewportPatchDirective,
         WelcomeComponent,
         CollectionComponent,

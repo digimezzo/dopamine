@@ -16,10 +16,14 @@
                 <i class="back-button__icon las la-arrow-left"></i>
             </div>
             <div class="window-frame__dragarea"></div>
-            <app-switch-player-button [@controlsVisibility]="controlsVisibility"></app-switch-player-button>
+            <app-switch-player-button
+                [@controlsVisibility]="controlsVisibility"
+                [appControlsHidden]="controlsVisibility === 'hidden'"
+            ></app-switch-player-button>
             <app-window-controls
                 *ngIf="appearanceService.needsCustomWindowControls"
                 [@controlsVisibility]="controlsVisibility"
+                [appControlsHidden]="controlsVisibility === 'hidden'"
             ></app-window-controls>
         </div>
         <div class="window-frame__content">
@@ -51,6 +55,7 @@
                     <app-now-playing-playback-pane
                         class="app-now-playing-playback-controls__playback-pane"
                         [@controlsVisibility]="controlsVisibility"
+                        [appControlsHidden]="controlsVisibility === 'hidden'"
                     ></app-now-playing-playback-pane>
                 </div>
             </div>
