@@ -5,7 +5,7 @@
         [ngClass]="{ 'size-big': settings.showArtistImages }"
         (click)="this.requestZoomOut()"
     >
-        {{ artist.zoomHeader }}
+        {{ artist.zoomHeaderText }}
     </div>
     <div
         *ngIf="!artist.isZoomHeader"

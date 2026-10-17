@@ -183,6 +183,22 @@ describe('CollectionComponent', () => {
             semanticZoomServiceMock.verify((x) => x.requestZoomIn('a'), Times.once());
         });
 
+        it.each([
+            ['\u00c7', '\u00e7'],
+            ['\u011f', '\u011f'],
+            ['\u0130', 'i\u0307'],
+            ['\u0131', 'i'],
+            ['\u00d6', '\u00f6'],
+            ['\u015f', '\u015f'],
+            ['\u00dc', '\u00fc'],
+        ])('should request the Turkish header for key %s', (key, header) => {
+            collectionNavigationServiceMock.setup((value) => value.page).returns(() => 1);
+            const component = createComponent();
+            const event = new KeyboardEvent('keyup', { key });
+            component.handleKeyboardEvent(event);
+            semanticZoomServiceMock.verify((value) => value.requestZoomIn(header), Times.once());
+        });
+
         it('should request semantic zoom when a letter is pressed on genres page', () => {
             // Arrange
             collectionNavigationServiceMock.setup((x) => x.page).returns(() => 1);

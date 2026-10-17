@@ -104,6 +104,19 @@ export class Constants {
         'z',
     ];
 
+    // Keep Turkish-specific headers beside their base letters; zoom only displays them when populated.
+    public static readonly extendedAlphabeticalHeaders: string[] = Constants.alphabeticalHeaders.flatMap((header) => {
+        const extraHeaders: { [key: string]: string } = {
+            c: '\u00e7',
+            g: '\u011f',
+            i: 'i\u0307',
+            o: '\u00f6',
+            s: '\u015f',
+            u: '\u00fc',
+        };
+        return extraHeaders[header] ? [header, extraHeaders[header]] : [header];
+    });
+
     // Transparent 1x1 Gif to avoid broken image icons.
     // See: https://stackoverflow.com/questions/22051573/how-to-hide-image-broken-icon-using-only-css-html/29111371
     public static readonly emptyImage: string = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';

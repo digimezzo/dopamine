@@ -19,4 +19,9 @@ export abstract class SemanticZoomable {
 
         return '#';
     }
+
+    // Display dotted i as uppercase İ; keep zoomHeader as the normalized key used for grouping and navigation.
+    public get zoomHeaderText(): string {
+        return this.zoomHeader === 'i\u0307' ? '\u0130' : this.zoomHeader;
+    }
 }

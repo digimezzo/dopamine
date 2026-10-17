@@ -32,6 +32,15 @@ describe('SemanticZoomButtonComponent', () => {
         });
     });
 
+    it('should display dotted uppercase I while requesting its internal header key', () => {
+        component.text = 'i\u0307';
+        expect(component.displayText).toBe('\u0130');
+        component.requestZoomIn();
+        semanticZoomServiceMock.verify((value) => value.requestZoomIn('i\u0307'), Times.once());
+        component.text = 'i';
+        expect(component.displayText).toBe('i');
+    });
+
     describe('requestZoomIn', () => {
         it('should request zoom in', () => {
             // Arrange
