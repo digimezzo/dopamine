@@ -1,4 +1,4 @@
-jest.mock('jimp', () => ({ exec: jest.fn() }));
+jest.mock('jimp', () => ({ ...jest.requireActual('jimp'), exec: jest.fn() }));
 jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
 
 global.crypto = {

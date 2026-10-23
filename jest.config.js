@@ -8,6 +8,9 @@ module.exports = {
     testMatch: ['<rootDir>/src/**/*(*.)+(spec).+(ts)', '<rootDir>/main/**/*(*.)+(spec).+(js)'],
     testPathIgnorePatterns: ['<rootDir>/src/app/data/repositories/'],
     setupFilesAfterEnv: ['<rootDir>/src/test.ts'],
+    testEnvironmentOptions: {
+        customExportConditions: ['node', 'node-addons'],
+    },
     moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
         prefix: '<rootDir>/',
     }),
