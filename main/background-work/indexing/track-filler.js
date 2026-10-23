@@ -41,34 +41,34 @@ class TrackFiller {
             track.replayGainTrackPeak = this.trackFieldCreator.createNumberField(fileMetadata.replayGainTrackPeak);
             track.replayGainAlbumGain = this.trackFieldCreator.createNumberField(fileMetadata.replayGainAlbumGain);
             track.replayGainAlbumPeak = this.trackFieldCreator.createNumberField(fileMetadata.replayGainAlbumPeak);
+            track.genres = this.trackFieldCreator.createMultiTextField(this.metadataPatcher.joinUnsplittableMetadata(fileMetadata.genres));
+            track.albumTitle = this.trackFieldCreator.createTextField(fileMetadata.album);
+            track.albumArtists = this.trackFieldCreator.createMultiTextField(
+                this.metadataPatcher.joinUnsplittableMetadata(fileMetadata.albumArtists),
+            );
+            track.mimeType = this.#getMimeType(track.path);
+            track.bitRate = this.trackFieldCreator.createNumberField(fileMetadata.bitRate);
+            track.sampleRate = this.trackFieldCreator.createNumberField(fileMetadata.sampleRate);
+            track.trackCount = this.trackFieldCreator.createNumberField(fileMetadata.trackCount);
+            track.discNumber = this.trackFieldCreator.createNumberField(fileMetadata.discNumber);
+            track.discCount = this.trackFieldCreator.createNumberField(fileMetadata.discCount);
+            track.year = this.trackFieldCreator.createNumberField(fileMetadata.year);
+            track.hasLyrics = this.#getHasLyrics(fileMetadata.lyrics);
+            track.composers = this.trackFieldCreator.createMultiTextField(
+                this.metadataPatcher.joinUnsplittableMetadata(fileMetadata.composers),
+            );
+            track.conductor = this.trackFieldCreator.createTextField(fileMetadata.conductor);
+            track.beatsPerMinute = this.trackFieldCreator.createNumberField(fileMetadata.beatsPerMinute);
 
+            // Tag fields are already parsed above, so they are always filled. Only the extra file system
+            // calls are skipped when only essential metadata is requested.
             if (!fillOnlyEssentialMetadata) {
                 const dateNowTicks = this.dateTime.convertDateToTicks(new Date());
 
-                track.genres = this.trackFieldCreator.createMultiTextField(
-                    this.metadataPatcher.joinUnsplittableMetadata(fileMetadata.genres),
-                );
-                track.albumTitle = this.trackFieldCreator.createTextField(fileMetadata.album);
-                track.albumArtists = this.trackFieldCreator.createMultiTextField(
-                    this.metadataPatcher.joinUnsplittableMetadata(fileMetadata.albumArtists),
-                );
-                track.mimeType = this.#getMimeType(track.path);
-                track.bitRate = this.trackFieldCreator.createNumberField(fileMetadata.bitRate);
-                track.sampleRate = this.trackFieldCreator.createNumberField(fileMetadata.sampleRate);
-                track.trackCount = this.trackFieldCreator.createNumberField(fileMetadata.trackCount);
-                track.discNumber = this.trackFieldCreator.createNumberField(fileMetadata.discNumber);
-                track.discCount = this.trackFieldCreator.createNumberField(fileMetadata.discCount);
-                track.year = this.trackFieldCreator.createNumberField(fileMetadata.year);
-                track.hasLyrics = this.#getHasLyrics(fileMetadata.lyrics);
                 track.dateAdded = dateNowTicks;
                 track.dateFileCreated = this.fileAccess.getDateCreatedInTicks(track.path);
                 track.dateLastSynced = dateNowTicks;
                 track.dateFileModified = this.fileAccess.getDateModifiedInTicks(track.path);
-                track.composers = this.trackFieldCreator.createMultiTextField(
-                    this.metadataPatcher.joinUnsplittableMetadata(fileMetadata.composers),
-                );
-                track.conductor = this.trackFieldCreator.createTextField(fileMetadata.conductor);
-                track.beatsPerMinute = this.trackFieldCreator.createNumberField(fileMetadata.beatsPerMinute);
             }
 
             track.needsIndexing = 0;

@@ -861,7 +861,7 @@ describe('TrackFiller', () => {
             expect(track.indexingFailureReason).toEqual('');
         });
 
-        it('should only fill essential metadata when fillOnlyEssentialMetadata is true', async () => {
+        it('should fill all tag metadata but skip file system dates when fillOnlyEssentialMetadata is true', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
             fileMetadataStub.artists = ['Artist 1', 'Artist 2'];
@@ -893,6 +893,7 @@ describe('TrackFiller', () => {
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Artist 1', 'Artist 2'])).returns(() => ['Artist 1', 'Artist 2']);
+            metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Genre 1', 'Genre 2'])).returns(() => ['Genre 1', 'Genre 2']);
             metadataPatcherMock
                 .setup((x) => x.joinUnsplittableMetadata(['Album artist 1', 'Album artist 2']))
                 .returns(() => ['Album artist 1', 'Album artist 2']);
@@ -909,18 +910,18 @@ describe('TrackFiller', () => {
             expect(track.trackNumber).toEqual(1);
             expect(track.fileSize).toEqual(123);
 
-            expect(track.genres).toEqual('');
-            expect(track.albumTitle).toEqual('');
-            expect(track.albumArtists).toEqual('');
+            expect(track.genres).toEqual(';Genre 1;;Genre 2;');
+            expect(track.albumTitle).toEqual('Album title');
+            expect(track.albumArtists).toEqual(';Album artist 1;;Album artist 2;');
             expect(track.albumKey).toEqual(';Album title;;Album artist 1;;Album artist 2;');
-            expect(track.mimeType).toEqual('');
-            expect(track.bitRate).toEqual(0);
-            expect(track.sampleRate).toEqual(0);
-            expect(track.trackCount).toEqual(0);
-            expect(track.discNumber).toEqual(0);
-            expect(track.discCount).toEqual(0);
-            expect(track.year).toEqual(0);
-            expect(track.hasLyrics).toEqual(0);
+            expect(track.mimeType).toEqual('audio/mpeg');
+            expect(track.bitRate).toEqual(320);
+            expect(track.sampleRate).toEqual(44);
+            expect(track.trackCount).toEqual(15);
+            expect(track.discNumber).toEqual(1);
+            expect(track.discCount).toEqual(2);
+            expect(track.year).toEqual(2020);
+            expect(track.hasLyrics).toEqual(1);
             expect(track.dateAdded).toEqual(0);
             expect(track.dateFileCreated).toEqual(0);
             expect(track.dateLastSynced).toEqual(0);
