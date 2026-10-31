@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added support for WebP album covers
+
+## [3.0.11] - 2026-09-25
+
+### Added
+
 - Added optional wave progress bar
 - Ctrl+F now selects all text in the search box for quick replacement
 - Added optional Stop button (Hidden by default, but can be enabled in the settings.)
@@ -14,7 +20,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added buttons to the playback queue to clear the queue and to add the queued songs to a playlist
 - Added album release date to album image tooltips and optionally on the nog playing page
 - Added a playback speed control (Thank you @henryshuen)
-- Added support for WebP album covers
 
 ### Changed
 
