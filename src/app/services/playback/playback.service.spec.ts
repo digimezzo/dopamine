@@ -203,6 +203,92 @@ describe('PlaybackService', () => {
         );
     }
 
+    describe('media session timeline', () => {
+        let position: number;
+
+        beforeEach(() => {
+            jest.useFakeTimers();
+            position = 0;
+            audioPlayerMock.setup((x) => x.totalSeconds).returns(() => 240);
+            audioPlayerMock.setup((x) => x.progressSeconds).returns(() => position);
+            queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
+        });
+
+        afterEach(() => {
+            jest.clearAllTimers();
+            jest.useRealTimers();
+        });
+
+        it('should publish the initial position and ongoing progress', async () => {
+            const service = createService();
+            await service.enqueueAndPlayTracksAsync([trackModel1]);
+            mediaSessionServiceMock.verify((x) => x.updatePlaybackState(240, 0, 1, true), Times.once());
+
+            position = 0.5;
+            jest.advanceTimersByTime(500);
+            mediaSessionServiceMock.verify((x) => x.updatePlaybackState(240, 0.5, 1, true), Times.once());
+        });
+
+        it('should publish pause and resume immediately', async () => {
+            const service = createService();
+            await service.enqueueAndPlayTracksAsync([trackModel1]);
+            position = 42;
+            service.pause();
+            mediaSessionServiceMock.verify((x) => x.updatePlaybackState(240, 42, 1, false), Times.once());
+
+            jest.advanceTimersByTime(500);
+            mediaSessionServiceMock.verify((x) => x.updatePlaybackState(240, 42, 1, false), Times.once());
+
+            await service.resumeAsync();
+            mediaSessionServiceMock.verify((x) => x.updatePlaybackState(240, 42, 1, true), Times.once());
+        });
+
+        it('should publish a seek immediately even while paused', async () => {
+            const service = createService();
+            await service.enqueueAndPlayTracksAsync([trackModel1]);
+            service.pause();
+            audioPlayerMock.setup((x) => x.skipToSecondsAsync(120)).returns(() => {
+                position = 120;
+                return Promise.resolve();
+            });
+
+            await service.skipByFractionOfTotalSecondsAsync(0.5);
+            mediaSessionServiceMock.verify((x) => x.updatePlaybackState(240, 120, 1, false), Times.once());
+        });
+
+        it('should publish playback speed changes immediately', async () => {
+            const service = createService();
+            await service.enqueueAndPlayTracksAsync([trackModel1]);
+            position = 42;
+            service.playbackSpeed = 1.5;
+
+            mediaSessionServiceMock.verify((x) => x.updatePlaybackState(240, 42, 1.5, true), Times.once());
+        });
+
+        it('should clear the session on stop without subsequent timeline updates', async () => {
+            const service = createService();
+            await service.enqueueAndPlayTracksAsync([trackModel1]);
+            service.stopPlayback();
+            service.playbackSpeed = 1.5;
+            jest.advanceTimersByTime(500);
+
+            mediaSessionServiceMock.verify((x) => x.clearMetadata(), Times.once());
+            mediaSessionServiceMock.verify((x) => x.updatePlaybackState(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.once());
+        });
+
+        it('should reset the published position when starting another track', async () => {
+            const service = createService();
+            queueMock.setup((x) => x.setTracks([trackModel2], false)).returns(() => [trackModel2]);
+            await service.enqueueAndPlayTracksAsync([trackModel1]);
+            position = 42;
+            jest.advanceTimersByTime(500);
+            position = 0;
+            await service.enqueueAndPlayTracksStartingFromGivenTrackAsync([trackModel2], trackModel2);
+
+            mediaSessionServiceMock.verify((x) => x.updatePlaybackState(240, 0, 1, true), Times.exactly(2));
+        });
+    });
+
     describe('constructor', () => {
         it('should create', () => {
             // Arrange, Act

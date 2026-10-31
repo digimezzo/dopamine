@@ -51,6 +51,42 @@ describe('MediaSessionService', () => {
         });
     });
 
+    describe('updatePlaybackState', () => {
+        it.each([true, false])('should publish the timeline with playing=%s', (isPlaying: boolean) => {
+            createService().updatePlaybackState(240, 42.5, 1.25, isPlaying);
+
+            mediaSessionProxyMock.verify((x) => x.setPlaybackState(isPlaying ? 'playing' : 'paused'), Times.once());
+            mediaSessionProxyMock.verify((x) => x.setPositionState({ duration: 240, position: 42.5, playbackRate: 1.25 }), Times.once());
+        });
+
+        it.each([-1, 250])('should clamp position %s to the track duration', (position: number) => {
+            createService().updatePlaybackState(240, position, 1, true);
+
+            mediaSessionProxyMock.verify((x) => x.setPositionState({
+                duration: 240, position: position < 0 ? 0 : 240, playbackRate: 1,
+            }), Times.once());
+        });
+
+        it.each([
+            [0, 0, 1], [-1, 0, 1], [NaN, 0, 1], [Infinity, 0, 1],
+            [240, NaN, 1], [240, Infinity, 1], [240, 0, 0], [240, 0, NaN], [240, 0, Infinity],
+        ])('should clear invalid timeline values (%s, %s, %s)', (duration: number, position: number, rate: number) => {
+            createService().updatePlaybackState(duration, position, rate, true);
+
+            mediaSessionProxyMock.verify((x) => x.setPositionState(), Times.once());
+        });
+    });
+
+    describe('clearMetadata', () => {
+        it('should clear playback state and timeline along with metadata', () => {
+            createService().clearMetadata();
+
+            mediaSessionProxyMock.verify((x) => x.setPlaybackState('none'), Times.once());
+            mediaSessionProxyMock.verify((x) => x.setPositionState(), Times.once());
+            mediaSessionProxyMock.verify((x) => x.clearMetadata(), Times.once());
+        });
+    });
+
     describe('setMetadataAsync', () => {
         it('should set metadata', async () => {
             // Arrange
