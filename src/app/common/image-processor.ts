@@ -3,7 +3,36 @@ import fetch from 'node-fetch';
 import { FileAccessBase } from './io/file-access.base';
 import { nativeImage, NativeImage, Size } from 'electron';
 import * as fs from 'fs-extra';
-import { Jimp } from 'jimp';
+import { createJimp } from '@jimp/core';
+import { defaultFormats, defaultPlugins } from 'jimp';
+
+function webp() {
+    let decoderPromise: Promise<typeof import('@jsquash/webp/decode.js')> | undefined;
+
+    return {
+        mime: 'image/webp' as const,
+        hasAlpha: true,
+        encode: () => {
+            throw new Error('WebP encoding is not supported');
+        },
+        decode: async (data: Buffer) => {
+            decoderPromise ??= Promise.all([
+                import('@jsquash/webp/decode.js'),
+                import('@jsquash/webp/codec/dec/webp_dec.wasm'),
+            ]).then(async ([decoder, wasm]) => {
+                await decoder.init({ wasmBinary: Buffer.from(wasm.default.split(',')[1], 'base64') });
+                return decoder;
+            });
+
+            const decoder = await decoderPromise;
+            const bitmap = await decoder.default(new Uint8Array(data).buffer);
+
+            return { width: bitmap.width, height: bitmap.height, data: Buffer.from(bitmap.data) };
+        },
+    };
+}
+
+const Jimp = createJimp({ formats: [...defaultFormats, webp], plugins: defaultPlugins });
 
 @Injectable()
 export class ImageProcessor {
@@ -43,7 +72,7 @@ export class ImageProcessor {
         }
 
         // Fallback using Jimp, which is much slower than NativeImage.
-        let fallbackImage = await Jimp.read(imageBuffer);
+        const fallbackImage = await Jimp.read(imageBuffer);
         if (fallbackImage.bitmap.width > maxWidth || fallbackImage.bitmap.height > maxHeight) {
             fallbackImage.resize({ w: maxWidth, h: maxHeight });
         }
@@ -52,14 +81,14 @@ export class ImageProcessor {
     }
 
     public async toJpegBufferAsync(imageBuffer: Buffer, jpegQuality: number): Promise<Buffer> {
-        let image: NativeImage = nativeImage.createFromBuffer(imageBuffer);
+        const image: NativeImage = nativeImage.createFromBuffer(imageBuffer);
 
         // NativeImage is very fast, but only supports PNG and JPG. For other formats, it returns an empty image.
         if (!image.isEmpty()) {
             return image.toJPEG(jpegQuality);
         }
 
-        let fallbackImage = await Jimp.read(imageBuffer);
+        const fallbackImage = await Jimp.read(imageBuffer);
 
         return await fallbackImage.getBuffer('image/jpeg', { quality: jpegQuality });
     }
