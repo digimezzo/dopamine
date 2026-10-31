@@ -124,9 +124,16 @@ export class LastfmProvider implements ScrobbleProvider {
         const artist: string = track.rawFirstArtist;
         const trackTitle: string = track.rawTitle;
         const albumTitle: string = track.rawAlbumTitle;
+        const durationInSeconds: number = Math.round(track.durationInMilliseconds / 1000);
 
         try {
-            const isSuccess: boolean = await this.lastfmApi.updateTrackNowPlayingAsync(this.sessionKey, artist, trackTitle, albumTitle);
+            const isSuccess: boolean = await this.lastfmApi.updateTrackNowPlayingAsync(
+                this.sessionKey,
+                artist,
+                trackTitle,
+                albumTitle,
+                durationInSeconds,
+            );
             return Promise.resolve(isSuccess);
         } catch (e: unknown) {
             this.logger.error(

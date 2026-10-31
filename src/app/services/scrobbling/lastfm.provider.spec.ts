@@ -323,7 +323,7 @@ describe('LastFmProvider', () => {
             // Arrange
             settingsStub.lastFmSessionKey = 'test-session-key';
             lastfmApiMock
-                .setup((x) => x.updateTrackNowPlayingAsync('test-session-key', 'test-artist', 'test-track', 'test-album'))
+                .setup((x) => x.updateTrackNowPlayingAsync('test-session-key', 'test-artist', 'test-track', 'test-album', 300))
                 .returns(() => Promise.resolve(true))
                 .verifiable();
             const provider = createComponent();
@@ -332,6 +332,7 @@ describe('LastFmProvider', () => {
                 rawFirstArtist: 'test-artist',
                 rawTitle: 'test-track',
                 rawAlbumTitle: 'test-album',
+                durationInMilliseconds: 300000,
             };
 
             // Act
@@ -339,7 +340,7 @@ describe('LastFmProvider', () => {
 
             // Assert
             lastfmApiMock.verify(
-                (x) => x.updateTrackNowPlayingAsync('test-session-key', 'test-artist', 'test-track', 'test-album'),
+                (x) => x.updateTrackNowPlayingAsync('test-session-key', 'test-artist', 'test-track', 'test-album', 300),
                 Times.once(),
             );
             expect(result).toBe(true);
@@ -351,20 +352,21 @@ describe('LastFmProvider', () => {
             const provider = createComponent();
             provider.initialize();
             lastfmApiMock
-                .setup((x) => x.updateTrackNowPlayingAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny()))
+                .setup((x) => x.updateTrackNowPlayingAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()))
                 .returns(() => Promise.resolve(true))
                 .verifiable();
             const track: any = {
                 rawFirstArtist: 'test-artist',
                 rawTitle: 'test-track',
                 rawAlbumTitle: 'test-album',
+                durationInMilliseconds: 300000,
             };
 
             // Act
             const result = await provider.updateNowPlayingAsync(track);
 
             // Assert
-            lastfmApiMock.verify((x) => x.updateTrackNowPlayingAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
+            lastfmApiMock.verify((x) => x.updateTrackNowPlayingAsync(It.isAny(), It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
             expect(result).toBe(false);
         });
     });
