@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added support for WebP album covers
+- Add synced lyrics support for Windhawk's Desktop Audio Visualizer Plus
 
 ## [3.0.11] - 2026-09-25
 
