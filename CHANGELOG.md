@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Artists tab doesn't filter the albums when artist splitting is disabled
 - Metadata (Album, Year, Cover) is sometimes not displayed in the showcase view
 - Last.fm "Now Playing" expires prematurely (Thank you @jonson-zero)
-- Memory leak in the audio player, causing glitches in the audio after playing many songs.
+- Memory leak in the audio player, causing glitches that worsen over long playback sessions. (Thank you @ThatOnePersonCalledAnon)
 
 ## [3.0.11] - 2026-09-25
 
