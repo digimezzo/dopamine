@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Metadata (Album, Year, Cover) is sometimes not displayed in the showcase view
 - Last.fm "Now Playing" expires prematurely (Thank you @jonson-zero)
 - Memory leak in the audio player, causing glitches that worsen over long playback sessions. (Thank you @ThatOnePersonCalledAnon)
+- Accented lyrics lookups (Thank you @dbqp01)
 
 ## [3.0.11] - 2026-09-25
 
