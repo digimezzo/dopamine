@@ -7,12 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Added slider to resize album covers in the list of albums
-- Added support for WebP album covers
-- Added synced lyrics support for Windhawk's Desktop Audio Visualizer Plus
-- Added support for the Turkish alphabet in the list of artists
-- Added audio device output settings
-- Re-added skipping of prefixes in the artists screen, but this time it's configurable.
+- Slider to resize album covers in the list of albums
+- Support for WebP album covers
+- Synced lyrics support for Windhawk's Desktop Audio Visualizer Plus
+- Support for the Turkish alphabet in the list of artists
+- Audio device output settings
+- Skipping of prefixes in the artists screen has been re-added, but this time it's configurable.
 
 ### Changed
 
@@ -21,9 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  
 ### Fixed
 
-- Fixed wave progress bar glitches
-- Fixed album art being shown even though a file does not have any
-- Fixed a bug where the artists tab didn't filter the albums when artist splitting is disabled
+- Wave progress bar glitches
+- Album cover shown even though a file does not have any
+- Artists tab doesn't filter the albums when artist splitting is disabled
+- Metadata (Album, Year, Cover) is sometimes not displayed in the showcase view
 
 ## [3.0.11] - 2026-09-25
 
