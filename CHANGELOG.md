@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for the Turkish alphabet in the list of artists
 - Audio device output settings
 - Skipping of prefixes in the artists screen has been re-added, but this time it's configurable.
+- It is now possible to create and use your own translations
 
 ### Changed
 
