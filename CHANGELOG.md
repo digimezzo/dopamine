@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.12] - 2026-10-31
+## [3.0.12] - 2026-11-01
 
 ### Added
 
@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Album cover shown even though a file does not have any
 - Artists tab doesn't filter the albums when artist splitting is disabled
 - Metadata (Album, Year, Cover) is sometimes not displayed in the showcase view
+- Last.fm "Now Playing" expires prematurely (Thank you @jonson-zero)
 
 ## [3.0.11] - 2026-09-25
 
