@@ -16,7 +16,8 @@ export class ChartLyricsApi implements ILyricsApi {
     }
 
     public async getLyricsAsync(artist: string, title: string): Promise<Lyrics> {
-        const url: string = `http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist=${artist}&song=${title}`;
+        const url: string =
+            `http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist=${encodeURIComponent(artist)}&song=${encodeURIComponent(title)}`;
         const response: string = await this.httpClient.get(url, { responseType: 'text' }).toPromise();
         const parser: XMLParser = new XMLParser();
         const jsonResponse: any = parser.parse(response);
