@@ -159,7 +159,13 @@ export class LastfmApi {
         return isScrobbleSuccessful;
     }
 
-    public async updateTrackNowPlayingAsync(sessionKey: string, artist: string, trackTitle: string, albumTitle: string): Promise<boolean> {
+    public async updateTrackNowPlayingAsync(
+        sessionKey: string,
+        artist: string,
+        trackTitle: string,
+        albumTitle: string,
+        durationInSeconds: number,
+    ): Promise<boolean> {
         let isNowPlayingUpdateSuccessful: boolean = false;
 
         const method: string = 'track.updateNowPlaying';
@@ -173,6 +179,12 @@ export class LastfmApi {
 
         if (!StringUtils.isNullOrWhiteSpace(albumTitle)) {
             parameters.set('album', albumTitle);
+        }
+
+        // Without a duration, Last.fm assumes a default track length and stops showing the track
+        // as "Now Playing" after that (about 3.5 minutes), even though it is still playing.
+        if (durationInSeconds > 0) {
+            parameters.set('duration', Math.round(durationInSeconds).toString());
         }
 
         const methodSignature: string = this.generateMethodSignature(method, parameters);
