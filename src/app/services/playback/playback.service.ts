@@ -427,6 +427,11 @@ export class PlaybackService {
     private async playAsync(trackToPlay: TrackModel, isPlayingPreviousTrack: boolean): Promise<void> {
         await this.audioPlayer.playAsync(trackToPlay);
         this.postPlay(trackToPlay, isPlayingPreviousTrack);
+
+        if (this.audioPlayer.isPaused) {
+            // pause() was called while the track was starting
+            this.postPause();
+        }
     }
 
     private postPlay(trackToPlay: TrackModel, isPlayingPreviousTrack: boolean): void {
