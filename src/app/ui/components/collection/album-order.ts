@@ -4,6 +4,7 @@ export enum AlbumOrder {
     byDateAdded = 3,
     byDateCreated = 4,
     byAlbumArtist = 5,
+    byDiscography = 10,
     byYearAscending = 6,
     byYearDescending = 7,
     byLastPlayed = 8,
@@ -22,6 +23,8 @@ export function albumOrderKey(albumOrder: AlbumOrder): string {
             return 'by-date-created';
         case AlbumOrder.byAlbumArtist:
             return 'by-album-artist';
+        case AlbumOrder.byDiscography:
+            return 'by-discography';
         case AlbumOrder.byYearAscending:
             return 'by-year-ascending';
         case AlbumOrder.byYearDescending:

@@ -164,6 +164,17 @@ describe('AlbumRowsGetter', () => {
             albumSorterMock.verify((x) => x.sortByDateCreated(albums), Times.once());
         });
 
+        it('should sort by discography when provided AlbumOrder.byDiscography', () => {
+            // Arrange
+            albumSorterMock.setup((x) => x.sortByDiscography(albums)).returns(() => albums);
+
+            // Act
+            albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.byDiscography, false);
+
+            // Assert
+            albumSorterMock.verify((x) => x.sortByDiscography(albums), Times.once());
+        });
+
         it('should sort by year ascending when provided AlbumOrder.byYearAscending', () => {
             // Arrange
             albumSorterMock.setup((x) => x.sortByYearAscending(albums)).returns(() => albums);

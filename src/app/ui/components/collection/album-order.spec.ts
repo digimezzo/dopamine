@@ -12,6 +12,7 @@ describe('AlbumOrder', () => {
             [AlbumOrder.byYearDescending, 'by-year-descending'],
             [AlbumOrder.byLastPlayed, 'by-last-played'],
             [AlbumOrder.random, 'random'],
+            [AlbumOrder.byDiscography, 'by-discography'],
         ].forEach((pair) => {
             const albumOrder = pair[0] as AlbumOrder;
 

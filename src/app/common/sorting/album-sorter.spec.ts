@@ -285,6 +285,43 @@ describe('AlbumSorter', () => {
         });
     });
 
+    describe('sortByDiscography', () => {
+        it('should return an empty collection when undefined is provided', () => {
+            // Arrange
+
+            // Act
+            const sortedAlbums: AlbumModel[] = albumSorter.sortByDiscography(undefined);
+
+            // Assert
+            expect(sortedAlbums.length).toEqual(0);
+        });
+
+        it('should return an empty collection if empty is provided', () => {
+            // Arrange
+
+            // Act
+            const sortedAlbums: AlbumModel[] = albumSorter.sortByDiscography([]);
+
+            // Assert
+            expect(sortedAlbums.length).toEqual(0);
+        });
+
+        it('should sort by album artist, then by year ascending, then by album title', () => {
+            // Arrange
+            const albumA1 = createAlbumModel('Zebra', ['Artist A'], ['Artist A'], 2010, 1, 1, 1);
+            const albumA2 = createAlbumModel('Alpha', ['Artist A'], ['Artist A'], 1995, 1, 1, 1);
+            const albumA3 = createAlbumModel('Beta', ['Artist A'], ['Artist A'], 2010, 1, 1, 1);
+            const albumB1 = createAlbumModel('Gamma', ['Artist B'], ['Artist B'], 1980, 1, 1, 1);
+            const albumB2 = createAlbumModel('Delta', ['artist b'], ['Artist B'], 2000, 1, 1, 1);
+
+            // Act
+            const sortedAlbums: AlbumModel[] = albumSorter.sortByDiscography([albumB2, albumA1, albumB1, albumA3, albumA2]);
+
+            // Assert
+            expect(sortedAlbums).toEqual([albumA2, albumA3, albumA1, albumB1, albumB2]);
+        });
+    });
+
     describe('sortByYearAscending', () => {
         it('should return an empty collection when undefined is provided', () => {
             // Arrange

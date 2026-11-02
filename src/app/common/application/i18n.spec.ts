@@ -48,6 +48,7 @@ describe('validate i18n', () => {
         'by',
         'by-album',
         'by-album-artist',
+        'by-discography',
         'by-album-title-ascending',
         'by-album-title-descending',
         'by-artist-ascending',
