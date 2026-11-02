@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.12] - 2026-11-01
+## [3.0.12] - 2026-11-02
 
 ### Added
 
@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Last.fm "Now Playing" expires prematurely (Thank you @jonson-zero)
 - Memory leak in the audio player, causing glitches that worsen over long playback sessions. (Thank you @ThatOnePersonCalledAnon)
 - Accented lyrics lookups (Thank you @dbqp01)
+- Star ratings of loved songs are not backed up or restored correctly
 
 ## [3.0.11] - 2026-09-25
 
