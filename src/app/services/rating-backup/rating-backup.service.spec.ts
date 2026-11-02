@@ -453,6 +453,35 @@ describe('RatingBackupService', () => {
     });
 
     describe('syncBackupFromTracksAsync', () => {
+        it.each([
+            { rating: 0, love: 1 },
+            { rating: 8, love: 0 },
+        ])('should preserve backed-up state when indexed state is partially missing: %j', async (state) => {
+            service = createService();
+            const backupPath = service.ratingsBackupPath;
+            const track = new Track('/library/song.opus');
+            track.rating = state.rating;
+            track.love = state.love;
+            track.artists = ';Artist;';
+            track.trackTitle = 'Updated title';
+            fileAccessMock.setup((x) => x.pathExists(backupPath)).returns(() => true);
+            fileAccessMock.setup((x) => x.getFileContentAsString(backupPath)).returns(() => JSON.stringify({
+                version: 1,
+                lastBackupDate: 1,
+                ratings: [{ trackPath: track.path, rating: 8, love: 1, title: 'Old title' }],
+            }));
+            let writtenBackup: any;
+            fileAccessMock.setup((x) => x.writeToFile(backupPath, It.isAnyString())).callback((_path, content) => {
+                writtenBackup = JSON.parse(content);
+            });
+
+            await service.syncBackupFromTracksAsync([track]);
+
+            expect(writtenBackup.ratings).toEqual([
+                expect.objectContaining({ trackPath: track.path, rating: 8, love: 1, title: 'Updated title' }),
+            ]);
+        });
+
         it('should add a meaningful track to backup when missing', async () => {
             // Arrange
             service = createService();
@@ -507,6 +536,33 @@ describe('RatingBackupService', () => {
                 (x) => x.writeToFile('/home/user/Music/Dopamine/Ratings/ratings-backup.json', It.isAnyString()),
                 Times.never(),
             );
+        });
+    });
+
+    describe('restoreRatingsManuallyAsync', () => {
+        it.each([
+            { rating: 0, love: 1, restoreRating: true, restoreLove: false },
+            { rating: 6, love: 0, restoreRating: false, restoreLove: true },
+            { rating: 6, love: 1, restoreRating: false, restoreLove: false },
+        ])('should restore missing fields independently: %j', async (state) => {
+            service = createService();
+            const track = new Track('/library/song.opus');
+            track.trackId = 1;
+            track.rating = state.rating;
+            track.love = state.love;
+            trackRepositoryMock.setup((x) => x.getVisibleTracks()).returns(() => [track]);
+            fileAccessMock.setup((x) => x.pathExists(service.ratingsBackupPath)).returns(() => true);
+            fileAccessMock.setup((x) => x.getFileContentAsString(service.ratingsBackupPath)).returns(() => JSON.stringify({
+                version: 1,
+                lastBackupDate: 1,
+                ratings: [{ trackPath: track.path, rating: 8, love: 1 }],
+            }));
+
+            const restored = await service.restoreRatingsManuallyAsync();
+
+            expect(restored).toBe(state.restoreRating || state.restoreLove ? 1 : 0);
+            trackRepositoryMock.verify((x) => x.updateRating(1, 8), state.restoreRating ? Times.once() : Times.never());
+            trackRepositoryMock.verify((x) => x.updateLove(1, 1), state.restoreLove ? Times.once() : Times.never());
         });
     });
 

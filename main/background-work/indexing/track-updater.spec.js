@@ -5,6 +5,8 @@ const { WorkerProxyMock } = require('../mocks/worker-proxy-mock');
 const { TrackVerifierMock } = require('../mocks/track-verifier-mock');
 const { TrackUpdater } = require('./track-updater');
 const { Track } = require('../data/entities/track');
+const { TrackFiller } = require('./track-filler');
+const { TrackFieldCreator } = require('./track-field-creator');
 
 describe('TrackUpdater', () => {
     let trackRepositoryMock;
@@ -26,6 +28,37 @@ describe('TrackUpdater', () => {
     }
 
     describe('updateTracksThatAreOutOfDateAsync', () => {
+        it.each([0, 1])('should preserve ratings during forced refresh with love=%s', async (love) => {
+            const track = new Track('I:\\Music\\song.opus');
+            track.rating = 8;
+            track.love = love;
+            const repository = { getAllTracks: () => [track], updateTrack: jest.fn() };
+            const logger = { info: jest.fn(), error: jest.fn() };
+            const filler = new TrackFiller(
+                { create: () => ({ rating: 0 }) },
+                { generateAlbumKey: jest.fn(), generateAlbumKey2: jest.fn(), generateAlbumKey3: jest.fn() },
+                new TrackFieldCreator(),
+                { joinUnsplittableMetadata: () => [] },
+                { getMimeTypeForFileExtension: jest.fn() },
+                {
+                    getFileName: jest.fn(),
+                    getFileSizeInBytes: jest.fn(),
+                    getDirectoryPath: jest.fn(),
+                    getFileExtension: jest.fn(),
+                    getDateCreatedInTicks: jest.fn(),
+                    getDateModifiedInTicks: jest.fn(),
+                },
+                { convertDateToTicks: () => 123 },
+                logger,
+            );
+            const updater = new TrackUpdater(repository, {}, filler, { postMessage: jest.fn() }, logger);
+
+            await updater.updateTracksThatAreOutOfDateAsync(true);
+
+            expect(logger.error).not.toHaveBeenCalled();
+            expect(repository.updateTrack).toHaveBeenCalledWith(expect.objectContaining({ rating: 8, love, indexingSuccess: 1 }));
+        });
+
         it('should get all tracks from the database', async () => {
             // Arrange
             const sut = createSut();

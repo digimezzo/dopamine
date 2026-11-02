@@ -387,7 +387,11 @@ export class RatingBackupService {
                     continue;
                 }
 
-                if (!this.entriesAreEqual(backup.ratings[existingIndex], nextEntry)) {
+                const existingEntry = backup.ratings[existingIndex];
+                nextEntry.rating = nextEntry.rating > 0 ? nextEntry.rating : existingEntry.rating;
+                nextEntry.love = nextEntry.love > 0 ? nextEntry.love : existingEntry.love;
+
+                if (!this.entriesAreEqual(existingEntry, nextEntry)) {
                     backup.ratings[existingIndex] = nextEntry;
                     numberOfChangedEntries++;
                 }
@@ -625,8 +629,7 @@ export class RatingBackupService {
             const rating = track.rating ?? 0;
             const love = track.love ?? 0;
 
-            // Only restore when metadata appears missing in DB.
-            if (rating !== 0 || love !== 0) {
+            if (rating !== 0 && love !== 0) {
                 continue;
             }
 
@@ -636,9 +639,18 @@ export class RatingBackupService {
                 continue;
             }
 
-            this.trackRepository.updateRating(track.trackId, matchingEntry.rating ?? 0);
-            this.trackRepository.updateLove(track.trackId, matchingEntry.love ?? 0);
-            restoredCount++;
+            const restoreRating = rating === 0 && (matchingEntry.rating ?? 0) > 0;
+            const restoreLove = love === 0 && (matchingEntry.love ?? 0) > 0;
+
+            if (restoreRating) {
+                this.trackRepository.updateRating(track.trackId, matchingEntry.rating);
+            }
+            if (restoreLove) {
+                this.trackRepository.updateLove(track.trackId, matchingEntry.love);
+            }
+            if (restoreRating || restoreLove) {
+                restoredCount++;
+            }
         }
 
         return restoredCount;
