@@ -181,7 +181,7 @@ export class AlbumBrowserComponent extends BaseVirtualScrollBrowser implements O
     }
 
     public clearSelectedAlbums(): void {
-        this.mouseSelectionWatcher.initialize(this.albums, false);
+        this.mouseSelectionWatcher.initialize(this.albumRows.flatMap((row) => row.albums), false);
         this.albumsPersister.setSelectedAlbums([]);
     }
 
@@ -215,6 +215,7 @@ export class AlbumBrowserComponent extends BaseVirtualScrollBrowser implements O
                 this.useCompactYearView,
                 this.albumCoverSize + 4,
             );
+            this.mouseSelectionWatcher.setDisplayedItems((this.albumRows ?? []).flatMap((row) => row.albums));
             this.applySelectedAlbums();
             this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.albumRows.length > 0);
 

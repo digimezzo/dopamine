@@ -179,7 +179,7 @@ export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implement
     }
 
     public clearSelectedPlaylists(): void {
-        this.mouseSelectionWatcher.initialize(this.playlists, false);
+        this.mouseSelectionWatcher.initialize(this.playlistRows.flatMap((row) => row.playlists), false);
         this.playlistsPersister.setSelectedPlaylists([]);
     }
 
@@ -249,6 +249,7 @@ export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implement
                 this.selectedPlaylistOrder,
                 this.playlistCoverSize + 4,
             );
+            this.mouseSelectionWatcher.setDisplayedItems((this.playlistRows ?? []).flatMap((row) => row.playlists));
             this.applySelectedPlaylists();
             this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.playlistRows.length > 0);
         } catch (e: unknown) {

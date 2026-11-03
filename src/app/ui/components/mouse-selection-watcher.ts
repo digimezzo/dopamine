@@ -16,6 +16,7 @@ export class MouseSelectionWatcher {
         }
 
         this.items = items;
+        this.lastSelectedItem = undefined as unknown as ISelectable;
 
         if (this.items.length > 0) {
             this.items.forEach((x) => (x.isSelected = false));
@@ -24,6 +25,11 @@ export class MouseSelectionWatcher {
                 this.items[0].isSelected = true;
             }
         }
+    }
+
+    // Sets the items in the order in which they are displayed, preserving the current selection
+    public setDisplayedItems(items: ISelectable[]): void {
+        this.items = items;
     }
 
     public setSelectedItems(event: MouseEvent | undefined, item: ISelectable | undefined): void {
@@ -62,8 +68,10 @@ export class MouseSelectionWatcher {
         const currentItemIndex: number = this.items.indexOf(item);
         let lastSelectedItemIndex: number = this.items.indexOf(item);
 
-        if (this.lastSelectedItem != undefined) {
+        if (this.lastSelectedItem != undefined && this.items.indexOf(this.lastSelectedItem) >= 0) {
             lastSelectedItemIndex = this.items.indexOf(this.lastSelectedItem);
+        } else {
+            this.lastSelectedItem = item;
         }
 
         let lowIndex: number = currentItemIndex;
@@ -75,10 +83,8 @@ export class MouseSelectionWatcher {
         }
 
         for (let i = 0; i < this.items.length; i++) {
-            if (lowIndex <= i && i <= highIndex) {
-                this.items[i].isSelected = true;
-                this.lastSelectedItem = item;
-            }
+            // The anchor (last clicked without SHIFT) stays fixed; the range replaces the previous selection
+            this.items[i].isSelected = lowIndex <= i && i <= highIndex;
         }
     }
 

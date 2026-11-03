@@ -155,7 +155,7 @@ export class ArtistBrowserComponent extends BaseVirtualScrollBrowser implements 
     }
 
     public clearSelectedArtists(): void {
-        this.mouseSelectionWatcher.initialize(this.artists, false);
+        this.mouseSelectionWatcher.initialize(this.orderedArtists.filter((x) => !x.isZoomHeader), false);
         this.artistsPersister.setSelectedArtists([]);
     }
 
@@ -229,6 +229,7 @@ export class ArtistBrowserComponent extends BaseVirtualScrollBrowser implements 
         }
 
         this.orderedArtists = [...orderedArtists];
+        this.mouseSelectionWatcher.setDisplayedItems(this.orderedArtists.filter((x) => !x.isZoomHeader));
         this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.orderedArtists.length > 0);
     }
 

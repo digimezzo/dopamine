@@ -250,6 +250,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, A
         }
 
         this.orderedTracks = [...orderedTracks];
+        this.mouseSelectionWatcher.setDisplayedItems(this.orderedTracks);
 
         timer.stop();
 
