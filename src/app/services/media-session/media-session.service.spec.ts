@@ -81,7 +81,7 @@ describe('MediaSessionService', () => {
         it('should clear playback state and timeline along with metadata', () => {
             createService().clearMetadata();
 
-            mediaSessionProxyMock.verify((x) => x.setPlaybackState('none'), Times.once());
+            mediaSessionProxyMock.verify((x) => x.setPlaybackState('paused'), Times.once());
             mediaSessionProxyMock.verify((x) => x.setPositionState(), Times.once());
             mediaSessionProxyMock.verify((x) => x.clearMetadata(), Times.once());
         });

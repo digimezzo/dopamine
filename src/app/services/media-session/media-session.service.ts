@@ -41,7 +41,7 @@ export class MediaSessionService {
     }
 
     public clearMetadata(): void {
-        this.mediaSessionProxy.setPlaybackState('none');
+        this.mediaSessionProxy.setPlaybackState('paused');
         this.mediaSessionProxy.setPositionState();
         this.mediaSessionProxy.clearMetadata();
     }
