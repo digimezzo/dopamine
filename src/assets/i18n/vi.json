@@ -448,5 +448,8 @@
     "add-prefix-error": "Không thể thêm tiền tố",
     "remove-prefix": "Xóa tiền tố",
     "confirm-remove-prefix": "Bạn có chắc muốn xóa '{{prefix}}'?",
-    "remove-prefix-error": "Không thể xóa tiền tố"
+    "remove-prefix-error": "Không thể xóa tiền tố",
+    "resume-session": "Resume session",
+    "playlist-session-available": "A playback session was started for this playlist",
+    "playlist-changed-since-last-session": "This playlist has changed since the last session. Playback will start from the beginning."
 }

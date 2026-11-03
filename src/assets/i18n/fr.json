@@ -448,5 +448,8 @@
     "add-prefix-error": "Impossible d'ajouter le préfixe",
     "remove-prefix": "Supprimer le préfixe",
     "confirm-remove-prefix": "Êtes-vous sûr de vouloir supprimer le préfixe '{{prefix}}'?",
-    "remove-prefix-error": "Impossible de supprimer le préfixe"
+    "remove-prefix-error": "Impossible de supprimer le préfixe",
+    "resume-session": "Reprendre la session",
+    "playlist-session-available": "Une session de lecture a été lancée pour cette playlist.",
+    "playlist-changed-since-last-session": "Cette playlist a été modifiée depuis la dernière session. La lecture reprendra depuis le début."
 }

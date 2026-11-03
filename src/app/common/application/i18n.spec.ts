@@ -454,6 +454,9 @@ describe('validate i18n', () => {
         "playlist-size",
         "audio-output-device",
         "audio-output-device-system-default",
+        "resume-session",
+        "playlist-session-available",
+        "playlist-changed-since-last-session"
     ].sort();
 
     Constants.languages.forEach((language) => {

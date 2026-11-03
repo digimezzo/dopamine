@@ -9,6 +9,7 @@ import { PlaylistOrder, playlistOrderKey } from '../playlist-order';
 import { PlaylistsPersister } from '../playlists-persister';
 import { PlaylistRow } from './playlist-row';
 import { PlaybackService } from '../../../../../services/playback/playback.service';
+import { PlaylistSessionService } from '../../../../../services/playlist-session/playlist-session.service';
 import { PlaylistServiceBase } from '../../../../../services/playlist/playlist.service.base';
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
@@ -44,6 +45,7 @@ export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implement
     public constructor(
         public playbackService: PlaybackService,
         public playlistService: PlaylistServiceBase,
+        public playlistSessionService: PlaylistSessionService,
         private applicationService: ApplicationServiceBase,
         private translatorService: TranslatorServiceBase,
         private dialogService: DialogServiceBase,

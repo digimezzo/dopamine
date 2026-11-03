@@ -76,7 +76,7 @@
                     [playlist]="playlist"
                     [isSelected]="playlist.isSelected"
                     (mousedown)="setSelectedPlaylists($event, playlist)"
-                    (dblclick)="this.playbackService.enqueueAndPlayPlaylistAsync(playlist)"
+                    (dblclick)="this.playlistSessionService.enqueueAndPlayPlaylistAsync(playlist)"
                     (contextmenu)="onPlaylistContextMenu($event, playlist)"
                 ></app-playlist>
             </div>
@@ -92,6 +92,9 @@
 ></div>
 <mat-menu #playlistContextMenu="matMenu">
     <ng-template matMenuContent let-playlist="data">
+        <button mat-menu-item *ngIf="playlistSessionService.hasSession(playlist.path)" (click)="playlistSessionService.resumeSessionAsync(playlist)">
+            <span>{{ 'resume-session' | translate }}</span>
+        </button>
         <button mat-menu-item (click)="onAddToQueueAsync(playlist)">
             <span>{{ 'add-to-playback-queue' | translate }}</span>
         </button>
