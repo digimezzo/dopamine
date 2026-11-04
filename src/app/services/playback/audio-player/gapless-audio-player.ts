@@ -30,9 +30,9 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     private _preloadedTrack: TrackModel | undefined;
     private _isPlaying: boolean = false;
     private _isPaused: boolean = false;
-    private shouldPauseAfterStarting: boolean = false;
+    private _isLoading: boolean = false;
+    private _loadRequestId: number = 0;
     private skipSecondsAfterStarting: number = 0;
-    private _lastSetLogarithmicVolume: number = 0;
     private _playbackRate: number = 1;
     private _analyser: AnalyserNode;
     private _equalizer: AudioEqualizer;
@@ -116,8 +116,8 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     // eslint-disable-next-line @typescript-eslint/require-await
     public async playAsync(track: TrackModel): Promise<void> {
         this._currentTrack = track;
+        this._isPaused = false;
         const playableAudioFilePath: string = PathUtils.createPlayableAudioFilePath(track.path);
-        this.loadAudioWithWebAudio(playableAudioFilePath, false);
 
         this._tempAudio = new Audio();
         this._tempAudio.volume = 0;
@@ -125,9 +125,12 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         this._tempAudio.playbackRate = this._playbackRate;
         this._tempAudio.muted = false;
         this._tempAudio.src = playableAudioFilePath;
+
+        this.loadAudioWithWebAudio(playableAudioFilePath, false);
     }
     public stop(): void {
         this._isPlaying = false;
+        this.cancelPendingLoad();
 
         if (this._sourceNode) {
             this._sourceNode.onended = () => {
@@ -143,14 +146,17 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     }
 
     public async startPausedAsync(track: TrackModel, skipSeconds: number): Promise<void> {
-        this.shouldPauseAfterStarting = true;
         this.skipSecondsAfterStarting = skipSeconds;
-        this._gainNode.gain.setValueAtTime(0, 0);
         await this.playAsync(track);
+        this._isPaused = true;
     }
 
     public pause(): void {
-        this._audioPausedAt = this.progressSeconds;
+        // While the track is still being decoded, it will be prepared in a paused state once decoding completes.
+        if (!this._isLoading) {
+            this._audioPausedAt = this.progressSeconds;
+        }
+
         this._isPaused = true;
 
         if (this._sourceNode) {
@@ -165,6 +171,12 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         this._audio.pause();
     }
     public async resumeAsync(): Promise<void> {
+        if (this._isLoading) {
+            // The track is still being decoded. It will start playing once decoding completes.
+            this._isPaused = false;
+            return;
+        }
+
         await this.playWebAudioAsync(this._audioPausedAt);
         await this._audio.play();
         this._isPaused = false;
@@ -174,7 +186,6 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         const logarithmicVolume: number = linearVolume > 0 ? this.mathExtensions.linearToLogarithmic(linearVolume, 0.01, 1) : 0;
         const finalGain: number = logarithmicVolume * replayGainMultiplier;
         this._gainNode.gain.setValueAtTime(finalGain, 0);
-        this._lastSetLogarithmicVolume = finalGain;
     }
 
     public setPlaybackRate(rate: number): void {
@@ -191,6 +202,11 @@ export class GaplessAudioPlayer implements IAudioPlayer {
         }
     }
     public async skipToSecondsAsync(seconds: number): Promise<void> {
+        if (this._isLoading) {
+            this.skipSecondsAfterStarting = seconds;
+            return;
+        }
+
         const isPaused = this._isPaused;
         await this.playWebAudioAsync(seconds);
         this._audio.currentTime = seconds;
@@ -264,17 +280,17 @@ export class GaplessAudioPlayer implements IAudioPlayer {
             // Sync playback position with HTML5 Audio
             this._sourceNode.start(0, offset);
 
-            this._audio = this._tempAudio;
-            await this._audio.play();
-
             this._isPlaying = true;
             this._isPaused = false;
 
-            if (this.shouldPauseAfterStarting) {
-                this.pause();
-                this._audio.currentTime = offset;
-                this.shouldPauseAfterStarting = false;
-                this._gainNode.gain.setValueAtTime(this._lastSetLogarithmicVolume, 0);
+            this._audio = this._tempAudio;
+
+            try {
+                await this._audio.play();
+            } catch (e: unknown) {
+                // The HTML5 Audio is only used for media session integration. Its play() gets aborted when pause() is called
+                // before it resolves, which is expected and must not affect Web Audio playback.
+                this.logger.warn(`Could not play HTML5 Audio: ${String(e)}`, 'GaplessAudioPlayer', 'playWebAudio');
             }
         } catch (e) {
             this.logger.error(e, `Could not play with web audio`, 'GaplessAudioPlayer', 'playWebAudio');
@@ -293,6 +309,12 @@ export class GaplessAudioPlayer implements IAudioPlayer {
     }
 
     private loadAudioWithWebAudio(audioFilePath: string, preload: boolean): void {
+        const loadRequestId: number = preload ? this._loadRequestId : ++this._loadRequestId;
+
+        if (!preload) {
+            this._isLoading = true;
+        }
+
         this.fetchAudioFile(audioFilePath)
             .then((blob) => {
                 const reader = new FileReader();
@@ -304,17 +326,74 @@ export class GaplessAudioPlayer implements IAudioPlayer {
                         if (preload) {
                             this._nextBuffer = await this._audioContext.decodeAudioData(arrayBuffer);
                         } else {
-                            this._currentBuffer = await this._audioContext.decodeAudioData(arrayBuffer);
-                            await this.playWebAudioAsync(this.skipSecondsAfterStarting);
+                            const decodedBuffer: AudioBuffer = await this._audioContext.decodeAudioData(arrayBuffer);
+
+                            if (loadRequestId !== this._loadRequestId) {
+                                // A newer track was requested, or playback was stopped, while this one was loading.
+                                return;
+                            }
+
+                            this._currentBuffer = decodedBuffer;
+                            this._isLoading = false;
+
+                            const offset: number = this.skipSecondsAfterStarting;
                             this.skipSecondsAfterStarting = 0;
+
+                            if (this._isPaused) {
+                                this.prepareTrackPaused(offset);
+                            } else {
+                                await this.playWebAudioAsync(offset);
+                            }
                         }
                     } catch (e: unknown) {
+                        if (!preload) {
+                            if (loadRequestId !== this._loadRequestId) {
+                                return;
+                            }
+
+                            this._isLoading = false;
+                            this.skipSecondsAfterStarting = 0;
+                        }
+
                         this.logger.error(e, `Could not decode audio data`, 'GaplessAudioPlayer', 'loadAudioWithWebAudio');
                         this._playbackFailed.next(audioFilePath);
                     }
                 };
             })
-            .catch((e: unknown) => this.logger.error(e, `Could not load with web audio`, 'GaplessAudioPlayer', 'loadAudioWithWebAudio'));
+            .catch((e: unknown) => {
+                if (!preload && loadRequestId === this._loadRequestId) {
+                    this._isLoading = false;
+                    this.skipSecondsAfterStarting = 0;
+                }
+
+                this.logger.error(e, `Could not load with web audio`, 'GaplessAudioPlayer', 'loadAudioWithWebAudio');
+            });
+    }
+
+    private prepareTrackPaused(offset: number): void {
+        if (this._sourceNode) {
+            this._sourceNode.onended = () => {
+                // Intentionally left blank
+            };
+
+            this._sourceNode.stop();
+            this._sourceNode.disconnect();
+            this._sourceNode = undefined;
+        }
+
+        this._audio.pause();
+        this._audio = this._tempAudio;
+        this._audio.currentTime = offset;
+
+        this._audioPausedAt = offset;
+        this._isPlaying = true;
+        this._isPaused = true;
+    }
+
+    private cancelPendingLoad(): void {
+        this._loadRequestId++;
+        this._isLoading = false;
+        this.skipSecondsAfterStarting = 0;
     }
 
     public getAudio(): HTMLAudioElement | undefined {

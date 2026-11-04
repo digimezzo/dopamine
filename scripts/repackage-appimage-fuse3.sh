@@ -32,6 +32,7 @@ fi
 echo "Extracting AppImage..."
 rm -rf squashfs-root
 "$APPIMAGE" --appimage-extract > /dev/null 2>&1
+chmod 0755 squashfs-root
 
 # Repackage with fuse3-compatible runtime using appimagetool.
 # APPIMAGE_EXTRACT_AND_RUN=1 allows appimagetool (itself an AppImage) to run

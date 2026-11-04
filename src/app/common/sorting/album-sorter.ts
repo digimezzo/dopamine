@@ -128,6 +128,37 @@ export class AlbumSorter {
         return sorted;
     }
 
+    public sortByDiscography(albums: AlbumModel[] | undefined): AlbumModel[] {
+        if (albums == undefined) {
+            return [];
+        }
+
+        const timer = new Timer();
+        timer.start();
+
+        const sorted: AlbumModel[] = sort(albums!).by([
+            {
+                asc: (a) => a.albumArtist.toLowerCase(),
+                comparer: new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' }).compare,
+            },
+            { asc: (a) => a.year },
+            {
+                asc: (a) => a.albumTitle.toLowerCase(),
+                comparer: new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' }).compare,
+            },
+        ]);
+
+        timer.stop();
+
+        this.logger.info(
+            `Finished sorting albums by discography. Time required: ${timer.elapsedMilliseconds} ms`,
+            'AlbumSorter',
+            'sortByDiscography',
+        );
+
+        return sorted;
+    }
+
     public sortByYearAscending(albums: AlbumModel[] | undefined): AlbumModel[] {
         if (albums == undefined) {
             return [];

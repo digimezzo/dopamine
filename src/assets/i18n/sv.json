@@ -140,6 +140,7 @@
     "by-date-added": "Datum tillagt",
     "by-date-created": "Datum skapad",
     "by-album-artist": "Album artist",
+    "by-discography": "Diskografi",
     "by-year-ascending": "År stigande",
     "by-year-descending": "År fallande",
     "by-last-played": "Senast spelad",
@@ -447,5 +448,8 @@
     "add-prefix-error": "Could not add the prefix",
     "remove-prefix": "Remove prefix",
     "confirm-remove-prefix": "Are you sure you want to remove '{{prefix}}'?",
-    "remove-prefix-error": "Could not remove the prefix"
+    "remove-prefix-error": "Could not remove the prefix",
+    "resume-session": "Resume session",
+    "playlist-session-available": "A playback session was started for this playlist",
+    "playlist-changed-since-last-session": "This playlist has changed since the last session. Playback will start from the beginning."
 }

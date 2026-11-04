@@ -140,6 +140,7 @@
     "by-date-added": "Κατά ημερομηνία προσθήκης",
     "by-date-created": "Κατά ημερομηνία δημιουργίας",
     "by-album-artist": "Κατά καλλιτέχνη άλμπουμ",
+    "by-discography": "Κατά δισκογραφία",
     "by-year-ascending": "Κατά αύξουσα χρονιά",
     "by-year-descending": "Κατά φθίνουσα χρονιά",
     "by-last-played": "Κατά τελευταία προσθήκη",
@@ -447,5 +448,8 @@
     "add-prefix-error": "Could not add the prefix",
     "remove-prefix": "Remove prefix",
     "confirm-remove-prefix": "Are you sure you want to remove '{{prefix}}'?",
-    "remove-prefix-error": "Could not remove the prefix"
+    "remove-prefix-error": "Could not remove the prefix",
+    "resume-session": "Resume session",
+    "playlist-session-available": "A playback session was started for this playlist",
+    "playlist-changed-since-last-session": "This playlist has changed since the last session. Playback will start from the beginning."
 }

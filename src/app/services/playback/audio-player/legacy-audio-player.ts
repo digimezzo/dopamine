@@ -119,8 +119,16 @@ export class LegacyAudioPlayer implements IAudioPlayer {
 
         this._isPaused = false;
 
+        const audio: HTMLAudioElement = this._audio;
+
         try {
-            await this._audio.play();
+            await audio.play();
+
+            if (audio !== this._audio) {
+                // A newer track was requested while this one was starting.
+                return;
+            }
+
             this._audio.onended = () => this._playbackFinished.next();
 
             if (this.shouldPauseAfterStarting) {
@@ -130,6 +138,24 @@ export class LegacyAudioPlayer implements IAudioPlayer {
                 this.skipSecondsAfterStarting = 0;
             }
         } catch (e: unknown) {
+            if (audio !== this._audio) {
+                // play() was aborted because a newer track was requested while this one was starting.
+                return;
+            }
+
+            if (this._isPaused && e instanceof DOMException && e.name === 'AbortError') {
+                // play() was aborted because pause() was called while the track was starting.
+                this._audio.onended = () => this._playbackFinished.next();
+
+                if (this.shouldPauseAfterStarting) {
+                    await this.skipToSecondsAsync(this.skipSecondsAfterStarting);
+                    this.shouldPauseAfterStarting = false;
+                    this.skipSecondsAfterStarting = 0;
+                }
+
+                return;
+            }
+
             this.logger.error(e, `Audio src failed to load: ${this._audio.src}`, 'LegacyAudioPlayer', 'play');
             this.shouldPauseAfterStarting = false;
             this.skipSecondsAfterStarting = 0;

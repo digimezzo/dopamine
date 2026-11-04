@@ -48,6 +48,7 @@ describe('validate i18n', () => {
         'by',
         'by-album',
         'by-album-artist',
+        'by-discography',
         'by-album-title-ascending',
         'by-album-title-descending',
         'by-artist-ascending',
@@ -453,6 +454,9 @@ describe('validate i18n', () => {
         "playlist-size",
         "audio-output-device",
         "audio-output-device-system-default",
+        "resume-session",
+        "playlist-session-available",
+        "playlist-changed-since-last-session"
     ].sort();
 
     Constants.languages.forEach((language) => {

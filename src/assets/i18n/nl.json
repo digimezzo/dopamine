@@ -140,6 +140,7 @@
     "by-date-added": "Per toevoegdatum",
     "by-date-created": "Per aanmaakdatum",
     "by-album-artist": "Per album artiest",
+    "by-discography": "Per discografie",
     "by-year-ascending": "Per jaar oplopend",
     "by-year-descending": "Per jaar aflopend",
     "by-last-played": "Per laatst gespeeld",
@@ -447,5 +448,8 @@
     "add-prefix-error": "Het voorvoegsel kon niet worden toegevoegd",
     "remove-prefix": "Voorvoegsel verwijderen",
     "confirm-remove-prefix": "Weet u zeker dat u het voorvoegsel '{{prefix}}' wilt verwijderen?",
-    "remove-prefix-error": "Het voorvoegsel kon niet worden verwijderd"
+    "remove-prefix-error": "Het voorvoegsel kon niet worden verwijderd",
+    "resume-session": "Sessie hervatten",
+    "playlist-session-available": "Er is een afspeelsessie gestart voor deze afspeellijst",
+    "playlist-changed-since-last-session": "Deze afspeellijst is gewijzigd sinds de laatste sessie. De weergave begint vanaf het begin."
 }

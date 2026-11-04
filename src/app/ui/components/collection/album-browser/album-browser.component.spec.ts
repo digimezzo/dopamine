@@ -203,6 +203,7 @@ describe('AlbumBrowserComponent', () => {
                 AlbumOrder.byDateAdded,
                 AlbumOrder.byDateCreated,
                 AlbumOrder.byAlbumArtist,
+                AlbumOrder.byDiscography,
                 AlbumOrder.byYearAscending,
                 AlbumOrder.byYearDescending,
                 AlbumOrder.byLastPlayed,

@@ -20,6 +20,7 @@ import { ElementRef } from '@angular/core';
 import { DesktopBase } from '../../../../../common/io/desktop.base';
 import { SearchServiceBase } from '../../../../../services/search/search.service.base';
 import { ScrollPositionService } from '../../../../../services/scroll-position/scroll-position.service';
+import { PlaylistSessionService } from '../../../../../services/playlist-session/playlist-session.service';
 import { SettingsMock } from '../../../../../testing/settings-mock';
 
 describe('PlaylistBrowserComponent', () => {
@@ -54,6 +55,7 @@ describe('PlaylistBrowserComponent', () => {
         return new PlaylistBrowserComponent(
             playbackServiceMock.object,
             playlistServiceMock.object,
+            Mock.ofType<PlaylistSessionService>().object,
             applicationServiceMock.object,
             translatorServiceMock.object,
             dialogServiceBaseMock.object,

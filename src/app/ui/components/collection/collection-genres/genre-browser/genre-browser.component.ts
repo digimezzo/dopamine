@@ -144,7 +144,7 @@ export class GenreBrowserComponent extends BaseVirtualScrollBrowser implements O
     }
 
     public clearSelectedGenres(): void {
-        this.mouseSelectionWatcher.initialize(this.genres, false);
+        this.mouseSelectionWatcher.initialize(this.orderedGenres.filter((x) => !x.isZoomHeader), false);
         this.genresPersister.setSelectedGenres([]);
     }
 
@@ -207,6 +207,7 @@ export class GenreBrowserComponent extends BaseVirtualScrollBrowser implements O
         }
 
         this.orderedGenres = [...orderedGenres];
+        this.mouseSelectionWatcher.setDisplayedItems(this.orderedGenres.filter((x) => !x.isZoomHeader));
         this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.orderedGenres.length > 0);
     }
 

@@ -101,6 +101,9 @@ export class AlbumRowsGetter {
             case AlbumOrder.byAlbumArtist:
                 sortedAlbums = this.albumSorter.sortByAlbumArtist(unsortedAlbums);
                 break;
+            case AlbumOrder.byDiscography:
+                sortedAlbums = this.albumSorter.sortByDiscography(unsortedAlbums);
+                break;
             case AlbumOrder.byYearAscending:
                 sortedAlbums = this.albumSorter.sortByYearAscending(unsortedAlbums);
                 break;

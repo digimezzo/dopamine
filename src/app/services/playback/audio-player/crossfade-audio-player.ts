@@ -27,6 +27,7 @@ export class CrossfadeAudioPlayer implements IAudioPlayer {
     private _crossfadeTimer: NodeJS.Timeout | number | undefined;
     private _isCrossfading = false;
     private _isPaused = false;
+    private _playRequestId = 0;
 
     private _preloadedTrack?: TrackModel;
 
@@ -117,15 +118,37 @@ export class CrossfadeAudioPlayer implements IAudioPlayer {
     public async playAsync(track: TrackModel): Promise<void> {
         this.stopInternal();
 
+        const playRequestId: number = ++this._playRequestId;
         const path = PathUtils.createPlayableAudioFilePath(track.path);
         this._currentAudio.src = path;
+        this._isPaused = false;
 
         try {
             await this._audioContext.resume();
-            await this._currentAudio.play();
-            this._isPaused = false;
+
+            if (playRequestId !== this._playRequestId) {
+                // A newer track was requested, or playback was stopped, while this one was starting.
+                return;
+            }
+
             this.startCrossfadeWatcher();
+
+            if (this._isPaused) {
+                // pause() was called while the track was starting.
+                return;
+            }
+
+            await this._currentAudio.play();
         } catch (e) {
+            if (playRequestId !== this._playRequestId) {
+                return;
+            }
+
+            if (this._isPaused && e instanceof DOMException && e.name === 'AbortError') {
+                // play() was aborted because pause() was called while the track was starting.
+                return;
+            }
+
             this.logger.error(e, `Failed to play ${path}`, 'CrossfadeAudioPlayer', 'playAsync');
             this._playbackFailed.next(path);
         }
@@ -154,6 +177,8 @@ export class CrossfadeAudioPlayer implements IAudioPlayer {
     }
 
     private stopInternal(): void {
+        this._playRequestId++;
+
         if (this._crossfadeTimer !== undefined && this._crossfadeTimer !== null) {
             clearInterval(this._crossfadeTimer);
         }

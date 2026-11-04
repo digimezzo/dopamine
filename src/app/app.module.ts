@@ -192,6 +192,7 @@ import { SmartPlaylistParser } from './services/playlist/smart-playlist-parser';
 import { SmartPlaylistQueryBuilder } from './services/playlist/smart-playlist-query-builder';
 import { PlaylistFileManager } from './services/playlist/playlist-file-manager';
 import { PlaylistModelFactory } from './services/playlist/playlist-model-factory';
+import { PlaylistSessionService } from './services/playlist-session/playlist-session.service';
 import { PlaylistService } from './services/playlist/playlist.service';
 import { SearchService } from './services/search/search.service';
 import { SemanticZoomService } from './services/semantic-zoom/semantic-zoom.service';
@@ -292,6 +293,8 @@ import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-a
 import { AlbumArtworkCacheServiceBase } from './services/album-artwork-cache/album-artwork-cache.service.base';
 import { QueuedTrackRepositoryBase } from './data/repositories/queued-track-repository.base';
 import { QueuedTrackRepository } from './data/repositories/queued-track-repository';
+import { PlaylistSessionRepositoryBase } from './data/repositories/playlist-session-repository.base';
+import { PlaylistSessionRepository } from './data/repositories/playlist-session-repository';
 import { TextIconSecondaryButtonComponent } from './ui/components/controls/text-icon-secondary-button/text-icon-secondary-button.component';
 import { CoverPlayerComponent } from './ui/components/mini-players/cover-player/cover-player.component';
 import { SwitchPlayerButtonComponent } from './ui/components/switch-player-button/switch-player-button.component';
@@ -615,6 +618,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         { provide: AlbumArtworkRepositoryBase, useClass: AlbumArtworkRepository },
         { provide: ArtistArtworkRepositoryBase, useClass: ArtistArtworkRepository },
         { provide: QueuedTrackRepositoryBase, useClass: QueuedTrackRepository },
+        { provide: PlaylistSessionRepositoryBase, useClass: PlaylistSessionRepository },
         { provide: ApplicationServiceBase, useClass: ApplicationService },
         { provide: NavigationServiceBase, useClass: NavigationService },
         { provide: AlbumArtworkCacheServiceBase, useClass: AlbumArtworkCacheService },

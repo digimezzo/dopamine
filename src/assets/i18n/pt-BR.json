@@ -140,6 +140,7 @@
     "by-date-added": "Por data de adição",
     "by-date-created": "Por data de criação",
     "by-album-artist": "Por artista do álbum",
+    "by-discography": "Por discografia",
     "by-year-ascending": "Por ano (crescente)",
     "by-year-descending": "Por ano (decrescente)",
     "by-last-played": "Por última reprodução",
@@ -447,5 +448,8 @@
     "add-prefix-error": "Não foi possível adicionar o prefixo",
     "remove-prefix": "Remover prefixo",
     "confirm-remove-prefix": "Tem certeza de que deseja remover '{{prefix}}'?",
-    "remove-prefix-error": "Não foi possível remover o prefixo"
+    "remove-prefix-error": "Não foi possível remover o prefixo",
+    "resume-session": "Retomar reprodução",
+    "playlist-session-available": "Há uma sessão de reprodução salva para esta playlist.",
+    "playlist-changed-since-last-session": "Esta playlist foi alterada desde a última sessão. A reprodução começará do início."
 }

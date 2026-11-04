@@ -294,6 +294,7 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
         }
 
         this.orderedTracks = [...orderedTracks];
+        this.mouseSelectionWatcher.setDisplayedItems(this.orderedTracks);
         this.playbackIndicationService.setPlayingTrack(this.orderedTracks, this.playbackService.currentTrack);
         // Don't auto-jump to the playing track here: a restored scroll position should always win on mount.
         this.restoreScrollPosition(this.viewPort, CollectionTracksTableComponent.scrollPositionKey, this.orderedTracks.length > 0);
