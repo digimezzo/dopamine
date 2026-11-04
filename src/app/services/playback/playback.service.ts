@@ -538,6 +538,13 @@ export class PlaybackService {
         }
 
         this.stop();
+
+        // Keep a paused track loaded, so the OS media session (SMTC) stays alive and media keys can restart playback.
+        const firstTrack: TrackModel | undefined = this.queue.getFirstTrack();
+
+        if (firstTrack != undefined) {
+            await this.startPausedAsync(firstTrack, 0);
+        }
     }
 
     private async playbackFailedHandlerAsync(audioFilePath: string): Promise<void> {
