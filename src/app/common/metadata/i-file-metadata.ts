@@ -26,6 +26,6 @@ export interface IFileMetadata {
     replayGainAlbumGain: number;
     replayGainAlbumPeak: number;
 
-    save(): void;
+    save(): Promise<void>;
     loadAsync(): Promise<void>;
 }
