@@ -316,7 +316,7 @@ export class EditTracksDialogComponent implements OnInit {
                     fileMetaData.picture = this._newImageBuffer;
                 }
 
-                fileMetaData.save();
+                await fileMetaData.save();
             } catch (e: unknown) {
                 numberOfErrors++;
                 this.logger.error(

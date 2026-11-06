@@ -39,7 +39,7 @@ class FileMetadataImplementation implements IFileMetadata {
     public replayGainTrackPeak!: number;
     public replayGainAlbumGain!: number;
     public replayGainAlbumPeak!: number;
-    public save(): void {}
+    public async save(): Promise<void> {}
     public async loadAsync(): Promise<void> {}
 }
 

@@ -3,6 +3,7 @@ module.exports = {
         rules: [{ test: /webp_dec\.wasm$/, type: 'asset/inline' }],
     },
     externals: {
+        'load-esm': 'commonjs load-esm',
         'better-sqlite3': 'commonjs better-sqlite3',
         electron: 'commonjs electron',
         child_process: 'commonjs child_process',
