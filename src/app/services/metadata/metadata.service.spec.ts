@@ -48,7 +48,7 @@ class FileMetadataImplementation implements IFileMetadata {
 
     public isSaved: boolean = false;
 
-    public save(): void {
+    public async save(): Promise<void> {
         this.isSaved = true;
     }
 
