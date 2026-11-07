@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'picture-shadow';
 
 .app-now-playing-lyrics {
     padding: 120px;
@@ -16,7 +17,7 @@
 }
 
 .app-now-playing-lyrics__picture {
-    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.2)) drop-shadow(0 6px 10px rgba(0, 0, 0, 0.2));
+    filter: $picture-shadow;
 }
 
 .app-now-playing-lyrics__spinner {
