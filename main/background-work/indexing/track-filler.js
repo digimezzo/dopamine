@@ -14,9 +14,9 @@ class TrackFiller {
         this.logger = logger;
     }
 
-    addFileMetadataToTrack(track, fillOnlyEssentialMetadata) {
+    async addFileMetadataToTrack(track, fillOnlyEssentialMetadata) {
         try {
-            const fileMetadata = this.fileMetadataFactory.create(track.path);
+            const fileMetadata = await this.fileMetadataFactory.create(track.path);
 
             track.artists = this.trackFieldCreator.createMultiTextField(
                 this.metadataPatcher.joinUnsplittableMetadata(fileMetadata.artists),
@@ -90,9 +90,9 @@ class TrackFiller {
         return track;
     }
 
-    addReplayGainMetadataToTrack(track) {
+    async addReplayGainMetadataToTrack(track) {
         try {
-            const fileMetadata = this.fileMetadataFactory.create(track.path);
+            const fileMetadata = await this.fileMetadataFactory.create(track.path);
 
             track.replayGainTrackGain = this.trackFieldCreator.createNumberField(fileMetadata.replayGainTrackGain);
             track.replayGainTrackPeak = this.trackFieldCreator.createNumberField(fileMetadata.replayGainTrackPeak);

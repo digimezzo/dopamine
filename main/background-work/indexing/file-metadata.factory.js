@@ -1,9 +1,7 @@
-const { TagLibFileMetadata } = require('./tag-lib-file-metadata');
-
+const { readMetadata } = require('../../metadata/music-metadata-adapter');
 class FileMetadataFactory {
-    create(path) {
-        return new TagLibFileMetadata(path);
+    async create(path) {
+        return readMetadata(path);
     }
 }
-
 exports.FileMetadataFactory = FileMetadataFactory;

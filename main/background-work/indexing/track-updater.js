@@ -72,7 +72,7 @@ class TrackUpdater {
         }
     }
 
-    reindexReplayGainForExistingTracks() {
+    async reindexReplayGainForExistingTracks() {
         const timer = new Timer();
         timer.start();
 
@@ -84,7 +84,7 @@ class TrackUpdater {
 
             for (let i = 0; i < tracks.length; i++) {
                 try {
-                    const filledTrack = this.trackFiller.addReplayGainMetadataToTrack(tracks[i]);
+                    const filledTrack = await this.trackFiller.addReplayGainMetadataToTrack(tracks[i]);
                     this.trackRepository.updateTrack(filledTrack);
                     numberOfUpdatedTracks++;
 
