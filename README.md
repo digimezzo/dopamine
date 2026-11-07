@@ -6,6 +6,8 @@ Dopamine is an elegant audio player which tries to make organizing and listening
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/dopamine)
 
+[![Get it on FlatPark](https://flatpark.org/badges/get-it-on-flatpark.svg)](https://flatpark.org/apps/com.digimezzo.dopamine)
+
 <a href='https://ko-fi.com/S6S11K63U' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
