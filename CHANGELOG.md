@@ -33,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Accented lyrics lookups (Thank you @dbqp01)
 - Star ratings of loved songs are not backed up or restored correctly
 - Memory leak on Linux causing a rogue Dopamine process to remain alive even after closing
+- Drop shadows on now playing pictures have banding and look ugly
 
 ## [3.0.11] - 2026-09-25
 
