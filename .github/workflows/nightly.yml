@@ -114,6 +114,16 @@ jobs:
               run: npm run test
             - name: build
               run: npm run electron:mac
+            - name: name macOS ARM release asset
+              shell: bash
+              run: |
+                  shopt -s nullglob
+                  files=(release/Dopamine-*.dmg)
+                  if [ "${#files[@]}" -ne 1 ]; then
+                    echo "Expected exactly one macOS ARM DMG, found ${#files[@]}" >&2
+                    exit 1
+                  fi
+                  mv -- "${files[0]}" "${files[0]%.dmg}-arm.dmg"
             - name: fetch current version
               id: ver_name
               uses: notiz-dev/github-action-json-property@release
@@ -139,6 +149,16 @@ jobs:
               run: npm run test
             - name: build
               run: npm run electron:mac
+            - name: name macOS Intel release asset
+              shell: bash
+              run: |
+                  shopt -s nullglob
+                  files=(release/Dopamine-*.dmg)
+                  if [ "${#files[@]}" -ne 1 ]; then
+                    echo "Expected exactly one macOS Intel DMG, found ${#files[@]}" >&2
+                    exit 1
+                  fi
+                  mv -- "${files[0]}" "${files[0]%.dmg}-intel.dmg"
             - name: fetch current version
               id: ver_name
               uses: notiz-dev/github-action-json-property@release
@@ -165,6 +185,12 @@ jobs:
               run: npm run test
             - name: Build
               run: npm run electron:windows
+            - name: Upload Windows installer
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dopamine-nightly-windows-installer
+                  path: release/Dopamine-*.exe
+                  if-no-files-found: error
             - name: Fetch current version
               id: ver_name
               uses: notiz-dev/github-action-json-property@release
@@ -182,3 +208,27 @@ jobs:
               with:
                   name: dopamine-nightly-win
                   path: dopamine-nightly-win.7z
+
+    nightly_checksums:
+        runs-on: ubuntu-22.04
+        needs:
+            - nightly_build_on_linux
+            - nightly_build_pacman_on_arch
+            - nightly_build_on_mac_arm
+            - nightly_build_on_mac_intel
+            - nightly_build_on_win
+        steps:
+            - uses: actions/checkout@v4
+            - name: Download build artifacts
+              uses: actions/download-artifact@v4
+              with:
+                  path: build-artifacts
+                  pattern: dopamine-nightly-*
+            - name: Generate release checksums
+              run: bash scripts/generate-release-checksums.sh build-artifacts nightly > SHA256SUMS.txt
+            - name: Upload release checksums
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dopamine-nightly-checksums
+                  path: SHA256SUMS.txt
+                  if-no-files-found: error
