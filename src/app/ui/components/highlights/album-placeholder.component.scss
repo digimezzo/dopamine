@@ -4,7 +4,7 @@
     aspect-ratio: 1 / 1;
     overflow: hidden;
     border-radius: 8px;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2)) drop-shadow(0 6px 20px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.2)) drop-shadow(0 6px 10px rgba(0, 0, 0, 0.2));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,13 +88,13 @@
 
 @keyframes shadowFadeIn {
     0% {
-        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2)) drop-shadow(0 6px 20px rgba(0, 0, 0, 0.2));
+        filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.2)) drop-shadow(0 6px 10px rgba(0, 0, 0, 0.2));
     }
     50% {
-        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0)) drop-shadow(0 6px 20px rgba(0, 0, 0, 0));
+        filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0)) drop-shadow(0 6px 10px rgba(0, 0, 0, 0));
     }
     100% {
-        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2)) drop-shadow(0 6px 20px rgba(0, 0, 0, 0.2));
+        filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.2)) drop-shadow(0 6px 10px rgba(0, 0, 0, 0.2));
     }
 }
 
