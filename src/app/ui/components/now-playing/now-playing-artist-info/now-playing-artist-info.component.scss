@@ -12,18 +12,28 @@
     flex-direction: column;
     min-width: 0;
     width: var(--artist-image-size);
+    margin-right: 50px;
 }
 
 .app-now-playing-artist-info__picture {
     width: var(--artist-image-size);
     height: var(--artist-image-size);
-    margin-right: 50px;
-    background: var(--theme-album-cover-background);
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2)) drop-shadow(0 6px 20px rgba(0, 0, 0, 0.2));
+}
+
+.app-now-playing-artist-info__picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.app-now-playing-artist-info__picture--placeholder {
+    background: var(--theme-album-cover-background);
 }
 
 .app-now-playing-artist-info__name {
     max-width: 100%;
+    line-height: 1.3; // leaves room for descenders, which `overflow: hidden` would otherwise clip
 }
 
 .app-now-playing-artist-info__spinner {

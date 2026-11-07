@@ -4,7 +4,10 @@
             <div class="app-now-playing-artist-info__artist">
                 <div
                     class="app-now-playing-artist-info__picture d-flex justify-content-center align-items-center"
-                    [ngClass]="{ 'app-now-playing-artist-info-rounded': !this.settings.showSquareImages }"
+                    [ngClass]="{
+                        'app-now-playing-artist-info-rounded': !this.settings.showSquareImages,
+                        'app-now-playing-artist-info__picture--placeholder': !this.artist.imageUrl
+                    }"
                 >
                     <i class="app-now-playing-artist-info__icon las la-user" *ngIf="!this.artist.imageUrl"> </i>
                     <img
