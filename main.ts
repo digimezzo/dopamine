@@ -580,6 +580,10 @@ try {
         // Quit second instance
         app.quit();
     } else {
+        if (process.platform === 'linux') {
+            require('./main/linux-accent-monitor').startLinuxAccentMonitor({ app, BrowserWindow, log });
+        }
+
         app.on('second-instance', (event, argv, workingDirectory) => {
             // First instance gets the arguments of the second instance and processes them
             log.info('[App] [second-instance] Attempt to run second instance. Showing existing window.');
