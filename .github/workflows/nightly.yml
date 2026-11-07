@@ -185,7 +185,7 @@ jobs:
               run: npm run test
             - name: Build
               run: npm run electron:windows
-            - name: Upload Windows installer
+            - name: Upload Windows installer for checksums
               uses: actions/upload-artifact@v4
               with:
                   name: dopamine-nightly-windows-installer
@@ -211,6 +211,9 @@ jobs:
 
     nightly_checksums:
         runs-on: ubuntu-22.04
+        permissions:
+            actions: write
+            contents: read
         needs:
             - nightly_build_on_linux
             - nightly_build_pacman_on_arch
@@ -232,3 +235,23 @@ jobs:
                   name: dopamine-nightly-checksums
                   path: SHA256SUMS.txt
                   if-no-files-found: error
+            - name: Delete temporary Windows installer artifact
+              uses: actions/github-script@v7
+              with:
+                  script: |
+                      const artifactName = 'dopamine-nightly-windows-installer';
+                      const artifacts = await github.paginate(github.rest.actions.listWorkflowRunArtifacts, {
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        run_id: context.runId,
+                      });
+                      const matches = artifacts.filter((artifact) => artifact.name === artifactName);
+                      if (matches.length !== 1) {
+                        throw new Error(`Expected exactly one ${artifactName} artifact, found ${matches.length}`);
+                      }
+                      await github.rest.actions.deleteArtifact({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        artifact_id: matches[0].id,
+                      });
+                      core.info(`Deleted temporary artifact ${artifactName}`);
