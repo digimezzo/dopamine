@@ -13,6 +13,14 @@ import { ImageProcessor } from '../../../../common/image-processor';
 import { MetadataPatcher } from '../../../../common/metadata/metadata-patcher';
 import { TagLibFileMetadata } from '../../../../common/metadata/tag-lib-file-metadata';
 import { ImageComparisonStatus } from '../../../../services/metadata/image-comparison-status';
+import { CommonModule } from '@angular/common';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
 describe('EditTracksDialogComponent', () => {
     let component: EditTracksDialogComponent;
@@ -65,6 +73,86 @@ describe('EditTracksDialogComponent', () => {
 
             // Assert
             expect(component).toBeDefined();
+        });
+    });
+
+    describe('selection message', () => {
+        beforeEach(() => {
+            TestBed.configureTestingModule({
+                declarations: [EditTracksDialogComponent],
+                imports: [CommonModule, FormsModule, TranslateModule.forRoot()],
+                providers: [
+                    { provide: DialogServiceBase, useValue: dialogServiceMock.object },
+                    { provide: TranslatorServiceBase, useValue: translatorServiceMock.object },
+                    { provide: MetadataService, useValue: metadataServiceMock.object },
+                    { provide: MetadataPatcher, useValue: metadataPatcherMock.object },
+                    { provide: IndexingService, useValue: indexingServiceMock.object },
+                    { provide: FileMetadataFactoryBase, useValue: fileMetadataFactoryMock.object },
+                    { provide: OnlineAlbumArtworkGetter, useValue: onlineAlbumArtworkGetterMock.object },
+                    { provide: Logger, useValue: loggerMock.object },
+                    { provide: DesktopBase, useValue: desktopMock.object },
+                    { provide: ImageProcessor, useValue: imageProcessorMock.object },
+                    { provide: MAT_DIALOG_DATA, useValue: dataMock },
+                ],
+                schemas: [NO_ERRORS_SCHEMA],
+            });
+            const translations = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../../../../assets/i18n/en.json'), 'utf-8'));
+            const translate = TestBed.inject(TranslateService);
+            translate.setTranslation('en', translations);
+            translate.use('en');
+            translatorServiceMock.setup((x) => x.getAsync(It.isAny())).returns(() => Promise.resolve('Multiple values'));
+            metadataServiceMock.setup((x) => x.compareImages(It.isAny())).returns(() => ImageComparisonStatus.None);
+            metadataServiceMock.setup((x) => x.createTrackImageUrlAsync(It.isAny())).returns(() => Promise.resolve(''));
+            metadataPatcherMock
+                .setup((x) => x.joinUnsplittableMetadata(It.isAny()))
+                .returns((values) => new MetadataPatcher().joinUnsplittableMetadata(values));
+        });
+
+        it.each([1, 2, 42])('shows the selected count only for multiple songs (%i selected)', async (count) => {
+            for (let i = 0; i < count; i++) {
+                const track = Mock.ofType<TrackModel>();
+                const trackPath = `track-${i}`;
+                track.setup((x) => x.path).returns(() => trackPath);
+                dataMock.push(track.object);
+                fileMetadataFactoryMock
+                    .setup((x) => x.createAsync(trackPath))
+                    .returns(() => Promise.resolve(new TagLibFileMetadata(trackPath)));
+            }
+            const fixture = TestBed.createComponent(EditTracksDialogComponent);
+
+            fixture.detectChanges();
+            await fixture.whenStable();
+            fixture.detectChanges();
+
+            const message = fixture.nativeElement.querySelector('.edit-tracks__selection-message');
+            if (count > 1) {
+                expect(message.textContent.trim()).toBe(
+                    `You selected ${count} songs. The changes will affect all selected songs.`,
+                );
+            } else {
+                expect(message).toBeNull();
+            }
+        });
+
+        it('counts selected songs even when reading a song fails', async () => {
+            for (const trackPath of ['first', 'second']) {
+                const track = Mock.ofType<TrackModel>();
+                track.setup((x) => x.path).returns(() => trackPath);
+                dataMock.push(track.object);
+            }
+            fileMetadataFactoryMock.setup((x) => x.createAsync('first')).returns(() => Promise.reject(new Error('Read failed')));
+            fileMetadataFactoryMock
+                .setup((x) => x.createAsync('second'))
+                .returns(() => Promise.resolve(new TagLibFileMetadata('second')));
+            const fixture = TestBed.createComponent(EditTracksDialogComponent);
+
+            fixture.detectChanges();
+            await fixture.whenStable();
+            fixture.detectChanges();
+
+            expect(fixture.nativeElement.querySelector('.edit-tracks__selection-message').textContent.trim()).toBe(
+                'You selected 2 songs. The changes will affect all selected songs.',
+            );
         });
     });
 

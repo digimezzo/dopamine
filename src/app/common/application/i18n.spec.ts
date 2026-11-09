@@ -131,6 +131,7 @@ describe('validate i18n', () => {
         'edit-playlist',
         'edit-track',
         'edit-tracks',
+        'edit-tracks-selection-message',
         'edit-artist',
         'search-online-images',
         'embedded-lyrics',

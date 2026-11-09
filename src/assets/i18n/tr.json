@@ -312,6 +312,7 @@
     "crossfade-duration": "Crossfade süresi (saniye): {{duration}}s",
     "edit-track": "Şarkıyı düzenle",
     "edit-tracks": "Şarkıları düzenle",
+    "edit-tracks-selection-message": "You selected {{count}} songs. The changes will affect all selected songs.",
     "artist": "Sanatçı",
     "track-number": "Parça numarası",
     "track-count": "Parça sayısı",

@@ -312,6 +312,7 @@
     "crossfade-duration": "交叉渐入渐出时长（秒）: {{duration}}s",
     "edit-track": "编辑歌曲",
     "edit-tracks": "编辑歌曲",
+    "edit-tracks-selection-message": "You selected {{count}} songs. The changes will affect all selected songs.",
     "artist": "艺术家",
     "track-number": "音轨编号",
     "track-count": "音轨计数",

@@ -312,6 +312,7 @@
     "crossfade-duration": "Durata dissolvenza incrociata (secondi): {{duration}}s",
     "edit-track": "Modifica brano",
     "edit-tracks": "Modifica brani",
+    "edit-tracks-selection-message": "You selected {{count}} songs. The changes will affect all selected songs.",
     "artist": "Artista",
     "track-number": "Numero brano",
     "track-count": "Brani totali",

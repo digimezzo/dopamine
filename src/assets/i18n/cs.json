@@ -312,6 +312,7 @@
     "crossfade-duration": "Čas prolínání (sekund): {{duration}}s",
     "edit-track": "Upravit skladbu",
     "edit-tracks": "Upravit skladby",
+    "edit-tracks-selection-message": "You selected {{count}} songs. The changes will affect all selected songs.",
     "artist": "Umělec",
     "track-number": "Číslo skladby",
     "track-count": "Počet skladeb",

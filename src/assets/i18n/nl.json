@@ -312,6 +312,7 @@
     "crossfade-duration": "Duur van de crossfade (seconden): {{duration}}s",
     "edit-track": "Nummer bewerken",
     "edit-tracks": "Nummers bewerken",
+    "edit-tracks-selection-message": "Je hebt {{count}} nummers geselecteerd. De wijzigingen worden toegepast op alle geselecteerde nummers.",
     "artist": "Artiest",
     "track-number": "Nummer",
     "track-count": "Aantal nummers",

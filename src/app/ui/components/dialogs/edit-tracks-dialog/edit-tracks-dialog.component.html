@@ -1,5 +1,8 @@
 <app-dialog-header icon="las la-pen" title="{{ 'edit-track' | translate }}"></app-dialog-header>
 <mat-dialog-content>
+    <div *ngIf="this.data.length > 1" class="edit-tracks__selection-message accent-color mb-3">
+        {{ 'edit-tracks-selection-message' | translate: { count: this.data.length } }}
+    </div>
     <div class="d-flex flex-row">
         <div class="d-flex flex-column">
             <div class="edit-tracks__image pointer">

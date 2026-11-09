@@ -312,6 +312,7 @@
     "crossfade-duration": "Crossfade duration (seconds): {{duration}}s",
     "edit-track": "تحرير الأغنية",
     "edit-tracks": "تحرير الأغاني",
+    "edit-tracks-selection-message": "You selected {{count}} songs. The changes will affect all selected songs.",
     "artist": "الفنان",
     "track-number": "رقم المقطوعة",
     "track-count": "عدد المقطوعات",

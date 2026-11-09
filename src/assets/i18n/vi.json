@@ -312,6 +312,7 @@
     "crossfade-duration": "Thời lượng nhỏ dần (giây): {{duration}}s",
     "edit-track": "Chỉnh sửa bài hát",
     "edit-tracks": "Chỉnh sửa các bài hát",
+    "edit-tracks-selection-message": "You selected {{count}} songs. The changes will affect all selected songs.",
     "artist": "Nghệ sĩ",
     "track-number": "Thứ tự track",
     "track-count": "Tổng track",

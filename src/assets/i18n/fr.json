@@ -312,6 +312,7 @@
     "crossfade-duration": "Durée du crossfade (secondes) : {{duration}}s",
     "edit-track": "Éditer le morceau",
     "edit-tracks": "Éditer les morceaux",
+    "edit-tracks-selection-message": "Vous avez sélectionné {{count}} morceaux. Les modifications s'appliqueront à tous les morceaux sélectionnés.",
     "artist": "Artiste",
     "track-number": "Numéro de morceau",
     "track-count": "Nombre de morceaux",

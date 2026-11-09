@@ -312,6 +312,7 @@
     "crossfade-duration": "Övertoningsvaraktighet (sekunder): {{duration}}s",
     "edit-track": "Redigera låt",
     "edit-tracks": "Redigera låtar",
+    "edit-tracks-selection-message": "You selected {{count}} songs. The changes will affect all selected songs.",
     "artist": "Artist",
     "track-number": "Låtnummer",
     "track-count": "Antal låtar",

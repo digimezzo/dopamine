@@ -312,6 +312,7 @@
     "crossfade-duration": "クロスフェードの長さ: {{duration}}秒",
     "edit-track": "曲を編集",
     "edit-tracks": "曲を編集",
+    "edit-tracks-selection-message": "You selected {{count}} songs. The changes will affect all selected songs.",
     "artist": "アーティスト",
     "track-number": "トラック番号",
     "track-count": "トラック数",

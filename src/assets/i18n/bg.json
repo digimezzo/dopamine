@@ -312,6 +312,7 @@
     "crossfade-duration": "Crossfade duration (seconds): {{duration}}s",
     "edit-track": "Редактирай песен",
     "edit-tracks": "Редактирай песни",
+    "edit-tracks-selection-message": "You selected {{count}} songs. The changes will affect all selected songs.",
     "artist": "Певец",
     "track-number": "Номер на песен",
     "track-count": "Брой песни",
