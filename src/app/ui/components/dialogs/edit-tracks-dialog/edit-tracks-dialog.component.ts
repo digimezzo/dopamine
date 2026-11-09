@@ -201,38 +201,31 @@ export class EditTracksDialogComponent implements OnInit {
             const allTitlesSame = this._fileMetaDatas.every((track) => track.title === this._fileMetaDatas[0].title);
             this.title = allTitlesSame ? this._fileMetaDatas[0].title : this._multipleValuesText;
 
-            const allArtistsSame = this._fileMetaDatas.every((track) => track.artists === this._fileMetaDatas[0].artists);
-            this.artists = allArtistsSame
-                ? CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].artists)
-                : this._multipleValuesText;
+            this.artists = this.getSharedArrayField((track) => track.artists);
 
             const allAlbumTitlesSame = this._fileMetaDatas.every((track) => track.album === this._fileMetaDatas[0].album);
             this.albumTitle = allAlbumTitlesSame ? this._fileMetaDatas[0].album : this._multipleValuesText;
 
-            const allAlbumArtistsSame = this._fileMetaDatas.every((track) => track.albumArtists === this._fileMetaDatas[0].albumArtists);
-            this.albumArtists = allAlbumArtistsSame
-                ? CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].albumArtists)
-                : this._multipleValuesText;
+            this.albumArtists = this.getSharedArrayField((track) => track.albumArtists);
 
             const allYearsSame = this._fileMetaDatas.every((track) => track.year === this._fileMetaDatas[0].year);
-            this.year = allYearsSame ? this._fileMetaDatas[0].year.toString() : this._multipleValuesText;
+            this.year = allYearsSame ? this.saveGetNumberAsString(this._fileMetaDatas[0].year) : this._multipleValuesText;
 
-            const allGenresSame = this._fileMetaDatas.every((track) => track.genres === this._fileMetaDatas[0].genres);
-            this.genres = allGenresSame
-                ? CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].genres)
-                : this._multipleValuesText;
+            this.genres = this.getSharedArrayField((track) => track.genres);
 
             const allTrackNumbersSame = this._fileMetaDatas.every((track) => track.trackNumber === this._fileMetaDatas[0].trackNumber);
-            this.trackNumber = allTrackNumbersSame ? this._fileMetaDatas[0].trackNumber.toString() : this._multipleValuesText;
+            this.trackNumber = allTrackNumbersSame
+                ? this.saveGetNumberAsString(this._fileMetaDatas[0].trackNumber)
+                : this._multipleValuesText;
 
-            const allTrackCountsSame = this._fileMetaDatas.every((track) => track.discCount === this._fileMetaDatas[0].discCount);
-            this.trackCount = allTrackCountsSame ? this._fileMetaDatas[0].discCount.toString() : this._multipleValuesText;
+            const allTrackCountsSame = this._fileMetaDatas.every((track) => track.trackCount === this._fileMetaDatas[0].trackCount);
+            this.trackCount = allTrackCountsSame ? this.saveGetNumberAsString(this._fileMetaDatas[0].trackCount) : this._multipleValuesText;
 
             const allDiscNumbersSame = this._fileMetaDatas.every((track) => track.discNumber === this._fileMetaDatas[0].discNumber);
-            this.discNumber = allDiscNumbersSame ? this._fileMetaDatas[0].discNumber.toString() : this._multipleValuesText;
+            this.discNumber = allDiscNumbersSame ? this.saveGetNumberAsString(this._fileMetaDatas[0].discNumber) : this._multipleValuesText;
 
             const allDiscCountsSame = this._fileMetaDatas.every((track) => track.discCount === this._fileMetaDatas[0].discCount);
-            this.discCount = allDiscCountsSame ? this._fileMetaDatas[0].discCount.toString() : this._multipleValuesText;
+            this.discCount = allDiscCountsSame ? this.saveGetNumberAsString(this._fileMetaDatas[0].discCount) : this._multipleValuesText;
 
             const allGroupingsSame = this._fileMetaDatas.every((track) => track.grouping === this._fileMetaDatas[0].grouping);
             this.grouping = allGroupingsSame ? this._fileMetaDatas[0].grouping : this._multipleValuesText;
@@ -240,17 +233,26 @@ export class EditTracksDialogComponent implements OnInit {
             const allCommentsSame = this._fileMetaDatas.every((track) => track.comment === this._fileMetaDatas[0].comment);
             this.comment = allCommentsSame ? this._fileMetaDatas[0].comment : this._multipleValuesText;
 
-            const allComposersSame = this._fileMetaDatas.every((track) => track.composers === this._fileMetaDatas[0].composers);
-            this.composers = allComposersSame
-                ? CollectionUtils.toSemicolonSeparatedString(this._fileMetaDatas[0].composers)
-                : this._multipleValuesText;
+            this.composers = this.getSharedArrayField((track) => track.composers);
 
             const allConductorsSame = this._fileMetaDatas.every((track) => track.conductor === this._fileMetaDatas[0].conductor);
             this.conductor = allConductorsSame ? this._fileMetaDatas[0].conductor : this._multipleValuesText;
 
             const allBpmSame = this._fileMetaDatas.every((track) => track.beatsPerMinute === this._fileMetaDatas[0].beatsPerMinute);
-            this.beatsPerMinute = allBpmSame ? this._fileMetaDatas[0].beatsPerMinute.toString() : this._multipleValuesText;
+            this.beatsPerMinute = allBpmSame ? this.saveGetNumberAsString(this._fileMetaDatas[0].beatsPerMinute) : this._multipleValuesText;
         }
+    }
+
+    private getSharedArrayField(selector: (metadata: IFileMetadata) => string[]): string {
+        const first = selector(this._fileMetaDatas[0]);
+        const allSame = this._fileMetaDatas.every((metadata) => {
+            const values = selector(metadata);
+            return values.length === first.length && values.every((value, index) => value === first[index]);
+        });
+
+        return allSame
+            ? CollectionUtils.toSemicolonSeparatedString(this.metadataPatcher.joinUnsplittableMetadata(first))
+            : this._multipleValuesText;
     }
 
     private async setImagePathAsync(): Promise<void> {
