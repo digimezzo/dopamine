@@ -23,7 +23,7 @@ import { NavigationServiceBase } from '../../../../services/navigation/navigatio
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { PlaybackIndicationServiceBase } from '../../../../services/playback-indication/playback-indication.service.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
-import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../selection-watcher';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 import { MatMenuTrigger } from '@angular/material/menu';
@@ -37,7 +37,7 @@ import { BaseVirtualScrollBrowser } from '../base-virtual-scroll-browser';
     host: { style: 'display: block; width: 100%;' },
     templateUrl: './collection-folders.component.html',
     styleUrls: ['./collection-folders.component.scss'],
-    providers: [MouseSelectionWatcher],
+    providers: [SelectionWatcher],
     encapsulation: ViewEncapsulation.None,
 })
 export class CollectionFoldersComponent extends BaseVirtualScrollBrowser implements OnInit, AfterViewInit, OnDestroy {
@@ -51,7 +51,7 @@ export class CollectionFoldersComponent extends BaseVirtualScrollBrowser impleme
         public playbackService: PlaybackService,
         public tracksPersister: FolderTracksPersister,
         public contextMenuOpener: ContextMenuOpener,
-        public mouseSelectionWatcher: MouseSelectionWatcher,
+        public selectionWatcher: SelectionWatcher,
         public addToPlaylistMenu: AddToPlaylistMenu,
         private indexingService: IndexingService,
         private collectionService: CollectionServiceBase,
@@ -159,7 +159,7 @@ export class CollectionFoldersComponent extends BaseVirtualScrollBrowser impleme
 
             this.subfolderBreadcrumbs = this.folderService.getSubfolderBreadcrumbs(this.openedFolder, openedSubfolderPath);
             this.tracks = await this.trackService.getTracksInSubfolderAsync(openedSubfolderPath);
-            this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
+            this.selectionWatcher.initialize(this.tracks.tracks, false);
 
             // HACK: when refreshing the subfolder list, the tooltip of the last hovered
             // subfolder remains visible. This function is a workaround for this problem.

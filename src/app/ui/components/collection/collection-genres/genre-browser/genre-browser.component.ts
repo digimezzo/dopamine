@@ -14,7 +14,7 @@ import { PlaybackService } from '../../../../../services/playback/playback.servi
 import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/semantic-zoom.service.base';
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
 import { SchedulerBase } from '../../../../../common/scheduling/scheduler.base';
-import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../../selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { GenreSorter } from '../../../../../common/sorting/genre-sorter';
 import { Timer } from '../../../../../common/scheduling/timer';
@@ -29,7 +29,7 @@ import { BaseVirtualScrollBrowser } from '../../base-virtual-scroll-browser';
     host: { style: 'display: block' },
     templateUrl: './genre-browser.component.html',
     styleUrls: ['./genre-browser.component.scss'],
-    providers: [MouseSelectionWatcher],
+    providers: [SelectionWatcher],
 })
 export class GenreBrowserComponent extends BaseVirtualScrollBrowser implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
@@ -48,7 +48,7 @@ export class GenreBrowserComponent extends BaseVirtualScrollBrowser implements O
         private applicationService: ApplicationServiceBase,
         public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,
-        public mouseSelectionWatcher: MouseSelectionWatcher,
+        public selectionWatcher: SelectionWatcher,
         private genreSorter: GenreSorter,
         private semanticZoomHeaderAdder: SemanticZoomHeaderAdder,
         private scheduler: SchedulerBase,
@@ -57,6 +57,10 @@ export class GenreBrowserComponent extends BaseVirtualScrollBrowser implements O
         searchService: SearchServiceBase,
     ) {
         super(scrollPositionService, searchService);
+
+        this.selectionWatcher.onSelectAll = (): void => {
+            this.genresPersister.setSelectedGenres(this.selectionWatcher.selectedItems as GenreModel[]);
+        };
     }
 
     public shouldZoomOut: boolean = false;
@@ -89,7 +93,7 @@ export class GenreBrowserComponent extends BaseVirtualScrollBrowser implements O
     @Input()
     public set genres(v: GenreModel[]) {
         this._genres = v;
-        this.mouseSelectionWatcher.initialize(this.genres, false);
+        this.selectionWatcher.initialize(this.genres, false);
 
         // When the component is first rendered, it happens that genresPersister is undefined.
         if (this.genresPersister != undefined) {
@@ -130,8 +134,8 @@ export class GenreBrowserComponent extends BaseVirtualScrollBrowser implements O
 
     public setSelectedGenres(event: MouseEvent, genreToSelect: GenreModel): void {
         if (!genreToSelect.isZoomHeader) {
-            this.mouseSelectionWatcher.setSelectedItems(event, genreToSelect);
-            this.genresPersister.setSelectedGenres(this.mouseSelectionWatcher.selectedItems as GenreModel[]);
+            this.selectionWatcher.setSelectedItems(event, genreToSelect);
+            this.genresPersister.setSelectedGenres(this.selectionWatcher.selectedItems as GenreModel[]);
         }
     }
 
@@ -144,7 +148,10 @@ export class GenreBrowserComponent extends BaseVirtualScrollBrowser implements O
     }
 
     public clearSelectedGenres(): void {
-        this.mouseSelectionWatcher.initialize(this.orderedGenres.filter((x) => !x.isZoomHeader), false);
+        this.selectionWatcher.initialize(
+            this.orderedGenres.filter((x) => !x.isZoomHeader),
+            false,
+        );
         this.genresPersister.setSelectedGenres([]);
     }
 
@@ -207,7 +214,7 @@ export class GenreBrowserComponent extends BaseVirtualScrollBrowser implements O
         }
 
         this.orderedGenres = [...orderedGenres];
-        this.mouseSelectionWatcher.setDisplayedItems(this.orderedGenres.filter((x) => !x.isZoomHeader));
+        this.selectionWatcher.setDisplayedItems(this.orderedGenres.filter((x) => !x.isZoomHeader));
         this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.orderedGenres.length > 0);
     }
 

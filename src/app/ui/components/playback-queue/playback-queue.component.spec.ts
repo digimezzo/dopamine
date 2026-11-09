@@ -3,7 +3,7 @@ import { IMock, It, Mock, Times } from 'typemoq';
 import { PlaybackQueueComponent } from './playback-queue.component';
 import { PlaybackService } from '../../../services/playback/playback.service';
 import { ContextMenuOpener } from '../context-menu-opener';
-import { MouseSelectionWatcher } from '../mouse-selection-watcher';
+import { SelectionWatcher } from '../selection-watcher';
 import { PlaybackIndicationServiceBase } from '../../../services/playback-indication/playback-indication.service.base';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
 import { DateTime } from '../../../common/date-time';
@@ -21,7 +21,7 @@ describe('PlaybackQueueComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
-    let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
+    let selectionWatcherMock: IMock<SelectionWatcher>;
     let playbackIndicationServiceMock: IMock<PlaybackIndicationServiceBase>;
     let navigationServiceMock: IMock<NavigationServiceBase>;
     let searchServiceMock: IMock<SearchServiceBase>;
@@ -38,7 +38,7 @@ describe('PlaybackQueueComponent', () => {
             playbackServiceMock.object,
             addToPlaylistMenuMock.object,
             contextMenuOpenerMock.object,
-            mouseSelectionWatcherMock.object,
+            selectionWatcherMock.object,
             playbackIndicationServiceMock.object,
             navigationServiceMock.object,
             searchServiceMock.object,
@@ -50,7 +50,7 @@ describe('PlaybackQueueComponent', () => {
         playbackServiceMock = Mock.ofType<PlaybackService>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
-        mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
+        selectionWatcherMock = Mock.ofType<SelectionWatcher>();
         playbackIndicationServiceMock = Mock.ofType<PlaybackIndicationServiceBase>();
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
         searchServiceMock = Mock.ofType<SearchServiceBase>();
@@ -124,14 +124,14 @@ describe('PlaybackQueueComponent', () => {
             expect(component.trackContextMenu).toBeUndefined();
         });
 
-        it('should define mouseSelectionWatcher', () => {
+        it('should define selectionWatcher', () => {
             // Arrange
 
             // Act
             const component: PlaybackQueueComponent = createComponent();
 
             // Assert
-            expect(component.mouseSelectionWatcher).toBeDefined();
+            expect(component.selectionWatcher).toBeDefined();
         });
 
         it('should initialize shouldShowList as false', () => {
@@ -165,7 +165,7 @@ describe('PlaybackQueueComponent', () => {
             playbackIndicationServiceMock.verify((x) => x.setPlayingTrack(playbackQueue.tracks, trackModel), Times.once());
         });
 
-        it('should initialize mouseSelectionWatcher using the tracks in the queue when the playback queue is shown', () => {
+        it('should initialize selectionWatcher using the tracks in the queue when the playback queue is shown', () => {
             // Arrange
             const component: PlaybackQueueComponent = createComponent();
 
@@ -174,7 +174,7 @@ describe('PlaybackQueueComponent', () => {
             refreshPlaybackQueueListRequested.next();
 
             // Assert
-            mouseSelectionWatcherMock.verify((x) => x.initialize(playbackQueue.tracks), Times.once());
+            selectionWatcherMock.verify((x) => x.initialize(playbackQueue.tracks), Times.once());
         });
 
         it('should set shouldShowList to true the playback queue is shown', () => {
@@ -216,7 +216,7 @@ describe('PlaybackQueueComponent', () => {
     });
 
     describe('setSelectedTracks', () => {
-        it('should set the selected item on mouseSelectionWatcher', () => {
+        it('should set the selected item on selectionWatcher', () => {
             // Arrange
             const component: PlaybackQueueComponent = createComponent();
             const event: any = {};
@@ -231,7 +231,7 @@ describe('PlaybackQueueComponent', () => {
             component.setSelectedTracks(event, trackModel);
 
             // Assert
-            mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, trackModel), Times.once());
+            selectionWatcherMock.verify((x) => x.setSelectedItems(event, trackModel), Times.once());
         });
     });
 
@@ -244,7 +244,7 @@ describe('PlaybackQueueComponent', () => {
                 translatorServiceMock.object,
                 settingsMock,
             );
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel]);
+            selectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel]);
             const component: PlaybackQueueComponent = createComponent();
 
             // Act
@@ -367,7 +367,7 @@ describe('PlaybackQueueComponent', () => {
 
             // Assert
             playbackServiceMock.verify((x) => x.reorderQueue(4, 3), Times.once());
-            mouseSelectionWatcherMock.verify((x) => x.initialize(playbackQueue.tracks), Times.once());
+            selectionWatcherMock.verify((x) => x.initialize(playbackQueue.tracks), Times.once());
         });
 
         it('should not reorder queue when searchText is not empty', () => {
@@ -384,7 +384,7 @@ describe('PlaybackQueueComponent', () => {
 
             // Assert
             playbackServiceMock.verify((x) => x.reorderQueue(It.isAny(), It.isAny()), Times.never());
-            mouseSelectionWatcherMock.verify((x) => x.initialize(It.isAny()), Times.never());
+            selectionWatcherMock.verify((x) => x.initialize(It.isAny()), Times.never());
         });
     });
 });

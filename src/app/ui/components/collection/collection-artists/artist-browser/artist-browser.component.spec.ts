@@ -7,7 +7,7 @@ import { ArtistOrder, artistOrderKey } from './artist-order';
 import { ArtistModel } from '../../../../../services/artist/artist-model';
 import { Logger } from '../../../../../common/logger';
 import { ContextMenuOpener } from '../../../context-menu-opener';
-import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../../selection-watcher';
 import { SemanticZoomHeaderAdder } from '../../../../../common/semantic-zoom-header-adder';
 import { ArtistType, artistTypeKey } from '../../../../../services/artist/artist-type';
 import { Constants } from '../../../../../common/application/constants';
@@ -54,7 +54,7 @@ describe('ArtistBrowserComponent', () => {
     let semanticZoomServiceMock: IMock<SemanticZoomServiceBase>;
     let applicationServiceMock: IMock<ApplicationServiceBase>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
-    let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
+    let selectionWatcherMock: IMock<SelectionWatcher>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let artistSorterMock: IMock<ArtistSorter>;
     let guidFactoryMock: IMock<GuidFactory>;
@@ -84,7 +84,7 @@ describe('ArtistBrowserComponent', () => {
             semanticZoomServiceMock.object,
             applicationServiceMock.object,
             addToPlaylistMenuMock.object,
-            mouseSelectionWatcherMock.object,
+            selectionWatcherMock.object,
             contextMenuOpenerMock.object,
             artistSorterMock.object,
             semanticZoomHeaderAdder,
@@ -104,7 +104,7 @@ describe('ArtistBrowserComponent', () => {
             semanticZoomServiceMock.object,
             applicationServiceMock.object,
             addToPlaylistMenuMock.object,
-            mouseSelectionWatcherMock.object,
+            selectionWatcherMock.object,
             contextMenuOpenerMock.object,
             artistSorterMock.object,
             semanticZoomHeaderAdderMock.object,
@@ -125,7 +125,7 @@ describe('ArtistBrowserComponent', () => {
         semanticZoomServiceMock = Mock.ofType<SemanticZoomServiceBase>();
         applicationServiceMock = Mock.ofType<ApplicationServiceBase>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
-        mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
+        selectionWatcherMock = Mock.ofType<SelectionWatcher>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         artistSorterMock = Mock.ofType<ArtistSorter>();
         semanticZoomHeaderAdderMock = Mock.ofType<SemanticZoomHeaderAdder>();
@@ -241,14 +241,14 @@ describe('ArtistBrowserComponent', () => {
             expect(component.playbackService).toBeDefined();
         });
 
-        it('should define mouseSelectionWatcher', () => {
+        it('should define selectionWatcher', () => {
             // Arrange
 
             // Act
             const component: ArtistBrowserComponent = createComponent();
 
             // Assert
-            expect(component.mouseSelectionWatcher).toBeDefined();
+            expect(component.selectionWatcher).toBeDefined();
         });
 
         it('should define contextMenuOpener', () => {
@@ -439,7 +439,7 @@ describe('ArtistBrowserComponent', () => {
             expect(component.artists).toEqual([artist1, artist2]);
         });
 
-        it('should initialize mouseSelectionWatcher using artists', () => {
+        it('should initialize selectionWatcher using artists', () => {
             // Arrange
             const component: ArtistBrowserComponent = createComponent();
 
@@ -447,7 +447,7 @@ describe('ArtistBrowserComponent', () => {
             component.artists = [artist1, artist2];
 
             // Assert
-            mouseSelectionWatcherMock.verify(
+            selectionWatcherMock.verify(
                 (x) =>
                     x.initialize(
                         It.is(
@@ -666,7 +666,7 @@ describe('ArtistBrowserComponent', () => {
     });
 
     describe('setSelectedArtists', () => {
-        it('should set the selected items on mouseSelectionWatcher if the artist is a not zoom header', () => {
+        it('should set the selected items on selectionWatcher if the artist is a not zoom header', () => {
             // Arrange
             const event: any = {};
             const component: ArtistBrowserComponent = createComponent();
@@ -678,10 +678,10 @@ describe('ArtistBrowserComponent', () => {
             component.setSelectedArtists(event, artist1);
 
             // Assert
-            mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, artist1), Times.exactly(1));
+            selectionWatcherMock.verify((x) => x.setSelectedItems(event, artist1), Times.exactly(1));
         });
 
-        it('should not set the selected items on mouseSelectionWatcher if the artist is a zoom header', () => {
+        it('should not set the selected items on selectionWatcher if the artist is a zoom header', () => {
             // Arrange
             const event: any = {};
             const component: ArtistBrowserComponent = createComponent();
@@ -693,14 +693,14 @@ describe('ArtistBrowserComponent', () => {
             component.setSelectedArtists(event, artist1);
 
             // Assert
-            mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, artist1), Times.never());
+            selectionWatcherMock.verify((x) => x.setSelectedItems(event, artist1), Times.never());
         });
 
         it('should persist the selected artist if the artist is a not zoom header', () => {
             // Arrange
 
-            mouseSelectionWatcherMock.reset();
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [artist1, artist2]);
+            selectionWatcherMock.reset();
+            selectionWatcherMock.setup((x) => x.selectedItems).returns(() => [artist1, artist2]);
             const component: ArtistBrowserComponent = createComponent();
 
             const event: any = {};
@@ -718,8 +718,8 @@ describe('ArtistBrowserComponent', () => {
         it('should not persist the selected artist if the artist is a zoom header', () => {
             // Arrange
 
-            mouseSelectionWatcherMock.reset();
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [artist1, artist2]);
+            selectionWatcherMock.reset();
+            selectionWatcherMock.setup((x) => x.selectedItems).returns(() => [artist1, artist2]);
             const component: ArtistBrowserComponent = createComponent();
 
             const event: any = {};

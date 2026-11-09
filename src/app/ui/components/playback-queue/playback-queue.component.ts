@@ -6,7 +6,7 @@ import { TrackModel } from '../../../services/track/track-model';
 import { PlaybackService } from '../../../services/playback/playback.service';
 import { PlaybackIndicationServiceBase } from '../../../services/playback-indication/playback-indication.service.base';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
-import { MouseSelectionWatcher } from '../mouse-selection-watcher';
+import { SelectionWatcher } from '../selection-watcher';
 import { ContextMenuOpener } from '../context-menu-opener';
 import { SearchServiceBase } from '../../../services/search/search.service.base';
 import { StringUtils } from '../../../common/utils/string-utils';
@@ -21,7 +21,7 @@ import { AddToPlaylistMenu } from '../add-to-playlist-menu';
     templateUrl: './playback-queue.component.html',
     styleUrls: ['./playback-queue.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    providers: [MouseSelectionWatcher],
+    providers: [SelectionWatcher],
 })
 export class PlaybackQueueComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
@@ -31,7 +31,7 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
         public playbackService: PlaybackService,
         public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,
-        public mouseSelectionWatcher: MouseSelectionWatcher,
+        public selectionWatcher: SelectionWatcher,
         private playbackIndicationService: PlaybackIndicationServiceBase,
         private navigationService: NavigationServiceBase,
         private searchService: SearchServiceBase,
@@ -108,13 +108,13 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
                     this._shouldShowList = true;
                 }, 250);
 
-                this.mouseSelectionWatcher.initialize(this.playbackService.playbackQueue.tracks);
+                this.selectionWatcher.initialize(this.playbackService.playbackQueue.tracks);
             }),
         );
     }
 
     public setSelectedTracks(event: MouseEvent, trackToSelect: TrackModel): void {
-        this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
+        this.selectionWatcher.setSelectedItems(event, trackToSelect);
     }
 
     public onTrackContextMenu(event: MouseEvent, track: TrackModel): void {
@@ -122,7 +122,7 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
     }
 
     public onRemoveFromQueue(): void {
-        this.playbackService.removeFromQueue(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
+        this.playbackService.removeFromQueue(this.selectionWatcher.selectedItems as TrackModel[]);
     }
 
     public clearQueue(): void {
@@ -164,6 +164,6 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
         const currentIndex: number = previousIndex + (event.currentIndex - event.previousIndex);
 
         this.playbackService.reorderQueue(previousIndex, currentIndex);
-        this.mouseSelectionWatcher.initialize(this.playbackService.playbackQueue.tracks);
+        this.selectionWatcher.initialize(this.playbackService.playbackQueue.tracks);
     }
 }

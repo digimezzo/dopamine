@@ -14,7 +14,7 @@ import { PlaylistServiceBase } from '../../../../../services/playlist/playlist.s
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
 import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
-import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../../selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -31,7 +31,7 @@ import { SettingsBase } from '../../../../../common/settings/settings.base';
     host: { style: 'display: block' },
     templateUrl: './playlist-browser.component.html',
     styleUrls: ['./playlist-browser.component.scss'],
-    providers: [MouseSelectionWatcher],
+    providers: [SelectionWatcher],
 })
 export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     public readonly playlistOrders: PlaylistOrder[] = Object.values(PlaylistOrder).filter((x): x is PlaylistOrder => typeof x === 'number');
@@ -51,7 +51,7 @@ export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implement
         private dialogService: DialogServiceBase,
         private playlistRowsGetter: PlaylistRowsGetter,
         private nativeElementProxy: NativeElementProxy,
-        private mouseSelectionWatcher: MouseSelectionWatcher,
+        private selectionWatcher: SelectionWatcher,
         public contextMenuOpener: ContextMenuOpener,
         private desktop: DesktopBase,
         private settings: SettingsBase,
@@ -60,6 +60,10 @@ export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implement
         scrollPositionService: ScrollPositionService,
     ) {
         super(scrollPositionService, searchService);
+
+        this.selectionWatcher.onSelectAll = (): void => {
+            this.playlistsPersister.setSelectedPlaylists(this.selectionWatcher.selectedItems as PlaylistModel[]);
+        };
     }
 
     public playlistRows: PlaylistRow[] = [];
@@ -106,7 +110,7 @@ export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implement
     @Input()
     public set playlists(v: PlaylistModel[]) {
         this._playlists = v;
-        this.mouseSelectionWatcher.initialize(this.playlists, false);
+        this.selectionWatcher.initialize(this.playlists, false);
     }
 
     public get hasPlaylists(): boolean {
@@ -166,8 +170,8 @@ export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implement
     }
 
     public setSelectedPlaylists(event: MouseEvent, playlistToSelect: PlaylistModel): void {
-        this.mouseSelectionWatcher.setSelectedItems(event, playlistToSelect);
-        this.playlistsPersister.setSelectedPlaylists(this.mouseSelectionWatcher.selectedItems as PlaylistModel[]);
+        this.selectionWatcher.setSelectedItems(event, playlistToSelect);
+        this.playlistsPersister.setSelectedPlaylists(this.selectionWatcher.selectedItems as PlaylistModel[]);
     }
 
     public get hasSelectedPlaylists(): boolean {
@@ -179,7 +183,10 @@ export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implement
     }
 
     public clearSelectedPlaylists(): void {
-        this.mouseSelectionWatcher.initialize(this.playlistRows.flatMap((row) => row.playlists), false);
+        this.selectionWatcher.initialize(
+            this.playlistRows.flatMap((row) => row.playlists),
+            false,
+        );
         this.playlistsPersister.setSelectedPlaylists([]);
     }
 
@@ -249,7 +256,7 @@ export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implement
                 this.selectedPlaylistOrder,
                 this.playlistCoverSize + 4,
             );
-            this.mouseSelectionWatcher.setDisplayedItems((this.playlistRows ?? []).flatMap((row) => row.playlists));
+            this.selectionWatcher.setDisplayedItems((this.playlistRows ?? []).flatMap((row) => row.playlists));
             this.applySelectedPlaylists();
             this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.playlistRows.length > 0);
         } catch (e: unknown) {

@@ -7,7 +7,7 @@ import { DialogServiceBase } from '../../../../../services/dialog/dialog.service
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
 import { PlaylistRowsGetter } from '../playlist-folder-browser/playlist-rows-getter';
 import { NativeElementProxy } from '../../../../../common/native-element-proxy';
-import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../../selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { Logger } from '../../../../../common/logger';
 import { Observable, Subject } from 'rxjs';
@@ -31,7 +31,7 @@ describe('PlaylistBrowserComponent', () => {
     let dialogServiceBaseMock: IMock<DialogServiceBase>;
     let playlistRowsGetterMock: IMock<PlaylistRowsGetter>;
     let nativeElementProxyMock: IMock<NativeElementProxy>;
-    let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
+    let selectionWatcherMock: IMock<SelectionWatcher>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let desktopMock: IMock<DesktopBase>;
     let searchServiceMock: IMock<SearchServiceBase>;
@@ -61,7 +61,7 @@ describe('PlaylistBrowserComponent', () => {
             dialogServiceBaseMock.object,
             playlistRowsGetterMock.object,
             nativeElementProxyMock.object,
-            mouseSelectionWatcherMock.object,
+            selectionWatcherMock.object,
             contextMenuOpenerMock.object,
             desktopMock.object,
             settingsMock,
@@ -79,7 +79,7 @@ describe('PlaylistBrowserComponent', () => {
         dialogServiceBaseMock = Mock.ofType<DialogServiceBase>();
         playlistRowsGetterMock = Mock.ofType<PlaylistRowsGetter>();
         nativeElementProxyMock = Mock.ofType<NativeElementProxy>();
-        mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
+        selectionWatcherMock = Mock.ofType<SelectionWatcher>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         desktopMock = Mock.ofType<DesktopBase>();
         searchServiceMock = Mock.ofType<SearchServiceBase>();
@@ -181,7 +181,7 @@ describe('PlaylistBrowserComponent', () => {
             // Assert
             expect(component.playlists).toEqual(playlists);
             expect(component.hasPlaylists).toBeTruthy();
-            mouseSelectionWatcherMock.verify((x) => x.initialize(playlists, false), Times.once());
+            selectionWatcherMock.verify((x) => x.initialize(playlists, false), Times.once());
         });
     });
 
@@ -413,7 +413,7 @@ describe('PlaylistBrowserComponent', () => {
             component.playlistsPersister = playlistsPersisterMock.object;
 
             const playlists = [playlistModel1, playlistModel2];
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => playlists);
+            selectionWatcherMock.setup((x) => x.selectedItems).returns(() => playlists);
 
             const mouseEvent = new MouseEvent('');
 
@@ -421,7 +421,7 @@ describe('PlaylistBrowserComponent', () => {
             component.setSelectedPlaylists(mouseEvent, playlistModel2);
 
             // Assert
-            mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(mouseEvent, playlistModel2), Times.once());
+            selectionWatcherMock.verify((x) => x.setSelectedItems(mouseEvent, playlistModel2), Times.once());
             playlistsPersisterMock.verify((x) => x.setSelectedPlaylists(playlists), Times.once());
         });
     });

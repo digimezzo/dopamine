@@ -19,7 +19,7 @@ import { Logger } from '../../../../common/logger';
 import { Hacks } from '../../../../common/hacks';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { ContextMenuOpener } from '../../context-menu-opener';
-import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../selection-watcher';
 import { DateTime } from '../../../../common/date-time';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
 import { FolderModel } from '../../../../services/folder/folder-model';
@@ -51,7 +51,7 @@ describe('CollectionFoldersComponent', () => {
     let hacksMock: IMock<Hacks>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
-    let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
+    let selectionWatcherMock: IMock<SelectionWatcher>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let dateTimeMock: IMock<DateTime>;
     let folderTracksPersisterMock: IMock<FolderTracksPersister>;
@@ -93,7 +93,7 @@ describe('CollectionFoldersComponent', () => {
             playbackServiceMock.object,
             folderTracksPersisterMock.object,
             contextMenuOpenerMock.object,
-            mouseSelectionWatcherMock.object,
+            selectionWatcherMock.object,
             addToPlaylistMenuMock.object,
             indexingServiceMock.object,
             collectionServiceMock.object,
@@ -130,7 +130,7 @@ describe('CollectionFoldersComponent', () => {
         schedulerMock = Mock.ofType<Scheduler>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
-        mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
+        selectionWatcherMock = Mock.ofType<SelectionWatcher>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         dateTimeMock = Mock.ofType<DateTime>();
         folderTracksPersisterMock = Mock.ofType<FolderTracksPersister>();
@@ -306,14 +306,14 @@ describe('CollectionFoldersComponent', () => {
             expect(component.contextMenuOpener).toBeDefined();
         });
 
-        it('should define mouseSelectionWatcher', () => {
+        it('should define selectionWatcher', () => {
             // Arrange
 
             // Act
             const component: CollectionFoldersComponent = createComponent();
 
             // Assert
-            expect(component.mouseSelectionWatcher).toBeDefined();
+            expect(component.selectionWatcher).toBeDefined();
         });
 
         it('should define addToPlaylistMenu', () => {
@@ -789,11 +789,11 @@ describe('CollectionFoldersComponent', () => {
             );
         });
 
-        it('should initialize MouseSelectionWatcher using tracks', async () => {
+        it('should initialize SelectionWatcher using tracks', async () => {
             // Arrange
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
-            mouseSelectionWatcherMock.reset();
+            selectionWatcherMock.reset();
             folderServiceMock.reset();
             folderServiceMock.setup((x) => x.getFolders()).returns(() => folders);
             folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve([]));
@@ -802,7 +802,7 @@ describe('CollectionFoldersComponent', () => {
             await component.setOpenedSubfolderAsync(subfolder1);
 
             // Assert
-            mouseSelectionWatcherMock.verify((x) => x.initialize(component.tracks.tracks, false), Times.exactly(1));
+            selectionWatcherMock.verify((x) => x.initialize(component.tracks.tracks, false), Times.exactly(1));
         });
     });
 

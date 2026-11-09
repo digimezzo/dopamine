@@ -10,7 +10,7 @@ import { TrackModels } from '../../../../services/track/track-models';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { PlaybackIndicationServiceBase } from '../../../../services/playback-indication/playback-indication.service.base';
-import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../selection-watcher';
 import { DesktopBase } from '../../../../common/io/desktop.base';
 import { Logger } from '../../../../common/logger';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
@@ -32,7 +32,7 @@ describe('TrackBrowserComponent', () => {
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let playbackIndicationServiceMock: IMock<PlaybackIndicationServiceBase>;
     let metadataServiceMock: IMock<MetadataService>;
-    let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
+    let selectionWatcherMock: IMock<SelectionWatcher>;
     let trackSorterMock: IMock<TrackSorter>;
     let trackServiceMock: IMock<TrackServiceBase>;
     let desktopMock: IMock<DesktopBase>;
@@ -78,7 +78,7 @@ describe('TrackBrowserComponent', () => {
         collectionServiceMock = Mock.ofType<CollectionServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         dialogServiceMock = Mock.ofType<DialogServiceBase>();
-        mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
+        selectionWatcherMock = Mock.ofType<SelectionWatcher>();
         trackSorterMock = Mock.ofType<TrackSorter>();
         trackServiceMock = Mock.ofType<TrackServiceBase>();
         desktopMock = Mock.ofType<DesktopBase>();
@@ -172,7 +172,7 @@ describe('TrackBrowserComponent', () => {
             playbackServiceMock.object,
             addToPlaylistMenuMock.object,
             contextMenuOpenerMock.object,
-            mouseSelectionWatcherMock.object,
+            selectionWatcherMock.object,
             metadataServiceMock.object,
             playbackIndicationServiceMock.object,
             guidFactoryMock.object,
@@ -277,7 +277,7 @@ describe('TrackBrowserComponent', () => {
             expect(component.tracks).toBe(tracks);
         });
 
-        it('should initialize mouseSelectionWatcher using tracks', () => {
+        it('should initialize selectionWatcher using tracks', () => {
             // Arrange
             const component: TrackBrowserComponent = createComponent();
             component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
@@ -290,8 +290,8 @@ describe('TrackBrowserComponent', () => {
             // Assert
             // TODO: TypeMoq does not consider the call with track.track to have been performed (The reference to tracks.tracks seems lost).
             // So we use a workaround to ensure that the correct call occurs.
-            // mouseSelectionWatcherMock.verify((x) => x.initialize(tracks.tracks, false), Times.exactly(1));
-            mouseSelectionWatcherMock.verify(
+            // selectionWatcherMock.verify((x) => x.initialize(tracks.tracks, false), Times.exactly(1));
+            selectionWatcherMock.verify(
                 (x) =>
                     x.initialize(
                         It.is(
@@ -416,7 +416,7 @@ describe('TrackBrowserComponent', () => {
     });
 
     describe('setSelectedTracks', () => {
-        it('should set the selected item on mouseSelectionWatcher', () => {
+        it('should set the selected item on selectionWatcher', () => {
             // Arrange
             const component: TrackBrowserComponent = createComponent();
             component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
@@ -427,7 +427,7 @@ describe('TrackBrowserComponent', () => {
             component.setSelectedTracks(event, trackModel2);
 
             // Assert
-            mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, trackModel2), Times.exactly(1));
+            selectionWatcherMock.verify((x) => x.setSelectedItems(event, trackModel2), Times.exactly(1));
         });
     });
 

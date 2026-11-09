@@ -7,7 +7,7 @@ import { TrackModels } from '../../../../services/track/track-models';
 import { SearchServiceBase } from '../../../../services/search/search.service.base';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
-import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../selection-watcher';
 import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 import { IndexingService } from '../../../../services/indexing/indexing.service';
 
@@ -16,7 +16,7 @@ import { IndexingService } from '../../../../services/indexing/indexing.service'
     host: { style: 'display: block; width: 100%;' },
     templateUrl: './collection-tracks.component.html',
     styleUrls: ['./collection-tracks.component.scss'],
-    providers: [MouseSelectionWatcher],
+    providers: [SelectionWatcher],
 })
 export class CollectionTracksComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();

@@ -3,7 +3,7 @@ import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { TrackBrowserBase } from './track-brower-base';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
 import { ContextMenuOpener } from '../../context-menu-opener';
-import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../selection-watcher';
 import { Logger } from '../../../../common/logger';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
@@ -21,7 +21,7 @@ describe('TrackBrowserBase', () => {
     let dialogServiceMock: IMock<DialogServiceBase>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
-    let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
+    let selectionWatcherMock: IMock<SelectionWatcher>;
     let loggerMock: IMock<Logger>;
     let collectionServiceMock: IMock<CollectionServiceBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -40,7 +40,7 @@ describe('TrackBrowserBase', () => {
         dialogServiceMock = Mock.ofType<DialogServiceBase>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
-        mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
+        selectionWatcherMock = Mock.ofType<SelectionWatcher>();
         loggerMock = Mock.ofType<Logger>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         collectionServiceMock = Mock.ofType<CollectionServiceBase>();
@@ -84,7 +84,7 @@ describe('TrackBrowserBase', () => {
             dialogServiceMock.object,
             addToPlaylistMenuMock.object,
             contextMenuOpenerMock.object,
-            mouseSelectionWatcherMock.object,
+            selectionWatcherMock.object,
             loggerMock.object,
             collectionServiceMock.object,
             translatorServiceMock.object,
@@ -145,14 +145,14 @@ describe('TrackBrowserBase', () => {
             expect(trackBrowserBase.contextMenuOpener).toBeDefined();
         });
 
-        it('should define mouseSelectionWatcher', () => {
+        it('should define selectionWatcher', () => {
             // Arrange
 
             // Act
             const trackBrowserBase: TrackBrowserBase = create();
 
             // Assert
-            expect(trackBrowserBase.mouseSelectionWatcher).toBeDefined();
+            expect(trackBrowserBase.selectionWatcher).toBeDefined();
         });
 
         it('should define logger', () => {
@@ -179,7 +179,7 @@ describe('TrackBrowserBase', () => {
     describe('onAddToQueueAsync', () => {
         it('should add the selected tracks to the queue', async () => {
             // Arrange
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
+            selectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
             const trackBrowserBase: TrackBrowserBase = create();
 
             // Act
@@ -207,7 +207,7 @@ describe('TrackBrowserBase', () => {
     describe('onDeleteAsync', () => {
         it('should show confirmation dialog with singular text when 1 track is provided', async () => {
             // Arrange
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1]);
+            selectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1]);
             const trackBrowserBase: TrackBrowserBase = create();
 
             // Act
@@ -219,7 +219,7 @@ describe('TrackBrowserBase', () => {
 
         it('should show confirmation dialog with plural text when more than 1 track is provided', async () => {
             // Arrange
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
+            selectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
             const trackBrowserBase: TrackBrowserBase = create();
 
             // Act
@@ -231,7 +231,7 @@ describe('TrackBrowserBase', () => {
 
         it('should not delete tracks if the user has not confirmed', async () => {
             // Arrange
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
+            selectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
             dialogServiceMock
                 .setup((x) => x.showConfirmationDialogAsync('delete-songs', 'confirm-delete-songs'))
                 .returns(() => Promise.resolve(false));
@@ -246,7 +246,7 @@ describe('TrackBrowserBase', () => {
 
         it('should delete tracks if the user has confirmed', async () => {
             // Arrange
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
+            selectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
             dialogServiceMock
                 .setup((x) => x.showConfirmationDialogAsync('delete-songs', 'confirm-delete-songs'))
                 .returns(() => Promise.resolve(true));
@@ -263,7 +263,7 @@ describe('TrackBrowserBase', () => {
     describe('onShowInFolder', () => {
         it('should not show in folder if there are no tracks selected', () => {
             // Arrange
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => []);
+            selectionWatcherMock.setup((x) => x.selectedItems).returns(() => []);
             const trackBrowserBase: TrackBrowserBase = create();
 
             // Act
@@ -275,7 +275,7 @@ describe('TrackBrowserBase', () => {
 
         it('should show the first selected track in folder if there are tracks selected', () => {
             // Arrange
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
+            selectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
             const trackBrowserBase: TrackBrowserBase = create();
 
             // Act

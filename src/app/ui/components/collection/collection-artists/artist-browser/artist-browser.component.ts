@@ -15,7 +15,7 @@ import { PlaybackService } from '../../../../../services/playback/playback.servi
 import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/semantic-zoom.service.base';
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
 import { SchedulerBase } from '../../../../../common/scheduling/scheduler.base';
-import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../../selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { ArtistSorter } from '../../../../../common/sorting/artist-sorter';
 import { Timer } from '../../../../../common/scheduling/timer';
@@ -32,7 +32,7 @@ import { BaseVirtualScrollBrowser } from '../../base-virtual-scroll-browser';
     host: { style: 'display: block' },
     templateUrl: './artist-browser.component.html',
     styleUrls: ['./artist-browser.component.scss'],
-    providers: [MouseSelectionWatcher],
+    providers: [SelectionWatcher],
 })
 export class ArtistBrowserComponent extends BaseVirtualScrollBrowser implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
@@ -53,7 +53,7 @@ export class ArtistBrowserComponent extends BaseVirtualScrollBrowser implements 
         private semanticZoomService: SemanticZoomServiceBase,
         private applicationService: ApplicationServiceBase,
         public addToPlaylistMenu: AddToPlaylistMenu,
-        public mouseSelectionWatcher: MouseSelectionWatcher,
+        public selectionWatcher: SelectionWatcher,
         public contextMenuOpener: ContextMenuOpener,
         private artistSorter: ArtistSorter,
         private semanticZoomHeaderAdder: SemanticZoomHeaderAdder,
@@ -65,6 +65,10 @@ export class ArtistBrowserComponent extends BaseVirtualScrollBrowser implements 
         searchService: SearchServiceBase,
     ) {
         super(scrollPositionService, searchService);
+
+        this.selectionWatcher.onSelectAll = (): void => {
+            this.artistsPersister.setSelectedArtists(this.selectionWatcher.selectedItems as ArtistModel[]);
+        };
     }
 
     public shouldZoomOut: boolean = false;
@@ -100,7 +104,7 @@ export class ArtistBrowserComponent extends BaseVirtualScrollBrowser implements 
     @Input()
     public set artists(v: ArtistModel[]) {
         this._artists = v;
-        this.mouseSelectionWatcher.initialize(this.artists, false);
+        this.selectionWatcher.initialize(this.artists, false);
 
         // When the component is first rendered, it happens that artistsPersister is undefined.
         if (this.artistsPersister != undefined) {
@@ -149,13 +153,16 @@ export class ArtistBrowserComponent extends BaseVirtualScrollBrowser implements 
 
     public setSelectedArtists(event: MouseEvent, artistToSelect: ArtistModel): void {
         if (!artistToSelect.isZoomHeader) {
-            this.mouseSelectionWatcher.setSelectedItems(event, artistToSelect);
-            this.artistsPersister.setSelectedArtists(this.mouseSelectionWatcher.selectedItems as ArtistModel[]);
+            this.selectionWatcher.setSelectedItems(event, artistToSelect);
+            this.artistsPersister.setSelectedArtists(this.selectionWatcher.selectedItems as ArtistModel[]);
         }
     }
 
     public clearSelectedArtists(): void {
-        this.mouseSelectionWatcher.initialize(this.orderedArtists.filter((x) => !x.isZoomHeader), false);
+        this.selectionWatcher.initialize(
+            this.orderedArtists.filter((x) => !x.isZoomHeader),
+            false,
+        );
         this.artistsPersister.setSelectedArtists([]);
     }
 
@@ -229,7 +236,7 @@ export class ArtistBrowserComponent extends BaseVirtualScrollBrowser implements 
         }
 
         this.orderedArtists = [...orderedArtists];
-        this.mouseSelectionWatcher.setDisplayedItems(this.orderedArtists.filter((x) => !x.isZoomHeader));
+        this.selectionWatcher.setDisplayedItems(this.orderedArtists.filter((x) => !x.isZoomHeader));
         this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.orderedArtists.length > 0);
     }
 

@@ -15,7 +15,7 @@ import { CollectionServiceBase } from '../../../../services/collection/collectio
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
 import { DesktopBase } from '../../../../common/io/desktop.base';
-import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../selection-watcher';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { TrackSorter } from '../../../../common/sorting/track-sorter';
 import { Timer } from '../../../../common/scheduling/timer';
@@ -32,7 +32,7 @@ import { SearchServiceBase } from '../../../../services/search/search.service.ba
     host: { style: 'display: block' },
     templateUrl: './track-browser.component.html',
     styleUrls: ['./track-browser.component.scss'],
-    providers: [MouseSelectionWatcher],
+    providers: [SelectionWatcher],
     encapsulation: ViewEncapsulation.None,
 })
 export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, AfterViewInit, OnDestroy {
@@ -44,7 +44,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, A
         public playbackService: PlaybackService,
         public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,
-        public mouseSelectionWatcher: MouseSelectionWatcher,
+        public selectionWatcher: SelectionWatcher,
         private metadataService: MetadataService,
         private playbackIndicationService: PlaybackIndicationServiceBase,
         private guidFactory: GuidFactory,
@@ -64,7 +64,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, A
             dialogService,
             addToPlaylistMenu,
             contextMenuOpener,
-            mouseSelectionWatcher,
+            selectionWatcher,
             logger,
             collectionService,
             translatorService,
@@ -115,7 +115,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, A
     @Input()
     public set tracks(v: TrackModels) {
         this._tracks = v;
-        this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
+        this.selectionWatcher.initialize(this.tracks.tracks, false);
         this.orderTracks();
     }
 
@@ -180,7 +180,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, A
     }
 
     public setSelectedTracks(event: MouseEvent, trackToSelect: TrackModel): void {
-        this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
+        this.selectionWatcher.setSelectedItems(event, trackToSelect);
     }
 
     public scrollToPlayingTrack(): void {
@@ -250,7 +250,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, A
         }
 
         this.orderedTracks = [...orderedTracks];
-        this.mouseSelectionWatcher.setDisplayedItems(this.orderedTracks);
+        this.selectionWatcher.setDisplayedItems(this.orderedTracks);
 
         timer.stop();
 

@@ -8,7 +8,7 @@ import { AlbumRowsGetter } from './album-rows-getter';
 import { ApplicationServiceBase } from '../../../../services/application/application.service.base';
 import { NativeElementProxy } from '../../../../common/native-element-proxy';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
-import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../selection-watcher';
 import { Logger } from '../../../../common/logger';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { AlbumData } from '../../../../data/entities/album-data';
@@ -30,7 +30,7 @@ describe('AlbumBrowserComponent', () => {
     let albumRowsGetterMock: IMock<AlbumRowsGetter>;
     let nativeElementProxyMock: IMock<NativeElementProxy>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
-    let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
+    let selectionWatcherMock: IMock<SelectionWatcher>;
     let applicationPathsMock: IMock<ApplicationPaths>;
     let loggerMock: IMock<Logger>;
     let albumsPersisterMock: IMock<BaseAlbumsPersister>;
@@ -52,7 +52,7 @@ describe('AlbumBrowserComponent', () => {
             applicationServiceMock.object,
             albumRowsGetterMock.object,
             nativeElementProxyMock.object,
-            mouseSelectionWatcherMock.object,
+            selectionWatcherMock.object,
             contextMenuOpenerMock.object,
             addToPlaylistMenuMock.object,
             settingsMock,
@@ -70,7 +70,7 @@ describe('AlbumBrowserComponent', () => {
         albumRowsGetterMock = Mock.ofType<AlbumRowsGetter>();
         nativeElementProxyMock = Mock.ofType<NativeElementProxy>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
-        mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
+        selectionWatcherMock = Mock.ofType<SelectionWatcher>();
         applicationPathsMock = Mock.ofType<ApplicationPaths>();
         loggerMock = Mock.ofType<Logger>();
         albumsPersisterMock = Mock.ofType<BaseAlbumsPersister>();
@@ -150,14 +150,14 @@ describe('AlbumBrowserComponent', () => {
             expect(component.playbackService).toBeDefined();
         });
 
-        it('should define mouseSelectionWatcher', () => {
+        it('should define selectionWatcher', () => {
             // Arrange
 
             // Act
             const component: AlbumBrowserComponent = createComponent();
 
             // Assert
-            expect(component.mouseSelectionWatcher).toBeDefined();
+            expect(component.selectionWatcher).toBeDefined();
         });
 
         it('should define contextMenuOpener', () => {
@@ -232,7 +232,7 @@ describe('AlbumBrowserComponent', () => {
             expect(component.albums).toBe(albums);
         });
 
-        it('should initialize mouseSelectionWatcher using albums', () => {
+        it('should initialize selectionWatcher using albums', () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();
             const albumData2: AlbumData = new AlbumData();
@@ -248,7 +248,7 @@ describe('AlbumBrowserComponent', () => {
             component.albums = albums;
 
             // Assert
-            mouseSelectionWatcherMock.verify((x) => x.initialize(albums, false), Times.exactly(1));
+            selectionWatcherMock.verify((x) => x.initialize(albums, false), Times.exactly(1));
         });
     });
 
@@ -482,7 +482,7 @@ describe('AlbumBrowserComponent', () => {
     });
 
     describe('setSelectedAlbums', () => {
-        it('should set the selected items on mouseSelectionWatcher', () => {
+        it('should set the selected items on selectionWatcher', () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();
             const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
@@ -494,7 +494,7 @@ describe('AlbumBrowserComponent', () => {
             component.setSelectedAlbums(event, album1);
 
             // Assert
-            mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, album1), Times.exactly(1));
+            selectionWatcherMock.verify((x) => x.setSelectedItems(event, album1), Times.exactly(1));
         });
 
         it('should persist the selected albums', () => {
@@ -505,7 +505,7 @@ describe('AlbumBrowserComponent', () => {
             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, applicationPathsMock.object);
             const albums: AlbumModel[] = [album1, album2];
             const event: any = {};
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => albums);
+            selectionWatcherMock.setup((x) => x.selectedItems).returns(() => albums);
             const component: AlbumBrowserComponent = createComponent();
             component.albumsPersister = albumsPersisterMock.object;
 
@@ -660,7 +660,7 @@ describe('AlbumBrowserComponent', () => {
             const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, applicationPathsMock.object);
             const selectedAlbums: AlbumModel[] = [album1, album2];
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => selectedAlbums);
+            selectionWatcherMock.setup((x) => x.selectedItems).returns(() => selectedAlbums);
             const component: AlbumBrowserComponent = createComponent();
 
             // Act
@@ -674,7 +674,7 @@ describe('AlbumBrowserComponent', () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();
             const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => []);
+            selectionWatcherMock.setup((x) => x.selectedItems).returns(() => []);
             const component: AlbumBrowserComponent = createComponent();
 
             // Act

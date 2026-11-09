@@ -1,19 +1,19 @@
-import { MouseSelectionWatcher } from './mouse-selection-watcher';
+import { SelectionWatcher } from './selection-watcher';
 
-describe('MouseSelectionWatcher', () => {
+describe('SelectionWatcher', () => {
     describe('initialize', () => {
         it('should return no selected items if selectFirstItem is false', () => {
             // Arrange
             const item1: any = { isSelected: false };
             const item2: any = { isSelected: false };
             const items: any[] = [item1, item2];
-            const mouseSelectionWatcher: MouseSelectionWatcher = new MouseSelectionWatcher();
+            const selectionWatcher: SelectionWatcher = new SelectionWatcher();
 
             // Act
-            mouseSelectionWatcher.initialize(items, false);
+            selectionWatcher.initialize(items, false);
 
             // Assert
-            expect(mouseSelectionWatcher.selectedItems.length).toEqual(0);
+            expect(selectionWatcher.selectedItems.length).toEqual(0);
         });
 
         it('should return the first item as selected item if selectFirstItem is true', () => {
@@ -21,24 +21,24 @@ describe('MouseSelectionWatcher', () => {
             const item1: any = { isSelected: false };
             const item2: any = { isSelected: false };
             const items: any[] = [item1, item2];
-            const mouseSelectionWatcher: MouseSelectionWatcher = new MouseSelectionWatcher();
+            const selectionWatcher: SelectionWatcher = new SelectionWatcher();
 
             // Act
-            mouseSelectionWatcher.initialize(items, true);
+            selectionWatcher.initialize(items, true);
 
             // Assert
-            expect(mouseSelectionWatcher.selectedItems.length).toEqual(1);
-            expect(mouseSelectionWatcher.selectedItems[0]).toBe(item1);
+            expect(selectionWatcher.selectedItems.length).toEqual(1);
+            expect(selectionWatcher.selectedItems[0]).toBe(item1);
         });
 
         it('should not throw an error if items is undefined', () => {
             // Arrange
-            const mouseSelectionWatcher: MouseSelectionWatcher = new MouseSelectionWatcher();
+            const selectionWatcher: SelectionWatcher = new SelectionWatcher();
 
             // Act
 
             // Assert
-            expect(() => mouseSelectionWatcher.initialize(undefined, true)).not.toThrow();
+            expect(() => selectionWatcher.initialize(undefined, true)).not.toThrow();
         });
     });
 
@@ -46,24 +46,24 @@ describe('MouseSelectionWatcher', () => {
         it('should not throw an error if event is undefined', () => {
             // Arrange
             const item1: any = { isSelected: false };
-            const mouseSelectionWatcher: MouseSelectionWatcher = new MouseSelectionWatcher();
+            const selectionWatcher: SelectionWatcher = new SelectionWatcher();
 
             // Act
 
             // Assert
-            expect(() => mouseSelectionWatcher.setSelectedItems(undefined, item1)).not.toThrow();
+            expect(() => selectionWatcher.setSelectedItems(undefined, item1)).not.toThrow();
         });
 
         it('should not throw an error if item is undefined', () => {
             // Arrange
             const item1: any = { isSelected: false };
-            const mouseSelectionWatcher: MouseSelectionWatcher = new MouseSelectionWatcher();
+            const selectionWatcher: SelectionWatcher = new SelectionWatcher();
             const event: any = { button: 0 };
 
             // Act
 
             // Assert
-            expect(() => mouseSelectionWatcher.setSelectedItems(event, undefined)).not.toThrow();
+            expect(() => selectionWatcher.setSelectedItems(event, undefined)).not.toThrow();
         });
 
         it('should remove the given item from the selection if ctrl is pressed', () => {
@@ -72,18 +72,18 @@ describe('MouseSelectionWatcher', () => {
             const item2: any = { isSelected: false };
             const item3: any = { isSelected: false };
             const items: any[] = [item1, item2, item3];
-            const mouseSelectionWatcher: MouseSelectionWatcher = new MouseSelectionWatcher();
+            const selectionWatcher: SelectionWatcher = new SelectionWatcher();
             const event: any = { button: 0 };
             const ctrlEvent: any = { ctrlKey: {} };
 
-            mouseSelectionWatcher.initialize(items, false);
-            mouseSelectionWatcher.setSelectedItems(event, item2);
+            selectionWatcher.initialize(items, false);
+            selectionWatcher.setSelectedItems(event, item2);
 
             // Act
-            mouseSelectionWatcher.setSelectedItems(ctrlEvent, item2);
+            selectionWatcher.setSelectedItems(ctrlEvent, item2);
 
             // Assert
-            expect(mouseSelectionWatcher.selectedItems.length).toEqual(0);
+            expect(selectionWatcher.selectedItems.length).toEqual(0);
         });
 
         it('should add the given item to the selection if ctrl is pressed', () => {
@@ -92,20 +92,20 @@ describe('MouseSelectionWatcher', () => {
             const item2: any = { isSelected: false };
             const item3: any = { isSelected: false };
             const items: any[] = [item1, item2, item3];
-            const mouseSelectionWatcher: MouseSelectionWatcher = new MouseSelectionWatcher();
+            const selectionWatcher: SelectionWatcher = new SelectionWatcher();
             const event: any = { button: 0 };
             const ctrlEvent: any = { ctrlKey: {} };
 
-            mouseSelectionWatcher.initialize(items, false);
-            mouseSelectionWatcher.setSelectedItems(event, item2);
+            selectionWatcher.initialize(items, false);
+            selectionWatcher.setSelectedItems(event, item2);
 
             // Act
-            mouseSelectionWatcher.setSelectedItems(ctrlEvent, item3);
+            selectionWatcher.setSelectedItems(ctrlEvent, item3);
 
             // Assert
-            expect(mouseSelectionWatcher.selectedItems.length).toEqual(2);
-            expect(mouseSelectionWatcher.selectedItems[0]).toBe(item2);
-            expect(mouseSelectionWatcher.selectedItems[1]).toBe(item3);
+            expect(selectionWatcher.selectedItems.length).toEqual(2);
+            expect(selectionWatcher.selectedItems[0]).toBe(item2);
+            expect(selectionWatcher.selectedItems[1]).toBe(item3);
         });
 
         it('should select an item range if shift is pressed', () => {
@@ -114,21 +114,21 @@ describe('MouseSelectionWatcher', () => {
             const item2: any = { isSelected: false };
             const item3: any = { isSelected: false };
             const items: any[] = [item1, item2, item3];
-            const mouseSelectionWatcher: MouseSelectionWatcher = new MouseSelectionWatcher();
+            const selectionWatcher: SelectionWatcher = new SelectionWatcher();
             const event: any = { button: 0 };
             const shiftEvent: any = { shiftKey: {} };
 
-            mouseSelectionWatcher.initialize(items, false);
-            mouseSelectionWatcher.setSelectedItems(event, item1);
+            selectionWatcher.initialize(items, false);
+            selectionWatcher.setSelectedItems(event, item1);
 
             // Act
-            mouseSelectionWatcher.setSelectedItems(shiftEvent, item3);
+            selectionWatcher.setSelectedItems(shiftEvent, item3);
 
             // Assert
-            expect(mouseSelectionWatcher.selectedItems.length).toEqual(3);
-            expect(mouseSelectionWatcher.selectedItems[0]).toBe(item1);
-            expect(mouseSelectionWatcher.selectedItems[1]).toBe(item2);
-            expect(mouseSelectionWatcher.selectedItems[2]).toBe(item3);
+            expect(selectionWatcher.selectedItems.length).toEqual(3);
+            expect(selectionWatcher.selectedItems[0]).toBe(item1);
+            expect(selectionWatcher.selectedItems[1]).toBe(item2);
+            expect(selectionWatcher.selectedItems[2]).toBe(item3);
         });
 
         it('should not change the selection if no modifier keys are pressed, a non-left mouse button is pressed and multiple items are selected.', () => {
@@ -138,22 +138,22 @@ describe('MouseSelectionWatcher', () => {
             const item3: any = { isSelected: false };
             const item4: any = { isSelected: false };
             const items: any[] = [item1, item2, item3, item4];
-            const mouseSelectionWatcher: MouseSelectionWatcher = new MouseSelectionWatcher();
+            const selectionWatcher: SelectionWatcher = new SelectionWatcher();
             const event: any = { button: 1 };
             const shiftEvent: any = { shiftKey: {} };
 
-            mouseSelectionWatcher.initialize(items, false);
-            mouseSelectionWatcher.setSelectedItems(shiftEvent, item1);
-            mouseSelectionWatcher.setSelectedItems(shiftEvent, item3);
+            selectionWatcher.initialize(items, false);
+            selectionWatcher.setSelectedItems(shiftEvent, item1);
+            selectionWatcher.setSelectedItems(shiftEvent, item3);
 
             // Act
-            mouseSelectionWatcher.setSelectedItems(event, item3);
+            selectionWatcher.setSelectedItems(event, item3);
 
             // Assert
-            expect(mouseSelectionWatcher.selectedItems.length).toEqual(3);
-            expect(mouseSelectionWatcher.selectedItems[0]).toBe(item1);
-            expect(mouseSelectionWatcher.selectedItems[1]).toBe(item2);
-            expect(mouseSelectionWatcher.selectedItems[2]).toBe(item3);
+            expect(selectionWatcher.selectedItems.length).toEqual(3);
+            expect(selectionWatcher.selectedItems[0]).toBe(item1);
+            expect(selectionWatcher.selectedItems[1]).toBe(item2);
+            expect(selectionWatcher.selectedItems[2]).toBe(item3);
         });
 
         it('should select only the given item if no modifier keys are pressed, the left mouse button is pressed and multiple items are selected.', () => {
@@ -163,20 +163,20 @@ describe('MouseSelectionWatcher', () => {
             const item3: any = { isSelected: false };
             const item4: any = { isSelected: false };
             const items: any[] = [item1, item2, item3, item4];
-            const mouseSelectionWatcher: MouseSelectionWatcher = new MouseSelectionWatcher();
+            const selectionWatcher: SelectionWatcher = new SelectionWatcher();
             const event: any = { button: 0 };
             const shiftEvent: any = { shiftKey: {} };
 
-            mouseSelectionWatcher.initialize(items, false);
-            mouseSelectionWatcher.setSelectedItems(shiftEvent, item1);
-            mouseSelectionWatcher.setSelectedItems(shiftEvent, item3);
+            selectionWatcher.initialize(items, false);
+            selectionWatcher.setSelectedItems(shiftEvent, item1);
+            selectionWatcher.setSelectedItems(shiftEvent, item3);
 
             // Act
-            mouseSelectionWatcher.setSelectedItems(event, item3);
+            selectionWatcher.setSelectedItems(event, item3);
 
             // Assert
-            expect(mouseSelectionWatcher.selectedItems.length).toEqual(1);
-            expect(mouseSelectionWatcher.selectedItems[0]).toBe(item3);
+            expect(selectionWatcher.selectedItems.length).toEqual(1);
+            expect(selectionWatcher.selectedItems[0]).toBe(item3);
         });
 
         it('should select only the given item if no modifier keys are pressed, the left mouse button is pressed and 1 item is selected.', () => {
@@ -186,19 +186,19 @@ describe('MouseSelectionWatcher', () => {
             const item3: any = { isSelected: false };
             const item4: any = { isSelected: false };
             const items: any[] = [item1, item2, item3, item4];
-            const mouseSelectionWatcher: MouseSelectionWatcher = new MouseSelectionWatcher();
+            const selectionWatcher: SelectionWatcher = new SelectionWatcher();
             const event: any = { button: 0 };
             const shiftEvent: any = { shiftKey: {} };
 
-            mouseSelectionWatcher.initialize(items, false);
-            mouseSelectionWatcher.setSelectedItems(shiftEvent, item1);
+            selectionWatcher.initialize(items, false);
+            selectionWatcher.setSelectedItems(shiftEvent, item1);
 
             // Act
-            mouseSelectionWatcher.setSelectedItems(event, item3);
+            selectionWatcher.setSelectedItems(event, item3);
 
             // Assert
-            expect(mouseSelectionWatcher.selectedItems.length).toEqual(1);
-            expect(mouseSelectionWatcher.selectedItems[0]).toBe(item3);
+            expect(selectionWatcher.selectedItems.length).toEqual(1);
+            expect(selectionWatcher.selectedItems[0]).toBe(item3);
         });
 
         it('should select only the given item if no modifier keys are pressed, the left mouse button is pressed and no item is selected.', () => {
@@ -208,18 +208,18 @@ describe('MouseSelectionWatcher', () => {
             const item3: any = { isSelected: false };
             const item4: any = { isSelected: false };
             const items: any[] = [item1, item2, item3, item4];
-            const mouseSelectionWatcher: MouseSelectionWatcher = new MouseSelectionWatcher();
+            const selectionWatcher: SelectionWatcher = new SelectionWatcher();
             const event: any = { button: 0 };
             const shiftEvent: any = { shiftKey: {} };
 
-            mouseSelectionWatcher.initialize(items, false);
+            selectionWatcher.initialize(items, false);
 
             // Act
-            mouseSelectionWatcher.setSelectedItems(event, item3);
+            selectionWatcher.setSelectedItems(event, item3);
 
             // Assert
-            expect(mouseSelectionWatcher.selectedItems.length).toEqual(1);
-            expect(mouseSelectionWatcher.selectedItems[0]).toBe(item3);
+            expect(selectionWatcher.selectedItems.length).toEqual(1);
+            expect(selectionWatcher.selectedItems[0]).toBe(item3);
         });
 
         it('should select only the given item if no modifier keys are pressed, a non-left mouse button is pressed and 1 item is selected.', () => {
@@ -229,19 +229,19 @@ describe('MouseSelectionWatcher', () => {
             const item3: any = { isSelected: false };
             const item4: any = { isSelected: false };
             const items: any[] = [item1, item2, item3, item4];
-            const mouseSelectionWatcher: MouseSelectionWatcher = new MouseSelectionWatcher();
+            const selectionWatcher: SelectionWatcher = new SelectionWatcher();
             const event: any = { button: 1 };
             const shiftEvent: any = { shiftKey: {} };
 
-            mouseSelectionWatcher.initialize(items, false);
-            mouseSelectionWatcher.setSelectedItems(shiftEvent, item1);
+            selectionWatcher.initialize(items, false);
+            selectionWatcher.setSelectedItems(shiftEvent, item1);
 
             // Act
-            mouseSelectionWatcher.setSelectedItems(event, item3);
+            selectionWatcher.setSelectedItems(event, item3);
 
             // Assert
-            expect(mouseSelectionWatcher.selectedItems.length).toEqual(1);
-            expect(mouseSelectionWatcher.selectedItems[0]).toBe(item3);
+            expect(selectionWatcher.selectedItems.length).toEqual(1);
+            expect(selectionWatcher.selectedItems[0]).toBe(item3);
         });
 
         it('should select only the given item if no modifier keys are pressed, a non-left mouse button is pressed and no item is selected.', () => {
@@ -251,18 +251,18 @@ describe('MouseSelectionWatcher', () => {
             const item3: any = { isSelected: false };
             const item4: any = { isSelected: false };
             const items: any[] = [item1, item2, item3, item4];
-            const mouseSelectionWatcher: MouseSelectionWatcher = new MouseSelectionWatcher();
+            const selectionWatcher: SelectionWatcher = new SelectionWatcher();
             const event: any = { button: 1 };
             const shiftEvent: any = { shiftKey: {} };
 
-            mouseSelectionWatcher.initialize(items, false);
+            selectionWatcher.initialize(items, false);
 
             // Act
-            mouseSelectionWatcher.setSelectedItems(event, item3);
+            selectionWatcher.setSelectedItems(event, item3);
 
             // Assert
-            expect(mouseSelectionWatcher.selectedItems.length).toEqual(1);
-            expect(mouseSelectionWatcher.selectedItems[0]).toBe(item3);
+            expect(selectionWatcher.selectedItems.length).toEqual(1);
+            expect(selectionWatcher.selectedItems[0]).toBe(item3);
         });
     });
 });

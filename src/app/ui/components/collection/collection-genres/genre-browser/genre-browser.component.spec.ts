@@ -7,7 +7,7 @@ import { GenreOrder, genreOrderKey } from './genre-order';
 import { PlaybackService } from '../../../../../services/playback/playback.service';
 import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/semantic-zoom.service.base';
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
-import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../../selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { SemanticZoomHeaderAdder } from '../../../../../common/semantic-zoom-header-adder';
 import { Logger } from '../../../../../common/logger';
@@ -50,7 +50,7 @@ describe('GenreBrowserComponent', () => {
     let semanticZoomServiceMock: IMock<SemanticZoomServiceBase>;
     let applicationServiceMock: IMock<ApplicationServiceBase>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
-    let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
+    let selectionWatcherMock: IMock<SelectionWatcher>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let genreSorterMock: IMock<GenreSorter>;
     let guidFactoryMock: IMock<GuidFactory>;
@@ -79,7 +79,7 @@ describe('GenreBrowserComponent', () => {
             applicationServiceMock.object,
             addToPlaylistMenuMock.object,
             contextMenuOpenerMock.object,
-            mouseSelectionWatcherMock.object,
+            selectionWatcherMock.object,
             genreSorterMock.object,
             semanticZoomHeaderAdder,
             schedulerMock.object,
@@ -97,7 +97,7 @@ describe('GenreBrowserComponent', () => {
             applicationServiceMock.object,
             addToPlaylistMenuMock.object,
             contextMenuOpenerMock.object,
-            mouseSelectionWatcherMock.object,
+            selectionWatcherMock.object,
             genreSorterMock.object,
             semanticZoomHeaderAdderMock.object,
             schedulerMock.object,
@@ -116,7 +116,7 @@ describe('GenreBrowserComponent', () => {
         applicationServiceMock = Mock.ofType<ApplicationServiceBase>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
-        mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
+        selectionWatcherMock = Mock.ofType<SelectionWatcher>();
         genreSorterMock = Mock.ofType<GenreSorter>();
         semanticZoomHeaderAdderMock = Mock.ofType<SemanticZoomHeaderAdder>();
         guidFactoryMock = Mock.ofType<GuidFactory>();
@@ -218,14 +218,14 @@ describe('GenreBrowserComponent', () => {
             expect(component.playbackService).toBeDefined();
         });
 
-        it('should define mouseSelectionWatcher', () => {
+        it('should define selectionWatcher', () => {
             // Arrange
 
             // Act
             const component: GenreBrowserComponent = createComponent();
 
             // Assert
-            expect(component.mouseSelectionWatcher).toBeDefined();
+            expect(component.selectionWatcher).toBeDefined();
         });
 
         it('should define contextMenuOpener', () => {
@@ -395,7 +395,7 @@ describe('GenreBrowserComponent', () => {
             expect(component.genres).toEqual([genre1, genre2]);
         });
 
-        it('should initialize mouseSelectionWatcher using genres', () => {
+        it('should initialize selectionWatcher using genres', () => {
             // Arrange
             const component: GenreBrowserComponent = createComponent();
 
@@ -403,7 +403,7 @@ describe('GenreBrowserComponent', () => {
             component.genres = [genre1, genre2];
 
             // Assert
-            mouseSelectionWatcherMock.verify(
+            selectionWatcherMock.verify(
                 (x) =>
                     x.initialize(
                         It.is(
@@ -622,7 +622,7 @@ describe('GenreBrowserComponent', () => {
     });
 
     describe('setSelectedGenres', () => {
-        it('should set the selected items on mouseSelectionWatcher if the genre is a not zoom header', () => {
+        it('should set the selected items on selectionWatcher if the genre is a not zoom header', () => {
             // Arrange
             const event: any = {};
             const component: GenreBrowserComponent = createComponent();
@@ -634,10 +634,10 @@ describe('GenreBrowserComponent', () => {
             component.setSelectedGenres(event, genre1);
 
             // Assert
-            mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, genre1), Times.exactly(1));
+            selectionWatcherMock.verify((x) => x.setSelectedItems(event, genre1), Times.exactly(1));
         });
 
-        it('should not set the selected items on mouseSelectionWatcher if the genre is a zoom header', () => {
+        it('should not set the selected items on selectionWatcher if the genre is a zoom header', () => {
             // Arrange
             const event: any = {};
             const component: GenreBrowserComponent = createComponent();
@@ -649,14 +649,14 @@ describe('GenreBrowserComponent', () => {
             component.setSelectedGenres(event, genre1);
 
             // Assert
-            mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, genre1), Times.never());
+            selectionWatcherMock.verify((x) => x.setSelectedItems(event, genre1), Times.never());
         });
 
         it('should persist the selected genre if the genre is a not zoom header', () => {
             // Arrange
 
-            mouseSelectionWatcherMock.reset();
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [genre1, genre2]);
+            selectionWatcherMock.reset();
+            selectionWatcherMock.setup((x) => x.selectedItems).returns(() => [genre1, genre2]);
             const component: GenreBrowserComponent = createComponent();
 
             const event: any = {};
@@ -674,8 +674,8 @@ describe('GenreBrowserComponent', () => {
         it('should not persist the selected genre if the genre is a zoom header', () => {
             // Arrange
 
-            mouseSelectionWatcherMock.reset();
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [genre1, genre2]);
+            selectionWatcherMock.reset();
+            selectionWatcherMock.setup((x) => x.selectedItems).returns(() => [genre1, genre2]);
             const component: GenreBrowserComponent = createComponent();
 
             const event: any = {};

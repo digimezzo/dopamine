@@ -2,7 +2,7 @@
 // import { IMock, It, Mock, Times } from 'typemoq';
 // import { ContextMenuOpener } from '../../../common/context-menu-opener';
 // import { Logger } from '../../../common/logger';
-// import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
+// import { SelectionWatcher } from '../../../common/selection-watcher';
 // import { BaseScheduler } from '../../../common/scheduler/base-scheduler';
 // import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 // import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
@@ -27,7 +27,7 @@ describe('CollectionPlaylistsComponent', () => {
 //     let settingsStub: any;
 //     let schedulerMock: IMock<BaseScheduler>;
 //     let loggerMock: IMock<Logger>;
-//     let playlistFoldersSelectionWatcherMock: IMock<MouseSelectionWatcher>;
+//     let playlistFoldersSelectionWatcherMock: IMock<SelectionWatcher>;
 
 //     let selectedTabChangedMock: Subject<void>;
 //     let selectedTabChangedMock$: Observable<void>;
@@ -70,7 +70,7 @@ describe('CollectionPlaylistsComponent', () => {
 //         collectionPersisterMock = Mock.ofType<CollectionPersister>();
 //         loggerMock = Mock.ofType<Logger>();
 //         schedulerMock = Mock.ofType<BaseScheduler>();
-//         playlistFoldersSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
+//         playlistFoldersSelectionWatcherMock = Mock.ofType<SelectionWatcher>();
 //         translatorServiceMock.setup((x) => x.get('create-playlist-folder')).returns(() => 'Create playlist folder');
 //         translatorServiceMock.setup((x) => x.get('playlist-folder-name')).returns(() => 'Playlist folder name');
 //         translatorServiceMock.setup((x) => x.getAsync('create-playlist-folder-error')).returns(async () => 'Create playlist folder error');

@@ -12,7 +12,7 @@ import { PlaylistServiceBase } from '../../../../../services/playlist/playlist.s
 import { PlaybackService } from '../../../../../services/playback/playback.service';
 import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
-import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../../selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { DesktopBase } from '../../../../../common/io/desktop.base';
 import { ScrollPositionService } from '../../../../../services/scroll-position/scroll-position.service';
@@ -24,7 +24,7 @@ import { BaseVirtualScrollBrowser } from '../../base-virtual-scroll-browser';
     host: { style: 'display: block' },
     templateUrl: './playlist-folder-browser.component.html',
     styleUrls: ['./playlist-folder-browser.component.scss'],
-    providers: [MouseSelectionWatcher],
+    providers: [SelectionWatcher],
 })
 export class PlaylistFolderBrowserComponent extends BaseVirtualScrollBrowser implements AfterViewInit, OnDestroy {
     @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
@@ -40,13 +40,18 @@ export class PlaylistFolderBrowserComponent extends BaseVirtualScrollBrowser imp
         private dialogService: DialogServiceBase,
         private translatorService: TranslatorServiceBase,
         public contextMenuOpener: ContextMenuOpener,
-        private mouseSelectionWatcher: MouseSelectionWatcher,
+        private selectionWatcher: SelectionWatcher,
         private desktop: DesktopBase,
         private logger: Logger,
         scrollPositionService: ScrollPositionService,
         searchService: SearchServiceBase,
     ) {
         super(scrollPositionService, searchService);
+
+        this.selectionWatcher.onSelectAll = (): void => {
+            this.playlistFoldersPersister.setSelectedPlaylistFolders(this.selectionWatcher.selectedItems as PlaylistFolderModel[]);
+            this.playlistService.setActivePlaylistFolder(this.selectionWatcher.selectedItems as PlaylistFolderModel[]);
+        };
     }
 
     @Input()
@@ -69,7 +74,7 @@ export class PlaylistFolderBrowserComponent extends BaseVirtualScrollBrowser imp
     @Input()
     public set playlistFolders(v: PlaylistFolderModel[]) {
         this._playlistFolders = v;
-        this.mouseSelectionWatcher.initialize(this.playlistFolders, false);
+        this.selectionWatcher.initialize(this.playlistFolders, false);
 
         // When the component is first rendered, it happens that playlistFoldersPersister is undefined.
         if (this.playlistFoldersPersister != undefined) {
@@ -162,9 +167,9 @@ export class PlaylistFolderBrowserComponent extends BaseVirtualScrollBrowser imp
     }
 
     public setSelectedPlaylistFolders(event: MouseEvent, playlistFolderToSelect: PlaylistFolderModel): void {
-        this.mouseSelectionWatcher.setSelectedItems(event, playlistFolderToSelect);
-        this.playlistFoldersPersister.setSelectedPlaylistFolders(this.mouseSelectionWatcher.selectedItems as PlaylistFolderModel[]);
-        this.playlistService.setActivePlaylistFolder(this.mouseSelectionWatcher.selectedItems as PlaylistFolderModel[]);
+        this.selectionWatcher.setSelectedItems(event, playlistFolderToSelect);
+        this.playlistFoldersPersister.setSelectedPlaylistFolders(this.selectionWatcher.selectedItems as PlaylistFolderModel[]);
+        this.playlistService.setActivePlaylistFolder(this.selectionWatcher.selectedItems as PlaylistFolderModel[]);
     }
 
     public get hasSelectedPlaylistFolders(): boolean {
@@ -176,7 +181,7 @@ export class PlaylistFolderBrowserComponent extends BaseVirtualScrollBrowser imp
     }
 
     public clearSelectedPlaylistFolders(): void {
-        this.mouseSelectionWatcher.initialize(this.playlistFolders, false);
+        this.selectionWatcher.initialize(this.playlistFolders, false);
         this.playlistFoldersPersister.setSelectedPlaylistFolders([]);
         this.playlistService.setActivePlaylistFolder([]);
     }

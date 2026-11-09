@@ -18,7 +18,7 @@ import { CollectionServiceBase } from '../../../../../services/collection/collec
 import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
 import { DesktopBase } from '../../../../../common/io/desktop.base';
-import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../../selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { MetadataService } from '../../../../../services/metadata/metadata.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
@@ -31,7 +31,7 @@ import { SearchServiceBase } from '../../../../../services/search/search.service
     host: { style: 'display: block' },
     templateUrl: './collection-tracks-table.component.html',
     styleUrls: ['./collection-tracks-table.component.scss'],
-    providers: [MouseSelectionWatcher],
+    providers: [SelectionWatcher],
     encapsulation: ViewEncapsulation.None,
 })
 export class CollectionTracksTableComponent extends TrackBrowserBase implements OnInit, AfterViewInit, OnDestroy {
@@ -43,7 +43,7 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
 
     public constructor(
         public playbackService: PlaybackService,
-        public mouseSelectionWatcher: MouseSelectionWatcher,
+        public selectionWatcher: SelectionWatcher,
         public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,
         private metadataService: MetadataService,
@@ -64,7 +64,7 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
             dialogService,
             addToPlaylistMenu,
             contextMenuOpener,
-            mouseSelectionWatcher,
+            selectionWatcher,
             logger,
             collectionService,
             translatorService,
@@ -183,7 +183,7 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
     @Input()
     public set tracks(v: TrackModels) {
         this._tracks = v;
-        this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
+        this.selectionWatcher.initialize(this.tracks.tracks, false);
         this.orderTracks();
     }
 
@@ -199,7 +199,7 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
     }
 
     public setSelectedTracks(event: MouseEvent, trackToSelect: TrackModel): void {
-        this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
+        this.selectionWatcher.setSelectedItems(event, trackToSelect);
     }
 
     public scrollToPlayingTrack(): void {
@@ -294,7 +294,7 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
         }
 
         this.orderedTracks = [...orderedTracks];
-        this.mouseSelectionWatcher.setDisplayedItems(this.orderedTracks);
+        this.selectionWatcher.setDisplayedItems(this.orderedTracks);
         this.playbackIndicationService.setPlayingTrack(this.orderedTracks, this.playbackService.currentTrack);
         // Don't auto-jump to the playing track here: a restored scroll position should always win on mount.
         this.restoreScrollPosition(this.viewPort, CollectionTracksTableComponent.scrollPositionKey, this.orderedTracks.length > 0);

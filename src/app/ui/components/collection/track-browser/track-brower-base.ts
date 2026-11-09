@@ -7,7 +7,7 @@ import { DialogServiceBase } from '../../../../services/dialog/dialog.service.ba
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { DesktopBase } from '../../../../common/io/desktop.base';
-import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../selection-watcher';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { PlaybackService } from '../../../../services/playback/playback.service';
 import { ScrollPositionService } from '../../../../services/scroll-position/scroll-position.service';
@@ -21,7 +21,7 @@ export class TrackBrowserBase extends BaseVirtualScrollBrowser {
         public dialogService: DialogServiceBase,
         public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,
-        public mouseSelectionWatcher: MouseSelectionWatcher,
+        public selectionWatcher: SelectionWatcher,
         public logger: Logger,
         private collectionService: CollectionServiceBase,
         private translatorService: TranslatorServiceBase,
@@ -40,11 +40,11 @@ export class TrackBrowserBase extends BaseVirtualScrollBrowser {
     }
 
     public async onAddToQueueAsync(): Promise<void> {
-        await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
+        await this.playbackService.addTracksToQueueAsync(this.selectionWatcher.selectedItems as TrackModel[]);
     }
 
     public onShowInFolder(): void {
-        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems as TrackModel[];
+        const tracks: TrackModel[] = this.selectionWatcher.selectedItems as TrackModel[];
 
         if (tracks.length > 0) {
             this.desktop.showFileInDirectory(tracks[0].path);
@@ -52,7 +52,7 @@ export class TrackBrowserBase extends BaseVirtualScrollBrowser {
     }
 
     public async onEdit(): Promise<void> {
-        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems as TrackModel[];
+        const tracks: TrackModel[] = this.selectionWatcher.selectedItems as TrackModel[];
         const userHasConfirmed: boolean = await this.dialogService.showEditTracksAsync(tracks);
 
         if (userHasConfirmed) {
@@ -70,7 +70,7 @@ export class TrackBrowserBase extends BaseVirtualScrollBrowser {
     }
 
     public async onDeleteAsync(): Promise<void> {
-        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems as TrackModel[];
+        const tracks: TrackModel[] = this.selectionWatcher.selectedItems as TrackModel[];
 
         let dialogTitle: string = await this.translatorService.getAsync('delete-song');
         let dialogText: string = await this.translatorService.getAsync('confirm-delete-song');

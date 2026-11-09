@@ -12,7 +12,7 @@ import { BaseAlbumsPersister } from '../base-albums-persister';
 import { AlbumRow } from './album-row';
 import { AlbumRowsGetter } from './album-rows-getter';
 import { ApplicationServiceBase } from '../../../../services/application/application.service.base';
-import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../selection-watcher';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { Timer } from '../../../../common/scheduling/timer';
 import { Subject } from 'rxjs';
@@ -30,7 +30,7 @@ import { BaseVirtualScrollBrowser } from '../base-virtual-scroll-browser';
     host: { style: 'display: block' },
     templateUrl: './album-browser.component.html',
     styleUrls: ['./album-browser.component.scss'],
-    providers: [MouseSelectionWatcher],
+    providers: [SelectionWatcher],
 })
 export class AlbumBrowserComponent extends BaseVirtualScrollBrowser implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     private _albums: AlbumModel[] = [];
@@ -45,7 +45,7 @@ export class AlbumBrowserComponent extends BaseVirtualScrollBrowser implements O
         private applicationService: ApplicationServiceBase,
         private albumRowsGetter: AlbumRowsGetter,
         private nativeElementProxy: NativeElementProxy,
-        public mouseSelectionWatcher: MouseSelectionWatcher,
+        public selectionWatcher: SelectionWatcher,
         public contextMenuOpener: ContextMenuOpener,
         public addToPlaylistMenu: AddToPlaylistMenu,
         private settings: SettingsBase,
@@ -54,6 +54,10 @@ export class AlbumBrowserComponent extends BaseVirtualScrollBrowser implements O
         searchService: SearchServiceBase,
     ) {
         super(scrollPositionService, searchService);
+
+        this.selectionWatcher.onSelectAll = (): void => {
+            this.albumsPersister.setSelectedAlbums(this.selectionWatcher.selectedItems as AlbumModel[]);
+        };
     }
 
     public readonly albumOrders: AlbumOrder[] = Object.values(AlbumOrder).filter((x): x is AlbumOrder => typeof x === 'number');
@@ -127,7 +131,7 @@ export class AlbumBrowserComponent extends BaseVirtualScrollBrowser implements O
     @Input()
     public set albums(v: AlbumModel[]) {
         this._albums = v;
-        this.mouseSelectionWatcher.initialize(this.albums, false);
+        this.selectionWatcher.initialize(this.albums, false);
     }
 
     public get isSortedByYear(): boolean {
@@ -168,8 +172,8 @@ export class AlbumBrowserComponent extends BaseVirtualScrollBrowser implements O
     }
 
     public setSelectedAlbums(event: MouseEvent, albumToSelect: AlbumModel): void {
-        this.mouseSelectionWatcher.setSelectedItems(event, albumToSelect);
-        this.albumsPersister.setSelectedAlbums(this.mouseSelectionWatcher.selectedItems as AlbumModel[]);
+        this.selectionWatcher.setSelectedItems(event, albumToSelect);
+        this.albumsPersister.setSelectedAlbums(this.selectionWatcher.selectedItems as AlbumModel[]);
     }
 
     public get hasSelectedAlbums(): boolean {
@@ -181,7 +185,10 @@ export class AlbumBrowserComponent extends BaseVirtualScrollBrowser implements O
     }
 
     public clearSelectedAlbums(): void {
-        this.mouseSelectionWatcher.initialize(this.albumRows.flatMap((row) => row.albums), false);
+        this.selectionWatcher.initialize(
+            this.albumRows.flatMap((row) => row.albums),
+            false,
+        );
         this.albumsPersister.setSelectedAlbums([]);
     }
 
@@ -215,7 +222,7 @@ export class AlbumBrowserComponent extends BaseVirtualScrollBrowser implements O
                 this.useCompactYearView,
                 this.albumCoverSize + 4,
             );
-            this.mouseSelectionWatcher.setDisplayedItems((this.albumRows ?? []).flatMap((row) => row.albums));
+            this.selectionWatcher.setDisplayedItems((this.albumRows ?? []).flatMap((row) => row.albums));
             this.applySelectedAlbums();
             this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.albumRows.length > 0);
 
@@ -265,7 +272,7 @@ export class AlbumBrowserComponent extends BaseVirtualScrollBrowser implements O
     }
 
     public async onEditAsync(album: AlbumModel): Promise<void> {
-        const selectedAlbums: AlbumModel[] = this.mouseSelectionWatcher.selectedItems as AlbumModel[];
+        const selectedAlbums: AlbumModel[] = this.selectionWatcher.selectedItems as AlbumModel[];
         const albumsToEdit: AlbumModel[] = selectedAlbums.length > 0 ? selectedAlbums : [album];
 
         await this.dialogService.showEditAlbumsAsync(albumsToEdit);

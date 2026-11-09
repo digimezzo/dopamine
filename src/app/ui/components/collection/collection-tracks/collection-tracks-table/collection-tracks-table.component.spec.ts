@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
-import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../../selection-watcher';
 import { CollectionTracksTableComponent } from './collection-tracks-table.component';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { TracksColumnsOrdering } from '../../../../../services/track-columns/tracks-columns-ordering';
@@ -30,7 +30,7 @@ import { SearchServiceBase } from '../../../../../services/search/search.service
 
 describe('CollectionTracksTableComponent', () => {
     let playbackServiceMock: IMock<PlaybackService>;
-    let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
+    let selectionWatcherMock: IMock<SelectionWatcher>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let metadataServiceMock: IMock<MetadataService>;
@@ -75,7 +75,7 @@ describe('CollectionTracksTableComponent', () => {
     function createComponent(): CollectionTracksTableComponent {
         const component: CollectionTracksTableComponent = new CollectionTracksTableComponent(
             playbackServiceMock.object,
-            mouseSelectionWatcherMock.object,
+            selectionWatcherMock.object,
             addToPlaylistMenuMock.object,
             contextMenuOpenerMock.object,
             metadataServiceMock.object,
@@ -97,7 +97,7 @@ describe('CollectionTracksTableComponent', () => {
 
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<PlaybackService>();
-        mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
+        selectionWatcherMock = Mock.ofType<SelectionWatcher>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         metadataServiceMock = Mock.ofType<MetadataService>();
@@ -303,7 +303,7 @@ describe('CollectionTracksTableComponent', () => {
         //     // Assert
         //     expect(component.tracks).toBe(tracks);
         // });
-        // it('should initialize mouseSelectionWatcher using tracks', () => {
+        // it('should initialize selectionWatcher using tracks', () => {
         //     // Arrange
         //     const component: CollectionTracksTableComponent = createComponent();
         //     component.ngOnInit();
@@ -312,8 +312,8 @@ describe('CollectionTracksTableComponent', () => {
         //     // Assert
         //     // TODO: TypeMoq does not consider the call with track.track to have been performed (The reference to tracks.tracks seems lost).
         //     // So we use a workaround to ensure that the correct call occurs.
-        //     // mouseSelectionWatcherMock.verify((x) => x.initialize(tracks.tracks, false), Times.exactly(1));
-        //     mouseSelectionWatcherMock.verify(
+        //     // selectionWatcherMock.verify((x) => x.initialize(tracks.tracks, false), Times.exactly(1));
+        //     selectionWatcherMock.verify(
         //         (x) =>
         //             x.initialize(
         //                 It.is(
@@ -354,7 +354,7 @@ describe('CollectionTracksTableComponent', () => {
     });
 
     describe('setSelectedTracks', () => {
-        it('should set the selected item on mouseSelectionWatcher', () => {
+        it('should set the selected item on selectionWatcher', () => {
             // Arrange
             const component: CollectionTracksTableComponent = createComponent();
             const event: any = {};
@@ -363,7 +363,7 @@ describe('CollectionTracksTableComponent', () => {
             component.setSelectedTracks(event, trackModel2);
 
             // Assert
-            mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, trackModel2), Times.once());
+            selectionWatcherMock.verify((x) => x.setSelectedItems(event, trackModel2), Times.once());
         });
     });
 

@@ -14,7 +14,7 @@ import { DialogServiceBase } from '../../../../../services/dialog/dialog.service
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
 import { PlaybackIndicationServiceBase } from '../../../../../services/playback-indication/playback-indication.service.base';
 import { DesktopBase } from '../../../../../common/io/desktop.base';
-import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
+import { SelectionWatcher } from '../../../selection-watcher';
 import { ContextMenuOpener } from '../../../context-menu-opener';
 import { SettingsBase } from '../../../../../common/settings/settings.base';
 import { ScrollPositionService } from '../../../../../services/scroll-position/scroll-position.service';
@@ -26,7 +26,7 @@ import { BaseVirtualScrollBrowser } from '../../base-virtual-scroll-browser';
     host: { style: 'display: block' },
     templateUrl: './playlist-track-browser.component.html',
     styleUrls: ['./playlist-track-browser.component.scss'],
-    providers: [MouseSelectionWatcher],
+    providers: [SelectionWatcher],
 })
 export class PlaylistTrackBrowserComponent extends BaseVirtualScrollBrowser implements OnInit, AfterViewInit, OnDestroy {
     private _tracks: TrackModels = new TrackModels();
@@ -37,7 +37,7 @@ export class PlaylistTrackBrowserComponent extends BaseVirtualScrollBrowser impl
         public playbackService: PlaybackService,
         public playlistService: PlaylistServiceBase,
         public contextMenuOpener: ContextMenuOpener,
-        public mouseSelectionWatcher: MouseSelectionWatcher,
+        public selectionWatcher: SelectionWatcher,
         private playbackIndicationService: PlaybackIndicationServiceBase,
         private translatorService: TranslatorServiceBase,
         private dialogService: DialogServiceBase,
@@ -89,7 +89,7 @@ export class PlaylistTrackBrowserComponent extends BaseVirtualScrollBrowser impl
     public set tracks(v: TrackModels) {
         this._tracks = v;
         this.orderTracks();
-        this.mouseSelectionWatcher.initialize(this.orderedTracks, false);
+        this.selectionWatcher.initialize(this.orderedTracks, false);
         this.restoreScrollPosition(this.viewPort, this.scrollPositionKey, this.orderedTracks.length > 0);
     }
 
@@ -119,7 +119,7 @@ export class PlaylistTrackBrowserComponent extends BaseVirtualScrollBrowser impl
     }
 
     public setSelectedTracks(event: MouseEvent, trackToSelect: TrackModel): void {
-        this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
+        this.selectionWatcher.setSelectedItems(event, trackToSelect);
     }
 
     public onPlaylistTrackContextMenu(event: MouseEvent, track: TrackModel): void {
@@ -138,7 +138,7 @@ export class PlaylistTrackBrowserComponent extends BaseVirtualScrollBrowser impl
 
         if (userHasConfirmed) {
             try {
-                await this.playlistService.removeTracksFromPlaylistsAsync(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
+                await this.playlistService.removeTracksFromPlaylistsAsync(this.selectionWatcher.selectedItems as TrackModel[]);
             } catch (e: unknown) {
                 this.logger.error(
                     e,
@@ -154,11 +154,11 @@ export class PlaylistTrackBrowserComponent extends BaseVirtualScrollBrowser impl
     }
 
     public async onAddToQueueAsync(): Promise<void> {
-        await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
+        await this.playbackService.addTracksToQueueAsync(this.selectionWatcher.selectedItems as TrackModel[]);
     }
 
     public onShowInFolder(): void {
-        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems as TrackModel[];
+        const tracks: TrackModel[] = this.selectionWatcher.selectedItems as TrackModel[];
 
         if (tracks.length > 0) {
             this.desktop.showFileInDirectory(tracks[0].path);
@@ -215,7 +215,7 @@ export class PlaylistTrackBrowserComponent extends BaseVirtualScrollBrowser impl
         // See: https://github.com/angular/components/issues/14873
         this.orderedTracks = [...this.orderedTracks];
 
-        this.mouseSelectionWatcher.initialize(this.orderedTracks, false);
+        this.selectionWatcher.initialize(this.orderedTracks, false);
         await this.playlistService.updatePlaylistOrderAsync(this.orderedTracks);
     }
 }
