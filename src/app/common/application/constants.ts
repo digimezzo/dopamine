@@ -249,10 +249,10 @@ export class Constants {
             'https://github.com/parshap/node-sanitize-filename/blob/master/LICENSE.md',
         ),
         new ExternalComponent(
-            'TagLib# for Node',
-            'A node.js port of mono/taglib-sharp.',
-            'https://github.com/benrr101/node-taglib-sharp',
-            'https://github.com/benrr101/node-taglib-sharp/blob/develop/LICENSE',
+            'music-metadata',
+            'Audio metadata parsing.',
+            'https://github.com/Borewit/music-metadata',
+            'https://github.com/Borewit/music-metadata/blob/master/LICENSE.txt',
         ),
         new ExternalComponent(
             'TinyColor',

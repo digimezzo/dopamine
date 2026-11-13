@@ -33,10 +33,10 @@ class Indexer {
         this.workerProxy.postMessage(new DismissMessage());
     }
 
-    reindexReplayGainForExistingTracks() {
+    async reindexReplayGainForExistingTracks() {
         this.logger.info('Reindexing ReplayGain for existing tracks.', 'Indexer', 'reindexReplayGainForExistingTracks');
 
-        this.trackUpdater.reindexReplayGainForExistingTracks();
+        await this.trackUpdater.reindexReplayGainForExistingTracks();
 
         this.workerProxy.postMessage(new DismissMessage());
     }
