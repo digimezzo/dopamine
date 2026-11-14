@@ -312,7 +312,7 @@
     "crossfade-duration": "Thời lượng nhỏ dần (giây): {{duration}}s",
     "edit-track": "Chỉnh sửa bài hát",
     "edit-tracks": "Chỉnh sửa các bài hát",
-    "edit-tracks-selection-message": "You selected {{count}} songs. The changes will affect all selected songs.",
+    "edit-tracks-selection-message": "Bạn đã chọn {{count}} bài hát. Những thay đổi sẽ ảnh hưởng đến tất cả các bài hát đã chọn.",
     "artist": "Nghệ sĩ",
     "track-number": "Thứ tự track",
     "track-count": "Tổng track",
@@ -450,7 +450,7 @@
     "remove-prefix": "Xóa tiền tố",
     "confirm-remove-prefix": "Bạn có chắc muốn xóa '{{prefix}}'?",
     "remove-prefix-error": "Không thể xóa tiền tố",
-    "resume-session": "Resume session",
-    "playlist-session-available": "A playback session was started for this playlist",
-    "playlist-changed-since-last-session": "This playlist has changed since the last session. Playback will start from the beginning."
+    "resume-session": "Tiếp tục phiên nghe",
+    "playlist-session-available": "Một phiên nghe đã được bắt đầu cho danh sách phát này.",
+    "playlist-changed-since-last-session": "Danh sách phát này đã thay đổi so với phiên nghe trước. Quá trình phát sẽ bắt đầu lại từ đầu."
 }
