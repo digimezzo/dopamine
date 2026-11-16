@@ -218,7 +218,7 @@ export class EditAlbumDialogComponent {
             try {
                 const fileMetadata = await this.fileMetadataFactory.createAsync(track.path);
                 fileMetadata.picture = artworkBuffer;
-                fileMetadata.save();
+                await fileMetadata.save();
             } catch (e: unknown) {
                 this.logger.error(e, `Could not embed artwork in file '${track.path}'`, 'EditAlbumDialogComponent', 'embedArtworkInFiles');
             }

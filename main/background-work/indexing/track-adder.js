@@ -29,7 +29,7 @@ class TrackAdder {
             for (let i = 0; i < indexablePaths.length; i++) {
                 try {
                     const newTrack = new Track(indexablePaths[i].path);
-                    this.trackFiller.addFileMetadataToTrack(newTrack, false);
+                    await this.trackFiller.addFileMetadataToTrack(newTrack, false);
 
                     this.trackRepository.addTrack(newTrack);
                     const addedTrack = this.trackRepository.getTrackByPath(newTrack.path);
