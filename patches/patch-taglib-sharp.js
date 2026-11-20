@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const filePath = path.join(__dirname, 'node_modules/@digimezzo/node-taglib-sharp/dist/id3v2/frames/textInformationFrame.js');
+const filePath = path.join(__dirname, '../node_modules/@digimezzo/node-taglib-sharp/dist/id3v2/frames/textInformationFrame.js');
 
 try {
     let content = fs.readFileSync(filePath, 'utf8');

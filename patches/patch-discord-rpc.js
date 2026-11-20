@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const filePath = path.join(__dirname, 'node_modules/discord-rpc/src/client.js');
+const filePath = path.join(__dirname, '../node_modules/discord-rpc/src/client.js');
 
 try {
     let content = fs.readFileSync(filePath, 'utf8');
