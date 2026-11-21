@@ -199,6 +199,7 @@
     "exit": "Izlaz",
     "notification-area": "Statusna traka",
     "show-icon-in-notification-area": "Prikaži ikonu u statusnoj traci (potrebno ponovno pokretanje)",
+    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "Minimiziraj u statusnu traku",
     "close-to-notification-area": "Zatvori u statusnu traku",
     "behavior": "Ponašanje",

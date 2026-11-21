@@ -199,6 +199,7 @@
     "exit": "Esci",
     "notification-area": "Area di notifica",
     "show-icon-in-notification-area": "Mostra un'icona nell'area di notifica (richiede riavvio)",
+    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "Minimizza nell'area di notifica",
     "close-to-notification-area": "Chiudi nell'area di notifica",
     "behavior": "Comportamento",

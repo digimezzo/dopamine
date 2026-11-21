@@ -199,6 +199,7 @@
     "exit": "Quitter",
     "notification-area": "Zone de notification",
     "show-icon-in-notification-area": "Afficher une icone dans la zone de notification (nécessite un redémarrage)",
+    "show-window-on-tray-double-click": "Afficher Dopamine en double-cliquant sur l'icône de la zone de notification",
     "minimize-to-notification-area": "Réduire vers la zone de notification",
     "close-to-notification-area": "Fermer vers la zone de notification",
     "behavior": "Comportement",

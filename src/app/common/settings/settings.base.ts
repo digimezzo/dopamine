@@ -54,6 +54,7 @@ export abstract class SettingsBase {
     public abstract playlistsTabSelectedPlaylistOrder: string;
     public abstract playlistsTabSelectedTrackOrder: string;
     public abstract showIconInNotificationArea: boolean;
+    public abstract showWindowOnTrayDoubleClick: boolean;
     public abstract minimizeToNotificationArea: boolean;
     public abstract closeToNotificationArea: boolean;
     public abstract invertNotificationAreaIconColor: boolean;

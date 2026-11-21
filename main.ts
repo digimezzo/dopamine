@@ -651,6 +651,17 @@ try {
             if (shouldShowIconInNotificationArea()) {
                 tray = new Tray(getTrayIcon());
                 tray.setToolTip('Dopamine');
+                if (isWindows()) {
+                    tray.on('double-click', () => {
+                        if (settings.get<boolean>('showWindowOnTrayDoubleClick') && mainWindow) {
+                            mainWindow.show();
+                            if (mainWindow.isMinimized()) {
+                                mainWindow.restore();
+                            }
+                            mainWindow.focus();
+                        }
+                    });
+                }
             }
         });
 

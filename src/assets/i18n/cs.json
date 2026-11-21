@@ -199,6 +199,7 @@
     "exit": "Opustit",
     "notification-area": "Oblast oznámení",
     "show-icon-in-notification-area": "V oblasti oznámení zobrazit ikonu (vyžaduje restart)",
+    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "Zmenšit do oznamovací oblasti",
     "close-to-notification-area": "Zavřít do oznamovací oblasti",
     "behavior": "Chování",

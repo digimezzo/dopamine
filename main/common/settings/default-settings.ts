@@ -50,6 +50,7 @@ export const DEFAULT_SETTINGS = {
     enableLastFmScrobbling: false,
     enableListenbrainzScrobbling: false,
     showIconInNotificationArea: true,
+    showWindowOnTrayDoubleClick: false,
     minimizeToNotificationArea: false,
     closeToNotificationArea: false,
     invertNotificationAreaIconColor: false,

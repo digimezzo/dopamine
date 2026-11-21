@@ -199,6 +199,7 @@
     "exit": "Salir",
     "notification-area": "Área de notificación",
     "show-icon-in-notification-area": "Mostrar un icono en el área de notificación (requiere reiniciar)",
+    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "Minimizar al área de notificación",
     "close-to-notification-area": "Cerrar al área de notificación",
     "behavior": "Comportamiento",

@@ -199,6 +199,7 @@
     "exit": "יציאה",
     "notification-area": "אזור ההתראות",
     "show-icon-in-notification-area": "הצגת סמל באזור ההתראות (דורש הפעלה מחדש)",
+    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "מזעור לאזור ההתראות",
     "close-to-notification-area": "סגירה לאזור ההתראות",
     "behavior": "התנהגות",

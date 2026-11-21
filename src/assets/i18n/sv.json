@@ -199,6 +199,7 @@
     "exit": "Avsluta",
     "notification-area": "Meddelandefältet",
     "show-icon-in-notification-area": "Visa en ikon i meddelandefältet (kräver en omstart)",
+    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "Minimera till meddelandefältet",
     "close-to-notification-area": "Stäng till meddelandefältet",
     "behavior": "Beteende",

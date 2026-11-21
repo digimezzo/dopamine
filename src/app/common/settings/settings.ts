@@ -526,6 +526,15 @@ export class Settings implements SettingsBase {
         this.set('showIconInNotificationArea', v);
     }
 
+    // showWindowOnTrayDoubleClick
+    public get showWindowOnTrayDoubleClick(): boolean {
+        return this.get<boolean>('showWindowOnTrayDoubleClick');
+    }
+
+    public set showWindowOnTrayDoubleClick(v: boolean) {
+        this.set('showWindowOnTrayDoubleClick', v);
+    }
+
     // minimizeToNotificationArea
     public get minimizeToNotificationArea(): boolean {
         return this.get<boolean>('minimizeToNotificationArea');

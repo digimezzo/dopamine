@@ -199,6 +199,7 @@
     "exit": "Zamknij",
     "notification-area": "Obszar powiadomień",
     "show-icon-in-notification-area": "Pokazuj ikonę w obszarze powiadomień (wymaga ponownego uruchomienia)",
+    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "Zminimalizuj do obszaru powiadomień",
     "close-to-notification-area": "Zamknij do obszaru powiadomień",
     "behavior": "Zachowanie",

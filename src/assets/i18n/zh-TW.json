@@ -199,6 +199,7 @@
     "exit": "退出",
     "notification-area": "通知區域",
     "show-icon-in-notification-area": "在通知區域展示一個圖示 (需要重新啟動)",
+    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "最小化至通知區域",
     "close-to-notification-area": "關閉至通知區域",
     "behavior": "行為",

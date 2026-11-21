@@ -199,6 +199,7 @@
     "exit": "Çıkış",
     "notification-area": "Bildirim alanı",
     "show-icon-in-notification-area": "Bildirim alanında bir simge gösterin (yeniden başlatma gerektirir)",
+    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "Bildirim alanına küçültün",
     "close-to-notification-area": "Kapat a tıklayınca simge durumuna küçült",
     "behavior": "Davranış",

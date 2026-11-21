@@ -5,6 +5,11 @@
             {{ 'show-icon-in-notification-area' | translate }}</app-toggle-switch
         >
     </div>
+    <div *ngIf="this.dockService.isWindows">
+        <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.showWindowOnTrayDoubleClick">
+            {{ 'show-window-on-tray-double-click' | translate }}</app-toggle-switch
+        >
+    </div>
     <div>
         <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.minimizeToNotificationArea">
             {{ 'minimize-to-notification-area' | translate }}</app-toggle-switch

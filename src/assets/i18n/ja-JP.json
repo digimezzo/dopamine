@@ -199,6 +199,7 @@
     "exit": "終了",
     "notification-area": "通知エリア",
     "show-icon-in-notification-area": "通知エリアにアイコンを表示する (有効にするには再起動が必要)",
+    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "ウィンドウを最小化した際に通知領域に移動",
     "close-to-notification-area": "ウィンドウを閉じた際に通知領域に移動",
     "behavior": "動作",
