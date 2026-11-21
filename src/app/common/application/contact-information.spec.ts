@@ -9,7 +9,7 @@ describe('ContactInformation', () => {
             const donateUrl: string = ContactInformation.donateUrl;
 
             // Assert
-            expect(donateUrl).toEqual('https://digimezzo.github.io/site/donate?software=dopamine');
+            expect(donateUrl).toEqual('https://digimezzo.github.io/donate?software=dopamine');
         });
     });
 
@@ -21,7 +21,7 @@ describe('ContactInformation', () => {
             const websiteUrl: string = ContactInformation.websiteUrl;
 
             // Assert
-            expect(websiteUrl).toEqual('https://digimezzo.github.io/site');
+            expect(websiteUrl).toEqual('https://digimezzo.github.io');
         });
     });
 
