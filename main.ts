@@ -54,7 +54,7 @@ let mainWindow: BrowserWindow | undefined;
 let tray: Tray;
 let isQuitting: boolean;
 let isQuit: boolean;
-let fileProcessingTimeout: NodeJS.Timeout;
+let fileProcessingTimeout: ReturnType<typeof setTimeout>;
 
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
@@ -70,7 +70,7 @@ globalAny.fileQueue = [];
  * Functions
  */
 function debounce(func: Function, wait: number) {
-    let timeout: NodeJS.Timeout | null;
+    let timeout: ReturnType<typeof setTimeout> | null;
     return function (...args: any[]) {
         const later = () => {
             timeout = null;

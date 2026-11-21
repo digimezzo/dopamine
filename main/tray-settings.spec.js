@@ -7,7 +7,7 @@ jest.mock('fs-extra', () => ({
 }));
 
 const fs = require('fs-extra');
-const { SettingsStore } = require('./common/settings/settings-store');
+const { SettingsStore } = require('./common/settings/settings-store.ts');
 
 it('defaults the tray double-click setting to disabled and preserves a saved preference', () => {
     fs.readFileSync.mockReturnValue('{}');

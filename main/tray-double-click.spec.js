@@ -43,12 +43,10 @@ jest.mock('electron', () => {
 });
 
 jest.mock('electron-log', () => ({
-    default: {
-        create: jest.fn(),
-        transports: { file: {} },
-        info: jest.fn(),
-        error: jest.fn(),
-    },
+    create: jest.fn(),
+    transports: { file: {} },
+    info: jest.fn(),
+    error: jest.fn(),
 }));
 jest.mock('@electron/remote/main', () => ({ initialize: jest.fn(), enable: jest.fn() }));
 jest.mock('./api/discord/discord-api', () => ({ DiscordApi: jest.fn() }));
@@ -73,7 +71,7 @@ async function startApp(platform, createWindow = true) {
         playerType: 'full',
     };
     const electron = require('electron');
-    require('../main.js');
+    require('../main.ts');
     if (createWindow) electron.app.emit('ready');
     await Promise.resolve();
     return {
