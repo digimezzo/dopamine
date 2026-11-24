@@ -2,7 +2,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { LOCATION_INITIALIZED } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatRippleModule } from '@angular/material/core';
@@ -361,8 +361,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
     };
 }
 
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
         AppComponent,
         WebviewDirective,
         WindowDraggableDirective,
@@ -497,8 +496,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         IterableMenuComponent,
         EditArtistDialogComponent,
     ],
-    imports: [
-        BrowserAnimationsModule,
+    bootstrap: [AppComponent], imports: [BrowserAnimationsModule,
         BrowserModule,
         MatSidenavModule,
         MatProgressSpinnerModule,
@@ -517,7 +515,6 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         HammerModule,
         FormsModule,
         ReactiveFormsModule,
-        HttpClientModule,
         AppRoutingModule,
         AngularSplitModule,
         ScrollingModule,
@@ -526,9 +523,7 @@ export function settingsInitializerFactory(settings: SettingsBase) {
                 provide: TranslateLoader,
                 useExisting: UserTranslations,
             },
-        }),
-    ],
-    providers: [
+        })], providers: [
         UserTranslations,
         {
             provide: APP_INITIALIZER,
@@ -667,7 +662,6 @@ export function settingsInitializerFactory(settings: SettingsBase) {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,
         },
-    ],
-    bootstrap: [AppComponent],
-})
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {}

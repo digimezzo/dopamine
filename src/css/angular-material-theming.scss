@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 
-$custom-typography: mat.define-typography-config(
+$custom-typography: mat.m2-define-typography-config(
     $font-family: 'opensans',
 );
 
@@ -49,11 +49,11 @@ $custom-palette: (
     ),
 );
 
-$primary-palette: mat.define-palette($custom-palette);
-$accent-palette: mat.define-palette($custom-palette);
-$warn-palette: mat.define-palette($custom-palette);
+$primary-palette: mat.m2-define-palette($custom-palette);
+$accent-palette: mat.m2-define-palette($custom-palette);
+$warn-palette: mat.m2-define-palette($custom-palette);
 
-$dark-theme: mat.define-dark-theme(
+$dark-theme: mat.m2-define-dark-theme(
     (
         color: (
             primary: $primary-palette,
@@ -63,7 +63,7 @@ $dark-theme: mat.define-dark-theme(
     )
 );
 
-$light-theme: mat.define-light-theme(
+$light-theme: mat.m2-define-light-theme(
     (
         color: (
             primary: $primary-palette,
