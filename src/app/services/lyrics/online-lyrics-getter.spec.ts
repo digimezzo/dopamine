@@ -70,6 +70,27 @@ describe('OnlineLyricsGetter', () => {
             expect(lyricsModel.plainText).toEqual('AZLyrics text');
         });
 
+        it('should share concurrent downloads and return lyrics for both tracks', async () => {
+            const first = MockCreator.createTrackModel('first.mp3', 'title', 'artist');
+            const second = MockCreator.createTrackModel('second.flac', 'title', 'artist');
+            const lyrics = new Lyrics('AZLyrics source', 'AZLyrics text');
+            const download = jest.fn(async () => lyrics);
+            azLyricsApiMock.setup((x) => x.getLyricsAsync(first.rawFirstArtist, first.rawTitle)).returns(download);
+            const instance = createInstance();
+
+            const [firstResult, secondResult] = await Promise.all([instance.getLyricsAsync(first), instance.getLyricsAsync(second)]);
+
+            expect(download).toHaveBeenCalledTimes(1);
+            expect(firstResult.track).toBe(first);
+            expect(secondResult.track).toBe(second);
+            expect(firstResult.plainText).toBe(lyrics.text);
+            expect(secondResult.plainText).toBe(lyrics.text);
+
+            await instance.getLyricsAsync(first);
+
+            expect(download).toHaveBeenCalledTimes(2);
+        });
+
         it('should return lyrics from ChartLyrics if no lyrics from AZLyrics are available', async () => {
             // Arrange
             const track: TrackModel = MockCreator.createTrackModel('path', 'title', 'artists');
