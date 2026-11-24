@@ -11,6 +11,8 @@ import { AZLyricsApi } from '../../common/api/lyrics/a-z-lyrics.api';
 
 @Injectable()
 export class OnlineLyricsGetter implements ILyricsGetter {
+    private readonly pendingDownloads = new Map<string, Promise<Lyrics>>();
+
     public constructor(
         private chartLyricsApi: ChartLyricsApi,
         private azLyricsApi: AZLyricsApi,
@@ -18,30 +20,47 @@ export class OnlineLyricsGetter implements ILyricsGetter {
     ) {}
 
     public async getLyricsAsync(track: TrackModel): Promise<LyricsModel> {
-        let lyrics: Lyrics = Lyrics.empty();
+        const artist = track.rawFirstArtist;
+        const title = track.rawTitle;
 
-        if (StringUtils.isNullOrWhiteSpace(track.rawFirstArtist) || StringUtils.isNullOrWhiteSpace(track.rawTitle)) {
+        if (StringUtils.isNullOrWhiteSpace(artist) || StringUtils.isNullOrWhiteSpace(title)) {
             return LyricsModel.empty(track);
         }
 
-        try {
-            lyrics = await this.azLyricsApi.getLyricsAsync(track.rawFirstArtist, track.rawTitle);
-        } catch (e) {
-            this.logger.error(e, 'Could not get lyrics from AZLyrics', 'OnlineLyricsGetter', 'getLyricsAsync');
+        const key = JSON.stringify([artist, title]);
+        let pendingDownload = this.pendingDownloads.get(key);
+
+        if (pendingDownload === undefined) {
+            pendingDownload = this.downloadLyricsAsync(artist, title).finally(() => this.pendingDownloads.delete(key));
+            this.pendingDownloads.set(key, pendingDownload);
         }
 
-        if (StringUtils.isNullOrWhiteSpace(lyrics.text)) {
-            try {
-                lyrics = await this.chartLyricsApi.getLyricsAsync(track.rawFirstArtist, track.rawTitle);
-            } catch (e) {
-                this.logger.error(e, 'Could not get lyrics from ChartLyrics', 'OnlineLyricsGetter', 'getLyricsAsync');
-            }
-        }
+        const lyrics = await pendingDownload;
 
         if (StringUtils.isNullOrWhiteSpace(lyrics.text)) {
             return LyricsModel.empty(track);
         }
 
         return LyricsModel.plain(track, lyrics.sourceName, LyricsSourceType.online, lyrics.text);
+    }
+
+    private async downloadLyricsAsync(artist: string, title: string): Promise<Lyrics> {
+        let lyrics = Lyrics.empty();
+
+        try {
+            lyrics = await this.azLyricsApi.getLyricsAsync(artist, title);
+        } catch (e) {
+            this.logger.error(e, 'Could not get lyrics from AZLyrics', 'OnlineLyricsGetter', 'getLyricsAsync');
+        }
+
+        if (StringUtils.isNullOrWhiteSpace(lyrics.text)) {
+            try {
+                lyrics = await this.chartLyricsApi.getLyricsAsync(artist, title);
+            } catch (e) {
+                this.logger.error(e, 'Could not get lyrics from ChartLyrics', 'OnlineLyricsGetter', 'getLyricsAsync');
+            }
+        }
+
+        return lyrics;
     }
 }
