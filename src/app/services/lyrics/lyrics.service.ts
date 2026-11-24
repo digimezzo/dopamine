@@ -9,6 +9,7 @@ import { LyricsModel } from './lyrics-model';
 import { Logger } from '../../common/logger';
 import { LyricsServiceBase } from './lyrics.service.base';
 import { SrtLyricsGetter } from './srt-lyrics-getter';
+import { LyricsCache } from './lyrics-cache';
 import { ILyricsGetter } from './i-lyrics-getter';
 
 @Injectable()
@@ -20,9 +21,8 @@ export class LyricsService implements LyricsServiceBase {
         private onlineLyricsGetter: OnlineLyricsGetter,
         private settings: SettingsBase,
         private logger: Logger,
+        private lyricsCache: LyricsCache,
     ) {}
-
-    private cachedOnlineLyrics: LyricsModel | undefined;
 
     public async getLyricsAsync(track: TrackModel): Promise<LyricsModel> {
         if (this.settings.showRichLyrics) {
@@ -45,18 +45,15 @@ export class LyricsService implements LyricsServiceBase {
             return embeddedLyrics;
         }
 
-        if (
-            this.cachedOnlineLyrics !== undefined &&
-            this.cachedOnlineLyrics.track !== undefined &&
-            track !== undefined &&
-            this.cachedOnlineLyrics.track.path === track.path
-        ) {
-            return this.cachedOnlineLyrics;
+        const cachedLyrics = await this.lyricsCache.getLyricsAsync(track);
+
+        if (!StringUtils.isNullOrWhiteSpace(cachedLyrics.plainText)) {
+            return cachedLyrics;
         }
 
         if (this.settings.downloadLyricsOnline) {
             const onlineLyrics = await this.tryGetLyricsAsync(track, this.onlineLyricsGetter, 'online');
-            this.cachedOnlineLyrics = onlineLyrics;
+            await this.lyricsCache.saveLyricsAsync(track, onlineLyrics);
 
             return onlineLyrics;
         }
