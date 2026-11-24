@@ -1,3 +1,8 @@
+import * as fs from 'fs-extra';
+import * as os from 'os';
+import * as path from 'path';
+import { DesktopBase } from '../../common/io/desktop.base';
+import { LyricsCache } from './lyrics-cache';
 import { LyricsService } from './lyrics.service';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { EmbeddedLyricsGetter } from './embedded-lyrics-getter';
@@ -19,6 +24,10 @@ describe('LyricsService', () => {
     let onlineLyricsGetterMock: IMock<OnlineLyricsGetter>;
     let settingsMock: IMock<SettingsBase>;
     let loggerMock: IMock<Logger>;
+    let desktopMock: IMock<DesktopBase>;
+    let tempDirectory: string;
+    let musicDirectory: string;
+    let applicationDataDirectory: string;
 
     let trackMock: TrackModel;
     let fullEmbeddedLyricsMock: LyricsModel;
@@ -33,7 +42,14 @@ describe('LyricsService', () => {
     let fullOnlineLyricsMock: LyricsModel;
     let emptyOnlineLyricsMock: LyricsModel;
 
-    beforeEach(() => {
+    beforeEach(async () => {
+        tempDirectory = await fs.mkdtemp(path.join(os.tmpdir(), 'dopamine-lyrics-'));
+        musicDirectory = path.join(tempDirectory, 'Music');
+        applicationDataDirectory = path.join(tempDirectory, 'app-data');
+        await fs.ensureDir(musicDirectory);
+        desktopMock = Mock.ofType<DesktopBase>();
+        desktopMock.setup((x) => x.getMusicDirectory()).returns(() => musicDirectory);
+        desktopMock.setup((x) => x.getApplicationDataDirectory()).returns(() => applicationDataDirectory);
         embeddedLyricsGetterMock = Mock.ofType<EmbeddedLyricsGetter>();
         lrcLyricsGetterMock = Mock.ofType<LrcLyricsGetter>();
         srtLyricsGetterMock = Mock.ofType<SrtLyricsGetter>();
@@ -64,6 +80,10 @@ describe('LyricsService', () => {
         settingsMock.setup((x) => x.downloadLyricsOnline).returns(() => false);
     });
 
+    afterEach(async () => {
+        await fs.remove(tempDirectory);
+    });
+
     function createSut(): LyricsServiceBase {
         return new LyricsService(
             embeddedLyricsGetterMock.object,
@@ -72,6 +92,7 @@ describe('LyricsService', () => {
             onlineLyricsGetterMock.object,
             settingsMock.object,
             loggerMock.object,
+            new LyricsCache(desktopMock.object, loggerMock.object),
         );
     }
 
@@ -249,6 +270,79 @@ describe('LyricsService', () => {
             onlineLyricsGetterMock.verify((x) => x.getLyricsAsync(It.isAny()), Times.never());
             expect(lyrics.sourceType).toEqual(LyricsSourceType.online);
             expect(lyrics.plainText).toEqual('online text');
+        });
+
+        it('should reuse downloaded lyrics after the library database is reset and the track is reindexed', async () => {
+            const databaseFile = path.join(applicationDataDirectory, 'Dopamine.db');
+            await fs.outputFile(databaseFile, '');
+            jest.spyOn(trackMock, 'id', 'get').mockReturnValue(41);
+            settingsMock.reset();
+            settingsMock.setup((x) => x.downloadLyricsOnline).returns(() => true);
+            onlineLyricsGetterMock.reset();
+            onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(fullOnlineLyricsMock));
+
+            await createSut().getLyricsAsync(trackMock);
+
+            expect(await fs.readdir(path.join(musicDirectory, 'Dopamine', 'Lyrics'))).toHaveLength(1);
+            await fs.remove(databaseFile);
+            await fs.outputFile(databaseFile, '');
+            settingsMock.reset();
+            settingsMock.setup((x) => x.downloadLyricsOnline).returns(() => false);
+            onlineLyricsGetterMock.reset();
+            const reindexedTrack = MockCreator.createTrackModel('moved.flac', 'title', 'artists');
+            jest.spyOn(reindexedTrack, 'id', 'get').mockReturnValue(2);
+
+            const lyrics = await createSut().getLyricsAsync(reindexedTrack);
+
+            expect(lyrics.track).toBe(reindexedTrack);
+            expect(lyrics.plainText).toBe('online text');
+            expect(lyrics.sourceName).toBe('online source');
+            expect(lyrics.sourceType).toBe(LyricsSourceType.online);
+            onlineLyricsGetterMock.verify((x) => x.getLyricsAsync(It.isAny()), Times.never());
+        });
+
+        it('should keep tracks with the same artist and title on different albums separate', async () => {
+            jest.spyOn(trackMock, 'rawAlbumTitle', 'get').mockReturnValue('Studio album');
+            const liveTrack = MockCreator.createTrackModel('live.flac', 'title', 'artists');
+            jest.spyOn(liveTrack, 'rawAlbumTitle', 'get').mockReturnValue('Live album');
+            const liveLyrics = LyricsModel.plain(liveTrack, 'online source', LyricsSourceType.online, 'live text');
+            settingsMock.reset();
+            settingsMock.setup((x) => x.downloadLyricsOnline).returns(() => true);
+            onlineLyricsGetterMock.reset();
+            onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(fullOnlineLyricsMock));
+            onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(liveTrack)).returns(() => Promise.resolve(liveLyrics));
+            const sut = createSut();
+
+            await sut.getLyricsAsync(trackMock);
+            expect((await sut.getLyricsAsync(liveTrack)).plainText).toBe('live text');
+            expect((await sut.getLyricsAsync(trackMock)).plainText).toBe('online text');
+
+            onlineLyricsGetterMock.verify((x) => x.getLyricsAsync(trackMock), Times.once());
+            onlineLyricsGetterMock.verify((x) => x.getLyricsAsync(liveTrack), Times.once());
+        });
+
+        it('should retry a download that returned no lyrics', async () => {
+            settingsMock.reset();
+            settingsMock.setup((x) => x.downloadLyricsOnline).returns(() => true);
+            const sut = createSut();
+
+            expect((await sut.getLyricsAsync(trackMock)).plainText).toBe('');
+            expect(await fs.pathExists(path.join(musicDirectory, 'Dopamine', 'Lyrics'))).toBe(false);
+            onlineLyricsGetterMock.reset();
+            onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(fullOnlineLyricsMock));
+
+            expect((await sut.getLyricsAsync(trackMock)).plainText).toBe('online text');
+            onlineLyricsGetterMock.verify((x) => x.getLyricsAsync(trackMock), Times.once());
+        });
+
+        it('should return downloaded lyrics even if the cache cannot be written', async () => {
+            await fs.outputFile(path.join(musicDirectory, 'Dopamine', 'Lyrics'), '');
+            settingsMock.reset();
+            settingsMock.setup((x) => x.downloadLyricsOnline).returns(() => true);
+            onlineLyricsGetterMock.reset();
+            onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(fullOnlineLyricsMock));
+
+            expect((await createSut().getLyricsAsync(trackMock)).plainText).toBe('online text');
         });
 
         it('should not return cached lyrics when the track has changed', async () => {
