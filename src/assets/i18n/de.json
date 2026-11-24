@@ -199,7 +199,6 @@
     "exit": "Beenden",
     "notification-area": "Benachrichtigungsbereich",
     "show-icon-in-notification-area": "Ein Icon im Benachrichtigungsbereich anzeigen (erfordert einen Neustart)",
-    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "Zum Benachrichtigungsbereich minimieren",
     "close-to-notification-area": "Zum Benachrichtigungsbereich schließen",
     "behavior": "Verhalten",

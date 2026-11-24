@@ -199,7 +199,6 @@
     "exit": "Выход",
     "notification-area": "Область уведомлений",
     "show-icon-in-notification-area": "Отображать значок в области уведомлений (требуется перезапуск)",
-    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "Сворачивать в область уведомлений",
     "close-to-notification-area": "Закрывать в область уведомлений",
     "behavior": "Поведение",

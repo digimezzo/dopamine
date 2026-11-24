@@ -199,7 +199,6 @@
     "exit": "خارج شوید",
     "notification-area": "قسمت اطلاع رسانی",
     "show-icon-in-notification-area": "نمایش یک نماد در ناحیه اعلان (نیاز به راه اندازی مجدد)",
-    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "به منطقه اطلاع رسانی به حداقل برسد",
     "close-to-notification-area": "نزدیک به منطقه اطلاع رسانی",
     "behavior": "رفتار - اخلاق",

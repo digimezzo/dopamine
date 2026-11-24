@@ -199,7 +199,6 @@
     "exit": "Derkeve",
     "notification-area": "Devera agahiyê",
     "show-icon-in-notification-area": "Sembolekê nîşan bide di devera agahiyê de (pêdivî bi nû ve destpêkirin dike)",
-    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "Bo devera agahiyan biçûk bike",
     "close-to-notification-area": "Devera agahiyan bigire",
     "behavior": "Tevger",

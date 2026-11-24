@@ -199,7 +199,6 @@
     "exit": "Exit",
     "notification-area": "알림 영역",
     "show-icon-in-notification-area": "알림 영역에 아이콘을 표시합니다 (재시작 필요)",
-    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "알림 영역으로 최소화하십시오",
     "close-to-notification-area": "알림 영역 닫기",
     "behavior": "동작",

@@ -26,6 +26,7 @@ jest.mock('electron', () => {
         constructor() {
             super();
             this.setToolTip = jest.fn();
+            this.setContextMenu = jest.fn();
         }
     }
 
@@ -35,7 +36,7 @@ jest.mock('electron', () => {
         BrowserWindow: jest.fn(() => new BrowserWindow()),
         Tray: jest.fn(() => new Tray()),
         ipcMain: { on: jest.fn(), handle: jest.fn() },
-        Menu: { setApplicationMenu: jest.fn() },
+        Menu: { setApplicationMenu: jest.fn(), buildFromTemplate: jest.fn((template) => template) },
         nativeTheme: new EventEmitter(),
         protocol: { registerFileProtocol: jest.fn() },
         screen: { getPrimaryDisplay: () => display, getDisplayMatching: () => display },
@@ -66,7 +67,6 @@ async function startApp(platform, createWindow = true) {
     Object.defineProperty(process, 'platform', { value: platform, configurable: true });
     mockSettings = {
         showIconInNotificationArea: true,
-        showWindowOnTrayDoubleClick: false,
         fullPlayerPositionSizeMaximized: '50;50;1000;650;0',
         playerType: 'full',
     };
@@ -77,11 +77,11 @@ async function startApp(platform, createWindow = true) {
     return {
         tray: electron.Tray.mock.results[0].value,
         window: createWindow ? electron.BrowserWindow.mock.results[0].value : undefined,
-        setSetting: electron.ipcMain.handle.mock.calls.find(([channel]) => channel === 'settings:set')[1],
+        updateMenu: electron.ipcMain.on.mock.calls.find(([channel]) => channel === 'update-tray-context-menu')[1],
     };
 }
 
-describe('tray double-click', () => {
+describe('tray interaction', () => {
     beforeEach(() => jest.useFakeTimers());
     afterEach(() => {
         jest.clearAllTimers();
@@ -89,38 +89,41 @@ describe('tray double-click', () => {
         Object.defineProperty(process, 'platform', originalPlatform);
     });
 
-    it('uses the current Windows setting and restores a minimized window', async () => {
-        const { tray, window, setSetting } = await startApp('win32');
-        tray.emit('double-click');
-        expect(window.show).not.toHaveBeenCalled();
-
-        setSetting({}, 'showWindowOnTrayDoubleClick', true);
+    it.each(['click', 'double-click'])('shows and focuses the Windows window on %s', async (event) => {
+        const { tray, window } = await startApp('win32');
         window.isMinimized.mockReturnValue(true);
-        tray.emit('double-click');
+        tray.emit(event);
         expect(window.show).toHaveBeenCalledTimes(1);
         expect(window.restore).toHaveBeenCalledTimes(1);
         expect(window.focus).toHaveBeenCalledTimes(1);
 
         window.isMinimized.mockReturnValue(false);
-        tray.emit('double-click');
+        tray.emit(event);
         expect(window.show).toHaveBeenCalledTimes(2);
         expect(window.restore).toHaveBeenCalledTimes(1);
         expect(window.focus).toHaveBeenCalledTimes(2);
-
-        setSetting({}, 'showWindowOnTrayDoubleClick', false);
-        tray.emit('double-click');
-        expect(window.show).toHaveBeenCalledTimes(2);
     });
 
-    it('does nothing if there is no window', async () => {
+    it.each(['click', 'double-click'])('does nothing on %s if there is no window', async (event) => {
         const { tray } = await startApp('win32', false);
-        mockSettings.showWindowOnTrayDoubleClick = true;
-        expect(() => tray.emit('double-click')).not.toThrow();
+        expect(() => tray.emit(event)).not.toThrow();
     });
 
-    it.each(['darwin', 'linux'])('does not register the behavior on %s', async (platform) => {
+    it.each(['win32', 'darwin', 'linux'])('keeps the tray context menu on %s', async (platform) => {
+        const { tray, window, updateMenu } = await startApp(platform);
+        updateMenu({}, { showDopamineLabel: 'Show Dopamine', exitLabel: 'Exit' });
+        const menu = tray.setContextMenu.mock.calls[0][0];
+        expect(menu.map((item) => item.label)).toEqual(['Show Dopamine', 'Exit']);
+        tray.emit('right-click');
+        expect(window.show).not.toHaveBeenCalled();
+        menu[0].click();
+        expect(window.show).toHaveBeenCalledTimes(1);
+        expect(window.focus).toHaveBeenCalledTimes(1);
+    });
+
+    it.each(['darwin', 'linux'])('does not register window-opening click handlers on %s', async (platform) => {
         const { tray, window } = await startApp(platform);
-        mockSettings.showWindowOnTrayDoubleClick = true;
+        tray.emit('click');
         tray.emit('double-click');
         expect(window.show).not.toHaveBeenCalled();
     });

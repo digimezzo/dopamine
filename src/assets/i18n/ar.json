@@ -199,7 +199,6 @@
     "exit": "خروج",
     "notification-area": "منطقة الإشعارات",
     "show-icon-in-notification-area": "إظهار أيقونة في منطقة الإشعارات (يتطلب إعادة التشغيل)",
-    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "تصغير إلى منطقة الإشعارات",
     "close-to-notification-area": "إغلاق إلى منطقة الإشعارات",
     "behavior": "السلوك",

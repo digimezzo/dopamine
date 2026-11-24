@@ -294,7 +294,6 @@ describe('validate i18n', () => {
         'show-audio-visualizer',
         'show-dopamine',
         'show-icon-in-notification-area',
-        'show-window-on-tray-double-click',
         'show-in-folder',
         'show-in-the-collection',
         'show-love',

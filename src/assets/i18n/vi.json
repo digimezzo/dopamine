@@ -199,7 +199,6 @@
     "exit": "Thoát",
     "notification-area": "Khu vực thông báo",
     "show-icon-in-notification-area": "Hiện biểu tượng ở khu vực thông báo (cần khởi động lại)",
-    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "Khi thu nhỏ, chuyển xuống khu vực thông báo",
     "close-to-notification-area": "Khi đóng, thoát khỏi khu vực thông báo",
     "behavior": "Thao tác",

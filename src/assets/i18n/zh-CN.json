@@ -199,7 +199,6 @@
     "exit": "退出",
     "notification-area": "系统托盘",
     "show-icon-in-notification-area": "在系统托盘显示应用图标（重启生效）",
-    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "最小化到系统托盘",
     "close-to-notification-area": "关闭到系统托盘",
     "behavior": "行为",

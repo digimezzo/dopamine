@@ -77,7 +77,6 @@ export class SettingsMock implements SettingsBase {
     public showFoldersPage: boolean;
     public showGenresPage: boolean;
     public showIconInNotificationArea: boolean;
-    public showWindowOnTrayDoubleClick: boolean;
     public showLove: boolean;
     public showAlbumOnNowPlayingPage: boolean;
     public showYearOnNowPlayingPage: boolean;

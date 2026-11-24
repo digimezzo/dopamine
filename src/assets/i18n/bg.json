@@ -199,7 +199,6 @@
     "exit": "Изход",
     "notification-area": "Област за уведомяване",
     "show-icon-in-notification-area": "Показване на икона в областта за уведомяване (изисква рестартиране)",
-    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": "Минимизирай до областта за уведомяване",
     "close-to-notification-area": "Затвори в областта за уведомяване",
     "behavior": "Поведение",

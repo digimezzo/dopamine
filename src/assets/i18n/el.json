@@ -199,7 +199,6 @@
     "exit": "Έξοδος",
     "notification-area": "Περιοχή ειδοποιήσεων",
     "show-icon-in-notification-area": "Δείξε ένα εικονίδιο στην περιοχή ειδοποιήσεων (χρειάζεται επανεκκίνηση)",
-    "show-window-on-tray-double-click": "Show Dopamine when double-clicking the notification area icon",
     "minimize-to-notification-area": " Ελαχιστοποίηση στην περιοχή ειδοποιήσεων",
     "close-to-notification-area": "Απόκρυψη στην περιοχή ειδοποιήσεων",
     "behavior": "Συμπεριφορά",
