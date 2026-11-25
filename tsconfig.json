@@ -1,7 +1,8 @@
 {
     "extends": "./tsconfig.base.json",
     "compilerOptions": {
-      "esModuleInterop": true
+        "esModuleInterop": true,
+        "moduleResolution": "bundler"
     },
     "angularCompilerOptions": {
         "strictTemplates": true

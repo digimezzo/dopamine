@@ -27,7 +27,7 @@ function webp() {
             const decoder = await decoderPromise;
             const bitmap = await decoder.default(new Uint8Array(data).buffer);
 
-            return { width: bitmap.width, height: bitmap.height, data: Buffer.from(bitmap.data) };
+            return { width: bitmap.width, height: bitmap.height, data: Buffer.from(new Uint8Array(bitmap.data)) };
         },
     };
 }
