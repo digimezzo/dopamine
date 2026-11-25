@@ -17,7 +17,7 @@ async function performTaskAsync() {
         } else if (workerProxy.task() === 'always') {
             await indexer.indexCollectionAlwaysAsync();
         } else if (workerProxy.task() === 'replaygain') {
-            indexer.reindexReplayGainForExistingTracks();
+            await indexer.reindexReplayGainForExistingTracks();
         }
     } catch (e) {
         logger.error(e, 'Unexpected error', 'IndexingWorker', 'performTaskAsync');

@@ -11,7 +11,7 @@ import { OnlineAlbumArtworkGetter } from '../../../../services/indexing/online-a
 import { DesktopBase } from '../../../../common/io/desktop.base';
 import { ImageProcessor } from '../../../../common/image-processor';
 import { MetadataPatcher } from '../../../../common/metadata/metadata-patcher';
-import { TagLibFileMetadata } from '../../../../common/metadata/tag-lib-file-metadata';
+import { MusicFileMetadata } from '../../../../common/metadata/music-file-metadata';
 import { ImageComparisonStatus } from '../../../../services/metadata/image-comparison-status';
 import { CommonModule } from '@angular/common';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -116,7 +116,7 @@ describe('EditTracksDialogComponent', () => {
                 dataMock.push(track.object);
                 fileMetadataFactoryMock
                     .setup((x) => x.createAsync(trackPath))
-                    .returns(() => Promise.resolve(new TagLibFileMetadata(trackPath)));
+                    .returns(() => Promise.resolve(new MusicFileMetadata(trackPath)));
             }
             const fixture = TestBed.createComponent(EditTracksDialogComponent);
 
@@ -143,7 +143,7 @@ describe('EditTracksDialogComponent', () => {
             fileMetadataFactoryMock.setup((x) => x.createAsync('first')).returns(() => Promise.reject(new Error('Read failed')));
             fileMetadataFactoryMock
                 .setup((x) => x.createAsync('second'))
-                .returns(() => Promise.resolve(new TagLibFileMetadata('second')));
+                .returns(() => Promise.resolve(new MusicFileMetadata('second')));
             const fixture = TestBed.createComponent(EditTracksDialogComponent);
 
             fixture.detectChanges();
@@ -161,13 +161,13 @@ describe('EditTracksDialogComponent', () => {
         const arrayFields = ['artists', 'albumArtists', 'genres', 'composers'] as const;
         const numberFields = ['year', 'trackNumber', 'trackCount', 'discNumber', 'discCount', 'beatsPerMinute'] as const;
 
-        async function initialize(metadata: TagLibFileMetadata[]): Promise<void> {
+        async function initialize(metadata: MusicFileMetadata[]): Promise<void> {
             for (const item of metadata) {
                 const track = Mock.ofType<TrackModel>();
                 track.setup((x) => x.path).returns(() => item.path);
                 dataMock.push(track.object);
                 fileMetadataFactoryMock.setup((x) => x.createAsync(item.path)).returns(() => Promise.resolve(item));
-                jest.spyOn(item, 'save').mockImplementation(() => {});
+                jest.spyOn(item, 'save').mockResolvedValue(undefined);
             }
 
             translatorServiceMock.setup((x) => x.getAsync(It.isAny())).returns(() => Promise.resolve(multipleValues));
@@ -182,8 +182,8 @@ describe('EditTracksDialogComponent', () => {
         }
 
         it('displays equal array values for independently loaded tracks', async () => {
-            const first = new TagLibFileMetadata('first');
-            const second = new TagLibFileMetadata('second');
+            const first = new MusicFileMetadata('first');
+            const second = new MusicFileMetadata('second');
             for (const field of arrayFields) {
                 first[field] = ['One', 'Two'];
                 second[field] = ['One', 'Two'];
@@ -197,8 +197,8 @@ describe('EditTracksDialogComponent', () => {
         });
 
         it('displays blank for empty arrays and applies the same metadata patching as single-track editing', async () => {
-            const first = new TagLibFileMetadata('first');
-            const second = new TagLibFileMetadata('second');
+            const first = new MusicFileMetadata('first');
+            const second = new MusicFileMetadata('second');
             first.artists = ['AC', 'DC'];
             second.artists = ['AC', 'DC'];
 
@@ -211,8 +211,8 @@ describe('EditTracksDialogComponent', () => {
         });
 
         it.each(arrayFields)('preserves differing %s values when saving', async (field) => {
-            const first = new TagLibFileMetadata('first');
-            const second = new TagLibFileMetadata('second');
+            const first = new MusicFileMetadata('first');
+            const second = new MusicFileMetadata('second');
             first[field] = ['One', 'Two'];
             second[field] = ['One', 'Other'];
 
@@ -227,8 +227,8 @@ describe('EditTracksDialogComponent', () => {
         });
 
         it.each(arrayFields)('detects different lengths in %s', async (field) => {
-            const first = new TagLibFileMetadata('first');
-            const second = new TagLibFileMetadata('second');
+            const first = new MusicFileMetadata('first');
+            const second = new MusicFileMetadata('second');
             first[field] = ['One', 'Two'];
             second[field] = ['One'];
             await initialize([first, second]);
@@ -236,8 +236,8 @@ describe('EditTracksDialogComponent', () => {
         });
 
         it('displays blank numeric fields as blank for multiple tracks', async () => {
-            const first = new TagLibFileMetadata('first');
-            const second = new TagLibFileMetadata('second');
+            const first = new MusicFileMetadata('first');
+            const second = new MusicFileMetadata('second');
             await initialize([first, second]);
 
             for (const field of numberFields) {
@@ -251,7 +251,7 @@ describe('EditTracksDialogComponent', () => {
         });
 
         it('preserves single-track formatting', async () => {
-            const metadata = new TagLibFileMetadata('first');
+            const metadata = new MusicFileMetadata('first');
             metadata.artists = ['AC', 'DC'];
             metadata.trackCount = 12;
 
@@ -263,8 +263,8 @@ describe('EditTracksDialogComponent', () => {
         });
 
         it.each(arrayFields)('detects different ordering in %s', async (field) => {
-            const first = new TagLibFileMetadata('first');
-            const second = new TagLibFileMetadata('second');
+            const first = new MusicFileMetadata('first');
+            const second = new MusicFileMetadata('second');
             first[field] = ['One', 'Two'];
             second[field] = ['Two', 'One'];
             await initialize([first, second]);
@@ -272,8 +272,8 @@ describe('EditTracksDialogComponent', () => {
         });
 
         it.each(numberFields)('displays shared %s values correctly', async (field) => {
-            const first = new TagLibFileMetadata('first');
-            const second = new TagLibFileMetadata('second');
+            const first = new MusicFileMetadata('first');
+            const second = new MusicFileMetadata('second');
             first[field] = 123;
             second[field] = 123;
             await initialize([first, second]);
@@ -281,8 +281,8 @@ describe('EditTracksDialogComponent', () => {
         });
 
         it.each(numberFields)('preserves differing %s values when saving', async (field) => {
-            const first = new TagLibFileMetadata('first');
-            const second = new TagLibFileMetadata('second');
+            const first = new MusicFileMetadata('first');
+            const second = new MusicFileMetadata('second');
             first[field] = 0;
             second[field] = 123;
             await initialize([first, second]);
@@ -293,8 +293,8 @@ describe('EditTracksDialogComponent', () => {
         });
 
         it('preserves differing track counts when disc counts match', async () => {
-            const first = new TagLibFileMetadata('first');
-            const second = new TagLibFileMetadata('second');
+            const first = new MusicFileMetadata('first');
+            const second = new MusicFileMetadata('second');
             first.trackCount = 12;
             second.trackCount = 13;
             first.discCount = second.discCount = 1;
@@ -308,8 +308,8 @@ describe('EditTracksDialogComponent', () => {
         });
 
         it('displays shared track counts independently of differing disc counts', async () => {
-            const first = new TagLibFileMetadata('first');
-            const second = new TagLibFileMetadata('second');
+            const first = new MusicFileMetadata('first');
+            const second = new MusicFileMetadata('second');
             first.trackCount = second.trackCount = 12;
             first.discCount = 1;
             second.discCount = 2;
@@ -325,8 +325,8 @@ describe('EditTracksDialogComponent', () => {
         });
 
         it('saves edited array fields and displays the shared values when reopened', async () => {
-            const first = new TagLibFileMetadata('first');
-            const second = new TagLibFileMetadata('second');
+            const first = new MusicFileMetadata('first');
+            const second = new MusicFileMetadata('second');
             for (const field of arrayFields) {
                 first[field] = ['First'];
                 second[field] = ['Second'];
