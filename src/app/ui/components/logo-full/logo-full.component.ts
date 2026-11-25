@@ -7,6 +7,7 @@ import { ProductInformation } from '../../../common/application/product-informat
     templateUrl: './logo-full.component.html',
     styleUrls: ['./logo-full.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class LogoFullComponent {
     public applicationName: string = ProductInformation.applicationName.toLowerCase();

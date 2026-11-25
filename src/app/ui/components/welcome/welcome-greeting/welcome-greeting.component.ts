@@ -6,6 +6,7 @@ import { WelcomeServiceBase } from '../../../../services/welcome/welcome.service
     host: { style: 'display: block; width: 100%;' },
     templateUrl: './welcome-greeting.component.html',
     styleUrls: ['./welcome-greeting.component.scss'],
+    standalone: false
 })
 export class WelcomeGreetingComponent {
     public constructor(private welcomeService: WelcomeServiceBase) {}

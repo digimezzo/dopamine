@@ -23,6 +23,7 @@ import { TrackOrder } from '../track-order';
     host: { style: 'display: block; width: 100%;' },
     templateUrl: './collection-albums.component.html',
     styleUrls: ['./collection-albums.component.scss'],
+    standalone: false
 })
 export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;

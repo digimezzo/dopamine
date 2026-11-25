@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
     host: {
         style: 'display: inline-block',
     },
+    standalone: false
 })
 export class TransparentButtonComponent {
     @Input()

@@ -8,6 +8,7 @@ import { ApplicationBase } from '../../../common/io/application.base';
     templateUrl: './window-controls.component.html',
     styleUrls: ['./window-controls.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class WindowControlsComponent implements OnInit {
     public constructor(private application: ApplicationBase) {}

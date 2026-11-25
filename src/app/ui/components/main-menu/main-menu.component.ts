@@ -12,6 +12,7 @@ import { IndexingService } from '../../../services/indexing/indexing.service';
     templateUrl: './main-menu.component.html',
     styleUrls: ['./main-menu.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class MainMenuComponent {
     public constructor(

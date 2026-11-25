@@ -39,6 +39,7 @@ import { BaseVirtualScrollBrowser } from '../base-virtual-scroll-browser';
     styleUrls: ['./collection-folders.component.scss'],
     providers: [SelectionWatcher],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class CollectionFoldersComponent extends BaseVirtualScrollBrowser implements OnInit, AfterViewInit, OnDestroy {
     private static readonly subfolderScrollPositionKey: string = 'folders-subfolders';

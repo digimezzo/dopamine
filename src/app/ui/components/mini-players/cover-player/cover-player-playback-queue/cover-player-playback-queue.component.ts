@@ -7,5 +7,6 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
     templateUrl: './cover-player-playback-queue.component.html',
     styleUrls: ['./cover-player-playback-queue.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class CoverPlayerPlaybackQueueComponent {}

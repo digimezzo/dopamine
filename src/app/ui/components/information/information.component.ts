@@ -10,6 +10,7 @@ import { enterLeftToRight, enterRightToLeft } from '../../animations/animations'
     styleUrls: ['./information.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations: [enterLeftToRight, enterRightToLeft],
+    standalone: false
 })
 export class InformationComponent extends AnimatedPage {
     public constructor(public appearanceService: AppearanceServiceBase) {

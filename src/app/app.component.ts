@@ -32,6 +32,7 @@ import { FolderServiceBase } from './services/folder/folder.service.base';
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
+    standalone: false
 })
 export class AppComponent implements OnInit {
     private subscription: Subscription = new Subscription();

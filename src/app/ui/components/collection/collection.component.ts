@@ -18,6 +18,7 @@ import { Constants } from '../../../common/application/constants';
     styleUrls: ['./collection.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations: [enterLeftToRight, enterRightToLeft],
+    standalone: false
 })
 export class CollectionComponent extends AnimatedPage implements AfterViewInit {
     private readonly artistsPage: number = 0;

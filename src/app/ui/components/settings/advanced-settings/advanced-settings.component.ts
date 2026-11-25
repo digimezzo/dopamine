@@ -12,6 +12,7 @@ import { TranslatorServiceBase } from '../../../../services/translator/translato
     templateUrl: './advanced-settings.component.html',
     styleUrls: ['./advanced-settings.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class AdvancedSettingsComponent {
     public constructor(

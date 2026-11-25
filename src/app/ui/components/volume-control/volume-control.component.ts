@@ -6,6 +6,7 @@ import { PlaybackService } from '../../../services/playback/playback.service';
     host: { style: 'display: block' },
     templateUrl: './volume-control.component.html',
     styleUrls: ['./volume-control.component.scss'],
+    standalone: false
 })
 export class VolumeControlComponent {
     public constructor(private playbackService: PlaybackService) {}

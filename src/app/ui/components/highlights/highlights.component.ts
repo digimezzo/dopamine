@@ -23,22 +23,17 @@ import { Subscription } from 'rxjs';
         enterLeftToRight,
         enterRightToLeft,
         trigger('controlsVisibility', [
-            state(
-                'visible',
-                style({
-                    opacity: 1,
-                }),
-            ),
-            state(
-                'hidden',
-                style({
-                    opacity: 0,
-                }),
-            ),
+            state('visible', style({
+                opacity: 1,
+            })),
+            state('hidden', style({
+                opacity: 0,
+            })),
             transition('hidden => visible', animate('.25s')),
             transition('visible => hidden', animate('1s')),
         ]),
     ],
+    standalone: false
 })
 export class HighlightsComponent extends AnimatedPage implements OnInit, AfterViewInit, OnDestroy {
     private subscription: Subscription = new Subscription();

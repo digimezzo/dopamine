@@ -6,6 +6,7 @@ import { AppearanceServiceBase } from '../../services/appearance/appearance.serv
 // Wayland does not allow applications to set their own window position, so dragging has no effect.
 @Directive({
     selector: '[appWindowDraggable]',
+    standalone: false
 })
 export class WindowDraggableDirective implements OnDestroy {
     @Input() public appWindowDraggableDisabled: boolean = false;

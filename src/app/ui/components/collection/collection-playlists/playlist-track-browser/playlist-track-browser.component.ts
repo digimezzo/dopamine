@@ -27,6 +27,7 @@ import { BaseVirtualScrollBrowser } from '../../base-virtual-scroll-browser';
     templateUrl: './playlist-track-browser.component.html',
     styleUrls: ['./playlist-track-browser.component.scss'],
     providers: [SelectionWatcher],
+    standalone: false
 })
 export class PlaylistTrackBrowserComponent extends BaseVirtualScrollBrowser implements OnInit, AfterViewInit, OnDestroy {
     private _tracks: TrackModels = new TrackModels();

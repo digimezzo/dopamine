@@ -3,7 +3,10 @@ import { StringUtils } from '../../common/utils/string-utils';
 import { AlbumModel } from '../../services/album/album-model';
 import { SearchServiceBase } from '../../services/search/search.service.base';
 
-@Pipe({ name: 'albumsFilter' })
+@Pipe({
+    name: 'albumsFilter',
+    standalone: false
+})
 export class AlbumsFilterPipe implements PipeTransform {
     public constructor(private searchService: SearchServiceBase) {}
 

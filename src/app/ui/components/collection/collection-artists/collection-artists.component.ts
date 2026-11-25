@@ -28,6 +28,7 @@ import { ArtistArtworkAdder } from '../../../../services/indexing/artist-artwork
     host: { style: 'display: block; width: 100%;' },
     templateUrl: './collection-artists.component.html',
     styleUrls: ['./collection-artists.component.scss'],
+    standalone: false
 })
 export class CollectionArtistsComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;

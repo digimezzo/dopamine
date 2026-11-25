@@ -15,6 +15,7 @@ import { ListenbrainzProvider } from '../../../../services/scrobbling/listenbrai
     templateUrl: './online-settings.component.html',
     styleUrls: ['./online-settings.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class OnlineSettingsComponent implements OnInit, OnDestroy {
     private _lastfmSignInState: SignInState = SignInState.SignedOut;

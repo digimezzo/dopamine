@@ -7,6 +7,7 @@ import { LyricsModel } from '../../../../../services/lyrics/lyrics-model';
     templateUrl: './plain-lyrics.component.html',
     styleUrls: ['./plain-lyrics.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class PlainLyricsComponent {
     @Input() public lyrics: LyricsModel | undefined;

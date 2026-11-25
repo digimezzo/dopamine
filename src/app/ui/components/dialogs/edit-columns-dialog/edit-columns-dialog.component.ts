@@ -6,6 +6,7 @@ import { TracksColumnsServiceBase } from '../../../../services/track-columns/tra
     selector: 'app-edit-columns-dialog',
     templateUrl: './edit-columns-dialog.component.html',
     styleUrls: ['./edit-columns-dialog.component.scss'],
+    standalone: false
 })
 export class EditColumnsDialogComponent implements OnInit {
     public constructor(private tracksColumnsService: TracksColumnsServiceBase) {}

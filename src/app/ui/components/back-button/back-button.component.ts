@@ -8,6 +8,7 @@ import { IndexingService } from '../../../services/indexing/indexing.service';
     templateUrl: './back-button.component.html',
     styleUrls: ['./back-button.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class BackButtonComponent {
     public constructor(

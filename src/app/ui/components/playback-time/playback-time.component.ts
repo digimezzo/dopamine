@@ -7,6 +7,7 @@ import { PlaybackService } from '../../../services/playback/playback.service';
     templateUrl: './playback-time.component.html',
     styleUrls: ['./playback-time.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class PlaybackTimeComponent {
     public constructor(public playbackService: PlaybackService) {}

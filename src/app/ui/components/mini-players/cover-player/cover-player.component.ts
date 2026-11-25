@@ -24,38 +24,27 @@ import { DesktopBase } from '../../../../common/io/desktop.base';
         enterLeftToRight,
         enterRightToLeft,
         trigger('controlsVisibility', [
-            state(
-                'visible',
-                style({
-                    opacity: 1,
-                }),
-            ),
-            state(
-                'hidden',
-                style({
-                    opacity: 0,
-                }),
-            ),
+            state('visible', style({
+                opacity: 1,
+            })),
+            state('hidden', style({
+                opacity: 0,
+            })),
             transition('hidden => visible', animate('.25s')),
             transition('visible => hidden', animate('1s')),
         ]),
         trigger('songVisibility', [
-            state(
-                'visible',
-                style({
-                    opacity: 1,
-                }),
-            ),
-            state(
-                'hidden',
-                style({
-                    opacity: 0,
-                }),
-            ),
+            state('visible', style({
+                opacity: 1,
+            })),
+            state('hidden', style({
+                opacity: 0,
+            })),
             transition('hidden => visible', animate('.25s')),
             transition('visible => hidden', animate('1s')),
         ]),
     ],
+    standalone: false
 })
 export class CoverPlayerComponent implements OnInit, AfterViewInit {
     private timerId: number = 0;

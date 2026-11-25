@@ -8,6 +8,7 @@ import { ErrorData } from '../../../../services/dialog/error-data';
     templateUrl: './error-dialog.component.html',
     styleUrls: ['./error-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ErrorDialogComponent {
     public constructor(

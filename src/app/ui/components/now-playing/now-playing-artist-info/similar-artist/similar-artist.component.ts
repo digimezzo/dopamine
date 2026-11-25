@@ -8,6 +8,7 @@ import { SettingsBase } from '../../../../../common/settings/settings.base';
     templateUrl: './similar-artist.component.html',
     styleUrls: ['./similar-artist.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class SimilarArtistComponent {
     public constructor(public settings: SettingsBase) {}

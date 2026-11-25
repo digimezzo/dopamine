@@ -20,6 +20,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
     selector: 'app-edit-album-dialog',
     templateUrl: './edit-album-dialog.component.html',
     styleUrls: ['./edit-album-dialog.component.scss'],
+    standalone: false
 })
 export class EditAlbumDialogComponent {
     public imagePath: string = '';

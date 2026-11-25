@@ -22,6 +22,7 @@ import { Constants } from '../../../../common/application/constants';
             }
         `,
     ],
+    standalone: false
 })
 export class MetroPageComponent {
     private _page: number;

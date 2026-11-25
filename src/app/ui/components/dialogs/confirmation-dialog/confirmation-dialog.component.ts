@@ -7,6 +7,7 @@ import { ConfirmationData } from '../../../../services/dialog/confirmation-data'
     templateUrl: './confirmation-dialog.component.html',
     styleUrls: ['./confirmation-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ConfirmationDialogComponent {
     public constructor(

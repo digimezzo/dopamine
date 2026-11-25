@@ -8,6 +8,7 @@ import { IndexingService } from '../../../../services/indexing/indexing.service'
     templateUrl: './manage-refresh.component.html',
     styleUrls: ['./manage-refresh.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ManageRefreshComponent {
     public constructor(

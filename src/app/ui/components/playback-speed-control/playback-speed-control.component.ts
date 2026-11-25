@@ -8,6 +8,7 @@ import { PlaybackService } from '../../../services/playback/playback.service';
     templateUrl: './playback-speed-control.component.html',
     styleUrls: ['./playback-speed-control.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class PlaybackSpeedControlComponent {
     public readonly minimumSpeed: number = 0.5;

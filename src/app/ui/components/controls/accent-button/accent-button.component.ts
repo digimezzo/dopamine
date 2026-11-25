@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
     host: {
         style: 'display: inline-block',
     },
+    standalone: false
 })
 export class AccentButtonComponent {}

@@ -10,21 +10,16 @@ import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
     styleUrls: ['./semantic-zoom.component.scss'],
     animations: [
         trigger('fadeIn', [
-            state(
-                'visible',
-                style({
-                    opacity: 1,
-                }),
-            ),
-            state(
-                'hidden',
-                style({
-                    opacity: 0,
-                }),
-            ),
+            state('visible', style({
+                opacity: 1,
+            })),
+            state('hidden', style({
+                opacity: 0,
+            })),
             transition('hidden => visible', animate(`${Constants.semanticZoomOutAnimationMilliseconds}ms`)),
         ]),
     ],
+    standalone: false
 })
 export class SemanticZoomComponent implements OnInit {
     public constructor(private scheduler: SchedulerBase) {}

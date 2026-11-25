@@ -15,34 +15,23 @@ import { IndexingService } from '../../../services/indexing/indexing.service';
     encapsulation: ViewEncapsulation.None,
     animations: [
         trigger('contentAnimation', [
-            state(
-                'down',
-                style({
-                    transform: 'translateY(0px)',
-                }),
-            ),
-            state(
-                'animated-down',
-                style({
-                    transform: 'translateY(0px)',
-                }),
-            ),
-            state(
-                'up',
-                style({
-                    transform: 'translateY(-100%)',
-                }),
-            ),
-            state(
-                'animated-up',
-                style({
-                    transform: 'translateY(-100%)',
-                }),
-            ),
+            state('down', style({
+                transform: 'translateY(0px)',
+            })),
+            state('animated-down', style({
+                transform: 'translateY(0px)',
+            })),
+            state('up', style({
+                transform: 'translateY(-100%)',
+            })),
+            state('animated-up', style({
+                transform: 'translateY(-100%)',
+            })),
             transition('down => animated-up', animate(`${Constants.playbackInfoSwitchAnimationMilliseconds}ms ease-out`)),
             transition('up => animated-down', animate(`${Constants.playbackInfoSwitchAnimationMilliseconds}ms ease-out`)),
         ]),
     ],
+    standalone: false
 })
 export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();

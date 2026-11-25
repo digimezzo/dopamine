@@ -3,7 +3,10 @@ import { StringUtils } from '../../common/utils/string-utils';
 import { GenreModel } from '../../services/genre/genre-model';
 import { SearchServiceBase } from '../../services/search/search.service.base';
 
-@Pipe({ name: 'genresFilter' })
+@Pipe({
+    name: 'genresFilter',
+    standalone: false
+})
 export class GenresFilterPipe implements PipeTransform {
     public constructor(private searchService: SearchServiceBase) {}
 

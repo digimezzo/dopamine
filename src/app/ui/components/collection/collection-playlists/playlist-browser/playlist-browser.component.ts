@@ -32,6 +32,7 @@ import { SettingsBase } from '../../../../../common/settings/settings.base';
     templateUrl: './playlist-browser.component.html',
     styleUrls: ['./playlist-browser.component.scss'],
     providers: [SelectionWatcher],
+    standalone: false
 })
 export class PlaylistBrowserComponent extends BaseVirtualScrollBrowser implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     public readonly playlistOrders: PlaylistOrder[] = Object.values(PlaylistOrder).filter((x): x is PlaylistOrder => typeof x === 'number');

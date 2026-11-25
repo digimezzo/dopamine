@@ -6,6 +6,7 @@ import { AppearanceServiceBase } from '../../../../services/appearance/appearanc
     host: { style: 'display: block; width: 100%;' },
     templateUrl: './welcome-appearance.component.html',
     styleUrls: ['./welcome-appearance.component.scss'],
+    standalone: false
 })
 export class WelcomeAppearanceComponent {
     public constructor(public appearanceService: AppearanceServiceBase) {}

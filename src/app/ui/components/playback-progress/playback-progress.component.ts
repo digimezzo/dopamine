@@ -13,6 +13,7 @@ import { PlaybackService } from '../../../services/playback/playback.service';
     templateUrl: './playback-progress.component.html',
     styleUrls: ['./playback-progress.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewInit, DoCheck {
     private subscription: Subscription = new Subscription();

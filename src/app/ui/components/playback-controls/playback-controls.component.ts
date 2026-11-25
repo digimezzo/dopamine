@@ -9,6 +9,7 @@ import { SettingsBase } from '../../../common/settings/settings.base';
     templateUrl: './playback-controls.component.html',
     styleUrls: ['./playback-controls.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class PlaybackControlsComponent {
     public constructor(

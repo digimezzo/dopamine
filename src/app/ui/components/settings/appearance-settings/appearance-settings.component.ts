@@ -11,6 +11,7 @@ import { AudioVisualizerServiceBase } from '../../../../services/audio-visualize
     templateUrl: './appearance-settings.component.html',
     styleUrls: ['./appearance-settings.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class AppearanceSettingsComponent implements OnInit, OnDestroy {
     public constructor(

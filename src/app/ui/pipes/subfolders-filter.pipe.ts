@@ -3,7 +3,10 @@ import { StringUtils } from '../../common/utils/string-utils';
 import { SubfolderModel } from '../../services/folder/subfolder-model';
 import { SearchServiceBase } from '../../services/search/search.service.base';
 
-@Pipe({ name: 'subfoldersFilter' })
+@Pipe({
+    name: 'subfoldersFilter',
+    standalone: false
+})
 export class SubfoldersFilterPipe implements PipeTransform {
     public constructor(private searchService: SearchServiceBase) {}
 

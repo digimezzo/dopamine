@@ -6,5 +6,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
     templateUrl: './manage-music.component.html',
     styleUrls: ['./manage-music.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ManageMusicComponent {}

@@ -30,6 +30,7 @@ import { BaseVirtualScrollBrowser } from '../../base-virtual-scroll-browser';
     templateUrl: './genre-browser.component.html',
     styleUrls: ['./genre-browser.component.scss'],
     providers: [SelectionWatcher],
+    standalone: false
 })
 export class GenreBrowserComponent extends BaseVirtualScrollBrowser implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;

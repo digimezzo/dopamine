@@ -7,6 +7,7 @@ import { AppearanceServiceBase } from '../../../services/appearance/appearance.s
     templateUrl: './playback-indicator.component.html',
     styleUrls: ['./playback-indicator.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class PlaybackIndicatorComponent {
     public constructor(public appearanceService: AppearanceServiceBase) {}

@@ -9,6 +9,7 @@ import { YearFormatter } from '../year-formatter';
     host: { style: 'display: block' },
     templateUrl: './album.component.html',
     styleUrls: ['./album.component.scss'],
+    standalone: false
 })
 export class AlbumComponent {
     public constructor(

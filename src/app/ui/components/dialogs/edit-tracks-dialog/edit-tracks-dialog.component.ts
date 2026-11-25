@@ -22,6 +22,7 @@ import { MetadataPatcher } from '../../../../common/metadata/metadata-patcher';
     templateUrl: './edit-tracks-dialog.component.html',
     styleUrls: ['./edit-tracks-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class EditTracksDialogComponent implements OnInit {
     private _tracks: TrackModel[];

@@ -17,6 +17,7 @@ import { ArrayUtils } from '../../../../common/utils/array-utils';
     templateUrl: './edit-artist-dialog.component.html',
     styleUrls: ['./edit-artist-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class EditArtistDialogComponent implements OnInit {
     private artist: ArtistModel;

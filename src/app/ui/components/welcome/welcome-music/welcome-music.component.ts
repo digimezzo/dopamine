@@ -5,5 +5,6 @@ import { Component } from '@angular/core';
     host: { style: 'display: block; width: 100%;' },
     templateUrl: './welcome-music.component.html',
     styleUrls: ['./welcome-music.component.scss'],
+    standalone: false
 })
 export class WelcomeMusicComponent {}

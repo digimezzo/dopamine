@@ -6,6 +6,7 @@ import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/s
     templateUrl: './semantic-zoom-button.component.html',
     styleUrls: ['./semantic-zoom-button.component.scss'],
     host: { style: 'display: block' },
+    standalone: false
 })
 export class SemanticZoomButtonComponent {
     public constructor(public semanticZoomService: SemanticZoomServiceBase) {}

@@ -9,6 +9,7 @@ import { TrackModels } from '../../../../services/track/track-models';
     templateUrl: './now-playing-nothing-playing.component.html',
     styleUrls: ['./now-playing-nothing-playing.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class NowPlayingNothingPlayingComponent {
     public constructor(

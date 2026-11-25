@@ -31,6 +31,7 @@ import { BaseVirtualScrollBrowser } from '../base-virtual-scroll-browser';
     templateUrl: './album-browser.component.html',
     styleUrls: ['./album-browser.component.scss'],
     providers: [SelectionWatcher],
+    standalone: false
 })
 export class AlbumBrowserComponent extends BaseVirtualScrollBrowser implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     private _albums: AlbumModel[] = [];

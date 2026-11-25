@@ -8,6 +8,7 @@ import { InfoData } from '../../../../services/dialog/info-data';
     templateUrl: './info-dialog.component.html',
     styleUrls: ['./info-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class InfoDialogComponent {
     public constructor(

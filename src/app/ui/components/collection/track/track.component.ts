@@ -8,6 +8,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
     host: { style: 'display: block' },
     templateUrl: './track.component.html',
     styleUrls: ['./track.component.scss'],
+    standalone: false
 })
 export class TrackComponent {
     public constructor(

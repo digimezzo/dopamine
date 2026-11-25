@@ -38,6 +38,7 @@ import { Constants } from '../../../../common/application/constants';
             transition(':leave', [animate('250ms ease-in', style({ transform: 'scale(0.15)', opacity: 0 }))]),
         ]),
     ],
+    standalone: false
 })
 export class NowPlayingShowcaseComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();

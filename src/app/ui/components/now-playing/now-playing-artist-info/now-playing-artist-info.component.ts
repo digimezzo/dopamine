@@ -15,6 +15,7 @@ import { StringUtils } from '../../../../common/utils/string-utils';
     templateUrl: './now-playing-artist-info.component.html',
     styleUrls: ['./now-playing-artist-info.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class NowPlayingArtistInfoComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();

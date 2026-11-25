@@ -11,6 +11,7 @@ import { enterLeftToRight, enterRightToLeft } from '../../animations/animations'
     styleUrls: ['./welcome.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations: [enterLeftToRight, enterRightToLeft],
+    standalone: false
 })
 export class WelcomeComponent extends AnimatedPage {
     public constructor(

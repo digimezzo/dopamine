@@ -6,6 +6,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
     host: { style: 'display: block;' },
     templateUrl: './totals.component.html',
     styleUrls: ['./totals.component.scss'],
+    standalone: false
 })
 export class TotalsComponent {
     public constructor(public settings: SettingsBase) {}

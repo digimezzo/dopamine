@@ -6,6 +6,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
     host: { style: 'display: block; width: 100%;' },
     templateUrl: './welcome-online.component.html',
     styleUrls: ['./welcome-online.component.scss'],
+    standalone: false
 })
 export class WelcomeOnlineComponent {
     public constructor(public settings: SettingsBase) {}

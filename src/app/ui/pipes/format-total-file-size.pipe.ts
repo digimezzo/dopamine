@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
-@Pipe({ name: 'formatTotalFileSize' })
+@Pipe({
+    name: 'formatTotalFileSize',
+    standalone: false
+})
 export class FormatTotalFileSizePipe implements PipeTransform {
     public constructor(private translatorService: TranslatorServiceBase) {}
 

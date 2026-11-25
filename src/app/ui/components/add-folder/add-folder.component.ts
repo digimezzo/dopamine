@@ -16,6 +16,7 @@ import { SettingsBase } from '../../../common/settings/settings.base';
     templateUrl: './add-folder.component.html',
     styleUrls: ['./add-folder.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class AddFolderComponent implements OnInit {
     public constructor(

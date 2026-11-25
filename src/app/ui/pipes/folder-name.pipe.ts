@@ -3,7 +3,10 @@ import { FolderModel } from '../../services/folder/folder-model';
 import { StringUtils } from '../../common/utils/string-utils';
 import { FileAccessBase } from '../../common/io/file-access.base';
 
-@Pipe({ name: 'folderName' })
+@Pipe({
+    name: 'folderName',
+    standalone: false
+})
 export class FolderNamePipe implements PipeTransform {
     public constructor(private fileAccess: FileAccessBase) {}
 

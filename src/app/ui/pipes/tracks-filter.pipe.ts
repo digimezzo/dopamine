@@ -3,7 +3,10 @@ import { TrackModels } from '../../services/track/track-models';
 import { StringUtils } from '../../common/utils/string-utils';
 import { SearchServiceBase } from '../../services/search/search.service.base';
 
-@Pipe({ name: 'tracksFilter' })
+@Pipe({
+    name: 'tracksFilter',
+    standalone: false
+})
 export class TracksFilterPipe implements PipeTransform {
     public constructor(private searchService: SearchServiceBase) {}
 

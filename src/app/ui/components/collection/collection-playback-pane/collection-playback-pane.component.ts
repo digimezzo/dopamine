@@ -10,6 +10,7 @@ import { DialogServiceBase } from '../../../../services/dialog/dialog.service.ba
     templateUrl: './collection-playback-pane.component.html',
     styleUrls: ['./collection-playback-pane.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class CollectionPlaybackPaneComponent {
     public constructor(

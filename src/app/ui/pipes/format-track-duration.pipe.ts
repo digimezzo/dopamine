@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'formatTrackDuration' })
+@Pipe({
+    name: 'formatTrackDuration',
+    standalone: false
+})
 /**
  * Inspired by: https://dev.to/alexparra/js-seconds-to-hh-mm-ss-22o6
  */

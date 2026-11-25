@@ -10,6 +10,7 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
  */
 @Directive({
     selector: 'cdk-virtual-scroll-viewport',
+    standalone: false
 })
 export class CdkVirtualScrollViewportPatchDirective implements OnInit, OnDestroy {
     protected readonly destroy$: Subject<void> = new Subject<void>();

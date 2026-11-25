@@ -6,6 +6,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
     templateUrl: './collection-tracks-table-header.component.html',
     styleUrls: ['./collection-tracks-table-header.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class CollectionTracksTableHeaderComponent {
     @Input() public text: string;

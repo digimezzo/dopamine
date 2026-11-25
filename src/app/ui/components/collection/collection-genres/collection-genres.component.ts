@@ -26,6 +26,7 @@ import { TrackOrder } from '../track-order';
     host: { style: 'display: block; width: 100%;' },
     templateUrl: './collection-genres.component.html',
     styleUrls: ['./collection-genres.component.scss'],
+    standalone: false
 })
 export class CollectionGenresComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;

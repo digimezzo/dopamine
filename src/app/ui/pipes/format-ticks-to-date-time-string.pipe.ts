@@ -1,7 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DateTime } from '../../common/date-time';
 
-@Pipe({ name: 'formatTicksToDateTimeString' })
+@Pipe({
+    name: 'formatTicksToDateTimeString',
+    standalone: false
+})
 export class FormatTicksToDateTimeStringPipe implements PipeTransform {
     public constructor(private dateTime: DateTime) {}
 

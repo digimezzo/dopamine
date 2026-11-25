@@ -6,6 +6,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
     templateUrl: './cover-player-volume-control.component.html',
     styleUrls: ['./cover-player-volume-control.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class CoverPlayerVolumeControlComponent {
     public constructor() {}

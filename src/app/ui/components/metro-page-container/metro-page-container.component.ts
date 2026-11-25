@@ -5,5 +5,6 @@ import { Component } from '@angular/core';
     host: { style: 'display: block' },
     templateUrl: './metro-page-container.component.html',
     styleUrls: ['./metro-page-container.component.scss'],
+    standalone: false
 })
 export class MetroPageContainerComponent {}

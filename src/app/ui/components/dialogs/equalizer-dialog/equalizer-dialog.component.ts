@@ -6,6 +6,7 @@ import { EqualizerService } from '../../../../services/equalizer/equalizer.servi
     selector: 'app-equalizer-dialog',
     templateUrl: './equalizer-dialog.component.html',
     styleUrls: ['./equalizer-dialog.component.scss'],
+    standalone: false
 })
 export class EqualizerDialogComponent implements AfterViewInit, OnDestroy {
     public readonly minimumGain: number = EqualizerService.minimumGain;

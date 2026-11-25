@@ -36,6 +36,7 @@ export interface SmartPlaylistFilter {
     selector: 'app-edit-playlist-dialog',
     templateUrl: './edit-smart-playlist-dialog.component.html',
     styleUrls: ['./edit-smart-playlist-dialog.component.scss'],
+    standalone: false
 })
 export class EditSmartPlaylistDialogComponent implements OnInit {
     public constructor(

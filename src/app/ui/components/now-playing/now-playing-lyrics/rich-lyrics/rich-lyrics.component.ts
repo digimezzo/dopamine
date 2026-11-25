@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
     templateUrl: './rich-lyrics.component.html',
     styleUrls: ['./rich-lyrics.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class RichLyricsComponent implements OnChanges, OnDestroy {
     private readonly minimumRichLyricSize: number = 0.5;

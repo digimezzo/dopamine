@@ -25,6 +25,7 @@ import { BaseVirtualScrollBrowser } from '../../base-virtual-scroll-browser';
     templateUrl: './playlist-folder-browser.component.html',
     styleUrls: ['./playlist-folder-browser.component.scss'],
     providers: [SelectionWatcher],
+    standalone: false
 })
 export class PlaylistFolderBrowserComponent extends BaseVirtualScrollBrowser implements AfterViewInit, OnDestroy {
     @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;

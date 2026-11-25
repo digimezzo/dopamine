@@ -6,6 +6,7 @@ import { ConnectedPosition } from '@angular/cdk/overlay';
     host: { style: 'display: block' },
     templateUrl: './cover-size-control.component.html',
     styleUrls: ['./cover-size-control.component.scss'],
+    standalone: false
 })
 export class CoverSizeControlComponent {
     public readonly minimumSize: number = 80;

@@ -7,6 +7,7 @@ import { AlbumModel } from '../../../services/album/album-model';
     styleUrls: ['./album-placeholder.component.scss'],
     host: { style: 'display: block; width: 100%;height: 100%' },
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class AlbumPlaceholderComponent {
     @Input() album: AlbumModel | undefined;

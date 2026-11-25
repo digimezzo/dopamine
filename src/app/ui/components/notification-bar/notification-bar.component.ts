@@ -17,6 +17,7 @@ import { NotificationServiceBase } from '../../../services/notification/notifica
             transition('expanded => collapsed', animate('150ms ease-out')),
         ]),
     ],
+    standalone: false
 })
 export class NotificationBarComponent implements OnInit {
     private subscription: Subscription = new Subscription();

@@ -10,6 +10,7 @@ import { AnimatedPage } from '../animated-page';
     styleUrls: ['./settings.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations: [enterLeftToRight, enterRightToLeft],
+    standalone: false
 })
 export class SettingsComponent extends AnimatedPage {
     public constructor(public appearanceService: AppearanceServiceBase) {

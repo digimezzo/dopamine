@@ -9,6 +9,7 @@ import { SettingsBase } from '../../../../../../common/settings/settings.base';
     host: { style: 'display: block' },
     templateUrl: './playlist.component.html',
     styleUrls: ['./playlist.component.scss'],
+    standalone: false
 })
 export class PlaylistComponent {
     public constructor(

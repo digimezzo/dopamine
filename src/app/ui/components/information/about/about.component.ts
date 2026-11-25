@@ -10,6 +10,7 @@ import { DesktopBase } from '../../../../common/io/desktop.base';
     templateUrl: './about.component.html',
     styleUrls: ['./about.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class AboutComponent {
     public constructor(

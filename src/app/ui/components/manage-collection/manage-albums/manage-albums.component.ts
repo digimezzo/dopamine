@@ -8,6 +8,7 @@ import { IndexingService } from '../../../../services/indexing/indexing.service'
     templateUrl: './manage-albums.component.html',
     styleUrls: ['./manage-albums.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ManageAlbumsComponent {
     public overwriteManuallyEditedCovers: boolean = false;

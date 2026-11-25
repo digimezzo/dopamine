@@ -8,6 +8,7 @@ import { Theme } from '../../../services/appearance/theme/theme';
     templateUrl: './theme-switcher.component.html',
     styleUrls: ['./theme-switcher.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ThemeSwitcherComponent {
     public constructor(public appearanceService: AppearanceServiceBase) {}

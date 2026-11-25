@@ -3,7 +3,10 @@ import { StringUtils } from '../../common/utils/string-utils';
 import { SearchServiceBase } from '../../services/search/search.service.base';
 import { PlaylistModel } from '../../services/playlist/playlist-model';
 
-@Pipe({ name: 'playlistsFilter' })
+@Pipe({
+    name: 'playlistsFilter',
+    standalone: false
+})
 export class PlaylistsFilterPipe implements PipeTransform {
     public constructor(private searchService: SearchServiceBase) {}
 

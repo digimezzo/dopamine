@@ -6,6 +6,7 @@ import { TranslatorServiceBase } from '../../../../services/translator/translato
     host: { style: 'display: block; width: 100%;' },
     templateUrl: './welcome-language.component.html',
     styleUrls: ['./welcome-language.component.scss'],
+    standalone: false
 })
 export class WelcomeLanguageComponent {
     public constructor(public translatorService: TranslatorServiceBase) {}

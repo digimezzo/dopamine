@@ -1,7 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {TranslatorServiceBase} from "../../services/translator/translator.service.base";
 
-@Pipe({ name: 'formatTotalDuration' })
+@Pipe({
+    name: 'formatTotalDuration',
+    standalone: false
+})
 export class FormatTotalDurationPipe implements PipeTransform {
     public constructor(private translatorService: TranslatorServiceBase) {}
 

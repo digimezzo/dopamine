@@ -7,6 +7,7 @@ import { NavigationServiceBase } from '../../../../services/navigation/navigatio
     host: { style: 'display: block;' },
     templateUrl: './welcome-navigation-buttons.html',
     styleUrls: ['./welcome-navigation-buttons.scss'],
+    standalone: false
 })
 export class WelcomeNavigationButtonsComponent {
     public constructor(

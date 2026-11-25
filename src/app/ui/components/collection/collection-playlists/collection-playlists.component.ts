@@ -21,6 +21,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
     host: { style: 'display: block; width: 100%;' },
     templateUrl: './collection-playlists.component.html',
     styleUrls: ['./collection-playlists.component.scss'],
+    standalone: false
 })
 export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();

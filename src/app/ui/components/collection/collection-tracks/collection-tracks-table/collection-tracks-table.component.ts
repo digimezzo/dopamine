@@ -33,6 +33,7 @@ import { SearchServiceBase } from '../../../../../services/search/search.service
     styleUrls: ['./collection-tracks-table.component.scss'],
     providers: [SelectionWatcher],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class CollectionTracksTableComponent extends TrackBrowserBase implements OnInit, AfterViewInit, OnDestroy {
     private static readonly scrollPositionKey: string = 'tracks-table';

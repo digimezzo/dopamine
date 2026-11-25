@@ -9,6 +9,7 @@ import { NowPlayingNavigationServiceBase } from '../../../../services/now-playin
     templateUrl: './now-playing-playback-pane.component.html',
     styleUrls: ['./now-playing-playback-pane.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class NowPlayingPlaybackPaneComponent {
     public constructor(

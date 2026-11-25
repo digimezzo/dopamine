@@ -7,6 +7,7 @@ import { NavigationServiceBase } from '../../../../services/navigation/navigatio
     templateUrl: './highlights-playback-pane.component.html',
     styleUrls: ['./highlights-playback-pane.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class HighlightsPlaybackPaneComponent {
     public constructor(private navigationService: NavigationServiceBase) {}

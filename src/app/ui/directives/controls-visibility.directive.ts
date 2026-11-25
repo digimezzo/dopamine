@@ -4,6 +4,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Directive({
     selector: '[appControlsHidden]',
+    standalone: false
 })
 export class ControlsVisibilityDirective {
     public readonly hidden$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -17,6 +18,7 @@ export class ControlsVisibilityDirective {
 // Tooltips live in an overlay outside the fading controls, including those in child components.
 @Directive({
     selector: '[matTooltip]',
+    standalone: false
 })
 export class ControlTooltipDirective implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();

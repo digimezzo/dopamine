@@ -14,6 +14,7 @@ import { PlaybackService } from '../../../services/playback/playback.service';
     templateUrl: './loading.component.html',
     styleUrls: ['./loading.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class LoadingComponent implements OnInit {
     public constructor(

@@ -22,6 +22,7 @@ import { AddToPlaylistMenu } from '../add-to-playlist-menu';
     styleUrls: ['./playback-queue.component.scss'],
     encapsulation: ViewEncapsulation.None,
     providers: [SelectionWatcher],
+    standalone: false
 })
 export class PlaybackQueueComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();

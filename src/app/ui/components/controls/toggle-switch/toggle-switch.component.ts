@@ -5,6 +5,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
     selector: 'app-toggle-switch',
     templateUrl: './toggle-switch.component.html',
     styleUrls: ['./toggle-switch.component.scss'],
+    standalone: false
 })
 export class ToggleSwitchComponent {
     public constructor(public settings: SettingsBase) {}

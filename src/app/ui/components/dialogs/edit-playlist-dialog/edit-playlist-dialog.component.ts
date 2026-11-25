@@ -11,6 +11,7 @@ import { DesktopBase } from '../../../../common/io/desktop.base';
     selector: 'app-edit-playlist-dialog',
     templateUrl: './edit-playlist-dialog.component.html',
     styleUrls: ['./edit-playlist-dialog.component.scss'],
+    standalone: false
 })
 export class EditPlaylistDialogComponent implements OnInit {
     public constructor(

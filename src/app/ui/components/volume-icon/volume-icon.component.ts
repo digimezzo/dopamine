@@ -6,6 +6,7 @@ import { PlaybackService } from '../../../services/playback/playback.service';
     host: { style: 'display: block' },
     templateUrl: './volume-icon.component.html',
     styleUrls: ['./volume-icon.component.scss'],
+    standalone: false
 })
 export class VolumeIconComponent {
     public constructor(private playbackService: PlaybackService) {}

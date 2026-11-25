@@ -18,6 +18,7 @@ import { PlaybackService } from '../../../../services/playback/playback.service'
     templateUrl: './behavior-settings.component.html',
     styleUrls: ['./behavior-settings.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class BehaviorSettingsComponent implements OnInit {
     public constructor(

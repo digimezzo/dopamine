@@ -11,6 +11,7 @@ import { TranslatorServiceBase } from '../../../services/translator/translator.s
     host: { style: 'display: flex; align-items: center' },
     templateUrl: './love.component.html',
     styleUrls: ['./love.component.scss'],
+    standalone: false
 })
 export class LoveComponent {
     private _track: TrackModel;

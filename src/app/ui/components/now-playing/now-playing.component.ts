@@ -26,68 +26,45 @@ import { SettingsBase } from '../../../common/settings/settings.base';
         enterLeftToRight,
         enterRightToLeft,
         trigger('controlsVisibility', [
-            state(
-                'visible',
-                style({
-                    opacity: 1,
-                }),
-            ),
-            state(
-                'hidden',
-                style({
-                    opacity: 0,
-                }),
-            ),
+            state('visible', style({
+                opacity: 1,
+            })),
+            state('hidden', style({
+                opacity: 0,
+            })),
             transition('hidden => visible', animate('.25s')),
             transition('visible => hidden', animate('1s')),
         ]),
         trigger('background1Animation', [
-            state(
-                'fade-out',
-                style({
-                    opacity: 0,
-                }),
-            ),
-            state(
-                'fade-in-dark',
-                style({
-                    opacity: 0.05,
-                }),
-            ),
-            state(
-                'fade-in-light',
-                style({
-                    opacity: 0.15,
-                }),
-            ),
+            state('fade-out', style({
+                opacity: 0,
+            })),
+            state('fade-in-dark', style({
+                opacity: 0.05,
+            })),
+            state('fade-in-light', style({
+                opacity: 0.15,
+            })),
             transition('fade-out => fade-in-dark', animate('1s')),
             transition('fade-out => fade-in-light', animate('1s')),
             transition('fade-in => fade-out', animate('1s')),
         ]),
         trigger('background2Animation', [
-            state(
-                'fade-out',
-                style({
-                    opacity: 0,
-                }),
-            ),
-            state(
-                'fade-in-dark',
-                style({
-                    opacity: 0.05,
-                }),
-            ),
-            state(
-                'fade-in-light',
-                style({
-                    opacity: 0.15,
-                }),
-            ),
+            state('fade-out', style({
+                opacity: 0,
+            })),
+            state('fade-in-dark', style({
+                opacity: 0.05,
+            })),
+            state('fade-in-light', style({
+                opacity: 0.15,
+            })),
             transition('fade-out => fade-in-dark', animate('1s')),
             transition('fade-out => fade-in-light', animate('1s')),
             transition('fade-in => fade-out', animate('1s')),
         ]),
     ],
+    standalone: false
 })
 export class NowPlayingComponent extends AnimatedPage implements OnInit, AfterViewInit {
     private timerId: number = 0;

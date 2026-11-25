@@ -6,5 +6,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
     templateUrl: './logo-small.component.html',
     styleUrls: ['./logo-small.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class LogoSmallComponent {}

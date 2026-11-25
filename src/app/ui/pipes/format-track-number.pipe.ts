@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'formatTrackNumber' })
+@Pipe({
+    name: 'formatTrackNumber',
+    standalone: false
+})
 export class FormatTrackNumberPipe implements PipeTransform {
     public transform(trackNumber: number | undefined): string {
         if (trackNumber == undefined) {

@@ -10,6 +10,7 @@ import { AppearanceServiceBase } from '../../../services/appearance/appearance.s
     host: { style: 'display: flex; align-items: center' },
     templateUrl: './rating.component.html',
     styleUrls: ['./rating.component.scss'],
+    standalone: false
 })
 export class RatingComponent {
     private _track: TrackModel;

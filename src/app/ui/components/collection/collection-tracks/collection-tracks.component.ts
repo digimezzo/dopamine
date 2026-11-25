@@ -17,6 +17,7 @@ import { IndexingService } from '../../../../services/indexing/indexing.service'
     templateUrl: './collection-tracks.component.html',
     styleUrls: ['./collection-tracks.component.scss'],
     providers: [SelectionWatcher],
+    standalone: false
 })
 export class CollectionTracksComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();

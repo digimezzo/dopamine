@@ -34,6 +34,7 @@ import { SearchServiceBase } from '../../../../services/search/search.service.ba
     styleUrls: ['./track-browser.component.scss'],
     providers: [SelectionWatcher],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, AfterViewInit, OnDestroy {
     private _tracks: TrackModels = new TrackModels();

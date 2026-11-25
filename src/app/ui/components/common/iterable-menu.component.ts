@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
     selector: 'app-iterable-menu',
     templateUrl: './iterable-menu.component.html',
     styleUrls: ['./iterable-menu.component.scss'],
+    standalone: false
 })
 export class IterableMenuComponent<T> {
     @Input() public highContrast: boolean = false;

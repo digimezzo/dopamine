@@ -3,7 +3,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { LOCATION_INITIALIZED } from '@angular/common';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core';
+import { ErrorHandler, Injector, NgModule, inject, provideAppInitializer } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -525,12 +525,10 @@ export function settingsInitializerFactory(settings: SettingsBase) {
             },
         })], providers: [
         UserTranslations,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: appInitializerFactory,
-            deps: [TranslateService, Injector],
-            multi: true,
-        },
+        provideAppInitializer(() => {
+        const initializerFn = (appInitializerFactory)(inject(TranslateService), inject(Injector));
+        return initializerFn();
+      }),
         ElectronService,
         DatabaseFactory,
         FileMetadataFactory,
@@ -645,12 +643,10 @@ export function settingsInitializerFactory(settings: SettingsBase) {
         { provide: EventListenerServiceBase, useClass: EventListenerService },
         { provide: AudioVisualizerServiceBase, useClass: AudioVisualizerService },
         { provide: SettingsBase, useClass: Settings },
-        {
-            provide: APP_INITIALIZER,
-            useFactory: settingsInitializerFactory,
-            deps: [SettingsBase],
-            multi: true,
-        },
+        provideAppInitializer(() => {
+        const initializerFn = (settingsInitializerFactory)(inject(SettingsBase));
+        return initializerFn();
+      }),
         { provide: DatabaseMigratorBase, useClass: DatabaseMigrator },
         { provide: SchedulerBase, useClass: Scheduler },
         { provide: ApplicationBase, useClass: Application },

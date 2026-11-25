@@ -8,6 +8,7 @@ import { InputData } from '../../../../services/dialog/input-data';
     templateUrl: './input-dialog.component.html',
     styleUrls: ['./input-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class InputDialogComponent {
     public constructor(

@@ -8,6 +8,7 @@ import { DocumentProxy } from '../../../common/io/document-proxy';
     templateUrl: './search-box.component.html',
     styleUrls: ['./search-box.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class SearchBoxComponent {
     @ViewChild('appSearchBox') public appSearchBoxRef?: ElementRef<HTMLInputElement>;

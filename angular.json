@@ -70,14 +70,14 @@
                 "serve": {
                     "builder": "@angular-builders/custom-webpack:dev-server",
                     "options": {
-                        "browserTarget": "dopamine:build"
+                        "buildTarget": "dopamine:build"
                     },
                     "configurations": {
                         "dev": {
-                            "browserTarget": "dopamine:build:dev"
+                            "buildTarget": "dopamine:build:dev"
                         },
                         "production": {
-                            "browserTarget": "dopamine:build:production"
+                            "buildTarget": "dopamine:build:production"
                         }
                     },
                     "defaultConfiguration": "dev"

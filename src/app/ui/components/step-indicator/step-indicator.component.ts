@@ -6,6 +6,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
     templateUrl: './step-indicator.component.html',
     styleUrls: ['./step-indicator.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class StepIndicatorComponent implements OnInit {
     public totalStepsCollection: number[];

@@ -8,6 +8,7 @@ import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/s
     host: { style: 'display: block' },
     templateUrl: './genre.component.html',
     styleUrls: ['./genre.component.scss'],
+    standalone: false
 })
 export class GenreComponent {
     public constructor(

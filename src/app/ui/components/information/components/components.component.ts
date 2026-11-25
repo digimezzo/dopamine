@@ -9,6 +9,7 @@ import { DesktopBase } from '../../../../common/io/desktop.base';
     templateUrl: './components.component.html',
     styleUrls: ['./components.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ComponentsComponent {
     public externalComponents: ExternalComponent[] = Constants.externalComponents;

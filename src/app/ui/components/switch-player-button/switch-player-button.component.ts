@@ -7,6 +7,7 @@ import { SwitchPlayerService } from '../../../services/player-switcher/switch-pl
     templateUrl: './switch-player-button.component.html',
     styleUrls: ['./switch-player-button.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class SwitchPlayerButtonComponent {
     public constructor(public switchPlayerService: SwitchPlayerService) {}

@@ -19,6 +19,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
     templateUrl: './now-playing-lyrics.component.html',
     styleUrls: ['./now-playing-lyrics.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();

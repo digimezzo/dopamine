@@ -9,6 +9,7 @@ import { enterLeftToRight, enterRightToLeft } from '../../animations/animations'
     styleUrls: ['./manage-collection.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations: [enterLeftToRight, enterRightToLeft],
+    standalone: false
 })
 export class ManageCollectionComponent extends AnimatedPage {
     public constructor(public appearanceService: AppearanceServiceBase) {
