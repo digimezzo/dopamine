@@ -1,12 +1,16 @@
 <div class="semantic-zoom-out-viewport py-3 d-flex align-items-center justify-content-center" [@fadeIn]="fadeIn">
-    <table class="semantic-table">
-        <tr *ngFor="let buttonTextsRow of buttonTexts" class="semantic-row" [style.height.%]="100 / buttonTexts.length">
-            <td *ngFor="let buttonTextsCell of buttonTextsRow" class="semantic-column">
-                <app-semantic-zoom-button
-                    [text]="buttonTextsCell"
-                    [isZoomable]="this.isZoomable(buttonTextsCell)"
-                ></app-semantic-zoom-button>
-            </td>
-        </tr>
-    </table>
+  <table class="semantic-table">
+    @for (buttonTextsRow of buttonTexts; track buttonTextsRow) {
+      <tr class="semantic-row" [style.height.%]="100 / buttonTexts.length">
+        @for (buttonTextsCell of buttonTextsRow; track buttonTextsCell) {
+          <td class="semantic-column">
+            <app-semantic-zoom-button
+              [text]="buttonTextsCell"
+              [isZoomable]="this.isZoomable(buttonTextsCell)"
+            ></app-semantic-zoom-button>
+          </td>
+        }
+      </tr>
+    }
+  </table>
 </div>

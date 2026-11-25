@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IOutputData } from 'angular-split';
+import { SplitGutterInteractionEvent } from 'angular-split';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
 import { Logger } from '../../../../common/logger';
@@ -107,7 +107,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         await this.fillListsAsync();
     }
 
-    public splitDragEnd(event: IOutputData): void {
+    public splitDragEnd(event: SplitGutterInteractionEvent): void {
         this.settings.genresLeftPaneWidthPercent = <number>event.sizes[0];
         this.settings.genresRightPaneWidthPercent = <number>event.sizes[2];
     }

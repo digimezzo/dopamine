@@ -1,39 +1,51 @@
 <div class="window-frame">
-    <div class="window-frame__titlebar theme-header-background">
-        <div *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights"></div>
-        <app-back-button class="m-2"></app-back-button>
-        <app-sub-menu appWindowDraggable>
-            <app-sub-menu-item
-                [page]="0"
-                [selectedPage]="this.page"
-                icon="las la-info-circle"
-                tooltip="{{ 'about' | translate }}"
-                (click)="this.setPage(0)"
-            >
-                {{ 'about' | translate }}
-            </app-sub-menu-item>
-            <app-sub-menu-item
-                [page]="1"
-                [selectedPage]="this.page"
-                icon="las la-puzzle-piece"
-                tooltip="{{ 'components' | translate }}"
-                (click)="this.setPage(1)"
-            >
-                {{ 'components' | translate }}
-            </app-sub-menu-item>
-        </app-sub-menu>
-        <div class="window-frame__dragarea"></div>
-        <app-main-menu></app-main-menu>
-        <app-switch-player-button></app-switch-player-button>
-        <app-window-controls *ngIf="appearanceService.needsCustomWindowControls"></app-window-controls>
-    </div>
-    <app-notification-bar></app-notification-bar>
-    <div class="window-frame__content__with__notification__bar">
-        <!-- About -->
-        <app-about *ngIf="this.leftToRight(0)" [@enterLeftToRight]></app-about>
-        <app-about *ngIf="this.rightToLeft(0)" [@enterRightToLeft]></app-about>
-        <!-- Components -->
-        <app-components *ngIf="this.leftToRight(1)" [@enterLeftToRight]></app-components>
-        <app-components *ngIf="this.rightToLeft(1)" [@enterRightToLeft]></app-components>
-    </div>
+  <div class="window-frame__titlebar theme-header-background">
+    @if (appearanceService.needsTrafficLightMargin) {
+      <div class="window-frame__trafficlights"></div>
+    }
+    <app-back-button class="m-2"></app-back-button>
+    <app-sub-menu appWindowDraggable>
+      <app-sub-menu-item
+        [page]="0"
+        [selectedPage]="this.page"
+        icon="las la-info-circle"
+        tooltip="{{ 'about' | translate }}"
+        (click)="this.setPage(0)"
+        >
+        {{ 'about' | translate }}
+      </app-sub-menu-item>
+      <app-sub-menu-item
+        [page]="1"
+        [selectedPage]="this.page"
+        icon="las la-puzzle-piece"
+        tooltip="{{ 'components' | translate }}"
+        (click)="this.setPage(1)"
+        >
+        {{ 'components' | translate }}
+      </app-sub-menu-item>
+    </app-sub-menu>
+    <div class="window-frame__dragarea"></div>
+    <app-main-menu></app-main-menu>
+    <app-switch-player-button></app-switch-player-button>
+    @if (appearanceService.needsCustomWindowControls) {
+      <app-window-controls></app-window-controls>
+    }
+  </div>
+  <app-notification-bar></app-notification-bar>
+  <div class="window-frame__content__with__notification__bar">
+    <!-- About -->
+    @if (this.leftToRight(0)) {
+      <app-about [@enterLeftToRight]></app-about>
+    }
+    @if (this.rightToLeft(0)) {
+      <app-about [@enterRightToLeft]></app-about>
+    }
+    <!-- Components -->
+    @if (this.leftToRight(1)) {
+      <app-components [@enterLeftToRight]></app-components>
+    }
+    @if (this.rightToLeft(1)) {
+      <app-components [@enterRightToLeft]></app-components>
+    }
+  </div>
 </div>

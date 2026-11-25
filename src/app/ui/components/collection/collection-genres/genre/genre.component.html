@@ -1,15 +1,18 @@
 <div class="app-genre">
-    <div class="app-genre__header pointer mx-1" *ngIf="genre.isZoomHeader" (click)="this.requestZoomOut()">
-        {{ genre.zoomHeaderText }}
+  @if (genre.isZoomHeader) {
+    <div class="app-genre__header pointer mx-1" (click)="this.requestZoomOut()">
+      {{ genre.zoomHeaderText }}
     </div>
+  }
+  @if (!genre.isZoomHeader) {
     <div
-        *ngIf="!genre.isZoomHeader"
-        class="app-genre__name ellipsis px-1"
-        [ngClass]="{ 'selected-item-background-important': genre.isSelected }"
-        matRipple
-        [matRippleTrigger]="trigger"
-        #trigger
-    >
-        {{ genre.displayName }}
+      class="app-genre__name ellipsis px-1"
+      [ngClass]="{ 'selected-item-background-important': genre.isSelected }"
+      matRipple
+      [matRippleTrigger]="trigger"
+      #trigger
+      >
+      {{ genre.displayName }}
     </div>
+  }
 </div>

@@ -1,11 +1,15 @@
-<div *ngIf="this.lifetimeService.isPerformingClosingTasks" class="d-flex w-100 h-100 align-items-center justify-content-center">
+@if (this.lifetimeService.isPerformingClosingTasks) {
+  <div class="d-flex w-100 h-100 align-items-center justify-content-center">
     <mat-progress-spinner mode="indeterminate" [diameter]="70"></mat-progress-spinner>
-</div>
-<mat-drawer-container *ngIf="!this.lifetimeService.isPerformingClosingTasks" class="mat-drawer-container" hasBackdrop="true">
+  </div>
+}
+@if (!this.lifetimeService.isPerformingClosingTasks) {
+  <mat-drawer-container class="mat-drawer-container" hasBackdrop="true">
     <mat-drawer class="mat-drawer-container__drawer" #playbackQueueDrawer mode="over" position="end">
-        <app-playback-queue class="vh-100 w-100 p-4"></app-playback-queue>
+      <app-playback-queue class="vh-100 w-100 p-4"></app-playback-queue>
     </mat-drawer>
     <mat-drawer-content>
-        <router-outlet></router-outlet>
+      <router-outlet></router-outlet>
     </mat-drawer-content>
-</mat-drawer-container>
+  </mat-drawer-container>
+}

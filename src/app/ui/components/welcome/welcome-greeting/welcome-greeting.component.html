@@ -1,14 +1,22 @@
 <div class="d-flex flex-column p-3">
-    <div *ngIf="!this.isLoaded" class="title fade-in-animation animation-duration-2s animation-delay-2s">
-        {{ 'hi' | translate }}
+  @if (!this.isLoaded) {
+    <div class="title fade-in-animation animation-duration-2s animation-delay-2s">
+      {{ 'hi' | translate }}
     </div>
-    <div *ngIf="!this.isLoaded" class="larger fade-in-animation animation-duration-2s animation-delay-2s">
-        {{ 'welcome-to-dopamine' | translate }}
+  }
+  @if (!this.isLoaded) {
+    <div class="larger fade-in-animation animation-duration-2s animation-delay-2s">
+      {{ 'welcome-to-dopamine' | translate }}
     </div>
-    <div *ngIf="this.isLoaded" class="title">
-        {{ 'hi' | translate }}
+  }
+  @if (this.isLoaded) {
+    <div class="title">
+      {{ 'hi' | translate }}
     </div>
-    <div *ngIf="this.isLoaded" class="larger">
-        {{ 'welcome-to-dopamine' | translate }}
+  }
+  @if (this.isLoaded) {
+    <div class="larger">
+      {{ 'welcome-to-dopamine' | translate }}
     </div>
+  }
 </div>

@@ -1,5 +1,11 @@
 <div class="welcome-navigation-buttons">
-    <app-big-icon-button icon="las la-angle-left" *ngIf="canGoBack" class="mx-2" (click)="goBack()"> </app-big-icon-button>
-    <app-big-icon-button icon="las la-angle-right" *ngIf="canGoForward" class="mx-2" (click)="goForward()"> </app-big-icon-button>
-    <app-big-icon-button icon="las la-check" *ngIf="canFinish" (click)="finishAsync()"> </app-big-icon-button>
+  @if (canGoBack) {
+    <app-big-icon-button icon="las la-angle-left" class="mx-2" (click)="goBack()"> </app-big-icon-button>
+  }
+  @if (canGoForward) {
+    <app-big-icon-button icon="las la-angle-right" class="mx-2" (click)="goForward()"> </app-big-icon-button>
+  }
+  @if (canFinish) {
+    <app-big-icon-button icon="las la-check" (click)="finishAsync()"> </app-big-icon-button>
+  }
 </div>

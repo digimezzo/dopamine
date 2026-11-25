@@ -1,59 +1,64 @@
 <app-dialog-header icon="las la-sliders-h" title="{{ 'equalizer' | translate }}"></app-dialog-header>
 <mat-dialog-content>
-    <div class="equalizer">
-        <div class="equalizer__header">
-            <app-toggle-switch [(isChecked)]="this.isEnabled">{{ 'enable-equalizer' | translate }}</app-toggle-switch>
-            <mat-form-field class="equalizer__preset" [class.equalizer__preset--disabled]="!this.isEnabled">
-                <mat-select [(ngModel)]="this.selectedPreset" [disabled]="!this.isEnabled">
-                    <mat-option *ngFor="let preset of this.presetNames" [value]="preset">
-                        {{ 'equalizer-preset-' + preset | translate }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-
-        <div class="equalizer__bands" #bandsContainer [class.equalizer__bands--disabled]="!this.isEnabled">
-            <svg class="equalizer__chart" [attr.viewBox]="this.viewBox" preserveAspectRatio="none">
-                <defs>
-                    <linearGradient id="equalizerFill" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" [attr.y2]="this.chartHeight">
-                        <stop class="equalizer__chart-fill-top" offset="0%"></stop>
-                        <stop class="equalizer__chart-fill-bottom" offset="100%"></stop>
-                    </linearGradient>
-                </defs>
-                <path class="equalizer__chart-area" [attr.d]="this.areaPath"></path>
-                <path class="equalizer__chart-line" [attr.d]="this.linePath"></path>
-                <circle
-                    *ngFor="let dot of this.dots"
-                    class="equalizer__chart-dot"
-                    [attr.cx]="dot.x"
-                    [attr.cy]="dot.y"
-                    r="5"
-                ></circle>
-            </svg>
-            <div class="equalizer-band" *ngFor="let frequency of this.bands; let i = index">
-                <div class="equalizer-band__value" [class.equalizer-band__value--active]="this.gains[i] !== 0">
-                    {{ this.formatGain(this.gains[i]) }}
-                </div>
-                <div
-                    class="equalizer-band__track"
-                    #track
-                    role="slider"
-                    tabindex="0"
-                    [attr.aria-valuemin]="this.minimumGain"
-                    [attr.aria-valuemax]="this.maximumGain"
-                    [attr.aria-valuenow]="this.gains[i]"
-                    [attr.aria-disabled]="!this.isEnabled"
-                    (pointerdown)="this.onTrackPointerDown(i, $event)"
-                    (keydown)="this.onTrackKeyDown(i, $event)"
-                >
-                    <div class="equalizer-band__track-line"></div>
-                </div>
-                <div class="equalizer-band__frequency">{{ this.formatFrequency(frequency) }}</div>
-            </div>
-        </div>
+  <div class="equalizer">
+    <div class="equalizer__header">
+      <app-toggle-switch [(isChecked)]="this.isEnabled">{{ 'enable-equalizer' | translate }}</app-toggle-switch>
+      <mat-form-field class="equalizer__preset" [class.equalizer__preset--disabled]="!this.isEnabled">
+        <mat-select [(ngModel)]="this.selectedPreset" [disabled]="!this.isEnabled">
+          @for (preset of this.presetNames; track preset) {
+            <mat-option [value]="preset">
+              {{ 'equalizer-preset-' + preset | translate }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
     </div>
+
+    <div class="equalizer__bands" #bandsContainer [class.equalizer__bands--disabled]="!this.isEnabled">
+      <svg class="equalizer__chart" [attr.viewBox]="this.viewBox" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="equalizerFill" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" [attr.y2]="this.chartHeight">
+            <stop class="equalizer__chart-fill-top" offset="0%"></stop>
+            <stop class="equalizer__chart-fill-bottom" offset="100%"></stop>
+          </linearGradient>
+        </defs>
+        <path class="equalizer__chart-area" [attr.d]="this.areaPath"></path>
+        <path class="equalizer__chart-line" [attr.d]="this.linePath"></path>
+        @for (dot of this.dots; track dot) {
+          <circle
+            class="equalizer__chart-dot"
+            [attr.cx]="dot.x"
+            [attr.cy]="dot.y"
+            r="5"
+          ></circle>
+        }
+      </svg>
+      @for (frequency of this.bands; track frequency; let i = $index) {
+        <div class="equalizer-band">
+          <div class="equalizer-band__value" [class.equalizer-band__value--active]="this.gains[i] !== 0">
+            {{ this.formatGain(this.gains[i]) }}
+          </div>
+          <div
+            class="equalizer-band__track"
+            #track
+            role="slider"
+            tabindex="0"
+            [attr.aria-valuemin]="this.minimumGain"
+            [attr.aria-valuemax]="this.maximumGain"
+            [attr.aria-valuenow]="this.gains[i]"
+            [attr.aria-disabled]="!this.isEnabled"
+            (pointerdown)="this.onTrackPointerDown(i, $event)"
+            (keydown)="this.onTrackKeyDown(i, $event)"
+            >
+            <div class="equalizer-band__track-line"></div>
+          </div>
+          <div class="equalizer-band__frequency">{{ this.formatFrequency(frequency) }}</div>
+        </div>
+      }
+    </div>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <app-transparent-button class="mr-2" (click)="this.reset()">{{ 'reset' | translate }}</app-transparent-button>
-    <app-accent-button [mat-dialog-close]="true">{{ 'close' | translate }}</app-accent-button>
+  <app-transparent-button class="mr-2" (click)="this.reset()">{{ 'reset' | translate }}</app-transparent-button>
+  <app-accent-button [mat-dialog-close]="true">{{ 'close' | translate }}</app-accent-button>
 </mat-dialog-actions>

@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IOutputData } from 'angular-split';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
 import { Logger } from '../../../../common/logger';
@@ -17,6 +16,7 @@ import { IndexingService } from '../../../../services/indexing/indexing.service'
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 import { TrackOrder } from '../track-order';
+import { SplitGutterInteractionEvent } from 'angular-split';
 
 @Component({
     selector: 'app-collection-albums',
@@ -92,7 +92,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         await this.fillListsAsync();
     }
 
-    public splitDragEnd(event: IOutputData): void {
+    public splitDragEnd(event: SplitGutterInteractionEvent): void {
         this.settings.albumsRightPaneWidthPercent = <number>event.sizes[1];
     }
 

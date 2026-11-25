@@ -1,86 +1,94 @@
 <div class="h-100 w-100 d-flex flex-column">
-    <div class="h-24px align-items-center justify-content-between d-flex flex-row m-1">
-        <div class="d-flex flex-row align-items-center">
-            <div class="mr-2 accent-color">{{ this.tracks.numberOfTracks }}</div>
-            <div *ngIf="this.tracks.numberOfTracks === 1">{{ 'track' | translate }}</div>
-            <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
-        </div>
-        <div class="d-flex flex-row align-items-center">
-            <app-icon-button
-                class="mr-2"
-                icon="las la-crosshairs"
-                matTooltip="{{ 'jump-to-playing-song' | translate }}"
-                (click)="scrollToPlayingTrack()"
-            ></app-icon-button>
-            <app-iterable-menu
-                *ngIf="this.showOrdering"
-                [tooltipKey]="'choose-order'"
-                [currentItem]="selectedTrackOrder"
-                [items]="trackOrders"
-                [itemKeyFn]="trackOrderKey"
-                [applyItemFn]="applyTrackOrder"
-            >
-            </app-iterable-menu>
-        </div>
+  <div class="h-24px align-items-center justify-content-between d-flex flex-row m-1">
+    <div class="d-flex flex-row align-items-center">
+      <div class="mr-2 accent-color">{{ this.tracks.numberOfTracks }}</div>
+      @if (this.tracks.numberOfTracks === 1) {
+        <div>{{ 'track' | translate }}</div>
+      }
+      @if (this.tracks.numberOfTracks !== 1) {
+        <div>{{ 'tracks' | translate }}</div>
+      }
     </div>
-    <cdk-virtual-scroll-viewport class="flex-grow mt-3" [itemSize]="this.trackItemSize">
-        <div *cdkVirtualFor="let track of this.orderedTracks" (mousedown)="setSelectedTracks($event, track)">
-            <app-track
-                [track]="track"
-                [canShowHeader]="true"
-                (dblclick)="playbackService.enqueueAndPlayTracksStartingFromGivenTrackAsync(this.orderedTracks, track)"
-                (contextmenu)="onTrackContextMenu($event, track)"
-            ></app-track>
-        </div>
-    </cdk-virtual-scroll-viewport>
-    <app-totals
-        class="mt-3"
-        [totalDurationInMilliseconds]="this.tracks.totalDurationInMilliseconds"
-        [totalFileSizeInBytes]="this.tracks.totalFileSizeInBytes"
-    ></app-totals>
+    <div class="d-flex flex-row align-items-center">
+      <app-icon-button
+        class="mr-2"
+        icon="las la-crosshairs"
+        matTooltip="{{ 'jump-to-playing-song' | translate }}"
+        (click)="scrollToPlayingTrack()"
+      ></app-icon-button>
+      @if (this.showOrdering) {
+        <app-iterable-menu
+          [tooltipKey]="'choose-order'"
+          [currentItem]="selectedTrackOrder"
+          [items]="trackOrders"
+          [itemKeyFn]="trackOrderKey"
+          [applyItemFn]="applyTrackOrder"
+          >
+        </app-iterable-menu>
+      }
+    </div>
+  </div>
+  <cdk-virtual-scroll-viewport class="flex-grow mt-3" [itemSize]="this.trackItemSize">
+    <div *cdkVirtualFor="let track of this.orderedTracks" (mousedown)="setSelectedTracks($event, track)">
+      <app-track
+        [track]="track"
+        [canShowHeader]="true"
+        (dblclick)="playbackService.enqueueAndPlayTracksStartingFromGivenTrackAsync(this.orderedTracks, track)"
+        (contextmenu)="onTrackContextMenu($event, track)"
+      ></app-track>
+    </div>
+  </cdk-virtual-scroll-viewport>
+  <app-totals
+    class="mt-3"
+    [totalDurationInMilliseconds]="this.tracks.totalDurationInMilliseconds"
+    [totalFileSizeInBytes]="this.tracks.totalFileSizeInBytes"
+  ></app-totals>
 </div>
 
 <div
-    #trackContextMenuAnchor
-    style="visibility: hidden; position: fixed"
-    [style.left]="contextMenuOpener.positionX"
-    [style.top]="contextMenuOpener.positionY"
-    [matMenuTriggerFor]="trackContextMenu"
+  #trackContextMenuAnchor
+  style="visibility: hidden; position: fixed"
+  [style.left]="contextMenuOpener.positionX"
+  [style.top]="contextMenuOpener.positionY"
+  [matMenuTriggerFor]="trackContextMenu"
 ></div>
 
 <mat-menu #trackContextMenu="matMenu">
-    <ng-template matMenuContent let-genre="data">
-        <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
-            <span>{{ 'add-to-playlist' | translate }}</span>
-        </button>
-        <button mat-menu-item (click)="onAddToQueueAsync()">
-            <span>{{ 'add-to-playback-queue' | translate }}</span>
-        </button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item (click)="onShowInFolder()">
-            <span>{{ 'show-in-folder' | translate }}</span>
-        </button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item (click)="onEdit()">
-            <span>{{ 'edit' | translate }}</span>
-        </button>
-        <button mat-menu-item (click)="onDeleteAsync()">
-            <span>{{ 'delete' | translate }}</span>
-        </button>
-    </ng-template>
+  <ng-template matMenuContent let-genre="data">
+    <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
+      <span>{{ 'add-to-playlist' | translate }}</span>
+    </button>
+    <button mat-menu-item (click)="onAddToQueueAsync()">
+      <span>{{ 'add-to-playback-queue' | translate }}</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="onShowInFolder()">
+      <span>{{ 'show-in-folder' | translate }}</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="onEdit()">
+      <span>{{ 'edit' | translate }}</span>
+    </button>
+    <button mat-menu-item (click)="onDeleteAsync()">
+      <span>{{ 'delete' | translate }}</span>
+    </button>
+  </ng-template>
 </mat-menu>
 
 <mat-menu #addToPlaylistContextMenu="matMenu">
-    <div *ngIf="!this.addToPlaylistMenu.hasPlaylists" mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
-    <div *ngIf="this.addToPlaylistMenu.hasPlaylists">
-        <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
-            <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
-                <span>{{ playlist.key }}</span>
-            </button>
-            <mat-menu #playlistsMenu="matMenu">
-                <button
-                    *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
-                    mat-menu-item
+  @if (!this.addToPlaylistMenu.hasPlaylists) {
+    <div mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
+  }
+  @if (this.addToPlaylistMenu.hasPlaylists) {
+    <div>
+      @for (playlist of this.addToPlaylistMenu.playlists | keyvalue; track playlist) {
+        <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
+          <span>{{ playlist.key }}</span>
+        </button>
+        <mat-menu #playlistsMenu="matMenu">
+          @for (playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue; track playlist) {
+            <button
+              mat-menu-item
                     (click)="
                         this.addToPlaylistMenu.addTracksToPlaylistAsync(
                             playlist.value.path,
@@ -88,10 +96,12 @@
                             this.selectionWatcher.selectedItems
                         )
                     "
-                >
-                    <span>{{ playlist.value.name }}</span>
-                </button>
-            </mat-menu>
-        </ng-container>
+              >
+              <span>{{ playlist.value.name }}</span>
+            </button>
+          }
+        </mat-menu>
+      }
     </div>
+  }
 </mat-menu>

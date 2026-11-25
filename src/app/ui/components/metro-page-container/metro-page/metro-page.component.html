@@ -1,5 +1,5 @@
-<div
-    *ngIf="this.selectedPage === this.page"
+@if (this.selectedPage === this.page) {
+  <div
     [@enterAnimation]="{
         value: enterAnimation,
         params: {
@@ -7,6 +7,7 @@
             marginRight: this.marginRight
         }
     }"
->
-    <ng-content></ng-content>
+  >
+  <ng-content></ng-content>
 </div>
+}

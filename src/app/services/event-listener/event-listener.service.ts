@@ -11,7 +11,7 @@ export class EventListenerService implements EventListenerServiceBase {
 
     public listenToEvents(): void {
         ipcRenderer.on('arguments-received', (event, argv: string[] | undefined) => {
-            this.argumentsReceived.next(argv);
+            this.argumentsReceived.next(argv ?? []);
         });
 
         document.addEventListener('dragover', (e) => {

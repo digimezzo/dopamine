@@ -1,89 +1,94 @@
 <div class="app-playback-controls" [class.app-playback-controls--compact]="canCompact && settings.showStopButton">
-    <!-- Loop -->
-    <div
-        class="app-playback-controls__button pointer mx-1"
-        (click)="playbackService.toggleLoopMode()"
-        matRipple
-        matTooltip="{{ 'loop' | translate }}"
+  <!-- Loop -->
+  <div
+    class="app-playback-controls__button pointer mx-1"
+    (click)="playbackService.toggleLoopMode()"
+    matRipple
+    matTooltip="{{ 'loop' | translate }}"
     >
-        <i
-            *ngIf="this.playbackService.loopMode !== loopModeEnum.One"
-            class="app-playback-controls__icon las la-redo-alt"
+    @if (this.playbackService.loopMode !== loopModeEnum.One) {
+      <i
+        class="app-playback-controls__icon las la-redo-alt"
             [ngClass]="{
                 'app-playback-controls__accent': this.playbackService.loopMode === loopModeEnum.All
             }"
-        ></i>
-        <span
-            class="d-flex flex-row align-items-center app-playback-controls__loop-one"
-            *ngIf="this.playbackService.loopMode === loopModeEnum.One"
+      ></i>
+    }
+    @if (this.playbackService.loopMode === loopModeEnum.One) {
+      <span
+        class="d-flex flex-row align-items-center app-playback-controls__loop-one"
         >
-            <i class="app-playback-controls__icon app-playback-controls__accent las la-redo-alt"></i
-            ><span class="app-playback-controls__icon-one">1</span></span
-        >
-    </div>
+        <i class="app-playback-controls__icon app-playback-controls__accent las la-redo-alt"></i
+          ><span class="app-playback-controls__icon-one">1</span></span
+          >
+        }
+      </div>
 
-    <!-- Play previous -->
-    <div
+      <!-- Play previous -->
+      <div
         class="app-playback-controls__button pointer mx-1"
         (click)="playbackService.playPreviousAsync()"
         matRipple
         matTooltip="{{ 'previous' | translate }}"
-    >
+        >
         <i class="app-playback-controls__icon las la-step-backward"></i>
-    </div>
+      </div>
 
-    <!-- Play/Pause -->
-    <div
-        *ngIf="playbackService.canPause"
-        class="app-playback-controls__circled-button pointer mx-1"
-        (click)="playbackService.pause()"
-        matRipple
-        matTooltip="{{ 'pause' | translate }}"
-    >
-        <i class="app-playback-controls__icon las la-pause"></i>
-    </div>
-    <div
-        *ngIf="playbackService.canResume"
-        class="app-playback-controls__circled-button pointer mx-1"
-        (click)="playbackService.resumeAsync()"
-        matRipple
-        matTooltip="{{ 'play' | translate }}"
-    >
-        <i class="app-playback-controls__icon las la-play"></i>
-    </div>
+      <!-- Play/Pause -->
+      @if (playbackService.canPause) {
+        <div
+          class="app-playback-controls__circled-button pointer mx-1"
+          (click)="playbackService.pause()"
+          matRipple
+          matTooltip="{{ 'pause' | translate }}"
+          >
+          <i class="app-playback-controls__icon las la-pause"></i>
+        </div>
+      }
+      @if (playbackService.canResume) {
+        <div
+          class="app-playback-controls__circled-button pointer mx-1"
+          (click)="playbackService.resumeAsync()"
+          matRipple
+          matTooltip="{{ 'play' | translate }}"
+          >
+          <i class="app-playback-controls__icon las la-play"></i>
+        </div>
+      }
 
-    <!-- Play next -->
-    <div
+      <!-- Play next -->
+      <div
         class="app-playback-controls__button pointer mx-1"
         (click)="playbackService.playNextAsync()"
         matRipple
         matTooltip="{{ 'next' | translate }}"
-    >
+        >
         <i class="app-playback-controls__icon las la-step-forward"></i>
-    </div>
+      </div>
 
-    <!-- Stop -->
-    <div
-        *ngIf="settings.showStopButton"
-        class="app-playback-controls__button pointer mx-1"
-        (click)="playbackService.stopPlayback()"
-        matRipple
-        matTooltip="{{ 'stop' | translate }}"
-    >
-        <i class="app-playback-controls__icon las la-stop"></i>
-    </div>
+      <!-- Stop -->
+      @if (settings.showStopButton) {
+        <div
+          class="app-playback-controls__button pointer mx-1"
+          (click)="playbackService.stopPlayback()"
+          matRipple
+          matTooltip="{{ 'stop' | translate }}"
+          >
+          <i class="app-playback-controls__icon las la-stop"></i>
+        </div>
+      }
 
-    <!-- Shuffle -->
-    <div
+      <!-- Shuffle -->
+      <div
         class="app-playback-controls__button pointer mx-1"
         (click)="playbackService.toggleIsShuffled()"
         matRipple
         matTooltip="{{ 'shuffle' | translate }}"
-    >
+        >
         <i
-            class="app-playback-controls__icon las la-random"
-            [ngClass]="{ 'app-playback-controls__accent': this.playbackService.isShuffled }"
+          class="app-playback-controls__icon las la-random"
+          [ngClass]="{ 'app-playback-controls__accent': this.playbackService.isShuffled }"
         ></i>
-    </div>
+      </div>
 
-</div>
+    </div>

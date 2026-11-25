@@ -1,14 +1,18 @@
 <div class="window-frame">
-    <div class="window-frame__titlebar">
-        <div *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights"></div>
-        <div class="window-frame__dragarea"></div>
-        <app-window-controls *ngIf="appearanceService.needsCustomWindowControls"></app-window-controls>
+  <div class="window-frame__titlebar">
+    @if (appearanceService.needsTrafficLightMargin) {
+      <div class="window-frame__trafficlights"></div>
+    }
+    <div class="window-frame__dragarea"></div>
+    @if (appearanceService.needsCustomWindowControls) {
+      <app-window-controls></app-window-controls>
+    }
+  </div>
+  <div class="window-frame__content">
+    <div class="loading-component">
+      <app-logo-full></app-logo-full>
+      <h4 class="mt-5">{{ 'loading' | translate }}</h4>
+      <mat-spinner class="mt-5" [diameter]="40"></mat-spinner>
     </div>
-    <div class="window-frame__content">
-        <div class="loading-component">
-            <app-logo-full></app-logo-full>
-            <h4 class="mt-5">{{ 'loading' | translate }}</h4>
-            <mat-spinner class="mt-5" [diameter]="40"></mat-spinner>
-        </div>
-    </div>
+  </div>
 </div>

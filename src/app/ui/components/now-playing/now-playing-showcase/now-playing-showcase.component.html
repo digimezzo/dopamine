@@ -1,33 +1,35 @@
 <div class="app-now-playing-showcase">
-    <div class="app-now-playing-showcase__song">
-        <div class="app-now-playing-showcase__cover" (click)="openCoverArtOverlay()">
-            <app-playback-cover-art [size]="coverArtSize" [borderRadius]="this.settings.showSquareImages ? 0 : 10"></app-playback-cover-art>
-        </div>
-
-        <div class="app-now-playing-showcase__songinfo" [style.height.px]="coverArtSize">
-            <app-playback-information
-                class="ml-4"
-                [height]="playbackInformationHeight"
-                [largeFontSize]="playbackInformationLargeFontSize"
-                [smallFontSize]="playbackInformationSmallFontSize"
-                position="bottom"
-                [showAlbum]="this.settings.showAlbumOnNowPlayingPage"
-                [showYear]="this.settings.showYearOnNowPlayingPage"
-                [showRating]="this.settings.showRating"
-                [showLove]="this.settings.showLove"
-            >
-            </app-playback-information>
-        </div>
+  <div class="app-now-playing-showcase__song">
+    <div class="app-now-playing-showcase__cover" (click)="openCoverArtOverlay()">
+      <app-playback-cover-art [size]="coverArtSize" [borderRadius]="this.settings.showSquareImages ? 0 : 10"></app-playback-cover-art>
     </div>
+
+    <div class="app-now-playing-showcase__songinfo" [style.height.px]="coverArtSize">
+      <app-playback-information
+        class="ml-4"
+        [height]="playbackInformationHeight"
+        [largeFontSize]="playbackInformationLargeFontSize"
+        [smallFontSize]="playbackInformationSmallFontSize"
+        position="bottom"
+        [showAlbum]="this.settings.showAlbumOnNowPlayingPage"
+        [showYear]="this.settings.showYearOnNowPlayingPage"
+        [showRating]="this.settings.showRating"
+        [showLove]="this.settings.showLove"
+        >
+      </app-playback-information>
+    </div>
+  </div>
 </div>
 
-<div class="app-cover-art-overlay" *ngIf="coverArtOverlayVisible" [@overlayAnimation] (click)="closeCoverArtOverlay()">
+@if (coverArtOverlayVisible) {
+  <div class="app-cover-art-overlay" [@overlayAnimation] (click)="closeCoverArtOverlay()">
     <img
-        [@overlayImageAnimation]
-        class="app-cover-art-overlay__image"
-        [src]="currentCoverArtUrl"
-        [style.border-radius.px]="this.settings.showSquareImages ? 0 : 16"
-        draggable="false"
-        (click)="$event.stopPropagation()"
-    />
-</div>
+      [@overlayImageAnimation]
+      class="app-cover-art-overlay__image"
+      [src]="currentCoverArtUrl"
+      [style.border-radius.px]="this.settings.showSquareImages ? 0 : 16"
+      draggable="false"
+      (click)="$event.stopPropagation()"
+      />
+  </div>
+}

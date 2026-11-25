@@ -1,46 +1,47 @@
 <div class="app-now-playing-playback-pane">
-    <app-playback-progress class="app-now-playing-playback-pane__progressbar">
-        <button class="transparent-round-button__button pointer mx-1" matRipple matTooltip="{{ 'loop' | translate }}">
-            <i class="transparent-round-button__icon las la-redo-alt"></i>
-        </button>
-    </app-playback-progress>
-    <div class="app-now-playing-playback-pane__controls">
-        <div class="app-now-playing-playback-pane-controls__left">
-            <div
-                class="d-flex flex-row align-items-center justify-content-flex-start"
-                *ngIf="this.currentNowPlayingPage !== nowPlayingPageEnum.nothingPlaying"
-            >
-                <i
-                    class="app-now-playing__button las la-tv pointer ml-4 mr-2"
-                    [ngClass]="{ 'accent-color-important': this.currentNowPlayingPage === nowPlayingPageEnum.showcase }"
-                    (click)="this.navigateToShowcase()"
-                    matTooltip="{{ 'showcase' | translate }}"
-                ></i>
-                <i
-                    class="app-now-playing__button las la-microphone pointer mx-2"
-                    [ngClass]="{ 'accent-color-important': this.currentNowPlayingPage === nowPlayingPageEnum.lyrics }"
-                    (click)="this.navigateToLyrics()"
-                    matTooltip="{{ 'lyrics' | translate }}"
-                ></i>
-                <i
-                    class="app-now-playing__button las la-user pointer mx-2"
-                    [ngClass]="{ 'accent-color-important': this.currentNowPlayingPage === nowPlayingPageEnum.artistInformation }"
-                    (click)="this.navigateToArtistInformation()"
-                    matTooltip="{{ 'artist-information' | translate }}"
-                ></i>
-            </div>
+  <app-playback-progress class="app-now-playing-playback-pane__progressbar">
+    <button class="transparent-round-button__button pointer mx-1" matRipple matTooltip="{{ 'loop' | translate }}">
+      <i class="transparent-round-button__icon las la-redo-alt"></i>
+    </button>
+  </app-playback-progress>
+  <div class="app-now-playing-playback-pane__controls">
+    <div class="app-now-playing-playback-pane-controls__left">
+      @if (this.currentNowPlayingPage !== nowPlayingPageEnum.nothingPlaying) {
+        <div
+          class="d-flex flex-row align-items-center justify-content-flex-start"
+          >
+          <i
+            class="app-now-playing__button las la-tv pointer ml-4 mr-2"
+            [ngClass]="{ 'accent-color-important': this.currentNowPlayingPage === nowPlayingPageEnum.showcase }"
+            (click)="this.navigateToShowcase()"
+            matTooltip="{{ 'showcase' | translate }}"
+          ></i>
+          <i
+            class="app-now-playing__button las la-microphone pointer mx-2"
+            [ngClass]="{ 'accent-color-important': this.currentNowPlayingPage === nowPlayingPageEnum.lyrics }"
+            (click)="this.navigateToLyrics()"
+            matTooltip="{{ 'lyrics' | translate }}"
+          ></i>
+          <i
+            class="app-now-playing__button las la-user pointer mx-2"
+            [ngClass]="{ 'accent-color-important': this.currentNowPlayingPage === nowPlayingPageEnum.artistInformation }"
+            (click)="this.navigateToArtistInformation()"
+            matTooltip="{{ 'artist-information' | translate }}"
+          ></i>
         </div>
-        <div class="app-now-playing-playback-pane-controls__center">
-            <app-playback-controls></app-playback-controls>
-        </div>
-        <div class="app-now-playing-playback-pane-controls__right">
-            <app-playback-time class="app-now-playing-playback-pane-controls__time mr-4"></app-playback-time>
-            <i
-                class="app-now-playing__button las la-tasks pointer mr-4"
-                (click)="this.showPlaybackQueue()"
-                matTooltip="{{ 'playback-queue' | translate }}"
-            ></i>
-            <app-volume-control class="app-now-playing-playback-pane_volume mr-3"></app-volume-control>
-        </div>
+      }
     </div>
+    <div class="app-now-playing-playback-pane-controls__center">
+      <app-playback-controls></app-playback-controls>
+    </div>
+    <div class="app-now-playing-playback-pane-controls__right">
+      <app-playback-time class="app-now-playing-playback-pane-controls__time mr-4"></app-playback-time>
+      <i
+        class="app-now-playing__button las la-tasks pointer mr-4"
+        (click)="this.showPlaybackQueue()"
+        matTooltip="{{ 'playback-queue' | translate }}"
+      ></i>
+      <app-volume-control class="app-now-playing-playback-pane_volume mr-3"></app-volume-control>
+    </div>
+  </div>
 </div>

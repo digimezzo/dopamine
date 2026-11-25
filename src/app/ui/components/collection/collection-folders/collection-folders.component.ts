@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { IOutputData } from 'angular-split';
+import { SplitGutterInteractionEvent } from 'angular-split';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
 import { Hacks } from '../../../../common/hacks';
@@ -135,7 +135,7 @@ export class CollectionFoldersComponent extends BaseVirtualScrollBrowser impleme
         await this.fillListsAsync();
     }
 
-    public splitDragEnd(event: IOutputData): void {
+    public splitDragEnd(event: SplitGutterInteractionEvent): void {
         this.settings.foldersLeftPaneWidthPercent = <number>event.sizes[0];
     }
 

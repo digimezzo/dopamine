@@ -1,38 +1,39 @@
 <div class="collection-viewport">
+  @if (showArtistBackground) {
     <div
-        class="app-selected-artist__backgroundimage"
-        *ngIf="showArtistBackground"
-        [style.left]="'calc(' + leftPaneSize + '% - 8px)'"
-        [style.right]="'calc(' + rightPaneSize + '% - 8px)'"
-        [ngStyle]="{ 'background-image': 'url(' + artistBackground + ')' }"
+      class="app-selected-artist__backgroundimage"
+      [style.left]="'calc(' + leftPaneSize + '% - 8px)'"
+      [style.right]="'calc(' + rightPaneSize + '% - 8px)'"
+      [ngStyle]="{ 'background-image': 'url(' + artistBackground + ')' }"
     ></div>
-    <as-split gutterSize="4" unit="percent" direction="horizontal" (dragEnd)="splitDragEnd($event)">
-        <as-split-area [size]="leftPaneSize" minSize="5" maxSize="95"
-            ><div class="left-side-pane">
-                <app-artist-browser
-                    class="p-3 fill"
-                    [artists]="this.artists | artistsFilter: this.searchService.delayedSearchText"
-                    [(artistsPersister)]="this.artistsPersister"
-                    scrollPositionKey="artists-artists"
-                ></app-artist-browser></div
-        ></as-split-area>
-        <as-split-area [size]="centerPaneSize" minSize="5" maxSize="95"
-            ><app-album-browser
-                class="p-3 fill"
-                [albums]="this.albums | albumsFilter: this.searchService.delayedSearchText"
-                [(albumsPersister)]="this.albumsPersister"
-                scrollPositionKey="artists-albums"
-            ></app-album-browser
-        ></as-split-area>
-        <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95"
-            ><div class="right-side-pane">
-                <app-track-browser
-                    class="p-3 fill"
-                    [tracks]="this.tracks | tracksFilter: this.searchService.delayedSearchText"
-                    [(tracksPersister)]="this.tracksPersister"
-                    [trackOrders]="this.trackOrders"
-                    scrollPositionKey="artists-tracks"
-                ></app-track-browser></div
-        ></as-split-area>
-    </as-split>
+  }
+  <as-split gutterSize="4" unit="percent" direction="horizontal" (dragEnd)="splitDragEnd($event)">
+    <as-split-area [size]="leftPaneSize" minSize="5" maxSize="95"
+      ><div class="left-side-pane">
+      <app-artist-browser
+        class="p-3 fill"
+        [artists]="this.artists | artistsFilter: this.searchService.delayedSearchText"
+        [(artistsPersister)]="this.artistsPersister"
+        scrollPositionKey="artists-artists"
+      ></app-artist-browser></div
+    ></as-split-area>
+    <as-split-area [size]="centerPaneSize" minSize="5" maxSize="95"
+      ><app-album-browser
+      class="p-3 fill"
+      [albums]="this.albums | albumsFilter: this.searchService.delayedSearchText"
+      [(albumsPersister)]="this.albumsPersister"
+      scrollPositionKey="artists-albums"
+      ></app-album-browser
+    ></as-split-area>
+    <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95"
+      ><div class="right-side-pane">
+      <app-track-browser
+        class="p-3 fill"
+        [tracks]="this.tracks | tracksFilter: this.searchService.delayedSearchText"
+        [(tracksPersister)]="this.tracksPersister"
+        [trackOrders]="this.trackOrders"
+        scrollPositionKey="artists-tracks"
+      ></app-track-browser></div
+    ></as-split-area>
+  </as-split>
 </div>

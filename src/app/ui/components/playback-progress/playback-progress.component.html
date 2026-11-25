@@ -1,41 +1,43 @@
 <div
-    class="app-playback-progress-container"
-    #progressContainer
-    [class.grabbing]="isProgressThumbDown || isProgressContainerDown"
-    (mouseenter)="progressContainerMouseEnter()"
-    (mouseleave)="progressContainerMouseLeave()"
-    (mousedown)="progressContainerMouseDown($event)"
-    (touchstart)="progressContainerTouchStart($event)"
->
-    <div
-        class="app-playback-progress-track"
-        [class.thick]="this.settings.useThickSliders"
-        #progressTrack
-        [ngStyle]="{ left: this.progressBarPosition + 'px' }"
-    ></div>
-    <div
-        class="app-playback-progress-bar"
-        [class.wave-disabled]="!this.settings.showWaveProgress"
-        [class.thick]="this.settings.useThickSliders"
-        #progressBar
-        [ngStyle]="{ width: this.progressBarPosition + 'px' }"
+  class="app-playback-progress-container"
+  #progressContainer
+  [class.grabbing]="isProgressThumbDown || isProgressContainerDown"
+  (mouseenter)="progressContainerMouseEnter()"
+  (mouseleave)="progressContainerMouseLeave()"
+  (mousedown)="progressContainerMouseDown($event)"
+  (touchstart)="progressContainerTouchStart($event)"
+  >
+  <div
+    class="app-playback-progress-track"
+    [class.thick]="this.settings.useThickSliders"
+    #progressTrack
+    [ngStyle]="{ left: this.progressBarPosition + 'px' }"
+  ></div>
+  <div
+    class="app-playback-progress-bar"
+    [class.wave-disabled]="!this.settings.showWaveProgress"
+    [class.thick]="this.settings.useThickSliders"
+    #progressBar
+    [ngStyle]="{ width: this.progressBarPosition + 'px' }"
     >
-        <svg
-            *ngIf="this.settings.showWaveProgress"
-            class="app-playback-progress-wave"
-            [class.thick]="this.settings.useThickSliders"
-            #waveSvg
-            preserveAspectRatio="none"
+    @if (this.settings.showWaveProgress) {
+      <svg
+        class="app-playback-progress-wave"
+        [class.thick]="this.settings.useThickSliders"
+        #waveSvg
+        preserveAspectRatio="none"
         >
-            <path #wavePath></path>
-        </svg>
-    </div>
+        <path #wavePath></path>
+      </svg>
+    }
+  </div>
+  @if (showProgressThumb) {
     <div
-        class="app-playback-progress-thumb"
-        #progressThumb
-        *ngIf="showProgressThumb"
-        [ngStyle]="{ 'margin-left': this.progressThumbPosition + 'px' }"
-        (mousedown)="progressThumbMouseDown()"
-        (touchstart)="progressThumbTouchStart($event)"
+      class="app-playback-progress-thumb"
+      #progressThumb
+      [ngStyle]="{ 'margin-left': this.progressThumbPosition + 'px' }"
+      (mousedown)="progressThumbMouseDown()"
+      (touchstart)="progressThumbTouchStart($event)"
     ></div>
+  }
 </div>

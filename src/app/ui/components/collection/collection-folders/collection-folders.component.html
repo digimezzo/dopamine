@@ -1,104 +1,115 @@
 <div class="collection-viewport">
-    <as-split gutterSize="4" unit="percent" direction="horizontal" (dragEnd)="splitDragEnd($event)" #split="asSplit">
-        <as-split-area [size]="leftPaneSize" minSize="5" maxSize="95">
-            <div class="left-side-pane">
-                <div class="h-100 d-flex flex-column p-3">
-                    <div class="folder-row" *ngIf="this.folderService.collectionHasFolders">
-                        <div class="folder__column1">{{ 'folder' | translate }}</div>
-                        <div
-                            class="folder__column2"
-                            [matMenuTriggerFor]="menu"
-                            matTooltip="{{ 'choose-folder' | translate }}"
-                            (click)="getFolders()"
-                        >
-                            <div class="folder-inner-row pointer">
-                                <div class="folder-inner-row__text secondary-text">{{ openedFolder | folderName }}</div>
-                                <div class="folder-inner-row__chevron"><i class="ml-1 las la-angle-down secondary-text"></i></div>
-                            </div>
-                        </div>
-                        <mat-menu #menu="matMenu">
-                            <button mat-menu-item *ngFor="let folder of folders" (click)="setOpenedFolderAsync(folder)">
-                                <div class="folder-selector-item ellipsis">
-                                    {{ folder | folderName }}
-                                </div>
-                            </button>
-                        </mat-menu>
-                    </div>
-                    <cdk-virtual-scroll-viewport *ngIf="folders.length > 0" class="mt-3 folder-browser__list" itemSize="30">
-                        <div
-                            *cdkVirtualFor="let subfolder of subfolders | subfoldersFilter: this.searchService.delayedSearchText"
-                            matRipple
-                            (mousedown)="setSelectedSubfolder(subfolder)"
-                            (dblclick)="setOpenedSubfolderAsync(subfolder)"
-                            (contextmenu)="onSubfolderContextMenu($event, subfolder)"
-                        >
-                            <div
-                                class="subfolder d-flex flex-row align-items-center flex-grow p-1"
-                                [ngClass]="{ 'selected-item-background-important': subfolder === selectedSubfolder }"
-                            >
-                                <i *ngIf="!subfolder.isPlaying" class="font-18px rotate-90ccw mr-2 lar la-folder accent-color"></i>
-                                <app-playback-indicator
-                                    *ngIf="subfolder.isPlaying"
-                                    class="ml-1 mr-2"
-                                    [isSelected]="subfolder === selectedSubfolder"
-                                ></app-playback-indicator>
-                                <div
-                                    class="flex-grow ellipsis"
-                                    matTooltip="{{ subfolder.path }}"
-                                    [ngClass]="{ 'accent-color': subfolder.isPlaying }"
-                                >
-                                    {{ subfolder | subfolderName }}
-                                </div>
-                            </div>
-                        </div>
-                    </cdk-virtual-scroll-viewport>
-                    <!-- No folders in collection -->
-                    <div
-                        class="d-flex flex-column h-100 align-items-center justify-content-center"
-                        *ngIf="!this.folderService.collectionHasFolders"
-                    >
-                        {{ 'no-folders-in-collection' | translate }}
-                        <app-accent-button class="mt-3" (click)="goToManageCollectionAsync()">
-                            {{ 'add-folder' | translate }}
-                        </app-accent-button>
-                    </div>
+  <as-split gutterSize="4" unit="percent" direction="horizontal" (dragEnd)="splitDragEnd($event)" #split="asSplit">
+    <as-split-area [size]="leftPaneSize" minSize="5" maxSize="95">
+      <div class="left-side-pane">
+        <div class="h-100 d-flex flex-column p-3">
+          @if (this.folderService.collectionHasFolders) {
+            <div class="folder-row">
+              <div class="folder__column1">{{ 'folder' | translate }}</div>
+              <div
+                class="folder__column2"
+                [matMenuTriggerFor]="menu"
+                matTooltip="{{ 'choose-folder' | translate }}"
+                (click)="getFolders()"
+                >
+                <div class="folder-inner-row pointer">
+                  <div class="folder-inner-row__text secondary-text">{{ openedFolder | folderName }}</div>
+                  <div class="folder-inner-row__chevron"><i class="ml-1 las la-angle-down secondary-text"></i></div>
                 </div>
+              </div>
+              <mat-menu #menu="matMenu">
+                @for (folder of folders; track folder) {
+                  <button mat-menu-item (click)="setOpenedFolderAsync(folder)">
+                    <div class="folder-selector-item ellipsis">
+                      {{ folder | folderName }}
+                    </div>
+                  </button>
+                }
+              </mat-menu>
             </div>
-        </as-split-area>
-        <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95">
-            <div class="h-100 d-flex flex-column p-3">
-                <div class="d-flex flex-row flex-wrap mb-3">
-                    <app-transparent-button
-                        class="mr-2 mb-2 fit-width"
-                        *ngFor="let subfolderBreadcrumb of subfolderBreadcrumbs"
-                        (click)="setOpenedSubfolderAsync(subfolderBreadcrumb)"
+          }
+          @if (folders.length > 0) {
+            <cdk-virtual-scroll-viewport class="mt-3 folder-browser__list" itemSize="30">
+              <div
+                *cdkVirtualFor="let subfolder of subfolders | subfoldersFilter: this.searchService.delayedSearchText"
+                matRipple
+                (mousedown)="setSelectedSubfolder(subfolder)"
+                (dblclick)="setOpenedSubfolderAsync(subfolder)"
+                (contextmenu)="onSubfolderContextMenu($event, subfolder)"
+                >
+                <div
+                  class="subfolder d-flex flex-row align-items-center flex-grow p-1"
+                  [ngClass]="{ 'selected-item-background-important': subfolder === selectedSubfolder }"
+                  >
+                  @if (!subfolder.isPlaying) {
+                    <i class="font-18px rotate-90ccw mr-2 lar la-folder accent-color"></i>
+                  }
+                  @if (subfolder.isPlaying) {
+                    <app-playback-indicator
+                      class="ml-1 mr-2"
+                      [isSelected]="subfolder === selectedSubfolder"
+                    ></app-playback-indicator>
+                  }
+                  <div
+                    class="flex-grow ellipsis"
+                    matTooltip="{{ subfolder.path }}"
+                    [ngClass]="{ 'accent-color': subfolder.isPlaying }"
                     >
-                        {{ subfolderBreadcrumb | subfolderName }}
-                    </app-transparent-button>
+                    {{ subfolder | subfolderName }}
+                  </div>
                 </div>
-                <app-track-browser
-                    class="fill"
-                    [tracks]="this.tracks | tracksFilter: this.searchService.delayedSearchText"
-                    [(tracksPersister)]="this.tracksPersister"
-                    [trackOrders]="this.trackOrders"
-                    scrollPositionKey="folders-tracks"
-                ></app-track-browser>
+              </div>
+            </cdk-virtual-scroll-viewport>
+          }
+          <!-- No folders in collection -->
+          @if (!this.folderService.collectionHasFolders) {
+            <div
+              class="d-flex flex-column h-100 align-items-center justify-content-center"
+              >
+              {{ 'no-folders-in-collection' | translate }}
+              <app-accent-button class="mt-3" (click)="goToManageCollectionAsync()">
+                {{ 'add-folder' | translate }}
+              </app-accent-button>
             </div>
-        </as-split-area>
-    </as-split>
+          }
+        </div>
+      </div>
+    </as-split-area>
+    <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95">
+      <div class="h-100 d-flex flex-column p-3">
+        <div class="d-flex flex-row flex-wrap mb-3">
+          @for (subfolderBreadcrumb of subfolderBreadcrumbs; track subfolderBreadcrumb) {
+            <app-transparent-button
+              class="mr-2 mb-2 fit-width"
+              (click)="setOpenedSubfolderAsync(subfolderBreadcrumb)"
+              >
+              {{ subfolderBreadcrumb | subfolderName }}
+            </app-transparent-button>
+          }
+        </div>
+        <app-track-browser
+          class="fill"
+          [tracks]="this.tracks | tracksFilter: this.searchService.delayedSearchText"
+          [(tracksPersister)]="this.tracksPersister"
+          [trackOrders]="this.trackOrders"
+          scrollPositionKey="folders-tracks"
+        ></app-track-browser>
+      </div>
+    </as-split-area>
+  </as-split>
 </div>
 
 <div
-    #subfolderContextMenuAnchor
-    style="visibility: hidden; position: fixed"
-    [style.left]="contextMenuOpener.positionX"
-    [style.top]="contextMenuOpener.positionY"
-    [matMenuTriggerFor]="subfolderContextMenu"
+  #subfolderContextMenuAnchor
+  style="visibility: hidden; position: fixed"
+  [style.left]="contextMenuOpener.positionX"
+  [style.top]="contextMenuOpener.positionY"
+  [matMenuTriggerFor]="subfolderContextMenu"
 ></div>
 <mat-menu #subfolderContextMenu="matMenu">
-    <ng-template matMenuContent let-subfolder="data">
-        <button mat-menu-item (click)="onOpenSubfolderAsync(subfolder)">
-            <span>{{ 'open-folder' | translate }}</span>
-        </button>
-    </ng-template>
+  <ng-template matMenuContent let-subfolder="data">
+    <button mat-menu-item (click)="onOpenSubfolderAsync(subfolder)">
+      <span>{{ 'open-folder' | translate }}</span>
+    </button>
+  </ng-template>
 </mat-menu>

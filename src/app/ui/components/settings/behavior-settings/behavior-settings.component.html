@@ -1,219 +1,234 @@
 <div class="p-4">
-    <div class="title">{{ 'notification-area' | translate }}</div>
-    <div>
-        <app-toggle-switch [(isChecked)]="this.settings.showIconInNotificationArea">
-            {{ 'show-icon-in-notification-area' | translate }}</app-toggle-switch
-        >
+  <div class="title">{{ 'notification-area' | translate }}</div>
+  <div>
+    <app-toggle-switch [(isChecked)]="this.settings.showIconInNotificationArea">
+      {{ 'show-icon-in-notification-area' | translate }}</app-toggle-switch
+      >
     </div>
     <div>
-        <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.minimizeToNotificationArea">
-            {{ 'minimize-to-notification-area' | translate }}</app-toggle-switch
+      <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.minimizeToNotificationArea">
+        {{ 'minimize-to-notification-area' | translate }}</app-toggle-switch
         >
-    </div>
-    <div>
+      </div>
+      <div>
         <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.closeToNotificationArea">
-            {{ 'close-to-notification-area' | translate }}</app-toggle-switch
-        >
-    </div>
-    <div *ngIf="this.trayService.needInvertNotificationAreaIconColor">
-        <app-toggle-switch class="mt-3" [(isChecked)]="this.trayService.invertNotificationAreaIconColor">
-            {{ 'invert-notification-area-icon-color' | translate }}</app-toggle-switch
-        >
-    </div>
-    <div *ngIf="this.dockService.isMacOS">
-        <mat-divider class="my-4"></mat-divider>
-        <div class="title">{{ 'dock' | translate }}</div>
-        <div>
-            <app-toggle-switch [(isChecked)]="this.dockService.showAlbumArtOnDockIcon">
-                {{ 'show-album-art-on-dock-icon' | translate }}</app-toggle-switch
-            >
+          {{ 'close-to-notification-area' | translate }}</app-toggle-switch
+          >
         </div>
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'follow-song' | translate }}</div>
-    <div>
-        <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.jumpToPlayingSong">
-            {{ 'jump-to-playing-song' | translate }}</app-toggle-switch
-        >
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'scrolling' | translate }}</div>
-    <div>
-        <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.rememberScrollPosition">
-            {{ 'remember-scroll-position' | translate }}</app-toggle-switch
-        >
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'rating' | translate }}</div>
-    <div>
-        <app-toggle-switch [(isChecked)]="this.settings.showRating"> {{ 'show-rating' | translate }}</app-toggle-switch>
-    </div>
-    <div>
-        <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.saveRatingToAudioFiles">
-            {{ 'save-rating-to-audio-files' | translate }}</app-toggle-switch
-        >
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'love' | translate }}</div>
-    <div>
-        <app-toggle-switch [(isChecked)]="this.settings.showLove"> {{ 'show-love' | translate }}</app-toggle-switch>
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'now-playing' | translate }}</div>
-    <div>
-        <app-toggle-switch [(isChecked)]="this.settings.keepPlaybackControlsVisibleOnNowPlayingPage">
-            {{ 'keep-playback-controls-visible-on-now-playing-page' | translate }}</app-toggle-switch
-        >
-    </div>
-    <div>
-        <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.showAlbumOnNowPlayingPage">
-            {{ 'show-album-on-now-playing-page' | translate }}</app-toggle-switch
-        >
-    </div>
-    <div>
-        <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.showYearOnNowPlayingPage">
-            {{ 'show-year-on-now-playing-page' | translate }}</app-toggle-switch
-        >
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'playback-controls' | translate }}</div>
-    <div>
-        <app-toggle-switch [(isChecked)]="this.settings.showStopButton">
-            {{ 'show-stop-button' | translate }}</app-toggle-switch
-        >
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'playback-state' | translate }}</div>
-    <div>
-        <app-toggle-switch [(isChecked)]="this.settings.rememberPlaybackStateAfterRestart">
-            {{ 'remember-playback-state-after-restart' | translate }}</app-toggle-switch
-        >
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'audio-output-device' | translate }}</div>
-    <div>
-        <mat-form-field class="mt-2 audio-output-device-form-field">
-            <mat-select
-                [ngModel]="this.settings.preferredAudioOutputDeviceId"
-                (ngModelChange)="this.onAudioOutputDeviceChangeAsync($event)"
-            >
-                <mat-option value="">{{ 'audio-output-device-system-default' | translate }}</mat-option>
-                <mat-option *ngFor="let device of this.audioOutputDevices" [value]="device.deviceId">
-                    {{ device.label }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'gapless-playback' | translate }}</div>
-    <div>
-        <app-toggle-switch [(isChecked)]="this.settings.useGaplessPlayback"> {{ 'enable-gapless-playback' | translate }}</app-toggle-switch>
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'crossfade' | translate }}</div>
-    <div>
-        <app-toggle-switch [(isChecked)]="this.settings.useCrossfade"> {{ 'use-crossfade' | translate }}</app-toggle-switch>
-    </div>
-    <div *ngIf="this.settings.useCrossfade" class="mt-3">
-        <div>{{ 'crossfade-duration' | translate: { duration: this.settings.crossfadeDuration } }}</div>
-        <app-slider class="mt-2 w-50" [maximum]="12" [stepSize]="1" [(value)]="this.settings.crossfadeDuration"></app-slider>
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'replaygain-normalization' | translate }}</div>
-    <div class="replaygain-help-text">
-        <div>{{ 'replaygain-requires-tags' | translate }}</div>
-        <div>
-            {{ 'replaygain-scan-tags-external-tool' | translate }}
-            <a href="https://github.com/complexlogic/rsgain" rel="noopener noreferrer">{{ 'replaygain-tool-rsgain' | translate }}</a
-            >.
-        </div>
-    </div>
-    <div class="mt-3">
-        <app-toggle-switch [(isChecked)]="this.settings.useReplayGainNormalization">
-            {{ 'enable-replaygain-normalization' | translate }}</app-toggle-switch
-        >
-    </div>
-    <div *ngIf="this.settings.useReplayGainNormalization" class="mt-3">
-        <div>{{ 'replaygain-mode' | translate }}</div>
-        <mat-form-field class="mt-2 replaygain-form-field">
-            <mat-select [(ngModel)]="this.settings.replayGainMode">
-                <mat-option *ngFor="let mode of this.replayGainModes" [value]="mode">
-                    {{ 'replaygain-mode-' + mode | translate }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <div class="mt-2">{{ 'replaygain-preamp-db' | translate }}</div>
-        <mat-form-field class="mt-2 replaygain-form-field">
-            <input
-                class="replaygain-preamp-input"
-                [(ngModel)]="this.settings.replayGainPreAmp"
-                (blur)="this.clampReplayGainPreAmp()"
-                type="number"
-                min="-15"
-                max="15"
-                step="0.5"
-                matInput
-            />
-            <div matSuffix class="replaygain-stepper-buttons">
-                <button type="button" class="replaygain-stepper-button" (click)="this.decreaseReplayGainPreAmp()">-</button>
-                <button type="button" class="replaygain-stepper-button" (click)="this.increaseReplayGainPreAmp()">+</button>
+        @if (this.trayService.needInvertNotificationAreaIconColor) {
+          <div>
+            <app-toggle-switch class="mt-3" [(isChecked)]="this.trayService.invertNotificationAreaIconColor">
+              {{ 'invert-notification-area-icon-color' | translate }}</app-toggle-switch
+              >
             </div>
-        </mat-form-field>
-        <div>
-            <app-toggle-switch class="mt-2" [(isChecked)]="this.settings.replayGainPreventClipping">
-                {{ 'replaygain-prevent-clipping' | translate }}</app-toggle-switch
-            >
-        </div>
-        <div>
-            <app-toggle-switch class="mt-2" [(isChecked)]="this.settings.logReplayGainAtTrackStart">
-                {{ 'replaygain-log-at-track-start' | translate }}</app-toggle-switch
-            >
-        </div>
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'sort-prefixes' | translate }}</div>
-    <div>
-        <div class="d-flex flex-wrap mt-3">
-            <app-text-icon-secondary-button
-                *ngFor="let prefix of this.sortPrefixes"
-                class="mb-2 mr-2"
-                icon="las la-times"
-                (click)="this.removeSortPrefixAsync(prefix)"
-                >{{ prefix }}</app-text-icon-secondary-button
-            >
-        </div>
-        <app-icon-text-button class="mt-3" icon="las la-plus" (click)="addSortPrefixAsync()">{{
-            'add' | translate
-        }}</app-icon-text-button>
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'split-artists' | translate }}</div>
-    <div>
-        <div>{{ 'symbols-to-split-multiple-artists' | translate }}</div>
-        <div class="d-flex flex-wrap mt-3">
-            <app-text-icon-secondary-button
-                *ngFor="let separator of this.artistSplitSeparators"
-                class="mb-2 mr-2"
-                icon="las la-times"
-                (click)="this.removeSplitSeparatorAsync(separator)"
-                >{{ separator }}</app-text-icon-secondary-button
-            >
-        </div>
-        <app-icon-text-button class="mt-3" icon="las la-plus" (click)="addSplitSeparatorAsync()">{{
-            'add' | translate
-        }}</app-icon-text-button>
-        <div class="mt-3">{{ 'artists-to-never-split' | translate }}</div>
-        <div class="d-flex flex-wrap mt-3">
-            <app-text-icon-secondary-button
-                *ngFor="let exception of this.artistSplitExceptions"
-                class="mb-2 mr-2"
-                icon="las la-times"
-                (click)="this.removeSplitExceptionAsync(exception)"
-                >{{ exception }}</app-text-icon-secondary-button
-            >
-        </div>
-        <app-icon-text-button class="mt-3" icon="las la-plus" (click)="addSplitExceptionAsync()">{{
-            'add' | translate
-        }}</app-icon-text-button>
-    </div>
-</div>
+          }
+          @if (this.dockService.isMacOS) {
+            <div>
+              <mat-divider class="my-4"></mat-divider>
+              <div class="title">{{ 'dock' | translate }}</div>
+              <div>
+                <app-toggle-switch [(isChecked)]="this.dockService.showAlbumArtOnDockIcon">
+                  {{ 'show-album-art-on-dock-icon' | translate }}</app-toggle-switch
+                  >
+                </div>
+              </div>
+            }
+            <mat-divider class="my-4"></mat-divider>
+            <div class="title">{{ 'follow-song' | translate }}</div>
+            <div>
+              <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.jumpToPlayingSong">
+                {{ 'jump-to-playing-song' | translate }}</app-toggle-switch
+                >
+              </div>
+              <mat-divider class="my-4"></mat-divider>
+              <div class="title">{{ 'scrolling' | translate }}</div>
+              <div>
+                <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.rememberScrollPosition">
+                  {{ 'remember-scroll-position' | translate }}</app-toggle-switch
+                  >
+                </div>
+                <mat-divider class="my-4"></mat-divider>
+                <div class="title">{{ 'rating' | translate }}</div>
+                <div>
+                  <app-toggle-switch [(isChecked)]="this.settings.showRating"> {{ 'show-rating' | translate }}</app-toggle-switch>
+                </div>
+                <div>
+                  <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.saveRatingToAudioFiles">
+                    {{ 'save-rating-to-audio-files' | translate }}</app-toggle-switch
+                    >
+                  </div>
+                  <mat-divider class="my-4"></mat-divider>
+                  <div class="title">{{ 'love' | translate }}</div>
+                  <div>
+                    <app-toggle-switch [(isChecked)]="this.settings.showLove"> {{ 'show-love' | translate }}</app-toggle-switch>
+                  </div>
+                  <mat-divider class="my-4"></mat-divider>
+                  <div class="title">{{ 'now-playing' | translate }}</div>
+                  <div>
+                    <app-toggle-switch [(isChecked)]="this.settings.keepPlaybackControlsVisibleOnNowPlayingPage">
+                      {{ 'keep-playback-controls-visible-on-now-playing-page' | translate }}</app-toggle-switch
+                      >
+                    </div>
+                    <div>
+                      <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.showAlbumOnNowPlayingPage">
+                        {{ 'show-album-on-now-playing-page' | translate }}</app-toggle-switch
+                        >
+                      </div>
+                      <div>
+                        <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.showYearOnNowPlayingPage">
+                          {{ 'show-year-on-now-playing-page' | translate }}</app-toggle-switch
+                          >
+                        </div>
+                        <mat-divider class="my-4"></mat-divider>
+                        <div class="title">{{ 'playback-controls' | translate }}</div>
+                        <div>
+                          <app-toggle-switch [(isChecked)]="this.settings.showStopButton">
+                            {{ 'show-stop-button' | translate }}</app-toggle-switch
+                            >
+                          </div>
+                          <mat-divider class="my-4"></mat-divider>
+                          <div class="title">{{ 'playback-state' | translate }}</div>
+                          <div>
+                            <app-toggle-switch [(isChecked)]="this.settings.rememberPlaybackStateAfterRestart">
+                              {{ 'remember-playback-state-after-restart' | translate }}</app-toggle-switch
+                              >
+                            </div>
+                            <mat-divider class="my-4"></mat-divider>
+                            <div class="title">{{ 'audio-output-device' | translate }}</div>
+                            <div>
+                              <mat-form-field class="mt-2 audio-output-device-form-field">
+                                <mat-select
+                                  [ngModel]="this.settings.preferredAudioOutputDeviceId"
+                                  (ngModelChange)="this.onAudioOutputDeviceChangeAsync($event)"
+                                  >
+                                  <mat-option value="">{{ 'audio-output-device-system-default' | translate }}</mat-option>
+                                  @for (device of this.audioOutputDevices; track device) {
+                                    <mat-option [value]="device.deviceId">
+                                      {{ device.label }}
+                                    </mat-option>
+                                  }
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            <mat-divider class="my-4"></mat-divider>
+                            <div class="title">{{ 'gapless-playback' | translate }}</div>
+                            <div>
+                              <app-toggle-switch [(isChecked)]="this.settings.useGaplessPlayback"> {{ 'enable-gapless-playback' | translate }}</app-toggle-switch>
+                            </div>
+                            <mat-divider class="my-4"></mat-divider>
+                            <div class="title">{{ 'crossfade' | translate }}</div>
+                            <div>
+                              <app-toggle-switch [(isChecked)]="this.settings.useCrossfade"> {{ 'use-crossfade' | translate }}</app-toggle-switch>
+                            </div>
+                            @if (this.settings.useCrossfade) {
+                              <div class="mt-3">
+                                <div>{{ 'crossfade-duration' | translate: { duration: this.settings.crossfadeDuration } }}</div>
+                                <app-slider class="mt-2 w-50" [maximum]="12" [stepSize]="1" [(value)]="this.settings.crossfadeDuration"></app-slider>
+                              </div>
+                            }
+                            <mat-divider class="my-4"></mat-divider>
+                            <div class="title">{{ 'replaygain-normalization' | translate }}</div>
+                            <div class="replaygain-help-text">
+                              <div>{{ 'replaygain-requires-tags' | translate }}</div>
+                              <div>
+                                {{ 'replaygain-scan-tags-external-tool' | translate }}
+                                <a href="https://github.com/complexlogic/rsgain" rel="noopener noreferrer">{{ 'replaygain-tool-rsgain' | translate }}</a
+                                  >.
+                                </div>
+                              </div>
+                              <div class="mt-3">
+                                <app-toggle-switch [(isChecked)]="this.settings.useReplayGainNormalization">
+                                  {{ 'enable-replaygain-normalization' | translate }}</app-toggle-switch
+                                  >
+                                </div>
+                                @if (this.settings.useReplayGainNormalization) {
+                                  <div class="mt-3">
+                                    <div>{{ 'replaygain-mode' | translate }}</div>
+                                    <mat-form-field class="mt-2 replaygain-form-field">
+                                      <mat-select [(ngModel)]="this.settings.replayGainMode">
+                                        @for (mode of this.replayGainModes; track mode) {
+                                          <mat-option [value]="mode">
+                                            {{ 'replaygain-mode-' + mode | translate }}
+                                          </mat-option>
+                                        }
+                                      </mat-select>
+                                    </mat-form-field>
+                                    <div class="mt-2">{{ 'replaygain-preamp-db' | translate }}</div>
+                                    <mat-form-field class="mt-2 replaygain-form-field">
+                                      <input
+                                        class="replaygain-preamp-input"
+                                        [(ngModel)]="this.settings.replayGainPreAmp"
+                                        (blur)="this.clampReplayGainPreAmp()"
+                                        type="number"
+                                        min="-15"
+                                        max="15"
+                                        step="0.5"
+                                        matInput
+                                        />
+                                      <div matSuffix class="replaygain-stepper-buttons">
+                                        <button type="button" class="replaygain-stepper-button" (click)="this.decreaseReplayGainPreAmp()">-</button>
+                                        <button type="button" class="replaygain-stepper-button" (click)="this.increaseReplayGainPreAmp()">+</button>
+                                      </div>
+                                    </mat-form-field>
+                                    <div>
+                                      <app-toggle-switch class="mt-2" [(isChecked)]="this.settings.replayGainPreventClipping">
+                                        {{ 'replaygain-prevent-clipping' | translate }}</app-toggle-switch
+                                        >
+                                      </div>
+                                      <div>
+                                        <app-toggle-switch class="mt-2" [(isChecked)]="this.settings.logReplayGainAtTrackStart">
+                                          {{ 'replaygain-log-at-track-start' | translate }}</app-toggle-switch
+                                          >
+                                        </div>
+                                      </div>
+                                    }
+                                    <mat-divider class="my-4"></mat-divider>
+                                    <div class="title">{{ 'sort-prefixes' | translate }}</div>
+                                    <div>
+                                      <div class="d-flex flex-wrap mt-3">
+                                        @for (prefix of this.sortPrefixes; track prefix) {
+                                          <app-text-icon-secondary-button
+                                            class="mb-2 mr-2"
+                                            icon="las la-times"
+                                            (click)="this.removeSortPrefixAsync(prefix)"
+                                            >{{ prefix }}</app-text-icon-secondary-button
+                                            >
+                                          }
+                                        </div>
+                                        <app-icon-text-button class="mt-3" icon="las la-plus" (click)="addSortPrefixAsync()">{{
+                                          'add' | translate
+                                        }}</app-icon-text-button>
+                                      </div>
+                                      <mat-divider class="my-4"></mat-divider>
+                                      <div class="title">{{ 'split-artists' | translate }}</div>
+                                      <div>
+                                        <div>{{ 'symbols-to-split-multiple-artists' | translate }}</div>
+                                        <div class="d-flex flex-wrap mt-3">
+                                          @for (separator of this.artistSplitSeparators; track separator) {
+                                            <app-text-icon-secondary-button
+                                              class="mb-2 mr-2"
+                                              icon="las la-times"
+                                              (click)="this.removeSplitSeparatorAsync(separator)"
+                                              >{{ separator }}</app-text-icon-secondary-button
+                                              >
+                                            }
+                                          </div>
+                                          <app-icon-text-button class="mt-3" icon="las la-plus" (click)="addSplitSeparatorAsync()">{{
+                                            'add' | translate
+                                          }}</app-icon-text-button>
+                                          <div class="mt-3">{{ 'artists-to-never-split' | translate }}</div>
+                                          <div class="d-flex flex-wrap mt-3">
+                                            @for (exception of this.artistSplitExceptions; track exception) {
+                                              <app-text-icon-secondary-button
+                                                class="mb-2 mr-2"
+                                                icon="las la-times"
+                                                (click)="this.removeSplitExceptionAsync(exception)"
+                                                >{{ exception }}</app-text-icon-secondary-button
+                                                >
+                                              }
+                                            </div>
+                                            <app-icon-text-button class="mt-3" icon="las la-plus" (click)="addSplitExceptionAsync()">{{
+                                              'add' | translate
+                                            }}</app-icon-text-button>
+                                          </div>
+                                        </div>

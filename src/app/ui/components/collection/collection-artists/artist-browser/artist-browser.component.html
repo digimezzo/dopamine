@@ -1,88 +1,98 @@
 <div class="h-100 w-100 d-flex flex-column">
-    <div class="h-24px align-items-center justify-content-between d-flex flex-row m-1">
-        <div class="d-flex flex-row align-items-center">
-            <div class="mr-2 accent-color">{{ this.artists.length }}</div>
-            <app-iterable-menu
-                [highContrast]="true"
-                [tooltipKey]="'choose-type'"
-                [currentItem]="selectedArtistType"
-                [items]="artistTypes"
-                [itemKeyFn]="artistTypeKey"
-                [applyItemFn]="applyArtistType"
-            >
-            </app-iterable-menu>
-            <i
-                class="las la-random secondary-text font-16px pointer ml-2"
-                matTooltip="{{ 'shuffle-all' | translate }}"
-                (click)="this.shuffleAllAsync()"
-            >
-            </i>
-        </div>
-        <div class="d-flex flex-row align-items-center">
-            <app-icon-button
-                *ngIf="this.hasSelectedArtists"
-                class="mr-2"
-                icon="las la-eraser"
-                matTooltip="{{ 'clear-selection' | translate }}"
-                (click)="this.clearSelectedArtists()"
-            ></app-icon-button>
-            <app-iterable-menu
-                [tooltipKey]="'choose-order'"
-                [currentItem]="selectedArtistOrder"
-                [items]="artistOrders"
-                [itemKeyFn]="artistOrderKey"
-                [applyItemFn]="applyArtistOrder"
-            >
-            </app-iterable-menu>
-        </div>
+  <div class="h-24px align-items-center justify-content-between d-flex flex-row m-1">
+    <div class="d-flex flex-row align-items-center">
+      <div class="mr-2 accent-color">{{ this.artists.length }}</div>
+      <app-iterable-menu
+        [highContrast]="true"
+        [tooltipKey]="'choose-type'"
+        [currentItem]="selectedArtistType"
+        [items]="artistTypes"
+        [itemKeyFn]="artistTypeKey"
+        [applyItemFn]="applyArtistType"
+        >
+      </app-iterable-menu>
+      <i
+        class="las la-random secondary-text font-16px pointer ml-2"
+        matTooltip="{{ 'shuffle-all' | translate }}"
+        (click)="this.shuffleAllAsync()"
+        >
+      </i>
     </div>
-    <app-semantic-zoom *ngIf="this.shouldZoomOut" class="mt-3" [SemanticZoomables]="this.orderedArtists"></app-semantic-zoom>
-    <cdk-virtual-scroll-viewport *ngIf="!this.shouldZoomOut" class="flex-grow mt-3" [itemSize]="this.itemSize">
-        <div *cdkVirtualFor="let artist of this.orderedArtists" (mousedown)="setSelectedArtists($event, artist)">
-            <app-artist
-                [artist]="artist"
-                (dblclick)="this.enqueueAndPlayArtistAsync(artist)"
-                (contextmenu)="onArtistContextMenu($event, artist)"
-            ></app-artist>
-        </div>
+    <div class="d-flex flex-row align-items-center">
+      @if (this.hasSelectedArtists) {
+        <app-icon-button
+          class="mr-2"
+          icon="las la-eraser"
+          matTooltip="{{ 'clear-selection' | translate }}"
+          (click)="this.clearSelectedArtists()"
+        ></app-icon-button>
+      }
+      <app-iterable-menu
+        [tooltipKey]="'choose-order'"
+        [currentItem]="selectedArtistOrder"
+        [items]="artistOrders"
+        [itemKeyFn]="artistOrderKey"
+        [applyItemFn]="applyArtistOrder"
+        >
+      </app-iterable-menu>
+    </div>
+  </div>
+  @if (this.shouldZoomOut) {
+    <app-semantic-zoom class="mt-3" [SemanticZoomables]="this.orderedArtists"></app-semantic-zoom>
+  }
+  @if (!this.shouldZoomOut) {
+    <cdk-virtual-scroll-viewport class="flex-grow mt-3" [itemSize]="this.itemSize">
+      <div *cdkVirtualFor="let artist of this.orderedArtists" (mousedown)="setSelectedArtists($event, artist)">
+        <app-artist
+          [artist]="artist"
+          (dblclick)="this.enqueueAndPlayArtistAsync(artist)"
+          (contextmenu)="onArtistContextMenu($event, artist)"
+        ></app-artist>
+      </div>
     </cdk-virtual-scroll-viewport>
+  }
 </div>
 <div
-    #artistContextMenuAnchor
-    style="visibility: hidden; position: fixed"
-    [style.left]="contextMenuOpener.positionX"
-    [style.top]="contextMenuOpener.positionY"
-    [matMenuTriggerFor]="artistContextMenu"
+  #artistContextMenuAnchor
+  style="visibility: hidden; position: fixed"
+  [style.left]="contextMenuOpener.positionX"
+  [style.top]="contextMenuOpener.positionY"
+  [matMenuTriggerFor]="artistContextMenu"
 ></div>
 
 <mat-menu #artistContextMenu="matMenu">
-    <ng-template matMenuContent let-artist="data">
-        <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
-            <span>{{ 'add-to-playlist' | translate }}</span>
-        </button>
-        <button mat-menu-item (click)="onAddToQueueAsync(artist)">
-            <span>{{ 'add-to-playback-queue' | translate }}</span>
-        </button>
-        <button mat-menu-item (click)="onShuffleAndPlayAsync(artist)">
-            <span>{{ 'shuffle' | translate }}</span>
-        </button>
-        <button mat-menu-item (click)="onEditArtistAsync(artist)" *ngIf="settings.showArtistImages">
-            <span>{{ 'edit' | translate }}</span>
-        </button>
-    </ng-template>
+  <ng-template matMenuContent let-artist="data">
+    <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
+      <span>{{ 'add-to-playlist' | translate }}</span>
+    </button>
+    <button mat-menu-item (click)="onAddToQueueAsync(artist)">
+      <span>{{ 'add-to-playback-queue' | translate }}</span>
+    </button>
+    <button mat-menu-item (click)="onShuffleAndPlayAsync(artist)">
+      <span>{{ 'shuffle' | translate }}</span>
+    </button>
+    @if (settings.showArtistImages) {
+      <button mat-menu-item (click)="onEditArtistAsync(artist)">
+        <span>{{ 'edit' | translate }}</span>
+      </button>
+    }
+  </ng-template>
 </mat-menu>
 
 <mat-menu #addToPlaylistContextMenu="matMenu">
-    <div *ngIf="!this.addToPlaylistMenu.hasPlaylists" mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
-    <div *ngIf="this.addToPlaylistMenu.hasPlaylists">
-        <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
-            <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
-                <span>{{ playlist.key }}</span>
-            </button>
-            <mat-menu #playlistsMenu="matMenu">
-                <button
-                    *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
-                    mat-menu-item
+  @if (!this.addToPlaylistMenu.hasPlaylists) {
+    <div mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
+  }
+  @if (this.addToPlaylistMenu.hasPlaylists) {
+    <div>
+      @for (playlist of this.addToPlaylistMenu.playlists | keyvalue; track playlist) {
+        <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
+          <span>{{ playlist.key }}</span>
+        </button>
+        <mat-menu #playlistsMenu="matMenu">
+          @for (playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue; track playlist) {
+            <button
+              mat-menu-item
                     (click)="
                         this.addToPlaylistMenu.addArtistsToPlaylistAsync(
                             playlist.value.path,
@@ -90,10 +100,12 @@
                             this.selectionWatcher.selectedItems
                         )
                     "
-                >
-                    <span>{{ playlist.value.name }}</span>
-                </button>
-            </mat-menu>
-        </ng-container>
+              >
+              <span>{{ playlist.value.name }}</span>
+            </button>
+          }
+        </mat-menu>
+      }
     </div>
+  }
 </mat-menu>

@@ -1,63 +1,83 @@
 <div class="window-frame">
-    <div class="window-frame__titlebar theme-header-background">
-        <div *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights"></div>
-        <app-back-button class="m-2"></app-back-button>
-        <app-sub-menu appWindowDraggable>
-            <app-sub-menu-item
-                [page]="0"
-                [selectedPage]="this.page"
-                icon="las la-palette"
-                tooltip="{{ 'appearance' | translate }}"
-                (click)="this.setPage(0)"
-            >
-                {{ 'appearance' | translate }}
-            </app-sub-menu-item>
-            <app-sub-menu-item
-                [page]="1"
-                [selectedPage]="this.page"
-                icon="las la-sliders-h"
-                tooltip="{{ 'behavior' | translate }}"
-                (click)="this.setPage(1)"
-            >
-                {{ 'behavior' | translate }}
-            </app-sub-menu-item>
-            <app-sub-menu-item
-                [page]="2"
-                [selectedPage]="this.page"
-                icon="las la-cogs"
-                tooltip="{{ 'advanced' | translate }}"
-                (click)="this.setPage(2)"
-            >
-                {{ 'advanced' | translate }}
-            </app-sub-menu-item>
-            <app-sub-menu-item
-                [page]="3"
-                [selectedPage]="this.page"
-                icon="las la-cloud"
-                tooltip="{{ 'online' | translate }}"
-                (click)="this.setPage(3)"
-            >
-                {{ 'online' | translate }}
-            </app-sub-menu-item>
-        </app-sub-menu>
-        <div class="window-frame__dragarea"></div>
-        <app-main-menu></app-main-menu>
-        <app-switch-player-button></app-switch-player-button>
-        <app-window-controls *ngIf="appearanceService.needsCustomWindowControls"></app-window-controls>
-    </div>
-    <app-notification-bar></app-notification-bar>
-    <div class="window-frame__content__with__notification__bar">
-        <!-- Appearance -->
-        <app-appearance-settings *ngIf="this.leftToRight(0)" [@enterLeftToRight]></app-appearance-settings>
-        <app-appearance-settings *ngIf="this.rightToLeft(0)" [@enterRightToLeft]></app-appearance-settings>
-        <!-- Behavior -->
-        <app-behavior-settings *ngIf="this.leftToRight(1)" [@enterLeftToRight]></app-behavior-settings>
-        <app-behavior-settings *ngIf="this.rightToLeft(1)" [@enterRightToLeft]></app-behavior-settings>
-        <!-- Advanced -->
-        <app-advanced-settings *ngIf="this.leftToRight(2)" [@enterLeftToRight]></app-advanced-settings>
-        <app-advanced-settings *ngIf="this.rightToLeft(2)" [@enterRightToLeft]></app-advanced-settings>
-        <!-- Online -->
-        <app-online-settings *ngIf="this.leftToRight(3)" [@enterLeftToRight]></app-online-settings>
-        <app-online-settings *ngIf="this.rightToLeft(3)" [@enterRightToLeft]></app-online-settings>
-    </div>
+  <div class="window-frame__titlebar theme-header-background">
+    @if (appearanceService.needsTrafficLightMargin) {
+      <div class="window-frame__trafficlights"></div>
+    }
+    <app-back-button class="m-2"></app-back-button>
+    <app-sub-menu appWindowDraggable>
+      <app-sub-menu-item
+        [page]="0"
+        [selectedPage]="this.page"
+        icon="las la-palette"
+        tooltip="{{ 'appearance' | translate }}"
+        (click)="this.setPage(0)"
+        >
+        {{ 'appearance' | translate }}
+      </app-sub-menu-item>
+      <app-sub-menu-item
+        [page]="1"
+        [selectedPage]="this.page"
+        icon="las la-sliders-h"
+        tooltip="{{ 'behavior' | translate }}"
+        (click)="this.setPage(1)"
+        >
+        {{ 'behavior' | translate }}
+      </app-sub-menu-item>
+      <app-sub-menu-item
+        [page]="2"
+        [selectedPage]="this.page"
+        icon="las la-cogs"
+        tooltip="{{ 'advanced' | translate }}"
+        (click)="this.setPage(2)"
+        >
+        {{ 'advanced' | translate }}
+      </app-sub-menu-item>
+      <app-sub-menu-item
+        [page]="3"
+        [selectedPage]="this.page"
+        icon="las la-cloud"
+        tooltip="{{ 'online' | translate }}"
+        (click)="this.setPage(3)"
+        >
+        {{ 'online' | translate }}
+      </app-sub-menu-item>
+    </app-sub-menu>
+    <div class="window-frame__dragarea"></div>
+    <app-main-menu></app-main-menu>
+    <app-switch-player-button></app-switch-player-button>
+    @if (appearanceService.needsCustomWindowControls) {
+      <app-window-controls></app-window-controls>
+    }
+  </div>
+  <app-notification-bar></app-notification-bar>
+  <div class="window-frame__content__with__notification__bar">
+    <!-- Appearance -->
+    @if (this.leftToRight(0)) {
+      <app-appearance-settings [@enterLeftToRight]></app-appearance-settings>
+    }
+    @if (this.rightToLeft(0)) {
+      <app-appearance-settings [@enterRightToLeft]></app-appearance-settings>
+    }
+    <!-- Behavior -->
+    @if (this.leftToRight(1)) {
+      <app-behavior-settings [@enterLeftToRight]></app-behavior-settings>
+    }
+    @if (this.rightToLeft(1)) {
+      <app-behavior-settings [@enterRightToLeft]></app-behavior-settings>
+    }
+    <!-- Advanced -->
+    @if (this.leftToRight(2)) {
+      <app-advanced-settings [@enterLeftToRight]></app-advanced-settings>
+    }
+    @if (this.rightToLeft(2)) {
+      <app-advanced-settings [@enterRightToLeft]></app-advanced-settings>
+    }
+    <!-- Online -->
+    @if (this.leftToRight(3)) {
+      <app-online-settings [@enterLeftToRight]></app-online-settings>
+    }
+    @if (this.rightToLeft(3)) {
+      <app-online-settings [@enterRightToLeft]></app-online-settings>
+    }
+  </div>
 </div>

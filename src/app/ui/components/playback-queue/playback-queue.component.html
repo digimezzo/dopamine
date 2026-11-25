@@ -1,74 +1,88 @@
 <div class="h-100 w-100 d-flex flex-column">
-    <div class="title" *ngIf="this.showTitle">{{ 'playback-queue' | translate }}</div>
-    <div class="playback-queue__header d-flex flex-row align-items-center mt-2">
-        <div class="d-flex flex-row m-1">
-            <div class="playback-queue__trackscount mr-2">{{ this.filteredTracks.length }}</div>
-            <div *ngIf="this.filteredTracks.length === 1">{{ 'track' | translate }}</div>
-            <div *ngIf="this.filteredTracks.length !== 1">{{ 'tracks' | translate }}</div>
-        </div>
-        <div class="d-flex flex-row align-items-center">
-            <app-icon-button
-                class="mr-2"
-                icon="las la-trash"
-                matTooltip="{{ 'clear-queue' | translate }}"
-                (click)="clearQueue()"
-            ></app-icon-button>
-            <app-icon-button
-                class="mr-2"
-                icon="las la-save"
-                matTooltip="{{ 'add-to-playlist' | translate }}"
-                [matMenuTriggerFor]="saveQueueToPlaylistMenu"
-            ></app-icon-button>
-            <app-icon-button
-                class="mr-2"
-                icon="las la-crosshairs"
-                matTooltip="{{ 'jump-to-playing-song' | translate }}"
-                (click)="scrollToPlayingTrack()"
-            ></app-icon-button>
-            <div class="app-search-box playback-queue__search" [ngClass]="{ 'app-search-box-highlight': this.hasSearchText }">
-                <input class="app-search-box__input p-1" [(ngModel)]="this.searchText" />
-                <div class="app-search-box__icons">
-                    <i class="las la-search app-search-box-icon" *ngIf="!this.hasSearchText"></i>
-                    <i class="las la-times app-search-box-icon pointer" *ngIf="this.hasSearchText" (click)="clearSearchText()"></i>
-                </div>
-            </div>
-        </div>
+  @if (this.showTitle) {
+    <div class="title">{{ 'playback-queue' | translate }}</div>
+  }
+  <div class="playback-queue__header d-flex flex-row align-items-center mt-2">
+    <div class="d-flex flex-row m-1">
+      <div class="playback-queue__trackscount mr-2">{{ this.filteredTracks.length }}</div>
+      @if (this.filteredTracks.length === 1) {
+        <div>{{ 'track' | translate }}</div>
+      }
+      @if (this.filteredTracks.length !== 1) {
+        <div>{{ 'tracks' | translate }}</div>
+      }
     </div>
-    <cdk-virtual-scroll-viewport
-        *ngIf="this.shouldShowList"
-        class="flex-grow mt-3"
-        [itemSize]="this.trackItemSize"
-        (cdkDropListDropped)="this.dropTrack($event)"
-        cdkDropList
-        [cdkDropListData]="this.filteredTracks"
-        [cdkDropListDisabled]="!this.canReorderQueue"
-    >
-        <div *cdkVirtualFor="let track of this.filteredTracks" (mousedown)="setSelectedTracks($event, track)" cdkDrag [cdkDragData]="track">
-            <app-track
-                [track]="track"
-                (dblclick)="this.playbackService.playQueuedTrackAsync(track)"
-                (contextmenu)="onTrackContextMenu($event, track)"
-            ></app-track>
+    <div class="d-flex flex-row align-items-center">
+      <app-icon-button
+        class="mr-2"
+        icon="las la-trash"
+        matTooltip="{{ 'clear-queue' | translate }}"
+        (click)="clearQueue()"
+      ></app-icon-button>
+      <app-icon-button
+        class="mr-2"
+        icon="las la-save"
+        matTooltip="{{ 'add-to-playlist' | translate }}"
+        [matMenuTriggerFor]="saveQueueToPlaylistMenu"
+      ></app-icon-button>
+      <app-icon-button
+        class="mr-2"
+        icon="las la-crosshairs"
+        matTooltip="{{ 'jump-to-playing-song' | translate }}"
+        (click)="scrollToPlayingTrack()"
+      ></app-icon-button>
+      <div class="app-search-box playback-queue__search" [ngClass]="{ 'app-search-box-highlight': this.hasSearchText }">
+        <input class="app-search-box__input p-1" [(ngModel)]="this.searchText" />
+        <div class="app-search-box__icons">
+          @if (!this.hasSearchText) {
+            <i class="las la-search app-search-box-icon"></i>
+          }
+          @if (this.hasSearchText) {
+            <i class="las la-times app-search-box-icon pointer" (click)="clearSearchText()"></i>
+          }
         </div>
+      </div>
+    </div>
+  </div>
+  @if (this.shouldShowList) {
+    <cdk-virtual-scroll-viewport
+      class="flex-grow mt-3"
+      [itemSize]="this.trackItemSize"
+      (cdkDropListDropped)="this.dropTrack($event)"
+      cdkDropList
+      [cdkDropListData]="this.filteredTracks"
+      [cdkDropListDisabled]="!this.canReorderQueue"
+      >
+      <div *cdkVirtualFor="let track of this.filteredTracks" (mousedown)="setSelectedTracks($event, track)" cdkDrag [cdkDragData]="track">
+        <app-track
+          [track]="track"
+          (dblclick)="this.playbackService.playQueuedTrackAsync(track)"
+          (contextmenu)="onTrackContextMenu($event, track)"
+        ></app-track>
+      </div>
     </cdk-virtual-scroll-viewport>
-    <app-totals
-        class="mt-3"
-        [totalDurationInMilliseconds]="this.playbackService.playbackQueue.totalDurationInMilliseconds"
-        [totalFileSizeInBytes]="this.playbackService.playbackQueue.totalFileSizeInBytes"
-    ></app-totals>
+  }
+  <app-totals
+    class="mt-3"
+    [totalDurationInMilliseconds]="this.playbackService.playbackQueue.totalDurationInMilliseconds"
+    [totalFileSizeInBytes]="this.playbackService.playbackQueue.totalFileSizeInBytes"
+  ></app-totals>
 </div>
 
 <mat-menu #saveQueueToPlaylistMenu="matMenu">
-    <div *ngIf="!this.addToPlaylistMenu.hasPlaylists" mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
-    <div *ngIf="this.addToPlaylistMenu.hasPlaylists">
-        <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
-            <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
-                <span>{{ playlist.key }}</span>
-            </button>
-            <mat-menu #playlistsMenu="matMenu">
-                <button
-                    *ngFor="let playlist of $any(this.addToPlaylistMenu.playlists)[$any(playlist).key] | keyvalue"
-                    mat-menu-item
+  @if (!this.addToPlaylistMenu.hasPlaylists) {
+    <div mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
+  }
+  @if (this.addToPlaylistMenu.hasPlaylists) {
+    <div>
+      @for (playlist of this.addToPlaylistMenu.playlists | keyvalue; track playlist) {
+        <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
+          <span>{{ playlist.key }}</span>
+        </button>
+        <mat-menu #playlistsMenu="matMenu">
+          @for (playlist of $any(this.addToPlaylistMenu.playlists)[$any(playlist).key] | keyvalue; track playlist) {
+            <button
+              mat-menu-item
                     (click)="
                         this.addToPlaylistMenu.addTracksToPlaylistAsync(
                             $any(playlist.value).path,
@@ -76,23 +90,25 @@
                             this.playbackService.playbackQueue.tracks
                         )
                     "
-                >
-                    <span>{{ $any(playlist.value).name }}</span>
-                </button>
-            </mat-menu>
-        </ng-container>
+              >
+              <span>{{ $any(playlist.value).name }}</span>
+            </button>
+          }
+        </mat-menu>
+      }
     </div>
+  }
 </mat-menu>
 
 <div
-    #trackContextMenuAnchor
-    style="visibility: hidden; position: fixed"
-    [style.left]="contextMenuOpener.positionX"
-    [style.top]="contextMenuOpener.positionY"
-    [matMenuTriggerFor]="trackContextMenu"
+  #trackContextMenuAnchor
+  style="visibility: hidden; position: fixed"
+  [style.left]="contextMenuOpener.positionX"
+  [style.top]="contextMenuOpener.positionY"
+  [matMenuTriggerFor]="trackContextMenu"
 ></div>
 <mat-menu #trackContextMenu="matMenu">
-    <ng-template matMenuContent let-track="data">
-        <button mat-menu-item (click)="onRemoveFromQueue()">{{ 'remove-from-playback-queue' | translate }}</button>
-    </ng-template>
+  <ng-template matMenuContent let-track="data">
+    <button mat-menu-item (click)="onRemoveFromQueue()">{{ 'remove-from-playback-queue' | translate }}</button>
+  </ng-template>
 </mat-menu>

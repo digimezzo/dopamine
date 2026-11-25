@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IOutputData } from 'angular-split';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
 import { Logger } from '../../../../common/logger';
@@ -22,6 +21,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
 import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 import { TrackOrder } from '../track-order';
 import { ArtistArtworkAdder } from '../../../../services/indexing/artist-artwork-adder';
+import { SplitGutterInteractionEvent } from 'angular-split';
 
 @Component({
     selector: 'app-collection-artists',
@@ -145,7 +145,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         await this.fillListsAsync();
     }
 
-    public splitDragEnd(event: IOutputData): void {
+    public splitDragEnd(event: SplitGutterInteractionEvent): void {
         this.leftPaneSize = <number>event.sizes[0];
         this.centerPaneSize = <number>event.sizes[1];
         this.rightPaneSize = <number>event.sizes[2];

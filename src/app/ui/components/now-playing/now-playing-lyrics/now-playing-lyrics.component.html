@@ -1,45 +1,64 @@
 <div class="app-now-playing-lyrics">
-    <div class="app-now-playing-lyrics__track" [style.width.px]="this.coverArtSize">
-        <app-playback-cover-art
-            class="app-now-playing-lyrics__picture"
-            [size]="coverArtSize"
-            [borderRadius]="this.settings.showSquareImages ? 0 : 10"
-        ></app-playback-cover-art>
-        <div class="mt-3 mx-1">
-            <div class="secondary-text d-flex align-items-center" *ngIf="this.lyrics?.sourceType === lyricsSourceTypeEnum.none">
-                {{ 'no-lyrics' | translate }}<i class="secondary-text las la-frown ml-1"></i>
-            </div>
-            <div class="secondary-text d-flex align-items-center" *ngIf="this.lyrics?.sourceType === lyricsSourceTypeEnum.embedded">
-                {{ 'embedded-lyrics' | translate }}<i class="secondary-text las la-check ml-1"></i>
-            </div>
-            <div class="secondary-text d-flex align-items-center" *ngIf="this.lyrics?.sourceType === lyricsSourceTypeEnum.lrc">
-                {{ 'lrc-lyrics' | translate }}<i class="secondary-text las la-file-alt ml-1"></i>
-            </div>
-            <div class="secondary-text d-flex align-items-center" *ngIf="this.lyrics?.sourceType === lyricsSourceTypeEnum.srt">
-                {{ 'srt-lyrics' | translate }}<i class="secondary-text las la-file-alt ml-1"></i>
-            </div>
-            <div class="secondary-text d-flex align-items-center" *ngIf="this.lyrics?.sourceType === lyricsSourceTypeEnum.online">
-                {{ this.lyrics?.sourceName }}<i class="secondary-text las la-globe ml-1"></i>
-            </div>
+  <div class="app-now-playing-lyrics__track" [style.width.px]="this.coverArtSize">
+    <app-playback-cover-art
+      class="app-now-playing-lyrics__picture"
+      [size]="coverArtSize"
+      [borderRadius]="this.settings.showSquareImages ? 0 : 10"
+    ></app-playback-cover-art>
+    <div class="mt-3 mx-1">
+      @if (this.lyrics?.sourceType === lyricsSourceTypeEnum.none) {
+        <div class="secondary-text d-flex align-items-center">
+          {{ 'no-lyrics' | translate }}<i class="secondary-text las la-frown ml-1"></i>
         </div>
-        <app-playback-information
-            class="app-now-playing-lyrics__playback-info"
-            height="120"
-            position="top"
-            [largeFontSize]="this.largeFontSize"
-            [smallFontSize]="this.smallFontSize"
-        ></app-playback-information>
+      }
+      @if (this.lyrics?.sourceType === lyricsSourceTypeEnum.embedded) {
+        <div class="secondary-text d-flex align-items-center">
+          {{ 'embedded-lyrics' | translate }}<i class="secondary-text las la-check ml-1"></i>
+        </div>
+      }
+      @if (this.lyrics?.sourceType === lyricsSourceTypeEnum.lrc) {
+        <div class="secondary-text d-flex align-items-center">
+          {{ 'lrc-lyrics' | translate }}<i class="secondary-text las la-file-alt ml-1"></i>
+        </div>
+      }
+      @if (this.lyrics?.sourceType === lyricsSourceTypeEnum.srt) {
+        <div class="secondary-text d-flex align-items-center">
+          {{ 'srt-lyrics' | translate }}<i class="secondary-text las la-file-alt ml-1"></i>
+        </div>
+      }
+      @if (this.lyrics?.sourceType === lyricsSourceTypeEnum.online) {
+        <div class="secondary-text d-flex align-items-center">
+          {{ this.lyrics?.sourceName }}<i class="secondary-text las la-globe ml-1"></i>
+        </div>
+      }
     </div>
-    <div *ngIf="this.isBusy" class="app-now-playing-lyrics__spinner">
-        <mat-spinner [diameter]="40"></mat-spinner>
+    <app-playback-information
+      class="app-now-playing-lyrics__playback-info"
+      height="120"
+      position="top"
+      [largeFontSize]="this.largeFontSize"
+      [smallFontSize]="this.smallFontSize"
+    ></app-playback-information>
+  </div>
+  @if (this.isBusy) {
+    <div class="app-now-playing-lyrics__spinner">
+      <mat-spinner [diameter]="40"></mat-spinner>
     </div>
-    <div *ngIf="!this.isBusy" class="app-now-playing-lyrics__text">
-        <app-rich-lyrics *ngIf="this.hasRichLyrics && this.showRichLyrics" [lyrics]="this.lyrics!"></app-rich-lyrics>
+  }
+  @if (!this.isBusy) {
+    <div class="app-now-playing-lyrics__text">
+      @if (this.hasRichLyrics && this.showRichLyrics) {
+        <app-rich-lyrics [lyrics]="this.lyrics!"></app-rich-lyrics>
+      }
+      @if (this.hasLyrics && (!this.hasRichLyrics || !this.showRichLyrics)) {
         <app-plain-lyrics
-            *ngIf="this.hasLyrics && (!this.hasRichLyrics || !this.showRichLyrics)"
-            [lyrics]="this.lyrics"
-            [fontSize]="this.settings.richLyricsFontSize"
+          [lyrics]="this.lyrics"
+          [fontSize]="this.settings.richLyricsFontSize"
         ></app-plain-lyrics>
-        <div *ngIf="!this.hasLyrics">{{ 'no-lyrics-found' | translate }}</div>
+      }
+      @if (!this.hasLyrics) {
+        <div>{{ 'no-lyrics-found' | translate }}</div>
+      }
     </div>
+  }
 </div>

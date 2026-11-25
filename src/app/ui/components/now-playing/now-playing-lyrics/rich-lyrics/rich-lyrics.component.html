@@ -1,17 +1,21 @@
 <div class="rich-contain">
-    <div *ngIf="this.pText" class="rich-side secondary-text" [style.font-size]="this.sideRichLyricSize * 1.5 + 'vmin'">
-        {{ this.pText }}
+  @if (this.pText) {
+    <div class="rich-side secondary-text" [style.font-size]="this.sideRichLyricSize * 1.5 + 'vmin'">
+      {{ this.pText }}
     </div>
-    <div
-        class="rich-main"
-        [style.font-size]="this.mainRichLyricSize * 2 + 'vmin'"
+  }
+  <div
+    class="rich-main"
+    [style.font-size]="this.mainRichLyricSize * 2 + 'vmin'"
         [style.background-image]="
             'linear-gradient(to right, var(--theme-accent-color) ' + this.percentage + '%, var(--theme-highlight-foreground) 1%)'
         "
     >
-        {{ this.cText }}
+    {{ this.cText }}
+  </div>
+  @if (this.nText) {
+    <div class="rich-side secondary-text" [style.font-size]="this.sideRichLyricSize * 1.5 + 'vmin'">
+      {{ this.nText }}
     </div>
-    <div *ngIf="this.nText" class="rich-side secondary-text" [style.font-size]="this.sideRichLyricSize * 1.5 + 'vmin'">
-        {{ this.nText }}
-    </div>
+  }
 </div>

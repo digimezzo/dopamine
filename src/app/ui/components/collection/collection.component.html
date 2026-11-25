@@ -1,108 +1,144 @@
 <div class="window-frame">
-    <div class="window-frame__titlebar theme-header-background">
-        <div *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights"></div>
-        <app-logo-small class="m-2 drag"></app-logo-small>
-        <app-sub-menu appWindowDraggable>
-            <app-sub-menu-item
-                *ngIf="settings.showArtistsPage"
-                [page]="0"
-                [selectedPage]="this.page"
-                icon="las la-microphone"
-                tooltip="{{ 'artists' | translate }}"
-                (click)="this.setPage(0)"
-            >
-                {{ 'artists' | translate }}
-            </app-sub-menu-item>
-            <app-sub-menu-item
-                *ngIf="settings.showGenresPage"
-                [page]="1"
-                [selectedPage]="this.page"
-                icon="las la-guitar"
-                tooltip="{{ 'genres' | translate }}"
-                (click)="this.setPage(1)"
-            >
-                {{ 'genres' | translate }}
-            </app-sub-menu-item>
-            <app-sub-menu-item
-                *ngIf="settings.showAlbumsPage"
-                [page]="2"
-                [selectedPage]="this.page"
-                icon="las la-compact-disc"
-                tooltip="{{ 'albums' | translate }}"
-                (click)="this.setPage(2)"
-            >
-                {{ 'albums' | translate }}
-            </app-sub-menu-item>
-            <app-sub-menu-item
-                *ngIf="settings.showTracksPage"
-                [page]="3"
-                [selectedPage]="this.page"
-                icon="las la-music"
-                tooltip="{{ 'tracks' | translate }}"
-                (click)="this.setPage(3)"
-            >
-                {{ 'tracks' | translate }}
-            </app-sub-menu-item>
-            <app-sub-menu-item
-                *ngIf="settings.showPlaylistsPage"
-                [page]="4"
-                [selectedPage]="this.page"
-                icon="las la-list"
-                tooltip="{{ 'playlists' | translate }}"
-                (click)="this.setPage(4)"
-            >
-                {{ 'playlists' | translate }}
-            </app-sub-menu-item>
-            <app-sub-menu-item
-                *ngIf="settings.showFoldersPage"
-                [page]="5"
-                [selectedPage]="this.page"
-                icon="las la-folder"
-                tooltip="{{ 'folders' | translate }}"
-                (click)="this.setPage(5)"
-            >
-                {{ 'folders' | translate }}
-            </app-sub-menu-item>
-        </app-sub-menu>
-        <div class="window-frame__dragarea"></div>
-        <app-search-box class="p-2"></app-search-box>
-        <div class="app-collection-header__controls theme-header-background">
-            <app-main-menu></app-main-menu>
-            <app-switch-player-button></app-switch-player-button>
-            <app-window-controls *ngIf="appearanceService.needsCustomWindowControls"></app-window-controls>
-        </div>
+  <div class="window-frame__titlebar theme-header-background">
+    @if (appearanceService.needsTrafficLightMargin) {
+      <div class="window-frame__trafficlights"></div>
+    }
+    <app-logo-small class="m-2 drag"></app-logo-small>
+    <app-sub-menu appWindowDraggable>
+      @if (settings.showArtistsPage) {
+        <app-sub-menu-item
+          [page]="0"
+          [selectedPage]="this.page"
+          icon="las la-microphone"
+          tooltip="{{ 'artists' | translate }}"
+          (click)="this.setPage(0)"
+          >
+          {{ 'artists' | translate }}
+        </app-sub-menu-item>
+      }
+      @if (settings.showGenresPage) {
+        <app-sub-menu-item
+          [page]="1"
+          [selectedPage]="this.page"
+          icon="las la-guitar"
+          tooltip="{{ 'genres' | translate }}"
+          (click)="this.setPage(1)"
+          >
+          {{ 'genres' | translate }}
+        </app-sub-menu-item>
+      }
+      @if (settings.showAlbumsPage) {
+        <app-sub-menu-item
+          [page]="2"
+          [selectedPage]="this.page"
+          icon="las la-compact-disc"
+          tooltip="{{ 'albums' | translate }}"
+          (click)="this.setPage(2)"
+          >
+          {{ 'albums' | translate }}
+        </app-sub-menu-item>
+      }
+      @if (settings.showTracksPage) {
+        <app-sub-menu-item
+          [page]="3"
+          [selectedPage]="this.page"
+          icon="las la-music"
+          tooltip="{{ 'tracks' | translate }}"
+          (click)="this.setPage(3)"
+          >
+          {{ 'tracks' | translate }}
+        </app-sub-menu-item>
+      }
+      @if (settings.showPlaylistsPage) {
+        <app-sub-menu-item
+          [page]="4"
+          [selectedPage]="this.page"
+          icon="las la-list"
+          tooltip="{{ 'playlists' | translate }}"
+          (click)="this.setPage(4)"
+          >
+          {{ 'playlists' | translate }}
+        </app-sub-menu-item>
+      }
+      @if (settings.showFoldersPage) {
+        <app-sub-menu-item
+          [page]="5"
+          [selectedPage]="this.page"
+          icon="las la-folder"
+          tooltip="{{ 'folders' | translate }}"
+          (click)="this.setPage(5)"
+          >
+          {{ 'folders' | translate }}
+        </app-sub-menu-item>
+      }
+    </app-sub-menu>
+    <div class="window-frame__dragarea"></div>
+    <app-search-box class="p-2"></app-search-box>
+    <div class="app-collection-header__controls theme-header-background">
+      <app-main-menu></app-main-menu>
+      <app-switch-player-button></app-switch-player-button>
+      @if (appearanceService.needsCustomWindowControls) {
+        <app-window-controls></app-window-controls>
+      }
     </div>
-    <app-notification-bar></app-notification-bar>
-    <div class="window-frame__content">
-        <div *ngIf="this.collectionNavigationService.hasVisiblePages()">
-            <!-- Artists -->
-            <app-collection-artists *ngIf="this.leftToRight(0)" [@enterLeftToRight]></app-collection-artists>
-            <app-collection-artists *ngIf="this.rightToLeft(0)" [@enterRightToLeft]></app-collection-artists>
-            <!-- Genres -->
-            <app-collection-genres *ngIf="this.leftToRight(1)" [@enterLeftToRight]></app-collection-genres>
-            <app-collection-genres *ngIf="this.rightToLeft(1)" [@enterRightToLeft]></app-collection-genres>
-            <!-- Albums -->
-            <app-collection-albums *ngIf="this.leftToRight(2)" [@enterLeftToRight]></app-collection-albums>
-            <app-collection-albums *ngIf="this.rightToLeft(2)" [@enterRightToLeft]></app-collection-albums>
-            <!-- Tracks -->
-            <app-collection-tracks *ngIf="this.leftToRight(3)" [@enterLeftToRight]></app-collection-tracks>
-            <app-collection-tracks *ngIf="this.rightToLeft(3)" [@enterRightToLeft]></app-collection-tracks>
-            <!-- Playlists -->
-            <app-collection-playlists *ngIf="this.leftToRight(4)" [@enterLeftToRight]></app-collection-playlists>
-            <app-collection-playlists *ngIf="this.rightToLeft(4)" [@enterRightToLeft]></app-collection-playlists>
-            <!-- Folders -->
-            <app-collection-folders *ngIf="this.leftToRight(5)" [@enterLeftToRight]></app-collection-folders>
-            <app-collection-folders *ngIf="this.rightToLeft(5)" [@enterRightToLeft]></app-collection-folders>
-        </div>
-        <!-- Playback controls -->
-        <div class="app-collection-playback-controls__container">
-            <canvas
-                id="collectionAudioVisualizer"
-                class="app-collection-playback-controls__audio-visualizer"
-                (click)="this.audioVisualizerService.cycleVisualizerStyle()"
-            ></canvas>
-            <app-collection-playback-pane class="app-collection-playback-controls__playback-pane"></app-collection-playback-pane>
-        </div>
-        <div class="app-collection-playback-controls__background theme-footer-background"></div>
+  </div>
+  <app-notification-bar></app-notification-bar>
+  <div class="window-frame__content">
+    @if (this.collectionNavigationService.hasVisiblePages()) {
+      <div>
+        <!-- Artists -->
+        @if (this.leftToRight(0)) {
+          <app-collection-artists [@enterLeftToRight]></app-collection-artists>
+        }
+        @if (this.rightToLeft(0)) {
+          <app-collection-artists [@enterRightToLeft]></app-collection-artists>
+        }
+        <!-- Genres -->
+        @if (this.leftToRight(1)) {
+          <app-collection-genres [@enterLeftToRight]></app-collection-genres>
+        }
+        @if (this.rightToLeft(1)) {
+          <app-collection-genres [@enterRightToLeft]></app-collection-genres>
+        }
+        <!-- Albums -->
+        @if (this.leftToRight(2)) {
+          <app-collection-albums [@enterLeftToRight]></app-collection-albums>
+        }
+        @if (this.rightToLeft(2)) {
+          <app-collection-albums [@enterRightToLeft]></app-collection-albums>
+        }
+        <!-- Tracks -->
+        @if (this.leftToRight(3)) {
+          <app-collection-tracks [@enterLeftToRight]></app-collection-tracks>
+        }
+        @if (this.rightToLeft(3)) {
+          <app-collection-tracks [@enterRightToLeft]></app-collection-tracks>
+        }
+        <!-- Playlists -->
+        @if (this.leftToRight(4)) {
+          <app-collection-playlists [@enterLeftToRight]></app-collection-playlists>
+        }
+        @if (this.rightToLeft(4)) {
+          <app-collection-playlists [@enterRightToLeft]></app-collection-playlists>
+        }
+        <!-- Folders -->
+        @if (this.leftToRight(5)) {
+          <app-collection-folders [@enterLeftToRight]></app-collection-folders>
+        }
+        @if (this.rightToLeft(5)) {
+          <app-collection-folders [@enterRightToLeft]></app-collection-folders>
+        }
+      </div>
+    }
+    <!-- Playback controls -->
+    <div class="app-collection-playback-controls__container">
+      <canvas
+        id="collectionAudioVisualizer"
+        class="app-collection-playback-controls__audio-visualizer"
+        (click)="this.audioVisualizerService.cycleVisualizerStyle()"
+      ></canvas>
+      <app-collection-playback-pane class="app-collection-playback-controls__playback-pane"></app-collection-playback-pane>
     </div>
+    <div class="app-collection-playback-controls__background theme-footer-background"></div>
+  </div>
 </div>

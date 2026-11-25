@@ -1,7 +1,11 @@
 <div class="app-search-box" [ngClass]="{ 'app-search-box-highlight': this.searchService.hasSearchText }">
-    <input #appSearchBox class="app-search-box__input p-1" [(ngModel)]="this.searchService.searchText" />
-    <div class="app-search-box__icons">
-        <i class="las la-search app-search-box-icon" *ngIf="!this.searchService.hasSearchText"></i>
-        <i class="las la-times app-search-box-icon pointer" *ngIf="this.searchService.hasSearchText" (click)="clearSearchText()"></i>
-    </div>
+  <input #appSearchBox class="app-search-box__input p-1" [(ngModel)]="this.searchService.searchText" />
+  <div class="app-search-box__icons">
+    @if (!this.searchService.hasSearchText) {
+      <i class="las la-search app-search-box-icon"></i>
+    }
+    @if (this.searchService.hasSearchText) {
+      <i class="las la-times app-search-box-icon pointer" (click)="clearSearchText()"></i>
+    }
+  </div>
 </div>

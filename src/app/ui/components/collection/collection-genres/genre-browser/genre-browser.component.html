@@ -1,79 +1,91 @@
 <div class="h-100 w-100 d-flex flex-column">
-    <div class="h-24px align-items-center justify-content-between d-flex flex-row m-1">
-        <div class="d-flex flex-row align-items-center">
-            <div class="mr-2 accent-color">{{ this.genres.length }}</div>
-            <div *ngIf="this.genres.length === 1">{{ 'genre' | translate }}</div>
-            <div *ngIf="this.genres.length !== 1">{{ 'genres' | translate }}</div>
-            <i
-                class="las la-random secondary-text font-16px pointer ml-2"
-                matTooltip="{{ 'shuffle-all' | translate }}"
-                (click)="this.shuffleAllAsync()"
-            >
-            </i>
-        </div>
-        <div class="d-flex flex-row align-items-center">
-            <app-icon-button
-                *ngIf="this.hasSelectedGenres"
-                class="mr-2"
-                icon="las la-eraser"
-                matTooltip="{{ 'clear-selection' | translate }}"
-                (click)="this.clearSelectedGenres()"
-            ></app-icon-button>
-            <app-iterable-menu
-                [tooltipKey]="'choose-order'"
-                [currentItem]="selectedGenreOrder"
-                [items]="genreOrders"
-                [itemKeyFn]="genreOrderKey"
-                [applyItemFn]="applyGenreOrder"
-            >
-            </app-iterable-menu>
-        </div>
+  <div class="h-24px align-items-center justify-content-between d-flex flex-row m-1">
+    <div class="d-flex flex-row align-items-center">
+      <div class="mr-2 accent-color">{{ this.genres.length }}</div>
+      @if (this.genres.length === 1) {
+        <div>{{ 'genre' | translate }}</div>
+      }
+      @if (this.genres.length !== 1) {
+        <div>{{ 'genres' | translate }}</div>
+      }
+      <i
+        class="las la-random secondary-text font-16px pointer ml-2"
+        matTooltip="{{ 'shuffle-all' | translate }}"
+        (click)="this.shuffleAllAsync()"
+        >
+      </i>
     </div>
-    <app-semantic-zoom *ngIf="this.shouldZoomOut" class="mt-3" [SemanticZoomables]="this.orderedGenres"></app-semantic-zoom>
-    <cdk-virtual-scroll-viewport *ngIf="!this.shouldZoomOut" class="flex-grow mt-3" itemSize="30">
-        <div *cdkVirtualFor="let genre of this.orderedGenres" (mousedown)="setSelectedGenres($event, genre)">
-            <app-genre
-                [genre]="genre"
-                (dblclick)="this.playbackService.enqueueAndPlayGenreAsync(genre)"
-                (contextmenu)="onGenreContextMenu($event, genre)"
-            ></app-genre>
-        </div>
+    <div class="d-flex flex-row align-items-center">
+      @if (this.hasSelectedGenres) {
+        <app-icon-button
+          class="mr-2"
+          icon="las la-eraser"
+          matTooltip="{{ 'clear-selection' | translate }}"
+          (click)="this.clearSelectedGenres()"
+        ></app-icon-button>
+      }
+      <app-iterable-menu
+        [tooltipKey]="'choose-order'"
+        [currentItem]="selectedGenreOrder"
+        [items]="genreOrders"
+        [itemKeyFn]="genreOrderKey"
+        [applyItemFn]="applyGenreOrder"
+        >
+      </app-iterable-menu>
+    </div>
+  </div>
+  @if (this.shouldZoomOut) {
+    <app-semantic-zoom class="mt-3" [SemanticZoomables]="this.orderedGenres"></app-semantic-zoom>
+  }
+  @if (!this.shouldZoomOut) {
+    <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="30">
+      <div *cdkVirtualFor="let genre of this.orderedGenres" (mousedown)="setSelectedGenres($event, genre)">
+        <app-genre
+          [genre]="genre"
+          (dblclick)="this.playbackService.enqueueAndPlayGenreAsync(genre)"
+          (contextmenu)="onGenreContextMenu($event, genre)"
+        ></app-genre>
+      </div>
     </cdk-virtual-scroll-viewport>
+  }
 </div>
 
 <div
-    #genreContextMenuAnchor
-    style="visibility: hidden; position: fixed"
-    [style.left]="contextMenuOpener.positionX"
-    [style.top]="contextMenuOpener.positionY"
-    [matMenuTriggerFor]="genreContextMenu"
+  #genreContextMenuAnchor
+  style="visibility: hidden; position: fixed"
+  [style.left]="contextMenuOpener.positionX"
+  [style.top]="contextMenuOpener.positionY"
+  [matMenuTriggerFor]="genreContextMenu"
 ></div>
 
 <mat-menu #genreContextMenu="matMenu">
-    <ng-template matMenuContent let-genre="data">
-        <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
-            <span>{{ 'add-to-playlist' | translate }}</span>
-        </button>
-        <button mat-menu-item (click)="onAddToQueueAsync(genre)">
-            <span>{{ 'add-to-playback-queue' | translate }}</span>
-        </button>
-        <button mat-menu-item (click)="onShuffleAndPlayAsync(genre)">
-            <span>{{ 'shuffle' | translate }}</span>
-        </button>
-    </ng-template>
+  <ng-template matMenuContent let-genre="data">
+    <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
+      <span>{{ 'add-to-playlist' | translate }}</span>
+    </button>
+    <button mat-menu-item (click)="onAddToQueueAsync(genre)">
+      <span>{{ 'add-to-playback-queue' | translate }}</span>
+    </button>
+    <button mat-menu-item (click)="onShuffleAndPlayAsync(genre)">
+      <span>{{ 'shuffle' | translate }}</span>
+    </button>
+  </ng-template>
 </mat-menu>
 
 <mat-menu #addToPlaylistContextMenu="matMenu">
-    <div *ngIf="!this.addToPlaylistMenu.hasPlaylists" mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
-    <div *ngIf="this.addToPlaylistMenu.hasPlaylists">
-        <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
-            <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
-                <span>{{ playlist.key }}</span>
-            </button>
-            <mat-menu #playlistsMenu="matMenu">
-                <button
-                    *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
-                    mat-menu-item
+  @if (!this.addToPlaylistMenu.hasPlaylists) {
+    <div mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
+  }
+  @if (this.addToPlaylistMenu.hasPlaylists) {
+    <div>
+      @for (playlist of this.addToPlaylistMenu.playlists | keyvalue; track playlist) {
+        <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
+          <span>{{ playlist.key }}</span>
+        </button>
+        <mat-menu #playlistsMenu="matMenu">
+          @for (playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue; track playlist) {
+            <button
+              mat-menu-item
                     (click)="
                         this.addToPlaylistMenu.addGenresToPlaylistAsync(
                             playlist.value.path,
@@ -81,10 +93,12 @@
                             this.selectionWatcher.selectedItems
                         )
                     "
-                >
-                    <span>{{ playlist.value.name }}</span>
-                </button>
-            </mat-menu>
-        </ng-container>
+              >
+              <span>{{ playlist.value.name }}</span>
+            </button>
+          }
+        </mat-menu>
+      }
     </div>
+  }
 </mat-menu>

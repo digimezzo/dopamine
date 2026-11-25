@@ -1,243 +1,296 @@
 <div class="h-100 w-100 d-flex flex-column">
-    <div class="h-24px d-flex flex-row align-items-center justify-content-between">
-        <div class="d-flex flex-row align-items-center">
-            <div class="mr-2 accent-color">{{ this.tracks.tracks.length }}</div>
-            <div *ngIf="this.tracks.tracks.length === 1">{{ 'track' | translate }}</div>
-            <div *ngIf="this.tracks.tracks.length !== 1">{{ 'tracks' | translate }}</div>
-            <i
-                class="las la-random secondary-text font-16px pointer ml-2"
-                matTooltip="{{ 'shuffle-all' | translate }}"
-                (click)="this.shuffleAllAsync()"
-            >
-            </i>
-        </div>
-        <div class="d-flex flex-row align-items-center">
-            <app-icon-button
-                class="mr-2"
-                icon="las la-crosshairs"
-                (click)="this.scrollToPlayingTrack()"
-                matTooltip="{{ 'jump-to-playing-song' | translate }}"
-            ></app-icon-button>
-            <app-icon-button
-                icon="las la-columns"
-                (click)="this.showEditColumnsDialogAsync()"
-                matTooltip="{{ 'edit-columns' | translate }}"
-            ></app-icon-button>
-        </div>
+  <div class="h-24px d-flex flex-row align-items-center justify-content-between">
+    <div class="d-flex flex-row align-items-center">
+      <div class="mr-2 accent-color">{{ this.tracks.tracks.length }}</div>
+      @if (this.tracks.tracks.length === 1) {
+        <div>{{ 'track' | translate }}</div>
+      }
+      @if (this.tracks.tracks.length !== 1) {
+        <div>{{ 'tracks' | translate }}</div>
+      }
+      <i
+        class="las la-random secondary-text font-16px pointer ml-2"
+        matTooltip="{{ 'shuffle-all' | translate }}"
+        (click)="this.shuffleAllAsync()"
+        >
+      </i>
     </div>
-    <div class="mt-3 scrollbar-gutter-stable-y">
-        <table class="tracks-table">
-            <tr class="tracks-table-header">
-                <td class="pointer" (click)="this.orderByTrackTitle()">
-                    <app-collection-tracks-table-header
-                        [text]="'title' | translate"
-                        [isOrderedBy]="this.isOrderedByTrackTitle"
-                        [isOrderedAscending]="this.isOrderedAscending"
-                    ></app-collection-tracks-table-header>
-                </td>
-                <td class="w-48px pointer"></td>
-                <td *ngIf="this.tracksColumnsVisibility.showRating" class="w-84px pointer" (click)="this.orderByRating()">
-                    <app-collection-tracks-table-header
-                        class="ml-1"
-                        [text]="'rating' | translate"
-                        [isOrderedBy]="this.isOrderedByRating"
-                        [isOrderedAscending]="this.isOrderedAscending"
-                    ></app-collection-tracks-table-header>
-                </td>
-                <td *ngIf="this.tracksColumnsVisibility.showArtists" class="pointer" (click)="this.orderByArtists()">
-                    <app-collection-tracks-table-header
-                        [text]="'artists' | translate"
-                        [isOrderedBy]="this.isOrderedByArtists"
-                        [isOrderedAscending]="this.isOrderedAscending"
-                    ></app-collection-tracks-table-header>
-                </td>
-                <td *ngIf="this.tracksColumnsVisibility.showAlbum" class="pointer" (click)="this.orderByAlbum()">
-                    <app-collection-tracks-table-header
-                        [text]="'album' | translate"
-                        [isOrderedBy]="this.isOrderedByAlbum"
-                        [isOrderedAscending]="this.isOrderedAscending"
-                    ></app-collection-tracks-table-header>
-                </td>
-                <td *ngIf="this.tracksColumnsVisibility.showGenres" class="pointer" (click)="this.orderByGenres()">
-                    <app-collection-tracks-table-header
-                        [text]="'genres' | translate"
-                        [isOrderedBy]="this.isOrderedByGenres"
-                        [isOrderedAscending]="this.isOrderedAscending"
-                    ></app-collection-tracks-table-header>
-                </td>
-                <td *ngIf="this.tracksColumnsVisibility.showDuration" class="w-72px pointer" (click)="this.orderByDuration()">
-                    <app-collection-tracks-table-header
-                        icon="las la-clock"
-                        [isOrderedBy]="this.isOrderedByDuration"
-                        [isOrderedAscending]="this.isOrderedAscending"
-                    ></app-collection-tracks-table-header>
-                </td>
-                <td *ngIf="this.tracksColumnsVisibility.showTrackNumber" class="w-72px pointer" (click)="this.orderByTrackNumber()">
-                    <app-collection-tracks-table-header
-                        text="#"
-                        [isOrderedBy]="this.isOrderedByTrackNumber"
-                        [isOrderedAscending]="this.isOrderedAscending"
-                    ></app-collection-tracks-table-header>
-                </td>
-                <td *ngIf="this.tracksColumnsVisibility.showYear" class="w-72px pointer" (click)="this.orderByYear()">
-                    <app-collection-tracks-table-header
-                        [text]="'year' | translate"
-                        [isOrderedBy]="this.isOrderedByYear"
-                        [isOrderedAscending]="this.isOrderedAscending"
-                    ></app-collection-tracks-table-header>
-                </td>
-                <td *ngIf="this.tracksColumnsVisibility.showPlayCount" class="w-72px pointer" (click)="this.orderByPlayCount()">
-                    <app-collection-tracks-table-header
-                        [text]="'plays' | translate"
-                        [isOrderedBy]="this.isOrderedByPlayCount"
-                        [isOrderedAscending]="this.isOrderedAscending"
-                    ></app-collection-tracks-table-header>
-                </td>
-                <td *ngIf="this.tracksColumnsVisibility.showSkipCount" class="w-72px pointer" (click)="this.orderBySkipCount()">
-                    <app-collection-tracks-table-header
-                        [text]="'skips' | translate"
-                        [isOrderedBy]="this.isOrderedBySkipCount"
-                        [isOrderedAscending]="this.isOrderedAscending"
-                    ></app-collection-tracks-table-header>
-                </td>
-                <td *ngIf="this.tracksColumnsVisibility.showDateLastPlayed" class="pointer" (click)="this.orderByDateLastPlayed()">
-                    <app-collection-tracks-table-header
-                        [text]="'last-played' | translate"
-                        [isOrderedBy]="this.isOrderedByDateLastPlayed"
-                        [isOrderedAscending]="this.isOrderedAscending"
-                    ></app-collection-tracks-table-header>
-                </td>
-                <td *ngIf="this.tracksColumnsVisibility.showDateAdded" class="pointer" (click)="this.orderByDateAdded()">
-                    <app-collection-tracks-table-header
-                        [text]="'date-added' | translate"
-                        [isOrderedBy]="this.isOrderedByDateAdded"
-                        [isOrderedAscending]="this.isOrderedAscending"
-                    ></app-collection-tracks-table-header>
-                </td>
-            </tr>
-        </table>
+    <div class="d-flex flex-row align-items-center">
+      <app-icon-button
+        class="mr-2"
+        icon="las la-crosshairs"
+        (click)="this.scrollToPlayingTrack()"
+        matTooltip="{{ 'jump-to-playing-song' | translate }}"
+      ></app-icon-button>
+      <app-icon-button
+        icon="las la-columns"
+        (click)="this.showEditColumnsDialogAsync()"
+        matTooltip="{{ 'edit-columns' | translate }}"
+      ></app-icon-button>
     </div>
+  </div>
+  <div class="mt-3 scrollbar-gutter-stable-y">
+    <table class="tracks-table">
+      <tr class="tracks-table-header">
+        <td class="pointer" (click)="this.orderByTrackTitle()">
+          <app-collection-tracks-table-header
+            [text]="'title' | translate"
+            [isOrderedBy]="this.isOrderedByTrackTitle"
+            [isOrderedAscending]="this.isOrderedAscending"
+          ></app-collection-tracks-table-header>
+        </td>
+        <td class="w-48px pointer"></td>
+        @if (this.tracksColumnsVisibility.showRating) {
+          <td class="w-84px pointer" (click)="this.orderByRating()">
+            <app-collection-tracks-table-header
+              class="ml-1"
+              [text]="'rating' | translate"
+              [isOrderedBy]="this.isOrderedByRating"
+              [isOrderedAscending]="this.isOrderedAscending"
+            ></app-collection-tracks-table-header>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showArtists) {
+          <td class="pointer" (click)="this.orderByArtists()">
+            <app-collection-tracks-table-header
+              [text]="'artists' | translate"
+              [isOrderedBy]="this.isOrderedByArtists"
+              [isOrderedAscending]="this.isOrderedAscending"
+            ></app-collection-tracks-table-header>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showAlbum) {
+          <td class="pointer" (click)="this.orderByAlbum()">
+            <app-collection-tracks-table-header
+              [text]="'album' | translate"
+              [isOrderedBy]="this.isOrderedByAlbum"
+              [isOrderedAscending]="this.isOrderedAscending"
+            ></app-collection-tracks-table-header>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showGenres) {
+          <td class="pointer" (click)="this.orderByGenres()">
+            <app-collection-tracks-table-header
+              [text]="'genres' | translate"
+              [isOrderedBy]="this.isOrderedByGenres"
+              [isOrderedAscending]="this.isOrderedAscending"
+            ></app-collection-tracks-table-header>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showDuration) {
+          <td class="w-72px pointer" (click)="this.orderByDuration()">
+            <app-collection-tracks-table-header
+              icon="las la-clock"
+              [isOrderedBy]="this.isOrderedByDuration"
+              [isOrderedAscending]="this.isOrderedAscending"
+            ></app-collection-tracks-table-header>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showTrackNumber) {
+          <td class="w-72px pointer" (click)="this.orderByTrackNumber()">
+            <app-collection-tracks-table-header
+              text="#"
+              [isOrderedBy]="this.isOrderedByTrackNumber"
+              [isOrderedAscending]="this.isOrderedAscending"
+            ></app-collection-tracks-table-header>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showYear) {
+          <td class="w-72px pointer" (click)="this.orderByYear()">
+            <app-collection-tracks-table-header
+              [text]="'year' | translate"
+              [isOrderedBy]="this.isOrderedByYear"
+              [isOrderedAscending]="this.isOrderedAscending"
+            ></app-collection-tracks-table-header>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showPlayCount) {
+          <td class="w-72px pointer" (click)="this.orderByPlayCount()">
+            <app-collection-tracks-table-header
+              [text]="'plays' | translate"
+              [isOrderedBy]="this.isOrderedByPlayCount"
+              [isOrderedAscending]="this.isOrderedAscending"
+            ></app-collection-tracks-table-header>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showSkipCount) {
+          <td class="w-72px pointer" (click)="this.orderBySkipCount()">
+            <app-collection-tracks-table-header
+              [text]="'skips' | translate"
+              [isOrderedBy]="this.isOrderedBySkipCount"
+              [isOrderedAscending]="this.isOrderedAscending"
+            ></app-collection-tracks-table-header>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showDateLastPlayed) {
+          <td class="pointer" (click)="this.orderByDateLastPlayed()">
+            <app-collection-tracks-table-header
+              [text]="'last-played' | translate"
+              [isOrderedBy]="this.isOrderedByDateLastPlayed"
+              [isOrderedAscending]="this.isOrderedAscending"
+            ></app-collection-tracks-table-header>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showDateAdded) {
+          <td class="pointer" (click)="this.orderByDateAdded()">
+            <app-collection-tracks-table-header
+              [text]="'date-added' | translate"
+              [isOrderedBy]="this.isOrderedByDateAdded"
+              [isOrderedAscending]="this.isOrderedAscending"
+            ></app-collection-tracks-table-header>
+          </td>
+        }
+      </tr>
+    </table>
+  </div>
 
-    <cdk-virtual-scroll-viewport class="flex-grow scrollbar-gutter-stable-y mt-2" itemSize="28">
-        <table class="tracks-table">
-            <tr
-                *cdkVirtualFor="let track of this.orderedTracks"
-                class="tracks-table-row"
-                [ngClass]="{ 'selected-item-background-important': track.isSelected }"
-                (mousedown)="setSelectedTracks($event, track)"
-                (dblclick)="playbackService.enqueueAndPlayTracksStartingFromGivenTrackAsync(this.orderedTracks, track)"
-                (contextmenu)="onTrackContextMenu($event, track)"
-            >
-                <td>
-                    <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
-                        {{ track.title }}
-                    </div>
-                </td>
-                <td class="w-48px">
-                    <app-playback-indicator *ngIf="track.isPlaying" [isSelected]="track.isSelected"></app-playback-indicator>
-                </td>
-                <td class="w-84px" *ngIf="this.tracksColumnsVisibility.showRating"><app-rating [track]="track"></app-rating></td>
-                <td *ngIf="this.tracksColumnsVisibility.showArtists">
-                    <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
-                        {{ track.artists }}
-                    </div>
-                </td>
-                <td *ngIf="this.tracksColumnsVisibility.showAlbum">
-                    <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
-                        {{ track.albumTitle }}
-                    </div>
-                </td>
-                <td *ngIf="this.tracksColumnsVisibility.showGenres">
-                    <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
-                        {{ track.genres }}
-                    </div>
-                </td>
-                <td class="w-72px" *ngIf="this.tracksColumnsVisibility.showDuration">
-                    <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
-                        {{ track.durationInMilliseconds | formatTrackDuration }}
-                    </div>
-                </td>
-                <td class="w-72px" *ngIf="this.tracksColumnsVisibility.showTrackNumber">
-                    <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
-                        {{ track.number | zeroToBlank }}
-                    </div>
-                </td>
-                <td class="w-72px" *ngIf="this.tracksColumnsVisibility.showYear">
-                    <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
-                        {{ track.year | zeroToBlank }}
-                    </div>
-                </td>
-                <td class="w-72px" *ngIf="this.tracksColumnsVisibility.showPlayCount">
-                    <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
-                        {{ track.playCount }}
-                    </div>
-                </td>
-                <td class="w-72px" *ngIf="this.tracksColumnsVisibility.showSkipCount">
-                    <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
-                        {{ track.skipCount }}
-                    </div>
-                </td>
-                <td *ngIf="this.tracksColumnsVisibility.showDateLastPlayed">
-                    <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
-                        {{ track.dateLastPlayed | formatTicksToDateTimeString }}
-                    </div>
-                </td>
-                <td *ngIf="this.tracksColumnsVisibility.showDateAdded">
-                    <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
-                        {{ track.dateAdded | formatTicksToDateTimeString }}
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </cdk-virtual-scroll-viewport>
-    <app-totals
-        class="mt-3"
-        [totalDurationInMilliseconds]="this.tracks.totalDurationInMilliseconds"
-        [totalFileSizeInBytes]="this.tracks.totalFileSizeInBytes"
-    ></app-totals>
+  <cdk-virtual-scroll-viewport class="flex-grow scrollbar-gutter-stable-y mt-2" itemSize="28">
+    <table class="tracks-table">
+      <tr
+        *cdkVirtualFor="let track of this.orderedTracks"
+        class="tracks-table-row"
+        [ngClass]="{ 'selected-item-background-important': track.isSelected }"
+        (mousedown)="setSelectedTracks($event, track)"
+        (dblclick)="playbackService.enqueueAndPlayTracksStartingFromGivenTrackAsync(this.orderedTracks, track)"
+        (contextmenu)="onTrackContextMenu($event, track)"
+        >
+        <td>
+          <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
+            {{ track.title }}
+          </div>
+        </td>
+        <td class="w-48px">
+          @if (track.isPlaying) {
+            <app-playback-indicator [isSelected]="track.isSelected"></app-playback-indicator>
+          }
+        </td>
+        @if (this.tracksColumnsVisibility.showRating) {
+          <td class="w-84px"><app-rating [track]="track"></app-rating></td>
+        }
+        @if (this.tracksColumnsVisibility.showArtists) {
+          <td>
+            <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
+              {{ track.artists }}
+            </div>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showAlbum) {
+          <td>
+            <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
+              {{ track.albumTitle }}
+            </div>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showGenres) {
+          <td>
+            <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
+              {{ track.genres }}
+            </div>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showDuration) {
+          <td class="w-72px">
+            <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
+              {{ track.durationInMilliseconds | formatTrackDuration }}
+            </div>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showTrackNumber) {
+          <td class="w-72px">
+            <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
+              {{ track.number | zeroToBlank }}
+            </div>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showYear) {
+          <td class="w-72px">
+            <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
+              {{ track.year | zeroToBlank }}
+            </div>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showPlayCount) {
+          <td class="w-72px">
+            <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
+              {{ track.playCount }}
+            </div>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showSkipCount) {
+          <td class="w-72px">
+            <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
+              {{ track.skipCount }}
+            </div>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showDateLastPlayed) {
+          <td>
+            <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
+              {{ track.dateLastPlayed | formatTicksToDateTimeString }}
+            </div>
+          </td>
+        }
+        @if (this.tracksColumnsVisibility.showDateAdded) {
+          <td>
+            <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
+              {{ track.dateAdded | formatTicksToDateTimeString }}
+            </div>
+          </td>
+        }
+      </tr>
+    </table>
+  </cdk-virtual-scroll-viewport>
+  <app-totals
+    class="mt-3"
+    [totalDurationInMilliseconds]="this.tracks.totalDurationInMilliseconds"
+    [totalFileSizeInBytes]="this.tracks.totalFileSizeInBytes"
+  ></app-totals>
 </div>
 
 <div
-    #trackContextMenuAnchor
-    style="visibility: hidden; position: fixed"
-    [style.left]="contextMenuOpener.positionX"
-    [style.top]="contextMenuOpener.positionY"
-    [matMenuTriggerFor]="trackContextMenu"
+  #trackContextMenuAnchor
+  style="visibility: hidden; position: fixed"
+  [style.left]="contextMenuOpener.positionX"
+  [style.top]="contextMenuOpener.positionY"
+  [matMenuTriggerFor]="trackContextMenu"
 ></div>
 
 <mat-menu #trackContextMenu="matMenu">
-    <ng-template matMenuContent let-genre="data">
-        <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
-            <span>{{ 'add-to-playlist' | translate }}</span>
-        </button>
-        <button mat-menu-item (click)="onAddToQueueAsync()">
-            <span>{{ 'add-to-playback-queue' | translate }}</span>
-        </button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item (click)="onShowInFolder()">
-            <span>{{ 'show-in-folder' | translate }}</span>
-        </button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item (click)="onEdit()">
-            <span>{{ 'edit' | translate }}</span>
-        </button>
-        <button mat-menu-item (click)="onDeleteAsync()">
-            <span>{{ 'delete' | translate }}</span>
-        </button>
-    </ng-template>
+  <ng-template matMenuContent let-genre="data">
+    <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
+      <span>{{ 'add-to-playlist' | translate }}</span>
+    </button>
+    <button mat-menu-item (click)="onAddToQueueAsync()">
+      <span>{{ 'add-to-playback-queue' | translate }}</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="onShowInFolder()">
+      <span>{{ 'show-in-folder' | translate }}</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="onEdit()">
+      <span>{{ 'edit' | translate }}</span>
+    </button>
+    <button mat-menu-item (click)="onDeleteAsync()">
+      <span>{{ 'delete' | translate }}</span>
+    </button>
+  </ng-template>
 </mat-menu>
 
 <mat-menu #addToPlaylistContextMenu="matMenu">
-    <div *ngIf="!this.addToPlaylistMenu.hasPlaylists" mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
-    <div *ngIf="this.addToPlaylistMenu.hasPlaylists">
-        <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
-            <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
-                <span>{{ playlist.key }}</span>
-            </button>
-            <mat-menu #playlistsMenu="matMenu">
-                <button
-                    *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
-                    mat-menu-item
+  @if (!this.addToPlaylistMenu.hasPlaylists) {
+    <div mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
+  }
+  @if (this.addToPlaylistMenu.hasPlaylists) {
+    <div>
+      @for (playlist of this.addToPlaylistMenu.playlists | keyvalue; track playlist) {
+        <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
+          <span>{{ playlist.key }}</span>
+        </button>
+        <mat-menu #playlistsMenu="matMenu">
+          @for (playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue; track playlist) {
+            <button
+              mat-menu-item
                     (click)="
                         this.addToPlaylistMenu.addTracksToPlaylistAsync(
                             playlist.value.path,
@@ -245,10 +298,12 @@
                             this.selectionWatcher.selectedItems
                         )
                     "
-                >
-                    <span>{{ playlist.value.name }}</span>
-                </button>
-            </mat-menu>
-        </ng-container>
+              >
+              <span>{{ playlist.value.name }}</span>
+            </button>
+          }
+        </mat-menu>
+      }
     </div>
+  }
 </mat-menu>

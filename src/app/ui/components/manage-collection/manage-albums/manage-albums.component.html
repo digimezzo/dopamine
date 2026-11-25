@@ -1,54 +1,56 @@
 <div class="p-4">
-    <div class="title">{{ 'download-title' | translate }}</div>
-    <div>
-        <app-toggle-switch [(isChecked)]="settings.downloadMissingAlbumCovers">{{
-            'download-missing-album-covers' | translate
-        }}</app-toggle-switch>
-        <app-toggle-switch [(isChecked)]="settings.showArtistImages">{{ 'download-artist-images' | translate }}</app-toggle-switch>
-        <app-toggle-switch [(isChecked)]="settings.showArtistImagesAsBackground" [isDisabled]="!settings.showArtistImages">{{
-            'show-artist-images-as-background' | translate
-        }}</app-toggle-switch>
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'refresh-covers' | translate }}</div>
-    <div>{{ 'refresh-all-covers' | translate }}</div>
-    <app-toggle-switch class="mt-3" [(isChecked)]="this.overwriteManuallyEditedCovers">{{
-        'overwrite-manually-edited-covers' | translate
+  <div class="title">{{ 'download-title' | translate }}</div>
+  <div>
+    <app-toggle-switch [(isChecked)]="settings.downloadMissingAlbumCovers">{{
+      'download-missing-album-covers' | translate
     }}</app-toggle-switch>
-    <app-transparent-button class="mt-3" (click)="this.refreshAllCoversAsync()">
+    <app-toggle-switch [(isChecked)]="settings.showArtistImages">{{ 'download-artist-images' | translate }}</app-toggle-switch>
+    <app-toggle-switch [(isChecked)]="settings.showArtistImagesAsBackground" [isDisabled]="!settings.showArtistImages">{{
+      'show-artist-images-as-background' | translate
+    }}</app-toggle-switch>
+  </div>
+  <mat-divider class="my-4"></mat-divider>
+  <div class="title">{{ 'refresh-covers' | translate }}</div>
+  <div>{{ 'refresh-all-covers' | translate }}</div>
+  <app-toggle-switch class="mt-3" [(isChecked)]="this.overwriteManuallyEditedCovers">{{
+    'overwrite-manually-edited-covers' | translate
+  }}</app-toggle-switch>
+  <app-transparent-button class="mt-3" (click)="this.refreshAllCoversAsync()">
+    {{ 'refresh-all' | translate }}
+  </app-transparent-button>
+  <div class="mt-4">{{ 'refresh-missing-covers' | translate }}</div>
+  <app-transparent-button class="mt-3" (click)="this.refreshMissingCoversAsync()">
+    {{ 'refresh-missing' | translate }}
+  </app-transparent-button>
+  @if (this.settings.showArtistImages) {
+    <div class="mt-3">
+      <mat-divider class="my-4"></mat-divider>
+      <div class="title">{{ 'refresh-artist-images' | translate }}</div>
+      <div>{{ 'refresh-all-artist-images' | translate }}</div>
+      <app-toggle-switch class="mt-3" [(isChecked)]="this.overwriteManuallyEditedArtistImages">{{
+        'overwrite-manually-edited-artist-images' | translate
+      }}</app-toggle-switch>
+      <app-transparent-button class="mt-3" (click)="this.refreshAllArtistImagesAsync()">
         {{ 'refresh-all' | translate }}
-    </app-transparent-button>
-    <div class="mt-4">{{ 'refresh-missing-covers' | translate }}</div>
-    <app-transparent-button class="mt-3" (click)="this.refreshMissingCoversAsync()">
+      </app-transparent-button>
+      <div class="mt-4">{{ 'refresh-missing-artist-images' | translate }}</div>
+      <app-transparent-button class="mt-3" (click)="this.refreshMissingArtistImagesAsync()">
         {{ 'refresh-missing' | translate }}
-    </app-transparent-button>
-    <div class="mt-3" *ngIf="this.settings.showArtistImages">
-        <mat-divider class="my-4"></mat-divider>
-        <div class="title">{{ 'refresh-artist-images' | translate }}</div>
-        <div>{{ 'refresh-all-artist-images' | translate }}</div>
-        <app-toggle-switch class="mt-3" [(isChecked)]="this.overwriteManuallyEditedArtistImages">{{
-            'overwrite-manually-edited-artist-images' | translate
-        }}</app-toggle-switch>
-        <app-transparent-button class="mt-3" (click)="this.refreshAllArtistImagesAsync()">
-            {{ 'refresh-all' | translate }}
-        </app-transparent-button>
-        <div class="mt-4">{{ 'refresh-missing-artist-images' | translate }}</div>
-        <app-transparent-button class="mt-3" (click)="this.refreshMissingArtistImagesAsync()">
-            {{ 'refresh-missing' | translate }}
-        </app-transparent-button>
+      </app-transparent-button>
     </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'grouping' | translate }}</div>
-    <div>
-        <div class="mb-3">{{ 'changing-will-trigger-album-cover-refresh' | translate }}</div>
-        <app-toggle-switch [(isChecked)]="this.albumsDefinedByTitleAndArtist">{{
-            'albums-defined-by-tags-album-title-and-album-artist' | translate
-        }}</app-toggle-switch>
-        <app-toggle-switch [(isChecked)]="this.albumsDefinedByTitle">{{
-            'albums-defined-by-tag-album-title' | translate
-        }}</app-toggle-switch>
-        <app-toggle-switch [(isChecked)]="this.albumsDefinedByFolders">{{
-            'albums-defined-by-folders-on-computer' | translate
-        }}</app-toggle-switch>
-    </div>
+  }
+  <mat-divider class="my-4"></mat-divider>
+  <div class="title">{{ 'grouping' | translate }}</div>
+  <div>
+    <div class="mb-3">{{ 'changing-will-trigger-album-cover-refresh' | translate }}</div>
+    <app-toggle-switch [(isChecked)]="this.albumsDefinedByTitleAndArtist">{{
+      'albums-defined-by-tags-album-title-and-album-artist' | translate
+    }}</app-toggle-switch>
+    <app-toggle-switch [(isChecked)]="this.albumsDefinedByTitle">{{
+      'albums-defined-by-tag-album-title' | translate
+    }}</app-toggle-switch>
+    <app-toggle-switch [(isChecked)]="this.albumsDefinedByFolders">{{
+      'albums-defined-by-folders-on-computer' | translate
+    }}</app-toggle-switch>
+  </div>
 </div>

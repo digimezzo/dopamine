@@ -1,51 +1,67 @@
 <div class="window-frame">
-    <div class="window-frame__titlebar theme-header-background">
-        <div *ngIf="appearanceService.needsTrafficLightMargin" class="window-frame__trafficlights"></div>
-        <app-back-button class="m-2"></app-back-button>
-        <app-sub-menu>
-            <app-sub-menu-item
-                [page]="0"
-                [selectedPage]="this.page"
-                icon="las la-music"
-                tooltip="{{ 'music' | translate }}"
-                (click)="this.setPage(0)"
-            >
-                {{ 'music' | translate }}
-            </app-sub-menu-item>
-            <app-sub-menu-item
-                [page]="1"
-                [selectedPage]="this.page"
-                icon="las la-sync"
-                tooltip="{{ 'refresh' | translate }}"
-                (click)="this.setPage(1)"
-            >
-                {{ 'refresh' | translate }}
-            </app-sub-menu-item>
-            <app-sub-menu-item
-                [page]="2"
-                [selectedPage]="this.page"
-                icon="las la-compact-disc"
-                tooltip="{{ 'artists-and-albums' | translate }}"
-                (click)="this.setPage(2)"
-            >
-                {{ 'artists-and-albums' | translate }}
-            </app-sub-menu-item>
-        </app-sub-menu>
-        <div class="window-frame__dragarea"></div>
-        <app-main-menu></app-main-menu>
-        <app-switch-player-button></app-switch-player-button>
-        <app-window-controls *ngIf="appearanceService.needsCustomWindowControls"></app-window-controls>
-    </div>
-    <app-notification-bar></app-notification-bar>
-    <div class="window-frame__content__with__notification__bar">
-        <!-- Music -->
-        <app-manage-music *ngIf="this.leftToRight(0)" [@enterLeftToRight]></app-manage-music>
-        <app-manage-music *ngIf="this.rightToLeft(0)" [@enterRightToLeft]></app-manage-music>
-        <!-- Refresh -->
-        <app-manage-refresh *ngIf="this.leftToRight(1)" [@enterLeftToRight]></app-manage-refresh>
-        <app-manage-refresh *ngIf="this.rightToLeft(1)" [@enterRightToLeft]></app-manage-refresh>
-        <!-- Album-covers -->
-        <app-manage-albums *ngIf="this.leftToRight(2)" [@enterLeftToRight]></app-manage-albums>
-        <app-manage-albums *ngIf="this.rightToLeft(2)" [@enterRightToLeft]></app-manage-albums>
-    </div>
+  <div class="window-frame__titlebar theme-header-background">
+    @if (appearanceService.needsTrafficLightMargin) {
+      <div class="window-frame__trafficlights"></div>
+    }
+    <app-back-button class="m-2"></app-back-button>
+    <app-sub-menu>
+      <app-sub-menu-item
+        [page]="0"
+        [selectedPage]="this.page"
+        icon="las la-music"
+        tooltip="{{ 'music' | translate }}"
+        (click)="this.setPage(0)"
+        >
+        {{ 'music' | translate }}
+      </app-sub-menu-item>
+      <app-sub-menu-item
+        [page]="1"
+        [selectedPage]="this.page"
+        icon="las la-sync"
+        tooltip="{{ 'refresh' | translate }}"
+        (click)="this.setPage(1)"
+        >
+        {{ 'refresh' | translate }}
+      </app-sub-menu-item>
+      <app-sub-menu-item
+        [page]="2"
+        [selectedPage]="this.page"
+        icon="las la-compact-disc"
+        tooltip="{{ 'artists-and-albums' | translate }}"
+        (click)="this.setPage(2)"
+        >
+        {{ 'artists-and-albums' | translate }}
+      </app-sub-menu-item>
+    </app-sub-menu>
+    <div class="window-frame__dragarea"></div>
+    <app-main-menu></app-main-menu>
+    <app-switch-player-button></app-switch-player-button>
+    @if (appearanceService.needsCustomWindowControls) {
+      <app-window-controls></app-window-controls>
+    }
+  </div>
+  <app-notification-bar></app-notification-bar>
+  <div class="window-frame__content__with__notification__bar">
+    <!-- Music -->
+    @if (this.leftToRight(0)) {
+      <app-manage-music [@enterLeftToRight]></app-manage-music>
+    }
+    @if (this.rightToLeft(0)) {
+      <app-manage-music [@enterRightToLeft]></app-manage-music>
+    }
+    <!-- Refresh -->
+    @if (this.leftToRight(1)) {
+      <app-manage-refresh [@enterLeftToRight]></app-manage-refresh>
+    }
+    @if (this.rightToLeft(1)) {
+      <app-manage-refresh [@enterRightToLeft]></app-manage-refresh>
+    }
+    <!-- Album-covers -->
+    @if (this.leftToRight(2)) {
+      <app-manage-albums [@enterLeftToRight]></app-manage-albums>
+    }
+    @if (this.rightToLeft(2)) {
+      <app-manage-albums [@enterRightToLeft]></app-manage-albums>
+    }
+  </div>
 </div>

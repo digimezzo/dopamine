@@ -1,12 +1,13 @@
 <div class="d-flex flex-row">
-    <div class="w-4px pointer" (click)="setRatingAsync(0)"></div>
+  <div class="w-4px pointer" (click)="setRatingAsync(0)"></div>
 
+  @for (star of stars; track star; let i = $index) {
     <div
-            class="pointer"
-            *ngFor="let star of stars; index as i"
-            [ngClass]="getStarClass(i + 1)"
-            (click)="onStarClickAsync($event, i + 1)"
-            [style.font-size.px]="fontSize * 0.9"
-            [style.line-height]="lineHeight * 0.9"
+      class="pointer"
+      [ngClass]="getStarClass(i + 1)"
+      (click)="onStarClickAsync($event, i + 1)"
+      [style.font-size.px]="fontSize * 0.9"
+      [style.line-height]="lineHeight * 0.9"
     ></div>
+  }
 </div>

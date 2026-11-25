@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import * as cheerio from 'cheerio';
 import { CheerioAPI } from 'cheerio';
 import { StringUtils } from '../../utils/string-utils';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class AZLyricsApi implements ILyricsApi {
@@ -21,7 +22,7 @@ export class AZLyricsApi implements ILyricsApi {
 
     public async getLyricsAsync(artist: string, title: string): Promise<Lyrics> {
         const url: string = this.buildUrl(artist, title);
-        const response: string = await this.httpClient.get(url, { responseType: 'text' }).toPromise();
+        const response: string = await firstValueFrom(this.httpClient.get(url, { responseType: 'text' }));
 
         const cheerioAPI: CheerioAPI = cheerio.load(response);
 

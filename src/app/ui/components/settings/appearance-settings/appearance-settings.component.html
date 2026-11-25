@@ -1,173 +1,183 @@
 <div class="p-4">
-    <div class="title">{{ 'theme' | translate }}</div>
-    <div>
-        <app-toggle-switch [(isChecked)]="this.appearanceService.followSystemTheme">{{
-            'follow-system-theme' | translate
-        }}</app-toggle-switch>
-    </div>
-    <div>
-        <app-toggle-switch
-            class="mt-3"
-            [ngClass]="{ inactive: appearanceService.followSystemTheme }"
-            [(isChecked)]="appearanceService.useLightBackgroundTheme"
-        >
-            {{ 'use-light-theme' | translate }}</app-toggle-switch
-        >
+  <div class="title">{{ 'theme' | translate }}</div>
+  <div>
+    <app-toggle-switch [(isChecked)]="this.appearanceService.followSystemTheme">{{
+      'follow-system-theme' | translate
+    }}</app-toggle-switch>
+  </div>
+  <div>
+    <app-toggle-switch
+      class="mt-3"
+      [ngClass]="{ inactive: appearanceService.followSystemTheme }"
+      [(isChecked)]="appearanceService.useLightBackgroundTheme"
+      >
+      {{ 'use-light-theme' | translate }}</app-toggle-switch
+      >
     </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'color' | translate }}</div>
     <div>
-        <app-toggle-switch [(isChecked)]="appearanceService.followSystemColor"> {{ 'follow-system-color' | translate }}</app-toggle-switch>
+      <app-toggle-switch [(isChecked)]="appearanceService.followSystemColor"> {{ 'follow-system-color' | translate }}</app-toggle-switch>
     </div>
     <div>
-        <app-toggle-switch [(isChecked)]="appearanceService.followAlbumCoverColor">
-            {{ 'follow-album-cover-color' | translate }}</app-toggle-switch
+      <app-toggle-switch [(isChecked)]="appearanceService.followAlbumCoverColor">
+        {{ 'follow-album-cover-color' | translate }}</app-toggle-switch
         >
-    </div>
-    <app-theme-switcher class="mt-3"></app-theme-switcher>
-    <div class="d-flex flex-row mt-3">
+      </div>
+      <app-theme-switcher class="mt-3"></app-theme-switcher>
+      <div class="d-flex flex-row mt-3">
         <app-icon-text-button class="mr-2" (click)="this.appearanceService.refreshThemes()" icon="las la-sync">{{
-            'refresh-themes' | translate
+          'refresh-themes' | translate
         }}</app-icon-text-button>
         <app-icon-text-button (click)="this.openThemesDirectoryAsync()" icon="las la-plus">{{
-            'add-more-themes' | translate
+          'add-more-themes' | translate
         }}</app-icon-text-button>
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'images' | translate }}</div>
-    <div>
+      </div>
+      <mat-divider class="my-4"></mat-divider>
+      <div class="title">{{ 'images' | translate }}</div>
+      <div>
         <app-toggle-switch [(isChecked)]="this.settings.showSquareImages"> {{ 'i-prefer-square-images' | translate }}</app-toggle-switch>
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'tracklist' | translate }}</div>
-    <div>
+      </div>
+      <mat-divider class="my-4"></mat-divider>
+      <div class="title">{{ 'tracklist' | translate }}</div>
+      <div>
         <app-toggle-switch [(isChecked)]="this.settings.useCompactTrackListView">
-            {{ 'compact-tracklist-view' | translate }}</app-toggle-switch
-        >
-    </div>
-    <div>
-        <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.useCompactTotalDuration">
-            {{ 'compact-total-duration' | translate }}</app-toggle-switch
-        >
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'title-bar' | translate }}</div>
-    <app-toggle-switch [(isChecked)]="settings.useSystemTitleBar"> {{ 'use-system-title-bar' | translate }}</app-toggle-switch>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'language' | translate }}</div>
-    <div>{{ 'choose-language' | translate }}</div>
-    <mat-form-field class="mt-2">
-        <mat-select [(ngModel)]="translatorService.selectedLanguage" [compareWith]="translatorService.compareLanguages" (openedChange)="translatorService.refreshLanguages()">
-            <mat-option *ngFor="let language of translatorService.languages" [value]="language">
-                <div *ngIf="!language.showEnglishName">{{ language.localizedName }}</div>
-                <div *ngIf="language.showEnglishName">{{ language.localizedName }} ({{ language.englishName }})</div>
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <div>
-        <app-icon-text-button (click)="openTranslationsDirectoryAsync()" icon="las la-plus">{{
-            'add-more-languages' | translate
-        }}</app-icon-text-button>
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'text-size' | translate }}</div>
-    <div>{{ 'choose-text-size' | translate }}</div>
-    <mat-form-field class="mt-2">
-        <mat-select [(ngModel)]="appearanceService.selectedFontSize">
-            <mat-option *ngFor="let fontSize of appearanceService.fontSizes" [value]="fontSize"> {{ fontSize }} px </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'pages' | translate }}</div>
-    <div>{{ 'which-pages-should-be-visible' | translate }}</div>
-    <div>
-        <app-toggle-switch class="mt-3" [(isChecked)]="settings.showArtistsPage"> {{ 'artists' | translate }}</app-toggle-switch>
-    </div>
-    <div>
-        <app-toggle-switch class="mt-3" [(isChecked)]="settings.showGenresPage"> {{ 'genres' | translate }}</app-toggle-switch>
-    </div>
-    <div>
-        <app-toggle-switch class="mt-3" [(isChecked)]="settings.showAlbumsPage"> {{ 'albums' | translate }}</app-toggle-switch>
-    </div>
-    <div>
-        <app-toggle-switch class="mt-3" [(isChecked)]="settings.showTracksPage"> {{ 'tracks' | translate }}</app-toggle-switch>
-    </div>
-    <div>
-        <app-toggle-switch class="mt-3" [(isChecked)]="settings.showPlaylistsPage"> {{ 'playlists' | translate }}</app-toggle-switch>
-    </div>
-    <div>
-        <app-toggle-switch class="mt-3" [(isChecked)]="settings.showFoldersPage"> {{ 'folders' | translate }}</app-toggle-switch>
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'progress-bar' | translate }}</div>
-    <div>
-        <app-toggle-switch [isChecked]="this.settings.showWaveProgress" (isCheckedChange)="this.onShowWaveProgressChanged($event)">
-            {{ 'show-wave-progress' | translate }}</app-toggle-switch
-        >
-    </div>
-    <div class="mt-3">
-        <app-toggle-switch [isChecked]="this.settings.useThickSliders" (isCheckedChange)="this.onUseThickSlidersChanged($event)">
-            {{ 'use-thick-progress-and-volume-bars' | translate }}</app-toggle-switch
-        >
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'audio-visualizer' | translate }}</div>
-    <div>
-        <app-toggle-switch [(isChecked)]="this.audioVisualizerService.showAudioVisualizer">
-            {{ 'show-audio-visualizer' | translate }}</app-toggle-switch
-        >
-    </div>
-    <div [ngClass]="{ inactive: !this.audioVisualizerService.showAudioVisualizer }">
-        <div class="mt-3">{{ 'style' | translate }}</div>
-        <mat-form-field class="mt-2">
-            <mat-select [(ngModel)]="this.audioVisualizerService.selectedAudioVisualizerStyle">
-                <mat-option
-                    *ngFor="let audioVisualizerStyle of this.audioVisualizerService.audioVisualizerStyles"
-                    [value]="audioVisualizerStyle"
-                >
-                    {{ audioVisualizerStyle | translate }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <div class="mt-3">{{ 'frame-rate' | translate }}</div>
-        <mat-form-field class="mt-2">
-            <mat-select [(ngModel)]="this.audioVisualizerService.selectedAudioVisualizerFrameRate">
-                <mat-option
-                    *ngFor="let audioVisualizerFrameRate of this.audioVisualizerService.audioVisualizerFrameRates"
-                    [value]="audioVisualizerFrameRate"
-                >
-                    {{ audioVisualizerFrameRate }} {{ 'fps' | translate }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
-    <mat-divider class="my-4"></mat-divider>
-    <div class="title">{{ 'lyrics' | translate }}</div>
-    <div class="mt-3">{{ 'rich-lyric-size' | translate }}</div>
-    <div class="mt-2">
-        <mat-form-field>
-            <mat-select [(ngModel)]="this.settings.richLyricsFontSize">
-                <mat-option [value]="1">{{ 'small-size' | translate }}</mat-option>
-                <mat-option [value]="1.5">{{ 'normal-size' | translate }}</mat-option>
-                <mat-option [value]="2">{{ 'large-size' | translate }}</mat-option>
-                <mat-option [value]="2.5">{{ 'xl-size' | translate }}</mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
-    <div class="mt-2">
-        <app-toggle-switch [(isChecked)]="this.settings.showRichLyrics">{{ 'show-rich-lyrics' | translate }}</app-toggle-switch>
-    </div>
-    <div class="d-flex flex-column" [ngClass]="{ inactive: !this.settings.showRichLyrics }">
-        <div class="mt-3">{{ 'rich-lyric-count' | translate }}</div>
-        <div class="mt-2">
-            <mat-form-field>
-                <mat-select [(ngModel)]="this.settings.richLyricsLineCount">
-                    <mat-option [value]="1">3</mat-option>
-                    <mat-option [value]="2">5</mat-option>
-                    <mat-option [value]="3">7</mat-option>
-                    <mat-option [value]="4">9</mat-option>
-                </mat-select>
-            </mat-form-field>
+          {{ 'compact-tracklist-view' | translate }}</app-toggle-switch
+          >
         </div>
-    </div>
-</div>
+        <div>
+          <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.useCompactTotalDuration">
+            {{ 'compact-total-duration' | translate }}</app-toggle-switch
+            >
+          </div>
+          <mat-divider class="my-4"></mat-divider>
+          <div class="title">{{ 'title-bar' | translate }}</div>
+          <app-toggle-switch [(isChecked)]="settings.useSystemTitleBar"> {{ 'use-system-title-bar' | translate }}</app-toggle-switch>
+          <mat-divider class="my-4"></mat-divider>
+          <div class="title">{{ 'language' | translate }}</div>
+          <div>{{ 'choose-language' | translate }}</div>
+          <mat-form-field class="mt-2">
+            <mat-select [(ngModel)]="translatorService.selectedLanguage" [compareWith]="translatorService.compareLanguages" (openedChange)="translatorService.refreshLanguages()">
+              @for (language of translatorService.languages; track language) {
+                <mat-option [value]="language">
+                  @if (!language.showEnglishName) {
+                    <div>{{ language.localizedName }}</div>
+                  }
+                  @if (language.showEnglishName) {
+                    <div>{{ language.localizedName }} ({{ language.englishName }})</div>
+                  }
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <div>
+            <app-icon-text-button (click)="openTranslationsDirectoryAsync()" icon="las la-plus">{{
+              'add-more-languages' | translate
+            }}</app-icon-text-button>
+          </div>
+          <mat-divider class="my-4"></mat-divider>
+          <div class="title">{{ 'text-size' | translate }}</div>
+          <div>{{ 'choose-text-size' | translate }}</div>
+          <mat-form-field class="mt-2">
+            <mat-select [(ngModel)]="appearanceService.selectedFontSize">
+              @for (fontSize of appearanceService.fontSizes; track fontSize) {
+                <mat-option [value]="fontSize"> {{ fontSize }} px </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-divider class="my-4"></mat-divider>
+          <div class="title">{{ 'pages' | translate }}</div>
+          <div>{{ 'which-pages-should-be-visible' | translate }}</div>
+          <div>
+            <app-toggle-switch class="mt-3" [(isChecked)]="settings.showArtistsPage"> {{ 'artists' | translate }}</app-toggle-switch>
+          </div>
+          <div>
+            <app-toggle-switch class="mt-3" [(isChecked)]="settings.showGenresPage"> {{ 'genres' | translate }}</app-toggle-switch>
+          </div>
+          <div>
+            <app-toggle-switch class="mt-3" [(isChecked)]="settings.showAlbumsPage"> {{ 'albums' | translate }}</app-toggle-switch>
+          </div>
+          <div>
+            <app-toggle-switch class="mt-3" [(isChecked)]="settings.showTracksPage"> {{ 'tracks' | translate }}</app-toggle-switch>
+          </div>
+          <div>
+            <app-toggle-switch class="mt-3" [(isChecked)]="settings.showPlaylistsPage"> {{ 'playlists' | translate }}</app-toggle-switch>
+          </div>
+          <div>
+            <app-toggle-switch class="mt-3" [(isChecked)]="settings.showFoldersPage"> {{ 'folders' | translate }}</app-toggle-switch>
+          </div>
+          <mat-divider class="my-4"></mat-divider>
+          <div class="title">{{ 'progress-bar' | translate }}</div>
+          <div>
+            <app-toggle-switch [isChecked]="this.settings.showWaveProgress" (isCheckedChange)="this.onShowWaveProgressChanged($event)">
+              {{ 'show-wave-progress' | translate }}</app-toggle-switch
+              >
+            </div>
+            <div class="mt-3">
+              <app-toggle-switch [isChecked]="this.settings.useThickSliders" (isCheckedChange)="this.onUseThickSlidersChanged($event)">
+                {{ 'use-thick-progress-and-volume-bars' | translate }}</app-toggle-switch
+                >
+              </div>
+              <mat-divider class="my-4"></mat-divider>
+              <div class="title">{{ 'audio-visualizer' | translate }}</div>
+              <div>
+                <app-toggle-switch [(isChecked)]="this.audioVisualizerService.showAudioVisualizer">
+                  {{ 'show-audio-visualizer' | translate }}</app-toggle-switch
+                  >
+                </div>
+                <div [ngClass]="{ inactive: !this.audioVisualizerService.showAudioVisualizer }">
+                  <div class="mt-3">{{ 'style' | translate }}</div>
+                  <mat-form-field class="mt-2">
+                    <mat-select [(ngModel)]="this.audioVisualizerService.selectedAudioVisualizerStyle">
+                      @for (audioVisualizerStyle of this.audioVisualizerService.audioVisualizerStyles; track audioVisualizerStyle) {
+                        <mat-option
+                          [value]="audioVisualizerStyle"
+                          >
+                          {{ audioVisualizerStyle | translate }}
+                        </mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="mt-3">{{ 'frame-rate' | translate }}</div>
+                  <mat-form-field class="mt-2">
+                    <mat-select [(ngModel)]="this.audioVisualizerService.selectedAudioVisualizerFrameRate">
+                      @for (audioVisualizerFrameRate of this.audioVisualizerService.audioVisualizerFrameRates; track audioVisualizerFrameRate) {
+                        <mat-option
+                          [value]="audioVisualizerFrameRate"
+                          >
+                          {{ audioVisualizerFrameRate }} {{ 'fps' | translate }}
+                        </mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <mat-divider class="my-4"></mat-divider>
+                <div class="title">{{ 'lyrics' | translate }}</div>
+                <div class="mt-3">{{ 'rich-lyric-size' | translate }}</div>
+                <div class="mt-2">
+                  <mat-form-field>
+                    <mat-select [(ngModel)]="this.settings.richLyricsFontSize">
+                      <mat-option [value]="1">{{ 'small-size' | translate }}</mat-option>
+                      <mat-option [value]="1.5">{{ 'normal-size' | translate }}</mat-option>
+                      <mat-option [value]="2">{{ 'large-size' | translate }}</mat-option>
+                      <mat-option [value]="2.5">{{ 'xl-size' | translate }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="mt-2">
+                  <app-toggle-switch [(isChecked)]="this.settings.showRichLyrics">{{ 'show-rich-lyrics' | translate }}</app-toggle-switch>
+                </div>
+                <div class="d-flex flex-column" [ngClass]="{ inactive: !this.settings.showRichLyrics }">
+                  <div class="mt-3">{{ 'rich-lyric-count' | translate }}</div>
+                  <div class="mt-2">
+                    <mat-form-field>
+                      <mat-select [(ngModel)]="this.settings.richLyricsLineCount">
+                        <mat-option [value]="1">3</mat-option>
+                        <mat-option [value]="2">5</mat-option>
+                        <mat-option [value]="3">7</mat-option>
+                        <mat-option [value]="4">9</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
